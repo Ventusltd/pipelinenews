@@ -14,6 +14,8 @@ This repository follows the GlobalGrid2050 Data Discipline Manual:
 
 https://github.com/Ventusltd/globalgrid2050-hompage/blob/main/docs/DATA_DISCIPLINE_MANUAL.md
 
+Repository-local implementation skill: [`build-auditable-duckdb-parquet`](skills/build-auditable-duckdb-parquet/SKILL.md). Read it before creating or changing any DuckDB, Parquet, audit, backfill, update or release pipeline.
+
 Read that manual, this README, the local CHANGELOG, the source register and the contracts before patching, porting, backfilling, scheduling, publishing or wiring this repository to a UI.
 
 Green is not proof. File count is not proof. Size is not proof. A rendered browser page is not proof. The proof is that the data obeys its declared law at its declared grain and key.
