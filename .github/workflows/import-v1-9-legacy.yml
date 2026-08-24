@@ -1,0 +1,82 @@
+name: Import V1-V9 Legacy Lessons
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/import-v1-9-legacy.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: import-v1-9-legacy
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout Pipeline News
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Import exact V1-V9 legacy files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          archive="v1-9-legacy-lessons"
+          if [[ -d "$archive" ]]; then
+            echo "$archive already exists; refusing to overwrite the immutable archive."
+            exit 0
+          fi
+
+          source_repo="$RUNNER_TEMP/globalgrid2050"
+          git clone --depth 1 --branch main https://github.com/Ventusltd/globalgrid2050.git "$source_repo"
+          source_sha="$(git -C "$source_repo" rev-parse HEAD)"
+
+          mkdir -p "$archive/uk_renewables_pipeline"
+          find "$source_repo/uk_renewables_pipeline" -maxdepth 1 -type f -exec cp -p {} "$archive/uk_renewables_pipeline/" \;
+          cp -a "$source_repo/uk_renewables_pipeline/v7" "$archive/uk_renewables_pipeline/v7"
+          cp -a "$source_repo/uk_renewables_pipeline/v8" "$archive/uk_renewables_pipeline/v8"
+          cp -a "$source_repo/uk_renewables_pipeline/v9" "$archive/uk_renewables_pipeline/v9"
+          find "$archive" -type d -name __pycache__ -prune -exec rm -rf {} +
+
+          cat > "$archive/README.md" <<EOF
+          # V1-V9 Legacy Lessons
+
+          This directory is an immutable engineering archive copied from
+          [Ventusltd/globalgrid2050](https://github.com/Ventusltd/globalgrid2050).
+
+          Source commit: \`$source_sha\`
+
+          Included boundaries:
+
+          - V1-V6 standalone files and associated notes from
+            \`uk_renewables_pipeline/\`;
+          - the complete \`uk_renewables_pipeline/v7/\` directory;
+          - the complete \`uk_renewables_pipeline/v8/\` directory;
+          - the complete \`uk_renewables_pipeline/v9/\` directory.
+
+          This material is reference-only. Do not implement Pipeline News by
+          modifying these files. Preserve official-source identity discipline,
+          news/official-data separation, deterministic safety gates, hostile
+          regression fixtures, and abstention behaviour in the new architecture.
+          EOF
+          sed -i 's/^          //' "$archive/README.md"
+
+          printf '%s\n' "$source_sha" > "$archive/SOURCE_COMMIT"
+
+          git add "$archive"
+          if git diff --cached --quiet; then
+            echo "No import changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Import V1-V9 legacy lessons from GlobalGrid2050"
+          git push origin HEAD:main
