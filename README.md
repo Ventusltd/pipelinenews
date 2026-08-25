@@ -122,6 +122,31 @@ The score is ordered. Do not skip a failed movement to manufacture version numbe
 
 These slots are recovery hints, not permission to skip work. A later run always starts at the first incomplete movement.
 
+### Dynamic next-run baton
+
+Every scheduled run must adapt the following run from proved results, not from the clock alone.
+
+Current baton:
+
+| Field | Value |
+|---|---|
+| Last proven feature commit | `4ea24a9a2aaaefbe580044d82c5f9a8b1c7b3bc2` |
+| Outcome | Master score and NewsV3 DRAFT data law committed and read back |
+| Next movement | Movement 1 — NewsV3 organisation and role evidence |
+| Next acceptance gate | Add deterministic builder, 28/29/45 artifacts, manifest and independent verifier while NewsV2 remains green |
+| Doubt to resolve | Composite operator labels must remain unresolved and unsplit; no transaction role may be inferred |
+| Next-run budget | 02:00: exactly one 120–300 second block, hard stop 500 seconds |
+
+At the end of every run:
+
+1. review the feature commit from remote and classify it `PASS`, `FAIL`, `BLOCKED` or `NOT TESTED`;
+2. replace every value in the current baton with the actual result, first incomplete movement, exact next gate, remaining doubt and next-run block budget;
+3. commit that baton as a small documentation handoff after the feature review, so it can cite the proven feature commit without a circular hash;
+4. read the baton commit back from remote;
+5. leave the fixed 02:00–08:00 schedule unchanged—do not create a duplicate task or restart its recurrence count.
+
+The next invocation must read the current baton before selecting work. If the baton conflicts with contracts/tests at remote `main`, contracts and test evidence win; repair the baton before building. This README handoff is the result-driven update to the next automation run.
+
 ### Overture — mandatory preflight every run
 
 1. Read this README from the current remote `main`, not from a stale checkout.
