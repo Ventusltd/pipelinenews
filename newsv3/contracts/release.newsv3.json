@@ -1,0 +1,65 @@
+{
+  "schema": "pipelinenews.release-contract.v1",
+  "release": "newsv3",
+  "status": "DRAFT",
+  "feature": "organisation-label namespace and directly evidenced project-operator roles",
+  "inputs": [
+    {
+      "path": "newsv1/dist/major_project_news_v9_5_1.json",
+      "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+    },
+    {
+      "path": "newsv2/data/material_event_assertions.json",
+      "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+    }
+  ],
+  "data_law": {
+    "organisation_labels": {
+      "grain": "one row per exact normalised REPD operator source label",
+      "primary_key": ["organisation_label_id"],
+      "expected_rows": 28,
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL"
+    },
+    "project_operator_role_assertions": {
+      "grain": "one row per canonical project and exact REPD operator-label pair",
+      "primary_key": ["project_operator_role_assertion_id"],
+      "expected_rows": 29,
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL"
+    },
+    "transaction_role_decisions": {
+      "grain": "one row per NewsV2 material-event assertion",
+      "primary_key": ["transaction_role_decision_id"],
+      "expected_rows": 45,
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE"
+    }
+  },
+  "acceptance": {
+    "composite_labels_must_not_split": true,
+    "composite_label_canary": "Firma Energy / IB Vogt",
+    "transaction_roles_must_remain_null": [
+      "buyer",
+      "seller",
+      "lender",
+      "epc",
+      "icp",
+      "oem",
+      "supplier",
+      "adviser"
+    ],
+    "beacon_fen_primary_repd_ref": "13599",
+    "forbidden_beacon_fen_repd_ref": "13600",
+    "visible_ui_changed": false,
+    "deterministic_rebuild_required": true,
+    "independent_verifier_required": true
+  },
+  "publication": {
+    "live": false,
+    "public_path": null,
+    "reason": "NewsV3 remains DRAFT until its builder, artifacts, manifest and independent tests pass."
+  },
+  "recovery": {
+    "frozen_predecessor": "newsv2",
+    "predecessor_mutated": false,
+    "rollback": "Discard newsv3; NewsV2 and NewsV1 remain independently reproducible."
+  }
+}

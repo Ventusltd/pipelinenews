@@ -88,7 +88,215 @@ Latest recovery checkpoint:
 - `PASS` — NewsV2 pins the source SHA-256, retains Beacon Fen REPD 13599 and excludes sibling 13600, and leaves NewsV1 bytes and visible UI unchanged.
 - `PASS` — bounded Atlas V8 and UK Energy Tracking V6 adapter audit: deployed Atlas code matches the repository but most nested datasets are frozen April snapshots; Energy V6 payloads are frozen at 18 June despite historical `health: ok` fields.
 - `PASS` — reusable adapter/freshness contract recorded in `reports/ATLAS_V8_ENERGY_V6_ADAPTER_AUDIT.md`; no proven grid-constraint feed was found, so none may be inferred from frequency, interconnector or proximity data.
+- `DRAFT` — NewsV3 data law now declares 28 unresolved operator labels, 29 project/operator-label assertions and 45 explicit transaction-role abstentions. No builder, artifact, manifest or independent verifier exists yet, so NewsV3 does not count as a completed version.
 - Next bounded pass: build NewsV3 organisation labels and directly evidenced REPD project-operator roles, with explicit abstention from unsupported transaction roles.
+
+## Overnight automation master score — authoritative
+
+This section is the long-form score for the `Advance Pipeline News` automation. The automation prompt must remain short: resolve PipelineNews `main`, read this entire README and the relevant repository skills, then execute the first incomplete movement below. This README—not a remembered chat summary—is the authority after context loss or prompt truncation.
+
+The score is ordered. Do not skip a failed movement to manufacture version numbers. Do not redo a movement whose remote commit, artifacts and independent tests are already proven. If the named clock slot and repository state disagree, follow repository state and perform the first incomplete movement.
+
+### Performance and anti-zombie law
+
+- The 02:00 Europe/London run performs exactly one short coherent block, targets 120–300 seconds and stops before 500 seconds.
+- Runs after 02:00 may perform up to three consecutive coherent blocks. Review evidence after each block before choosing the next.
+- Later runs target about 300 seconds total and normally stop by 500 seconds.
+- At the midpoint of a later run, one extension to 1,000 seconds is permitted only after naming the still-progressing acceptance gate and stating why stopping would strand a nearly complete proof.
+- Never extend twice. Never sleep, busy-poll, broadly retry, repeatedly clone, or wait on a workflow without doing other bounded work.
+- If doubt remains after a block, sacrifice the next build block for independent review.
+- Stop on permissions, source-licence ambiguity, remote-head movement, frozen-byte change, partial input, schema drift, failed canary or an unverified destructive action.
+- Finish every run with `WHERE`, `WHAT`, `PROOF`, `WHY`, `DOUBT`, `NEXT` and the exact remote commit when one exists.
+
+### Scheduled movements
+
+| UK slot | Intended movement | Minimum useful finish |
+|---|---|---|
+| 02:00 | Movement 1 — NewsV3 organisation and role evidence | One deterministic builder/test checkpoint or an exact blocker; one block only |
+| 03:00 | Review Movement 1, then Movement 2 — NewsV4 market/grid context | NewsV3 independently re-proven; NewsV4 source-health/freshness product tested |
+| 04:00 | Review Movement 2, then Movement 3 — NewsV5 reasons to research | NewsV4 independently re-proven; transparent reason rules tested |
+| 05:00 | Review Movement 3, then Movement 4 — NewsV6 data-centre namespace | NewsV5 independently re-proven; data-centre candidates and source rules tested |
+| 06:00 | Movement 5 — analytical storage and cross-version reconciliation | Typed Parquet/DuckDB path where dependencies permit, or a tested staged contract with explicit blocker |
+| 07:00 | Movement 6 — consumer projection and interface protection | Compact immutable projections, unchanged NewsV1 ordering/mobile semantics, regression proof |
+| 08:00 | Movement 7 — independent recovery review | Five real versions accounted for, failures labelled, main clean, handover complete |
+
+These slots are recovery hints, not permission to skip work. A later run always starts at the first incomplete movement.
+
+### Overture — mandatory preflight every run
+
+1. Read this README from the current remote `main`, not from a stale checkout.
+2. Read the full relevant skill cartridges:
+   - `skills/build-auditable-duckdb-parquet/SKILL.md` for every data product;
+   - `skills/build-source-grounded-sales-intelligence/SKILL.md` for every claim, role, opportunity or data-centre feature;
+   - `skills/build-progressive-static-data-ui/SKILL.md` before any browser or projection change.
+3. Resolve the remote `main` SHA and compare it with the checkout before editing.
+4. Read the latest recovery checkpoint, release contract, manifest, tests and the prior run's commit.
+5. Run the predecessor's smallest decisive test before extending it.
+6. Declare the current movement, grain, key, source of truth, null law, evidence class and rollback point in commentary.
+7. Work directly on `main` only because Vikram explicitly authorised it. Use one small fast-forward commit per independently proven checkpoint.
+
+### Immutable federation law
+
+- GlobalGrid V1–V9.7 and PipelineNews NewsV1 are frozen evidence. Never edit their bytes.
+- NewsV2 and every later committed candidate become frozen predecessors when a successor starts.
+- A directory is not a version. A version counts only when it has a material capability, deterministic builder, declared contract, source attribution, independent tests, audit manifest and recovery path.
+- `DRAFT` means design only. `CANDIDATE` means its declared tests pass. `LIVE` requires deployed-byte and runtime proof. Never promote by wording alone.
+- Keep news/event algorithms in separate modules so a new module can be added without rewriting identity, ranking or presentation.
+- Preserve the current visible project/news order. Physical Parquet or JSON order never silently becomes display order; store and query an explicit rank.
+- Never add a new release to the GlobalGrid homepage until it has a separately addressable deployed URL and verified committed bytes.
+
+### Evidence layers
+
+Keep three layers physically and semantically separate:
+
+1. **Public evidence** — source owner, source page and record URL, licence/attribution, raw observation, observed/source-updated/ingested times, adapter version and hashes.
+2. **Derived intelligence** — versioned entity links, event assertions, role assertions, freshness decisions and reason-to-research rules with limitations.
+3. **Private sales workflow** — contacts, outreach, relationship notes, ownership, priority, budget, probability and deal stage. This never enters the public repository.
+
+No source means `ABSTAIN`. A publisher headline is a `SOURCE_CLAIM`, not an independently verified event. Podcast appearance is theme evidence, not a prospect, customer, partner or referral. Proximity is context, not a grid connection. Market conditions are context, not proof of a project event or sale.
+
+### Movement 1 — NewsV3 organisation and role evidence
+
+Goal: turn raw organisation mentions into a strict namespace and record only directly evidenced roles without inventing transaction parties.
+
+Pinned inputs:
+
+- `newsv1/dist/major_project_news_v9_5_1.json`, SHA-256 `cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd`;
+- `newsv2/data/material_event_assertions.json`, SHA-256 `329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31`.
+
+Required products:
+
+- `organisation_labels`: one row per exact normalised REPD operator label; stable hash key; expected 28 rows; status `UNRESOLVED_SOURCE_LABEL`.
+- `project_operator_role_assertions`: one row per project × exact operator-label pair; expected 29 rows; role `REPD_PROJECT_OPERATOR_LABEL`; evidence points to the pinned REPD-derived source field.
+- `transaction_role_decisions`: one row per NewsV2 assertion; expected 45 rows; buyer, seller, lender, EPC, ICP, OEM, supplier and adviser remain null with `ABSTAIN_NO_DIRECT_ROLE_EVIDENCE`.
+
+Hard rules:
+
+- Do not split composite labels such as `Firma Energy / IB Vogt`; a slash, ampersand or parenthesis does not prove separate legal entities or roles.
+- Exact label normalisation may collapse Unicode and whitespace for keys but must preserve the raw label.
+- A REPD operator label is not automatically a buyer, seller, developer, owner, EPC or current corporate identity.
+- Preserve Beacon Fen's project link to `GG2050-REPD-13599`; never attach its article to 13600.
+- Builder and verifier must be separate modules. Require 28/29/45 exact counts, unique non-null keys, composite-label canary, all transaction roles null, input hashes and byte-deterministic rebuild.
+
+Movement 1 is complete only when its contract is `CANDIDATE`, manifest hashes every input/module/artifact, all tests pass twice with identical outputs, predecessor tests pass, and the remote commit is read back.
+
+### Movement 2 — NewsV4 energy-market and grid context
+
+Goal: create a separate contextual data module with truthful source freshness. It must never participate in article identity, project binding or opportunity scoring.
+
+Adopt only the proven/hardenable contracts from `reports/ATLAS_V8_ENERGY_V6_ADAPTER_AUDIT.md`:
+
+- Elexon settled System Prices keyed by settlement date × settlement period, with a completeness manifest;
+- Elexon FUELINST keyed by period start × fuel type and labelled provisional;
+- NESO Carbon Intensity keyed by retained source interval;
+- PVLive only after the production endpoint, GSP identity, revision timestamps and data terms are recorded.
+
+Do not copy V6 labels blindly. Market Index Price is not System/imbalance Price. Summed generation/import categories are not an independently observed demand series. Frequency is not a constraint record. No proven grid-constraint feed was found in V6.
+
+Every source-health row requires source/record URLs, licence and attribution, adapter/schema versions, actual scheduler state, observed/source-updated/ingested/fresh-until times, raw/prior/output hashes, attempts, status, counts, duplicate/null gates and last-known-good commit. Derive `CURRENT`, `STALE`, `DEGRADED` or `UNAVAILABLE`; never trust `health: ok` as freshness.
+
+The smallest valid NewsV4 material feature is a deterministic source-health/freshness and market-context snapshot with honest stale states. It may remain `CANDIDATE`; do not fake current observations to make it look live.
+
+### Movement 3 — NewsV5 transparent reasons to research
+
+Goal: explain why a verified public event or context may deserve human research, without claiming that an opportunity or relationship exists.
+
+Build separate modules for:
+
+- event-to-capability rules;
+- market-pain vocabulary;
+- evidence reconciliation;
+- reason decision ledger;
+- compact browser projection.
+
+Every published reason requires `reason_id`, rule/version, project/entity key, triggering evidence IDs, evidence classes, source URLs, claim status, explanation, limitations and decision. Valid decisions are `PUBLISH_REASON_TO_RESEARCH`, `HOLD_FOR_VERIFICATION`, `REJECT` and `ABSTAIN`.
+
+Use `reports/public-source-sales-theme-audit.v1.json` only as search vocabulary. It cannot establish a named prospect, relationship, budget, contact, purchase intent or probability. No private CRM field enters the public product.
+
+Test hostile negatives: shared names, composite operator labels, a podcast guest with no project evidence, a stale market record, a headline with no verified event and a nearby substation with no connection evidence.
+
+### Movement 4 — NewsV6 UK data-centre evidence namespace
+
+Goal: create a separately keyed data-centre candidate and evidence product that can coexist with renewables without contaminating REPD identity.
+
+Required distinctions:
+
+- campus vs facility vs building;
+- operator label vs owner vs developer vs occupier;
+- operational vs construction vs planned vs proposed vs unknown;
+- IT load vs requested grid capacity vs contracted capacity vs operational capacity;
+- reported vs derived vs estimated vs illustrative evidence.
+
+Allowed initial sources:
+
+- official public planning, environmental, grid and company records within their terms;
+- Atlas OSM data-centre points as discovery candidates only, preserving OSM type/id and observation limitations;
+- BBC and Data Center Map as credited outbound research links, not copied datasets or proof of a site/capacity/role.
+
+Never scrape or reproduce Data Center Map content without established permission. A directory listing is not an official capacity or ownership record. A BBC map/article is publisher evidence and a discovery route, not the system of record.
+
+Use a namespace such as `PN-DC-*`, never a REPD project ID. Cross-source links require an explicit decision ledger and must abstain on fuzzy name/proximity alone. The release needs positive fixtures, hostile near-duplicate negatives and a source/licence register.
+
+### Movement 5 — DuckDB/Parquet analytical discipline
+
+For every keyed analytical product declare a pinned physical schema and prove after physical readback:
+
+```text
+total_rows = distinct_declared_keys
+duplicate_key_groups = 0
+required_null_key_rows = 0
+written_schema = pinned_schema
+readback_schema = pinned_schema
+```
+
+Use zstd Parquet as the analytical release product and DuckDB for deterministic transform/query/verification when dependencies are available. Keep historical backfill separate from forward updates, converge both into one canonical schema and fully rewrite touched partitions. Produce browser JSON only from explicit ordered queries.
+
+If the runner lacks DuckDB/PyArrow, do not install arbitrary dependencies or pretend JSON is Parquet. Commit a tested schema/plan only if it materially advances the next safe run, label the physical build `BLOCKED`, and record the exact dependency gate.
+
+### Movement 6 — consumer and interface protection
+
+- NewsV1 remains the public UI recovery point until a later consumer release is independently deployable.
+- Keep initial project rows <=100 and total initial DOM elements <10,000.
+- Preserve all eleven columns inside the contained horizontal scroller at 390, 430, 440 and 768 CSS pixels.
+- Use manifest-first immutable partitions, bounded concurrency, timeouts, in-flight request deduplication and explicit `WAIT/LOAD/OK/EMPTY/FAIL` states.
+- Optional news, context or data-centre failure must not erase the last-known-good project table or trigger a second full-table render.
+- Static CSS tests are not mobile runtime proof. Label unavailable browser widths `BLOCKED` or `NOT TESTED`.
+
+### Movement 7 — independent recovery review
+
+Account for each claimed version in a table containing feature, commit, contract, builder, artifacts, test command, result, live status and rollback. Re-run all release tests from a clean checkout. Verify frozen-tree hashes, exact remote head and README checkpoint. Inspect GitHub Actions only with targeted calls; a green workflow is supporting evidence, not data proof.
+
+If fewer than NewsV2–NewsV6 qualify, say so plainly and name the failed gate. Never create an empty version to meet the target. Preserve every useful report and exact next command for the next human or automation run.
+
+### Commit and review cadence
+
+For each coherent block:
+
+1. inspect remote head;
+2. edit only the current movement;
+3. run the current and predecessor gates;
+4. run `git diff --check` and inspect every changed path;
+5. commit atomically to remote `main` without force;
+6. fetch the changed contract/manifest/README at the new commit;
+7. classify the block `PASS`, `FAIL`, `BLOCKED` or `NOT TESTED`;
+8. update this checkpoint and select or decline the next block.
+
+If remote `main` moves before ref update, stop and reconcile. Never force over another writer. Never mutate or delete historical releases. Never call a candidate `LIVE` merely because GitHub Pages deployed something.
+
+### End-of-run orchestration report
+
+Use this exact compact structure so the next run can recover:
+
+```text
+WHERE: repository, branch, commit, release/movement
+WHAT: one material capability or review completed
+PROOF: counts, keys, hashes, canaries, tests and deployed evidence
+WHY: concrete Ventus sales/deal-intelligence value
+DOUBT: remaining uncertainty, BLOCKED/NOT TESTED evidence, no euphemisms
+NEXT: first incomplete movement and one exact bounded action
+```
+
+The score wins by truthful compounding: source evidence first, derived intelligence second, private sales action elsewhere. More modules are valuable only when their boundaries stay inspectable.
 
 ## Operating protocol
 
