@@ -1,0 +1,78 @@
+{
+  "schema": "pipelinenews.public-source-sales-theme-audit.v1",
+  "snapshot_date": "2026-08-25",
+  "purpose": "Build a source-grounded search taxonomy, not a prospect or opportunity list.",
+  "coverage": {
+    "buzzsprout_feed_entries_observed": 22,
+    "globalgrid_transcript_headings_observed": 20,
+    "known_gap": "The 11 July 2026 William Fraser feed episode was not present in the audited transcript archive; one feed entry is theme music.",
+    "claim": "PARTIAL_ARCHIVE_COVERAGE"
+  },
+  "rules": [
+    "Podcast appearance is not evidence of a prospect, customer, partner, referral or buying intent.",
+    "Speaker role is recorded only as stated at the episode date.",
+    "No budget, spend, probability, contact detail or commercial relationship is inferred.",
+    "Every entry is a theme-evidence row and not an opportunity row."
+  ],
+  "themes": [
+    {
+      "theme_evidence_id": "VENTUS-PODCAST-THEME-001",
+      "theme": "project lifecycle and origination",
+      "search_terms": ["land", "grid", "planning", "ready-to-build", "notice-to-proceed", "finance", "EPC", "operations"],
+      "episode_url": "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid",
+      "evidence_class": "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME",
+      "claim_status": "THEME_ONLY_NOT_OPPORTUNITY",
+      "decision": "INCLUDE_AS_SEARCH_TAXONOMY"
+    },
+    {
+      "theme_evidence_id": "VENTUS-PODCAST-THEME-002",
+      "theme": "commercial and industrial solar delivery",
+      "search_terms": ["behind-the-meter", "remote delivery", "refurbishment", "safety"],
+      "episode_url": "https://www.buzzsprout.com/2272772/episodes/17481165-nick-spicer-your-eco-commercial-solar-projects",
+      "evidence_class": "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME",
+      "claim_status": "THEME_ONLY_NOT_OPPORTUNITY",
+      "decision": "INCLUDE_AS_SEARCH_TAXONOMY"
+    },
+    {
+      "theme_evidence_id": "VENTUS-PODCAST-THEME-003",
+      "theme": "standards and bankability",
+      "search_terms": ["interoperability", "cybersecurity", "standards", "bankability"],
+      "episode_url": "https://www.buzzsprout.com/2272772/episodes/17203568-erin-mahan-sunspec-alliance",
+      "evidence_class": "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME",
+      "claim_status": "THEME_ONLY_NOT_OPPORTUNITY",
+      "decision": "INCLUDE_AS_SEARCH_TAXONOMY"
+    },
+    {
+      "theme_evidence_id": "VENTUS-PODCAST-THEME-004",
+      "theme": "ageing fleet and operations",
+      "search_terms": ["O&M", "repowering", "asset performance", "ageing fleet"],
+      "episode_url": "https://www.buzzsprout.com/2272772/episodes/15076356-rob-tippett-challenges-and-opportunities-in-solar-o-m-and-repowering",
+      "evidence_class": "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME",
+      "claim_status": "THEME_ONLY_NOT_OPPORTUNITY",
+      "decision": "INCLUDE_AS_SEARCH_TAXONOMY"
+    },
+    {
+      "theme_evidence_id": "VENTUS-PODCAST-THEME-005",
+      "theme": "investment and technical due diligence",
+      "search_terms": ["investor", "asset manager", "technical due diligence", "investment"],
+      "episode_url": "https://www.buzzsprout.com/2272772/episodes/14193404-arnoud-klaren-unlocking-solar-success-insights-from-a-seasoned-technical-director-in-investment-and-asset-management",
+      "evidence_class": "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME",
+      "claim_status": "THEME_ONLY_NOT_OPPORTUNITY",
+      "decision": "INCLUDE_AS_SEARCH_TAXONOMY"
+    },
+    {
+      "theme_evidence_id": "VENTUS-PODCAST-THEME-006",
+      "theme": "solar construction delivery",
+      "search_terms": ["civils", "soil", "piling", "drainage", "logistics", "labour", "safety"],
+      "episode_url": "https://www.buzzsprout.com/2272772/episodes/18798878-uk-s-first-nationally-significant-solar-farm-clark-frost",
+      "evidence_class": "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME",
+      "claim_status": "THEME_ONLY_NOT_OPPORTUNITY",
+      "decision": "INCLUDE_AS_SEARCH_TAXONOMY"
+    }
+  ],
+  "limitations": [
+    "This audit does not claim full-feed transcript coverage.",
+    "Themes require source-level verification before they can support a project, organisation or event assertion.",
+    "No private CRM data belongs in this public artifact."
+  ]
+}

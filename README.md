@@ -18,13 +18,15 @@ Repository-local implementation skill: [`build-auditable-duckdb-parquet`](skills
 
 Repository-local performance skill: [`build-progressive-static-data-ui`](skills/build-progressive-static-data-ui/SKILL.md). Read it before changing browser loading, caching, table rendering, search, filtering, mobile behaviour or performance tests.
 
+Repository-local intelligence skill: [`build-source-grounded-sales-intelligence`](skills/build-source-grounded-sales-intelligence/SKILL.md). Read it before adding material events, organisations, commercial roles, opportunity reasons, podcast evidence or data-centre intelligence.
+
 Read that manual, this README, the local CHANGELOG, the source register and the contracts before patching, porting, backfilling, scheduling, publishing or wiring this repository to a UI.
 
 Green is not proof. File count is not proof. Size is not proof. A rendered browser page is not proof. The proof is that the data obeys its declared law at its declared grain and key.
 
-## Active build plan — News V1 / GlobalGrid V9.8 lineage
+## Active build plan — frozen NewsV1 and NewsV2 candidate
 
-Status: RC1 deployed and live bytes verified on 2026-08-25; browser/mobile runtime proof remains the next gate.
+Status: NewsV1 is deployed with live desktop runtime proof. NewsV2 is a tested, data-first material-event ledger candidate and does not change the public interface.
 
 Public release path: `https://ventusltd.github.io/pipelinenews/newsv1/`.
 
@@ -32,8 +34,10 @@ This is the new PipelineNews numbering lineage for the post-V9.7 performance rel
 
 Timing law for every continuation, including after context loss:
 
-- Target approximately 30 seconds per bounded take.
-- Stop at 500 seconds of active work rather than loop, hang or enter zombie mode.
+- Execute three consecutive coherent work blocks where useful.
+- Target approximately 300 seconds for the whole turn, with a normal range of 120 to 500 seconds.
+- At the midpoint, one explicit extension to 1,000 seconds is allowed only for a named acceptance gate that is still making progress.
+- The extension may be used once; never turn it into polling, looping, hanging or zombie mode.
 - At the hard stop, record completed checks, failures and the exact next pass here before returning control.
 - Never guess around a failed prerequisite; mark it `BLOCKED` or `NOT TESTED`.
 
@@ -44,6 +48,16 @@ Locked scope and acceptance contract:
 - Preserve Beacon Fen as PRIMARY_MATCH to REPD 13599 and never 13600.
 - Keep every legacy release and archived byte unchanged.
 - Change performance architecture only: progressive project hydration, bounded visible rows, immutable-asset caching, one news request, no duplicate full-table render and deferred chart loading.
+
+Frozen five-release queue:
+
+1. NewsV2 — material-event assertions and REPD delta-ready contracts.
+2. NewsV3 — organisations and directly evidenced commercial party roles.
+3. NewsV4 — explicit grid milestones, constraints and proven Atlas/Energy Tracking adapters.
+4. NewsV5 — transparent public-evidence reasons to research an opportunity.
+5. NewsV6 — a separate UK data-centre evidence namespace.
+
+Every version needs a material capability, deterministic build, contract, tests and frozen recovery path. Never count an empty directory, an untested label or a mutation of an older release as a new version.
 
 Bounded passes:
 
@@ -63,13 +77,16 @@ Latest recovery checkpoint:
 - `PASS` — eleven columns, 100-row DOM window, first verified partition preview, local-first news, bounded concurrency, timeouts, caching rules and non-blocking pinned charts.
 - `PASS` — Pages staging produces a bounded 10.1 MB runtime artifact and excludes the frozen archive, fixtures and tests.
 - `PASS` — the tracked PipelineNews legacy archive and importer are unchanged.
-- `NOT TESTED` — local Playwright rendering because this runner has no installed Chromium binary; do not reinterpret static checks as browser proof.
+- `BLOCKED` — local Playwright rendering because this runner has no installed Chromium binary and the single browser download attempt failed with a remote certificate/502 response; do not reinterpret static checks as browser proof.
 - `PASS` — PipelineNews `main` commit `d1f573fb6421903e37e164edafcc3c8cae2407f0` and GlobalGrid directory commit `cfb32796e4a3c45a0ab7bec53623b96c84a818a4` are published.
 - `PASS` — PipelineNews Pages retry `32791931375` completed both build and deploy after Pages enablement.
 - `PASS` — deployed index, release contract, project manifest, first/last project partitions, 133-item news feed, application module and inherited mobile CSS are byte-identical to the committed release.
 - `PASS` — the deployed contract and manifest both declare 7,680 projects, the feed declares 133 total / 45 canonical UK headlines, and the live GlobalGrid homepage contains the News V1 URL.
-- `NOT TESTED` — live JavaScript interaction and mobile rendering at 390/430/440/768 pixels.
-- Next bounded pass: run browser/mobile parity against the live release, record DOM, scrolling, filters, pagination and Beacon Fen evidence, then decide whether `CANDIDATE` can advance.
+- `PASS` — live desktop JavaScript at 1363×936: 7,680 projects, 356,474 MW, 133/45/19/4/9 news counts, 100-row pages, filters, pagination, contained table overflow and Beacon Fen 13599 binding; no application console errors.
+- `BLOCKED` — live mobile runtime at 390/430/440/768 because the cloud browser does not expose viewport resizing. Static mobile CSS, contained-scroll and eleven-column gates pass; that is not runtime proof.
+- `PASS` — NewsV2 deterministically builds 45 material-event assertions with exact 8 acquisition / 13 consent / 2 contract / 4 financial-close / 17 project-update / 1 refusal counts, preserves source order and keeps all commercial roles and values null.
+- `PASS` — NewsV2 pins the source SHA-256, retains Beacon Fen REPD 13599 and excludes sibling 13600, and leaves NewsV1 bytes and visible UI unchanged.
+- Next bounded pass: audit the Atlas V8 and UK Energy Tracking V6 adapters, then use only proven contracts to design NewsV3 organisation/role evidence and NewsV4 grid milestones.
 
 ## Operating protocol
 
@@ -78,8 +95,9 @@ Latest recovery checkpoint:
 - Use small reversible commits.
 - Never overwrite or delete historical versions.
 - Never modify frozen releases in place.
-- Use short bounded passes, ideally about 30 seconds each.
-- Stop after approximately 500 seconds of active work rather than hanging or looping.
+- Use three coherent work blocks where the task supports them; target 120–500 seconds total and approximately 300 seconds.
+- Permit one explicitly named extension to 1,000 seconds only at the midpoint while a concrete acceptance gate is still progressing.
+- Stop at the declared limit rather than hanging, polling or looping.
 - Report counts, keys, hashes, canaries and exact test results.
 - Report PASS, FAIL, BLOCKED or NOT TESTED plainly.
 - Stop if a prerequisite, source commit or output cannot be verified.

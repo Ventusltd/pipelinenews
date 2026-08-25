@@ -1,0 +1,39 @@
+{
+  "schema": "pipelinenews.build-manifest.v1",
+  "release": "newsv2",
+  "status": "CANDIDATE",
+  "built_at": "2026-08-25T00:00:00Z",
+  "modules": [
+    {
+      "module_id": "material-event-ledger-builder.v1",
+      "path": "newsv2/scripts/build-material-event-ledger.mjs",
+      "sha256": "5cf5e08365691b974d1cf09a276e5a1296c0be35442736c7499f0aab96aee50f"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "newsv1/dist/major_project_news_v9_5_1.json",
+      "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+    },
+    {
+      "path": "newsv2/contracts/release.newsv2.json",
+      "sha256": "f72cdf6d509dce14e83a59c468c07217b03be5fed9cd8723152c8506198807ac"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "newsv2/data/material_event_assertions.json",
+      "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31",
+      "bytes": 85589,
+      "rows": 45
+    }
+  ],
+  "checks": {
+    "total_rows": 45,
+    "distinct_declared_keys": 45,
+    "duplicate_key_groups": 0,
+    "required_null_key_rows": 0,
+    "source_order_preserved": true,
+    "independent_verifier": "newsv2/tests/check_newsv2.mjs"
+  }
+}

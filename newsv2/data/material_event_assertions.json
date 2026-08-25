@@ -1,0 +1,2053 @@
+{
+  "schema": "pipelinenews.material-event-assertions.v1",
+  "release": "newsv2",
+  "status": "CANDIDATE",
+  "generated_at": "2026-08-25T00:00:00Z",
+  "grain": "one row per canonical project-bound publisher-headline event claim",
+  "primary_key": [
+    "assertion_id"
+  ],
+  "source": {
+    "repository": "Ventusltd/pipelinenews",
+    "release": "9.5.1",
+    "artifact": "newsv1/dist/major_project_news_v9_5_1.json",
+    "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+  },
+  "row_count": 45,
+  "event_counts": {
+    "ACQUISITION": 8,
+    "CONSENT": 13,
+    "CONTRACT": 2,
+    "FINANCIAL_CLOSE": 4,
+    "PROJECT_UPDATE": 17,
+    "REFUSAL": 1
+  },
+  "assertion_payload_sha256": "054dddbba0ac2faf3da1de1de58b8f70cb79f513c71c3e53f4ca8ea739926637",
+  "assertions": [
+    {
+      "assertion_id": "PN-EVT-178E01376A535B3F1CE6",
+      "display_order": 1,
+      "article_id": "GG2050-NEWS-59F4A8A091F11C92",
+      "project_id": "GG2050-REPD-13599",
+      "repd_ref": "13599",
+      "development_id": "GG2050-DEV-E13842D4D80DEC",
+      "event_type": "CONSENT",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 91,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Beacon Fen Energy Park development consent decision announced",
+        "published_at": "2026-08-21",
+        "source_name": "GOV.UK",
+        "source_homepage": "https://www.gov.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPWDQydUp0MHVEVzBaQWg4amx2ejVQUU9CZlVoaE9oR2habGdxTUkxaEdtNmtIMDhXOFc5TFpsSzRTbHVIX3FPaGRPSjNJVWx5dk1IWTlPVHRPYkRVNUNQc0ZwcDA1QmFndjF5dWtxdXJFU0RjT1B2enRwcUFnWHIwNXU2bWR6cS02c3MxTFJ5aWthekpiblNPeE1FWHk?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-0B1B248D838C8DDC8B59",
+      "display_order": 2,
+      "article_id": "GG2050-NEWS-EFAF7D710F26B406",
+      "project_id": "GG2050-REPD-1044",
+      "repd_ref": "1044",
+      "development_id": "GG2050-DEV-6E53CADCD740FA",
+      "event_type": "PROJECT_UPDATE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 81,
+        "method": "PRIMARY_MATCH_ONLY; related development records are context, not REPD/news-status confirmation"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Solar farm plan for North Tawton field",
+        "published_at": "2026-08-21",
+        "source_name": "Crediton Courier",
+        "source_homepage": "https://www.creditoncourier.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOZ0UzaHRwbjVaRmRIVWYzLWJYV3VrTUZXTk1kUjFWN0FZbzhzd0gwc3Y1bmV5Z0huS3Qwd1B4Y0hFcEp6OVZlZkxMaDlXb1kyTlJ6ZjhTUFl4T0FfUGkyNkpkWmpxRkt4Ull1VUo4WmQzUWZrMHhhS0pCQVV2b19yZWtKWU51WEtXOWwteXFhYWhLVFVrYS1Maw?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-34AE9408219A50D489CF",
+      "display_order": 3,
+      "article_id": "GG2050-NEWS-A139CA47C0541491",
+      "project_id": "GG2050-REPD-11974",
+      "repd_ref": "11974",
+      "development_id": "GG2050-DEV-4A80BF84D35069",
+      "event_type": "ACQUISITION",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 78,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Triple Point acquires 49.2MW Hessay Solar project from Recurrent Energy",
+        "published_at": "2026-08-18",
+        "source_name": "Solar Power Portal",
+        "source_homepage": "https://www.solarpowerportal.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQVHZ6NXhSdjhiT1J1bm9DY3poR3I3dG5wM3MwOHNIS1JLUVZuRXhrS0p6ZlVzQ2xKRnlId3JfbldHVzZtNzFUM1kzSkJSbThYbGY3VEFmWWNNWDdveVptQzJrakE3YXVHODNvVmN5QXZtZWZtM2d2OUh4NjBmeHlsQ0VRR00wck80SnlJbVVVOFNFcUVNWU15RjZSNi03d1UtcmVhOGNscUQzcEV1YXltamFEZjZ1cVE5c2RSMm96ZVZTQWhW?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-F984E1486E045CD404B9",
+      "display_order": 4,
+      "article_id": "GG2050-NEWS-D7C850D5FCDB1CF3",
+      "project_id": "GG2050-REPD-11034",
+      "repd_ref": "11034",
+      "development_id": "GG2050-DEV-8AFE67BBE335AE",
+      "event_type": "PROJECT_UPDATE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 85,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "1GWh Coalburn 1 battery energy storage enters operations in Scotland",
+        "published_at": "2026-08-13",
+        "source_name": "Solar Power Portal",
+        "source_homepage": "https://www.solarpowerportal.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQTm1iamxWcUgyd2NOTS13cWgwbExYOGpqM0tLczhsY0hpTThiZ1N1U3V4eXJoT0dxLTFIREhqaHNuRUk2NV9FR3dWVUpyYVBNUDBpajRiZDRFMkRPY2dfbDdNWW90YWZ0UzBuSURpZTdXTDFUS3p2UXJuTzYtNDhNa0RjWU5tZzdoYmpLYklyZm1KMnRGeGkxX2tTTDlMZ0xkZm9EaVNpNURjYmlodnJCYjd6ZEU5Zw?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-6E53449B02D31AE14996",
+      "display_order": 5,
+      "article_id": "GG2050-NEWS-D2ECDBC89241FA35",
+      "project_id": "GG2050-REPD-14550",
+      "repd_ref": "14550",
+      "development_id": "GG2050-DEV-DF8A23D9E62EA8",
+      "event_type": "PROJECT_UPDATE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 80,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Dean Moor Solar farm will be Cumbria's largest",
+        "published_at": "2026-07-11",
+        "source_name": "BBC",
+        "source_homepage": "https://www.bbc.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5fRHNsY202RTZwellHTmxuZU0ycnViaFl2YzBvMnNMRDNDbV9UWXlQNUtUbFBfQ0d5dmVCNHhubk02Ny0wOHFKTTFoT2JnNXB0c1Z5VFlqRkQ5TXBE?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-A83AE8EBE4B885F8A62C",
+      "display_order": 6,
+      "article_id": "GG2050-NEWS-36393293C01653C1",
+      "project_id": "GG2050-REPD-14806",
+      "repd_ref": "14806",
+      "development_id": "GG2050-DEV-8F9657E39A19E7",
+      "event_type": "PROJECT_UPDATE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 72,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "UK approves 740MW One Earth solar farm",
+        "published_at": "2026-07-08",
+        "source_name": "reNEWS",
+        "source_homepage": "https://www.renews.biz",
+        "article_url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1ncXRpRTR1MjRmNHVQY1Z3RFkzdXN2ZEZFSHBManRGamo3SkV3Z0N3X1hBZ0ptOUFPaGYtcU12TFF3QTIzY0JKNmNzTk5fU3NiR0lpVkNEbE14QnpoX2ptS3hSQlNmZzU4aHRCSHhUQUVRSkNuc3VJ?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-0625DB8AA1F539A9BCA8",
+      "display_order": 7,
+      "article_id": "GG2050-NEWS-CC5ED31766C4523C",
+      "project_id": "GG2050-REPD-14550",
+      "repd_ref": "14550",
+      "development_id": "GG2050-DEV-DF8A23D9E62EA8",
+      "event_type": "CONSENT",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 85,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Dean Moor Solar Farm Secures Development Consent for 150 MW Solar Project in Cumbria",
+        "published_at": "2026-07-07",
+        "source_name": "SolarQuarter",
+        "source_homepage": "https://solarquarter.com",
+        "article_url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQekdWd2JIV1hDSW0zdWdUQng0N3NaUVJ5YldvX2FYNU82M0hJUUVyQmJCUnlxbUdFX3dfTklUNXVQZ1hmVHVzb2R5LVhXOGFmRlByUXprYllyYTNPenhxeEVHbFVla3lXVW9rMk5HOGhZYVpOWjVQYk91TnpianhyM2lDazJNZVE4bWQtWjNTZ19GempXcFJ6SVpHbTZXR3RVUU8tOFhyZHJJMExCM1VnYklRLU14MlhKNDh0Rm53?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-9A89FEA3B11ADA411EAB",
+      "display_order": 8,
+      "article_id": "GG2050-NEWS-6AB5AC911A4989B8",
+      "project_id": "GG2050-REPD-14550",
+      "repd_ref": "14550",
+      "development_id": "GG2050-DEV-DF8A23D9E62EA8",
+      "event_type": "CONSENT",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 68,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Fvs Dean Moor Ltd Receives Development Consent For Dean Moor Solar Farm",
+        "published_at": "2026-07-07",
+        "source_name": "megaproject.com",
+        "source_homepage": "https://megaproject.com",
+        "article_url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNaG5QNlhBMzZzVFdKVkwtcGpNT2hDamNVdUNUOWhyNTM2N1BqR3RFZTlfY29vNXZXLU9oVDFzcmo3enJZcDNsWjdDTUVSX2VJUVVIRlhyQmJldzctaDZyYk1uaWR4MkNidFB4TW1vc19CRVpVWjdNT0pWUGpyYmRfRFp6UjlKRFFlZWV0SjBoTjlEdHVxcW00dXFxVm43OTlqampvYjNlcjZ1RGlBTWNOcg?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-58020077F56B243C5B7C",
+      "display_order": 9,
+      "article_id": "GG2050-NEWS-77F5537BB103AD91",
+      "project_id": "GG2050-REPD-14550",
+      "repd_ref": "14550",
+      "development_id": "GG2050-DEV-DF8A23D9E62EA8",
+      "event_type": "CONSENT",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 90,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "DESNZ grants DCO for 150MW Dean Moor solar project in Cumbria",
+        "published_at": "2026-07-03",
+        "source_name": "Solar Power Portal",
+        "source_homepage": "https://www.solarpowerportal.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNb0daVWdoSFdOR1JCWjNjY0tyd3IteE54cWR4WVhPMFNGemlEaUhwYUNPMTAycGlKX1NKYjlLLUNySW9iT0hMeXRDcU10d0JqNUhTczF5R1lOa1Jwd0RrQzFyOFZQc3ZJZUJZVS0yZldmSTh4ZExSeHdnZkc2Ym9abVNDaUU5RnhCbVdXOENpMmtzY0Y1eFZmY1hEQWFwc3NHZUE4YlVLeFlfTVR0RFVEYQ?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-0984B5097C1C220341B7",
+      "display_order": 10,
+      "article_id": "GG2050-NEWS-7E2092FF1850807E",
+      "project_id": "GG2050-REPD-15000",
+      "repd_ref": "15000",
+      "development_id": "GG2050-DEV-3F6A51011B5DEE",
+      "event_type": "CONSENT",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 77,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Peartree Hill solar farm near Beverley approved",
+        "published_at": "2026-07-03",
+        "source_name": "BBC",
+        "source_homepage": "https://www.bbc.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9WeVBuUWQ3VGhtOWkzTFpmczZmbnJuaXhadC15ajRSMlVXaWhQc21PelRxS1NuSzRHXy04dzM1YVF4LUFEV3NVV0pRWmlVRlYteFQyWHFrQk95dTVD?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-D1CE5C1382527F330641",
+      "display_order": 11,
+      "article_id": "GG2050-NEWS-E441750881AE6B8A",
+      "project_id": "GG2050-REPD-15000",
+      "repd_ref": "15000",
+      "development_id": "GG2050-DEV-3F6A51011B5DEE",
+      "event_type": "CONSENT",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 90,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Peartree Hill Solar Farm development consent decision announced",
+        "published_at": "2026-07-02",
+        "source_name": "GOV.UK",
+        "source_homepage": "https://www.gov.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNeWdvRFItQ05Wd2ZKSThwR1E4cmVXV2xwQW9oVVg1N1NWWEE4SnFESlR0RnB2dFJCcEVhSllhMFAybk1mbEEzSGkxNWZDZk1UZjgxRUdDeGRIbTl4R1BZTWxHbC04U3dybkpMMkc2cUxKNURJWnFJUkZ4WGRMQVh4alNHMkc3Nl9sdmpkclZXenRUX3JSR0dhMGVHdlN5LTg?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-E901107B2F273D79EA61",
+      "display_order": 12,
+      "article_id": "GG2050-NEWS-3386D3591FBDA7E9",
+      "project_id": "GG2050-REPD-14550",
+      "repd_ref": "14550",
+      "development_id": "GG2050-DEV-DF8A23D9E62EA8",
+      "event_type": "CONSENT",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 86,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Dean Moor Solar Farm development consent decision announced",
+        "published_at": "2026-07-02",
+        "source_name": "GOV.UK",
+        "source_homepage": "https://www.gov.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNZDNGdGtoRlhzRWhhWGpaczUzRllKdHJtMUh0c2sxc2dFeHVpY2d2NGdablFYVUVfRUxZclJNSGtsY0RONm83dk9IV0VDUXNEdHJRNU52TUk3NHhhaW5xWGV6RHhscGgwV1oyeU1EQXFKTmhZWTFnLVdyOEFhZXYyZWFRUjNvc2ZlTDhFRmxUMUxFYUl4a0xQSFNR?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-E4A04E23308AAD17CDB3",
+      "display_order": 13,
+      "article_id": "GG2050-NEWS-40C019892774BF64",
+      "project_id": "GG2050-REPD-11063",
+      "repd_ref": "11063",
+      "development_id": "GG2050-DEV-0D957B31D4C452",
+      "event_type": "ACQUISITION",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 72,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Innagreen acquires Longhedge solar farm from RES",
+        "published_at": "2026-06-24",
+        "source_name": "Energy Global",
+        "source_homepage": "https://www.energyglobal.com",
+        "article_url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNZ1NSTDZmY3ZzSTM2VU5DUm55TVpjckw5c3hXV3llZTN2MHFSV2JrVXByRHJFQ01QTHZjTTdVX1gwVExKMDZReTY0anFJR3h1ak1VR3ZicVR3N3ZUN0NnOHppSDJ5WFRzQlB1R3NoT3hQTkVFdWswZ1k3NlR4TDlGSEk3ekN3MFF5bUsyMWVPRFRHNEJHb1I5QQ?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-691E113BA6EA50F8E117",
+      "display_order": 14,
+      "article_id": "GG2050-NEWS-E3A49DB50D708576",
+      "project_id": "GG2050-REPD-12206",
+      "repd_ref": "12206",
+      "development_id": "GG2050-DEV-56744AC757C748",
+      "event_type": "ACQUISITION",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 80,
+        "method": "PRIMARY_MATCH_ONLY; related development records are context, not REPD/news-status confirmation"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Meadow Partners Acquires Ground Lease for Coalburn II Battery Storage Project in Scotland",
+        "published_at": "2026-06-23",
+        "source_name": "citybiz",
+        "source_homepage": "https://www.citybiz.co",
+        "article_url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxObWZLSUpHUktYY3hnNzBuMWw0RkJPd1AzRjlTN0o0bzkwZ2d0S2ZGSnpQV0ItbHhuU25yXzgtSks4R0lwbXpqNzRRNGY3YVZreUF5NThFVW05UEJtN282eUs5NFRIQkJHUXF0ejY3bzJEU1ZBTnRuUmNNWkZtbkZITnFNcnY4d1lzMGtkM09YZWVianJ1ZmRuVlJ4bzZpU2tfdzY4aGpGM01iY0xIR1lFenNzNUlWeVBEWkRheHJQZXRyVHJ6LU5n?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-B54E0F042FBC5232BBDA",
+      "display_order": 15,
+      "article_id": "GG2050-NEWS-AC12E1F4D302389A",
+      "project_id": "GG2050-REPD-11034",
+      "repd_ref": "11034",
+      "development_id": "GG2050-DEV-8AFE67BBE335AE",
+      "event_type": "ACQUISITION",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 68,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Meadow Partners Acquires 113-Acre Ground Lease for 1,000 MWh Coalburn II Battery Energy Storage System",
+        "published_at": "2026-06-23",
+        "source_name": "Business Wire",
+        "source_homepage": "https://www.businesswire.com",
+        "article_url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxQY1ZUamJVSVMySFhvNkNOVDlSQ2p5Z1BBVWlMOFhqQ0RJZk00R3QtRXJmMEpfeXZPYVR4U2IyMjF3b1FlMVkwRDRzR21FUUQ5MnNkZld1UWlIMTFMWUw2NjdieEw1ejlwN0tfbno2ekVTanJnd28wS1doUDdsZ1ZxenRCNWxCX2FxQ1Rkekt5TTRjR2VjTTV0VE1XMTg0RWpEQnVSQmwyazY2VjlPUlk3aUlfRHFZYzdhVmU0S284cUlQeTJ6Tnh6dnlJZTlDc2lpbFJFZmNfUHBLemU5WnMyM3lZYUhINnotMnptdTd3SQ?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-3ACA1C9F3D1CEAE8BABF",
+      "display_order": 16,
+      "article_id": "GG2050-NEWS-AADF446AFB3D8CBE",
+      "project_id": "GG2050-REPD-11034",
+      "repd_ref": "11034",
+      "development_id": "GG2050-DEV-8AFE67BBE335AE",
+      "event_type": "FINANCIAL_CLOSE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 80,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Zenobe closes financing for 200-MW Coalburn BESS project in Scotland",
+        "published_at": "2026-06-18",
+        "source_name": "Renewables Now",
+        "source_homepage": "https://renewablesnow.com",
+        "article_url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPZnlqdmdwUVB3TjFoa3BxV2EzbUI5QTJJV19XOENTSkxSbHdDS2tIVFRfZFp6M1Q5bmJVbGludVd1NklGTXM0ZkhEVllyYXNWam1YREcxSkJBWFo0LUF4cTY0a19tWVpwYkw0dkZmOVZSMGE1U0lGMkZDMWd2WldWck53ZmFTNTJRU0FtNnhwUWtjbExqaC1odkg2NkYwUUl4c0RPdnlzeVpTZHI4?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-CE8870C3FE8F5DA103D2",
+      "display_order": 17,
+      "article_id": "GG2050-NEWS-38117B21859E7FCC",
+      "project_id": "GG2050-REPD-12017",
+      "repd_ref": "12017",
+      "development_id": "GG2050-DEV-03955E55BF7E59",
+      "event_type": "FINANCIAL_CLOSE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 84,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Enray Power Secures GBP 43 Million Financing for 71-MW Carlton Solar Farm in North Yorkshire",
+        "published_at": "2026-06-12",
+        "source_name": "SolarQuarter",
+        "source_homepage": "https://solarquarter.com",
+        "article_url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQTnNCOHM3WG5DMkZRbnpGLTFMYnlNcFBfU1R5MFNoYWpqblBad3pJYjFYOE5zcG1CaVZ2by1ndEdjYlExQ1V6QTRERkJEcWtxdGVfbHhTUUJ4LTRrZm1jdnFkWGp3cm1MeFdKZkZXdEt4UkFRd181WUg1ZlhpeGY3b0lFSDEyUnVhdGI4SkFfQ3lRV2pLTFAwTzBZOS01ZHhYTWZEVFAzeG8xdjF2Nm9jTXNkTF84SVl5NThfOURpR0JDRERPb1k3UQ?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-6F53B6D7771307529938",
+      "display_order": 18,
+      "article_id": "GG2050-NEWS-7493318A1EFD7D53",
+      "project_id": "GG2050-REPD-10087",
+      "repd_ref": "10087",
+      "development_id": "GG2050-DEV-084BE976F34997",
+      "event_type": "FINANCIAL_CLOSE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 77,
+        "method": "PRIMARY_MATCH_ONLY; related development records are context, not REPD/news-status confirmation"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Qair reaches financial close on 46 MWp Brecks Solar Farm, its first UK project to secure financing",
+        "published_at": "2026-06-10",
+        "source_name": "Energies Media",
+        "source_homepage": "https://energiesmedia.com",
+        "article_url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE92U0czNXdXMll4MUtrRmJacWxLaGFuSmNzQ29Ra1VZUWtjY1Z2eDFSZDhCZFFHZFl3bktlX3Ywc0hRNGlmczB0UmxZQzV3cWdvMzFkX3cwdjdrYnZDUlZUbU80V3ZvbkRseUlJQ1RiUE5VcUk?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-AE0952E1D4A6A3FA4BA7",
+      "display_order": 19,
+      "article_id": "GG2050-NEWS-4D51082DBAFF15A3",
+      "project_id": "GG2050-REPD-10087",
+      "repd_ref": "10087",
+      "development_id": "GG2050-DEV-084BE976F34997",
+      "event_type": "FINANCIAL_CLOSE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 77,
+        "method": "PRIMARY_MATCH_ONLY; related development records are context, not REPD/news-status confirmation"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Qair secures its first UK financial close for 46 MWp Brecks solar farm",
+        "published_at": "2026-06-05",
+        "source_name": "Energy Global",
+        "source_homepage": "https://www.energyglobal.com",
+        "article_url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOWEdFa1pQSE5GMmJaYjFfQ19oOGY0YUtOalJiM2JEUzM2QjlidDNFcDJjSThqWUU5SmlNZjFJczc3YnF6VWYzbndVMEl0T0RFRlRub2NIQ29ZbDB2Vm1KZVpsTENhWjcwUkxpWHJoRGkzd2NxcmxraDNyaUtSd1JjNmRlT1ZGd3A5OF9FX0lpbjIwZk5uMXJNajd6V25PZzNiR2JHNXcxVmNDMy1PSWRzd1ZpTlkzZw?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-4979E18C801BB1A3EFC7",
+      "display_order": 20,
+      "article_id": "GG2050-NEWS-6EA92BFCA6D27DCC",
+      "project_id": "GG2050-REPD-8162",
+      "repd_ref": "8162",
+      "development_id": "GG2050-DEV-10DC035828AE4C",
+      "event_type": "PROJECT_UPDATE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 67,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Chelmsford: Longfield Solar Farm Limited to close Wheelers Hill and Cranham Road",
+        "published_at": "2026-05-28",
+        "source_name": "InYourArea",
+        "source_homepage": "https://www.inyourarea.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQMUNNMi0wamo3SExnYmdzQmJyOXRuYnJDRGEtR0txb1lkMnFrS0g3cUkzSHExNFozanpzRWQ5ZUNsLW5Yc0dTRGFUYWRsZW9OLXh3WnlBQllra2cxVU5sd3BGUmZldWkzUFNlQXl1aUx0aVN2MmlKbXQya2ZxbDQzcmQzRFJpQ2F5MDRsYUpJVVhLSENSZnJUU3piendwZUJiVldlcjVlT190ekNZS3l0TWlDOA?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-EACE2D05B2F37C2061C5",
+      "display_order": 21,
+      "article_id": "GG2050-NEWS-DACA6627AECFEE3F",
+      "project_id": "GG2050-REPD-2377",
+      "repd_ref": "2377",
+      "development_id": "GG2050-DEV-C2A5FEE70EF546",
+      "event_type": "PROJECT_UPDATE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 72,
+        "method": "PRIMARY_MATCH_ONLY; related development records are context, not REPD/news-status confirmation"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "More reaction after plans revealed for major new solar farm near Burton Joyce bypass",
+        "published_at": "2026-05-15",
+        "source_name": "Gedling Eye",
+        "source_homepage": "https://www.gedlingeye.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQSjFPTTI3ZV9samJpWUh0cHFMdW9Ed096TVRKSFBHX0ZReDlZMTI4QmlDRzlvQ1JLZ2pTdFdfWGNTNkU1WmY3Rkl2NDc0aUtHU005UGZOWmNwa2liT0NMT29FbkF1Z2JnS1VLRmJST1FvSGE1aEg4OXR5czl1N2NVc203OG8ycHJwX1dkRVdrMVhiUDR2X1g5R29KOWpsM1YwSHlVVW0xUzdXX1M5cUJKbVdMRy0?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-2CFB24B9258006434A99",
+      "display_order": 22,
+      "article_id": "GG2050-NEWS-0B62C906FC62E3CA",
+      "project_id": "GG2050-REPD-5533",
+      "repd_ref": "5533",
+      "development_id": "GG2050-DEV-0E5A827DB4645E",
+      "event_type": "PROJECT_UPDATE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 69,
+        "method": "PRIMARY_MATCH_ONLY; related development records are context, not REPD/news-status confirmation"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Work on solar farm at former Williamthorpe Colliery site starts",
+        "published_at": "2026-05-12",
+        "source_name": "BBC",
+        "source_homepage": "https://www.bbc.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9tanJsVVNFbjdTdy1hc0NWajFnLVhwYnlUQm5EbGFFZXRJY3Y1dUp0bzRNelNwaDNHWUpmNzRiblg4RmhTTUZpUzc0WklZRkZ0a2g0aDZZN2RTRmtF?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-6AA0C9BB921AAE57AEC0",
+      "display_order": 23,
+      "article_id": "GG2050-NEWS-004B0EE9A2251D99",
+      "project_id": "GG2050-REPD-10087",
+      "repd_ref": "10087",
+      "development_id": "GG2050-DEV-084BE976F34997",
+      "event_type": "PROJECT_UPDATE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 74,
+        "method": "PRIMARY_MATCH_ONLY; related development records are context, not REPD/news-status confirmation"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Qair contracts INTEC to provide EPC and O&M services at 46.5MW Brecks solar farm",
+        "published_at": "2026-05-08",
+        "source_name": "Solar Power Portal",
+        "source_homepage": "https://www.solarpowerportal.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPYUVOUi1jemV6VW9FdnJOdlZ1QVdveGt4S0c4YVdpR1RkeDZaNmRsSEhUN0Z5M1JZZURDNkRjR19qRndaSXJuU3c0UUhUQXV2SXlYemV3aVRtWVJhdjg2UHl3ckxQbHZ2SFhrekd6aTEzM2R4ZU5FMTNzc0RVY25YalpZbEtpMDgzZ3oyUjM0c1NaZFlIZi1NLWxLRGpLek5zUW9fVUlpWE5nV2JnUXRwQmlTNUZIV3ZWRnE1MEx2VUxtMU9iRTE2R1hB?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-2849F957E456BC5FB1BE",
+      "display_order": 24,
+      "article_id": "GG2050-NEWS-57BF0491BEE6DF34",
+      "project_id": "GG2050-REPD-14763",
+      "repd_ref": "14763",
+      "development_id": "GG2050-DEV-BF52CDFDAC78EF",
+      "event_type": "ACQUISITION",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 70,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Elements Green acquires 300 MW Newarthill BESS project",
+        "published_at": "2026-05-08",
+        "source_name": "Energy Global",
+        "source_homepage": "https://www.energyglobal.com",
+        "article_url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQbU9icGRUcGtHQlhHMkRLMGRxeWhwZFRIWDIwQ2FmYjNIZmhRSkJkVjBDQTNzRFdHMlY0YWFoUktvOFdvN2x0V1lJX2ZMc1NvRnNzWlRldEFRTFc4SlROUnJqUmExMlBCQzJselhZdXRoX0RZQVhiNVpxcXY5VzFrWVppaVhYTUptajRrZFNHQjBxNnl6OS03ekNzMFp3UG1QMmdyQ2U5emlhMU1H?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-BDFCE7B53DAB97C4EF5C",
+      "display_order": 25,
+      "article_id": "GG2050-NEWS-B5B83CA7C50F85AA",
+      "project_id": "GG2050-REPD-9427",
+      "repd_ref": "9427",
+      "development_id": "GG2050-DEV-13408969AF918A",
+      "event_type": "CONTRACT",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 75,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "EDF to optimise BW ESS’s 350MW/1,243MWh Hams Hall BESS project",
+        "published_at": "2026-04-28",
+        "source_name": "Solar Power Portal",
+        "source_homepage": "https://www.solarpowerportal.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNS3VQT1piNnRuc1Q1ZXJ3YmRnaUcydlB4MnpTM1pkT2V6SmZZeU1iTGFOeWhhOTRORGdnODJwbi1CclRiRzBQWE5hbjdoRkpyd0dXLTNwWjJ6UEdJZEJyaWNoSlhibF95QVhucVRsall3elY0bzgzSjlaSVhLZGdHMnJ4b3ROc0x2eU9yemlKbXBFXzNCd1JTRnA5dlExMTNXdk1Yb3lQNEFoTktPaU5vbXRjMXc5aGtMMzhhVkpCZDhHWk9n?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-AA21FE1EE9DFB6AD2FAB",
+      "display_order": 26,
+      "article_id": "GG2050-NEWS-5D5AD065431E066A",
+      "project_id": "GG2050-REPD-9427",
+      "repd_ref": "9427",
+      "development_id": "GG2050-DEV-13408969AF918A",
+      "event_type": "CONTRACT",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 70,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "EDF and BW ESS partner on 350MW Hams Hall battery storage project",
+        "published_at": "2026-04-28",
+        "source_name": "theenergyst.com",
+        "source_homepage": "https://theenergyst.com",
+        "article_url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNY3FBRVJQOWtXdVFlZklLSzk5eTI3X0Y4Z2dUSzh0cFVCelJ5dUtaOUtxdWx6RGdCNUxMOGdKTTNLN1kyMVJqdVNVc25IaXBxVURmS0hoQmVQc25xUDhNRm5EMTlzNi1kSWRPTUcwOVppeG1faGd1d0xFendacURubjJEemJJV2V0U0h2bVN1NGJyTV9B?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-8832ECB2EF8243FF55D4",
+      "display_order": 27,
+      "article_id": "GG2050-NEWS-C4B2F18AFF88FBB4",
+      "project_id": "GG2050-REPD-8393",
+      "repd_ref": "8393",
+      "development_id": "GG2050-DEV-BF1124CE39B435",
+      "event_type": "PROJECT_UPDATE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 64,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Rag Lane Solar Farm",
+        "published_at": "2026-04-04",
+        "source_name": "libertyglobal.com",
+        "source_homepage": "https://www.libertyglobal.com",
+        "article_url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNcEV1el93SjRoV2FZYTlDRlhRaDREWTVCb1JWVXJZSkQ0UDJlTnk2TjBtc0ZwTnhqUmZ3ODNxT2VNRmc3REwxOVN0eG1jSjVLS1lmdURHZ2NkWmY5NExmb2VqNUpYNHllSVlrRXd1Ulh0V2swcEdOVnZoTjU0RU9EUExMQm9IN3NNNjZkcEV6TFVvQXRxQ3JaVg?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-7ABE99064EB8A41AD802",
+      "display_order": 28,
+      "article_id": "GG2050-NEWS-E748283B9B9DF4A5",
+      "project_id": "GG2050-REPD-5967",
+      "repd_ref": "5967",
+      "development_id": "GG2050-DEV-AF4DE5FCB88F6B",
+      "event_type": "REFUSAL",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 69,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Kells solar farm refusal of planning appealed",
+        "published_at": "2026-04-03",
+        "source_name": "Meath Chronicle",
+        "source_homepage": "https://www.meathchronicle.ie",
+        "article_url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPZUVlbFJiQjNYMHduem1GZmlQV08taUxUQk9tX3pCQlVqb2J1VGNDcWhPVjdCc1RINDVDZ1RkZHAtVGg4dHFYOFh3VVpLYjl4THhYSENjQmJwYW9uUU1pRDU4Tk01cWZsR3ZsMV9nbVI4cUZTTFZ3YkdXSlR4cVRGTjJySWoxYTJTYTFFRjI0a20?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-53BF9A0A00CE7D62C912",
+      "display_order": 29,
+      "article_id": "GG2050-NEWS-5972472B53E931D0",
+      "project_id": "GG2050-REPD-5452",
+      "repd_ref": "5452",
+      "development_id": "GG2050-DEV-1E2470FAD170DF",
+      "event_type": "PROJECT_UPDATE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 72,
+        "method": "PRIMARY_MATCH_ONLY; related development records are context, not REPD/news-status confirmation"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "New solar farm heading for Gloucestershire Highnam - Punchline-Gloucester.com",
+        "published_at": "2026-03-27",
+        "source_name": "Punchline-Gloucester.com",
+        "source_homepage": "https://www.punchline-gloucester.com",
+        "article_url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxObXRfaXZTSktQVEliMVV3cWZoOVRUdXpVaWJrLVNndFJFcHlteXRxRElYTHp6WXBjakVBQkRmSzVxZFNnWmFpOFFFQnl5ZkVkNGpsclBwMlhNdGZydTdEUFlOWVdJS0R2VkFraUJ3aGhaVUZsNWxMZzdnSE1JZmMtaHRFdzhLUWMyeDVJRVVKRWpBX09iZW5CNGtvVEtXcHBmOTRYMmxn?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-1632CE5722AE79BE0AF8",
+      "display_order": 30,
+      "article_id": "GG2050-NEWS-450497BD9F3D0A94",
+      "project_id": "GG2050-REPD-11678",
+      "repd_ref": "11678",
+      "development_id": "GG2050-DEV-0C00CCB96BB363",
+      "event_type": "ACQUISITION",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 77,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Campaigners speak of 'shock' at sale of massive East Yorkshire solar power scheme",
+        "published_at": "2026-02-23",
+        "source_name": "The York Press",
+        "source_homepage": "https://www.yorkpress.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPOF9icWczcnlORzNmQjViLW1udlNRM0hvU3VwQUROWHl1dS00UnpaVkZGVEVWbFZsSEVTY1l0RGpRYzI5d3dQTEppR1JWOHFqX181SFdTZHFhREExMVZ2Tm4xQ2lJLW1ITHpXVG4tSElsSFFRUW5QZFA2THQ2QXR5UGNacVo0Tmk4ZTh4WnpmNm5KS29uZTJJ?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-E5994AD8067548F98515",
+      "display_order": 31,
+      "article_id": "GG2050-NEWS-CCCAC38505FD4A78",
+      "project_id": "GG2050-REPD-11678",
+      "repd_ref": "11678",
+      "development_id": "GG2050-DEV-0C00CCB96BB363",
+      "event_type": "ACQUISITION",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 81,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "UK: Ampyr Solar Europe announces acquisition of East Yorkshire Solar Farm Project in the UK - energy-pedia.com",
+        "published_at": "2026-02-22",
+        "source_name": "energy-pedia.com",
+        "source_homepage": "https://www.energy-pedia.com",
+        "article_url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxOUk9TYWEtOUo1Z19jeXFzdHdsQ1dELVVLQ1dTWWFPQ0h2LTlKVFhDeHN0VVZfZ3VmUXI2X3N5ck5pbTdyMEM3ZlBYSlFPRHM5SHpnbDNVQWRqUFJOeXprTUJ4WnRrZy1xN285bllVUzBzX2FFTnRLd0dfLXMxdnZ3T284TnViZHByNTdlMF84Slg5d3BDLUpwcFJIMllaRUlPMnpBd3dFa0YzWWYyNGhsNDkySGZPaHVTVG5pSUlXQWQ4ZFVVa18zRkF1eWVYeU9XWkE?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-4A053DF60A880D813E6F",
+      "display_order": 32,
+      "article_id": "GG2050-NEWS-63A55D532EE32D8B",
+      "project_id": "GG2050-REPD-11678",
+      "repd_ref": "11678",
+      "development_id": "GG2050-DEV-0C00CCB96BB363",
+      "event_type": "ACQUISITION",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 81,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Ampyr acquires 530MW East Yorkshire Solar Farm",
+        "published_at": "2026-02-20",
+        "source_name": "reNEWS",
+        "source_homepage": "https://www.renews.biz",
+        "article_url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNdndmMVZ0T2djS2Z0VEVnS3RkN21LRHF1TTg0OVBza2lwb3hBZ3ZuNmt2UEZKSWY1U1dnOEdlNlVXd3VpVlU3YU1tLTJnWER6YkswS3h4VHowTHl3LVZ1V1VMVm9ydVhnMFd1OXdGa0kyY05pU21mcFJuS3l6d0VKMUdEbEJKeHZOclBsaA?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-559F5B9636944CD2EB1D",
+      "display_order": 33,
+      "article_id": "GG2050-NEWS-2E451ABC0F909D1F",
+      "project_id": "GG2050-REPD-11678",
+      "repd_ref": "11678",
+      "development_id": "GG2050-DEV-0C00CCB96BB363",
+      "event_type": "PROJECT_UPDATE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 76,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "New owners for East Yorkshire solar farm 'as big as the city of Durham'",
+        "published_at": "2026-02-20",
+        "source_name": "The York Press",
+        "source_homepage": "https://www.yorkpress.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQVHZ2SjR1ODFqa0ROcEUtOFVmWWNYbVhKNS1hejFnbE9QdThQLWhtS3ZXZTVQNlBEN2xlVHJKZGZwWGs2WXlHSi1pbURVVWVLSDVqRXFsRkNJM09Ybk9jdDhKU3M2bkVHNzNkdUpwR1hEWVlKZ0dvWHJON0FWNWZNRmRCcmc5OXZMc3lkSU1WX053UkVELXFVZ2txb1ZoOTVTV2c?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-DDF8C33B0864A3AF1ECF",
+      "display_order": 34,
+      "article_id": "GG2050-NEWS-238C862207DA7067",
+      "project_id": "GG2050-REPD-14098",
+      "repd_ref": "14098",
+      "development_id": "GG2050-DEV-F3B2A6A096509B",
+      "event_type": "CONSENT",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 83,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Fenwick Solar Farm development consent decision announced",
+        "published_at": "2026-02-18",
+        "source_name": "GOV.UK",
+        "source_homepage": "https://www.gov.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOYzd6VWl5bXY4TmVRNDNUaFB0bW1JNk9sdF9Qdi1VV0YzWnhWLXVjYlBubXZxaEI0NG4wMU9FT3lNYk91ZXdFaW56OVZrUGpkX21TUFFJMFRCZ0ZWd252ZDlHVVFzSmx5dS1VNUxfcHJtZkNHYnp2bFpEbTlhTFlVNHZuSWtwSV9ZdUJERDdZaWtDOEVRMlhr?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-4B8B00F39A4EA434A6E1",
+      "display_order": 35,
+      "article_id": "GG2050-NEWS-BDB48D6540AC90AD",
+      "project_id": "GG2050-REPD-9610",
+      "repd_ref": "9610",
+      "development_id": "GG2050-DEV-C51112629E4357",
+      "event_type": "PROJECT_UPDATE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 73,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "EDF inks Tye Lane solar CPPAs UK",
+        "published_at": "2026-02-05",
+        "source_name": "reNEWS",
+        "source_homepage": "https://www.renews.biz",
+        "article_url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE1XRGxyaVp3Mm1nUnFYcDE5Y3RldGtwTWNYMTVCNlV1ZFVxUEJLVnlzcm01U01vWDVCV0RvOTh2RFRvdFpxNi1KMTlSWUJnTkppLWVVN2VNdUk4djA0THRzSlNjelZmQ1N4YXlsVUtJQXRra0V3OENNMzh3?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-B4627734723C113E2652",
+      "display_order": 36,
+      "article_id": "GG2050-NEWS-B81A57211575BFAE",
+      "project_id": "GG2050-REPD-8162",
+      "repd_ref": "8162",
+      "development_id": "GG2050-DEV-10DC035828AE4C",
+      "event_type": "PROJECT_UPDATE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 82,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "METLEN to deliver EPC work at EDF’s 400MW Longfield solar farm",
+        "published_at": "2025-12-19",
+        "source_name": "Solar Power Portal",
+        "source_homepage": "https://www.solarpowerportal.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxON1BZWWZXbW9DZ21jZWg0ZnBwelRLNExOYVVuTUxzb1cxOWZEUWJJYlp2c3RBZG1kQUtFSWU0MjBNbzVPZzlXVTdqRi01S2xwbWQ3QTEtQ1ZCTVpjQ3YzdnhXUlZ4UU8zTXNHYzFlWkVuVnQ4M0JDTnF6WThvOVBmMlFiY01HMERQVTNoenJuSFdLMUtYOGI5WW80dDhicVMxbFBaYzRETTJKXzlHUFk1V0xxdw?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-CF91A6FAF0AC4A20B3EC",
+      "display_order": 37,
+      "article_id": "GG2050-NEWS-E14D0BA799689626",
+      "project_id": "GG2050-REPD-11460",
+      "repd_ref": "11460",
+      "development_id": "GG2050-DEV-308A7EF4709920",
+      "event_type": "CONSENT",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 74,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Hatton solar farm approved on appeal after 378 objections",
+        "published_at": "2025-12-19",
+        "source_name": "BBC",
+        "source_homepage": "https://www.bbc.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE43R3Q5N0R1dmk3Z08wRkl0eXhidVEyc2wxX29PNEQ2d3Y4TVhmaEc3dkQ0ZzN1U3FCOXNkWHl6UW9xRHVJWldyZEJzd0xjUWs0TzQ0MEpQZ2hMUTJS?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-733F3E6F7BB8AFCA433B",
+      "display_order": 38,
+      "article_id": "GG2050-NEWS-5C2CEBF928A26D33",
+      "project_id": "GG2050-REPD-13763",
+      "repd_ref": "13763",
+      "development_id": "GG2050-DEV-38B0C1CDB1F9CA",
+      "event_type": "CONSENT",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 65,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Consent awarded for Clifton Marsh Solar Farm",
+        "published_at": "2025-12-11",
+        "source_name": "Vattenfall",
+        "source_homepage": "https://group.vattenfall.com",
+        "article_url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOX3ZfYXVMemQ1TEhTREtKYjlFUzh4cHBZY3RIQTdZWF9KcjJDRFkzVVRhRUZOSDdKcFgxZW5lR2owb0tQRTE0Xzh1WjBidmMteHhtdFRZQ0EyVmdTU0o2Sk91ekgtbVQ1Wi1WRXNFTnIxdGd5Y3B6V0ZRbEVVVExFRHhmNWk2QnNtMjRrM1A0dDNldW5xMW9LZjU0a0pMbHNtVExoSnFfTQ?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-513472D4ECF7CC8223C0",
+      "display_order": 39,
+      "article_id": "GG2050-NEWS-79DD0F33881BD4CC",
+      "project_id": "GG2050-REPD-8100",
+      "repd_ref": "8100",
+      "development_id": "GG2050-DEV-EAEA650F605C48",
+      "event_type": "PROJECT_UPDATE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 69,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Government approves new 1,900MW Camblesforth solar farm",
+        "published_at": "2025-12-04",
+        "source_name": "BBC",
+        "source_homepage": "https://www.bbc.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1OTFFtWkV1Wm9SUnpvU3pzdDZhdHh5blZCWG82ZjdweURsYVFLWlRyWG1FUjZvTG5SSmwxSlZ0TlRxU29Hc0Q1VGJ3SklVT3UtVFRfU0I0WmxqTThW?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-9CE7020129B496A2122D",
+      "display_order": 40,
+      "article_id": "GG2050-NEWS-BE967773ABE84AA3",
+      "project_id": "GG2050-REPD-11476",
+      "repd_ref": "11476",
+      "development_id": "GG2050-DEV-F9168FBCC20612",
+      "event_type": "CONSENT",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 83,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Helios Renewable Energy Project development consent decision announced",
+        "published_at": "2025-12-03",
+        "source_name": "GOV.UK",
+        "source_homepage": "https://www.gov.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOMjFhNGpENExHdWl1WjlaLVF2U3VjZEJpUHV6NVAtdk9YQ1RjbkoxYTFodGNUaEJaVkplQXNwWnJ0MGU5eUNrUHEwTU9OYjc3TV9wQmhhNWdDSGVpYjZ2QmFnaV9CLWphSS1QelRPRlpNOVRYWWxJZFhfY0U5cnNUTG05cHN1QUJ2X0xBTkE3R05sRzFJSmQxRTVzMFJiVmprNFBYNl9Ob0w?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-AE327F930F6031730E95",
+      "display_order": 41,
+      "article_id": "GG2050-NEWS-5A90F874FDBB9150",
+      "project_id": "GG2050-REPD-5967",
+      "repd_ref": "5967",
+      "development_id": "GG2050-DEV-AF4DE5FCB88F6B",
+      "event_type": "PROJECT_UPDATE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 64,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Kells solar farm plan setback after archaeological find",
+        "published_at": "2025-11-13",
+        "source_name": "Meath Chronicle",
+        "source_homepage": "https://www.meathchronicle.ie",
+        "article_url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPcXQtaEIwMFhobDVWQ1kwM2I3cXYxck51ZFRvdk1xQ21FcjU2YjRzTGpCdk4yMDAtazR5MXdpMmNMZklZVVpWd0RyZ0J1YmE4X2pKdDY2SDhrM2xtUlI4WWg0SjZyck1jTWdicnVETWxLYmtjSUJnOWVCM194R1ExSkdJOGowQmUzNENJXzVhTVNraVNJQ2RlNmZGdG9KUQ?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-D1C958953913FA08FE1E",
+      "display_order": 42,
+      "article_id": "GG2050-NEWS-35363653B2310788",
+      "project_id": "GG2050-REPD-10085",
+      "repd_ref": "10085",
+      "development_id": "GG2050-DEV-BAF7E2396D59FC",
+      "event_type": "CONSENT",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 70,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Miliband grants DCO for Stonestreet Green solar-plus-storage NSIP",
+        "published_at": "2025-10-24",
+        "source_name": "Solar Power Portal",
+        "source_homepage": "https://www.solarpowerportal.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPSnVYYV95d2szYmtjTVlLVnIwMU80SXRnTmo3RlFxY3Q2RHhkMVRnaGJKNUp3aVpKS2FONXotTk1WOUhBSjk3TzdvRWU4czBpTUllYW5RcTVtU2pRZnpVRWliOS00ZTRBVlZlaXZYdTN0V2w1Mzk4ZWFrMEVqaHluNENsV1N2c2s3M3Rab3VxSk10bWlKWlpRZkE2cU1mbXpka2xYRkx4ZUsyWWloQkpGOTB2d0NQZw?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-8322D33226EC367D607B",
+      "display_order": 43,
+      "article_id": "GG2050-NEWS-41DB7D3BBE5B96A8",
+      "project_id": "GG2050-REPD-10085",
+      "repd_ref": "10085",
+      "development_id": "GG2050-DEV-BAF7E2396D59FC",
+      "event_type": "CONSENT",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 83,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "Stonestreet Green Solar development consent decision announced",
+        "published_at": "2025-10-23",
+        "source_name": "GOV.UK",
+        "source_homepage": "https://www.gov.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMingFBVV95cUxNZjhycEY0MTNSS1J4R1BWcU02MlFVS1dFTXZxZ2pYbmNpV2dMcXhsRXJpVkVCbUY2LXB1cEVVMU9iZDYtWnVWLWhScHdtelEtSzBZemtnZXlYTmxVX1lkeThhNUNKeFJEakx3c2RVaUFoMUZna2E5VHJwSWxPYXdvNGdQaVFwZFhxSzlFSFEzNUlnOWtjeXVwZ3FNVXBoUQ?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-71F15C759339B0E94419",
+      "display_order": 44,
+      "article_id": "GG2050-NEWS-A2110069E621C15D",
+      "project_id": "GG2050-REPD-12926",
+      "repd_ref": "12926",
+      "development_id": "GG2050-DEV-81C5A835AFC865",
+      "event_type": "PROJECT_UPDATE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 73,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "RWE submits planning application for £125m Tween Bridge Solar development project",
+        "published_at": "2025-10-20",
+        "source_name": "Doncaster Free Press",
+        "source_homepage": "https://www.doncasterfreepress.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOQlFHZVV0aVVHUG9fNUt1NFNXdTlLQVM5c3ZOYnhua3d2akRsLTVjZ1JLWlFHQWpwNkZHSDZ0Y3pZLTh4UkIzZmlyQWgyUXMyUTNXd2o2WGFXMEFPZlJwWmFrbllieFhTbTd2MjlfVTg5cTRjM1BWY1RabFhqQnZQX2pKRS1IUHNpSUtnaXRYQzdMWmx6LWdwWHg2QzdpVFJqc2JsUXh5TmM1MFhWeE81aU9pZnI1Skt0YXpkdVloWnpRdThwNFljbUtMbWl0UXBTQ1ZvcktpQWMyNGtF?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    },
+    {
+      "assertion_id": "PN-EVT-7DC649C24AB7A06EC9FB",
+      "display_order": 45,
+      "article_id": "GG2050-NEWS-B58AFE299AF1F66A",
+      "project_id": "GG2050-REPD-6502",
+      "repd_ref": "6502",
+      "development_id": "GG2050-DEV-2ADB0F2D626ABD",
+      "event_type": "PROJECT_UPDATE",
+      "event_effective_at": null,
+      "event_confidence": null,
+      "identity": {
+        "status": "REPD_BOUND",
+        "role": "PRIMARY_MATCH",
+        "eligible_for_news_signal": true,
+        "confidence": 69,
+        "method": "one globally best PRIMARY_MATCH; capacity is corroboration only"
+      },
+      "claim": {
+        "verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+        "evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+        "headline": "RES secures three-year O&M contract for Cleve Hill solar project",
+        "published_at": "2025-09-26",
+        "source_name": "Solar Power Portal",
+        "source_homepage": "https://www.solarpowerportal.co.uk",
+        "article_url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxORVFHckdrTkwybUZZUG9ITHFoQ21nNWM3TF9MdXp2eG1LOXlwdjN4QUh1LUo3TVdnUWJ4OTdrdjNMdml0N0Y3eDV2enZxdkUxLWRJc3F6YThZZm5ISlZMRFZDbF9lTlpOR0ZUT2RWTmtvWU1KaUpINzlNX201Qm5VZlJGRWt4bVhjcnF2cVRtVEwyazEwLVVWcDZ4UQ?oc=5"
+      },
+      "commercial": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null,
+        "deal_value": null,
+        "currency": null
+      },
+      "decision": "INCLUDE_AS_UNVERIFIED_ASSERTION",
+      "limitations": [
+        "The project identity is canonical, but the material event has not been independently verified.",
+        "Publication date is not treated as the event effective date.",
+        "No commercial party, role or deal value is inferred from the headline."
+      ]
+    }
+  ]
+}

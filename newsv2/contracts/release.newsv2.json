@@ -1,0 +1,28 @@
+{
+  "schema": "pipelinenews.release-contract.v1",
+  "release": "newsv2",
+  "status": "CANDIDATE",
+  "feature": "deterministic material-event assertion ledger",
+  "source_release": "newsv1",
+  "source_artifact": "newsv1/dist/major_project_news_v9_5_1.json",
+  "source_sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd",
+  "acceptance": {
+    "assertion_count": 45,
+    "identity_role": "PRIMARY_MATCH",
+    "event_verification_status": "HEADLINE_DERIVED_UNVERIFIED",
+    "beacon_fen_primary_repd_ref": "13599",
+    "forbidden_beacon_fen_repd_ref": "13600",
+    "commercial_inference_allowed": false,
+    "visible_ui_changed": false
+  },
+  "publication": {
+    "live": false,
+    "public_path": null,
+    "reason": "NewsV2 is a data-first candidate until its assertions receive independent source-verification adapters."
+  },
+  "recovery": {
+    "frozen_predecessor": "newsv1",
+    "predecessor_mutated": false,
+    "rollback": "Discard newsv2; newsv1 remains independently deployable and byte-frozen."
+  }
+}
