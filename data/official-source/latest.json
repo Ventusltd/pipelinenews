@@ -1,6 +1,6 @@
 {
-  "schema": "pipelinenews.official-source-snapshot.v1",
-  "generated_at": "2026-08-25T15:50:24.485Z",
+  "schema": "pipelinenews.official-source-snapshot.v2",
+  "generated_at": "2026-08-25T15:56:06.576Z",
   "spine": {
     "projects": 7680,
     "reference_groups": 6870
@@ -8,18 +8,18 @@
   "source_health": {
     "planit": {
       "status": "DEGRADED",
-      "attempted": 14,
+      "attempted": 13,
       "succeeded": 12,
       "status_code": 429,
-      "prior_good_at": null,
-      "message": "rate limited; cursor retained for unfinished work"
+      "prior_good_at": "2026-08-25T15:50:24.485Z",
+      "message": "rate limited; unfinished work retained; retry-after 15s observed"
     },
     "govuk": {
       "status": "LIVE",
       "attempted": 1,
       "succeeded": 1,
       "status_code": 200,
-      "prior_good_at": null,
+      "prior_good_at": "2026-08-25T15:50:24.485Z",
       "message": null
     }
   },
@@ -281,6 +281,934 @@
       "checked_at": "2026-08-25T15:50:24.485Z",
       "query_reference": "0146/FUL/13",
       "records": []
+    },
+    "019500461": {
+      "checked_at": "2026-08-25T15:56:06.576Z",
+      "query_reference": "01/95/00461",
+      "records": []
+    },
+    "0201319FUL": {
+      "checked_at": "2026-08-25T15:56:06.576Z",
+      "query_reference": "02/01319FUL",
+      "records": []
+    },
+    "0201464FUL": {
+      "checked_at": "2026-08-25T15:56:06.576Z",
+      "query_reference": "02-01464-FUL",
+      "records": []
+    },
+    "0201865FUL": {
+      "checked_at": "2026-08-25T15:56:06.576Z",
+      "query_reference": "02/01865/FUL",
+      "records": [
+        {
+          "uid": "02/01865/FUL",
+          "reference": null,
+          "name": "Bradford/02/01865/FUL",
+          "area_name": "Bradford",
+          "description": "Erection of a detached garage to rear of property",
+          "app_state": "Permitted",
+          "start_date": "2002-07-04",
+          "decided_date": "2002-08-14",
+          "last_changed": "2025-07-14T07:35:11.717809",
+          "url": "https://planning.bradford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=0201865FUL",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3144",
+            "gg_project_id": "GG2050-REPD-3144",
+            "project_name": "Cricket St Thomas",
+            "planning_application_reference": "02/01865/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "02/01865/FUL",
+          "reference": null,
+          "name": "Chelmsford/02/01865/FUL",
+          "area_name": "Chelmsford",
+          "description": "Erection of 10 homes and ancillary garages.",
+          "app_state": "Conditions",
+          "start_date": "2002-11-18",
+          "decided_date": "2003-08-11",
+          "last_changed": "2023-08-14T07:36:27.219334",
+          "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=0201865FUL",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3144",
+            "gg_project_id": "GG2050-REPD-3144",
+            "project_name": "Cricket St Thomas",
+            "planning_application_reference": "02/01865/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "04/07134/ADFUL",
+          "reference": null,
+          "name": "Chelmsford/04/07134/ADFUL",
+          "area_name": "Chelmsford",
+          "description": "Application 02/01865/FUL - discharge of condition 16 (fence details).",
+          "app_state": "Permitted",
+          "start_date": "2004-05-14",
+          "decided_date": "2004-05-28",
+          "last_changed": "2023-05-16T16:06:45.299979",
+          "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=HY0MFRBRP8000",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3144",
+            "gg_project_id": "GG2050-REPD-3144",
+            "project_name": "Cricket St Thomas",
+            "planning_application_reference": "02/01865/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "02/01865/FUL",
+          "reference": null,
+          "name": "Cheltenham/02/01865/FUL",
+          "area_name": "Cheltenham",
+          "description": "Single storey rear extension to provide two bedrooms",
+          "app_state": "Permitted",
+          "start_date": "2002-12-03",
+          "decided_date": "2003-01-16",
+          "last_changed": "2023-07-22T08:22:29.395111",
+          "url": "https://publicaccess.cheltenham.gov.uk/online-applications/applicationDetails.do?keyVal=0201865FUL&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3144",
+            "gg_project_id": "GG2050-REPD-3144",
+            "project_name": "Cricket St Thomas",
+            "planning_application_reference": "02/01865/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "E2/03/00218/FUL",
+          "reference": "02/01865/FUL",
+          "name": "Cornwall/E2/03/00218/FUL",
+          "area_name": "Cornwall",
+          "description": "Construction of poch to front and conservatory with garden room below on rear elevation of dwelling. (Resubmission following withdrawn application 02/01865/FUL",
+          "app_state": "Conditions",
+          "start_date": "2003-02-17",
+          "decided_date": "2003-04-14",
+          "last_changed": "2023-05-20T08:17:05.733656",
+          "url": "https://planning.cornwall.gov.uk/online-applications/applicationDetails.do?keyVal=0300218FUL&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3144",
+            "gg_project_id": "GG2050-REPD-3144",
+            "project_name": "Cricket St Thomas",
+            "planning_application_reference": "02/01865/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "02/01865/FUL",
+          "reference": null,
+          "name": "Cotswold/02/01865/FUL",
+          "area_name": "Cotswold",
+          "description": "Conversion of barns to two dwellings; construction of new garages; installation of sewerage treatment plant and ancillary works",
+          "app_state": "Rejected",
+          "start_date": "2002-08-14",
+          "decided_date": "2002-11-05",
+          "last_changed": "2023-07-24T07:40:03.05756",
+          "url": "https://publicaccess.cotswold.gov.uk/online-applications/applicationDetails.do?keyVal=0201865FUL&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3144",
+            "gg_project_id": "GG2050-REPD-3144",
+            "project_name": "Cricket St Thomas",
+            "planning_application_reference": "02/01865/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "02/01865/FUL",
+          "reference": null,
+          "name": "Harborough/02/01865/FUL",
+          "area_name": "Harborough",
+          "description": "Erection of detached bungalow",
+          "app_state": "Permitted",
+          "start_date": "2002-12-16",
+          "decided_date": "2003-02-10",
+          "last_changed": "2023-06-17T11:07:22.126059",
+          "url": "https://pa2.harborough.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=H79QT3HW15000",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3144",
+            "gg_project_id": "GG2050-REPD-3144",
+            "project_name": "Cricket St Thomas",
+            "planning_application_reference": "02/01865/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "02/01865/FUL",
+          "reference": null,
+          "name": "MidSussex/02/01865/FUL",
+          "area_name": "Mid Sussex",
+          "description": "Construction of external disabled access ramp.",
+          "app_state": "Permitted",
+          "start_date": "2002-08-22",
+          "decided_date": "2002-10-14",
+          "last_changed": "2025-01-18T10:27:56.611057",
+          "url": "https://pa.midsussex.gov.uk/online-applications/applicationDetails.do?keyVal=0201865FUL&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3144",
+            "gg_project_id": "GG2050-REPD-3144",
+            "project_name": "Cricket St Thomas",
+            "planning_application_reference": "02/01865/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "02/01865/FUL",
+          "reference": null,
+          "name": "Oxford/02/01865/FUL",
+          "area_name": "Oxford",
+          "description": "Single storey and first floor side extension. Single storey rear extensions. Front and rear dormers in connection with loft conversion.",
+          "app_state": "Permitted",
+          "start_date": "2002-10-02",
+          "decided_date": "2002-11-27",
+          "last_changed": "2025-05-17T10:57:37.15172",
+          "url": "https://public.oxford.gov.uk/online-applications/applicationDetails.do?keyVal=0201865FUL&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3144",
+            "gg_project_id": "GG2050-REPD-3144",
+            "project_name": "Cricket St Thomas",
+            "planning_application_reference": "02/01865/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "02/01865/FUL",
+          "reference": null,
+          "name": "Perth/02/01865/FUL",
+          "area_name": "Perth",
+          "description": "Replacement of porch at",
+          "app_state": "Permitted",
+          "start_date": "2002-11-12",
+          "decided_date": "2003-03-05",
+          "last_changed": "2023-07-24T08:03:25.717565",
+          "url": "https://planningapps.pkc.gov.uk/online-applications/applicationDetails.do?keyVal=0201865FUL&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3144",
+            "gg_project_id": "GG2050-REPD-3144",
+            "project_name": "Cricket St Thomas",
+            "planning_application_reference": "02/01865/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "020538": {
+      "checked_at": "2026-08-25T15:56:06.576Z",
+      "query_reference": "02/0538",
+      "records": [
+        {
+          "uid": "02/0538",
+          "reference": "3559000240000010",
+          "name": "Brent/02/0538",
+          "area_name": "Brent",
+          "description": "Installation of rear dormer windows and one front roof-light to dwellinghouse",
+          "app_state": "Permitted",
+          "start_date": "2002-03-08",
+          "decided_date": "2002-07-16",
+          "last_changed": "2023-05-16T15:46:53.895498",
+          "url": "https://pa.brent.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=DCAPR_47001",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3470",
+            "gg_project_id": "GG2050-REPD-3470",
+            "project_name": "Ton Marw Farm",
+            "planning_application_reference": "02/0538",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "02/0538",
+          "reference": null,
+          "name": "Fylde/02/0538",
+          "area_name": "Fylde",
+          "description": "ERECTION OF RAILINGS ABOVE EXISTING PALISADE WALLS 1.7M OVERALL HEIGHT",
+          "app_state": "Rejected",
+          "start_date": "2002-07-15",
+          "decided_date": null,
+          "last_changed": "2023-06-11T06:59:05.712443",
+          "url": "https://pa.fylde.gov.uk/Planning/Display/02/0538",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3470",
+            "gg_project_id": "GG2050-REPD-3470",
+            "project_name": "Ton Marw Farm",
+            "planning_application_reference": "02/0538",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "02/0538",
+          "reference": null,
+          "name": "Newham/02/0538",
+          "area_name": "Newham",
+          "description": "Erection Of A Two Storey Pathology Extension Adjacent To Academic Centre. (amendment Of Approval For P/01/1525).",
+          "app_state": null,
+          "start_date": "2002-05-28",
+          "decided_date": null,
+          "last_changed": "2023-05-20T10:50:20.989628",
+          "url": "https://pa.newham.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=ZZZYFHJYXC213",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3470",
+            "gg_project_id": "GG2050-REPD-3470",
+            "project_name": "Ton Marw Farm",
+            "planning_application_reference": "02/0538",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "02/0538",
+          "reference": null,
+          "name": "Newport/02/0538",
+          "area_name": "Newport",
+          "description": "PARTIAL DISCHARGE OF CONDITION 02 (BOUNDARY TREATMENT) OF PLANNING PERMISSION 00 Show full description",
+          "app_state": "Permitted",
+          "start_date": "2002-05-01",
+          "decided_date": "2002-06-11",
+          "last_changed": "2023-06-17T14:14:36.357297",
+          "url": "http://planning.newport.gov.uk/swift/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=02/0538",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3470",
+            "gg_project_id": "GG2050-REPD-3470",
+            "project_name": "Ton Marw Farm",
+            "planning_application_reference": "02/0538",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "02/0538/FUL",
+          "reference": "02/0538",
+          "name": "NorthKesteven/02/0538/FUL",
+          "area_name": "North Kesteven",
+          "description": "Erection of extensions",
+          "app_state": "Permitted",
+          "start_date": "2002-05-02",
+          "decided_date": "2002-07-15",
+          "last_changed": "2023-05-20T10:57:16.309188",
+          "url": "http://planningonline.n-kesteven.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=ZZZZT3LLXE880",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3470",
+            "gg_project_id": "GG2050-REPD-3470",
+            "project_name": "Ton Marw Farm",
+            "planning_application_reference": "02/0538",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "02/0538",
+          "reference": null,
+          "name": "Richmond/02/0538",
+          "area_name": "Richmond",
+          "description": "Proposed Enclosure To Rear Stairs.",
+          "app_state": "Withdrawn",
+          "start_date": "2002-02-26",
+          "decided_date": "2002-05-16",
+          "last_changed": "2023-06-11T23:33:53.940881",
+          "url": "https://www2.richmond.gov.uk/lbrplanning/Planning_CaseNo.aspx?strCASENO=02/0538",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3470",
+            "gg_project_id": "GG2050-REPD-3470",
+            "project_name": "Ton Marw Farm",
+            "planning_application_reference": "02/0538",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "02/0538",
+          "reference": null,
+          "name": "SurreyHeath/02/0538",
+          "area_name": "Surrey Heath",
+          "description": "Erection of a new shopfront.",
+          "app_state": "Conditions",
+          "start_date": "2002-05-09",
+          "decided_date": "2002-06-18",
+          "last_changed": "2023-06-12T10:06:08.617766",
+          "url": "http://isharemaps.surreyheath.gov.uk/ishare54/custom/planning/custom/planning?requesttype=parseTemplate&template=DevelopmentControlApplication.tmplt&Filter=%5ESYSTEMKEY%5E%3D%2718143%27&backurl=custom/planning?",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3470",
+            "gg_project_id": "GG2050-REPD-3470",
+            "project_name": "Ton Marw Farm",
+            "planning_application_reference": "02/0538",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "02/0538",
+          "reference": null,
+          "name": "WestmorlandFurness/02/0538",
+          "area_name": "Westmorland and Furness",
+          "description": "PROPOSED MACHINERY STORE.",
+          "app_state": "Conditions",
+          "start_date": "2002-04-17",
+          "decided_date": "2002-08-19",
+          "last_changed": "2024-01-11T08:09:43.955735",
+          "url": "https://planningregister.westmorlandandfurness.gov.uk/Planning/Display/02/0538",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3470",
+            "gg_project_id": "GG2050-REPD-3470",
+            "project_name": "Ton Marw Farm",
+            "planning_application_reference": "02/0538",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "020704FULDCD": {
+      "checked_at": "2026-08-25T15:56:06.576Z",
+      "query_reference": "02/0704/FUL/DCD",
+      "records": []
+    },
+    "0220129011": {
+      "checked_at": "2026-08-25T15:56:06.576Z",
+      "query_reference": "02/2012/9011",
+      "records": [
+        {
+          "uid": "02/2012/9011",
+          "reference": null,
+          "name": "Allerdale/02/2012/9011",
+          "area_name": "Allerdale",
+          "description": "Erection and operation of 4 wind turbines to maximum height of 99 metres and associated infrastructure. New access track, widening of access gate and new control kiosk.",
+          "app_state": "Rejected",
+          "start_date": "2012-10-30",
+          "decided_date": "2014-02-28",
+          "last_changed": "2024-08-24T07:32:24.62308",
+          "url": "https://cumberlandcouncil.my.site.com/pr3/s/planning-application/a3X3X000004DBsdUAG",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3794",
+            "gg_project_id": "GG2050-REPD-3794",
+            "project_name": "Lillyhall Wind Farm",
+            "planning_application_reference": "02/2012/9011",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "02410PPF": {
+      "checked_at": "2026-08-25T15:56:06.576Z",
+      "query_reference": "02/410/PPF",
+      "records": []
+    },
+    "0255FUL22": {
+      "checked_at": "2026-08-25T15:56:06.576Z",
+      "query_reference": "0255/FUL/22",
+      "records": [
+        {
+          "uid": "0255/FUL/22",
+          "reference": null,
+          "name": "WestLothian/0255/FUL/22",
+          "area_name": "West Lothian",
+          "description": "Installation of a 49.9mw battery energy storage system (BESS) and associated infrastructure including underground cable connection to sub-station",
+          "app_state": "Permitted",
+          "start_date": "2022-03-25",
+          "decided_date": "2022-07-07",
+          "last_changed": "2025-11-05T08:33:53.181377",
+          "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?activeTab=summary&keyVal=R9B0T3RJLGE00",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "8920",
+            "gg_project_id": "GG2050-REPD-8920",
+            "project_name": "Drumshoreland Road Battery Storage Facility",
+            "planning_application_reference": "0255/FUL/22",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "028528": {
+      "checked_at": "2026-08-25T15:56:06.576Z",
+      "query_reference": "0/28528",
+      "records": [
+        {
+          "uid": "0/28528",
+          "reference": null,
+          "name": "Conwy/0/28528",
+          "area_name": "Conwy",
+          "description": "Erection Of 8 No. Wind Turbines And Associated Works",
+          "app_state": "Rejected",
+          "start_date": "2004-03-22",
+          "decided_date": null,
+          "last_changed": "2023-06-10T21:07:54.898596",
+          "url": "https://npe.conwy.gov.uk/Northgate/EnglishPlanningExplorer/Generic/StdDetails.aspx?PT=PlanningApplicationsOn-Line&TYPE=PL/PlanningPK.xml&PARAM0=305144&XSLT=/Northgate/EnglishPlanningExplorer/SiteFiles/Skins/Conwy/xslt/PL/PLDetails.xslt&FT=PlanningApplicationDetails&PUBLIC=Y&XMLSIDE=&DAURI=PLANNING",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3250",
+            "gg_project_id": "GG2050-REPD-3250",
+            "project_name": "Cwmpenanner",
+            "planning_application_reference": "0/28528",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0300627FUL": {
+      "checked_at": "2026-08-25T15:56:06.576Z",
+      "query_reference": "03/00627/FUL",
+      "records": [
+        {
+          "uid": "03/00627/FUL",
+          "reference": null,
+          "name": "Angus/03/00627/FUL",
+          "area_name": "Angus",
+          "description": "Erection of a Dwellinghouse and Garage",
+          "app_state": "Conditions",
+          "start_date": "2003-05-28",
+          "decided_date": "2003-07-09",
+          "last_changed": "2023-06-10T08:48:19.869703",
+          "url": "https://planning.angus.gov.uk/online-applications/applicationDetails.do?keyVal=HFLOEQCFM0000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3170",
+            "gg_project_id": "GG2050-REPD-3170",
+            "project_name": "Minch Moor",
+            "planning_application_reference": "03/00627/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "03/00627/FUL",
+          "reference": null,
+          "name": "Barking/03/00627/FUL",
+          "area_name": "Barking and Dagenham",
+          "description": "Erection of single storey rear extension",
+          "app_state": "Permitted",
+          "start_date": "2003-07-25",
+          "decided_date": "2003-09-10",
+          "last_changed": "2026-04-04T07:44:34.320423",
+          "url": "https://online-befirst.lbbd.gov.uk/planning/index.html?fa=getApplication&id=9915",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3170",
+            "gg_project_id": "GG2050-REPD-3170",
+            "project_name": "Minch Moor",
+            "planning_application_reference": "03/00627/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "03/00627/FUL",
+          "reference": null,
+          "name": "Bath/03/00627/FUL",
+          "area_name": "Bath",
+          "description": "Replacement cladding and other external alterations",
+          "app_state": "Permitted",
+          "start_date": "2003-03-07",
+          "decided_date": "2003-05-14",
+          "last_changed": "2023-05-24T15:10:09.405922",
+          "url": "https://www.bathnes.gov.uk/webforms/planning/details.html?refval=03%2F00627%2FFUL",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3170",
+            "gg_project_id": "GG2050-REPD-3170",
+            "project_name": "Minch Moor",
+            "planning_application_reference": "03/00627/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "03/00627/FUL",
+          "reference": null,
+          "name": "Bolsover/03/00627/FUL",
+          "area_name": "Bolsover",
+          "description": "Change of use from retail shop to restaurant (A3)",
+          "app_state": "Permitted",
+          "start_date": "2003-09-17",
+          "decided_date": "2003-11-07",
+          "last_changed": "2023-06-10T12:54:40.912272",
+          "url": "https://publicaccess.bolsover.gov.uk/online-applications/applicationDetails.do?keyVal=0300627FUL&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3170",
+            "gg_project_id": "GG2050-REPD-3170",
+            "project_name": "Minch Moor",
+            "planning_application_reference": "03/00627/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "03/00627/FUL",
+          "reference": null,
+          "name": "Bracknell/03/00627/FUL",
+          "area_name": "Bracknell",
+          "description": "Erection of 1no. five bedroomed detached house following demolition of part of single storey extension to Brooklyn. Erection of detached single garage on south-east side of Brooklyn.",
+          "app_state": "Rejected",
+          "start_date": "2003-06-24",
+          "decided_date": "2003-08-26",
+          "last_changed": "2023-06-10T13:29:51.598473",
+          "url": "https://planapp.bracknell-forest.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=0300627FUL",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3170",
+            "gg_project_id": "GG2050-REPD-3170",
+            "project_name": "Minch Moor",
+            "planning_application_reference": "03/00627/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "03/00627/FUL",
+          "reference": null,
+          "name": "Brentwood/03/00627/FUL",
+          "area_name": "Brentwood",
+          "description": "Two Storey Side Extension Together With Balcony To Rear",
+          "app_state": "Permitted",
+          "start_date": "2003-06-25",
+          "decided_date": "2003-08-04",
+          "last_changed": "2023-06-10T14:36:17.019575",
+          "url": "https://publicaccess.brentwood.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZZWBDJJV519&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3170",
+            "gg_project_id": "GG2050-REPD-3170",
+            "project_name": "Minch Moor",
+            "planning_application_reference": "03/00627/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "03/00627/FUL",
+          "reference": null,
+          "name": "Broxtowe/03/00627/FUL",
+          "area_name": "Broxtowe",
+          "description": "Extension to facilities and provide disabled access and replacement windows",
+          "app_state": "Conditions",
+          "start_date": "2003-07-01",
+          "decided_date": "2003-09-17",
+          "last_changed": "2023-12-23T08:12:40.367548",
+          "url": "https://publicaccess.broxtowe.gov.uk/online-applications/applicationDetails.do?keyVal=HHE6YKDRB2000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3170",
+            "gg_project_id": "GG2050-REPD-3170",
+            "project_name": "Minch Moor",
+            "planning_application_reference": "03/00627/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "03/00627/FUL",
+          "reference": null,
+          "name": "Chelmsford/03/00627/FUL",
+          "area_name": "Chelmsford",
+          "description": "Rear extension.",
+          "app_state": "Permitted",
+          "start_date": "2003-03-28",
+          "decided_date": "2003-05-21",
+          "last_changed": "2023-05-16T16:07:56.179189",
+          "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=0300627FUL",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3170",
+            "gg_project_id": "GG2050-REPD-3170",
+            "project_name": "Minch Moor",
+            "planning_application_reference": "03/00627/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "03/00627/FUL",
+          "reference": null,
+          "name": "Cheltenham/03/00627/FUL",
+          "area_name": "Cheltenham",
+          "description": "Two storey side extension to house",
+          "app_state": "Withdrawn",
+          "start_date": "2003-04-16",
+          "decided_date": "2003-05-11",
+          "last_changed": "2024-07-13T08:27:43.024117",
+          "url": "https://publicaccess.cheltenham.gov.uk/online-applications/applicationDetails.do?keyVal=0300627FUL&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3170",
+            "gg_project_id": "GG2050-REPD-3170",
+            "project_name": "Minch Moor",
+            "planning_application_reference": "03/00627/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "03/00627/FUL",
+          "reference": null,
+          "name": "Chester/03/00627/FUL",
+          "area_name": "Chester",
+          "description": "Additional cold store on existing yard area",
+          "app_state": "Withdrawn",
+          "start_date": "2003-04-09",
+          "decided_date": "2003-10-15",
+          "last_changed": "2025-09-27T08:56:26.476022",
+          "url": "https://pa.cheshirewestandchester.gov.uk/online-applications/applicationDetails.do?keyVal=0300627FUL&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3170",
+            "gg_project_id": "GG2050-REPD-3170",
+            "project_name": "Minch Moor",
+            "planning_application_reference": "03/00627/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0301247FUL": {
+      "checked_at": "2026-08-25T15:56:06.576Z",
+      "query_reference": "03/01247/FUL",
+      "records": [
+        {
+          "uid": "03/01247/FUL",
+          "reference": null,
+          "name": "Angus/03/01247/FUL",
+          "area_name": "Angus",
+          "description": "Demolition of Existing Dwellinghouse and Erection of new Dwellinghouse",
+          "app_state": "Rejected",
+          "start_date": "2003-10-02",
+          "decided_date": "2003-12-04",
+          "last_changed": "2023-06-10T08:48:27.57159",
+          "url": "https://planning.angus.gov.uk/online-applications/applicationDetails.do?keyVal=HM4YLDCFM0000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3178",
+            "gg_project_id": "GG2050-REPD-3178",
+            "project_name": "Morris Fen (Wind)",
+            "planning_application_reference": "03/01247/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "03/01247/FUL",
+          "reference": null,
+          "name": "Bath/03/01247/FUL",
+          "area_name": "Bath",
+          "description": "Conservatory.",
+          "app_state": "Permitted",
+          "start_date": "2003-05-16",
+          "decided_date": "2003-06-23",
+          "last_changed": "2023-05-24T15:10:08.365928",
+          "url": "https://www.bathnes.gov.uk/webforms/planning/details.html?refval=03%2F01247%2FFUL",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3178",
+            "gg_project_id": "GG2050-REPD-3178",
+            "project_name": "Morris Fen (Wind)",
+            "planning_application_reference": "03/01247/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "03/01247/FUL",
+          "reference": null,
+          "name": "Bexley/03/01247/FUL",
+          "area_name": "Bexley",
+          "description": "Conservatory.",
+          "app_state": "Conditions",
+          "start_date": "2003-04-03",
+          "decided_date": "2003-05-29",
+          "last_changed": "2023-05-16T15:42:42.641751",
+          "url": "https://pa.bexley.gov.uk/online-applications/applicationDetails.do?keyVal=HD4EB1BE82000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3178",
+            "gg_project_id": "GG2050-REPD-3178",
+            "project_name": "Morris Fen (Wind)",
+            "planning_application_reference": "03/01247/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "03/01247/FUL",
+          "reference": null,
+          "name": "Bradford/03/01247/FUL",
+          "area_name": "Bradford",
+          "description": "Erection of a timber shed to front of property",
+          "app_state": "Rejected",
+          "start_date": "2003-03-14",
+          "decided_date": "2003-05-08",
+          "last_changed": "2025-06-21T08:11:34.467929",
+          "url": "https://planning.bradford.gov.uk/online-applications/applicationDetails.do?keyVal=0301247FUL&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3178",
+            "gg_project_id": "GG2050-REPD-3178",
+            "project_name": "Morris Fen (Wind)",
+            "planning_application_reference": "03/01247/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "03/01247/FUL",
+          "reference": null,
+          "name": "Brentwood/03/01247/FUL",
+          "area_name": "Brentwood",
+          "description": "Single Storey Side And Rear Extension",
+          "app_state": "Permitted",
+          "start_date": "2003-12-19",
+          "decided_date": "2004-02-02",
+          "last_changed": "2023-06-10T14:36:39.576911",
+          "url": "https://publicaccess.brentwood.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZZWADJJV796&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3178",
+            "gg_project_id": "GG2050-REPD-3178",
+            "project_name": "Morris Fen (Wind)",
+            "planning_application_reference": "03/01247/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "03/01247/FUL",
+          "reference": null,
+          "name": "Chelmsford/03/01247/FUL",
+          "area_name": "Chelmsford",
+          "description": "First floor side extension, roofspace conversion & porch.",
+          "app_state": "Permitted",
+          "start_date": "2003-06-17",
+          "decided_date": "2003-08-04",
+          "last_changed": "2023-05-16T16:07:53.994045",
+          "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=0301247FUL",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3178",
+            "gg_project_id": "GG2050-REPD-3178",
+            "project_name": "Morris Fen (Wind)",
+            "planning_application_reference": "03/01247/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "03/01247/FUL",
+          "reference": null,
+          "name": "Cheltenham/03/01247/FUL",
+          "area_name": "Cheltenham",
+          "description": "Erection of two dwellings with garage/stores. Improvements to vehicular access. (Following demolition of existing dwelling and garage).",
+          "app_state": "Permitted",
+          "start_date": "2003-07-31",
+          "decided_date": "2003-09-04",
+          "last_changed": "2023-06-10T19:14:54.62861",
+          "url": "https://publicaccess.cheltenham.gov.uk/online-applications/applicationDetails.do?keyVal=0301247FUL&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3178",
+            "gg_project_id": "GG2050-REPD-3178",
+            "project_name": "Morris Fen (Wind)",
+            "planning_application_reference": "03/01247/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "03/01247/FUL",
+          "reference": null,
+          "name": "ChilternSouthBucks/03/01247/FUL",
+          "area_name": "Chiltern South Bucks",
+          "description": "Single storey and one and half storey side and rear extension",
+          "app_state": "Rejected",
+          "start_date": "2003-10-21",
+          "decided_date": "2003-12-15",
+          "last_changed": "2025-10-18T08:56:59.100097",
+          "url": "https://pa-csb.buckinghamshire.gov.uk/online-applications/applicationDetails.do?keyVal=0301247FUL&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3178",
+            "gg_project_id": "GG2050-REPD-3178",
+            "project_name": "Morris Fen (Wind)",
+            "planning_application_reference": "03/01247/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "03/01247/FUL",
+          "reference": null,
+          "name": "Cotswold/03/01247/FUL",
+          "area_name": "Cotswold",
+          "description": "Change of use from agricultural land to domestic garden",
+          "app_state": "Permitted",
+          "start_date": "2003-05-12",
+          "decided_date": "2003-07-10",
+          "last_changed": "2023-06-10T21:47:22.940885",
+          "url": "https://publicaccess.cotswold.gov.uk/online-applications/applicationDetails.do?keyVal=0301247FUL&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3178",
+            "gg_project_id": "GG2050-REPD-3178",
+            "project_name": "Morris Fen (Wind)",
+            "planning_application_reference": "03/01247/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "03/01247/FUL",
+          "reference": null,
+          "name": "Darlington/03/01247/FUL",
+          "area_name": "Darlington",
+          "description": "Erection of a building comprising of 3 industrial units",
+          "app_state": "Conditions",
+          "start_date": "2003-12-05",
+          "decided_date": "2004-02-02",
+          "last_changed": "2023-06-10T23:03:49.875606",
+          "url": "https://publicaccess.darlington.gov.uk/online-applications/applicationDetails.do?keyVal=0301247FUL&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3178",
+            "gg_project_id": "GG2050-REPD-3178",
+            "project_name": "Morris Fen (Wind)",
+            "planning_application_reference": "03/01247/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
     }
   },
   "govuk_items": [
