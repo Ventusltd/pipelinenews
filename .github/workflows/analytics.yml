@@ -1,4 +1,5 @@
 name: Build PipelineNews Analytics
+# Movement 5 build-audit-publish gate; generated outputs do not retrigger this workflow.
 
 on:
   workflow_dispatch:
