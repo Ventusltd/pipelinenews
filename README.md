@@ -96,7 +96,10 @@ Latest recovery checkpoint:
 - `PASS` — NewsV5 independently rebuilds ledger SHA-256 `fbce604f865341391316917cb14d6319f8b1fdbb503a971a19a7c7d0ecfec06a`, proves 45 unique non-null keys, enforces six hostile negatives as 2 hold / 1 reject / 3 abstain, preserves Beacon Fen 13599 and leaves NewsV1–NewsV4 green.
 - `PASS` — NewsV6 candidate commit `a2259bf3c8a9f2b9b2cfaa39e223c299224c5c81` deterministically builds six governed source/licence records, two exact source observations and two explicit cross-source abstentions; every declared key is unique and non-null and no identity merge is made.
 - `PASS` — NewsV6 independently rebuilds artifact SHA-256 `e5e984f763877f41fef5c39bce248ee74bb9f22706c87cd51d6fd2a2ce9cd5d5`, preserves OSM `way/86528807`, records Atlas V8's dropped OSM identity, leaves all four capacity types null, enforces five hostile abstentions, keeps BBC/Data Center Map outbound-only and leaves NewsV1–NewsV5 green.
-- Next bounded pass: build Movement 5 as typed analytical storage and a cross-version reconciliation contract; do not claim DuckDB/Parquet output until dependencies, schemas, hashes and row-count evidence are proven.
+- `BLOCKED` — Movement 5 staging commit `b0484e37761c948299b19ad952bb8ba40942963e` pins nine typed table laws across NewsV2–NewsV6 and reconciles 208 source rows with zero duplicate-key groups, zero required-null keys and zero cross-domain identity links.
+- `PASS` — the staged contract and independent verifier rebuild byte-identically; reconciliation SHA-256 is `eea610fcd24491baac08c498d345fa2dd39c2e770a0ee1b55b2fe5e9cf1ec071`, all five pinned input hashes match and NewsV2–NewsV6 regressions pass.
+- `BLOCKED` — this runner has no DuckDB CLI, Python `duckdb` module or PyArrow. No `.parquet` or `.duckdb` artifact was created, no physical schema/readback claim is made, and Movement 5 remains incomplete.
+- Next bounded pass: run the pinned analytical contract on a Python 3.11 environment with DuckDB/PyArrow, write zstd Parquet to staging, read every file back and prove schema/key/hash parity before advancing.
 
 ## Overnight automation master score — authoritative
 
@@ -137,12 +140,12 @@ Current baton:
 
 | Field | Value |
 |---|---|
-| Last proven feature commit | `a2259bf3c8a9f2b9b2cfaa39e223c299224c5c81` |
-| Outcome | `PASS` — NewsV6 CANDIDATE committed and read back with six governed sources, two exact observations, two identity-link abstentions and five hostile abstentions; all declared keys are unique/non-null, all capacity types remain null, BBC/Data Center Map are outbound-only, artifact SHA-256 is `e5e984f763877f41fef5c39bce248ee74bb9f22706c87cd51d6fd2a2ce9cd5d5` and NewsV1–NewsV5 regressions pass |
-| Next movement | Movement 5 — analytical storage and cross-version reconciliation |
-| Next acceptance gate | Audit available DuckDB/PyArrow tooling, then build typed Parquet tables for NewsV2–NewsV6 plus a DuckDB schema/view contract with pinned JSON inputs, explicit nullability, row-count/key/round-trip tests and a version reconciliation ledger; if dependencies are absent, commit a tested staged contract and exact blocker without inventing analytical artifacts |
-| Doubt to resolve | Current products are deterministic JSON and their grains differ; NewsV2 project IDs use `GG2050-REPD-*` while NewsV6 is an independent `PN-DC-*` namespace, so reconciliation must preserve domain boundaries and no data-centre/project identity bridge may be inferred |
-| Next-run budget | Up to three reviewed blocks; target about 300 seconds and stop before 500 seconds; reserve the single 1,000-second extension only for a named typed-schema or round-trip gate that is already demonstrably near completion |
+| Last proven feature commit | `b0484e37761c948299b19ad952bb8ba40942963e` |
+| Outcome | `BLOCKED` — Movement 5 has a remotely verified staged contract for nine table laws / 208 source rows with zero duplicate groups, zero required-null keys, zero cross-domain identity links and reconciliation SHA-256 `eea610fcd24491baac08c498d345fa2dd39c2e770a0ee1b55b2fe5e9cf1ec071`; however DuckDB CLI, Python `duckdb` and PyArrow are all absent, so zero Parquet/DuckDB artifacts exist and physical schema/readback is honestly `NOT TESTED` |
+| Next movement | Movement 5 — complete analytical storage and cross-version reconciliation |
+| Next acceptance gate | Use a Python 3.11 runner with DuckDB >=1.0 and PyArrow >=16; transform all nine declared tables, write zstd Parquet to staging, read physical files back, prove pinned schema equality, 208 source rows, distinct-key equality, zero duplicate/null keys, byte-identical rebuild and explicit DuckDB views without crossing the renewable/data-centre identity boundary |
+| Doubt to resolve | The staged schemas are proven as declarations but not as physical Arrow schemas; timestamp casting, canonical nested-JSON serialisation and deterministic Parquet bytes remain untested until the required engines are available |
+| Next-run budget | One dependency/provisioning audit block, then up to two write/readback verification blocks only if the engines are genuinely available; target about 300 seconds and stop before 500 seconds, with the single 1,000-second extension reserved only for an already-running nine-table round-trip gate |
 
 At the end of every run:
 
