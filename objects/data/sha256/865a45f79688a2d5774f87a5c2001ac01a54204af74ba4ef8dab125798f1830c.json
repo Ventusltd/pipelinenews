@@ -1,0 +1,79 @@
+{
+  "schema": "pipelinenews.source-discovery-ledger.v1",
+  "release_id": "202608251528-PipelineNews",
+  "app_title": "PipelineNews",
+  "incepted_at": "2026-08-25T15:28:00Z",
+  "policy_id": "PN-DISCOVERY-RECALL-FIRST-STRICT-PROMOTION",
+  "status": "CANDIDATE",
+  "counts": {
+    "source_candidates": 1,
+    "url_only_candidates": 1,
+    "promoted_articles": 0,
+    "project_bindings": 0,
+    "data_centre_bindings": 0,
+    "claim_eligible": 0
+  },
+  "candidates": [
+    {
+      "discovery_id": "PN-DISCOVERY-B4B91FD3DA8F596C9876",
+      "source_fingerprint": "sha256:b4b91fd3da8f596c9876bf85c62595c57e8175ac72b5f9cdb90be2efec914d80",
+      "canonical_url": "https://www.bbc.co.uk/news/articles/clyelee255do",
+      "publisher_label": "BBC News",
+      "input_basis": "USER_PROVIDED_URL",
+      "evidence_class": "PUBLISHER_DISCOVERY_SENTINEL",
+      "permitted_use": "CREDITED_OUTBOUND_LINK_ONLY",
+      "identity_authority": "NONE",
+      "discovered_at": "2026-08-25T15:28:00Z",
+      "discovery_status": "DISCOVERED_URL_ONLY",
+      "direct_source_metadata_status": "UNVERIFIED",
+      "content_retrieved": false,
+      "headline": null,
+      "summary": null,
+      "body": null,
+      "author": null,
+      "image_url": null,
+      "article_id": null,
+      "project_id": null,
+      "repd_ref": null,
+      "development_id": null,
+      "data_centre_evidence_id": null,
+      "event_type": null,
+      "capacity_mw": null,
+      "claim_eligible": false,
+      "metadata_observations": [
+        {
+          "observation_id": "PN-DISCOVERY-METADATA-GOOGLE-NEWS-RSS-Clyelee255do",
+          "evidence_class": "AGGREGATOR_METADATA",
+          "observation_url": "https://news.google.com/rss/search?q=https%3A%2F%2Fwww.bbc.co.uk%2Fnews%2Farticles%2Fclyelee255do&hl=en-GB&gl=GB&ceid=GB%3Aen",
+          "observed_title": "Huge Norfolk solar farm near Long Stratton set to cost £1bn - BBC",
+          "observed_published_at": "2026-08-25T13:34:22Z",
+          "permitted_use": "DISCOVERY_METADATA_ONLY",
+          "claim_eligible": false
+        },
+        {
+          "observation_id": "PN-DISCOVERY-METADATA-YAHOO-SYNDICATION-133427005",
+          "evidence_class": "SYNDICATION_METADATA",
+          "observation_url": "https://malaysia.news.yahoo.com/huge-solar-farm-set-cost-133427005.html",
+          "observed_title": "Huge solar farm set to cost £1bn",
+          "observed_published_at": "2026-08-25T13:41:00Z",
+          "permitted_use": "DISCOVERY_METADATA_ONLY",
+          "claim_eligible": false
+        }
+      ],
+      "decisions": {
+        "candidate_collection": "ACCEPT_RECALL_FIRST_URL",
+        "article_promotion": "HOLD_NO_DIRECT_SOURCE_METADATA",
+        "claim_extraction": "ABSTAIN_NO_DIRECT_ARTICLE_EVIDENCE",
+        "project_binding": "ABSTAIN_NO_IDENTITY_EVIDENCE",
+        "data_centre_binding": "ABSTAIN_NO_IDENTITY_EVIDENCE"
+      }
+    }
+  ],
+  "publication_law": {
+    "recall_first_candidate_collection": true,
+    "direct_source_verification_required_for_article_promotion": true,
+    "aggregator_metadata_may_create_claims": false,
+    "publisher_context_may_create_identity": false,
+    "url_discovery_may_change_official_repd_facts": false
+  }
+}

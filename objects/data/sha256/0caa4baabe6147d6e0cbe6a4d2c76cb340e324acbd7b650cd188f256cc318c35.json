@@ -1,0 +1,51 @@
+{
+  "schema": "pipelinenews.source-discovery-input.v1",
+  "release_id": "202608251528-PipelineNews",
+  "app_title": "PipelineNews",
+  "incepted_at": "2026-08-25T15:28:00Z",
+  "candidates": [
+    {
+      "publisher_label": "BBC News",
+      "url": "https://www.bbc.co.uk/news/articles/clyelee255do",
+      "allowed_hosts": ["bbc.co.uk", "www.bbc.co.uk"],
+      "canonical_host": "www.bbc.co.uk",
+      "input_basis": "USER_PROVIDED_URL",
+      "evidence_class": "PUBLISHER_DISCOVERY_SENTINEL",
+      "permitted_use": "CREDITED_OUTBOUND_LINK_ONLY",
+      "identity_authority": "NONE",
+      "discovered_at": "2026-08-25T15:28:00Z",
+      "headline": null,
+      "summary": null,
+      "body": null,
+      "author": null,
+      "image_url": null,
+      "article_id": null,
+      "project_id": null,
+      "repd_ref": null,
+      "development_id": null,
+      "data_centre_evidence_id": null,
+      "event_type": null,
+      "capacity_mw": null,
+      "metadata_observations": [
+        {
+          "observation_id": "PN-DISCOVERY-METADATA-GOOGLE-NEWS-RSS-Clyelee255do",
+          "evidence_class": "AGGREGATOR_METADATA",
+          "observation_url": "https://news.google.com/rss/search?q=https%3A%2F%2Fwww.bbc.co.uk%2Fnews%2Farticles%2Fclyelee255do&hl=en-GB&gl=GB&ceid=GB%3Aen",
+          "observed_title": "Huge Norfolk solar farm near Long Stratton set to cost £1bn - BBC",
+          "observed_published_at": "2026-08-25T13:34:22Z",
+          "permitted_use": "DISCOVERY_METADATA_ONLY",
+          "claim_eligible": false
+        },
+        {
+          "observation_id": "PN-DISCOVERY-METADATA-YAHOO-SYNDICATION-133427005",
+          "evidence_class": "SYNDICATION_METADATA",
+          "observation_url": "https://malaysia.news.yahoo.com/huge-solar-farm-set-cost-133427005.html",
+          "observed_title": "Huge solar farm set to cost £1bn",
+          "observed_published_at": "2026-08-25T13:41:00Z",
+          "permitted_use": "DISCOVERY_METADATA_ONLY",
+          "claim_eligible": false
+        }
+      ]
+    }
+  ]
+}

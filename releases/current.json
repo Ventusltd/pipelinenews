@@ -1,0 +1,8 @@
+{
+  "schema": "pipelinenews.release-pointer.v1",
+  "channel": "candidate",
+  "release_id": "202608251528-PipelineNews",
+  "manifest": "releases/202608251528-PipelineNews.json",
+  "updated_at": "2026-08-25T15:28:00Z",
+  "public_app_switched": false
+}

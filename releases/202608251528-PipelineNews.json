@@ -1,0 +1,112 @@
+{
+  "schema": "pipelinenews.release-manifest.v1",
+  "release_id": "202608251528-PipelineNews",
+  "app_title": "PipelineNews",
+  "display_title": "Pipeline News",
+  "incepted_at": "2026-08-25T15:28:00Z",
+  "status": "CANDIDATE",
+  "feature": "recall-first governed source discovery with strict evidence promotion",
+  "naming": {
+    "format": "YYYYMMDDHHmm-PipelineNews",
+    "time_basis": "UTC",
+    "sequential_versions_retired": true,
+    "fixed_title": "PipelineNews",
+    "one_release_per_minute": true
+  },
+  "lineage": {
+    "parent_release": "newsv7",
+    "parent_commit": "5a733a36a12c53c18a70a02ce8dd2c89c6687bde",
+    "parent_tree": "4a8835ff218e699607db7712dfaec42754e0dcc9",
+    "parent_mutated": false,
+    "legacy_release_names_preserved": true
+  },
+  "app": {
+    "stable_route": "PipelineNews/",
+    "release_folder_created": false,
+    "loader_contract": "manifest-resolved shared objects",
+    "ui_projection": "NOT_YET_PROJECTED",
+    "ui_parent": "newsv7",
+    "ui_parent_changed": false
+  },
+  "object_store": {
+    "identity": "sha256",
+    "immutable": true,
+    "reuse_unchanged_objects": true,
+    "release_timestamp_applies_to_manifest_only": true
+  },
+  "objects": {
+    "inputs": [
+      {
+        "role": "source_discovery_snapshot",
+        "path": "objects/data/sha256/0caa4baabe6147d6e0cbe6a4d2c76cb340e324acbd7b650cd188f256cc318c35.json",
+        "sha256": "0caa4baabe6147d6e0cbe6a4d2c76cb340e324acbd7b650cd188f256cc318c35",
+        "bytes": 2021,
+        "rows": 1
+      }
+    ],
+    "modules": [
+      {
+        "role": "source_discovery_policy",
+        "path": "objects/js/sha256/8e4a229d0e059a498cafb70648f2bcb5d44c7bc4d114cf98ddcf97d108731b04.mjs",
+        "sha256": "8e4a229d0e059a498cafb70648f2bcb5d44c7bc4d114cf98ddcf97d108731b04",
+        "bytes": 6286
+      }
+    ],
+    "artifacts": [
+      {
+        "role": "source_discovery_ledger",
+        "path": "objects/data/sha256/865a45f79688a2d5774f87a5c2001ac01a54204af74ba4ef8dab125798f1830c.json",
+        "sha256": "865a45f79688a2d5774f87a5c2001ac01a54204af74ba4ef8dab125798f1830c",
+        "bytes": 3185,
+        "rows": 1
+      }
+    ],
+    "css": [],
+    "parquet": [],
+    "geojson": []
+  },
+  "build": {
+    "architecture": {
+      "path": "RELEASE_ARCHITECTURE.md",
+      "sha256": "a76a38b0594a29bf2fa9a830d18140d489ce3aab9a38b49d8bd4e6dcc96b938a",
+      "bytes": 2941
+    },
+    "builder": {
+      "path": "tooling/build-current-discovery-release.mjs",
+      "sha256": "843b6abbc2af1b9d37a9bd16b5daeef3d127a780aa658b2d705741f8ab3a7267",
+      "bytes": 3034
+    },
+    "independent_verifier": "tests/check-current-timestamp-release.mjs",
+    "deterministic_rebuild_required": true,
+    "atomic_object_write_required": true
+  },
+  "source_policy": {
+    "target_url": "https://www.bbc.co.uk/news/articles/clyelee255do",
+    "primary_source_use": "CREDITED_OUTBOUND_LINK_ONLY",
+    "direct_source_metadata": "UNVERIFIED",
+    "aggregator_metadata": "DISCOVERY_METADATA_ONLY",
+    "body_copied": false,
+    "identity_authority": "NONE"
+  },
+  "acceptance": {
+    "source_candidates": 1,
+    "url_only_candidates": 1,
+    "article_ids_minted": 0,
+    "claim_eligible_records": 0,
+    "project_bindings": 0,
+    "data_centre_bindings": 0,
+    "capacity_assertions": 0,
+    "outbound_source_credit_required": true,
+    "newsv7_regression_required": true
+  },
+  "publication": {
+    "live": false,
+    "visible_ui_changed": false,
+    "public_path": null,
+    "reason": "Data-only candidate for AI peer review; stable app loader is not switched before browser validation."
+  },
+  "recovery": {
+    "rollback": "Move the candidate pointer to its prior manifest; content-addressed objects and frozen NewsV7 remain unchanged.",
+    "destructive_steps": 0
+  }
+}

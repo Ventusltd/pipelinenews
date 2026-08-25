@@ -1,0 +1,39 @@
+name: Verify PipelineNews timestamp release
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "RELEASE_ARCHITECTURE.md"
+      - "releases/**"
+      - "objects/**"
+      - "tooling/build-current-discovery-release.mjs"
+      - "tests/check-current-timestamp-release.mjs"
+      - "tests/run-current-timestamp-release.sh"
+      - ".github/workflows/timestamp-release.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Verify manifest-resolved candidate twice
+        run: bash tests/run-current-timestamp-release.sh
+
+      - name: Regress the frozen cumulative parent
+        run: bash newsv7/tests/run_newsv7.sh
+
+      - name: Require a clean deterministic checkout
+        run: git diff --exit-code
