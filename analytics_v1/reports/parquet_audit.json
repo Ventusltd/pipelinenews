@@ -1,0 +1,162 @@
+{
+  "schema": "pipelinenews.parquet-audit.v1",
+  "status": "PASS",
+  "generated_at": "2026-08-25T00:00:00Z",
+  "runtime": {
+    "python": "3.11",
+    "duckdb": "1.3.2",
+    "pyarrow": "20.0.0"
+  },
+  "counts": {
+    "tables": 9,
+    "source_rows": 208,
+    "parquet_rows": 208,
+    "duplicate_key_groups": 0,
+    "required_null_key_rows": 0,
+    "schema_mismatches": 0,
+    "duckdb_view_mismatches": 0,
+    "cross_domain_identity_links": 0
+  },
+  "domain_boundary": {
+    "renewable_namespace": "GG2050-REPD-*",
+    "data_centre_namespace": "PN-DC-*",
+    "identity_bridge_decision": "ABSTAIN_NO_AUTHORISED_BRIDGE"
+  },
+  "tables": [
+    {
+      "table_id": "newsv2_event_assertions",
+      "source_rows": 45,
+      "parquet_rows": 45,
+      "distinct_declared_keys": 45,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0,
+      "schema": "assertion_id: string not null\ndisplay_order: int64 not null\narticle_id: string not null\nproject_id: string not null\nrepd_ref: string not null\nevent_type: string not null\nevent_effective_at: timestamp[us, tz=UTC]\ndecision: string not null\npayload_json: string not null\n-- schema metadata --\npipelinenews.table_id: 'newsv2_event_assertions'\npipelinenews.grain: 'one row per material event assertion'",
+      "schema_match": true,
+      "compression": [
+        "ZSTD"
+      ],
+      "bytes": 23622,
+      "sha256": "d35057466455b35c470b49fdfc3a39806a58495e694b43655d569d61d28e6625"
+    },
+    {
+      "table_id": "newsv3_organisation_labels",
+      "source_rows": 28,
+      "parquet_rows": 28,
+      "distinct_declared_keys": 28,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0,
+      "schema": "organisation_label_id: string not null\nnormalised_label: string not null\nresolution_status: string not null\npayload_json: string not null\n-- schema metadata --\npipelinenews.table_id: 'newsv3_organisation_labels'\npipelinenews.grain: 'one row per exact normalised REPD operator label'",
+      "schema_match": true,
+      "compression": [
+        "ZSTD"
+      ],
+      "bytes": 6239,
+      "sha256": "5bb9e82aef4bae9da6b672ff3cc6d9fc9820c4c3a09ad2045c698c82267b336b"
+    },
+    {
+      "table_id": "newsv3_project_operator_roles",
+      "source_rows": 29,
+      "parquet_rows": 29,
+      "distinct_declared_keys": 29,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0,
+      "schema": "project_operator_role_assertion_id: string not null\nproject_id: string not null\nrepd_ref: string not null\norganisation_label_id: string not null\nrole_type: string not null\npayload_json: string not null\n-- schema metadata --\npipelinenews.table_id: 'newsv3_project_operator_roles'\npipelinenews.grain: 'one row per project and source-recorded operator-lab' + 12",
+      "schema_match": true,
+      "compression": [
+        "ZSTD"
+      ],
+      "bytes": 9898,
+      "sha256": "c9756fda3677665a77aa92ace5571bbcdd6815d9589bfd5a6a022ee7d7417640"
+    },
+    {
+      "table_id": "newsv3_transaction_role_decisions",
+      "source_rows": 45,
+      "parquet_rows": 45,
+      "distinct_declared_keys": 45,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0,
+      "schema": "transaction_role_decision_id: string not null\nevent_assertion_id: string not null\nproject_id: string not null\nrepd_ref: string not null\ndecision: string not null\npayload_json: string not null\n-- schema metadata --\npipelinenews.table_id: 'newsv3_transaction_role_decisions'\npipelinenews.grain: 'one row per event assertion and transaction-role dec' + 13",
+      "schema_match": true,
+      "compression": [
+        "ZSTD"
+      ],
+      "bytes": 9152,
+      "sha256": "30e37e1e6b883c020c5da2a5261e794b909e7cb294d35b8eb070a24b3cac599a"
+    },
+    {
+      "table_id": "newsv4_source_health",
+      "source_rows": 6,
+      "parquet_rows": 6,
+      "distinct_declared_keys": 6,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0,
+      "schema": "source_health_decision_id: string not null\nsource_product_id: string not null\ndomain: string not null\nstatus: string not null\nfreshness_state: string not null\nsource_updated_at: timestamp[us, tz=UTC]\npayload_json: string not null\n-- schema metadata --\npipelinenews.table_id: 'newsv4_source_health'\npipelinenews.grain: 'one row per source product and freshness decision ve' + 5",
+      "schema_match": true,
+      "compression": [
+        "ZSTD"
+      ],
+      "bytes": 12066,
+      "sha256": "e1906ef195b448dc05ecc2955c115f30f37cbc810ffff7f1f76f6134d5ce957e"
+    },
+    {
+      "table_id": "newsv5_reason_decisions",
+      "source_rows": 45,
+      "parquet_rows": 45,
+      "distinct_declared_keys": 45,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0,
+      "schema": "reason_decision_id: string not null\nreason_id: string not null\nproject_id: string not null\nrepd_ref: string not null\nsource_display_order: int64 not null\ndecision: string not null\npayload_json: string not null\n-- schema metadata --\npipelinenews.table_id: 'newsv5_reason_decisions'\npipelinenews.grain: 'one row per event assertion and reason-rule version'",
+      "schema_match": true,
+      "compression": [
+        "ZSTD"
+      ],
+      "bytes": 24778,
+      "sha256": "95c9ec5879bc561283973dfc7e7f803ce78448a2e0786ec4c147b88a09edb6df"
+    },
+    {
+      "table_id": "newsv6_dc_sources",
+      "source_rows": 6,
+      "parquet_rows": 6,
+      "distinct_declared_keys": 6,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0,
+      "schema": "source_id: string not null\nname: string not null\nsource_url: string not null\nlicence: string not null\nevidence_class: string not null\npayload_json: string not null\n-- schema metadata --\npipelinenews.table_id: 'newsv6_dc_sources'\npipelinenews.grain: 'one row per pinned source and licence record'",
+      "schema_match": true,
+      "compression": [
+        "ZSTD"
+      ],
+      "bytes": 5418,
+      "sha256": "8503864423c4a89700b7422a1969edefb59295cc1ffbf0f8a7b9b699a1b7f57f"
+    },
+    {
+      "table_id": "newsv6_dc_observations",
+      "source_rows": 2,
+      "parquet_rows": 2,
+      "distinct_declared_keys": 2,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0,
+      "schema": "evidence_id: string not null\nsource_id: string not null\nentity_type: string not null\nsource_label: string not null\nosm_type: string\nosm_id: int64\nlatitude: double\nlongitude: double\npayload_json: string not null\n-- schema metadata --\npipelinenews.table_id: 'newsv6_dc_observations'\npipelinenews.grain: 'one row per exact source observation'",
+      "schema_match": true,
+      "compression": [
+        "ZSTD"
+      ],
+      "bytes": 6080,
+      "sha256": "a5b8789a600196d9f47ea4de38a4f34d68da61f443a58ea3d66372aa8ebbea35"
+    },
+    {
+      "table_id": "newsv6_dc_link_decisions",
+      "source_rows": 2,
+      "parquet_rows": 2,
+      "distinct_declared_keys": 2,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0,
+      "schema": "link_decision_id: string not null\nleft_evidence_id: string not null\nright_source_id: string not null\ndecision: string not null\npayload_json: string not null\n-- schema metadata --\npipelinenews.table_id: 'newsv6_dc_link_decisions'\npipelinenews.grain: 'one row per proposed cross-source identity link'",
+      "schema_match": true,
+      "compression": [
+        "ZSTD"
+      ],
+      "bytes": 4185,
+      "sha256": "b5b1a8592a26310603af730ea8bac666043e4fdbb75d96553c2495f98862d217"
+    }
+  ]
+}
