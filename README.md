@@ -94,7 +94,9 @@ Latest recovery checkpoint:
 - `PASS` — NewsV4 independently rebuilds artifact SHA-256 `5aa7f2bef3d99d2cc50c81695da406ccdd3f315c88237ecf0de2c0568deefd0d`, records five stale/one unknown freshness states, forbids identity/event/grid/deal use and leaves NewsV1–NewsV3 green.
 - `PASS` — NewsV5 candidate commit `9ffdb64fca4dbb4cc2e41ec1315e8444c71ce1c7` deterministically builds 45 transparent reason decisions, all `HOLD_FOR_VERIFICATION`, with six separate event-to-capability rules and six theme-vocabulary rows; the compact browser projection correctly contains zero unsupported reasons.
 - `PASS` — NewsV5 independently rebuilds ledger SHA-256 `fbce604f865341391316917cb14d6319f8b1fdbb503a971a19a7c7d0ecfec06a`, proves 45 unique non-null keys, enforces six hostile negatives as 2 hold / 1 reject / 3 abstain, preserves Beacon Fen 13599 and leaves NewsV1–NewsV4 green.
-- Next bounded pass: build NewsV6 as a separate `PN-DC-*` UK data-centre evidence namespace with a pinned source/licence register, explicit facility/campus/building and capacity-type laws, and hostile near-duplicate abstentions.
+- `PASS` — NewsV6 candidate commit `a2259bf3c8a9f2b9b2cfaa39e223c299224c5c81` deterministically builds six governed source/licence records, two exact source observations and two explicit cross-source abstentions; every declared key is unique and non-null and no identity merge is made.
+- `PASS` — NewsV6 independently rebuilds artifact SHA-256 `e5e984f763877f41fef5c39bce248ee74bb9f22706c87cd51d6fd2a2ce9cd5d5`, preserves OSM `way/86528807`, records Atlas V8's dropped OSM identity, leaves all four capacity types null, enforces five hostile abstentions, keeps BBC/Data Center Map outbound-only and leaves NewsV1–NewsV5 green.
+- Next bounded pass: build Movement 5 as typed analytical storage and a cross-version reconciliation contract; do not claim DuckDB/Parquet output until dependencies, schemas, hashes and row-count evidence are proven.
 
 ## Overnight automation master score — authoritative
 
@@ -135,12 +137,12 @@ Current baton:
 
 | Field | Value |
 |---|---|
-| Last proven feature commit | `9ffdb64fca4dbb4cc2e41ec1315e8444c71ce1c7` |
-| Outcome | `PASS` — NewsV5 CANDIDATE committed and read back with 45 deterministic `HOLD_FOR_VERIFICATION` decisions, zero unsupported browser reasons, six modular capability rules, six theme-vocabulary rows, hostile-negative result `2 HOLD / 1 REJECT / 3 ABSTAIN`, ledger SHA-256 `fbce604f865341391316917cb14d6319f8b1fdbb503a971a19a7c7d0ecfec06a` and green NewsV1–NewsV4 regressions |
-| Next movement | Movement 4 — NewsV6 UK data-centre evidence namespace |
-| Next acceptance gate | Build a deterministic `PN-DC-*` source/licence register, separately keyed campus/facility/building candidates and cross-source decision ledger; preserve OSM type/id for Atlas discovery rows, keep BBC and Data Center Map as credited outbound research links only, and prove positive fixtures plus hostile near-duplicate/name/proximity abstentions while NewsV5 remains green |
-| Doubt to resolve | The audited Atlas data-centre layer is discovery evidence rather than official facility, capacity, lifecycle or role proof; a pinned source snapshot and at least one terms-compatible official public record must be identified before any candidate can be promoted beyond discovery-only |
-| Next-run budget | Up to three reviewed blocks; target about 300 seconds, normal hard stop 500 seconds; use the single 1,000-second extension only if the pinned-source/licence and hostile-identity gate is demonstrably near completion |
+| Last proven feature commit | `a2259bf3c8a9f2b9b2cfaa39e223c299224c5c81` |
+| Outcome | `PASS` — NewsV6 CANDIDATE committed and read back with six governed sources, two exact observations, two identity-link abstentions and five hostile abstentions; all declared keys are unique/non-null, all capacity types remain null, BBC/Data Center Map are outbound-only, artifact SHA-256 is `e5e984f763877f41fef5c39bce248ee74bb9f22706c87cd51d6fd2a2ce9cd5d5` and NewsV1–NewsV5 regressions pass |
+| Next movement | Movement 5 — analytical storage and cross-version reconciliation |
+| Next acceptance gate | Audit available DuckDB/PyArrow tooling, then build typed Parquet tables for NewsV2–NewsV6 plus a DuckDB schema/view contract with pinned JSON inputs, explicit nullability, row-count/key/round-trip tests and a version reconciliation ledger; if dependencies are absent, commit a tested staged contract and exact blocker without inventing analytical artifacts |
+| Doubt to resolve | Current products are deterministic JSON and their grains differ; NewsV2 project IDs use `GG2050-REPD-*` while NewsV6 is an independent `PN-DC-*` namespace, so reconciliation must preserve domain boundaries and no data-centre/project identity bridge may be inferred |
+| Next-run budget | Up to three reviewed blocks; target about 300 seconds and stop before 500 seconds; reserve the single 1,000-second extension only for a named typed-schema or round-trip gate that is already demonstrably near completion |
 
 At the end of every run:
 
