@@ -16,6 +16,9 @@ on:
       - "newsv1/tests/run_newsv1.sh"
       - "newsv1/MIGRATION_MANIFEST.json"
       - "newsv7/**"
+      - "*-PipelineNews/**"
+      - "objects/**"
+      - "releases/**"
       - ".github/workflows/pages.yml"
 
 permissions:
@@ -160,6 +163,13 @@ jobs:
             "$release_v7/data/newsv7/"
           cp newsv7/dist/major_project_news_v9_5_1.json "$release_v7/dist/"
 
+          # Publish every lightweight timestamped shell plus its shared, content-addressed objects.
+          while IFS= read -r timestamp_release; do
+            cp -a "$timestamp_release" _site/
+          done < <(find . -maxdepth 1 -mindepth 1 -type d -name '*-PipelineNews' -printf '%f\n' | sort)
+          cp -a objects _site/
+          cp -a releases _site/
+
           touch _site/.nojekyll
 
           test -f "$release/index.html"
@@ -171,6 +181,9 @@ jobs:
           test -f "$release_v7/scripts/app-newsv7.js"
           test -f "$release_v7/data/newsv7/cumulative_intelligence.json"
           test -f "$release_v7/data/v9.1/projects/part-016.json"
+          test -f _site/202608251622-PipelineNews/index.html
+          test -f _site/releases/202608251622-PipelineNews.json
+          test -f _site/objects/data/sha256/3d2cd9cba8581bbc8c4e7434deb0c584d3969639a00926393cf011e2c3f8a00b.json
           ! find _site -type d \( -name tests -o -name node_modules -o -name v1-9-legacy-lessons \) -print -quit | grep -q .
 
       - name: Upload Pages artifact
