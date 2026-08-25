@@ -17,6 +17,7 @@ on:
       - "newsv1/MIGRATION_MANIFEST.json"
       - "newsv7/**"
       - "*-PipelineNews/**"
+      - "*-pipelinenews/**"
       - "objects/**"
       - "releases/**"
       - ".github/workflows/pages.yml"
@@ -166,7 +167,7 @@ jobs:
           # Publish every lightweight timestamped shell plus its shared, content-addressed objects.
           while IFS= read -r timestamp_release; do
             cp -a "$timestamp_release" _site/
-          done < <(find . -maxdepth 1 -mindepth 1 -type d -name '*-PipelineNews' -printf '%f\n' | sort)
+          done < <(find . -maxdepth 1 -mindepth 1 -type d \( -name '*-PipelineNews' -o -name '*-pipelinenews' \) -printf '%f\n' | sort)
           cp -a objects _site/
           cp -a releases _site/
 
@@ -182,7 +183,9 @@ jobs:
           test -f "$release_v7/data/newsv7/cumulative_intelligence.json"
           test -f "$release_v7/data/v9.1/projects/part-016.json"
           test -f _site/202608251622-PipelineNews/index.html
+          test -f _site/202608251700-pipelinenews/index.html
           test -f _site/releases/202608251622-PipelineNews.json
+          test -f _site/releases/202608251700-pipelinenews.json
           test -f _site/objects/data/sha256/3d2cd9cba8581bbc8c4e7434deb0c584d3969639a00926393cf011e2c3f8a00b.json
           ! find _site -type d \( -name tests -o -name node_modules -o -name v1-9-legacy-lessons \) -print -quit | grep -q .
 

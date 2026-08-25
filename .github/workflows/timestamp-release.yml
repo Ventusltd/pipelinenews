@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - "*-PipelineNews/**"
+      - "*-pipelinenews/**"
       - "RELEASE_ARCHITECTURE.md"
       - "releases/**"
       - "objects/**"
@@ -13,6 +14,7 @@ on:
       - "tooling/build-evidence-release.mjs"
       - "tests/check-current-timestamp-release.mjs"
       - "tests/check-202608251622-release.mjs"
+      - "tests/check-202608251700-pipelinenews.mjs"
       - "tests/run-current-timestamp-release.sh"
       - ".github/workflows/timestamp-release.yml"
 
