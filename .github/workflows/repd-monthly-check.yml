@@ -5,7 +5,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "tooling/check-repd-source.mjs"
+      - "tooling/check-repd-source-v2.mjs"
       - "releases/current.json"
       - ".github/workflows/repd-monthly-check.yml"
   schedule:
@@ -15,7 +15,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: repd-monthly-change-check
+  group: pipelinenews-data-writers
   cancel-in-progress: false
 
 jobs:
@@ -31,7 +31,7 @@ jobs:
         run: |
           bash tests/run-current-timestamp-release.sh
       - name: Fetch current government CSV and diff Ref IDs
-        run: node tooling/check-repd-source.mjs
+        run: node tooling/check-repd-source-v2.mjs
       - name: Commit source state and candidate delta
         run: |
           git config user.name "PipelineNews Bot"
@@ -39,4 +39,5 @@ jobs:
           git add data/repd-source/candidate.json state/repd-source.json
           git diff --cached --quiet && exit 0
           git commit -m "data: check quarterly REPD source"
+          git pull --rebase origin main
           git push

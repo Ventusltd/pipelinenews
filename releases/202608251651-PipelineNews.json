@@ -1,0 +1,44 @@
+{
+  "schema": "pipelinenews.release-manifest.v1",
+  "release_id": "202608251651-PipelineNews",
+  "app_title": "PipelineNews",
+  "display_title": "Pipeline News",
+  "incepted_at": "2026-08-25T16:51:00+01:00",
+  "status": "CANDIDATE",
+  "feature": "rate-aware official frontier and scope-aware quarterly REPD source diff",
+  "naming": {"format":"YYYYMMDDHHmm-PipelineNews","time_basis":"Europe/London operator inception clock","fixed_title":"PipelineNews","sequential_versions_retired":true},
+  "lineage": {"parent_release":"202608251636-PipelineNews","parent_commit":"180e6302c7a710ee603417a3fc20b544b648ed47","frozen_versions_mutated":false,"v1_v5_compared":true,"newsv7_regressed":true},
+  "app": {
+    "stable_route":"PipelineNews/","release_folder":"202608251651-PipelineNews/","entrypoint":"202608251651-PipelineNews/index.html","loader_contract":"manifest-resolved shared objects","ui_parent":"newsv7","duplicated_asset_directories":0,
+    "shell_files":[
+      {"role":"app_entrypoint","path":"202608251651-PipelineNews/index.html","sha256":"736f1ea1219d8eea2187bf1474c9d6ef01b11422c1ec38fe1413b007158d60f7","bytes":3631},
+      {"role":"folder_release_pointer","path":"202608251651-PipelineNews/release.json","sha256":"3ec4479c655e836358d8dd51ebf484fad80ee21629d4814ad6ea3ca62f38553f","bytes":333},
+      {"role":"folder_readme","path":"202608251651-PipelineNews/README.md","sha256":"47ea4ca3969c53c18e8141607092dd1bfd8ee5ad3fa4193d1a9ad5264a680aea","bytes":611}
+    ]
+  },
+  "object_store":{"identity":"sha256","immutable":true,"reuse_unchanged_objects":true},
+  "objects": {
+    "inputs":[{"role":"official_frontier_input","path":"objects/data/sha256/fd0ca49731f5d0e66eaed100f5ce3f1109d4f7975a74f00659e83d76c9cd6308.json","sha256":"fd0ca49731f5d0e66eaed100f5ce3f1109d4f7975a74f00659e83d76c9cd6308","bytes":3513}],
+    "modules":[
+      {"role":"official_frontier_engine","path":"objects/js/sha256/0f0adf842d22158b882f168d6c131480afd81bce6609b8453a073f15d201d18c.mjs","sha256":"0f0adf842d22158b882f168d6c131480afd81bce6609b8453a073f15d201d18c","bytes":8572},
+      {"role":"timestamped_release_shell","path":"objects/js/sha256/9bce91d7bde247265bdf369416ff4771c4866d3369c22d3b3d9c96aef4a95272.mjs","sha256":"9bce91d7bde247265bdf369416ff4771c4866d3369c22d3b3d9c96aef4a95272","bytes":2136}
+    ],
+    "artifacts":[{"role":"official_frontier_contract","path":"objects/data/sha256/3918138465d06f1dd94d1e6352154f1e6adc8ebf84a089070c67fc2d7130253b.json","sha256":"3918138465d06f1dd94d1e6352154f1e6adc8ebf84a089070c67fc2d7130253b","bytes":4090}],
+    "css":[{"role":"shared_timestamp_shell","path":"objects/css/sha256/5c196d2b307e0426447dc96f1762bc6e39de98f2a39ae8667265198f09d5166e.css","sha256":"5c196d2b307e0426447dc96f1762bc6e39de98f2a39ae8667265198f09d5166e","bytes":1889}],
+    "parquet":[],"geojson":[]
+  },
+  "build": {
+    "builder":{"path":"tooling/build-official-frontier-release.mjs","sha256":"fdf2af0452be9a1ee768368feeaca52bc4575022f2aa6fd3f368335a1a2b92bf","bytes":1371},
+    "official_poller":{"path":"tooling/poll-official-sources-v2.mjs","sha256":"7e8e588e68b272e956e33305151c60149ac3d500c109334db601bd65df5e55a0","bytes":7050},
+    "repd_source_checker":{"path":"tooling/check-repd-source-v2.mjs","sha256":"455bfe4720c4bfcec0564b784ecebee3e40bca6f7e92ab2632b211428073b51f","bytes":6490},
+    "verifier":"tests/check-202608251651-release.mjs","deterministic_rebuild_required":true
+  },
+  "source_policy":{"official_repd_score":100,"official_govuk_score":95,"official_planning_score":95,"planit_score":90,"publisher_score":65,"google_discovery_score":30,"google_discovery_enabled":true,"outbound_credit_required":true,"article_body_copied":false},
+  "automation": {
+    "writer_concurrency":{"group":"pipelinenews-data-writers","cancel_in_progress":false},
+    "official_frontier":{"workflow":".github/workflows/official-source-frontier.yml","cadence":"daily","budget":48,"concurrency":1,"delay_ms":2000,"rate_limit_action":"stop and retain cursor"},
+    "repd_source":{"workflow":".github/workflows/repd-monthly-check.yml","cadence":"monthly check of quarterly government publication","raw_rows":14657,"admitted_scope_rows":7680,"automatic_candidate_diff":true,"automatic_canonical_admission":false}
+  },
+  "acceptance":{"repd_projects":7680,"source_rows":14657,"projects_with_planning_reference":7315,"projects_without_planning_reference":365,"unique_planning_reference_groups":6870,"east_pye_primary_match":"GG2050-REPD-17494","duplicate_planning_reference_action":"ABSTAIN","v1_v5_mission_invariants":6,"duplicated_asset_directories":0},
+  "publication":{"live":false,"candidate_pointer_updated":true,"stable_app_switched":false,"reason":"Corrected candidate is published for browser and peer review; the established full NewsV7 interface remains unchanged."}
+}
