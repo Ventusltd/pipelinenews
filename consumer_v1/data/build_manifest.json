@@ -1,0 +1,26 @@
+{
+  "schema": "pipelinenews.consumer-build-manifest.v1",
+  "release": "consumer_v1",
+  "status": "CANDIDATE",
+  "generated_at": "2026-08-25T00:00:00Z",
+  "contract_sha256": "7fec552bfb0a4baa68cf72b1f92540571bf880ac66d5a66847824342cf766bb9",
+  "analytics_audit_sha256": "2c2af8a38bcb9b6ce4127835b4e005a1dc22d097f2dd21b64c036b7ca38115be",
+  "artifacts": [
+    {
+      "path": "consumer_v1/data/intelligence_overlay.json",
+      "sha256": "f9da6cc8b98a173abef7cf264b1f3a007ff3d2659beab281fbe535a207501bc9",
+      "bytes": 5645
+    },
+    {
+      "path": "consumer_v1/data/interface_guard.json",
+      "sha256": "6e570295f19a4fa1ea1c6731d372f25f9545940900acbfc1a6fa7a6ac91a8f11",
+      "bytes": 1490
+    }
+  ],
+  "checks": {
+    "explicit_order_queries": 4,
+    "publishable_reasons": 0,
+    "data_centre_project_signal_links": 0,
+    "newsv1_interface_changed": false
+  }
+}

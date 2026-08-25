@@ -1,0 +1,39 @@
+{
+  "schema": "pipelinenews.consumer-interface-guard.v1",
+  "release": "consumer_v1",
+  "status": "PASS",
+  "generated_at": "2026-08-25T00:00:00Z",
+  "newsv1_action": "NO_CHANGE",
+  "counts": {
+    "all_headlines": 133,
+    "uk_headlines": 45,
+    "international_headlines": 19,
+    "us": 4,
+    "europe": 9,
+    "international_other": 6
+  },
+  "url_order_hashes": {
+    "all": "da4d119c55eaf1bf963402698ca1615448f4b3961f349bd393d24e1a1043eed8",
+    "uk": "341b8ab1baf327f301e128d9c6a770da42e6a734734fb96a06fc177d407ddd35",
+    "regional": "68a7e9e8ba11426abf8af7b1c6333b7177b425f401cbe8832da335e7eef2f37a"
+  },
+  "beacon_fen": {
+    "matches": 1,
+    "repd_ref": "13599",
+    "gg_project_id": "GG2050-REPD-13599"
+  },
+  "interface": {
+    "project_table_columns": 11,
+    "mobile_horizontal_scroll": true,
+    "mobile_columns_preserved": true
+  },
+  "source_hashes": {
+    "feed": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd",
+    "regional_news": "905237ddcbc71761f21d8c78961931676ac0c585030d29af95c75c7772254a99",
+    "regional_decisions": "66f9e8803c6d0d0e847950dc5002a2df3b1f1ac0451de0f76a931256ddcc7409",
+    "regional_manifest": "494030710673dea0e4db52937d2243966fc47639a406a335df5d6bbd4e575467",
+    "index": "d9369889eb55a14781e9eaa992541a3c42d248c6c824384d9d5aa389bef943a0",
+    "mobile_css": "851b0827ca2aa0950438c98ae3cf6cc7dce33667d37458122ea38bb2c6da2f81",
+    "release_contract": "8c6bdf326a82c2669637bb4dbce182cf11dc93e718b66e08c896b8dae2e31184"
+  }
+}

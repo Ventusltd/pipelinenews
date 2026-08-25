@@ -1,0 +1,144 @@
+{
+  "schema": "pipelinenews.consumer-intelligence-overlay.v1",
+  "release": "consumer_v1",
+  "status": "CANDIDATE",
+  "generated_at": "2026-08-25T00:00:00Z",
+  "project_signal_action": "NO_CHANGE",
+  "ordering": "Every collection is produced by the declared DuckDB query and its explicit ORDER BY.",
+  "counts": {
+    "reasons_to_research": 0,
+    "data_centre_sources": 6,
+    "data_centre_observations": 2,
+    "data_centre_link_decisions": 2
+  },
+  "reasons_to_research": [],
+  "data_centre_sources": [
+    {
+      "evidence_class": "DISCOVERY_ONLY_IDENTITY_LOSS",
+      "identity_authority": "NONE_OSM_TYPE_AND_ID_DROPPED",
+      "licence": "DERIVED_FROM_OSM_ODBL",
+      "name": "GlobalGrid Atlas V8 data-centre snapshot",
+      "permitted_use": "DISCOVERY_ONLY",
+      "pinned_blob": "9457f6dc583bbfdcca40926c353738b321fcb09b",
+      "pinned_commit": "cfb32796e4a3c45a0ab7bec53623b96c84a818a4",
+      "row_count": 240,
+      "source_id": "PN-DC-SOURCE-ATLAS-V8",
+      "source_url": "https://github.com/Ventusltd/globalgrid2050/blob/cfb32796e4a3c45a0ab7bec53623b96c84a818a4/repd_grid_atlasv8/data/datacentres.geojson"
+    },
+    {
+      "evidence_class": "PUBLISHER_CONTEXT",
+      "identity_authority": "NONE",
+      "licence": "OUTBOUND_LINK_ONLY",
+      "name": "BBC UK data-centre article",
+      "permitted_use": "CREDITED_OUTBOUND_LINK_ONLY",
+      "source_id": "PN-DC-SOURCE-BBC-CONTEXT",
+      "source_url": "https://www.bbc.co.uk/news/articles/c9q90q9qnn2o"
+    },
+    {
+      "evidence_class": "THIRD_PARTY_DIRECTORY",
+      "identity_authority": "NONE",
+      "licence": "OUTBOUND_LINK_ONLY",
+      "name": "Data Center Map United Kingdom directory",
+      "permitted_use": "CREDITED_OUTBOUND_LINK_ONLY",
+      "source_id": "PN-DC-SOURCE-DCM-UK",
+      "source_url": "https://www.datacentermap.com/united-kingdom/"
+    },
+    {
+      "evidence_class": "DIRECT_COMPANY_RECORD",
+      "identity_authority": "SOURCE_CLAIM",
+      "licence": "OFFICIAL_COMPANY_PAGE_LINK_AND_SOURCE_CLAIMS_ONLY",
+      "name": "Google Waltham Cross official location page",
+      "permitted_use": "FACILITY_AND_LIFECYCLE_SOURCE_CLAIM",
+      "source_id": "PN-DC-SOURCE-GOOGLE-WALTHAM-CROSS",
+      "source_url": "https://www.datacenters.google/locations/waltham-cross/"
+    },
+    {
+      "evidence_class": "OFFICIAL_POLICY",
+      "identity_authority": "NONE_FOR_NAMED_FACILITIES",
+      "licence": "OFFICIAL_PUBLIC_BODY_PAGE_LINK_AND_SOURCE_CLAIMS_ONLY",
+      "name": "Ofgem proposed data-centre connection reforms",
+      "permitted_use": "POLICY_CONTEXT_ONLY",
+      "source_id": "PN-DC-SOURCE-OFGEM-REFORMS",
+      "source_url": "https://www.ofgem.gov.uk/consultation/proposed-data-centre-connection-reforms"
+    },
+    {
+      "evidence_class": "STRUCTURED_DISCOVERY",
+      "identity_authority": "SOURCE_OBJECT_ONLY",
+      "licence": "ODbL 1.0",
+      "name": "OpenStreetMap data-centre objects",
+      "permitted_use": "DISCOVERY_WITH_ATTRIBUTION",
+      "source_id": "PN-DC-SOURCE-OSM",
+      "source_url": "https://www.openstreetmap.org/copyright"
+    }
+  ],
+  "data_centre_observations": [
+    {
+      "capacity_evidence_class": "ABSTAIN_NO_CAPACITY_SOURCE",
+      "contracted_grid_capacity_mw": null,
+      "developer_label": null,
+      "entity_type": "FACILITY",
+      "evidence_id": "PN-DC-EVIDENCE-GOOGLE-WALTHAM-CROSS",
+      "it_load_mw": null,
+      "latitude": null,
+      "lifecycle": "OPERATIONAL",
+      "longitude": null,
+      "observation_decision": "SOURCE_CLAIM_ONLY",
+      "occupier_label": null,
+      "operational_capacity_mw": null,
+      "operator_label": "Google",
+      "osm_id": null,
+      "osm_type": null,
+      "owner_label": null,
+      "requested_grid_capacity_mw": null,
+      "source_id": "PN-DC-SOURCE-GOOGLE-WALTHAM-CROSS",
+      "source_label": "Waltham Cross data centre",
+      "source_record_url": "https://www.datacenters.google/locations/waltham-cross/"
+    },
+    {
+      "capacity_evidence_class": "ABSTAIN_NO_CAPACITY_SOURCE",
+      "contracted_grid_capacity_mw": null,
+      "developer_label": null,
+      "entity_type": "BUILDING",
+      "evidence_id": "PN-DC-EVIDENCE-OSM-WAY-86528807",
+      "it_load_mw": null,
+      "latitude": 51.5220008,
+      "lifecycle": "UNKNOWN",
+      "longitude": -0.6292251,
+      "observation_decision": "DISCOVERY_ONLY",
+      "occupier_label": null,
+      "operational_capacity_mw": null,
+      "operator_label": "Equinix",
+      "osm_id": 86528807,
+      "osm_type": "way",
+      "owner_label": null,
+      "requested_grid_capacity_mw": null,
+      "source_id": "PN-DC-SOURCE-OSM",
+      "source_label": "Equinix LD5",
+      "source_record_url": "https://www.openstreetmap.org/way/86528807"
+    }
+  ],
+  "data_centre_link_decisions": [
+    {
+      "decision": "ABSTAIN_INSUFFICIENT_IDENTITY_EVIDENCE",
+      "left_evidence_id": "PN-DC-EVIDENCE-OSM-WAY-86528807",
+      "link_decision_id": "PN-DC-LINK-EQUINIX-LD5-ATLAS",
+      "reason": "The Atlas row cannot be joined back to an exact OSM object because its type and id were discarded.",
+      "right_source_id": "PN-DC-SOURCE-ATLAS-V8",
+      "signals": [
+        "SAME_DISPLAY_NAME",
+        "APPROXIMATE_COORDINATES"
+      ]
+    },
+    {
+      "decision": "ABSTAIN_INSUFFICIENT_IDENTITY_EVIDENCE",
+      "left_evidence_id": "PN-DC-EVIDENCE-GOOGLE-WALTHAM-CROSS",
+      "link_decision_id": "PN-DC-LINK-GOOGLE-WALTHAM-CROSS-ATLAS",
+      "reason": "Atlas snapshot dropped the originating OSM object type and id; name and proximity cannot establish identity.",
+      "right_source_id": "PN-DC-SOURCE-ATLAS-V8",
+      "signals": [
+        "SIMILAR_NAME",
+        "APPROXIMATE_LOCATION"
+      ]
+    }
+  ]
+}
