@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://globalgrid2050.com/contracts/discovery-mention.v1.schema.json",
+  "title": "Pipeline News DiscoveryV1 mention",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "mention_id",
+    "canonical_url",
+    "source_domain",
+    "credibility",
+    "title",
+    "snippet",
+    "discovered_at",
+    "discovery_method",
+    "query_used",
+    "binding_evidence",
+    "binding_status",
+    "candidate_gg_project_ids"
+  ],
+  "properties": {
+    "mention_id": {"type": "string", "pattern": "^PN-MENTION-[A-F0-9]{20}$"},
+    "repd_ref": {"type": ["string", "null"], "pattern": "^[0-9]+$"},
+    "gg_project_id": {"type": ["string", "null"], "pattern": "^GG2050-REPD-[0-9]+$"},
+    "candidate_gg_project_ids": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^GG2050-REPD-[0-9]+$"}
+    },
+    "canonical_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+    "source_domain": {"type": "string", "minLength": 1},
+    "credibility": {"type": "number", "minimum": 0.01, "maximum": 1},
+    "title": {"type": "string", "minLength": 1},
+    "snippet": {"type": "string", "maxLength": 300},
+    "published_at": {"type": ["string", "null"], "format": "date"},
+    "discovered_at": {"type": "string", "format": "date-time"},
+    "discovery_method": {"enum": ["brave", "google_cse", "serper", "rss", "register"]},
+    "query_used": {"type": "string", "minLength": 1},
+    "binding_evidence": {"type": "object"},
+    "binding_status": {"enum": ["PRIMARY_MATCH", "ABSTAIN", "REJECTED"]},
+    "cluster_id": {"type": ["string", "null"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"binding_status": {"const": "PRIMARY_MATCH"}}},
+      "then": {
+        "required": ["repd_ref", "gg_project_id"],
+        "properties": {
+          "repd_ref": {"type": "string"},
+          "gg_project_id": {"type": "string"}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"binding_status": {"enum": ["ABSTAIN", "REJECTED"]}}},
+      "then": {
+        "properties": {
+          "repd_ref": {"type": "null"},
+          "gg_project_id": {"type": "null"}
+        }
+      }
+    }
+  ]
+}

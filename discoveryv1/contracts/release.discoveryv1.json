@@ -1,0 +1,37 @@
+{
+  "schema": "pipelinenews.release-contract.v1",
+  "release": "discoveryv1",
+  "status": "CANDIDATE",
+  "feature": "indexed-web discovery observations bound to canonical REPD projects",
+  "source_release": "202608251700-pipelinenews",
+  "data_law": {
+    "grain": "one row per observed canonical URL and binding decision",
+    "primary_key": ["mention_id"],
+    "canonical_project_key": "GG2050-REPD-<repd_ref>",
+    "abstention_identity": "null; candidate project IDs may be retained as evidence only",
+    "snippet_max_characters": 300,
+    "allowed_binding_statuses": ["PRIMARY_MATCH", "ABSTAIN", "REJECTED"]
+  },
+  "acceptance": {
+    "data_only": true,
+    "repd_mutation_allowed": false,
+    "credibility_may_gate_identity": false,
+    "outbound_result_fetch_allowed": false,
+    "full_body_storage_allowed": false,
+    "abstentions_retained": true,
+    "zero_credibility_allowed": false,
+    "visible_ui_changed": false,
+    "deterministic_rebuild_required": true,
+    "independent_verifier_required": true
+  },
+  "publication": {
+    "live": false,
+    "public_path": null,
+    "reason": "DiscoveryV1 remains an isolated data candidate until all seven acceptance batches pass."
+  },
+  "recovery": {
+    "frozen_predecessor": "202608251700-pipelinenews",
+    "predecessor_mutated": false,
+    "rollback": "Discard discoveryv1; timestamped releases, NewsV1 and NewsV7 remain independently reproducible."
+  }
+}

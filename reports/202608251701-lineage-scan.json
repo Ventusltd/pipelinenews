@@ -1,0 +1,46 @@
+{
+  "schema": "pipelinenews.lineage-scan.v1",
+  "release_id": "202608251701-pipelinenews",
+  "recorded_at": "2026-08-25T17:01:00+01:00",
+  "scan_method": "Git tree and blob identity plus byte length",
+  "source_commit": "051a57175794ecb5c173c945cb0014ed79c29f3e",
+  "legacy_integrity": {
+    "tree": "03e76055af1f74a5ffe3d9bbbb22184ff631e4d0",
+    "files": 298,
+    "bytes": 112887080,
+    "versions": {
+      "V1": {"git_blob": "e2d99e37d6388d3f498a79696773238ad689574b"},
+      "V2": {"git_blob": "cb953a67332d3d29355945fb58a513e30c681013"},
+      "V3": {"git_blob": "911921e7aa254f0bfdecc122d975cc0e3af130c7"},
+      "V4": {"git_blob": "f356b37b1c6202150f3a5bb404a57ee329212f70"},
+      "V5": {"git_blob": "ac33daf67dba8951527b06761ab587003a19f60e"},
+      "V6": {"git_blob": "c2ada7161cc412f8aca7adff538994d2e0bcda21"},
+      "V7": {"git_tree": "9ad8cfe9cdf26948ed3ad3898822977f9198006a"},
+      "V8": {"git_tree": "fa7821202a8cb12b35aa9c5858c998090ae52b0e"},
+      "V9": {"git_tree": "2c30c2df03c68b19e6dd0ca0d51508619eb7c804"}
+    }
+  },
+  "news_layers": {
+    "newsv1": {"git_tree": "2d6247c067aa5fad49995dcb9029d6cdb9898994", "files": 48, "bytes": 10243691},
+    "newsv2": {"git_tree": "d886e2afda2c4d01d1eb02ee86e8c1c84118e2f7", "files": 7, "bytes": 98218},
+    "newsv3": {"git_tree": "4c71595c27475448ce2506d66dc8dfbb0f11742f", "files": 7, "bytes": 111224},
+    "newsv4": {"git_tree": "fe8f9c1126a8b2ec2fba3817e755478ab707c5f8", "files": 8, "bytes": 38540},
+    "newsv5": {"git_tree": "2d8db68e0eaa5da125f0e6aa7e193bf01f2f94bf", "files": 13, "bytes": 137981},
+    "newsv6": {"git_tree": "b4795f5c6cf659d873e46db8f177a68eac4799ed", "files": 10, "bytes": 22758},
+    "newsv7": {"git_tree": "5a59a926d0688d05c08c5ecc008c174133728007", "files": 53, "bytes": 10328438}
+  },
+  "timestamp_releases": {
+    "202608251528-PipelineNews": {"git_tree": "c92923fc1de2f14c4c86fdf21c120f148c4e610f", "files": 3, "bytes": 4221},
+    "202608251622-PipelineNews": {"git_tree": "8315f1ce12b68109b143a6dc705cfc59cfb22f25", "files": 3, "bytes": 4054},
+    "202608251636-PipelineNews": {"git_tree": "551d5d2ddb107d63392021213e940bd9292fdedb", "files": 3, "bytes": 4648},
+    "202608251651-PipelineNews": {"git_tree": "84897b8dfd96374bbc5af7e5a05faf0ac6c752ea", "files": 3, "bytes": 4575},
+    "202608251700-pipelinenews": {"git_tree": "ed27bd41166b18dd97a1a9df6a0d450c023a3ab5", "files": 3, "bytes": 4263}
+  },
+  "lineage_findings": [
+    "V1-V5 define the familiar interaction and complete-pipeline mission.",
+    "V7-V9 preserve prior releases by Git object identity before promotion.",
+    "NewsV2-NewsV6 isolate each new data grain behind a deterministic contract and independent verifier.",
+    "NewsV1 and NewsV7 reuse identical canonical project partitions while NewsV7 adds cumulative intelligence.",
+    "Timestamped releases contain only index.html, release.json and README.md; shared assets remain outside the moving folder."
+  ]
+}
