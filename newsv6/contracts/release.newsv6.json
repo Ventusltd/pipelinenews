@@ -1,0 +1,32 @@
+{
+  "schema": "pipelinenews.release-contract.v1",
+  "release": "newsv6",
+  "status": "CANDIDATE",
+  "feature": "identity-first UK data-centre evidence namespace",
+  "inputs": [
+    {"path":"newsv6/fixtures/data_centre_sources.v1.json","sha256":"cf4fbd05b7cace881c4831c3dfedc705056d0d1df617c202a5062450269b3df5"}
+  ],
+  "data_law": {
+    "grains": {"sources":"one row per pinned source/licence record","observations":"one row per exact source observation","link_decisions":"one row per proposed cross-source identity link"},
+    "primary_keys": {"sources":["source_id"],"observations":["evidence_id"],"link_decisions":["link_decision_id"]},
+    "expected_rows": {"sources":6,"observations":2,"link_decisions":2,"hostile_cases":5},
+    "namespace": "PN-DC-*",
+    "capacity_types": ["it_load_mw","requested_grid_capacity_mw","contracted_grid_capacity_mw","operational_capacity_mw"]
+  },
+  "acceptance": {
+    "atlas_snapshot_discovery_only": true,
+    "atlas_identity_loss_recorded": true,
+    "osm_type_and_id_preserved_for_osm_observation": true,
+    "bbc_and_data_center_map_outbound_only": true,
+    "name_or_proximity_never_establishes_identity": true,
+    "untyped_capacity_never_published": true,
+    "hostile_negative_cases": 5,
+    "expected_identity_links": 0,
+    "newsv5_regression_required": true,
+    "visible_ui_changed": false,
+    "deterministic_rebuild_required": true,
+    "independent_verifier_required": true
+  },
+  "publication": {"live":false,"public_path":null,"reason":"NewsV6 is a data-only candidate and has no browser projection."},
+  "recovery": {"frozen_predecessor":"newsv5","predecessor_mutated":false,"rollback":"Discard newsv6; NewsV5 and all earlier releases remain independently reproducible."}
+}

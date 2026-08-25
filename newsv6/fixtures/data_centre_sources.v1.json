@@ -1,0 +1,27 @@
+{
+  "schema": "pipelinenews.data-centre-source-fixtures.v1",
+  "pinned_at": "2026-08-25T00:00:00Z",
+  "sources": [
+    {"source_id":"PN-DC-SOURCE-OSM","name":"OpenStreetMap data-centre objects","source_url":"https://www.openstreetmap.org/copyright","licence":"ODbL 1.0","evidence_class":"STRUCTURED_DISCOVERY","permitted_use":"DISCOVERY_WITH_ATTRIBUTION","identity_authority":"SOURCE_OBJECT_ONLY"},
+    {"source_id":"PN-DC-SOURCE-ATLAS-V8","name":"GlobalGrid Atlas V8 data-centre snapshot","source_url":"https://github.com/Ventusltd/globalgrid2050/blob/cfb32796e4a3c45a0ab7bec53623b96c84a818a4/repd_grid_atlasv8/data/datacentres.geojson","licence":"DERIVED_FROM_OSM_ODBL","evidence_class":"DISCOVERY_ONLY_IDENTITY_LOSS","permitted_use":"DISCOVERY_ONLY","identity_authority":"NONE_OSM_TYPE_AND_ID_DROPPED","pinned_commit":"cfb32796e4a3c45a0ab7bec53623b96c84a818a4","pinned_blob":"9457f6dc583bbfdcca40926c353738b321fcb09b","row_count":240},
+    {"source_id":"PN-DC-SOURCE-GOOGLE-WALTHAM-CROSS","name":"Google Waltham Cross official location page","source_url":"https://www.datacenters.google/locations/waltham-cross/","licence":"OFFICIAL_COMPANY_PAGE_LINK_AND_SOURCE_CLAIMS_ONLY","evidence_class":"DIRECT_COMPANY_RECORD","permitted_use":"FACILITY_AND_LIFECYCLE_SOURCE_CLAIM","identity_authority":"SOURCE_CLAIM"},
+    {"source_id":"PN-DC-SOURCE-OFGEM-REFORMS","name":"Ofgem proposed data-centre connection reforms","source_url":"https://www.ofgem.gov.uk/consultation/proposed-data-centre-connection-reforms","licence":"OFFICIAL_PUBLIC_BODY_PAGE_LINK_AND_SOURCE_CLAIMS_ONLY","evidence_class":"OFFICIAL_POLICY","permitted_use":"POLICY_CONTEXT_ONLY","identity_authority":"NONE_FOR_NAMED_FACILITIES"},
+    {"source_id":"PN-DC-SOURCE-BBC-CONTEXT","name":"BBC UK data-centre article","source_url":"https://www.bbc.co.uk/news/articles/c9q90q9qnn2o","licence":"OUTBOUND_LINK_ONLY","evidence_class":"PUBLISHER_CONTEXT","permitted_use":"CREDITED_OUTBOUND_LINK_ONLY","identity_authority":"NONE"},
+    {"source_id":"PN-DC-SOURCE-DCM-UK","name":"Data Center Map United Kingdom directory","source_url":"https://www.datacentermap.com/united-kingdom/","licence":"OUTBOUND_LINK_ONLY","evidence_class":"THIRD_PARTY_DIRECTORY","permitted_use":"CREDITED_OUTBOUND_LINK_ONLY","identity_authority":"NONE"}
+  ],
+  "observations": [
+    {"evidence_id":"PN-DC-EVIDENCE-GOOGLE-WALTHAM-CROSS","source_id":"PN-DC-SOURCE-GOOGLE-WALTHAM-CROSS","entity_type":"FACILITY","source_label":"Waltham Cross data centre","source_record_url":"https://www.datacenters.google/locations/waltham-cross/","osm_type":null,"osm_id":null,"latitude":null,"longitude":null,"lifecycle":"OPERATIONAL","operator_label":"Google","owner_label":null,"developer_label":null,"occupier_label":null,"it_load_mw":null,"requested_grid_capacity_mw":null,"contracted_grid_capacity_mw":null,"operational_capacity_mw":null,"capacity_evidence_class":"ABSTAIN_NO_CAPACITY_SOURCE","observation_decision":"SOURCE_CLAIM_ONLY"},
+    {"evidence_id":"PN-DC-EVIDENCE-OSM-WAY-86528807","source_id":"PN-DC-SOURCE-OSM","entity_type":"BUILDING","source_label":"Equinix LD5","source_record_url":"https://www.openstreetmap.org/way/86528807","osm_type":"way","osm_id":86528807,"latitude":51.5220008,"longitude":-0.6292251,"lifecycle":"UNKNOWN","operator_label":"Equinix","owner_label":null,"developer_label":null,"occupier_label":null,"it_load_mw":null,"requested_grid_capacity_mw":null,"contracted_grid_capacity_mw":null,"operational_capacity_mw":null,"capacity_evidence_class":"ABSTAIN_NO_CAPACITY_SOURCE","observation_decision":"DISCOVERY_ONLY"}
+  ],
+  "link_candidates": [
+    {"link_decision_id":"PN-DC-LINK-GOOGLE-WALTHAM-CROSS-ATLAS","left_evidence_id":"PN-DC-EVIDENCE-GOOGLE-WALTHAM-CROSS","right_source_id":"PN-DC-SOURCE-ATLAS-V8","signals":["SIMILAR_NAME","APPROXIMATE_LOCATION"],"decision":"ABSTAIN_INSUFFICIENT_IDENTITY_EVIDENCE","reason":"Atlas snapshot dropped the originating OSM object type and id; name and proximity cannot establish identity."},
+    {"link_decision_id":"PN-DC-LINK-EQUINIX-LD5-ATLAS","left_evidence_id":"PN-DC-EVIDENCE-OSM-WAY-86528807","right_source_id":"PN-DC-SOURCE-ATLAS-V8","signals":["SAME_DISPLAY_NAME","APPROXIMATE_COORDINATES"],"decision":"ABSTAIN_INSUFFICIENT_IDENTITY_EVIDENCE","reason":"The Atlas row cannot be joined back to an exact OSM object because its type and id were discarded."}
+  ],
+  "hostile_cases": [
+    {"case_id":"SAME_NAME_DIFFERENT_CITY","expected_decision":"ABSTAIN_INSUFFICIENT_IDENTITY_EVIDENCE"},
+    {"case_id":"SAME_OPERATOR_AND_PROXIMITY","expected_decision":"ABSTAIN_INSUFFICIENT_IDENTITY_EVIDENCE"},
+    {"case_id":"CAMPUS_BUILDING_NAME_OVERLAP","expected_decision":"ABSTAIN_INSUFFICIENT_IDENTITY_EVIDENCE"},
+    {"case_id":"CAPACITY_NUMBER_WITHOUT_TYPE","expected_decision":"ABSTAIN_UNTYPED_CAPACITY"},
+    {"case_id":"OUTBOUND_DIRECTORY_IDENTITY","expected_decision":"ABSTAIN_SOURCE_NOT_ADMISSIBLE"}
+  ]
+}

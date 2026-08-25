@@ -1,0 +1,21 @@
+import assert from "node:assert/strict";
+import {createHash} from "node:crypto";
+import {readFile} from "node:fs/promises";
+import {linkDecision, hostileDecision} from "../modules/data-centre-identity.mjs";
+const read = async (p) => readFile(new URL(p,import.meta.url));
+const [fixtureBytes,contractBytes,productBytes,manifestBytes] = await Promise.all([read("../fixtures/data_centre_sources.v1.json"),read("../contracts/release.newsv6.json"),read("../data/data_centre_evidence.json"),read("../data/build_manifest.json")]);
+const product=JSON.parse(productBytes), manifest=JSON.parse(manifestBytes), sha256=(v)=>createHash("sha256").update(v).digest("hex");
+const contract=JSON.parse(contractBytes); assert.equal(contract.inputs[0].sha256,sha256(fixtureBytes));
+assert.equal(product.schema,"pipelinenews.data-centre-evidence.v1"); assert.equal(product.status,"CANDIDATE");
+assert.deepEqual(product.counts,{sources:6,observations:2,link_decisions:2,linked:0,hostile_cases:5});
+for (const [rows,key] of [[product.sources,"source_id"],[product.observations,"evidence_id"],[product.link_decisions,"link_decision_id"]]) {assert.ok(rows.every(x=>x[key]?.startsWith("PN-DC-"))); assert.equal(new Set(rows.map(x=>x[key])).size,rows.length);}
+assert.ok(product.link_decisions.every(x=>x.decision==="ABSTAIN_INSUFFICIENT_IDENTITY_EVIDENCE"));
+assert.equal(product.sources.find(x=>x.source_id.endsWith("ATLAS-V8")).identity_authority,"NONE_OSM_TYPE_AND_ID_DROPPED");
+assert.equal(product.observations.find(x=>x.osm_id===86528807).osm_type,"way");
+for (const row of product.observations) for (const key of ["it_load_mw","requested_grid_capacity_mw","contracted_grid_capacity_mw","operational_capacity_mw"]) assert.equal(row[key],null);
+assert.ok(product.sources.filter(x=>["OUTBOUND_LINK_ONLY"].includes(x.licence)).every(x=>x.identity_authority==="NONE"));
+assert.equal(linkDecision({exactSharedSourceObject:false,atlasIdentityLost:true}),"ABSTAIN_INSUFFICIENT_IDENTITY_EVIDENCE");
+for (const row of product.hostile_decisions) assert.equal(row.decision,hostileDecision(row.case_id));
+assert.equal(manifest.inputs[0].sha256,sha256(fixtureBytes)); assert.equal(manifest.artifacts[0].sha256,sha256(productBytes));
+assert.equal(JSON.stringify(product).includes("GG2050-REPD-"),false);
+console.log("PASS NewsV6: 6 sources; 2 exact observations; 0 identity links; 5 hostile abstentions enforced");

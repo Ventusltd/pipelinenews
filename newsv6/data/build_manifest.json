@@ -1,0 +1,53 @@
+{
+  "schema": "pipelinenews.build-manifest.v1",
+  "release": "newsv6",
+  "status": "CANDIDATE",
+  "built_at": "2026-08-25T00:00:00Z",
+  "inputs": [
+    {
+      "path": "newsv6/fixtures/data_centre_sources.v1.json",
+      "sha256": "cf4fbd05b7cace881c4831c3dfedc705056d0d1df617c202a5062450269b3df5"
+    },
+    {
+      "path": "newsv6/contracts/release.newsv6.json",
+      "sha256": "8838d4d2ebf10c8148460edf86ee3daa4466fe0088c2b98c23756f07466f0c32"
+    }
+  ],
+  "modules": [
+    {
+      "path": "newsv6/modules/source-policy.mjs",
+      "sha256": "811b5df0f43b1437006a89f785c0a014fe3630c82f2814fa22b33eb81d58373e"
+    },
+    {
+      "path": "newsv6/modules/data-centre-identity.mjs",
+      "sha256": "28b436e41b74c4d3648de01344c6ef2738cf6b720296683378673d7cda25d7c0"
+    },
+    {
+      "path": "newsv6/scripts/build-data-centre-evidence.mjs",
+      "sha256": "0fe13ad889b19b1c23f03ad9d19a2cb3d563787353c0adeff99794da374d0da8"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "newsv6/data/data_centre_evidence.json",
+      "sha256": "e5e984f763877f41fef5c39bce248ee74bb9f22706c87cd51d6fd2a2ce9cd5d5",
+      "bytes": 6818,
+      "rows": 10
+    }
+  ],
+  "checks": {
+    "source_keys": {
+      "total_rows": 6,
+      "distinct_declared_keys": 6
+    },
+    "observation_keys": {
+      "total_rows": 2,
+      "distinct_declared_keys": 2
+    },
+    "link_keys": {
+      "total_rows": 2,
+      "distinct_declared_keys": 2
+    },
+    "independent_verifier": "newsv6/tests/check_newsv6.mjs"
+  }
+}
