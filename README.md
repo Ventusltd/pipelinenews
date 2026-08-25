@@ -99,7 +99,9 @@ Latest recovery checkpoint:
 - `PASS` — Movement 5 feature commit `7f799df7f85c453307eb95573d4fa932bd6884dc` adds the pinned Python 3.11 / DuckDB 1.3.2 / PyArrow 20.0.0 write-audit-publish path; validated artifact commit `684d556671e79d09f9988fb3cd318e62823816e8` publishes nine zstd Parquet tables and explicit DuckDB view SQL.
 - `PASS` — physical readback proves 208 source rows equal 208 Parquet rows, zero duplicate-key groups, zero required-null keys, zero schema mismatches, zero DuckDB view mismatches and zero renewable/data-centre identity links; Parquet audit SHA-256 is `2c2af8a38bcb9b6ce4127835b4e005a1dc22d097f2dd21b64c036b7ca38115be`.
 - `PASS` — the GitHub runner rebuilt every Parquet/audit/manifest/SQL artifact byte-identically and passed NewsV2–NewsV6 regressions. No `.duckdb` database is committed; views are reproducibly recreated from immutable Parquet.
-- Next bounded pass: build Movement 6 as compact consumer projections derived from declared DuckDB queries with explicit order, while leaving NewsV1 browser counts, controls, project order and mobile horizontal-scroll semantics unchanged.
+- `PASS` — Movement 6 source commit `060c5b69448ad1290185c653f45349f587222ebf`, exact-provenance correction `1722ac99aee0fdc826c6af2aa19b4f2f5fbd7a54` and validated artifact commit `8960a1635d49dcd9f065fb5e0caeaa363da1573c` publish four explicitly ordered DuckDB consumer projections and a separate frozen-interface guard.
+- `PASS` — two byte-identical hosted builds prove NewsV1 `133/45/19/4/9/6` URL-order parity, Beacon Fen 13599, eleven project-table columns, contained mobile horizontal scrolling, zero publishable NewsV5 reasons and zero data-centre/renewable-project identity leakage. ConsumerV1 remains data-only and `CANDIDATE`, not a deployment claim.
+- Next bounded pass: perform Movement 7 independent recovery review from a clean remote tree, account for every NewsV2–NewsV6 and Movement 5/6 source/artifact commit, rerun all release gates and write the final recovery table without changing frozen versions.
 
 ## Overnight automation master score — authoritative
 
@@ -140,12 +142,12 @@ Current baton:
 
 | Field | Value |
 |---|---|
-| Last proven feature commit | `684d556671e79d09f9988fb3cd318e62823816e8` |
-| Outcome | `PASS` — Movement 5 committed nine typed zstd Parquet tables and reproducible DuckDB view SQL; pinned Python 3.11 / DuckDB 1.3.2 / PyArrow 20.0.0 readback proves `208 source = 208 Parquet`, zero duplicate/null keys, zero schema/view mismatches, zero cross-domain identity links, byte-identical rebuild and Parquet audit SHA-256 `2c2af8a38bcb9b6ce4127835b4e005a1dc22d097f2dd21b64c036b7ca38115be` with NewsV2–NewsV6 green |
-| Next movement | Movement 6 — consumer projection and interface protection |
-| Next acceptance gate | Read the progressive-static-data-UI skill, then derive compact immutable consumer JSON from declared DuckDB queries with explicit `ORDER BY`; prove source rows/hashes, NewsV1 `133/45/19/4/9/6` ordering, Beacon Fen 13599, zero data-centre project-signal leakage, unchanged eleven-column project table and unchanged contained mobile horizontal-scroll CSS before any deployment claim |
-| Doubt to resolve | NewsV5 correctly exposes zero publishable reasons and NewsV6 is an independent data-centre namespace; the first consumer projection must preserve those honest empty/separate states rather than force new intelligence into the frozen NewsV1 newspaper or project signal |
-| Next-run budget | Up to three reviewed blocks: projection contract/query, independent parity/static-interface verification, then remote proof and handoff; target about 300 seconds and stop before 500 seconds, reserving the single 1,000-second extension only for an already-running explicit order/parity gate |
+| Last proven feature commit | `8960a1635d49dcd9f065fb5e0caeaa363da1573c` |
+| Outcome | `PASS` — Movement 6 source `060c5b69448ad1290185c653f45349f587222ebf`, provenance fix `1722ac99aee0fdc826c6af2aa19b4f2f5fbd7a54` and validated artifacts `8960a1635d49dcd9f065fb5e0caeaa363da1573c` produce four consumer collections through explicit DuckDB `ORDER BY`; deterministic rebuild proves NewsV1 `133/45/19/4/9/6` URL order, Beacon Fen 13599, eleven columns, contained mobile horizontal scroll, zero publishable reasons and zero data-centre project-signal leakage |
+| Next movement | Movement 7 — independent recovery review |
+| Next acceptance gate | Resolve current remote `main` from a clean tree; account for NewsV2–NewsV6 and Movement 5/6 in one recovery table containing feature, source commit, artifact commit, contract, builder, artifacts, test command, result, live status and rollback; rerun every release gate, verify frozen NewsV1/source hashes and exact remote head, and distinguish static/data proof from unresolved mobile runtime or deployment proof |
+| Doubt to resolve | ConsumerV1 is a data-only candidate and has not been connected to the public interface; live mobile widths remain untested, NewsV5 has zero publishable reasons by design, and NewsV6 currently contains only two exact observations with all capacity fields null |
+| Next-run budget | One independent review block targeted at 240–400 seconds and stopped before 500 seconds; use a second block only to repair documentation or a deterministic test uncovered by the clean-tree review, never to mutate a frozen version or manufacture live status |
 
 At the end of every run:
 
