@@ -1,4 +1,5 @@
 name: Deploy PipelineNews Pages
+# Static NewsV1 artifact only; Jekyll is deliberately bypassed.
 
 on:
   workflow_dispatch:
