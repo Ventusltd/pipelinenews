@@ -6,6 +6,9 @@ on:
     branches: [main]
     paths:
       - "tooling/poll-official-sources-v3.mjs"
+      - "tooling/official-frontier-engine-v4.mjs"
+      - "tooling/poll-official-sources-v4.mjs"
+      - "tests/check-official-source-v4.mjs"
       - "objects/js/sha256/**"
       - "releases/*.json"
       - ".github/workflows/official-source-frontier.yml"
@@ -31,11 +34,13 @@ jobs:
         with:
           node-version: 22
       - name: Verify release before network work
-        run: bash tests/run-current-timestamp-release.sh
+        run: |
+          bash tests/run-current-timestamp-release.sh
+          node tests/check-official-source-v4.mjs
       - name: Poll bounded official-source batch
         env:
           PLANIT_BUDGET: "48"
-        run: node tooling/poll-official-sources-v3.mjs
+        run: node tooling/poll-official-sources-v4.mjs
       - name: Commit cursor and admitted observations
         run: |
           git config user.name "PipelineNews Bot"
@@ -45,3 +50,4 @@ jobs:
           git commit -m "data: advance official-source frontier"
           git pull --rebase origin main
           git push
+

@@ -1,12 +1,12 @@
 import { readFile, mkdir, rename, writeFile } from "node:fs/promises";
+import { loadOfficialFrontierEngine } from "./official-frontier-engine-v4.mjs";
 
 const root = new URL("../", import.meta.url);
 const readJson = async (path) => JSON.parse(await readFile(new URL(path, root), "utf8"));
 const pointer = await readJson("releases/current.json");
 const manifest = await readJson(pointer.manifest);
-const engineObject = manifest.objects.modules.find((item) => item.role === "official_frontier_engine" || item.role === "authority_safe_frontier_engine");
-if (!engineObject) throw new Error("current release does not expose official_frontier_engine");
-const { buildReferenceGroups, normalisePlanningReference, resolvePlanningBinding, selectFrontier, sourceHealth } = await import(new URL(engineObject.path, root));
+const { module: frontierEngine } = await loadOfficialFrontierEngine(manifest, root);
+const { buildReferenceGroups, normalisePlanningReference, resolvePlanningBinding, selectFrontier, sourceHealth } = frontierEngine;
 
 const statePath = "state/official-source-cursor.json";
 const snapshotPath = "data/official-source/latest.json";
@@ -125,3 +125,4 @@ await atomicJson(statePath, {
   govuk_last_good_at: govukSucceeded > 0 ? now : priorGovukGoodAt,
 });
 console.log(`official-source v3 poll: ${projects.length} projects; PlanIt ${completed}/${attempted}; GOV.UK ${govukSucceeded}/${govukAttempted}; next=${nextIndex}`);
+
