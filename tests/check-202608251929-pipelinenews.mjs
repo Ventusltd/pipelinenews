@@ -9,8 +9,8 @@ const json = async (path) => JSON.parse(await text(path));
 const optionalJson = async (path) => { try { return await json(path); } catch (error) { if (error?.code === "ENOENT") return null; throw error; } };
 const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const id = "202608251929-pipelinenews";
-const [manifest, pointer, shell, html, report, sourceNews, regional, cumulative, ...parts] = await Promise.all([
-  json(`releases/${id}.json`), json("releases/current.json"), json(`${id}/release.json`), text(`${id}/index.html`), json(`reports/${id}-proof.json`),
+const [manifest, candidatePointer, currentPointer, shell, html, report, sourceNews, regional, cumulative, ...parts] = await Promise.all([
+  json(`releases/${id}.json`), json("releases/candidate.json"), json("releases/current.json"), json(`${id}/release.json`), text(`${id}/index.html`), json(`reports/${id}-proof.json`),
   json("newsv7/dist/major_project_news_v9_5_1.json"), json("newsv7/data/v9.7/regional_news.json"), json("newsv7/data/newsv7/cumulative_intelligence.json"),
   ...Array.from({ length: 16 }, (_, index) => json(`newsv7/data/v9.1/projects/part-${String(index + 1).padStart(3, "0")}.json`)),
 ]);
@@ -19,6 +19,8 @@ assert.deepEqual(manifest.changelog_source.build_base, { commit: "92985c76eaa449
 assert.deepEqual({ newsv1: manifest.frozen_preservation.newsv1_tree, newsv7: manifest.frozen_preservation.newsv7_tree, rejected_1701: manifest.frozen_preservation.rejected_1701_tree, rejected_1750: manifest.frozen_preservation.rejected_1750_tree }, { newsv1: "2d6247c067aa5fad49995dcb9029d6cdb9898994", newsv7: "5a59a926d0688d05c08c5ecc008c174133728007", rejected_1701: "84b748df685b9306ce232e415531ee4eca05b4d6", rejected_1750: "8a86c549b14a104b247aaadfc522644155b22ddb" });
 assert.equal(manifest.timeline.incepted_at, "2026-08-25T19:29:58+01:00"); assert.equal(manifest.timeline.created_at, "2026-08-25T19:45:57+01:00");
 const previewAttestation = await optionalJson(`attestations/${id}-preview.json`); const pipelineAttestation = await optionalJson(`attestations/${id}-pipeline.json`); const closureAttestation = await optionalJson(`attestations/${id}-closure.json`); const manifestBytesForAttestation = await read(`releases/${id}.json`);
+const pointer = closureAttestation ? currentPointer : candidatePointer;
+if (!closureAttestation) assert.equal(currentPointer.release_id, "202608251750-pipelinenews");
 assert.equal(pointer.release_id, id); assert.equal(shell.interface.project_table_columns, 11); assert.equal(shell.preview_attestation, `../attestations/${id}-preview.json`); assert.equal(shell.pipeline_attestation, `../attestations/${id}-pipeline.json`); assert.equal(shell.closure_attestation, `../attestations/${id}-closure.json`); assert.deepEqual(manifest.attestations, { preview: `attestations/${id}-preview.json`, pipeline_pages: `attestations/${id}-pipeline.json`, closure: `attestations/${id}-closure.json` });
 for (const field of ["incepted_at", "created_at", "committed_at", "pipeline_pages_verified_at", "catalogued_at", "globalgrid_live_verified_at"]) assert.ok(field in manifest.timeline);
 for (const field of ["committed_at", "pipeline_pages_verified_at", "catalogued_at", "globalgrid_live_verified_at"]) { assert.equal(manifest.timeline[field].value, null); assert.equal(manifest.timeline[field].status, "UNVERIFIED"); assert.match(manifest.timeline[field].attestation, /^attestations\//); }
@@ -89,7 +91,7 @@ const accounting = manifest.byte_accounting; const sumBytes = (rows) => rows.red
 assert.deepEqual(accounting.lightweight_release_shell, { files: 3, bytes: (await Promise.all([`${id}/index.html`, `${id}/readme.md`, `${id}/release.json`].map(async (path) => (await read(path)).length))).reduce((sum, bytes) => sum + bytes, 0) });
 assert.deepEqual(accounting.new_content_addressed, { files: 5, bytes: sumBytes(Object.values(manifest.objects)) }); assert.deepEqual(accounting.reused_or_pinned, { files: 23, bytes: sumBytes(manifest.frozen_reused_assets) });
 assert.deepEqual(accounting.proof_and_evidence, { files: 10, bytes: sumBytes(manifest.proof.slice(0, -1)) }); assert.deepEqual(accounting.publication_support, { files: 3, bytes: sumBytes(manifest.publication_support.build_state) }); assert.equal(accounting.report.bytes, (await read(`reports/${id}-proof.json`)).length); assert.equal(accounting.manifest.bytes, (await read(`releases/${id}.json`)).length);
-assert.deepEqual(accounting.minimum_pages_deployment_impact, { files: accounting.lightweight_release_shell.files + accounting.new_content_addressed.files + 3, bytes: accounting.lightweight_release_shell.bytes + accounting.new_content_addressed.bytes + accounting.report.bytes + accounting.manifest.bytes + (await read("releases/current.json")).length });
+assert.deepEqual(accounting.minimum_pages_deployment_impact, { files: accounting.lightweight_release_shell.files + accounting.new_content_addressed.files + 3, bytes: accounting.lightweight_release_shell.bytes + accounting.new_content_addressed.bytes + accounting.report.bytes + accounting.manifest.bytes + (await read("releases/candidate.json")).length });
 assert.equal(accounting.total_closure.bytes, accounting.lightweight_release_shell.bytes + accounting.new_content_addressed.bytes + accounting.reused_or_pinned.bytes + accounting.proof_and_evidence.bytes + accounting.publication_support.bytes + accounting.report.bytes + accounting.manifest.bytes);
 assert.deepEqual(report.byte_accounting, manifest.byte_accounting); assert.equal(report.checks.optional_intelligence_core_dependency, false);
 process.stdout.write(`VERIFY 202608251929: PASS · privacy-safe full-surface contract · ${closureAttestation ? "closure attested" : pipelineAttestation ? "Pipeline Pages attested" : "live browser pending"}\n`);

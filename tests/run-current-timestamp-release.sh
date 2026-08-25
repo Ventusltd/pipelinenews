@@ -12,9 +12,9 @@ if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   bash tests/check-frozen-release-trees.sh
 fi
 node tooling/build-202608251929-release.mjs
-FIRST_SHA="$(sha256sum releases/202608251929-pipelinenews.json releases/current.json reports/202608251929-pipelinenews-proof.json 202608251929-pipelinenews/index.html 202608251929-pipelinenews/readme.md 202608251929-pipelinenews/release.json)"
+FIRST_SHA="$(sha256sum releases/202608251929-pipelinenews.json releases/candidate.json reports/202608251929-pipelinenews-proof.json 202608251929-pipelinenews/index.html 202608251929-pipelinenews/readme.md 202608251929-pipelinenews/release.json)"
 node tooling/build-202608251929-release.mjs
-SECOND_SHA="$(sha256sum releases/202608251929-pipelinenews.json releases/current.json reports/202608251929-pipelinenews-proof.json 202608251929-pipelinenews/index.html 202608251929-pipelinenews/readme.md 202608251929-pipelinenews/release.json)"
+SECOND_SHA="$(sha256sum releases/202608251929-pipelinenews.json releases/candidate.json reports/202608251929-pipelinenews-proof.json 202608251929-pipelinenews/index.html 202608251929-pipelinenews/readme.md 202608251929-pipelinenews/release.json)"
 test "$FIRST_SHA" = "$SECOND_SHA"
 node tests/check-current-timestamp-release.mjs
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then

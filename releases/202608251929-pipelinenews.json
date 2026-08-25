@@ -68,9 +68,9 @@
       "sha256": "625cd9033e3cad979bf1ed5bf85de292f21ca0cd4246ac9aeb999f03ab6a86f0"
     },
     "css": {
-      "path": "objects/css/sha256/1c6152cc6798aabedafd696899f09eae549582b401c15d0efce188fcf18a2e15.css",
-      "bytes": 7460,
-      "sha256": "1c6152cc6798aabedafd696899f09eae549582b401c15d0efce188fcf18a2e15"
+      "path": "objects/css/sha256/26732fb255ee81f479262ef21a5dc3bca3b6ef8b4b4cd2d2bd41d1ab2604177d.css",
+      "bytes": 7624,
+      "sha256": "26732fb255ee81f479262ef21a5dc3bca3b6ef8b4b4cd2d2bd41d1ab2604177d"
     },
     "data": {
       "path": "objects/data/sha256/0eddc858b6d8a788da26eac3911fe487b9380ac53c1b46894a33f7fd1f12bcd6.json",
@@ -208,8 +208,8 @@
   "proof": [
     {
       "path": "tooling/build-202608251929-release.mjs",
-      "bytes": 25705,
-      "sha256": "3fc2c00259dcc26fd55c643399de3987d7d78db047d25ab0633a1402d7cff6e7"
+      "bytes": 25789,
+      "sha256": "853403586a5df3904c4f2abcaf5c3a1ad3eca72b2bbeed29a6d6c093cbe412cf"
     },
     {
       "path": "tooling/templates/202608251929-app.js",
@@ -218,18 +218,18 @@
     },
     {
       "path": "tooling/templates/202608251929-app.css",
-      "bytes": 7460,
-      "sha256": "1c6152cc6798aabedafd696899f09eae549582b401c15d0efce188fcf18a2e15"
+      "bytes": 7624,
+      "sha256": "26732fb255ee81f479262ef21a5dc3bca3b6ef8b4b4cd2d2bd41d1ab2604177d"
     },
     {
       "path": "tests/check-202608251929-pipelinenews.mjs",
-      "bytes": 20955,
-      "sha256": "904852e866472be4f98caabbe7bb550ab20cbf1a92aca8447d0fa77c57fa0fd9"
+      "bytes": 21182,
+      "sha256": "228ca4d1e0c6997c2e68e0da0c82ed4123b2145587f97699a2c611964835aff1"
     },
     {
       "path": "tests/browser-live-202608251929.mjs",
-      "bytes": 9014,
-      "sha256": "abcb2301678dd8768eb87ff88945cd3724963a2f02e31ebd5e5947ef07ee6a81"
+      "bytes": 9077,
+      "sha256": "b8f9326222ecfede68590612f8992d09dc8c9e89cc290882ff0cbdf077b834bd"
     },
     {
       "path": "tests/check-current-timestamp-release.mjs",
@@ -243,13 +243,13 @@
     },
     {
       "path": "tests/run-current-timestamp-release.sh",
-      "bytes": 1228,
-      "sha256": "6e739ab983707029751ed10c2735dc37716880286aea7a089e1af48b8bd86330"
+      "bytes": 1232,
+      "sha256": "21b651c5a657bbc63688ed7ad13a506459e765d162a1a41d507806739be633a6"
     },
     {
       "path": ".github/workflows/pages.yml",
-      "bytes": 12036,
-      "sha256": "0ec0cc6c4117df3d8d9a8a495d4a492c202199dea85e715257f69b78bc658712"
+      "bytes": 12235,
+      "sha256": "2c0a7c502cf300639ca6a17fa9b74ae25a58608a439c78439120580b72edc572"
     },
     {
       "path": ".github/workflows/timestamp-release.yml",
@@ -259,7 +259,7 @@
     {
       "path": "reports/202608251929-pipelinenews-proof.json",
       "bytes": 6431,
-      "sha256": "b4c50806b625326bc85037055eeb17233fe1127ffaf42bfb206aa116dbd24846"
+      "sha256": "3bb7f6594fe05a92d9943989d59397585b6ee6faa51a3ba69e7c2539c2b071e8"
     }
   ],
   "publication_support": {
@@ -276,7 +276,7 @@
         "sha256": "8938052eb27351e6c6a11c834a35a4556ff3d3b93b56930315e05439b67a0b0b"
       },
       {
-        "path": "releases/current.json",
+        "path": "releases/candidate.json",
         "bytes": 354,
         "sha256": "c5187c889a53bc7b569488dad77888dedd23116ac70ac6778b66fe22e939a962"
       }
@@ -297,11 +297,11 @@
   "byte_accounting": {
     "lightweight_release_shell": {
       "files": 3,
-      "bytes": 6831
+      "bytes": 6865
     },
     "new_content_addressed": {
       "files": 5,
-      "bytes": 128363
+      "bytes": 128527
     },
     "reused_or_pinned": {
       "files": 23,
@@ -309,7 +309,7 @@
     },
     "proof_and_evidence": {
       "files": 10,
-      "bytes": 102948
+      "bytes": 103689
     },
     "publication_support": {
       "files": 3,
@@ -321,15 +321,15 @@
     },
     "manifest": {
       "files": 1,
-      "bytes": 11210
+      "bytes": 11212
     },
     "minimum_pages_deployment_impact": {
       "files": 11,
-      "bytes": 153189
+      "bytes": 153389
     },
     "total_closure": {
       "files": 46,
-      "bytes": 10681216
+      "bytes": 10682157
     }
   }
 }

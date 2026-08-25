@@ -200,11 +200,11 @@
   "byte_accounting": {
     "lightweight_release_shell": {
       "files": 3,
-      "bytes": 6831
+      "bytes": 6865
     },
     "new_content_addressed": {
       "files": 5,
-      "bytes": 128363
+      "bytes": 128527
     },
     "reused_or_pinned": {
       "files": 23,
@@ -212,7 +212,7 @@
     },
     "proof_and_evidence": {
       "files": 10,
-      "bytes": 102948
+      "bytes": 103689
     },
     "publication_support": {
       "files": 3,
@@ -224,15 +224,15 @@
     },
     "manifest": {
       "files": 1,
-      "bytes": 11210
+      "bytes": 11212
     },
     "minimum_pages_deployment_impact": {
       "files": 11,
-      "bytes": 153189
+      "bytes": 153389
     },
     "total_closure": {
       "files": 46,
-      "bytes": 10681216
+      "bytes": 10682157
     }
   }
 }

@@ -197,8 +197,12 @@ jobs:
             cp -a attestations _site/
           fi
 
-          current_manifest="$(jq -r '.manifest' releases/current.json)"
-          current_release="$(jq -r '.release_id' releases/current.json)"
+          pointer_path="releases/candidate.json"
+          if test -f attestations/202608251929-pipelinenews-closure.json; then
+            pointer_path="releases/current.json"
+          fi
+          current_manifest="$(jq -r '.manifest' "$pointer_path")"
+          current_release="$(jq -r '.release_id' "$pointer_path")"
           test -f "$current_manifest"
           test -d "$current_release"
 
@@ -252,6 +256,7 @@ jobs:
           PIPELINENEWS_BASE_URL=http://127.0.0.1:4173 PIPELINENEWS_DEPLOY_SHA="preview-$GITHUB_SHA" node tests/browser-live-202608251929.mjs
 
       - name: Upload predeployment browser evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pipelinenews-202608251929-preview-${{ github.sha }}
