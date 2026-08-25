@@ -1,0 +1,22 @@
+# Emergency Pages boundary for branch/Jekyll publishing.
+# The canonical deployment path is .github/workflows/pages.yml, which stages
+# only the frozen NewsV1 browser runtime. These exclusions keep an accidental
+# branch-source deployment within the same public boundary.
+
+exclude:
+  - README.md
+  - .github/
+  - analytics_v1/
+  - consumer_v1/
+  - newsv2/
+  - newsv3/
+  - newsv4/
+  - newsv5/
+  - newsv6/
+  - reports/
+  - skills/
+  - v1-9-legacy-lessons/
+  - newsv1/README.md
+  - newsv1/package.json
+  - newsv1/tests/
+  - newsv1/data/v9.7/regional_decisions.json
