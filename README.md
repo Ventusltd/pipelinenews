@@ -90,7 +90,9 @@ Latest recovery checkpoint:
 - `PASS` — reusable adapter/freshness contract recorded in `reports/ATLAS_V8_ENERGY_V6_ADAPTER_AUDIT.md`; no proven grid-constraint feed was found, so none may be inferred from frequency, interconnector or proximity data.
 - `PASS` — NewsV3 candidate commit `c001b7018f6107ac9abebe6deab312e303817915` deterministically builds 28 unresolved operator labels, 29 project/operator-label source claims and 45 explicit transaction-role abstentions; every declared key is unique and non-null.
 - `PASS` — NewsV3 preserves `Firma Energy / IB Vogt` as one unsplit unresolved label, keeps every buyer/seller/lender/EPC/ICP/OEM/supplier/adviser field null, retains Beacon Fen on 13599 and excludes 13600. NewsV1 and NewsV2 regressions pass.
-- Next bounded pass: build NewsV4 as a separate source-health/freshness and market-context product with honest stale states; do not infer grid constraints from frequency, interconnector or proximity data.
+- `PASS` — NewsV4 candidate commit `f467febc6ba5d6b7c61e0ee42bc9bb3f4193333e` deterministically builds six source-health decisions: 0 current, 1 stale, 4 degraded and 1 unavailable; all six keys are unique and non-null.
+- `PASS` — NewsV4 independently rebuilds artifact SHA-256 `5aa7f2bef3d99d2cc50c81695da406ccdd3f315c88237ecf0de2c0568deefd0d`, records five stale/one unknown freshness states, forbids identity/event/grid/deal use and leaves NewsV1–NewsV3 green.
+- Next bounded pass: build NewsV5 as a separate transparent reason-decision ledger; default headline-only and stale-context combinations to `HOLD_FOR_VERIFICATION` or `ABSTAIN`, not opportunity claims.
 
 ## Overnight automation master score — authoritative
 
@@ -131,12 +133,12 @@ Current baton:
 
 | Field | Value |
 |---|---|
-| Last proven feature commit | `c001b7018f6107ac9abebe6deab312e303817915` |
-| Outcome | `PASS` — NewsV3 CANDIDATE committed and read back with deterministic 28/29/45 evidence, composite-label protection, 45 transaction-role abstentions and green NewsV1/NewsV2 regressions |
-| Next movement | Movement 2 — NewsV4 energy-market and grid context |
-| Next acceptance gate | Build a deterministic source-health/freshness and market-context snapshot with explicit `CURRENT/STALE/DEGRADED/UNAVAILABLE` decisions while NewsV3 remains green |
-| Doubt to resolve | No proven grid-constraint feed exists in the audited Atlas/Energy V6 sources; source terms, record keys and stale-state thresholds must be explicit before ingest |
-| Next-run budget | Up to three reviewed blocks; target about 300 seconds, normal hard stop 500 seconds; one 1,000-second extension only for a named progressing acceptance gate |
+| Last proven feature commit | `f467febc6ba5d6b7c61e0ee42bc9bb3f4193333e` |
+| Outcome | `PASS` — NewsV4 CANDIDATE committed and read back with six deterministic source-health decisions (`CURRENT 0 / STALE 1 / DEGRADED 4 / UNAVAILABLE 1`), artifact SHA-256 `5aa7f2bef3d99d2cc50c81695da406ccdd3f315c88237ecf0de2c0568deefd0d`, unique non-null keys, byte-identical rebuild and green NewsV1–NewsV3 regressions |
+| Next movement | Movement 3 — NewsV5 transparent reasons to research |
+| Next acceptance gate | Build deterministic event-to-capability rules and a reason decision ledger with complete evidence IDs, source URLs, explanations and limitations; hostile headline-only, stale-context, composite-label, podcast-only and proximity-only fixtures must resolve to `HOLD_FOR_VERIFICATION`, `REJECT` or `ABSTAIN` while NewsV4 remains green |
+| Doubt to resolve | NewsV2 events are publisher-headline `SOURCE_CLAIM`s rather than independently verified events, and NewsV4 contains no current context; the first NewsV5 slice may honestly publish zero reasons until a direct public record is pinned |
+| Next-run budget | Up to three reviewed blocks; target about 300 seconds, normal hard stop 500 seconds; use the single 1,000-second extension only if a named NewsV5 hostile-negative acceptance gate is demonstrably near completion |
 
 At the end of every run:
 
