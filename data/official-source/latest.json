@@ -1,6 +1,6 @@
 {
   "schema": "pipelinenews.official-source-snapshot.v3",
-  "generated_at": "2026-08-25T20:44:36.925Z",
+  "generated_at": "2026-08-25T20:50:38.564Z",
   "spine": {
     "projects": 7680,
     "reference_groups": 6870
@@ -11,7 +11,7 @@
       "attempted": 13,
       "succeeded": 12,
       "status_code": 429,
-      "prior_good_at": "2026-08-25T17:29:07.700Z",
+      "prior_good_at": "2026-08-25T20:44:36.925Z",
       "message": "rate limited; unfinished work retained; retry-after 15s observed"
     },
     "govuk": {
@@ -19,7 +19,7 @@
       "attempted": 1,
       "succeeded": 1,
       "status_code": 200,
-      "prior_good_at": "2026-08-25T17:29:07.700Z",
+      "prior_good_at": "2026-08-25T20:44:36.925Z",
       "message": null
     }
   },
@@ -6155,6 +6155,324 @@
             "candidate_repd_refs": [
               "3788"
             ]
+          }
+        }
+      ]
+    },
+    "0701813EEIA": {
+      "checked_at": "2026-08-25T20:50:38.564Z",
+      "query_reference": "07/01813/EEIA",
+      "records": [
+        {
+          "uid": "07/01813/EEIA",
+          "reference": null,
+          "altid": null,
+          "name": "Fife/07/01813/EEIA",
+          "area_name": "Fife",
+          "description": "Erection of 5 windturbines, construct substation, and access tracks",
+          "app_state": "Rejected",
+          "start_date": "2007-05-30",
+          "decided_date": "2009-09-04",
+          "last_changed": "2023-06-11T06:19:26.050154",
+          "url": "https://planning.fife.gov.uk/online/applicationDetails.do?keyVal=JIWPQXHF0D700&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "3513",
+            "gg_project_id": "GG2050-REPD-3513",
+            "project_name": "Gathercauld",
+            "planning_application_reference": "07/01813/EEIA",
+            "planning_authority": "Fife",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0702271STPLFE": {
+      "checked_at": "2026-08-25T20:50:38.564Z",
+      "query_reference": "07/02271/STPLFE",
+      "records": [
+        {
+          "uid": "07/02271/STPLFE",
+          "reference": null,
+          "altid": null,
+          "name": "EastRiding/07/02271/STPLFE",
+          "area_name": "East Riding",
+          "description": "Erection of 9 No. wind turbines, substation and construction of vehicular access and ancillary works",
+          "app_state": "Withdrawn",
+          "start_date": "2007-04-05",
+          "decided_date": "2007-10-26",
+          "last_changed": "2023-05-20T08:52:59.007665",
+          "url": "https://newplanningaccess.eastriding.gov.uk/newplanningaccess/applicationDetails.do?activeTab=summary&keyVal=JGBV25BJFA000",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2998"
+            ]
+          }
+        }
+      ]
+    },
+    "070356FULWNN": {
+      "checked_at": "2026-08-25T20:50:38.564Z",
+      "query_reference": "07/0356/FULWNN",
+      "records": []
+    },
+    "0706FUL22": {
+      "checked_at": "2026-08-25T20:50:38.564Z",
+      "query_reference": "0706/FUL/22",
+      "records": [
+        {
+          "uid": "0706/FUL/22",
+          "reference": null,
+          "altid": "100591381-001",
+          "name": "WestLothian/0706/FUL/22",
+          "area_name": "West Lothian",
+          "description": "Erection of 6 wind turbines with maximum height to blade tip of 220m and maximum 41MW generating capacity with associated infrastructure (EIA Development)",
+          "app_state": "Permitted",
+          "start_date": "2022-08-04",
+          "decided_date": "2025-10-13",
+          "last_changed": "2025-11-17T08:37:07.854983",
+          "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?activeTab=summary&keyVal=RG314CRJHI500",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "10585",
+            "gg_project_id": "GG2050-REPD-10585",
+            "project_name": "Gladsmuir Hills - Wind Farm",
+            "planning_application_reference": "0706/FUL/22",
+            "planning_authority": "West Lothian",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0708FUL22": {
+      "checked_at": "2026-08-25T20:50:38.564Z",
+      "query_reference": "0708/FUL/22",
+      "records": [
+        {
+          "uid": "0708/FUL/22",
+          "reference": null,
+          "altid": "100577662-001",
+          "name": "WestLothian/0708/FUL/22",
+          "area_name": "West Lothian",
+          "description": "Application for a 2MW solar farm",
+          "app_state": "Permitted",
+          "start_date": "2022-08-05",
+          "decided_date": "2023-01-10",
+          "last_changed": "2026-05-15T08:56:19.567371",
+          "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?activeTab=summary&keyVal=RG4VPLRJHJH00",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "11955",
+            "gg_project_id": "GG2050-REPD-11955",
+            "project_name": "The Wyman Gordon Facility, Nettlehill Road- Solar Farm",
+            "planning_application_reference": "0708/FUL/22",
+            "planning_authority": "West Lothian",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "07130016": {
+      "checked_at": "2026-08-25T20:50:38.564Z",
+      "query_reference": "07/13/0016",
+      "records": [
+        {
+          "uid": "07/13/0016",
+          "reference": null,
+          "altid": null,
+          "name": "TauntonDeane/07/13/0016",
+          "area_name": "Taunton Deane",
+          "description": "INSTALLATION OF SOLAR PV ARRAYS AND ASSOCIATED WORKS WITH A CAPACITY OF UP TO 9.5 MEGAWATTS OF POWER AT LAND NORTH-WEST OF RITHERDENS FARM, BRADFORD ON TONE AS AMENDED",
+          "app_state": "Rejected",
+          "start_date": "2013-04-25",
+          "decided_date": "2013-08-22",
+          "last_changed": "2026-02-07T12:40:52.763384",
+          "url": "https://www3.somersetwestandtaunton.gov.uk/asp/webpages/plan/PlAppDets.asp?casefullref=07/13/0016&QC=sqfC1",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "1121"
+            ]
+          }
+        }
+      ]
+    },
+    "07202000739FUL": {
+      "checked_at": "2026-08-25T20:50:38.564Z",
+      "query_reference": "07/2020/00739/FUL",
+      "records": [
+        {
+          "uid": "07/2020/00739/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "SouthRibble/07/2020/00739/FUL",
+          "area_name": "South Ribble",
+          "description": "Construction and operation of energy storage facility and associated equipment",
+          "app_state": "Conditions",
+          "start_date": "2020-09-07",
+          "decided_date": "2020-10-21",
+          "last_changed": "2026-04-11T13:17:47.236991",
+          "url": "https://publicaccess.southribble.gov.uk/online-applications/applicationDetails.do?keyVal=QGA4Z0OTI0500&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "8031",
+            "gg_project_id": "GG2050-REPD-8031",
+            "project_name": "The Glowhouse",
+            "planning_application_reference": "07/2020/00739/FUL",
+            "planning_authority": "South Ribble",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "07202100252FUL": {
+      "checked_at": "2026-08-25T20:50:38.564Z",
+      "query_reference": "07/2021/00252/FUL",
+      "records": [
+        {
+          "uid": "07/2021/00252/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "SouthRibble/07/2021/00252/FUL",
+          "area_name": "South Ribble",
+          "description": "Development of a 49.99 MW Battery Storage Facility, with associated infrastructure and landscaping.",
+          "app_state": "Conditions",
+          "start_date": "2021-03-10",
+          "decided_date": "2021-07-09",
+          "last_changed": "2026-07-04T13:51:54.396035",
+          "url": "https://publicaccess.southribble.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=QPQYFPOTJ6A00",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "8829",
+            "gg_project_id": "GG2050-REPD-8829",
+            "project_name": "Howick Hall Farm - Battery Storage Facility",
+            "planning_application_reference": "07/2021/00252/FUL",
+            "planning_authority": "South Ribble",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "07202200021FUL": {
+      "checked_at": "2026-08-25T20:50:38.564Z",
+      "query_reference": "07/2022/00021/FUL",
+      "records": [
+        {
+          "uid": "07/2022/00021/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "SouthRibble/07/2022/00021/FUL",
+          "area_name": "South Ribble",
+          "description": "Siting of containerised battery energy storage units including electrical ancillary equipment on vacant land off Howick Cross Lane.The scheme includes the formation of a new site vehicle entrance off Howick Cross Lane and the installation of 2.5m high galvanised palisade fencing and gates.",
+          "app_state": null,
+          "start_date": "2022-01-12",
+          "decided_date": null,
+          "last_changed": "2023-06-12T06:40:49.829759",
+          "url": "https://publicaccess.southribble.gov.uk/online-applications/applicationDetails.do?keyVal=R5LBQYOTL0300&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "11217",
+            "gg_project_id": "GG2050-REPD-11217",
+            "project_name": "Penwortham - Battery storage",
+            "planning_application_reference": "07/2022/00021/FUL",
+            "planning_authority": "South Ribble",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "07202400268PAP": {
+      "checked_at": "2026-08-25T20:50:38.564Z",
+      "query_reference": "07/2024/00268/PAP",
+      "records": [
+        {
+          "uid": "07/2024/00268/PAP",
+          "reference": null,
+          "altid": null,
+          "name": "SouthRibble/07/2024/00268/PAP",
+          "area_name": "South Ribble",
+          "description": "Prior Approval for the installation of Solar PV system totalling 4000kWp to the the roof",
+          "app_state": "Permitted",
+          "start_date": "2024-04-09",
+          "decided_date": "2024-05-21",
+          "last_changed": "2024-05-30T08:00:56.905362",
+          "url": "https://publicaccess.southribble.gov.uk/online-applications/applicationDetails.do?keyVal=SBOGXCOT0C300&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "16262",
+            "gg_project_id": "GG2050-REPD-16262",
+            "project_name": "Leyland Trucks Limited, Croston Road - Solar Panels",
+            "planning_application_reference": "07/2024/00268/PAP",
+            "planning_authority": "South Ribble",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "07202500057PAP": {
+      "checked_at": "2026-08-25T20:50:38.564Z",
+      "query_reference": "07/2025/00057/PAP",
+      "records": [
+        {
+          "uid": "07/2025/00057/PAP",
+          "reference": null,
+          "altid": null,
+          "name": "SouthRibble/07/2025/00057/PAP",
+          "area_name": "South Ribble",
+          "description": "Prior Approval for the installation of Solar PV system to the the roof",
+          "app_state": "Permitted",
+          "start_date": "2025-01-29",
+          "decided_date": "2025-03-05",
+          "last_changed": "2025-03-25T08:08:14.83032",
+          "url": "https://publicaccess.southribble.gov.uk/online-applications/applicationDetails.do?keyVal=SQUVZOOT0D200&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "18073",
+            "gg_project_id": "GG2050-REPD-18073",
+            "project_name": "Navigator Tissue UK, Badger Road - Solar PV Panels",
+            "planning_application_reference": "07/2025/00057/PAP",
+            "planning_authority": "South Ribble",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "07202600387FUL": {
+      "checked_at": "2026-08-25T20:50:38.564Z",
+      "query_reference": "07/2026/00387/FUL",
+      "records": [
+        {
+          "uid": "07/2026/00387/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "SouthRibble/07/2026/00387/FUL",
+          "area_name": "South Ribble",
+          "description": "Ground mounted solar array of 1.2MW solar photovoltaic system incorporating 1890 no. panels and CCTV in accordance with relevant legislation, and associated infrastructure.",
+          "app_state": null,
+          "start_date": "2026-05-22",
+          "decided_date": null,
+          "last_changed": "2026-08-25T10:09:08.029143",
+          "url": "https://publicaccess.southribble.gov.uk/online-applications/applicationDetails.do?keyVal=TFFP7SOTHQH00&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "21072",
+            "gg_project_id": "GG2050-REPD-21072",
+            "project_name": "Leyland Trucks, Croston Road - Solar Array",
+            "planning_application_reference": "07/2026/00387/FUL",
+            "planning_authority": "South Ribble",
+            "news_may_overwrite_official_facts": false
           }
         }
       ]
