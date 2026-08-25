@@ -24,7 +24,7 @@ Green is not proof. File count is not proof. Size is not proof. A rendered brows
 
 ## Active build plan — News V1 / GlobalGrid V9.8 lineage
 
-Status: RC1 validated locally on 2026-08-24; publication and live-byte checks are the remaining bounded passes.
+Status: RC1 committed on 2026-08-25; PipelineNews Pages enablement is the explicit publication blocker.
 
 Public release path: `https://ventusltd.github.io/pipelinenews/newsv1/`.
 
@@ -64,7 +64,9 @@ Latest recovery checkpoint:
 - `PASS` — Pages staging produces a bounded 10.1 MB runtime artifact and excludes the frozen archive, fixtures and tests.
 - `PASS` — the tracked PipelineNews legacy archive and importer are unchanged.
 - `NOT TESTED` — local Playwright rendering because this runner has no installed Chromium binary; do not reinterpret static checks as browser proof.
-- Next bounded pass: commit PipelineNews `main`, inspect the Pages run, then commit the single GlobalGrid directory entry and inspect its deployment.
+- `PASS` — PipelineNews `main` commit `d1f573fb6421903e37e164edafcc3c8cae2407f0` and GlobalGrid directory commit `cfb32796e4a3c45a0ab7bec53623b96c84a818a4` are published.
+- `BLOCKED` — PipelineNews Pages run `32791931375` failed only at `Configure Pages` because repository Pages is not enabled; build verification and deployment were therefore skipped.
+- Next bounded pass: enable `Ventusltd/pipelinenews` Pages with source **GitHub Actions**, rerun `Deploy PipelineNews Pages`, then perform the Playwright/live-byte gates before changing `CANDIDATE` to `LIVE`.
 
 ## Operating protocol
 
