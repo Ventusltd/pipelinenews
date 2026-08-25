@@ -7,7 +7,7 @@ on:
     paths:
       - "tooling/poll-official-sources-v2.mjs"
       - "objects/js/sha256/**"
-      - "releases/current.json"
+      - "releases/*.json"
       - ".github/workflows/official-source-frontier.yml"
   schedule:
     - cron: "17 5 * * *"
