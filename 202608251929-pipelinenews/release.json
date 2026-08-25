@@ -1,0 +1,16 @@
+{
+  "schema": "pipelinenews.release-shell.v2",
+  "release_id": "202608251929-pipelinenews",
+  "status": "CANDIDATE_PREPUBLICATION",
+  "manifest": "../releases/202608251929-pipelinenews.json",
+  "preview_attestation": "../attestations/202608251929-pipelinenews-preview.json",
+  "pipeline_attestation": "../attestations/202608251929-pipelinenews-pipeline.json",
+  "closure_attestation": "../attestations/202608251929-pipelinenews-closure.json",
+  "interface": {
+    "project_table_columns": 11,
+    "rows_per_page": 100,
+    "technology_gauges": 4,
+    "mobile_horizontal_scroll": true,
+    "raw_person_names_published": false
+  }
+}

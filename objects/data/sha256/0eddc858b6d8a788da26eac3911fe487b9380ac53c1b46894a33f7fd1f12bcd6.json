@@ -1,0 +1,91 @@
+{
+  "schema": "pipelinenews.safe-intelligence-summary.v2",
+  "release_id": "202608251929-pipelinenews",
+  "source_state": "PINNED_PREPUBLICATION",
+  "spine": {
+    "projects": 7680,
+    "capacity_mw": 356474.09,
+    "solar": {
+      "projects": 3563,
+      "capacity_mw": 67013.29
+    },
+    "bess": {
+      "projects": 1609,
+      "capacity_mw": 147681.94
+    }
+  },
+  "news": {
+    "base_ledger": 133,
+    "governed_uk": 45,
+    "regional_ledger": 19
+  },
+  "frontier": {
+    "cursor": 60,
+    "total_groups": 6870,
+    "records": 174,
+    "primary_match": 29,
+    "abstain": 145,
+    "status": "DEGRADED"
+  },
+  "connection": {
+    "when": "UNKNOWN",
+    "how": "UNKNOWN",
+    "next_gate": "Accepted connection offer, network register, energisation notice or exact official network document."
+  },
+  "sentinels": [
+    {
+      "repd_ref": "13599",
+      "project_id": "GG2050-REPD-13599",
+      "result": "PASS",
+      "organisation_evidence": "Low Carbon Limited",
+      "evidence_class": "GOVERNED_NEWS_ASSOCIATION_NOT_OFFICIAL_REPD_OPERATOR"
+    },
+    {
+      "repd_ref": "17494",
+      "project_id": "GG2050-REPD-17494",
+      "result": "PASS",
+      "discovery_state": "FIXTURE_ONLY_NOT_CURRENT",
+      "connection_decision": "ABSTAIN",
+      "organisation_evidence": null
+    }
+  ],
+  "privacy": {
+    "raw_operator_labels_published": false,
+    "raw_headlines_or_summaries_published": false,
+    "operator_output_policy": "UNIVERSALLY_WITHHELD",
+    "restricted_operator_project_ids": [
+      "17376",
+      "17983",
+      "1984",
+      "1763",
+      "1121",
+      "1597",
+      "4078",
+      "1987",
+      "2240",
+      "1352",
+      "2051"
+    ],
+    "restricted_site_project_ids": [
+      "10199",
+      "5212"
+    ],
+    "restricted_feed_ranks": [
+      40,
+      71,
+      106
+    ],
+    "restricted_regional_ranks": [
+      12
+    ],
+    "restricted_regional_items": [
+      "GG2050-REGION-52E7905F2C40D828"
+    ]
+  },
+  "publication_law": {
+    "official_news_separate": true,
+    "identity_rule_based": true,
+    "ambiguous_binding_abstains": true,
+    "optional_intelligence_blocks_core": false
+  }
+}

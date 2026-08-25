@@ -1,0 +1,238 @@
+{
+  "schema": "pipelinenews.release-proof.v2",
+  "release_id": "202608251929-pipelinenews",
+  "status": "LOCAL_DETERMINISTIC_PASS_LIVE_UNVERIFIED",
+  "checks": {
+    "project_count": 7680,
+    "capacity_mw": 356474.09,
+    "solar": {
+      "projects": 3563,
+      "capacity_mw": 67013.29
+    },
+    "bess": {
+      "projects": 1609,
+      "capacity_mw": 147681.94
+    },
+    "base_headlines": 133,
+    "governed_uk": 45,
+    "regional_headlines": 19,
+    "safe_evidence_records": 152,
+    "table_columns": 11,
+    "rows_per_page": 100,
+    "technology_gauges": 4,
+    "sentinel_13599": "PASS",
+    "sentinel_17494": "PASS",
+    "raw_operator_output": "WITHHELD",
+    "raw_unstructured_news_output": "WITHHELD",
+    "connection_timing": "UNKNOWN",
+    "connection_method": "UNKNOWN",
+    "optional_intelligence_core_dependency": false,
+    "source_status": "DEGRADED"
+  },
+  "regression_matrix": {
+    "newsv7": {
+      "classification": "FROZEN_BASELINE",
+      "visible_headlines": 133,
+      "project_count": 7680,
+      "capacity_mw": 356474.09,
+      "table_columns": 11,
+      "filters": {
+        "technology": true,
+        "status": true,
+        "county": true,
+        "region": false,
+        "capacity_range": false
+      },
+      "search": {
+        "news": true,
+        "projects": true
+      },
+      "sorting": {
+        "capacity_both_directions": true,
+        "repd_updated_both_directions": true
+      },
+      "pagination": {
+        "enabled": true,
+        "rows_per_page": 100,
+        "pages": 77
+      },
+      "export": true,
+      "maps": {
+        "atlas": true,
+        "per_project": true
+      },
+      "intelligence_panels": 5,
+      "mobile_scrolling": "STATIC_AND_LIVE_BASELINE_PASS",
+      "data_load": "PASS_LIVE_BASELINE",
+      "console_errors": "0_PAGE_ORIGIN_OBSERVED",
+      "network_failures": "0_OBSERVED",
+      "sentinel_projects": {
+        "13599": "PASS",
+        "17494": "PASS_PROJECT_SPINE_ONLY"
+      },
+      "official_news_separation": true
+    },
+    "dashboard_v5": {
+      "classification": "REFERENCE_ONLY",
+      "visible_headlines": 125,
+      "project_count": 5210,
+      "capacity_mw": 262397,
+      "table_columns": 8,
+      "filters": {
+        "technology": true,
+        "status": true,
+        "county": true,
+        "region": false,
+        "capacity_range": false
+      },
+      "search": {
+        "news": "BASIC",
+        "projects": "BASIC"
+      },
+      "sorting": false,
+      "pagination": false,
+      "export": true,
+      "maps": "NO_PER_PROJECT_ATLAS",
+      "intelligence_panels": "BASIC_NEWS_SIGNAL",
+      "mobile_scrolling": "FAIL_COLUMNS_HIDDEN",
+      "data_load": "NOT_RETESTED_THIS_CLOSURE",
+      "console_errors": "NOT_RETESTED_THIS_CLOSURE",
+      "network_failures": "NOT_RETESTED_THIS_CLOSURE",
+      "sentinel_projects": {
+        "13599": "NOT_GOVERNED",
+        "17494": "NOT_GOVERNED"
+      },
+      "official_news_separation": "STATED_WEAKER_MATCHING"
+    },
+    "202608251701-pipelinenews": {
+      "classification": "REJECTED_PRODUCT_BASELINE",
+      "visible_headlines": 0,
+      "project_count": 0,
+      "capacity_mw": 0,
+      "table_columns": 0,
+      "filters": false,
+      "search": false,
+      "sorting": false,
+      "pagination": false,
+      "export": false,
+      "maps": false,
+      "intelligence_panels": "PROOF_METRICS_ONLY",
+      "mobile_scrolling": "NOT_APPLICABLE_NO_PRODUCT_TABLE",
+      "data_load": "THIN_SHELL_ONLY",
+      "console_errors": "NOT_RETESTED_THIS_CLOSURE",
+      "network_failures": "NOT_RETESTED_THIS_CLOSURE",
+      "sentinel_projects": {
+        "13599": "INDIRECT_ONLY",
+        "17494": "FIXTURE_ONLY"
+      },
+      "official_news_separation": true
+    },
+    "202608251750-pipelinenews": {
+      "classification": "REJECTED_PRODUCT_BASELINE",
+      "visible_headlines": 0,
+      "project_count": 0,
+      "capacity_mw": 0,
+      "table_columns": 0,
+      "filters": false,
+      "search": false,
+      "sorting": false,
+      "pagination": false,
+      "export": false,
+      "maps": false,
+      "intelligence_panels": "AUDIT_METRICS_ONLY",
+      "mobile_scrolling": "NOT_APPLICABLE_NO_PRODUCT_TABLE",
+      "data_load": "THIN_SHELL_ONLY",
+      "console_errors": "NOT_RETESTED_THIS_CLOSURE",
+      "network_failures": "NOT_RETESTED_THIS_CLOSURE",
+      "sentinel_projects": {
+        "13599": "CANARY_ONLY",
+        "17494": "FIXTURE_ONLY"
+      },
+      "official_news_separation": true
+    },
+    "202608251929-pipelinenews": {
+      "classification": "LOCAL_CANDIDATE",
+      "visible_headlines": 133,
+      "project_count": 7680,
+      "capacity_mw": 356474.09,
+      "table_columns": 11,
+      "filters": {
+        "technology": true,
+        "status": true,
+        "region": true,
+        "capacity_range": "INCLUSIVE"
+      },
+      "search": {
+        "news": true,
+        "projects": true
+      },
+      "sorting": {
+        "capacity_both_directions": true,
+        "repd_updated_both_directions": true
+      },
+      "pagination": {
+        "enabled": true,
+        "rows_per_page": 100,
+        "pages": 77
+      },
+      "export": true,
+      "maps": {
+        "atlas": true,
+        "per_project": true
+      },
+      "intelligence_panels": 5,
+      "mobile_scrolling": "STATIC_PASS_RUNTIME_PENDING",
+      "data_load": "LOCAL_DETERMINISTIC_PASS_RUNTIME_PENDING",
+      "console_errors": "PENDING_LIVE_QA",
+      "network_failures": "PENDING_LIVE_QA",
+      "sentinel_projects": {
+        "13599": "PASS",
+        "17494": "PASS_PROJECT_SPINE_DISCOVERY_ABSTAIN"
+      },
+      "official_news_separation": true
+    }
+  },
+  "browser": {
+    "desktop": "PENDING_LIVE_QA",
+    "mobile_390": "PENDING_LIVE_QA",
+    "script": "tests/browser-live-202608251929.mjs"
+  },
+  "byte_accounting": {
+    "lightweight_release_shell": {
+      "files": 3,
+      "bytes": 6831
+    },
+    "new_content_addressed": {
+      "files": 5,
+      "bytes": 128363
+    },
+    "reused_or_pinned": {
+      "files": 23,
+      "bytes": 10345654
+    },
+    "proof_and_evidence": {
+      "files": 10,
+      "bytes": 102948
+    },
+    "publication_support": {
+      "files": 3,
+      "bytes": 79779
+    },
+    "report": {
+      "files": 1,
+      "bytes": 6431
+    },
+    "manifest": {
+      "files": 1,
+      "bytes": 11210
+    },
+    "minimum_pages_deployment_impact": {
+      "files": 11,
+      "bytes": 153189
+    },
+    "total_closure": {
+      "files": 46,
+      "bytes": 10681216
+    }
+  }
+}

@@ -24,6 +24,20 @@ The three REPD quantities below are different and must never be collapsed into o
 
 The admitted 7,680-project spine totals 356,474.09 MW. It remains the public baseline until the 23-row candidate delta passes the declared quarterly-release admission process.
 
+## 2026-08-25 — `202608251929-pipelinenews`
+
+Status: `CANDIDATE_PREPUBLICATION`; manual recovery successor. Live status remains unverified until a separate append-only closure attestation records the exact commit, PipelineNews Pages check, GlobalGrid catalogue commit and both live checks.
+
+- Restores the frozen NewsV7-grade surface: 133 typed evidence rows, the complete 7,680-project spine, eleven columns, 100-row pages, technology/status/region/search controls, inclusive official-capacity limits, bidirectional sorting, CSV export and Atlas links.
+- Preserves frozen NewsV7 data bytes through content hashes; neither rejected timestamp predecessor is a product baseline or current release.
+- Removes every raw operator label, unstructured headline and summary from the new public presentation. Typed evidence labels preserve ledger order. Restricted evidence URLs are withheld; other links resolve only to a source domain, preventing path/query identifier disclosure.
+- Keeps one governed organisation association for the REPD 13599 sentinel visibly separate from the official REPD operator field. The official operator column remains universally withheld.
+- Records REPD 17494 as the stable second sentinel while current discovery remains fixture-only and its connection decision abstains.
+- Loads optional intelligence after the newspaper and project register. Optional-summary failure cannot block the core product.
+- Reports the official-source frontier as 60 of 6,870 groups, 174 observations, 29 authority-safe primary matches and 145 abstentions; the planning source remains degraded.
+- Publishes connection timing and method as `UNKNOWN`, with the next gate limited to an accepted connection offer, network register, energisation notice or exact official network document.
+- Adds exact byte-category accounting, a deterministic builder/verifier, a desktop/390-pixel live-browser QA script and append-only closure-attestation pointers.
+
 ## 2026-08-25 — `202608251750-pipelinenews`
 
 Status: `CANDIDATE_NOT_CURRENT`; intended for an immutable Pages deployment after deterministic verification, with no stable-route promotion. A current governed search-index run has not completed.

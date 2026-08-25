@@ -10,6 +10,7 @@ on:
       - "discoveryv1/**"
       - "attributionv1/**"
       - "reports/**"
+      - "attestations/**"
       - "README.md"
       - "CHANGELOG.md"
       - "RELEASE_ARCHITECTURE.md"
@@ -18,6 +19,9 @@ on:
       - "objects/**"
       - "tooling/build-202608251701-release.mjs"
       - "tooling/build-202608251750-release.mjs"
+      - "tooling/build-202608251929-release.mjs"
+      - "tooling/templates/202608251929-app.js"
+      - "tooling/templates/202608251929-app.css"
       - "tooling/build-current-discovery-release.mjs"
       - "tooling/build-evidence-release.mjs"
       - "tooling/poll-official-sources-v3.mjs"
@@ -26,6 +30,9 @@ on:
       - "tests/check-202608251700-pipelinenews.mjs"
       - "tests/check-202608251701-pipelinenews.mjs"
       - "tests/check-202608251750-pipelinenews.mjs"
+      - "tests/check-202608251929-pipelinenews.mjs"
+      - "tests/browser-live-202608251929.mjs"
+      - "tests/check-frozen-release-trees.sh"
       - "tests/check-official-source-v3.mjs"
       - "tests/fixtures/official-source-v3-collisions.json"
       - "tests/run-current-timestamp-release.sh"
@@ -37,7 +44,7 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 8
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -56,4 +63,6 @@ jobs:
         run: bash newsv7/tests/run_newsv7.sh
 
       - name: Require a clean deterministic checkout
-        run: git diff --exit-code
+        run: |
+          git diff --exit-code
+          test -z "$(git status --porcelain=v1 --untracked-files=all)"
