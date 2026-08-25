@@ -1,6 +1,6 @@
 {
   "schema": "pipelinenews.official-source-snapshot.v3",
-  "generated_at": "2026-08-25T21:17:54.721Z",
+  "generated_at": "2026-08-25T21:23:28.814Z",
   "spine": {
     "projects": 7680,
     "reference_groups": 6870
@@ -11,7 +11,7 @@
       "attempted": 13,
       "succeeded": 12,
       "status_code": 429,
-      "prior_good_at": "2026-08-25T20:50:38.564Z",
+      "prior_good_at": "2026-08-25T21:17:54.721Z",
       "message": "rate limited; unfinished work retained; retry-after 15s observed"
     },
     "govuk": {
@@ -19,7 +19,7 @@
       "attempted": 1,
       "succeeded": 1,
       "status_code": 200,
-      "prior_good_at": "2026-08-25T20:50:38.564Z",
+      "prior_good_at": "2026-08-25T21:17:54.721Z",
       "message": null
     }
   },
@@ -6779,6 +6779,987 @@
       "checked_at": "2026-08-25T21:17:54.721Z",
       "query_reference": "08/0180/02",
       "records": []
+    },
+    "0802973FUL": {
+      "checked_at": "2026-08-25T21:23:28.814Z",
+      "query_reference": "08/02973/FUL",
+      "records": [
+        {
+          "uid": "08/02973/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Bexley/08/02973/FUL",
+          "area_name": "Bexley",
+          "description": "Conservatory.",
+          "app_state": "Conditions",
+          "start_date": "2008-02-27",
+          "decided_date": "2008-05-22",
+          "last_changed": "2023-05-16T15:41:37.560965",
+          "url": "https://pa.bexley.gov.uk/online-applications/applicationDetails.do?keyVal=JX9JPLBE04W00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2985"
+            ]
+          }
+        },
+        {
+          "uid": "08/02973/FUL",
+          "reference": null,
+          "altid": "494487",
+          "name": "Bradford/08/02973/FUL",
+          "area_name": "Bradford",
+          "description": "Installation of single 2.3 MW wind turbine, 85 meters to hub and 120 meters to blade tip",
+          "app_state": "Rejected",
+          "start_date": "2008-05-01",
+          "decided_date": "2009-05-18",
+          "last_changed": "2024-07-20T08:01:22.523736",
+          "url": "https://planning.bradford.gov.uk/online-applications/applicationDetails.do?keyVal=K08J9XDH0A600&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "2985",
+            "gg_project_id": "GG2050-REPD-2985",
+            "project_name": "Princes Soft Drinks Distribution",
+            "planning_application_reference": "08/02973/FUL",
+            "planning_authority": "Bradford",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "08/02973/FUL",
+          "reference": null,
+          "altid": "CT.1270/G",
+          "name": "Cotswold/08/02973/FUL",
+          "area_name": "Cotswold",
+          "description": "Increase to height of roof above garage. Erection of first floor extensions to rear and single storey extension with terrace above",
+          "app_state": "Permitted",
+          "start_date": "2008-10-10",
+          "decided_date": "2008-11-21",
+          "last_changed": "2023-06-10T21:47:10.314163",
+          "url": "https://publicaccess.cotswold.gov.uk/online-applications/applicationDetails.do?keyVal=K8IO1SFI07C00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2985"
+            ]
+          }
+        },
+        {
+          "uid": "08/02973/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "NorthTyneside/08/02973/FUL",
+          "area_name": "North Tyneside",
+          "description": "New glazing and raised roof height on an existing single storey extension to the rear",
+          "app_state": "Permitted",
+          "start_date": "2008-10-10",
+          "decided_date": "2009-01-14",
+          "last_changed": "2023-06-11T17:46:43.918351",
+          "url": "https://idoxpublicaccess.northtyneside.gov.uk/online-applications/applicationDetails.do?keyVal=K8J1UVBHDX000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2985"
+            ]
+          }
+        },
+        {
+          "uid": "08/02973/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "StratfordOnAvon/08/02973/FUL",
+          "area_name": "Stratford on Avon",
+          "description": "Proposed conservatory, tandem garage, utility room, kitchen/breakfast room at ground floor and proposed bedroom/study, principal bedroom and balcony at first floor.",
+          "app_state": "Conditions",
+          "start_date": "2008-11-14",
+          "decided_date": "2009-01-21",
+          "last_changed": "2026-03-07T12:46:32.883921",
+          "url": "https://apps.stratford.gov.uk/EplanningV2/AppDetail/Index/0252850a-febb-c2b3-09cd-08d727cb64bf",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2985"
+            ]
+          }
+        },
+        {
+          "uid": "08/02973/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Teignbridge/08/02973/FUL",
+          "area_name": "Teignbridge",
+          "description": "New first floor level, pitched roof on north wing, conservatory and garage",
+          "app_state": "Permitted",
+          "start_date": "2008-07-31",
+          "decided_date": "2008-09-25",
+          "last_changed": "2026-02-07T12:41:46.72005",
+          "url": "https://publicaccess.teignbridge.gov.uk/online-applications/applicationDetails.do?keyVal=K4WW0KPZ02Q00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2985"
+            ]
+          }
+        }
+      ]
+    },
+    "08201515982": {
+      "checked_at": "2026-08-25T21:23:28.814Z",
+      "query_reference": "08/2015/15982",
+      "records": []
+    },
+    "08201516260": {
+      "checked_at": "2026-08-25T21:23:28.814Z",
+      "query_reference": "08/2015/16260",
+      "records": []
+    },
+    "082300369": {
+      "checked_at": "2026-08-25T21:23:28.814Z",
+      "query_reference": "08/23/00369",
+      "records": [
+        {
+          "uid": "08/23/00369",
+          "reference": null,
+          "altid": null,
+          "name": "Sedgemoor/08/23/00369",
+          "area_name": "Sedgemoor",
+          "description": "Proposed construction, operation and decommissioning of a 90MW Battery Energy Storage System (BESS) facility and associated infrastructure",
+          "app_state": "Permitted",
+          "start_date": "2023-11-29",
+          "decided_date": "2024-11-03",
+          "last_changed": "2025-10-18T12:23:37.646151",
+          "url": "https://sdc.somerset.gov.uk/planning_online/?action=GetDetails&app=08%2F23%2F00369",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "15716"
+            ]
+          }
+        }
+      ]
+    },
+    "082500134": {
+      "checked_at": "2026-08-25T21:23:28.814Z",
+      "query_reference": "08/25/00134",
+      "records": [
+        {
+          "uid": "08/25/00134",
+          "reference": null,
+          "altid": null,
+          "name": "Sedgemoor/08/25/00134",
+          "area_name": "Sedgemoor",
+          "description": "Application for prior approval for the installation of roof mounted solar PV panels",
+          "app_state": "Permitted",
+          "start_date": "2025-07-01",
+          "decided_date": "2025-08-26",
+          "last_changed": "2025-09-10T08:28:59.339681",
+          "url": "https://sdc.somerset.gov.uk/planning_online/?action=GetDetails&app=08%2F25%2F00134",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "19456"
+            ]
+          }
+        }
+      ]
+    },
+    "08250028": {
+      "checked_at": "2026-08-25T21:23:28.814Z",
+      "query_reference": "0825/0028",
+      "records": [
+        {
+          "uid": "0825/0028",
+          "reference": null,
+          "altid": null,
+          "name": "Erewash/0825/0028",
+          "area_name": "Erewash",
+          "description": "Installation and operation of solar farm for 40 years, comprising ground-mounted solar arrays, with ancillary buildings and plant, and including CCTV cameras, weather station, access works/tracks, landscaping/ecological works, deer/security fencing, and temporary compound/facilities for construction phase.",
+          "app_state": "Undecided",
+          "start_date": "2025-09-23",
+          "decided_date": null,
+          "last_changed": "2026-08-25T08:14:08.950887",
+          "url": "https://planning.erewash.gov.uk/pr/s/detail/a1CP2000004VYSYMA4",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "18689",
+            "gg_project_id": "GG2050-REPD-18689",
+            "project_name": "Boyah Grange Solar Farm, Potato Pit Lane - Solar Farm",
+            "planning_application_reference": "0825/0028",
+            "planning_authority": "Erewash",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0890FUL24": {
+      "checked_at": "2026-08-25T21:23:28.814Z",
+      "query_reference": "0890/FUL/24",
+      "records": [
+        {
+          "uid": "0890/FUL/24",
+          "reference": null,
+          "altid": "100691316-001",
+          "name": "WestLothian/0890/FUL/24",
+          "area_name": "West Lothian",
+          "description": "Installation of a battery energy storage system (49.9 MW) with associated works",
+          "app_state": "Permitted",
+          "start_date": "2024-11-18",
+          "decided_date": "2025-07-22",
+          "last_changed": "2025-09-20T13:42:52.936863",
+          "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?keyVal=SN53SLRJMS100&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "16642",
+            "gg_project_id": "GG2050-REPD-16642",
+            "project_name": "Middlerigg - Battery Energy Storage",
+            "planning_application_reference": "0890/FUL/24",
+            "planning_authority": "West Lothian",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0900083CCMEIA": {
+      "checked_at": "2026-08-25T21:23:28.814Z",
+      "query_reference": "09/00083/CCMEIA",
+      "records": []
+    },
+    "0900170FULL": {
+      "checked_at": "2026-08-25T21:23:28.814Z",
+      "query_reference": "09/00170/FULL",
+      "records": [
+        {
+          "uid": "09/00170/FULL",
+          "reference": null,
+          "altid": null,
+          "name": "City/09/00170/FULL",
+          "area_name": "City",
+          "description": "Retention of a louvre panel at ground floor level.",
+          "app_state": "Permitted",
+          "start_date": "2009-03-13",
+          "decided_date": "2009-05-07",
+          "last_changed": "2023-06-10T20:40:28.158112",
+          "url": "https://www.planning2.cityoflondon.gov.uk/online-applications/applicationDetails.do?keyVal=KGLGM5FH0K900&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3959"
+            ]
+          }
+        },
+        {
+          "uid": "09/00170/FULL",
+          "reference": null,
+          "altid": "17693",
+          "name": "Gosport/09/00170/FULL",
+          "area_name": "Gosport",
+          "description": "ERECTION OF SINGLE STOREY REAR EXTENSION",
+          "app_state": "Permitted",
+          "start_date": "2009-04-27",
+          "decided_date": "2009-06-23",
+          "last_changed": "2023-06-17T10:46:23.251783",
+          "url": "https://publicaccess.gosport.gov.uk/online-applications/applicationDetails.do?keyVal=KJ8BO8HO02500&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3959"
+            ]
+          }
+        },
+        {
+          "uid": "09/00170/FULL",
+          "reference": null,
+          "altid": null,
+          "name": "Richmondshire/09/00170/FULL",
+          "area_name": "Richmondshire",
+          "description": "Full Planning Permission to Create a 60 m x 25 m Horse Arena and Erection of Steel Portal Frame Over Existing Silage Clamp to Provide Additional Storage",
+          "app_state": "Permitted",
+          "start_date": "2009-03-13",
+          "decided_date": "2009-05-07",
+          "last_changed": "2023-06-11T23:43:43.603741",
+          "url": "https://planning.richmondshire.gov.uk/online-applications/applicationDetails.do?keyVal=KFOJQLNA05800&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3959"
+            ]
+          }
+        },
+        {
+          "uid": "09/00170/FULL",
+          "reference": null,
+          "altid": "TP/18544 :",
+          "name": "Westminster/09/00170/FULL",
+          "area_name": "Westminster",
+          "description": "Extension of existing basement storey under rear garden plus alteration to existing staircase down to basement level to include new double doorway and two new windows.",
+          "app_state": "Permitted",
+          "start_date": "2009-01-09",
+          "decided_date": "2009-04-23",
+          "last_changed": "2023-05-20T13:31:43.233689",
+          "url": "https://idoxpa.westminster.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=KD6FNGRPZ5000",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3959"
+            ]
+          }
+        },
+        {
+          "uid": "09/00170/FULL",
+          "reference": null,
+          "altid": "00646078",
+          "name": "Windsor/09/00170/FULL",
+          "area_name": "Windsor",
+          "description": "Replacement timber garage",
+          "app_state": "Permitted",
+          "start_date": "2009-02-02",
+          "decided_date": "2009-04-06",
+          "last_changed": "2023-06-10T07:33:35.333178",
+          "url": "https://publicaccess.rbwm.gov.uk/online-applications/applicationDetails.do?keyVal=KEG10RNI0KE00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3959"
+            ]
+          }
+        }
+      ]
+    },
+    "0900385FUL": {
+      "checked_at": "2026-08-25T21:23:28.814Z",
+      "query_reference": "09/00385/FUL",
+      "records": [
+        {
+          "uid": "09/00385/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Angus/09/00385/FUL",
+          "area_name": "Angus",
+          "description": "Installation of Domestic Microgeneration Equipment in the form of an Air Source Heat Pump System (Plot 15)",
+          "app_state": "Withdrawn",
+          "start_date": "2009-04-08",
+          "decided_date": "2009-08-11",
+          "last_changed": "2024-03-30T07:33:26.256619",
+          "url": "https://planning.angus.gov.uk/online-applications/applicationDetails.do?keyVal=KI3772CF00M00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4443"
+            ]
+          }
+        },
+        {
+          "uid": "09/00385/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Bexley/09/00385/FUL",
+          "area_name": "Bexley",
+          "description": "Alterations to access and hardstanding/front garden area of no.13 and provision of front boundary wall to both properties.",
+          "app_state": "Rejected",
+          "start_date": "2009-03-19",
+          "decided_date": "2009-07-15",
+          "last_changed": "2023-05-16T15:41:34.882399",
+          "url": "https://pa.bexley.gov.uk/online-applications/applicationDetails.do?keyVal=KH65G4BE01D00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4443"
+            ]
+          }
+        },
+        {
+          "uid": "09/00385/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Bracknell/09/00385/FUL",
+          "area_name": "Bracknell",
+          "description": "Erection of conservatory and porch following demolition of existing.",
+          "app_state": "Permitted",
+          "start_date": "2009-06-26",
+          "decided_date": "2009-08-14",
+          "last_changed": "2023-06-10T13:30:07.476241",
+          "url": "https://planapp.bracknell-forest.gov.uk/online-applications/applicationDetails.do?keyVal=KLE1FPBV08B00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4443"
+            ]
+          }
+        },
+        {
+          "uid": "09/00322/CON",
+          "reference": null,
+          "altid": "09/00385/FUL",
+          "name": "Braintree/09/00322/CON",
+          "area_name": "Braintree",
+          "description": "Removal of boundary wall and erection of railings around boundary and to planting area",
+          "app_state": "Permitted",
+          "start_date": "2009-03-16",
+          "decided_date": "2009-05-15",
+          "last_changed": "2023-05-16T15:45:03.388058",
+          "url": "https://publicaccess.braintree.gov.uk/online-applications/applicationDetails.do?keyVal=KGLT5SBF07O00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4443"
+            ]
+          }
+        },
+        {
+          "uid": "09/00385/FUL",
+          "reference": null,
+          "altid": "09/00322/CON",
+          "name": "Braintree/09/00385/FUL",
+          "area_name": "Braintree",
+          "description": "Removal of boundary wall and erection of railings around boundary and to planting area",
+          "app_state": "Permitted",
+          "start_date": "2009-03-31",
+          "decided_date": "2009-05-15",
+          "last_changed": "2023-05-16T15:45:03.30822",
+          "url": "https://publicaccess.braintree.gov.uk/online-applications/applicationDetails.do?keyVal=KHDAOKBF03N00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4443"
+            ]
+          }
+        },
+        {
+          "uid": "09/00385/FUL",
+          "reference": null,
+          "altid": "v1 replaced pp 0",
+          "name": "Brentwood/09/00385/FUL",
+          "area_name": "Brentwood",
+          "description": "Two Storey Side Extension And First Floor Front Extension",
+          "app_state": "Rejected",
+          "start_date": "2009-06-12",
+          "decided_date": "2009-07-27",
+          "last_changed": "2023-06-10T14:36:31.15109",
+          "url": "https://publicaccess.brentwood.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZZW2DJJV825&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4443"
+            ]
+          }
+        },
+        {
+          "uid": "09/00385/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Broxtowe/09/00385/FUL",
+          "area_name": "Broxtowe",
+          "description": "Construct two storey rear extension including juliet balcony, single storey side extension and detached garage (revised scheme)",
+          "app_state": "Conditions",
+          "start_date": "2009-05-06",
+          "decided_date": "2009-07-01",
+          "last_changed": "2025-11-01T08:25:56.41183",
+          "url": "https://publicaccess.broxtowe.gov.uk/online-applications/applicationDetails.do?keyVal=KJ7TULDR5V000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4443"
+            ]
+          }
+        },
+        {
+          "uid": "09/00385/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Chelmsford/09/00385/FUL",
+          "area_name": "Chelmsford",
+          "description": "Change in window sizes and proposed additional ground floor window to north east elevation to previously approved replacement dwelling (08/00404/FUL).",
+          "app_state": "Permitted",
+          "start_date": "2009-03-23",
+          "decided_date": "2009-05-07",
+          "last_changed": "2023-05-16T16:05:42.575492",
+          "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=KGYU1VBR0AS00",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4443"
+            ]
+          }
+        },
+        {
+          "uid": "09/00385/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Cheltenham/09/00385/FUL",
+          "area_name": "Cheltenham",
+          "description": "Retention of Regency style gate and railings to front boundary and basement lightwell following the removal of rendered dwarf wall and railings",
+          "app_state": "Permitted",
+          "start_date": "2009-03-15",
+          "decided_date": "2009-04-27",
+          "last_changed": "2023-06-10T19:15:27.31177",
+          "url": "https://publicaccess.cheltenham.gov.uk/online-applications/applicationDetails.do?keyVal=KGQZ22EL0BC00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4443"
+            ]
+          }
+        },
+        {
+          "uid": "09/00385/FUL",
+          "reference": null,
+          "altid": "AS",
+          "name": "Chester/09/00385/FUL",
+          "area_name": "Chester",
+          "description": "Change of use to Fast food takeaway",
+          "app_state": "Permitted",
+          "start_date": "2009-03-02",
+          "decided_date": "2009-05-05",
+          "last_changed": "2023-05-20T08:10:01.10216",
+          "url": "https://pa.cheshirewestandchester.gov.uk/online-applications/applicationDetails.do?keyVal=KFVL2TQP01W00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4443"
+            ]
+          }
+        }
+      ]
+    },
+    "0900439FUL": {
+      "checked_at": "2026-08-25T21:23:28.814Z",
+      "query_reference": "09/00439/FUL",
+      "records": [
+        {
+          "uid": "09/00439/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Angus/09/00439/FUL",
+          "area_name": "Angus",
+          "description": "Alterations to Dwellinghouse",
+          "app_state": "Conditions",
+          "start_date": "2009-04-28",
+          "decided_date": "2009-05-29",
+          "last_changed": "2023-06-10T08:48:24.613101",
+          "url": "https://planning.angus.gov.uk/online-applications/applicationDetails.do?keyVal=KIX1ZICF00M00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2698"
+            ]
+          }
+        },
+        {
+          "uid": "09/00439/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Barking/09/00439/FUL",
+          "area_name": "Barking and Dagenham",
+          "description": "Installation of automated telling machine (ATM)",
+          "app_state": "Permitted",
+          "start_date": "2009-06-15",
+          "decided_date": "2009-08-10",
+          "last_changed": "2026-05-09T07:51:13.057944",
+          "url": "https://online-befirst.lbbd.gov.uk/planning/index.html?fa=getApplication&id=11375",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2698"
+            ]
+          }
+        },
+        {
+          "uid": "09/00439/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Bexley/09/00439/FUL",
+          "area_name": "Bexley",
+          "description": "Single storey rear extension.",
+          "app_state": "Conditions",
+          "start_date": "2009-03-30",
+          "decided_date": "2009-05-19",
+          "last_changed": "2023-05-16T15:41:34.81511",
+          "url": "https://pa.bexley.gov.uk/online-applications/applicationDetails.do?keyVal=KHQKY8BE04W00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2698"
+            ]
+          }
+        },
+        {
+          "uid": "09/00439/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Bracknell/09/00439/FUL",
+          "area_name": "Bracknell",
+          "description": "Removal of condition 10 of permission 05/00069/REM, which states \"There shall be no restrictions on the use of the car parking spaces shown on the approved plan for the occupiers of, or visitors to, any of the buildings hereby permitted\" (Retrospective)(Affects all Christine Ingram Gardens)",
+          "app_state": "Rejected",
+          "start_date": "2009-07-02",
+          "decided_date": "2009-09-09",
+          "last_changed": "2023-06-10T13:30:07.429893",
+          "url": "https://planapp.bracknell-forest.gov.uk/online-applications/applicationDetails.do?keyVal=KM7FL8BV09U00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2698"
+            ]
+          }
+        },
+        {
+          "uid": "09/00439/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Brentwood/09/00439/FUL",
+          "area_name": "Brentwood",
+          "description": "Single Storey Side And Rear Extensions And New Porch. Part Demolish Exisiting Garage To Create Shed.",
+          "app_state": "Permitted",
+          "start_date": "2009-07-09",
+          "decided_date": "2009-09-01",
+          "last_changed": "2023-06-10T14:36:31.076606",
+          "url": "https://publicaccess.brentwood.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZZW2DJJV747&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2698"
+            ]
+          }
+        },
+        {
+          "uid": "09/00439/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Broxtowe/09/00439/FUL",
+          "area_name": "Broxtowe",
+          "description": "Construct two storey side extension",
+          "app_state": "Conditions",
+          "start_date": "2009-05-20",
+          "decided_date": "2009-07-14",
+          "last_changed": "2025-11-15T08:33:08.6981",
+          "url": "https://publicaccess.broxtowe.gov.uk/online-applications/applicationDetails.do?keyVal=KJXLKADR5V000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2698"
+            ]
+          }
+        },
+        {
+          "uid": "09/00439/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Chichester/09/00439/FUL",
+          "area_name": "Chichester",
+          "description": "Erection of stable.",
+          "app_state": "Permitted",
+          "start_date": "2009-02-04",
+          "decided_date": "2009-04-17",
+          "last_changed": "2023-06-17T09:15:02.389737",
+          "url": "https://publicaccess.chichester.gov.uk/online-applications/applicationDetails.do?keyVal=KELN7ZER0KX00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2698"
+            ]
+          }
+        },
+        {
+          "uid": "09/00439/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "ChilternSouthBucks/09/00439/FUL",
+          "area_name": "Chiltern South Bucks",
+          "description": "Entrance piers and gates.",
+          "app_state": "Conditions",
+          "start_date": "2009-04-06",
+          "decided_date": "2009-05-29",
+          "last_changed": "2025-10-18T08:58:41.414751",
+          "url": "https://pa-csb.buckinghamshire.gov.uk/online-applications/applicationDetails.do?keyVal=KHOHL7OH0AO00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2698"
+            ]
+          }
+        },
+        {
+          "uid": "09/00439/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Chorley/09/00439/FUL",
+          "area_name": "Chorley",
+          "description": "Erection of part single/part two storey side extension",
+          "app_state": "Permitted",
+          "start_date": "2009-06-05",
+          "decided_date": "2009-07-29",
+          "last_changed": "2023-06-10T20:22:11.2907",
+          "url": "https://planning.chorley.gov.uk/online-applications/applicationDetails.do?keyVal=KKYSZEET00O00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2698"
+            ]
+          }
+        },
+        {
+          "uid": "09/00439/FUL",
+          "reference": null,
+          "altid": "CD.4122/B",
+          "name": "Cotswold/09/00439/FUL",
+          "area_name": "Cotswold",
+          "description": "Increase in height of existing two-storey rear extension and erection of first floor extension above the existing single storey extension",
+          "app_state": "Permitted",
+          "start_date": "2009-03-03",
+          "decided_date": "2009-04-09",
+          "last_changed": "2023-06-10T21:47:09.047265",
+          "url": "https://publicaccess.cotswold.gov.uk/online-applications/applicationDetails.do?keyVal=KFXENXFI07C00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2698"
+            ]
+          }
+        }
+      ]
+    },
+    "0900494FUL": {
+      "checked_at": "2026-08-25T21:23:28.814Z",
+      "query_reference": "09/00494/FUL",
+      "records": [
+        {
+          "uid": "09/00494/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Angus/09/00494/FUL",
+          "area_name": "Angus",
+          "description": "Erection of Three Wind Turbines and Ancillary Works",
+          "app_state": "Rejected",
+          "start_date": "2009-05-06",
+          "decided_date": "2009-12-01",
+          "last_changed": "2023-06-10T08:48:38.394751",
+          "url": "https://planning.angus.gov.uk/online-applications/applicationDetails.do?keyVal=KJUI5FCF00M00&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "2684",
+            "gg_project_id": "GG2050-REPD-2684",
+            "project_name": "Dusty Drum",
+            "planning_application_reference": "09/00494/FUL",
+            "planning_authority": "Angus",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "09/00494/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Bedford/09/00494/FUL",
+          "area_name": "Bedford",
+          "description": "Demolish existing garage and erect a two storey side extension. Double garage to side of dwelling and extension to existing driveway. (AMENDED DESCRIPTION)",
+          "app_state": "Withdrawn",
+          "start_date": "2009-03-05",
+          "decided_date": "2009-04-16",
+          "last_changed": "2023-05-16T15:39:29.726746",
+          "url": "https://publicaccess.bedford.gov.uk/online-applications/applicationDetails.do?keyVal=KFVKNMCU00K00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2684"
+            ]
+          }
+        },
+        {
+          "uid": "09/00494/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Bexley/09/00494/FUL",
+          "area_name": "Bexley",
+          "description": "Erection of a free standing postal double pouch box.",
+          "app_state": "Conditions",
+          "start_date": "2009-04-15",
+          "decided_date": "2009-06-09",
+          "last_changed": "2023-05-16T15:41:34.713447",
+          "url": "https://pa.bexley.gov.uk/online-applications/applicationDetails.do?keyVal=KIED2WBE04W00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2684"
+            ]
+          }
+        },
+        {
+          "uid": "09/00494/FUL",
+          "reference": null,
+          "altid": "596114",
+          "name": "Bradford/09/00494/FUL",
+          "area_name": "Bradford",
+          "description": "Construction of dormer window to front",
+          "app_state": "Permitted",
+          "start_date": "2009-02-06",
+          "decided_date": "2009-04-03",
+          "last_changed": "2024-06-08T08:01:34.763363",
+          "url": "https://planning.bradford.gov.uk/online-applications/applicationDetails.do?keyVal=KEAASFDHFH000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2684"
+            ]
+          }
+        },
+        {
+          "uid": "09/00494/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Braintree/09/00494/FUL",
+          "area_name": "Braintree",
+          "description": "Construction of first floor and replacement of roof",
+          "app_state": "Permitted",
+          "start_date": "2009-04-23",
+          "decided_date": "2009-06-04",
+          "last_changed": "2023-05-16T15:45:03.192484",
+          "url": "https://publicaccess.braintree.gov.uk/online-applications/applicationDetails.do?keyVal=KIKA84BF03N00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2684"
+            ]
+          }
+        },
+        {
+          "uid": "09/00494/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Brentwood/09/00494/FUL",
+          "area_name": "Brentwood",
+          "description": "Single Storey Rear And Front Extension And Two Storey Side Extension.",
+          "app_state": "Permitted",
+          "start_date": "2009-07-30",
+          "decided_date": "2009-09-28",
+          "last_changed": "2023-06-10T14:36:31.024787",
+          "url": "https://publicaccess.brentwood.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZZW2DJJV684&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2684"
+            ]
+          }
+        },
+        {
+          "uid": "09/00494/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Broxtowe/09/00494/FUL",
+          "area_name": "Broxtowe",
+          "description": "Construct detached garage, dormers and conservatory",
+          "app_state": "Rejected",
+          "start_date": "2009-06-18",
+          "decided_date": "2009-08-12",
+          "last_changed": "2025-11-15T08:33:08.661023",
+          "url": "https://publicaccess.broxtowe.gov.uk/online-applications/applicationDetails.do?keyVal=KLN5ATDR04800&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2684"
+            ]
+          }
+        },
+        {
+          "uid": "09/00494/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Cheltenham/09/00494/FUL",
+          "area_name": "Cheltenham",
+          "description": "Alterations to approved scheme (ref: 07/00363/FUL) to block up 2no. existing windows to side elevation and face with Ashlar stone to allow for the installation of a lift shaft",
+          "app_state": "Permitted",
+          "start_date": "2009-04-01",
+          "decided_date": "2009-06-03",
+          "last_changed": "2023-06-10T19:15:27.232799",
+          "url": "https://publicaccess.cheltenham.gov.uk/online-applications/applicationDetails.do?keyVal=KHJ5YTEL0BC00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2684"
+            ]
+          }
+        },
+        {
+          "uid": "09/00494/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Chichester/09/00494/FUL",
+          "area_name": "Chichester",
+          "description": "Amendments to planning permission FB/04/00984/FUL. Change of use of barns previously permitted as a single dwelling into 2 no. Dwellings together with external alterations.",
+          "app_state": "Permitted",
+          "start_date": "2009-02-06",
+          "decided_date": "2009-06-22",
+          "last_changed": "2023-06-17T09:15:36.211823",
+          "url": "https://publicaccess.chichester.gov.uk/online-applications/applicationDetails.do?keyVal=KEUECQER0FL00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2684"
+            ]
+          }
+        },
+        {
+          "uid": "09/00494/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "ChilternSouthBucks/09/00494/FUL",
+          "area_name": "Chiltern South Bucks",
+          "description": "Rear conservatory",
+          "app_state": "Conditions",
+          "start_date": "2009-04-20",
+          "decided_date": "2009-06-05",
+          "last_changed": "2025-10-18T08:58:41.204411",
+          "url": "https://pa-csb.buckinghamshire.gov.uk/online-applications/applicationDetails.do?keyVal=KI8SP8OH0AS00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2684"
+            ]
+          }
+        }
+      ]
     }
   },
   "govuk_items": [
