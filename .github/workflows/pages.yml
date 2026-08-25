@@ -20,6 +20,14 @@ on:
       - "*-pipelinenews/**"
       - "objects/**"
       - "releases/**"
+      - "reports/**"
+      - "tooling/build-202608251750-release.mjs"
+      - "tooling/poll-official-sources-v3.mjs"
+      - "tests/check-202608251750-pipelinenews.mjs"
+      - "tests/check-current-timestamp-release.mjs"
+      - "tests/check-official-source-v3.mjs"
+      - "tests/fixtures/official-source-v3-collisions.json"
+      - "tests/run-current-timestamp-release.sh"
       - ".github/workflows/pages.yml"
 
 permissions:
@@ -43,6 +51,9 @@ jobs:
 
       - name: Verify cumulative News V7 release contract
         run: bash newsv7/tests/run_newsv7.sh
+
+      - name: Verify current timestamp release contract
+        run: bash tests/run-current-timestamp-release.sh
 
       - name: Stage News V1 runtime
         shell: bash
@@ -171,6 +182,18 @@ jobs:
           cp -a objects _site/
           cp -a releases _site/
 
+          current_manifest="$(jq -r '.manifest' releases/current.json)"
+          current_release="$(jq -r '.release_id' releases/current.json)"
+          test -f "$current_manifest"
+          test -d "$current_release"
+
+          # Timestamp shells may link to their governed reports. Publish only
+          # the report closure declared by the current manifest.
+          while IFS= read -r report_path; do
+            test -f "$report_path"
+            install -Dm0644 "$report_path" "_site/$report_path"
+          done < <(jq -r '.objects.reports[]?.path' "$current_manifest")
+
           touch _site/.nojekyll
 
           test -f "$release/index.html"
@@ -182,10 +205,11 @@ jobs:
           test -f "$release_v7/scripts/app-newsv7.js"
           test -f "$release_v7/data/newsv7/cumulative_intelligence.json"
           test -f "$release_v7/data/v9.1/projects/part-016.json"
-          test -f _site/202608251622-PipelineNews/index.html
-          test -f _site/202608251700-pipelinenews/index.html
-          test -f _site/releases/202608251622-PipelineNews.json
-          test -f _site/releases/202608251700-pipelinenews.json
+          test -f "_site/$current_release/index.html"
+          test -f "_site/$current_manifest"
+          while IFS= read -r object_path; do
+            test -f "_site/$object_path"
+          done < <(jq -r '(.objects.modules + .objects.artifacts + (.objects.docs // []) + .objects.css + .objects.reports)[]?.path' "$current_manifest")
           test -f _site/objects/data/sha256/3d2cd9cba8581bbc8c4e7434deb0c584d3969639a00926393cf011e2c3f8a00b.json
           ! find _site -type d \( -name tests -o -name node_modules -o -name v1-9-legacy-lessons \) -print -quit | grep -q .
 

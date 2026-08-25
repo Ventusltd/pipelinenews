@@ -1,0 +1,379 @@
+{
+  "schema": "pipelinenews.release-manifest.v1",
+  "release_id": "202608251750-pipelinenews",
+  "app_title": "PipelineNews",
+  "display_title": "Pipeline News",
+  "incepted_at": "2026-08-25T17:50:00+01:00",
+  "status": "CANDIDATE_NOT_CURRENT",
+  "feature": "authority-safe official planning binding and cached-snapshot quarantine",
+  "naming": {
+    "format": "yyyymmddhhmm-pipelinenews",
+    "time_basis": "Europe/London operator inception clock",
+    "path_slug": "pipelinenews",
+    "visible_title": "Pipeline News",
+    "lowercase_paths_required": true,
+    "lowercase_release_filenames_required": true,
+    "sequential_versions_retired": true
+  },
+  "lineage": {
+    "parent_release": "202608251701-pipelinenews",
+    "parent_commit": "1133183db122cdea211f5a9c67bfa35b81ef4e37",
+    "frozen_versions_mutated": false,
+    "parent_manifest_mutated": false,
+    "historical_immutability_exceptions_recorded": "CHANGELOG.md",
+    "newsv1_mutated": false,
+    "newsv7_mutated": false
+  },
+  "mission": {
+    "question": "How does this release advance market intelligence for the fastest possible path to net zero?",
+    "answer": "It removes unsafe planning-application bindings so progress and grid-connection research is not attached to the wrong REPD project; 23 cached observations remain authority-corroborated and 105 fail closed.",
+    "repd_solar_bess_progress": {
+      "evidence_class": "OFFICIAL_REPD_STATUS_ONLY",
+      "solar": {
+        "projects": 3563,
+        "capacity_mw": 67013.29,
+        "status_counts": {
+          "Abandoned": 125,
+          "Appeal Lodged": 3,
+          "Appeal Refused": 92,
+          "Appeal Withdrawn": 8,
+          "Application Refused": 219,
+          "Application Submitted": 343,
+          "Application Withdrawn": 107,
+          "Awaiting Construction": 945,
+          "No Application Required": 1,
+          "Operational": 1262,
+          "Planning Permission Expired": 122,
+          "Revised": 196,
+          "Under Construction": 140
+        }
+      },
+      "bess": {
+        "projects": 1609,
+        "capacity_mw": 147681.94,
+        "status_counts": {
+          "Abandoned": 40,
+          "Appeal Lodged": 2,
+          "Appeal Refused": 3,
+          "Application Refused": 78,
+          "Application Submitted": 306,
+          "Application Withdrawn": 45,
+          "Awaiting Construction": 738,
+          "Decommissioned": 1,
+          "Operational": 138,
+          "Planning Permission Expired": 50,
+          "Revised": 110,
+          "Under Construction": 98
+        }
+      },
+      "limitation": "These status counts describe the frozen admitted REPD spine; they are not a current grid-connection forecast."
+    },
+    "when_connecting": {
+      "status": "UNKNOWN_NOT_IN_PINNED_EVIDENCE",
+      "answer": "The pinned release evidence does not contain a verified grid-connection date for these projects.",
+      "next_evidence_gate": "Bind dated NESO, transmission-owner or DNO connection milestones to the authority-safe REPD identity before publication."
+    },
+    "how_connecting": {
+      "status": "UNKNOWN_NOT_IN_PINNED_EVIDENCE",
+      "answer": "A planning reference and planning authority do not establish connection voltage, substation, route, bay, queue position or energisation method.",
+      "next_evidence_gate": "Require an official connection agreement, queue record, planning document or network-owner source with an exact project binding."
+    }
+  },
+  "byte_counter": {
+    "unit": "bytes",
+    "release_shell_files": 3,
+    "release_shell_bytes": 4960,
+    "new_content_addressed_files": 6,
+    "new_content_addressed_bytes": 404156,
+    "reused_pinned_files": 20,
+    "reused_pinned_bytes": 9620399,
+    "executable_proof_files": 6,
+    "executable_proof_bytes": 65328,
+    "audit_report_bytes": 10543,
+    "release_manifest_bytes": 14819,
+    "minimum_pages_added_files": 11,
+    "minimum_pages_added_bytes": 434478,
+    "total_declared_closure_bytes": 10120205,
+    "counting_law": "Minimum Pages additions count the three-file shell, six new content-addressed objects, audit report and release manifest; the moving candidate pointer replaces an existing file and reused objects are reported separately."
+  },
+  "app": {
+    "stable_route": "pipelinenews/",
+    "release_folder": "202608251750-pipelinenews/",
+    "entrypoint": "202608251750-pipelinenews/index.html",
+    "loader_contract": "manifest-resolved shared objects",
+    "ui_parent": "timestamp-shell",
+    "duplicated_asset_directories": 0,
+    "shell_files": [
+      {
+        "role": "app_entrypoint",
+        "path": "202608251750-pipelinenews/index.html",
+        "sha256": "30a1043d17c6739d6df12dd5016960c4f21f01941d5a40d3096ca9c4ba560618",
+        "bytes": 4007
+      },
+      {
+        "role": "folder_release_pointer",
+        "path": "202608251750-pipelinenews/release.json",
+        "sha256": "273ca124b9d2898d4836003685ed88a236d7312eb340a30eb021a4848e00e592",
+        "bytes": 252
+      },
+      {
+        "role": "folder_readme",
+        "path": "202608251750-pipelinenews/readme.md",
+        "sha256": "aaa9943441cce58eee1c0bd2c4bf8521b36f8414f5ee23707b78456a2be38b1c",
+        "bytes": 701
+      }
+    ]
+  },
+  "object_store": {
+    "identity": "sha256",
+    "immutable": true,
+    "reuse_unchanged_objects": true
+  },
+  "objects": {
+    "inputs": [
+      {
+        "role": "canonical_projects_part_001",
+        "path": "newsv7/data/v9.1/projects/part-001.json",
+        "sha256": "6e72d36a8f880bfc39274221edf58d1b895202f01f2e56aae001ad25cb3b337d",
+        "bytes": 624542
+      },
+      {
+        "role": "canonical_projects_part_002",
+        "path": "newsv7/data/v9.1/projects/part-002.json",
+        "sha256": "a2ba3598af8ff45726587b3a498c0f6a433ae007ec9eadbd5bfc682b7dca4b2e",
+        "bytes": 629501
+      },
+      {
+        "role": "canonical_projects_part_003",
+        "path": "newsv7/data/v9.1/projects/part-003.json",
+        "sha256": "6f012e9251433e0d32095b2df75ae1c988a813a14647debe16c057dee550d23b",
+        "bytes": 628898
+      },
+      {
+        "role": "canonical_projects_part_004",
+        "path": "newsv7/data/v9.1/projects/part-004.json",
+        "sha256": "1cdc7405098c85a477dd156930c4503ef7850ff005d1ec85a69928f10db6b7f5",
+        "bytes": 625997
+      },
+      {
+        "role": "canonical_projects_part_005",
+        "path": "newsv7/data/v9.1/projects/part-005.json",
+        "sha256": "43988789140bf2211263ffe49b756bc8f7f4cd69531b2e91c56b2e7c2a90bcae",
+        "bytes": 631815
+      },
+      {
+        "role": "canonical_projects_part_006",
+        "path": "newsv7/data/v9.1/projects/part-006.json",
+        "sha256": "e2c4d0c29e622270260e8fa71c1efae260e84fd3c9ebfa31b7dbf7bfe3da2d69",
+        "bytes": 630303
+      },
+      {
+        "role": "canonical_projects_part_007",
+        "path": "newsv7/data/v9.1/projects/part-007.json",
+        "sha256": "8f2b2d2d74a031f459b94e626e288c11c148629e955f97ef688a27eb1a5e2c59",
+        "bytes": 628660
+      },
+      {
+        "role": "canonical_projects_part_008",
+        "path": "newsv7/data/v9.1/projects/part-008.json",
+        "sha256": "f3c0dff755bc657c41b3e04305403bbcfbf94be5d893e85309faf9dd7cb1fa92",
+        "bytes": 631189
+      },
+      {
+        "role": "canonical_projects_part_009",
+        "path": "newsv7/data/v9.1/projects/part-009.json",
+        "sha256": "a9427f109b7ad5ee881628fcbde3602daab62896e8517922ff68d2efe6a23b15",
+        "bytes": 630867
+      },
+      {
+        "role": "canonical_projects_part_010",
+        "path": "newsv7/data/v9.1/projects/part-010.json",
+        "sha256": "57145897a6a457f3bfb58f431d7bfa6a75dd63bfd2708eb56c3802391847c6b3",
+        "bytes": 628464
+      },
+      {
+        "role": "canonical_projects_part_011",
+        "path": "newsv7/data/v9.1/projects/part-011.json",
+        "sha256": "e79c4eb42d1d366f01f8f2a941d92ff231b8ea14c2e40a2677a89601926938d1",
+        "bytes": 620261
+      },
+      {
+        "role": "canonical_projects_part_012",
+        "path": "newsv7/data/v9.1/projects/part-012.json",
+        "sha256": "ad077a3172f6813f2a641e2f51ab693bf038cae03b5cbbdaa4167973ce7a7388",
+        "bytes": 615891
+      },
+      {
+        "role": "canonical_projects_part_013",
+        "path": "newsv7/data/v9.1/projects/part-013.json",
+        "sha256": "4545362b1355e256dc3025019f971ffa208cc8828059152a26b99ac66fb47817",
+        "bytes": 620861
+      },
+      {
+        "role": "canonical_projects_part_014",
+        "path": "newsv7/data/v9.1/projects/part-014.json",
+        "sha256": "9cf8da7fcbf3c1d08830c613c69d0447c490d6126be3ebe8c2d9021a4ddcd004",
+        "bytes": 619833
+      },
+      {
+        "role": "canonical_projects_part_015",
+        "path": "newsv7/data/v9.1/projects/part-015.json",
+        "sha256": "109f20651ce1234d8933bb5efab78cbf45081ae7b4966e63ec0fca560a76cf03",
+        "bytes": 616440
+      },
+      {
+        "role": "canonical_projects_part_016",
+        "path": "newsv7/data/v9.1/projects/part-016.json",
+        "sha256": "ed4c672a6cb684a5fd29e17e436d4ee632de358de5e0a2cee9801c7ffa5ecc4b",
+        "bytes": 221745
+      },
+      {
+        "role": "pinned_raw_official_snapshot",
+        "path": "objects/data/sha256/5f9777777a9f34d0c20c4f4bc18adfa0d45625cd2b2c605c255fac58f5ebe489.json",
+        "sha256": "5f9777777a9f34d0c20c4f4bc18adfa0d45625cd2b2c605c255fac58f5ebe489",
+        "bytes": 171472
+      },
+      {
+        "role": "official_frontier_input",
+        "path": "objects/data/sha256/b7f1740f7735f58997c8f128ef7236d57bb144fd5db23c8140739236af8bdabb.json",
+        "sha256": "b7f1740f7735f58997c8f128ef7236d57bb144fd5db23c8140739236af8bdabb",
+        "bytes": 3513
+      }
+    ],
+    "modules": [
+      {
+        "role": "official_frontier_engine",
+        "path": "objects/js/sha256/60ebe5b31cdb881e61c7275fd3f696b33a4f134c5c0a6e6cd8f1474545156acc.mjs",
+        "sha256": "60ebe5b31cdb881e61c7275fd3f696b33a4f134c5c0a6e6cd8f1474545156acc",
+        "bytes": 5294
+      },
+      {
+        "role": "official_frontier_engine_dependency",
+        "path": "objects/js/sha256/bf8b87533cda64fa145de9ca28998b29bf7f863f483a26a78e34fc3272fe9f7d.mjs",
+        "sha256": "bf8b87533cda64fa145de9ca28998b29bf7f863f483a26a78e34fc3272fe9f7d",
+        "bytes": 1158
+      },
+      {
+        "role": "official_frontier_engine_transitive_dependency",
+        "path": "objects/js/sha256/0f0adf842d22158b882f168d6c131480afd81bce6609b8453a073f15d201d18c.mjs",
+        "sha256": "0f0adf842d22158b882f168d6c131480afd81bce6609b8453a073f15d201d18c",
+        "bytes": 8572
+      },
+      {
+        "role": "timestamped_release_shell",
+        "path": "objects/js/sha256/5096d055234312c574b10d5ff239b91582497289cb58fd6a1faa6b89e16e657f.mjs",
+        "sha256": "5096d055234312c574b10d5ff239b91582497289cb58fd6a1faa6b89e16e657f",
+        "bytes": 1800
+      }
+    ],
+    "artifacts": [
+      {
+        "role": "authority_safe_audited_snapshot",
+        "path": "objects/data/sha256/9d3f6bade0b49b3458b7a97fa56959e958aa410ac292bbf98df96af231df256b.json",
+        "sha256": "9d3f6bade0b49b3458b7a97fa56959e958aa410ac292bbf98df96af231df256b",
+        "bytes": 206053
+      },
+      {
+        "role": "authority_safe_frontier_contract",
+        "path": "objects/data/sha256/3b82af4ff1a45d0f68af4f6ae9a62d539f1214a8abf3f60eba92c1706c456b92.json",
+        "sha256": "3b82af4ff1a45d0f68af4f6ae9a62d539f1214a8abf3f60eba92c1706c456b92",
+        "bytes": 4930
+      }
+    ],
+    "docs": [
+      {
+        "role": "release_changelog_snapshot",
+        "path": "objects/text/sha256/73221b4674f37966435914119884ee9b8fe1442a92d9cf476154a01999c39c7a.md",
+        "sha256": "73221b4674f37966435914119884ee9b8fe1442a92d9cf476154a01999c39c7a",
+        "bytes": 14607
+      }
+    ],
+    "css": [
+      {
+        "role": "shared_timestamp_shell",
+        "path": "objects/css/sha256/5c196d2b307e0426447dc96f1762bc6e39de98f2a39ae8667265198f09d5166e.css",
+        "sha256": "5c196d2b307e0426447dc96f1762bc6e39de98f2a39ae8667265198f09d5166e",
+        "bytes": 1889
+      }
+    ],
+    "reports": [
+      {
+        "role": "planning_binding_audit",
+        "path": "reports/202608251750-planning-binding-audit.json",
+        "sha256": "0f812b820a646bef75c62adfcb8afd15d35f032654613a9a554f9f694bfc16e4",
+        "bytes": 10543
+      }
+    ],
+    "parquet": [],
+    "geojson": []
+  },
+  "build": {
+    "builder": {
+      "role": "release_builder",
+      "path": "tooling/build-202608251750-release.mjs",
+      "sha256": "1bc0bde6721e878c1b16cf6676d8c9e386245406b74d193d5823b838a5fd8dcb",
+      "bytes": 27926
+    },
+    "poller": {
+      "role": "official_source_poller",
+      "path": "tooling/poll-official-sources-v3.mjs",
+      "sha256": "7869adbdf32b87a31a02fc52ee497e8263f9e4d5288d56d711ac303b2e4a5b49",
+      "bytes": 8049
+    },
+    "verifiers": [
+      {
+        "role": "release_verifier",
+        "path": "tests/check-202608251750-pipelinenews.mjs",
+        "sha256": "8ba76a2622dff8bb21f74545f5b2f7682a304603c94d03d06ef3655d66d5ddc6",
+        "bytes": 11350
+      },
+      {
+        "role": "official_source_v3_verifier",
+        "path": "tests/check-official-source-v3.mjs",
+        "sha256": "6ac6a9a4e88502c4521eff779c182d1e52a5318e743a31329d40cfb74930a12f",
+        "bytes": 8622
+      }
+    ],
+    "fixture": {
+      "role": "official_source_v3_collision_fixture",
+      "path": "tests/fixtures/official-source-v3-collisions.json",
+      "sha256": "54de031723be74ea4732918aa5aae546d4f9e2abebfe6db937ba9f29b7aefc2f",
+      "bytes": 7877
+    },
+    "runner": {
+      "role": "release_runner",
+      "path": "tests/run-current-timestamp-release.sh",
+      "sha256": "c2938926b8e6fcca7333cbe76985a6c59cba9742a5b526c8f5bd7bc2021dd609",
+      "bytes": 1504
+    },
+    "deterministic_rebuild_required": true
+  },
+  "acceptance": {
+    "repd_projects": 7680,
+    "repd_capacity_mw": 356474.09,
+    "pinned_planit_records": 128,
+    "previous_primary_match": 128,
+    "authority_safe_primary_match": 23,
+    "exact_name_confirmed": 0,
+    "planning_authority_confirmed": 23,
+    "changed_primary_to_abstain": 105,
+    "abstain_authority_or_name_not_confirmed": 103,
+    "abstain_planning_reference_not_exact": 2,
+    "authority_or_name_required": true,
+    "capacity_used_for_identity": false,
+    "credibility_gates_identity": false,
+    "live_search_index_run_completed": false,
+    "person_key_allowed": false,
+    "east_pye_primary_match": "GG2050-REPD-17494",
+    "beacon_fen_primary_repd_ref": "13599",
+    "frozen_versions_mutated": false,
+    "lowercase_release_path": true,
+    "duplicated_asset_directories": 0
+  },
+  "publication": {
+    "live": false,
+    "candidate_pointer_updated": true,
+    "stable_app_switched": false,
+    "reason": "Authority-safe candidate prepared for independent review; a current governed search-index run has not completed and the frozen NewsV7 interface remains the established full app."
+  }
+}

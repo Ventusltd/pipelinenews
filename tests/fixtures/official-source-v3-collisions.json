@@ -1,0 +1,255 @@
+{
+  "schema": "pipelinenews.official-source-v3-collision-fixture.v1",
+  "cases": [
+    {
+      "case_id": "little-kilmain-authority-positive",
+      "kind": "POSITIVE",
+      "projects": [
+        {
+          "repd_ref": "3537",
+          "gg_project_id": "GG2050-REPD-3537",
+          "name": "Little Kilmain",
+          "technology": "wind_onshore",
+          "capacity_mw": 2.2,
+          "planning_application_reference": "00/0530/FL",
+          "planning_authority": "East Ayrshire"
+        }
+      ],
+      "record": {
+        "uid": "00/0530/FL",
+        "reference": null,
+        "name": "EastAyrshire/00/0530/FL",
+        "area_name": "East Ayrshire",
+        "description": "Windfarm comprising no more than six turbines, meteorological mast, switchgear building and access tracks."
+      },
+      "expected": {
+        "role": "PRIMARY_MATCH",
+        "repd_ref": "3537",
+        "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY"
+      }
+    },
+    {
+      "case_id": "north-ray-authority-positive",
+      "kind": "POSITIVE",
+      "projects": [
+        {
+          "repd_ref": "19975",
+          "gg_project_id": "GG2050-REPD-19975",
+          "name": "North Ray Solar Farm, Lincoln Gate - Solar Panels",
+          "technology": "solar",
+          "capacity_mw": 98,
+          "planning_application_reference": "00444/26/FUL",
+          "planning_authority": "East Lindsey"
+        }
+      ],
+      "record": {
+        "uid": "00444/26/FUL",
+        "reference": null,
+        "name": "EastLindsey/00444/26/FUL",
+        "area_name": "East Lindsey",
+        "description": "Installation of a photovoltaic solar energy farm with associated infrastructure."
+      },
+      "expected": {
+        "role": "PRIMARY_MATCH",
+        "repd_ref": "19975",
+        "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY"
+      }
+    },
+    {
+      "case_id": "east-pye-name-positive",
+      "kind": "POSITIVE",
+      "projects": [
+        {
+          "repd_ref": "17494",
+          "gg_project_id": "GG2050-REPD-17494",
+          "name": "East Pye Solar Farm",
+          "technology": "solar",
+          "capacity_mw": 500,
+          "planning_application_reference": "EN0110014",
+          "planning_authority": "The Planning Inspectorate - National Infrastructure"
+        }
+      ],
+      "record": {
+        "uid": "EN0110014",
+        "reference": "EN0110014",
+        "name": "East Pye Solar Farm",
+        "area_name": "Norfolk",
+        "description": "East Pye Solar Farm near Long Stratton in Norfolk."
+      },
+      "expected": {
+        "role": "PRIMARY_MATCH",
+        "repd_ref": "17494",
+        "method": "EXACT_REFERENCE_PLUS_EXACT_PROJECT_NAME"
+      }
+    },
+    {
+      "case_id": "cricket-st-thomas-bradford-negative",
+      "kind": "NEGATIVE",
+      "projects": [
+        {
+          "repd_ref": "3144",
+          "gg_project_id": "GG2050-REPD-3144",
+          "name": "Cricket St Thomas",
+          "technology": "wind_onshore",
+          "capacity_mw": 3.9,
+          "planning_application_reference": "02/01865/FUL",
+          "planning_authority": "Somerset"
+        }
+      ],
+      "record": {
+        "uid": "02/01865/FUL",
+        "reference": null,
+        "name": "Bradford/02/01865/FUL",
+        "area_name": "Bradford",
+        "description": "Erection of a detached garage to rear of property."
+      },
+      "expected": {
+        "role": "ABSTAIN",
+        "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED"
+      }
+    },
+    {
+      "case_id": "minch-moor-bolsover-negative",
+      "kind": "NEGATIVE",
+      "projects": [
+        {
+          "repd_ref": "3170",
+          "gg_project_id": "GG2050-REPD-3170",
+          "name": "Minch Moor",
+          "technology": "wind_onshore",
+          "capacity_mw": 21.6,
+          "planning_application_reference": "03/00627/FUL",
+          "planning_authority": "Scottish Borders"
+        }
+      ],
+      "record": {
+        "uid": "03/00627/FUL",
+        "reference": null,
+        "name": "Bolsover/03/00627/FUL",
+        "area_name": "Bolsover",
+        "description": "Change of use from retail shop to restaurant."
+      },
+      "expected": {
+        "role": "ABSTAIN",
+        "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED"
+      }
+    },
+    {
+      "case_id": "falahill-bedford-negative",
+      "kind": "NEGATIVE",
+      "projects": [
+        {
+          "repd_ref": "3506",
+          "gg_project_id": "GG2050-REPD-3506",
+          "name": "Falahill",
+          "technology": "wind_onshore",
+          "capacity_mw": 6.7,
+          "planning_application_reference": "04/02420/FUL",
+          "planning_authority": "Scottish Borders"
+        }
+      ],
+      "record": {
+        "uid": "04/02420/FUL",
+        "reference": null,
+        "name": "Bedford/04/02420/FUL",
+        "area_name": "Bedford",
+        "description": "Erection of conservatory on rear elevation."
+      },
+      "expected": {
+        "role": "ABSTAIN",
+        "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED"
+      }
+    },
+    {
+      "case_id": "dogger-bank-duplicate-negative",
+      "kind": "AMBIGUOUS",
+      "projects": [
+        {
+          "repd_ref": "15001",
+          "gg_project_id": "GG2050-REPD-15001",
+          "name": "Dogger Bank South East",
+          "technology": "wind_offshore",
+          "capacity_mw": 1500,
+          "planning_application_reference": "EN010125",
+          "planning_authority": "The Planning Inspectorate - National Infrastructure"
+        },
+        {
+          "repd_ref": "15002",
+          "gg_project_id": "GG2050-REPD-15002",
+          "name": "Dogger Bank South West",
+          "technology": "wind_offshore",
+          "capacity_mw": 1500,
+          "planning_application_reference": "EN010125",
+          "planning_authority": "The Planning Inspectorate - National Infrastructure"
+        }
+      ],
+      "record": {
+        "uid": "EN010125",
+        "reference": "EN010125",
+        "name": "Dogger Bank South",
+        "area_name": null,
+        "description": "Dogger Bank South offshore wind project."
+      },
+      "expected": {
+        "role": "ABSTAIN",
+        "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+        "candidate_repd_refs": [
+          "15001",
+          "15002"
+        ]
+      }
+    },
+    {
+      "case_id": "capacity-only-negative",
+      "kind": "CAPACITY_NEGATIVE",
+      "projects": [
+        {
+          "repd_ref": "99999",
+          "gg_project_id": "GG2050-REPD-99999",
+          "name": "Capacity Canary Solar Farm",
+          "technology": "solar",
+          "capacity_mw": 499,
+          "planning_application_reference": "25/99999/FUL",
+          "planning_authority": "Somerset"
+        }
+      ],
+      "record": {
+        "uid": "25/99999/FUL",
+        "reference": null,
+        "name": "Bradford/25/99999/FUL",
+        "area_name": "Bradford",
+        "description": "A 499MW solar farm with battery storage."
+      },
+      "expected": {
+        "role": "ABSTAIN",
+        "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED"
+      }
+    },
+    {
+      "case_id": "authority-substring-negative",
+      "kind": "AUTHORITY_NEGATIVE",
+      "projects": [
+        {
+          "repd_ref": "99998",
+          "gg_project_id": "GG2050-REPD-99998",
+          "name": "Authority Canary Solar Farm",
+          "technology": "solar",
+          "capacity_mw": 50,
+          "planning_application_reference": "25/99998/FUL",
+          "planning_authority": "Somerset"
+        }
+      ],
+      "record": {
+        "uid": "25/99998/FUL",
+        "reference": null,
+        "name": "WestSomerset/25/99998/FUL",
+        "area_name": "West Somerset",
+        "description": "Installation of an agricultural storage building."
+      },
+      "expected": {
+        "role": "ABSTAIN",
+        "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED"
+      }
+    }
+  ]
+}

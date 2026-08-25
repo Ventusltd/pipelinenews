@@ -5,7 +5,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "tooling/poll-official-sources-v2.mjs"
+      - "tooling/poll-official-sources-v3.mjs"
       - "objects/js/sha256/**"
       - "releases/*.json"
       - ".github/workflows/official-source-frontier.yml"
@@ -35,7 +35,7 @@ jobs:
       - name: Poll bounded official-source batch
         env:
           PLANIT_BUDGET: "48"
-        run: node tooling/poll-official-sources-v2.mjs
+        run: node tooling/poll-official-sources-v3.mjs
       - name: Commit cursor and admitted observations
         run: |
           git config user.name "PipelineNews Bot"

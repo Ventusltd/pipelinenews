@@ -1,0 +1,249 @@
+{
+  "schema": "pipelinenews.planning-binding-audit.v1",
+  "release_id": "202608251750-pipelinenews",
+  "evaluated_at": "2026-08-25T17:50:00+01:00",
+  "parent_git_commit": "1133183db122cdea211f5a9c67bfa35b81ef4e37",
+  "builder": "tooling/build-202608251750-release.mjs",
+  "poller": "tooling/poll-official-sources-v3.mjs",
+  "evaluated_snapshot_sha256": "5f9777777a9f34d0c20c4f4bc18adfa0d45625cd2b2c605c255fac58f5ebe489",
+  "finding": "A planning reference unique inside REPD is not globally unique across UK planning authorities.",
+  "grain": "one retained PlanIt application observation per normalised queried reference, UID and source URL",
+  "key": [
+    "normalised_reference",
+    "uid",
+    "url"
+  ],
+  "null_law": "a missing key component fails the build; missing corroboration produces ABSTAIN",
+  "counts": {
+    "reference_groups": 48,
+    "records": 128,
+    "previous_primary_match": 128,
+    "authority_safe_primary_match": 23,
+    "exact_name_confirmed": 0,
+    "planning_authority_confirmed": 23,
+    "abstain": 105,
+    "abstain_by_reason": {
+      "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED": 103,
+      "PLANNING_REFERENCE_NOT_EXACT": 2
+    },
+    "changed_primary_to_abstain": 105
+  },
+  "source_health": {
+    "planit": {
+      "status": "DEGRADED",
+      "attempted": 13,
+      "succeeded": 12,
+      "status_code": 429,
+      "prior_good_at": "2026-08-25T16:04:18.319Z",
+      "message": "rate limited; unfinished work retained; retry-after 15s observed"
+    },
+    "govuk": {
+      "status": "LIVE",
+      "attempted": 1,
+      "succeeded": 1,
+      "status_code": 200,
+      "prior_good_at": "2026-08-25T16:04:18.319Z",
+      "message": null
+    }
+  },
+  "checks": {
+    "schema_parse": "PASS",
+    "raw_evidence_byte_preservation": "PASS",
+    "retained_rows_equal_input_rows": "PASS",
+    "null_observation_keys": 0,
+    "duplicate_observation_keys": 0,
+    "deterministic_reclassification": "PASS",
+    "frozen_newsv1_newsv7_regression": "REQUIRED_IN_PAGES_AND_TIMESTAMP_WORKFLOWS",
+    "pages_deployment": "NOT_TESTED_AT_BUILD_TIME",
+    "current_governed_search_index_run": "NOT_RUN_CANDIDATE"
+  },
+  "canaries": {
+    "east_pye_primary_match": "GG2050-REPD-17494",
+    "beacon_fen_primary_repd_ref": "13599"
+  },
+  "mission": {
+    "question": "How does this release advance market intelligence for the fastest possible path to net zero?",
+    "answer": "It removes unsafe planning-application bindings so progress and grid-connection research is not attached to the wrong REPD project; 23 cached observations remain authority-corroborated and 105 fail closed.",
+    "repd_solar_bess_progress": {
+      "evidence_class": "OFFICIAL_REPD_STATUS_ONLY",
+      "solar": {
+        "projects": 3563,
+        "capacity_mw": 67013.29,
+        "status_counts": {
+          "Abandoned": 125,
+          "Appeal Lodged": 3,
+          "Appeal Refused": 92,
+          "Appeal Withdrawn": 8,
+          "Application Refused": 219,
+          "Application Submitted": 343,
+          "Application Withdrawn": 107,
+          "Awaiting Construction": 945,
+          "No Application Required": 1,
+          "Operational": 1262,
+          "Planning Permission Expired": 122,
+          "Revised": 196,
+          "Under Construction": 140
+        }
+      },
+      "bess": {
+        "projects": 1609,
+        "capacity_mw": 147681.94,
+        "status_counts": {
+          "Abandoned": 40,
+          "Appeal Lodged": 2,
+          "Appeal Refused": 3,
+          "Application Refused": 78,
+          "Application Submitted": 306,
+          "Application Withdrawn": 45,
+          "Awaiting Construction": 738,
+          "Decommissioned": 1,
+          "Operational": 138,
+          "Planning Permission Expired": 50,
+          "Revised": 110,
+          "Under Construction": 98
+        }
+      },
+      "limitation": "These status counts describe the frozen admitted REPD spine; they are not a current grid-connection forecast."
+    },
+    "when_connecting": {
+      "status": "UNKNOWN_NOT_IN_PINNED_EVIDENCE",
+      "answer": "The pinned release evidence does not contain a verified grid-connection date for these projects.",
+      "next_evidence_gate": "Bind dated NESO, transmission-owner or DNO connection milestones to the authority-safe REPD identity before publication."
+    },
+    "how_connecting": {
+      "status": "UNKNOWN_NOT_IN_PINNED_EVIDENCE",
+      "answer": "A planning reference and planning authority do not establish connection voltage, substation, route, bay, queue position or energisation method.",
+      "next_evidence_gate": "Require an official connection agreement, queue record, planning document or network-owner source with an exact project binding."
+    }
+  },
+  "changed_examples": [
+    {
+      "normalised_reference": "0201865FUL",
+      "observed_area": "Bradford",
+      "observed_description": "Erection of a detached garage to rear of property",
+      "previous_project": "Cricket St Thomas",
+      "previous_repd_ref": "3144",
+      "decision": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED"
+    },
+    {
+      "normalised_reference": "0201865FUL",
+      "observed_area": "Chelmsford",
+      "observed_description": "Erection of 10 homes and ancillary garages.",
+      "previous_project": "Cricket St Thomas",
+      "previous_repd_ref": "3144",
+      "decision": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED"
+    },
+    {
+      "normalised_reference": "0201865FUL",
+      "observed_area": "Chelmsford",
+      "observed_description": "Application 02/01865/FUL - discharge of condition 16 (fence details).",
+      "previous_project": "Cricket St Thomas",
+      "previous_repd_ref": "3144",
+      "decision": "PLANNING_REFERENCE_NOT_EXACT"
+    },
+    {
+      "normalised_reference": "0201865FUL",
+      "observed_area": "Cheltenham",
+      "observed_description": "Single storey rear extension to provide two bedrooms",
+      "previous_project": "Cricket St Thomas",
+      "previous_repd_ref": "3144",
+      "decision": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED"
+    },
+    {
+      "normalised_reference": "0201865FUL",
+      "observed_area": "Cornwall",
+      "observed_description": "Construction of poch to front and conservatory with garden room below on rear elevation of dwelling. (Resubmission following withdrawn application 02/01865/FUL",
+      "previous_project": "Cricket St Thomas",
+      "previous_repd_ref": "3144",
+      "decision": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED"
+    },
+    {
+      "normalised_reference": "0201865FUL",
+      "observed_area": "Cotswold",
+      "observed_description": "Conversion of barns to two dwellings; construction of new garages; installation of sewerage treatment plant and ancillary works",
+      "previous_project": "Cricket St Thomas",
+      "previous_repd_ref": "3144",
+      "decision": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED"
+    },
+    {
+      "normalised_reference": "0201865FUL",
+      "observed_area": "Harborough",
+      "observed_description": "Erection of detached bungalow",
+      "previous_project": "Cricket St Thomas",
+      "previous_repd_ref": "3144",
+      "decision": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED"
+    },
+    {
+      "normalised_reference": "0201865FUL",
+      "observed_area": "Mid Sussex",
+      "observed_description": "Construction of external disabled access ramp.",
+      "previous_project": "Cricket St Thomas",
+      "previous_repd_ref": "3144",
+      "decision": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED"
+    },
+    {
+      "normalised_reference": "0201865FUL",
+      "observed_area": "Oxford",
+      "observed_description": "Single storey and first floor side extension. Single storey rear extensions. Front and rear dormers in connection with loft conversion.",
+      "previous_project": "Cricket St Thomas",
+      "previous_repd_ref": "3144",
+      "decision": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED"
+    },
+    {
+      "normalised_reference": "0201865FUL",
+      "observed_area": "Perth",
+      "observed_description": "Replacement of porch at",
+      "previous_project": "Cricket St Thomas",
+      "previous_repd_ref": "3144",
+      "decision": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED"
+    },
+    {
+      "normalised_reference": "020538",
+      "observed_area": "Brent",
+      "observed_description": "Installation of rear dormer windows and one front roof-light to dwellinghouse",
+      "previous_project": "Ton Marw Farm",
+      "previous_repd_ref": "3470",
+      "decision": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED"
+    },
+    {
+      "normalised_reference": "020538",
+      "observed_area": "Fylde",
+      "observed_description": "ERECTION OF RAILINGS ABOVE EXISTING PALISADE WALLS 1.7M OVERALL HEIGHT",
+      "previous_project": "Ton Marw Farm",
+      "previous_repd_ref": "3470",
+      "decision": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED"
+    }
+  ],
+  "decision": "Use only the audited snapshot for derived planning bindings; preserve the pinned raw snapshot as evidence.",
+  "change_scope": {
+    "immutable_inputs_added": [
+      "objects/data/sha256/5f9777777a9f34d0c20c4f4bc18adfa0d45625cd2b2c605c255fac58f5ebe489.json"
+    ],
+    "content_addressed_outputs": [
+      "objects/data/sha256/9d3f6bade0b49b3458b7a97fa56959e958aa410ac292bbf98df96af231df256b.json",
+      "objects/data/sha256/3b82af4ff1a45d0f68af4f6ae9a62d539f1214a8abf3f60eba92c1706c456b92.json",
+      "objects/js/sha256/5096d055234312c574b10d5ff239b91582497289cb58fd6a1faa6b89e16e657f.mjs",
+      "objects/text/sha256/73221b4674f37966435914119884ee9b8fe1442a92d9cf476154a01999c39c7a.md"
+    ],
+    "pinned_module_dependencies": [
+      "objects/js/sha256/bf8b87533cda64fa145de9ca28998b29bf7f863f483a26a78e34fc3272fe9f7d.mjs",
+      "objects/js/sha256/0f0adf842d22158b882f168d6c131480afd81bce6609b8453a073f15d201d18c.mjs"
+    ],
+    "executable_proof": [
+      "objects/js/sha256/60ebe5b31cdb881e61c7275fd3f696b33a4f134c5c0a6e6cd8f1474545156acc.mjs",
+      "tooling/build-202608251750-release.mjs",
+      "tooling/poll-official-sources-v3.mjs",
+      "tests/check-202608251750-pipelinenews.mjs",
+      "tests/check-official-source-v3.mjs",
+      "tests/fixtures/official-source-v3-collisions.json",
+      "tests/run-current-timestamp-release.sh"
+    ],
+    "release_files": [
+      "202608251750-pipelinenews/index.html",
+      "202608251750-pipelinenews/readme.md",
+      "202608251750-pipelinenews/release.json",
+      "releases/202608251750-pipelinenews.json",
+      "reports/202608251750-planning-binding-audit.json"
+    ]
+  }
+}

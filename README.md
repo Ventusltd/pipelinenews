@@ -1,5 +1,4 @@
 # Pipeline News
-# Pipeline News
 
 Pipeline News is the independent news-data and intelligence engine for the GlobalGrid2050 federation.
 
@@ -21,11 +20,30 @@ Repository-local performance skill: [`build-progressive-static-data-ui`](skills/
 
 Repository-local intelligence skill: [`build-source-grounded-sales-intelligence`](skills/build-source-grounded-sales-intelligence/SKILL.md). Read it before adding material events, organisations, commercial roles, opportunity reasons, podcast evidence or data-centre intelligence.
 
-Read that manual, this README, the local CHANGELOG, the source register and the contracts before patching, porting, backfilling, scheduling, publishing or wiring this repository to a UI.
+Read that manual, this README, [`CHANGELOG.md`](CHANGELOG.md), the governed [source register](attributionv1/fixtures/register-sources.v1.json) and the contracts before patching, porting, backfilling, scheduling, publishing or wiring this repository to a UI.
 
 Green is not proof. File count is not proof. Size is not proof. A rendered browser page is not proof. The proof is that the data obeys its declared law at its declared grain and key.
 
-## Active build plan — NewsV7 cumulative public-app candidate
+## Current repository and release state
+
+- NewsV1 is the frozen V9.7-parity public app; NewsV7 is the deployed cumulative public-app candidate.
+- `202608251750-pipelinenews` is the prepared current timestamp candidate. It adds an authority-safe planning-binding gate and quarantines unsafe cached bindings without mutating raw evidence.
+- The official Q2 2026 source has 14,657 raw rows; the current four-technology, at-least-1-MW scope has 7,703 rows; the admitted public spine remains 7,680 projects and 356,474.09 MW. The 23-row delta is candidate-only.
+- The pinned pre-correction PlanIt snapshot contains 128 records: 23 remain planning-authority-corroborated primary matches and 105 fail closed to `ABSTAIN`; 103 lack authority or project-name corroboration and two lack an exact reference.
+- The candidate pointer is not a production promotion. The stable timestamp route remains unswitched unless a manifest expressly records `publication.live: true`.
+- Release naming and immutability are governed by [`release-naming.md`](release-naming.md), [`RELEASE_ARCHITECTURE.md`](RELEASE_ARCHITECTURE.md) and [`CHANGELOG.md`](CHANGELOG.md).
+
+## Current timestamp continuation law
+
+- Every session begins by reconciling at least 2,000 words of adjacent project context, current GitHub evidence and the authoritative uppercase [`CHANGELOG.md`](CHANGELOG.md).
+- Every session creates a new immutable lowercase Europe/London timestamp release, publishes it through PipelineNews Pages, then adds it to the GlobalGrid root catalogue in chronological order. Earlier folders and manifests are never amended.
+- Every release must state how it advances market intelligence for the fastest possible path to net zero; report the official REPD progress state of Solar and BESS; and answer when and how projects connect. Missing grid-connection evidence is published as `UNKNOWN` or `ABSTAIN`, never inferred from planning, capacity, proximity or headlines.
+- Every release manifest carries a byte counter for its lightweight shell, new content-addressed bytes, reused pinned bytes, executable proof and minimum Pages impact.
+- The current 17:50 candidate improves the trustworthiness of project-progress research by removing 105 unsafe cached planning bindings. Its admitted spine contains 3,563 Solar projects and 1,609 BESS projects. Verified grid-connection dates and methods remain `UNKNOWN_NOT_IN_PINNED_EVIDENCE` pending exact NESO, network-owner, connection-agreement or planning-document evidence.
+
+Current baton: build, deterministically verify and deploy `202608251750-pipelinenews`; verify its Pages bytes; then add its candidate URL after 17:01 in the GlobalGrid root index. The next session must start from the resulting remote heads and create a fresh timestamp successor.
+
+## Frozen interface baseline — NewsV7 cumulative public-app candidate
 
 Status: NewsV1 remains the frozen V9.7-parity public app. NewsV7 is the deployed cumulative public-app candidate: it preserves the V9.7/NewsV1 interface and uses NewsV2–NewsV6, AnalyticsV1 and ConsumerV1 only as pinned governed source material.
 
@@ -120,13 +138,13 @@ Latest recovery checkpoint:
 - `PASS` — Pages containment commit `252fa34132ea555538764f832f79b5dfe4445ee7` reduced the accidental branch/Jekyll artifact from 13,069,151 bytes containing the whole repository to 1,195,373 bytes containing the 43 whitelisted NewsV1 runtime files plus one generated theme stylesheet. Candidates, reports, skills and the legacy archive are excluded.
 - `PASS` — GitHub Pages uses the canonical Actions workflow. NewsV7 feature commit `a559e2fa3b98d7ac56d1948142b661cc303e0598` and run `32831502404` passed build/deploy with exactly 43 NewsV1 runtime files, 47 NewsV7 runtime files and `.nojekyll`; no candidate, analytics, consumer, report, skill, test or legacy directory was published.
 - `NOT TESTED` — live NewsV1 runtime at widths 390, 430, 440 and 768; static CSS and contained-scroll gates remain green.
-- Next bounded pass: switch Pages source to GitHub Actions, run the bounded NewsV1 workflow and verify its exact artifact whitelist. Create no NewsV7 or GlobalGrid V9.8 during this maintenance gate.
+- Next bounded pass: verify the current timestamp candidate, its authority-safe reclassification and its dynamically resolved Pages artifact; preserve NewsV1 and NewsV7 unchanged.
 
-## Overnight automation master score — authoritative
+## Completed overnight automation programme — historical record
 
-This section is the long-form score for the `Advance Pipeline News` automation. The automation prompt must remain short: resolve PipelineNews `main`, read this entire README and the relevant repository skills, then execute the first incomplete movement below. This README—not a remembered chat summary—is the authority after context loss or prompt truncation.
+This section preserves the completed NewsV2–NewsV7 programme and its evidence. It is not the authority for current timestamp sessions; the current repository state, continuation law and [`CHANGELOG.md`](CHANGELOG.md) above take precedence.
 
-The score is ordered. Do not skip a failed movement to manufacture version numbers. Do not redo a movement whose remote commit, artifacts and independent tests are already proven. If the named clock slot and repository state disagree, follow repository state and perform the first incomplete movement.
+The historical score remains ordered so past decisions can be audited. Do not redo a movement whose remote commit, artifacts and independent tests are already proven.
 
 ### Performance and anti-zombie law
 
@@ -153,11 +171,11 @@ The score is ordered. Do not skip a failed movement to manufacture version numbe
 
 These slots are recovery hints, not permission to skip work. A later run always starts at the first incomplete movement.
 
-### Dynamic next-run baton
+### Historical final baton
 
-Every scheduled run must adapt the following run from proved results, not from the clock alone.
+The completed programme used the following end-state baton.
 
-Current baton:
+Historical baton:
 
 | Field | Value |
 |---|---|
@@ -168,17 +186,17 @@ Current baton:
 | Doubt to resolve | Live NewsV7 browser/mobile widths remain `NOT TESTED`; the immutable legacy snapshot still omits separately named V9.4–V9.7 directories. |
 | Next-run budget | One 120–300 second visual-verification block; stop before 500 seconds and make no data or identity changes. |
 
-At the end of every run:
+At the end of those historical runs:
 
 1. review the feature commit from remote and classify it `PASS`, `FAIL`, `BLOCKED` or `NOT TESTED`;
 2. replace every value in the current baton with the actual result, first incomplete movement, exact next gate, remaining doubt and next-run block budget;
 3. commit that baton as a small documentation handoff after the feature review, so it can cite the proven feature commit without a circular hash;
 4. read the baton commit back from remote;
-5. leave the fixed 02:00–08:00 schedule unchanged—do not create a duplicate task or restart its recurrence count.
+5. preserve the recorded schedule as historical evidence rather than treating it as a current instruction.
 
-The next invocation must read the current baton before selecting work. If the baton conflicts with contracts/tests at remote `main`, contracts and test evidence win; repair the baton before building. This README handoff is the result-driven update to the next automation run.
+During that programme, contracts and test evidence overrode a stale baton. Current timestamp work follows the continuation law above.
 
-### Overture — mandatory preflight every run
+### Historical overture
 
 1. Read this README from the current remote `main`, not from a stale checkout.
 2. Read the full relevant skill cartridges:
@@ -189,7 +207,7 @@ The next invocation must read the current baton before selecting work. If the ba
 4. Read the latest recovery checkpoint, release contract, manifest, tests and the prior run's commit.
 5. Run the predecessor's smallest decisive test before extending it.
 6. Declare the current movement, grain, key, source of truth, null law, evidence class and rollback point in commentary.
-7. Work directly on `main` only because Vikram explicitly authorised it. Use one small fast-forward commit per independently proven checkpoint.
+7. Work directly on `main` only while the repository owner explicitly authorises it. Use one small fast-forward commit per independently proven checkpoint.
 
 ### Immutable federation law
 
@@ -357,7 +375,7 @@ The score wins by truthful compounding: source evidence first, derived intellige
 ## Operating protocol
 
 - Work audit-first and verify repository state against GitHub before editing.
-- Work directly on main unless Vikram explicitly changes that instruction.
+- Work directly on main unless the repository owner explicitly changes that instruction.
 - Use small reversible commits.
 - Never overwrite or delete historical versions.
 - Never modify frozen releases in place.
