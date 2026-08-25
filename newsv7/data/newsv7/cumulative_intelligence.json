@@ -1,0 +1,1564 @@
+{
+  "schema": "pipelinenews.cumulative-intelligence.newsv7.v1",
+  "release": "newsv7",
+  "status": "CANDIDATE",
+  "generated_at": "2026-08-25T00:00:00Z",
+  "baseline": {
+    "release": "GlobalGrid V9.7 via frozen NewsV1 runtime",
+    "source_commit": "824a23cd0cf9f90a9df942f1b37a09c2dc6472b7",
+    "source_subtree": "4fca94ede95789ade9490258a2323c00c13ec2ea",
+    "project_count": 7680,
+    "capacity_mw": 356474.09,
+    "all_headlines": 133,
+    "uk_headlines": 45,
+    "international_headlines": 19,
+    "beacon_fen_repd_ref": "13599"
+  },
+  "counts": {
+    "material_event_assertions": 45,
+    "organisation_labels": 28,
+    "project_operator_role_assertions": 29,
+    "transaction_role_abstentions": 45,
+    "source_health_decisions": 6,
+    "current_context_sources": 0,
+    "publishable_reasons": 0,
+    "held_reasons": 45,
+    "data_centre_sources": 6,
+    "data_centre_observations": 2,
+    "data_centre_link_decisions": 2,
+    "renewable_data_centre_identity_links": 0,
+    "parquet_tables": 9,
+    "parquet_rows": 208
+  },
+  "source_hashes": {
+    "feed": {
+      "path": "newsv1/dist/major_project_news_v9_5_1.json",
+      "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+    },
+    "events": {
+      "path": "newsv2/data/material_event_assertions.json",
+      "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+    },
+    "organisations": {
+      "path": "newsv3/data/organisation_role_evidence.json",
+      "sha256": "03a258e0b90c1d95e8a8582ff203676651bfc7d5cd33f8652aef17ddfc04da75"
+    },
+    "sourceHealth": {
+      "path": "newsv4/data/source_health_context.json",
+      "sha256": "5aa7f2bef3d99d2cc50c81695da406ccdd3f315c88237ecf0de2c0568deefd0d"
+    },
+    "reasons": {
+      "path": "newsv5/data/reason_decision_ledger.json",
+      "sha256": "fbce604f865341391316917cb14d6319f8b1fdbb503a971a19a7c7d0ecfec06a"
+    },
+    "dataCentres": {
+      "path": "newsv6/data/data_centre_evidence.json",
+      "sha256": "e5e984f763877f41fef5c39bce248ee74bb9f22706c87cd51d6fd2a2ce9cd5d5"
+    },
+    "parquetManifest": {
+      "path": "analytics_v1/data/parquet_manifest.json",
+      "sha256": "9ac1f894c9b1d7d51ea4d68cc35f8de0ad6fd4ac02b5b2b13b83d1c1dd69a91e"
+    },
+    "parquetAudit": {
+      "path": "analytics_v1/reports/parquet_audit.json",
+      "sha256": "2c2af8a38bcb9b6ce4127835b4e005a1dc22d097f2dd21b64c036b7ca38115be"
+    },
+    "consumerOverlay": {
+      "path": "consumer_v1/data/intelligence_overlay.json",
+      "sha256": "f9da6cc8b98a173abef7cf264b1f3a007ff3d2659beab281fbe535a207501bc9"
+    },
+    "interfaceGuard": {
+      "path": "consumer_v1/data/interface_guard.json",
+      "sha256": "6e570295f19a4fa1ea1c6731d372f25f9545940900acbfc1a6fa7a6ac91a8f11"
+    }
+  },
+  "event_intelligence": [
+    {
+      "display_order": 1,
+      "article_id": "GG2050-NEWS-59F4A8A091F11C92",
+      "event_assertion_id": "PN-EVT-178E01376A535B3F1CE6",
+      "repd_ref": "13599",
+      "project_id": "GG2050-REPD-13599",
+      "event_type": "CONSENT",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 91,
+      "operator_labels": [
+        {
+          "source_label": "Low Carbon Limited",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 2,
+      "article_id": "GG2050-NEWS-EFAF7D710F26B406",
+      "event_assertion_id": "PN-EVT-0B1B248D838C8DDC8B59",
+      "repd_ref": "1044",
+      "project_id": "GG2050-REPD-1044",
+      "event_type": "PROJECT_UPDATE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 81,
+      "operator_labels": [
+        {
+          "source_label": "ZW North Tawton",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 3,
+      "article_id": "GG2050-NEWS-A139CA47C0541491",
+      "event_assertion_id": "PN-EVT-34AE9408219A50D489CF",
+      "repd_ref": "11974",
+      "project_id": "GG2050-REPD-11974",
+      "event_type": "ACQUISITION",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 78,
+      "operator_labels": [
+        {
+          "source_label": "Solar2 Limited",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "TRANSACTION_TECHNICAL_DUE_DILIGENCE",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 4,
+      "article_id": "GG2050-NEWS-D7C850D5FCDB1CF3",
+      "event_assertion_id": "PN-EVT-F984E1486E045CD404B9",
+      "repd_ref": "11034",
+      "project_id": "GG2050-REPD-11034",
+      "event_type": "PROJECT_UPDATE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 85,
+      "operator_labels": [
+        {
+          "source_label": "Alcemi Storage Development Limited",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 5,
+      "article_id": "GG2050-NEWS-D2ECDBC89241FA35",
+      "event_assertion_id": "PN-EVT-6E53449B02D31AE14996",
+      "repd_ref": "14550",
+      "project_id": "GG2050-REPD-14550",
+      "event_type": "PROJECT_UPDATE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 80,
+      "operator_labels": [
+        {
+          "source_label": "Firma Energy / IB Vogt",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 6,
+      "article_id": "GG2050-NEWS-36393293C01653C1",
+      "event_assertion_id": "PN-EVT-A83AE8EBE4B885F8A62C",
+      "repd_ref": "14806",
+      "project_id": "GG2050-REPD-14806",
+      "event_type": "PROJECT_UPDATE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 72,
+      "operator_labels": [
+        {
+          "source_label": "Orsted UK Limited / PS Renewables",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 7,
+      "article_id": "GG2050-NEWS-CC5ED31766C4523C",
+      "event_assertion_id": "PN-EVT-0625DB8AA1F539A9BCA8",
+      "repd_ref": "14550",
+      "project_id": "GG2050-REPD-14550",
+      "event_type": "CONSENT",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 85,
+      "operator_labels": [
+        {
+          "source_label": "Firma Energy / IB Vogt",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 8,
+      "article_id": "GG2050-NEWS-6AB5AC911A4989B8",
+      "event_assertion_id": "PN-EVT-9A89FEA3B11ADA411EAB",
+      "repd_ref": "14550",
+      "project_id": "GG2050-REPD-14550",
+      "event_type": "CONSENT",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 68,
+      "operator_labels": [
+        {
+          "source_label": "Firma Energy / IB Vogt",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 9,
+      "article_id": "GG2050-NEWS-77F5537BB103AD91",
+      "event_assertion_id": "PN-EVT-58020077F56B243C5B7C",
+      "repd_ref": "14550",
+      "project_id": "GG2050-REPD-14550",
+      "event_type": "CONSENT",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 90,
+      "operator_labels": [
+        {
+          "source_label": "Firma Energy / IB Vogt",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 10,
+      "article_id": "GG2050-NEWS-7E2092FF1850807E",
+      "event_assertion_id": "PN-EVT-0984B5097C1C220341B7",
+      "repd_ref": "15000",
+      "project_id": "GG2050-REPD-15000",
+      "event_type": "CONSENT",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 77,
+      "operator_labels": [
+        {
+          "source_label": "JBM Solar / RWE",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 11,
+      "article_id": "GG2050-NEWS-E441750881AE6B8A",
+      "event_assertion_id": "PN-EVT-D1CE5C1382527F330641",
+      "repd_ref": "15000",
+      "project_id": "GG2050-REPD-15000",
+      "event_type": "CONSENT",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 90,
+      "operator_labels": [
+        {
+          "source_label": "JBM Solar / RWE",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 12,
+      "article_id": "GG2050-NEWS-3386D3591FBDA7E9",
+      "event_assertion_id": "PN-EVT-E901107B2F273D79EA61",
+      "repd_ref": "14550",
+      "project_id": "GG2050-REPD-14550",
+      "event_type": "CONSENT",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 86,
+      "operator_labels": [
+        {
+          "source_label": "Firma Energy / IB Vogt",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 13,
+      "article_id": "GG2050-NEWS-40C019892774BF64",
+      "event_assertion_id": "PN-EVT-E4A04E23308AAD17CDB3",
+      "repd_ref": "11063",
+      "project_id": "GG2050-REPD-11063",
+      "event_type": "ACQUISITION",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 72,
+      "operator_labels": [
+        {
+          "source_label": "Renewable Energy Systems",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "TRANSACTION_TECHNICAL_DUE_DILIGENCE",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 14,
+      "article_id": "GG2050-NEWS-E3A49DB50D708576",
+      "event_assertion_id": "PN-EVT-691E113BA6EA50F8E117",
+      "repd_ref": "12206",
+      "project_id": "GG2050-REPD-12206",
+      "event_type": "ACQUISITION",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 80,
+      "operator_labels": [
+        {
+          "source_label": "Alcemi Storage Development Limited",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "TRANSACTION_TECHNICAL_DUE_DILIGENCE",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 15,
+      "article_id": "GG2050-NEWS-AC12E1F4D302389A",
+      "event_assertion_id": "PN-EVT-B54E0F042FBC5232BBDA",
+      "repd_ref": "11034",
+      "project_id": "GG2050-REPD-11034",
+      "event_type": "ACQUISITION",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 68,
+      "operator_labels": [
+        {
+          "source_label": "Alcemi Storage Development Limited",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "TRANSACTION_TECHNICAL_DUE_DILIGENCE",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 16,
+      "article_id": "GG2050-NEWS-AADF446AFB3D8CBE",
+      "event_assertion_id": "PN-EVT-3ACA1C9F3D1CEAE8BABF",
+      "repd_ref": "11034",
+      "project_id": "GG2050-REPD-11034",
+      "event_type": "FINANCIAL_CLOSE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 80,
+      "operator_labels": [
+        {
+          "source_label": "Alcemi Storage Development Limited",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "INVESTMENT_TECHNICAL_DUE_DILIGENCE",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 17,
+      "article_id": "GG2050-NEWS-38117B21859E7FCC",
+      "event_assertion_id": "PN-EVT-CE8870C3FE8F5DA103D2",
+      "repd_ref": "12017",
+      "project_id": "GG2050-REPD-12017",
+      "event_type": "FINANCIAL_CLOSE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 84,
+      "operator_labels": [
+        {
+          "source_label": "Island Green Power",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "INVESTMENT_TECHNICAL_DUE_DILIGENCE",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 18,
+      "article_id": "GG2050-NEWS-7493318A1EFD7D53",
+      "event_assertion_id": "PN-EVT-6F53B6D7771307529938",
+      "repd_ref": "10087",
+      "project_id": "GG2050-REPD-10087",
+      "event_type": "FINANCIAL_CLOSE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 77,
+      "operator_labels": [
+        {
+          "source_label": "Green Switch Capital Limited",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "INVESTMENT_TECHNICAL_DUE_DILIGENCE",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 19,
+      "article_id": "GG2050-NEWS-4D51082DBAFF15A3",
+      "event_assertion_id": "PN-EVT-AE0952E1D4A6A3FA4BA7",
+      "repd_ref": "10087",
+      "project_id": "GG2050-REPD-10087",
+      "event_type": "FINANCIAL_CLOSE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 77,
+      "operator_labels": [
+        {
+          "source_label": "Green Switch Capital Limited",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "INVESTMENT_TECHNICAL_DUE_DILIGENCE",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 20,
+      "article_id": "GG2050-NEWS-6EA92BFCA6D27DCC",
+      "event_assertion_id": "PN-EVT-4979E18C801BB1A3EFC7",
+      "repd_ref": "8162",
+      "project_id": "GG2050-REPD-8162",
+      "event_type": "PROJECT_UPDATE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 67,
+      "operator_labels": [
+        {
+          "source_label": "Longfield Solar Energy Farm Limited (part of EDF Renwables)",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 21,
+      "article_id": "GG2050-NEWS-DACA6627AECFEE3F",
+      "event_assertion_id": "PN-EVT-EACE2D05B2F37C2061C5",
+      "repd_ref": "2377",
+      "project_id": "GG2050-REPD-2377",
+      "event_type": "PROJECT_UPDATE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 72,
+      "operator_labels": [
+        {
+          "source_label": "Foresight",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 22,
+      "article_id": "GG2050-NEWS-0B62C906FC62E3CA",
+      "event_assertion_id": "PN-EVT-2CFB24B9258006434A99",
+      "repd_ref": "5533",
+      "project_id": "GG2050-REPD-5533",
+      "event_type": "PROJECT_UPDATE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 69,
+      "operator_labels": [
+        {
+          "source_label": "Derbyshire County Council",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 23,
+      "article_id": "GG2050-NEWS-004B0EE9A2251D99",
+      "event_assertion_id": "PN-EVT-6AA0C9BB921AAE57AEC0",
+      "repd_ref": "10087",
+      "project_id": "GG2050-REPD-10087",
+      "event_type": "PROJECT_UPDATE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 74,
+      "operator_labels": [
+        {
+          "source_label": "Green Switch Capital Limited",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 24,
+      "article_id": "GG2050-NEWS-57BF0491BEE6DF34",
+      "event_assertion_id": "PN-EVT-2849F957E456BC5FB1BE",
+      "repd_ref": "14763",
+      "project_id": "GG2050-REPD-14763",
+      "event_type": "ACQUISITION",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 70,
+      "operator_labels": [
+        {
+          "source_label": "Geocore Limited",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "TRANSACTION_TECHNICAL_DUE_DILIGENCE",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 25,
+      "article_id": "GG2050-NEWS-B5B83CA7C50F85AA",
+      "event_assertion_id": "PN-EVT-BDFCE7B53DAB97C4EF5C",
+      "repd_ref": "9427",
+      "project_id": "GG2050-REPD-9427",
+      "event_type": "CONTRACT",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 75,
+      "operator_labels": [
+        {
+          "source_label": "Welbar Energy Storage Limited / Penso Power (BW ESS)",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROCUREMENT_AND_DELIVERY_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 26,
+      "article_id": "GG2050-NEWS-5D5AD065431E066A",
+      "event_assertion_id": "PN-EVT-AA21FE1EE9DFB6AD2FAB",
+      "repd_ref": "9427",
+      "project_id": "GG2050-REPD-9427",
+      "event_type": "CONTRACT",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 70,
+      "operator_labels": [
+        {
+          "source_label": "Welbar Energy Storage Limited / Penso Power (BW ESS)",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROCUREMENT_AND_DELIVERY_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 27,
+      "article_id": "GG2050-NEWS-C4B2F18AFF88FBB4",
+      "event_assertion_id": "PN-EVT-8832ECB2EF8243FF55D4",
+      "repd_ref": "8393",
+      "project_id": "GG2050-REPD-8393",
+      "event_type": "PROJECT_UPDATE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 64,
+      "operator_labels": [
+        {
+          "source_label": "BayWa r.e. UK Limited",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 28,
+      "article_id": "GG2050-NEWS-E748283B9B9DF4A5",
+      "event_assertion_id": "PN-EVT-7ABE99064EB8A41AD802",
+      "repd_ref": "5967",
+      "project_id": "GG2050-REPD-5967",
+      "event_type": "REFUSAL",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 69,
+      "operator_labels": [
+        {
+          "source_label": "Elgin Energy EsCo",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PLANNING_AND_DELIVERY_RISK_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 29,
+      "article_id": "GG2050-NEWS-5972472B53E931D0",
+      "event_assertion_id": "PN-EVT-53BF9A0A00CE7D62C912",
+      "repd_ref": "5452",
+      "project_id": "GG2050-REPD-5452",
+      "event_type": "PROJECT_UPDATE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 72,
+      "operator_labels": [
+        {
+          "source_label": "Pike Solar",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 30,
+      "article_id": "GG2050-NEWS-450497BD9F3D0A94",
+      "event_assertion_id": "PN-EVT-1632CE5722AE79BE0AF8",
+      "repd_ref": "11678",
+      "project_id": "GG2050-REPD-11678",
+      "event_type": "ACQUISITION",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 77,
+      "operator_labels": [
+        {
+          "source_label": "Boom Power",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "TRANSACTION_TECHNICAL_DUE_DILIGENCE",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 31,
+      "article_id": "GG2050-NEWS-CCCAC38505FD4A78",
+      "event_assertion_id": "PN-EVT-E5994AD8067548F98515",
+      "repd_ref": "11678",
+      "project_id": "GG2050-REPD-11678",
+      "event_type": "ACQUISITION",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 81,
+      "operator_labels": [
+        {
+          "source_label": "Boom Power",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "TRANSACTION_TECHNICAL_DUE_DILIGENCE",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 32,
+      "article_id": "GG2050-NEWS-63A55D532EE32D8B",
+      "event_assertion_id": "PN-EVT-4A053DF60A880D813E6F",
+      "repd_ref": "11678",
+      "project_id": "GG2050-REPD-11678",
+      "event_type": "ACQUISITION",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 81,
+      "operator_labels": [
+        {
+          "source_label": "Boom Power",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "TRANSACTION_TECHNICAL_DUE_DILIGENCE",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 33,
+      "article_id": "GG2050-NEWS-2E451ABC0F909D1F",
+      "event_assertion_id": "PN-EVT-559F5B9636944CD2EB1D",
+      "repd_ref": "11678",
+      "project_id": "GG2050-REPD-11678",
+      "event_type": "PROJECT_UPDATE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 76,
+      "operator_labels": [
+        {
+          "source_label": "Boom Power",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 34,
+      "article_id": "GG2050-NEWS-238C862207DA7067",
+      "event_assertion_id": "PN-EVT-DDF8C33B0864A3AF1ECF",
+      "repd_ref": "14098",
+      "project_id": "GG2050-REPD-14098",
+      "event_type": "CONSENT",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 83,
+      "operator_labels": [
+        {
+          "source_label": "Boom Developments Limited",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 35,
+      "article_id": "GG2050-NEWS-BDB48D6540AC90AD",
+      "event_assertion_id": "PN-EVT-4B8B00F39A4EA434A6E1",
+      "repd_ref": "9610",
+      "project_id": "GG2050-REPD-9610",
+      "event_type": "PROJECT_UPDATE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 73,
+      "operator_labels": [
+        {
+          "source_label": "EDF Energy Renewables",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 36,
+      "article_id": "GG2050-NEWS-B81A57211575BFAE",
+      "event_assertion_id": "PN-EVT-B4627734723C113E2652",
+      "repd_ref": "8162",
+      "project_id": "GG2050-REPD-8162",
+      "event_type": "PROJECT_UPDATE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 82,
+      "operator_labels": [
+        {
+          "source_label": "Longfield Solar Energy Farm Limited (part of EDF Renwables)",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 37,
+      "article_id": "GG2050-NEWS-E14D0BA799689626",
+      "event_assertion_id": "PN-EVT-CF91A6FAF0AC4A20B3EC",
+      "repd_ref": "11460",
+      "project_id": "GG2050-REPD-11460",
+      "event_type": "CONSENT",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 74,
+      "operator_labels": [
+        {
+          "source_label": "Push Energy",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 38,
+      "article_id": "GG2050-NEWS-5C2CEBF928A26D33",
+      "event_assertion_id": "PN-EVT-733F3E6F7BB8AFCA433B",
+      "repd_ref": "13763",
+      "project_id": "GG2050-REPD-13763",
+      "event_type": "CONSENT",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 65,
+      "operator_labels": [
+        {
+          "source_label": "Vattenfall",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 39,
+      "article_id": "GG2050-NEWS-79DD0F33881BD4CC",
+      "event_assertion_id": "PN-EVT-513472D4ECF7CC8223C0",
+      "repd_ref": "8100",
+      "project_id": "GG2050-REPD-8100",
+      "event_type": "PROJECT_UPDATE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 69,
+      "operator_labels": [
+        {
+          "source_label": "Island Green Power UK",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 40,
+      "article_id": "GG2050-NEWS-BE967773ABE84AA3",
+      "event_assertion_id": "PN-EVT-9CE7020129B496A2122D",
+      "repd_ref": "11476",
+      "project_id": "GG2050-REPD-11476",
+      "event_type": "CONSENT",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 83,
+      "operator_labels": [
+        {
+          "source_label": "Enso Green Holdings D Limited",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 41,
+      "article_id": "GG2050-NEWS-5A90F874FDBB9150",
+      "event_assertion_id": "PN-EVT-AE327F930F6031730E95",
+      "repd_ref": "5967",
+      "project_id": "GG2050-REPD-5967",
+      "event_type": "PROJECT_UPDATE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 64,
+      "operator_labels": [
+        {
+          "source_label": "Elgin Energy EsCo",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 42,
+      "article_id": "GG2050-NEWS-35363653B2310788",
+      "event_assertion_id": "PN-EVT-D1C958953913FA08FE1E",
+      "repd_ref": "10085",
+      "project_id": "GG2050-REPD-10085",
+      "event_type": "CONSENT",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 70,
+      "operator_labels": [
+        {
+          "source_label": "Evolution Power",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 43,
+      "article_id": "GG2050-NEWS-41DB7D3BBE5B96A8",
+      "event_assertion_id": "PN-EVT-8322D33226EC367D607B",
+      "repd_ref": "10085",
+      "project_id": "GG2050-REPD-10085",
+      "event_type": "CONSENT",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 83,
+      "operator_labels": [
+        {
+          "source_label": "Evolution Power",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 44,
+      "article_id": "GG2050-NEWS-A2110069E621C15D",
+      "event_assertion_id": "PN-EVT-71F15C759339B0E94419",
+      "repd_ref": "12926",
+      "project_id": "GG2050-REPD-12926",
+      "event_type": "PROJECT_UPDATE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 73,
+      "operator_labels": [
+        {
+          "source_label": "RWE",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "publishable_reason": false
+    },
+    {
+      "display_order": 45,
+      "article_id": "GG2050-NEWS-B58AFE299AF1F66A",
+      "event_assertion_id": "PN-EVT-7DC649C24AB7A06EC9FB",
+      "repd_ref": "6502",
+      "project_id": "GG2050-REPD-6502",
+      "event_type": "PROJECT_UPDATE",
+      "event_claim_status": "HEADLINE_DERIVED_UNVERIFIED",
+      "event_evidence_class": "PUBLISHER_HEADLINE_CLAIM",
+      "identity_confidence": 69,
+      "operator_labels": [
+        {
+          "source_label": "Quinbrook Infrastructure Partners",
+          "claim_class": "SOURCE_CLAIM",
+          "verification_status": "DIRECT_SOURCE_FIELD"
+        }
+      ],
+      "transaction_role_decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "research_decision": "HOLD_FOR_VERIFICATION",
+      "research_capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "publishable_reason": false
+    }
+  ],
+  "source_health": [
+    {
+      "source_health_decision_id": "PN-SOURCE-HEALTH-164262CC91DE363F396B",
+      "source_product_id": "ELEXON_FUELINST_V6_SNAPSHOT",
+      "domain": "GENERATION_MIX",
+      "status": "STALE",
+      "freshness_state": "STALE",
+      "evaluated_at": "2026-08-25T00:00:00Z",
+      "source_updated_at": "2026-06-18T21:14:13Z",
+      "freshness_sla_seconds": 900,
+      "fresh_until": "2026-06-18T21:29:13.000Z",
+      "age_seconds": 5798747,
+      "source_owner": "Elexon",
+      "authoritative_tier": "OFFICIAL_API_VIA_DERIVED_SNAPSHOT",
+      "source_page_url": "https://bmrs.elexon.co.uk/api-documentation",
+      "source_record_url": "https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELINST",
+      "observation_artifact_url": "https://globalgrid2050.com/uk_energy_tracking_v6/live_grid_energy.json",
+      "licence": {
+        "status": "RECORDED",
+        "url": "https://www.elexon.co.uk/bsc/data/balancing-mechanism-reporting-agent/copyright-licence-use-bmrs-api/",
+        "attribution": "Elexon BMRS"
+      },
+      "adapter_id": "globalgrid.update_uk_energy_v6.fuelinst",
+      "adapter_version": "AUDITED_GLOBALGRID_cfb32796",
+      "schema_version": "V6_DERIVED_SNAPSHOT",
+      "scheduler": {
+        "path": "Ventusltd/globalgrid2050 root workflow",
+        "state": "MANUAL_ONLY"
+      },
+      "fetch_status": "LAST_KNOWN_SUCCESS",
+      "attempt_count": null,
+      "raw_sha256": null,
+      "prior_raw_sha256": null,
+      "record_count": null,
+      "distinct_key_count": null,
+      "null_key_count": null,
+      "duplicate_groups": null,
+      "source_record_key": [
+        "periodStartUTC",
+        "fuelType"
+      ],
+      "provisional": true,
+      "evidence_class": "REPORTED_VIA_DERIVED_SNAPSHOT",
+      "blocking_issues": [],
+      "metadata_gaps": [
+        "deployed snapshot has no raw-source hash or record-count manifest"
+      ],
+      "last_known_good_commit": "cfb32796e4a3c45a0ab7bec53623b96c84a818a4",
+      "decision_reason": "The last-known snapshot is older than its declared freshness SLA.",
+      "protections": {
+        "context_only": true,
+        "project_identity_allowed": false,
+        "project_binding_allowed": false,
+        "event_verification_allowed": false,
+        "grid_constraint_assertion_allowed": false,
+        "deal_scoring_allowed": false
+      }
+    },
+    {
+      "source_health_decision_id": "PN-SOURCE-HEALTH-521A4F77DEF8B44BB296",
+      "source_product_id": "ELEXON_MARKET_INDEX_PRICE_V6_SNAPSHOT",
+      "domain": "MARKET_INDEX_PRICE",
+      "status": "DEGRADED",
+      "freshness_state": "STALE",
+      "evaluated_at": "2026-08-25T00:00:00Z",
+      "source_updated_at": "2026-06-18T21:14:15Z",
+      "freshness_sla_seconds": 3600,
+      "fresh_until": "2026-06-18T22:14:15.000Z",
+      "age_seconds": 5798745,
+      "source_owner": "Elexon",
+      "authoritative_tier": "OFFICIAL_API_VIA_DERIVED_SNAPSHOT",
+      "source_page_url": "https://bmrs.elexon.co.uk/api-documentation",
+      "source_record_url": "https://data.elexon.co.uk/bmrs/api/v1/balancing/pricing/market-index",
+      "observation_artifact_url": "https://globalgrid2050.com/uk_energy_tracking_v6/live_grid_price.json",
+      "licence": {
+        "status": "RECORDED",
+        "url": "https://www.elexon.co.uk/bsc/data/balancing-mechanism-reporting-agent/copyright-licence-use-bmrs-api/",
+        "attribution": "Elexon BMRS"
+      },
+      "adapter_id": "globalgrid.update_uk_price_v6.market_index",
+      "adapter_version": "AUDITED_GLOBALGRID_cfb32796",
+      "schema_version": "V6_DERIVED_SNAPSHOT",
+      "scheduler": {
+        "path": "Ventusltd/globalgrid2050 root workflow",
+        "state": "MANUAL_ONLY"
+      },
+      "fetch_status": "LAST_KNOWN_SUCCESS",
+      "attempt_count": null,
+      "raw_sha256": null,
+      "prior_raw_sha256": null,
+      "record_count": null,
+      "distinct_key_count": null,
+      "null_key_count": null,
+      "duplicate_groups": null,
+      "source_record_key": null,
+      "provisional": true,
+      "evidence_class": "REPORTED_VIA_DERIVED_SNAPSHOT",
+      "blocking_issues": [
+        "V6 labels Market Index Price as System or imbalance price",
+        "a complete stable record-key and duplicate guard are not preserved in the deployed snapshot"
+      ],
+      "metadata_gaps": [
+        "raw-source hash",
+        "record-count manifest"
+      ],
+      "last_known_good_commit": "cfb32796e4a3c45a0ab7bec53623b96c84a818a4",
+      "decision_reason": "Blocking provenance, semantic, key, adapter or licence defects override freshness.",
+      "protections": {
+        "context_only": true,
+        "project_identity_allowed": false,
+        "project_binding_allowed": false,
+        "event_verification_allowed": false,
+        "grid_constraint_assertion_allowed": false,
+        "deal_scoring_allowed": false
+      }
+    },
+    {
+      "source_health_decision_id": "PN-SOURCE-HEALTH-46D2666E4DE8EAA94C93",
+      "source_product_id": "GRID_FREQUENCY_V6_HEURISTIC",
+      "domain": "GRID_FREQUENCY",
+      "status": "DEGRADED",
+      "freshness_state": "STALE",
+      "evaluated_at": "2026-08-25T00:00:00Z",
+      "source_updated_at": "2026-06-18T21:52:31Z",
+      "freshness_sla_seconds": 300,
+      "fresh_until": "2026-06-18T21:57:31.000Z",
+      "age_seconds": 5796449,
+      "source_owner": "Elexon candidate endpoints",
+      "authoritative_tier": "HEURISTIC_UNPROVEN",
+      "source_page_url": "https://bmrs.elexon.co.uk/api-documentation",
+      "source_record_url": null,
+      "observation_artifact_url": "https://globalgrid2050.com/uk_energy_tracking_v6/live_grid_frequency.json",
+      "licence": {
+        "status": "RECORDED",
+        "url": "https://www.elexon.co.uk/bsc/data/balancing-mechanism-reporting-agent/copyright-licence-use-bmrs-api/",
+        "attribution": "Elexon BMRS candidate endpoints"
+      },
+      "adapter_id": "globalgrid.update_uk_frequency_v6.heuristic",
+      "adapter_version": "AUDITED_GLOBALGRID_cfb32796",
+      "schema_version": "V6_HEURISTIC_SNAPSHOT",
+      "scheduler": {
+        "path": "Ventusltd/globalgrid2050 root workflow",
+        "state": "MANUAL_ONLY"
+      },
+      "fetch_status": "LAST_KNOWN_SUCCESS",
+      "attempt_count": null,
+      "raw_sha256": null,
+      "prior_raw_sha256": null,
+      "record_count": null,
+      "distinct_key_count": null,
+      "null_key_count": null,
+      "duplicate_groups": null,
+      "source_record_key": [
+        "source_time_utc"
+      ],
+      "provisional": true,
+      "evidence_class": "HEURISTIC",
+      "blocking_issues": [
+        "adapter scans arbitrary 45 to 55 numeric values as hertz",
+        "observation timestamp may fall back to ingestion time"
+      ],
+      "metadata_gaps": [
+        "authoritative endpoint",
+        "raw-source hash",
+        "schema manifest"
+      ],
+      "last_known_good_commit": "cfb32796e4a3c45a0ab7bec53623b96c84a818a4",
+      "decision_reason": "Blocking provenance, semantic, key, adapter or licence defects override freshness.",
+      "protections": {
+        "context_only": true,
+        "project_identity_allowed": false,
+        "project_binding_allowed": false,
+        "event_verification_allowed": false,
+        "grid_constraint_assertion_allowed": false,
+        "deal_scoring_allowed": false
+      }
+    },
+    {
+      "source_health_decision_id": "PN-SOURCE-HEALTH-FA084D172B55A6EBEF34",
+      "source_product_id": "NESO_CARBON_INTENSITY_V6_SNAPSHOT",
+      "domain": "CARBON_INTENSITY",
+      "status": "DEGRADED",
+      "freshness_state": "STALE",
+      "evaluated_at": "2026-08-25T00:00:00Z",
+      "source_updated_at": "2026-06-18T21:14:15Z",
+      "freshness_sla_seconds": 3600,
+      "fresh_until": "2026-06-18T22:14:15.000Z",
+      "age_seconds": 5798745,
+      "source_owner": "National Energy System Operator",
+      "authoritative_tier": "OFFICIAL_API_VIA_DERIVED_SNAPSHOT",
+      "source_page_url": "https://carbonintensity.org.uk/",
+      "source_record_url": "https://api.carbonintensity.org.uk/intensity",
+      "observation_artifact_url": "https://globalgrid2050.com/uk_energy_tracking_v6/live_grid_price.json",
+      "licence": {
+        "status": "RECORDED",
+        "url": "https://github.com/carbon-intensity/terms/",
+        "attribution": "NESO Carbon Intensity API, CC BY 4.0"
+      },
+      "adapter_id": "globalgrid.update_uk_price_v6.carbon_intensity",
+      "adapter_version": "AUDITED_GLOBALGRID_cfb32796",
+      "schema_version": "V6_DERIVED_SNAPSHOT",
+      "scheduler": {
+        "path": "Ventusltd/globalgrid2050 root workflow",
+        "state": "MANUAL_ONLY"
+      },
+      "fetch_status": "LAST_KNOWN_SUCCESS",
+      "attempt_count": null,
+      "raw_sha256": null,
+      "prior_raw_sha256": null,
+      "record_count": null,
+      "distinct_key_count": null,
+      "null_key_count": null,
+      "duplicate_groups": null,
+      "source_record_key": null,
+      "provisional": true,
+      "evidence_class": "REPORTED_VIA_DERIVED_SNAPSHOT",
+      "blocking_issues": [
+        "the V6 projection drops the source interval required for identity and deduplication"
+      ],
+      "metadata_gaps": [
+        "raw-source hash",
+        "record-count manifest",
+        "source interval"
+      ],
+      "last_known_good_commit": "cfb32796e4a3c45a0ab7bec53623b96c84a818a4",
+      "decision_reason": "Blocking provenance, semantic, key, adapter or licence defects override freshness.",
+      "protections": {
+        "context_only": true,
+        "project_identity_allowed": false,
+        "project_binding_allowed": false,
+        "event_verification_allowed": false,
+        "grid_constraint_assertion_allowed": false,
+        "deal_scoring_allowed": false
+      }
+    },
+    {
+      "source_health_decision_id": "PN-SOURCE-HEALTH-BB5B40A977E840C4DA51",
+      "source_product_id": "OFFICIAL_GRID_CONSTRAINT_FEED_GAP",
+      "domain": "GRID_CONSTRAINTS",
+      "status": "UNAVAILABLE",
+      "freshness_state": "UNKNOWN",
+      "evaluated_at": "2026-08-25T00:00:00Z",
+      "source_updated_at": null,
+      "freshness_sla_seconds": null,
+      "fresh_until": null,
+      "age_seconds": null,
+      "source_owner": null,
+      "authoritative_tier": "NO_SOURCE_CONFIGURED",
+      "source_page_url": null,
+      "source_record_url": null,
+      "observation_artifact_url": null,
+      "licence": {
+        "status": "NOT_APPLICABLE_NO_SOURCE",
+        "url": null,
+        "attribution": null
+      },
+      "adapter_id": null,
+      "adapter_version": null,
+      "schema_version": null,
+      "scheduler": {
+        "path": null,
+        "state": "NO_SOURCE_CONFIGURED"
+      },
+      "fetch_status": "NO_SOURCE_CONFIGURED",
+      "attempt_count": 0,
+      "raw_sha256": null,
+      "prior_raw_sha256": null,
+      "record_count": null,
+      "distinct_key_count": null,
+      "null_key_count": null,
+      "duplicate_groups": null,
+      "source_record_key": null,
+      "provisional": true,
+      "evidence_class": "SOURCE_GAP",
+      "blocking_issues": [
+        "no proven live grid-constraint adapter exists in the audited V6 implementation"
+      ],
+      "metadata_gaps": [
+        "source",
+        "licence",
+        "record key",
+        "adapter",
+        "snapshot"
+      ],
+      "last_known_good_commit": null,
+      "decision_reason": "No configured and provenance-proven source snapshot exists.",
+      "protections": {
+        "context_only": true,
+        "project_identity_allowed": false,
+        "project_binding_allowed": false,
+        "event_verification_allowed": false,
+        "grid_constraint_assertion_allowed": false,
+        "deal_scoring_allowed": false
+      }
+    },
+    {
+      "source_health_decision_id": "PN-SOURCE-HEALTH-01EE6B2114CC695C79F2",
+      "source_product_id": "PVLIVE_SOLAR_V6_SNAPSHOT",
+      "domain": "SOLAR_GENERATION",
+      "status": "DEGRADED",
+      "freshness_state": "STALE",
+      "evaluated_at": "2026-08-25T00:00:00Z",
+      "source_updated_at": "2026-06-18T21:14:13Z",
+      "freshness_sla_seconds": 900,
+      "fresh_until": "2026-06-18T21:29:13.000Z",
+      "age_seconds": 5798747,
+      "source_owner": "Sheffield Solar",
+      "authoritative_tier": "SPECIALIST_API_VIA_DERIVED_SNAPSHOT",
+      "source_page_url": "https://github.com/SheffieldSolar/PV_Live-API",
+      "source_record_url": "https://api.solar.sheffield.ac.uk/pvlive/api/v4/gsp/0",
+      "observation_artifact_url": "https://globalgrid2050.com/uk_energy_tracking_v6/live_grid_energy.json",
+      "licence": {
+        "status": "DATA_TERMS_UNVERIFIED",
+        "url": "https://github.com/SheffieldSolar/PV_Live-API",
+        "attribution": "Sheffield Solar PVLive"
+      },
+      "adapter_id": "globalgrid.update_uk_energy_v6.pvlive",
+      "adapter_version": "AUDITED_GLOBALGRID_cfb32796",
+      "schema_version": "V6_DERIVED_SNAPSHOT",
+      "scheduler": {
+        "path": "Ventusltd/globalgrid2050 root workflow",
+        "state": "MANUAL_ONLY"
+      },
+      "fetch_status": "LAST_KNOWN_SUCCESS",
+      "attempt_count": null,
+      "raw_sha256": null,
+      "prior_raw_sha256": null,
+      "record_count": null,
+      "distinct_key_count": null,
+      "null_key_count": null,
+      "duplicate_groups": null,
+      "source_record_key": null,
+      "provisional": true,
+      "evidence_class": "REPORTED_VIA_DERIVED_SNAPSHOT",
+      "blocking_issues": [
+        "adapter uses the non-production Sheffield endpoint",
+        "GSP identity and revision timestamps are discarded",
+        "data-licence terms are not recorded separately from package-code licensing"
+      ],
+      "metadata_gaps": [
+        "production endpoint",
+        "revision key",
+        "data terms",
+        "raw-source hash"
+      ],
+      "last_known_good_commit": "cfb32796e4a3c45a0ab7bec53623b96c84a818a4",
+      "decision_reason": "Blocking provenance, semantic, key, adapter or licence defects override freshness.",
+      "protections": {
+        "context_only": true,
+        "project_identity_allowed": false,
+        "project_binding_allowed": false,
+        "event_verification_allowed": false,
+        "grid_constraint_assertion_allowed": false,
+        "deal_scoring_allowed": false
+      }
+    }
+  ],
+  "data_centres": {
+    "sources": [
+      {
+        "source_id": "PN-DC-SOURCE-OSM",
+        "name": "OpenStreetMap data-centre objects",
+        "source_url": "https://www.openstreetmap.org/copyright",
+        "licence": "ODbL 1.0",
+        "evidence_class": "STRUCTURED_DISCOVERY",
+        "permitted_use": "DISCOVERY_WITH_ATTRIBUTION",
+        "identity_authority": "SOURCE_OBJECT_ONLY"
+      },
+      {
+        "source_id": "PN-DC-SOURCE-ATLAS-V8",
+        "name": "GlobalGrid Atlas V8 data-centre snapshot",
+        "source_url": "https://github.com/Ventusltd/globalgrid2050/blob/cfb32796e4a3c45a0ab7bec53623b96c84a818a4/repd_grid_atlasv8/data/datacentres.geojson",
+        "licence": "DERIVED_FROM_OSM_ODBL",
+        "evidence_class": "DISCOVERY_ONLY_IDENTITY_LOSS",
+        "permitted_use": "DISCOVERY_ONLY",
+        "identity_authority": "NONE_OSM_TYPE_AND_ID_DROPPED",
+        "pinned_commit": "cfb32796e4a3c45a0ab7bec53623b96c84a818a4",
+        "pinned_blob": "9457f6dc583bbfdcca40926c353738b321fcb09b",
+        "row_count": 240
+      },
+      {
+        "source_id": "PN-DC-SOURCE-GOOGLE-WALTHAM-CROSS",
+        "name": "Google Waltham Cross official location page",
+        "source_url": "https://www.datacenters.google/locations/waltham-cross/",
+        "licence": "OFFICIAL_COMPANY_PAGE_LINK_AND_SOURCE_CLAIMS_ONLY",
+        "evidence_class": "DIRECT_COMPANY_RECORD",
+        "permitted_use": "FACILITY_AND_LIFECYCLE_SOURCE_CLAIM",
+        "identity_authority": "SOURCE_CLAIM"
+      },
+      {
+        "source_id": "PN-DC-SOURCE-OFGEM-REFORMS",
+        "name": "Ofgem proposed data-centre connection reforms",
+        "source_url": "https://www.ofgem.gov.uk/consultation/proposed-data-centre-connection-reforms",
+        "licence": "OFFICIAL_PUBLIC_BODY_PAGE_LINK_AND_SOURCE_CLAIMS_ONLY",
+        "evidence_class": "OFFICIAL_POLICY",
+        "permitted_use": "POLICY_CONTEXT_ONLY",
+        "identity_authority": "NONE_FOR_NAMED_FACILITIES"
+      },
+      {
+        "source_id": "PN-DC-SOURCE-BBC-CONTEXT",
+        "name": "BBC UK data-centre article",
+        "source_url": "https://www.bbc.co.uk/news/articles/c9q90q9qnn2o",
+        "licence": "OUTBOUND_LINK_ONLY",
+        "evidence_class": "PUBLISHER_CONTEXT",
+        "permitted_use": "CREDITED_OUTBOUND_LINK_ONLY",
+        "identity_authority": "NONE"
+      },
+      {
+        "source_id": "PN-DC-SOURCE-DCM-UK",
+        "name": "Data Center Map United Kingdom directory",
+        "source_url": "https://www.datacentermap.com/united-kingdom/",
+        "licence": "OUTBOUND_LINK_ONLY",
+        "evidence_class": "THIRD_PARTY_DIRECTORY",
+        "permitted_use": "CREDITED_OUTBOUND_LINK_ONLY",
+        "identity_authority": "NONE"
+      }
+    ],
+    "observations": [
+      {
+        "evidence_id": "PN-DC-EVIDENCE-GOOGLE-WALTHAM-CROSS",
+        "source_id": "PN-DC-SOURCE-GOOGLE-WALTHAM-CROSS",
+        "entity_type": "FACILITY",
+        "source_label": "Waltham Cross data centre",
+        "source_record_url": "https://www.datacenters.google/locations/waltham-cross/",
+        "osm_type": null,
+        "osm_id": null,
+        "latitude": null,
+        "longitude": null,
+        "lifecycle": "OPERATIONAL",
+        "operator_label": "Google",
+        "owner_label": null,
+        "developer_label": null,
+        "occupier_label": null,
+        "it_load_mw": null,
+        "requested_grid_capacity_mw": null,
+        "contracted_grid_capacity_mw": null,
+        "operational_capacity_mw": null,
+        "capacity_evidence_class": "ABSTAIN_NO_CAPACITY_SOURCE",
+        "observation_decision": "SOURCE_CLAIM_ONLY"
+      },
+      {
+        "evidence_id": "PN-DC-EVIDENCE-OSM-WAY-86528807",
+        "source_id": "PN-DC-SOURCE-OSM",
+        "entity_type": "BUILDING",
+        "source_label": "Equinix LD5",
+        "source_record_url": "https://www.openstreetmap.org/way/86528807",
+        "osm_type": "way",
+        "osm_id": 86528807,
+        "latitude": 51.5220008,
+        "longitude": -0.6292251,
+        "lifecycle": "UNKNOWN",
+        "operator_label": "Equinix",
+        "owner_label": null,
+        "developer_label": null,
+        "occupier_label": null,
+        "it_load_mw": null,
+        "requested_grid_capacity_mw": null,
+        "contracted_grid_capacity_mw": null,
+        "operational_capacity_mw": null,
+        "capacity_evidence_class": "ABSTAIN_NO_CAPACITY_SOURCE",
+        "observation_decision": "DISCOVERY_ONLY"
+      }
+    ],
+    "link_decisions": [
+      {
+        "link_decision_id": "PN-DC-LINK-GOOGLE-WALTHAM-CROSS-ATLAS",
+        "left_evidence_id": "PN-DC-EVIDENCE-GOOGLE-WALTHAM-CROSS",
+        "right_source_id": "PN-DC-SOURCE-ATLAS-V8",
+        "signals": [
+          "SIMILAR_NAME",
+          "APPROXIMATE_LOCATION"
+        ],
+        "decision": "ABSTAIN_INSUFFICIENT_IDENTITY_EVIDENCE",
+        "reason": "Atlas snapshot dropped the originating OSM object type and id; name and proximity cannot establish identity."
+      },
+      {
+        "link_decision_id": "PN-DC-LINK-EQUINIX-LD5-ATLAS",
+        "left_evidence_id": "PN-DC-EVIDENCE-OSM-WAY-86528807",
+        "right_source_id": "PN-DC-SOURCE-ATLAS-V8",
+        "signals": [
+          "SAME_DISPLAY_NAME",
+          "APPROXIMATE_COORDINATES"
+        ],
+        "decision": "ABSTAIN_INSUFFICIENT_IDENTITY_EVIDENCE",
+        "reason": "The Atlas row cannot be joined back to an exact OSM object because its type and id were discarded."
+      }
+    ]
+  },
+  "publication_law": {
+    "official_repd_facts_changed": false,
+    "headline_order_changed": false,
+    "event_claims_remain_unverified": true,
+    "commercial_roles_published": false,
+    "opportunity_claims_published": false,
+    "stale_context_used_as_event_proof": false,
+    "data_centres_linked_to_renewable_projects": false
+  }
+}

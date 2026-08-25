@@ -1,0 +1,42 @@
+/* News V7 retains the proven NewsV1/V9.7 performance controls and mobile table law. */
+.project-pager {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  max-width: 100%;
+  padding: 10px 0 2px;
+}
+
+.project-pager .btn {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.project-pager button:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+#projectPageStatus {
+  color: #9aa4b2;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  min-width: 230px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .project-pager {
+    box-sizing: border-box;
+    padding-inline: 4px;
+    width: 100%;
+  }
+
+  #projectPageStatus {
+    flex: 1 0 100%;
+    min-width: 0;
+    order: -1;
+  }
+}

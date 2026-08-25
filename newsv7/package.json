@@ -1,0 +1,13 @@
+{
+  "name": "pipelinenews-newsv7",
+  "private": true,
+  "version": "7.0.0-rc.1",
+  "type": "module",
+  "devDependencies": {
+    "playwright": "1.62.1"
+  },
+  "scripts": {
+    "validate": "bash tests/run_newsv7.sh",
+    "validate:static": "bash tests/run_newsv7.sh"
+  }
+}

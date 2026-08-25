@@ -1,5 +1,5 @@
 name: Deploy PipelineNews Pages
-# Static NewsV1 artifact only; Jekyll is deliberately bypassed.
+# Static public-app artifacts only; Jekyll is deliberately bypassed.
 
 on:
   workflow_dispatch:
@@ -15,6 +15,7 @@ on:
       - "newsv1/tests/check_newsv1.mjs"
       - "newsv1/tests/run_newsv1.sh"
       - "newsv1/MIGRATION_MANIFEST.json"
+      - "newsv7/**"
       - ".github/workflows/pages.yml"
 
 permissions:
@@ -36,8 +37,8 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Verify News V1 release contract
-        run: bash newsv1/tests/run_newsv1.sh
+      - name: Verify cumulative News V7 release contract
+        run: bash newsv7/tests/run_newsv7.sh
 
       - name: Stage News V1 runtime
         shell: bash
@@ -99,6 +100,66 @@ jobs:
             "$release/data/v9.7/"
           cp newsv1/dist/major_project_news_v9_5_1.json "$release/dist/"
 
+          release_v7="_site/newsv7"
+          mkdir -p \
+            "$release_v7/scripts" \
+            "$release_v7/styles" \
+            "$release_v7/contracts" \
+            "$release_v7/data/v9.1" \
+            "$release_v7/data/v9.7" \
+            "$release_v7/data/newsv7" \
+            "$release_v7/dist"
+
+          cp newsv7/index.html "$release_v7/index.html"
+          cp newsv7/MIGRATION_MANIFEST.json "$release_v7/"
+
+          runtime_modules_v7=(
+            scripts/app-newsv7.js
+            scripts/core/plugin-host.js
+            scripts/core/project-filter-v9-2.js
+            scripts/core/state.js
+            scripts/core/utils.js
+            scripts/data/canonical-projects-newsv7-release.js
+            scripts/data/canonical-projects-newsv7.js
+            scripts/plugins/capacity-presentation-v9-3.js
+            scripts/plugins/gauges-v9-2.js
+            scripts/plugins/intelligence-newsv7.js
+            scripts/plugins/newspaper-newsv7-base.js
+            scripts/plugins/newspaper-newsv7.js
+            scripts/plugins/projects-newsv7.js
+          )
+          for module in "${runtime_modules_v7[@]}"; do
+            install -Dm0644 "newsv7/$module" "$release_v7/$module"
+          done
+
+          cp \
+            newsv7/styles/v7.css \
+            newsv7/styles/mobile.css \
+            newsv7/styles/v9-3.css \
+            newsv7/styles/v9-4.css \
+            newsv7/styles/v9-5-1.css \
+            newsv7/styles/v9-6-1.css \
+            newsv7/styles/performance-newsv7.css \
+            newsv7/styles/intelligence-newsv7.css \
+            "$release_v7/styles/"
+
+          cp \
+            newsv7/contracts/release.newsv7.json \
+            newsv7/contracts/release.v9.1.json \
+            "$release_v7/contracts/"
+
+          cp newsv7/data/v9.1/build_manifest.json "$release_v7/data/v9.1/"
+          cp -a newsv7/data/v9.1/projects "$release_v7/data/v9.1/"
+          cp \
+            newsv7/data/v9.7/regional_manifest.json \
+            newsv7/data/v9.7/regional_news.json \
+            "$release_v7/data/v9.7/"
+          cp \
+            newsv7/data/newsv7/cumulative_intelligence.json \
+            newsv7/data/newsv7/build_manifest.json \
+            "$release_v7/data/newsv7/"
+          cp newsv7/dist/major_project_news_v9_5_1.json "$release_v7/dist/"
+
           touch _site/.nojekyll
 
           test -f "$release/index.html"
@@ -106,6 +167,10 @@ jobs:
           test -f "$release/scripts/app-newsv1.js"
           test -f "$release/data/v9.1/projects/part-016.json"
           test -f "$release/dist/major_project_news_v9_5_1.json"
+          test -f "$release_v7/index.html"
+          test -f "$release_v7/scripts/app-newsv7.js"
+          test -f "$release_v7/data/newsv7/cumulative_intelligence.json"
+          test -f "$release_v7/data/v9.1/projects/part-016.json"
           ! find _site -type d \( -name tests -o -name node_modules -o -name v1-9-legacy-lessons \) -print -quit | grep -q .
 
       - name: Upload Pages artifact
@@ -116,7 +181,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}newsv1/
+      url: ${{ steps.deployment.outputs.page_url }}newsv7/
     runs-on: ubuntu-latest
     needs: build
     steps:

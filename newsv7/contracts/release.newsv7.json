@@ -1,0 +1,111 @@
+{
+  "schema": "pipelinenews.ui-release.v1",
+  "release": "newsv7",
+  "semantic_version": "7.0.0-rc.1",
+  "status": "CANDIDATE",
+  "published_path": "newsv7/",
+  "feature": "v9.7-baseline-with-cumulative-governed-intelligence",
+  "frozen_source": {
+    "repository": "Ventusltd/globalgrid2050",
+    "commit": "824a23cd0cf9f90a9df942f1b37a09c2dc6472b7",
+    "release": "9.7",
+    "path": "uk_renewables_pipeline/v9.7",
+    "subtree": "4fca94ede95789ade9490258a2323c00c13ec2ea",
+    "must_remain_unchanged": true
+  },
+  "ui_baseline": {
+    "release": "newsv1",
+    "tree": "2d6247c067aa5fad49995dcb9029d6cdb9898994",
+    "policy": "Copy the proven V9.7-parity runtime into a new immutable NewsV7 directory; never mutate NewsV1."
+  },
+  "data_parent": {
+    "release": "9.1",
+    "contract": "contracts/release.v9.1.json",
+    "manifest": "data/v9.1/build_manifest.json",
+    "data_changed": false
+  },
+  "news_parent": {
+    "schema": "globalgrid2050.major-project-news.v9.5.1",
+    "path": "dist/major_project_news_v9_5_1.json",
+    "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd",
+    "ordering_changed": false
+  },
+  "cumulative_inputs": {
+    "newsv2_material_events": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31",
+    "newsv3_organisation_evidence": "03a258e0b90c1d95e8a8582ff203676651bfc7d5cd33f8652aef17ddfc04da75",
+    "newsv4_source_health": "5aa7f2bef3d99d2cc50c81695da406ccdd3f315c88237ecf0de2c0568deefd0d",
+    "newsv5_reason_decisions": "fbce604f865341391316917cb14d6319f8b1fdbb503a971a19a7c7d0ecfec06a",
+    "newsv6_data_centre_evidence": "e5e984f763877f41fef5c39bce248ee74bb9f22706c87cd51d6fd2a2ce9cd5d5",
+    "analytics_v1_manifest": "9ac1f894c9b1d7d51ea4d68cc35f8de0ad6fd4ac02b5b2b13b83d1c1dd69a91e",
+    "analytics_v1_audit": "2c2af8a38bcb9b6ce4127835b4e005a1dc22d097f2dd21b64c036b7ca38115be",
+    "consumer_v1_overlay": "f9da6cc8b98a173abef7cf264b1f3a007ff3d2659beab281fbe535a207501bc9",
+    "consumer_v1_interface_guard": "6e570295f19a4fa1ea1c6731d372f25f9545940900acbfc1a6fa7a6ac91a8f11"
+  },
+  "improvements": [
+    "Forty-five ordered material-event assertions displayed as headline-derived and unverified.",
+    "Twenty-eight exact organisation labels and twenty-nine directly sourced REPD project-operator claims.",
+    "Forty-five explicit transaction-role abstentions; no buyer, seller, lender, contractor or supplier is invented.",
+    "Six source-health decisions exposed fail-closed: zero current, one stale, four degraded and one unavailable.",
+    "Forty-five research reasons remain held and zero are published without direct public-record verification.",
+    "Six governed data-centre sources and two exact observations shown in a separate identity domain with zero renewable-project links.",
+    "Nine Parquet tables and 208 rows are admitted only after keyed physical readback and deterministic ConsumerV1 projection checks."
+  ],
+  "expected": {
+    "project_count": 7680,
+    "capacity_mw": 356474.09,
+    "largest_mw": 4100.0,
+    "valid_geometry_count": 7652,
+    "missing_geometry_count": 28,
+    "solar_count": 3563,
+    "bess_count": 1609,
+    "wind_onshore_count": 2399,
+    "wind_offshore_count": 109,
+    "all_headline_count": 133,
+    "uk_headline_count": 45,
+    "international_headline_count": 19,
+    "us_headline_count": 4,
+    "europe_headline_count": 9,
+    "international_other_headline_count": 6,
+    "beacon_fen_repd_ref": "13599",
+    "material_event_assertions": 45,
+    "organisation_labels": 28,
+    "project_operator_role_assertions": 29,
+    "transaction_role_abstentions": 45,
+    "current_context_sources": 0,
+    "publishable_reasons": 0,
+    "data_centre_observations": 2,
+    "renewable_data_centre_identity_links": 0
+  },
+  "interface": {
+    "project_table_columns": 11,
+    "rows_per_page": 100,
+    "all_records_remain_filterable_sortable_and_exportable": true,
+    "mobile_table_inherited_from": "9.7",
+    "mobile_horizontal_scroll_preserved": true,
+    "mobile_card_conversion": false,
+    "news_control_order_changed": false,
+    "cumulative_intelligence_panel_added": true,
+    "headline_intelligence_annotations_added": true
+  },
+  "performance": {
+    "project_loader_singleton": true,
+    "verified_first_partition_preview": true,
+    "first_partition_preview_records": 500,
+    "project_fetch_concurrency": 4,
+    "fetch_timeout_ms": 15000,
+    "immutable_asset_cache_mode": "default",
+    "same_origin_news_first": true,
+    "fallback_only_after_primary_failure": true,
+    "search_debounce_ms": 160,
+    "parser_blocking_third_party_scripts": 0,
+    "initial_project_row_budget": 100,
+    "initial_dom_element_budget": 10000
+  },
+  "publication_law": {
+    "official_repd_facts_changed": false,
+    "headline_content_or_order_changed": false,
+    "unsupported_commercial_claims_allowed": false,
+    "stale_context_may_verify_events": false,
+    "data_centre_project_signal_eligible": false
+  }
+}

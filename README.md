@@ -25,11 +25,25 @@ Read that manual, this README, the local CHANGELOG, the source register and the 
 
 Green is not proof. File count is not proof. Size is not proof. A rendered browser page is not proof. The proof is that the data obeys its declared law at its declared grain and key.
 
-## Active build plan — frozen NewsV1 with NewsV2–NewsV6 and ConsumerV1 candidates
+## Active build plan — NewsV7 cumulative public-app candidate
 
-Status: NewsV1 is deployed with live desktop runtime proof. NewsV2–NewsV6, Analytics V1 and ConsumerV1 are tested data-only candidates and do not change the public interface.
+Status: NewsV1 remains the frozen V9.7-parity public app. NewsV7 is the additive cumulative public-app candidate: it preserves the V9.7/NewsV1 interface and uses NewsV2–NewsV6, AnalyticsV1 and ConsumerV1 only as pinned governed source material.
 
 Public release path: `https://ventusltd.github.io/pipelinenews/newsv1/`.
+
+NewsV7 deployment target: `https://ventusltd.github.io/pipelinenews/newsv7/`.
+
+### NewsV7 cumulative improvements
+
+- Preserves all 7,680 projects, 356,474.09 MW, 133/45/19/4/9/6 newspaper counts, exact ordering, 11 columns, 100-row pages, mobile horizontal scrolling and Beacon Fen REPD 13599 from the frozen V9.7 baseline.
+- Adds 45 ordered material-event annotations while explicitly retaining `HEADLINE_DERIVED_UNVERIFIED` event status.
+- Adds 28 exact organisation labels and 29 direct REPD project-operator source claims; unresolved labels are not promoted to verified legal entities.
+- Shows all 45 commercial transaction-role decisions as abstentions rather than inventing buyer, seller, lender, EPC, ICP, OEM, supplier or adviser roles.
+- Exposes six source-health decisions fail-closed: 0 current, 1 stale, 4 degraded and 1 unavailable; market context cannot verify project events, grid constraints or deals.
+- Keeps all 45 research reasons held and publishes zero unsupported opportunity reasons.
+- Adds six governed data-centre sources and two exact observations in a separate identity domain, with zero renewable-project links and no untyped capacity claims.
+- Admits the AnalyticsV1/ConsumerV1 products only after nine Parquet tables and 208 rows pass keyed physical readback, deterministic ordering, interface guards and zero cross-domain leakage.
+- Publishes a compact cumulative artifact with pinned source hashes, explicit display order, a deterministic builder and an independent release test; every predecessor directory remains unchanged.
 
 This is the new PipelineNews numbering lineage for the post-V9.7 performance release. GlobalGrid V9.7 remains byte-frozen at source commit `824a23cd0cf9f90a9df942f1b37a09c2dc6472b7`, subtree `4fca94ede95789ade9490258a2323c00c13ec2ea`.
 

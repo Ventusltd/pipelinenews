@@ -1,0 +1,45 @@
+{
+  "schema": "pipelinenews.migration-manifest.v1",
+  "release": "newsv7",
+  "created_utc": "2026-08-25T00:00:00Z",
+  "source": {
+    "repository": "Ventusltd/globalgrid2050",
+    "commit": "824a23cd0cf9f90a9df942f1b37a09c2dc6472b7",
+    "path": "uk_renewables_pipeline/v9.7",
+    "subtree": "4fca94ede95789ade9490258a2323c00c13ec2ea"
+  },
+  "source_policy": "V9.7 and NewsV1 remain frozen; NewsV7 is a new separately addressable cumulative public-app candidate.",
+  "ui_baseline": {
+    "release": "newsv1",
+    "tree": "2d6247c067aa5fad49995dcb9029d6cdb9898994"
+  },
+  "source_material": [
+    "newsv2 material-event assertions",
+    "newsv3 organisation and role evidence",
+    "newsv4 source-health context",
+    "newsv5 reason decisions",
+    "newsv6 data-centre evidence",
+    "analytics_v1 keyed Parquet audit",
+    "consumer_v1 ordered interface guard"
+  ],
+  "canonical_data_changed": false,
+  "news_content_or_order_changed": false,
+  "approved_runtime_changes": [
+    "100-row project pagination",
+    "verified first-partition preview before complete canonical hydration",
+    "bounded four-request project hydration",
+    "singleton immutable project loader",
+    "same-origin-first sequential news fallback",
+    "normal cache use for immutable release artifacts",
+    "160ms project-search debounce",
+    "pinned Chart.js loaded asynchronously after the application shell",
+    "cumulative intelligence summary with explicit evidence and abstention states",
+    "headline annotations for event, operator-label, transaction-role and research gates",
+    "separate source-health and data-centre evidence surfaces"
+  ],
+  "required_skills": [
+    "skills/build-auditable-duckdb-parquet/SKILL.md",
+    "skills/build-progressive-static-data-ui/SKILL.md",
+    "skills/build-source-grounded-sales-intelligence/SKILL.md"
+  ]
+}
