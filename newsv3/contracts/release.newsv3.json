@@ -1,7 +1,7 @@
 {
   "schema": "pipelinenews.release-contract.v1",
   "release": "newsv3",
-  "status": "DRAFT",
+  "status": "CANDIDATE",
   "feature": "organisation-label namespace and directly evidenced project-operator roles",
   "inputs": [
     {
@@ -55,7 +55,7 @@
   "publication": {
     "live": false,
     "public_path": null,
-    "reason": "NewsV3 remains DRAFT until its builder, artifacts, manifest and independent tests pass."
+    "reason": "NewsV3 is a data-only candidate; NewsV1 remains the frozen public interface."
   },
   "recovery": {
     "frozen_predecessor": "newsv2",

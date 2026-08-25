@@ -1,0 +1,56 @@
+{
+  "schema": "pipelinenews.build-manifest.v1",
+  "release": "newsv3",
+  "status": "CANDIDATE",
+  "built_at": "2026-08-25T00:00:00Z",
+  "modules": [
+    {
+      "module_id": "organisation-role-evidence-builder.v1",
+      "path": "newsv3/scripts/build-organisation-role-evidence.mjs",
+      "sha256": "9fe48c8876ab2f9544c4f071fb2165f13837df6580f4aeddd7a87dd63637ba9c"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "newsv1/dist/major_project_news_v9_5_1.json",
+      "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+    },
+    {
+      "path": "newsv2/data/material_event_assertions.json",
+      "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+    },
+    {
+      "path": "newsv3/contracts/release.newsv3.json",
+      "sha256": "0f15eb5d90fd5bc90a908dc7becbc55346b39c0189cb179a9f079cccff0facea"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "newsv3/data/organisation_role_evidence.json",
+      "sha256": "03a258e0b90c1d95e8a8582ff203676651bfc7d5cd33f8652aef17ddfc04da75",
+      "bytes": 90429,
+      "rows": 102
+    }
+  ],
+  "checks": {
+    "organisation_labels": {
+      "total_rows": 28,
+      "distinct_declared_keys": 28,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0
+    },
+    "project_operator_role_assertions": {
+      "total_rows": 29,
+      "distinct_declared_keys": 29,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0
+    },
+    "transaction_role_decisions": {
+      "total_rows": 45,
+      "distinct_declared_keys": 45,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0
+    },
+    "independent_verifier": "newsv3/tests/check_newsv3.mjs"
+  }
+}

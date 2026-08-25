@@ -1,0 +1,2377 @@
+{
+  "schema": "pipelinenews.organisation-role-evidence.v1",
+  "release": "newsv3",
+  "status": "CANDIDATE",
+  "generated_at": "2026-08-25T00:00:00Z",
+  "source_usage": "PINNED_PUBLIC_EVIDENCE_AND_EXPLICIT_ABSTENTION",
+  "grains": {
+    "organisation_labels": "one row per exact normalised REPD operator source label",
+    "project_operator_role_assertions": "one row per canonical project and exact REPD operator-label pair",
+    "transaction_role_decisions": "one row per NewsV2 material-event assertion"
+  },
+  "primary_keys": {
+    "organisation_labels": [
+      "organisation_label_id"
+    ],
+    "project_operator_role_assertions": [
+      "project_operator_role_assertion_id"
+    ],
+    "transaction_role_decisions": [
+      "transaction_role_decision_id"
+    ]
+  },
+  "counts": {
+    "organisation_labels": 28,
+    "project_operator_role_assertions": 29,
+    "transaction_role_decisions": 45
+  },
+  "organisation_labels": [
+    {
+      "organisation_label_id": "PN-ORG-LABEL-0E4793CA1BBA5938090E",
+      "normalised_label": "Alcemi Storage Development Limited",
+      "source_labels": [
+        "Alcemi Storage Development Limited"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-498C482D49C41EEC0B74",
+      "normalised_label": "BayWa r.e. UK Limited",
+      "source_labels": [
+        "BayWa r.e. UK Limited"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-CBE332E7F7D1E8EBBF76",
+      "normalised_label": "Boom Developments Limited",
+      "source_labels": [
+        "Boom Developments Limited"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-115326B1B50ADA115410",
+      "normalised_label": "Boom Power",
+      "source_labels": [
+        "Boom Power"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-4DBAFF963C8C66CD46E7",
+      "normalised_label": "Derbyshire County Council",
+      "source_labels": [
+        "Derbyshire County Council"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-CC5BC6C7B5807587325C",
+      "normalised_label": "EDF Energy Renewables",
+      "source_labels": [
+        "EDF Energy Renewables"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-70865401ACD71FA03759",
+      "normalised_label": "Elgin Energy EsCo",
+      "source_labels": [
+        "Elgin Energy EsCo"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-B9EA95CDF35682C4EEAD",
+      "normalised_label": "Enso Green Holdings D Limited",
+      "source_labels": [
+        "Enso Green Holdings D Limited"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-064FFFB5C57D2B0755AB",
+      "normalised_label": "Evolution Power",
+      "source_labels": [
+        "Evolution Power"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-9A7A058DF79ED7486D24",
+      "normalised_label": "Firma Energy / IB Vogt",
+      "source_labels": [
+        "Firma Energy / IB Vogt"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": true,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-E42B0ACE41DEC9BA6FED",
+      "normalised_label": "Foresight",
+      "source_labels": [
+        "Foresight"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-AE6B70CB737584BCC203",
+      "normalised_label": "Geocore Limited",
+      "source_labels": [
+        "Geocore Limited"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-F643A51A9D9C22565136",
+      "normalised_label": "Green Switch Capital Limited",
+      "source_labels": [
+        "Green Switch Capital Limited"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-4C3D437A1F11E07911A0",
+      "normalised_label": "Island Green Power",
+      "source_labels": [
+        "Island Green Power"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-26E94B60C6550443D4C2",
+      "normalised_label": "Island Green Power UK",
+      "source_labels": [
+        "Island Green Power UK"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-8ED4AC6A1E87DB59C081",
+      "normalised_label": "JBM Solar / RWE",
+      "source_labels": [
+        "JBM Solar / RWE"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": true,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-A3682ECE92E38E77DB95",
+      "normalised_label": "Longfield Solar Energy Farm Limited (part of EDF Renwables)",
+      "source_labels": [
+        "Longfield Solar Energy Farm Limited (part of EDF Renwables)"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": true,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-0DEFBB2FBFA24051A774",
+      "normalised_label": "Low Carbon Limited",
+      "source_labels": [
+        "Low Carbon Limited"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-AA972D1D69378BCF934D",
+      "normalised_label": "Orsted UK Limited / PS Renewables",
+      "source_labels": [
+        "Orsted UK Limited / PS Renewables"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": true,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-CB86AD5072983CA8F65D",
+      "normalised_label": "Pike Solar",
+      "source_labels": [
+        "Pike Solar"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-ABB0A71F2F0D8A1BD6C9",
+      "normalised_label": "Push Energy",
+      "source_labels": [
+        "Push Energy"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-772A06368C66494E3880",
+      "normalised_label": "Quinbrook Infrastructure Partners",
+      "source_labels": [
+        "Quinbrook Infrastructure Partners"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-244662205DA664049DA5",
+      "normalised_label": "Renewable Energy Systems",
+      "source_labels": [
+        "Renewable Energy Systems"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-79E09CCBA8DA7A2BE235",
+      "normalised_label": "RWE",
+      "source_labels": [
+        "RWE"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-DA2501C8E6FD9D6C1231",
+      "normalised_label": "Solar2 Limited",
+      "source_labels": [
+        "Solar2 Limited"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-0D879F2B4FECA5D68FA2",
+      "normalised_label": "Vattenfall",
+      "source_labels": [
+        "Vattenfall"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-F50CF6FB1713FAB43241",
+      "normalised_label": "Welbar Energy Storage Limited / Penso Power (BW ESS)",
+      "source_labels": [
+        "Welbar Energy Storage Limited / Penso Power (BW ESS)"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": true,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    },
+    {
+      "organisation_label_id": "PN-ORG-LABEL-7BC3F5F5AC8E4CEE5492",
+      "normalised_label": "ZW North Tawton",
+      "source_labels": [
+        "ZW North Tawton"
+      ],
+      "resolution_status": "UNRESOLVED_SOURCE_LABEL",
+      "evidence_class": "REPD_PROJECT_RECORD_FIELD_VIA_PINNED_FEED",
+      "composite_label_hint": false,
+      "entity_resolution_allowed": false,
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      }
+    }
+  ],
+  "project_operator_role_assertions": [
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-0E1B9E6286332D82743F",
+      "project_id": "GG2050-REPD-13599",
+      "repd_ref": "13599",
+      "development_id": "GG2050-DEV-E13842D4D80DEC",
+      "organisation_label_id": "PN-ORG-LABEL-0DEFBB2FBFA24051A774",
+      "source_label": "Low Carbon Limited",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2025-10-13"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-59F4A8A091F11C92"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-21B866E9FC936E33D053",
+      "project_id": "GG2050-REPD-13763",
+      "repd_ref": "13763",
+      "development_id": "GG2050-DEV-38B0C1CDB1F9CA",
+      "organisation_label_id": "PN-ORG-LABEL-0D879F2B4FECA5D68FA2",
+      "source_label": "Vattenfall",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2024-08-16"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-5C2CEBF928A26D33"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-299F7E07BA8E3C9575A1",
+      "project_id": "GG2050-REPD-12206",
+      "repd_ref": "12206",
+      "development_id": "GG2050-DEV-56744AC757C748",
+      "organisation_label_id": "PN-ORG-LABEL-0E4793CA1BBA5938090E",
+      "source_label": "Alcemi Storage Development Limited",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2026-07-09"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-E3A49DB50D708576"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-41CACAA94A43B0B2BCA0",
+      "project_id": "GG2050-REPD-5967",
+      "repd_ref": "5967",
+      "development_id": "GG2050-DEV-AF4DE5FCB88F6B",
+      "organisation_label_id": "PN-ORG-LABEL-70865401ACD71FA03759",
+      "source_label": "Elgin Energy EsCo",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2020-09-02"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-5A90F874FDBB9150",
+        "GG2050-NEWS-E748283B9B9DF4A5"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-441F01348F3F79FFD92D",
+      "project_id": "GG2050-REPD-6502",
+      "repd_ref": "6502",
+      "development_id": "GG2050-DEV-2ADB0F2D626ABD",
+      "organisation_label_id": "PN-ORG-LABEL-772A06368C66494E3880",
+      "source_label": "Quinbrook Infrastructure Partners",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2025-07-28"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-B58AFE299AF1F66A"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-4C98B8CA54084D38422A",
+      "project_id": "GG2050-REPD-11974",
+      "repd_ref": "11974",
+      "development_id": "GG2050-DEV-4A80BF84D35069",
+      "organisation_label_id": "PN-ORG-LABEL-DA2501C8E6FD9D6C1231",
+      "source_label": "Solar2 Limited",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2024-03-14"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-A139CA47C0541491"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-4D4292D5D69AE09A9C84",
+      "project_id": "GG2050-REPD-1044",
+      "repd_ref": "1044",
+      "development_id": "GG2050-DEV-6E53CADCD740FA",
+      "organisation_label_id": "PN-ORG-LABEL-7BC3F5F5AC8E4CEE5492",
+      "source_label": "ZW North Tawton",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2011-08-24"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-EFAF7D710F26B406"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-552E540D695AF1BA2566",
+      "project_id": "GG2050-REPD-9610",
+      "repd_ref": "9610",
+      "development_id": "GG2050-DEV-C51112629E4357",
+      "organisation_label_id": "PN-ORG-LABEL-CC5BC6C7B5807587325C",
+      "source_label": "EDF Energy Renewables",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2026-03-06"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-BDB48D6540AC90AD"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-6E014C81A44F1B3ACA99",
+      "project_id": "GG2050-REPD-5533",
+      "repd_ref": "5533",
+      "development_id": "GG2050-DEV-0E5A827DB4645E",
+      "organisation_label_id": "PN-ORG-LABEL-4DBAFF963C8C66CD46E7",
+      "source_label": "Derbyshire County Council",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2019-07-18"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-0B62C906FC62E3CA"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-77A9C747B68C5F5B734F",
+      "project_id": "GG2050-REPD-14763",
+      "repd_ref": "14763",
+      "development_id": "GG2050-DEV-BF52CDFDAC78EF",
+      "organisation_label_id": "PN-ORG-LABEL-AE6B70CB737584BCC203",
+      "source_label": "Geocore Limited",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2025-08-05"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-57BF0491BEE6DF34"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-780B20A07DB3B24D6FF3",
+      "project_id": "GG2050-REPD-2377",
+      "repd_ref": "2377",
+      "development_id": "GG2050-DEV-C2A5FEE70EF546",
+      "organisation_label_id": "PN-ORG-LABEL-E42B0ACE41DEC9BA6FED",
+      "source_label": "Foresight",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2018-09-04"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-DACA6627AECFEE3F"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-79344440E7154014FBFE",
+      "project_id": "GG2050-REPD-11034",
+      "repd_ref": "11034",
+      "development_id": "GG2050-DEV-8AFE67BBE335AE",
+      "organisation_label_id": "PN-ORG-LABEL-0E4793CA1BBA5938090E",
+      "source_label": "Alcemi Storage Development Limited",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2025-03-18"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-AADF446AFB3D8CBE",
+        "GG2050-NEWS-AC12E1F4D302389A",
+        "GG2050-NEWS-D7C850D5FCDB1CF3"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-7E7030ED5D26E63AE7A5",
+      "project_id": "GG2050-REPD-11460",
+      "repd_ref": "11460",
+      "development_id": "GG2050-DEV-308A7EF4709920",
+      "organisation_label_id": "PN-ORG-LABEL-ABB0A71F2F0D8A1BD6C9",
+      "source_label": "Push Energy",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2026-01-26"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-E14D0BA799689626"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-8B544D6C2E7D80D47C29",
+      "project_id": "GG2050-REPD-12926",
+      "repd_ref": "12926",
+      "development_id": "GG2050-DEV-81C5A835AFC865",
+      "organisation_label_id": "PN-ORG-LABEL-79E09CCBA8DA7A2BE235",
+      "source_label": "RWE",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2025-10-13"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-A2110069E621C15D"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-953AFC4A49A6F6297BD6",
+      "project_id": "GG2050-REPD-8162",
+      "repd_ref": "8162",
+      "development_id": "GG2050-DEV-10DC035828AE4C",
+      "organisation_label_id": "PN-ORG-LABEL-A3682ECE92E38E77DB95",
+      "source_label": "Longfield Solar Energy Farm Limited (part of EDF Renwables)",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2023-06-26"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-6EA92BFCA6D27DCC",
+        "GG2050-NEWS-B81A57211575BFAE"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-9E1D77086C729BD8F4C3",
+      "project_id": "GG2050-REPD-14806",
+      "repd_ref": "14806",
+      "development_id": "GG2050-DEV-8F9657E39A19E7",
+      "organisation_label_id": "PN-ORG-LABEL-AA972D1D69378BCF934D",
+      "source_label": "Orsted UK Limited / PS Renewables",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2026-07-13"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-36393293C01653C1"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-A41CB547885D07FF6064",
+      "project_id": "GG2050-REPD-14550",
+      "repd_ref": "14550",
+      "development_id": "GG2050-DEV-DF8A23D9E62EA8",
+      "organisation_label_id": "PN-ORG-LABEL-9A7A058DF79ED7486D24",
+      "source_label": "Firma Energy / IB Vogt",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2026-07-13"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-3386D3591FBDA7E9",
+        "GG2050-NEWS-6AB5AC911A4989B8",
+        "GG2050-NEWS-77F5537BB103AD91",
+        "GG2050-NEWS-CC5ED31766C4523C",
+        "GG2050-NEWS-D2ECDBC89241FA35"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-B77694734A91B4C9898F",
+      "project_id": "GG2050-REPD-14098",
+      "repd_ref": "14098",
+      "development_id": "GG2050-DEV-F3B2A6A096509B",
+      "organisation_label_id": "PN-ORG-LABEL-CBE332E7F7D1E8EBBF76",
+      "source_label": "Boom Developments Limited",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2026-03-03"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-238C862207DA7067"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-B8DBE83076C2A8C604D5",
+      "project_id": "GG2050-REPD-11678",
+      "repd_ref": "11678",
+      "development_id": "GG2050-DEV-0C00CCB96BB363",
+      "organisation_label_id": "PN-ORG-LABEL-115326B1B50ADA115410",
+      "source_label": "Boom Power",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2025-07-29"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-2E451ABC0F909D1F",
+        "GG2050-NEWS-450497BD9F3D0A94",
+        "GG2050-NEWS-63A55D532EE32D8B",
+        "GG2050-NEWS-CCCAC38505FD4A78"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-BB8D608CA53E9066C0B4",
+      "project_id": "GG2050-REPD-10087",
+      "repd_ref": "10087",
+      "development_id": "GG2050-DEV-084BE976F34997",
+      "organisation_label_id": "PN-ORG-LABEL-F643A51A9D9C22565136",
+      "source_label": "Green Switch Capital Limited",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2026-02-16"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-004B0EE9A2251D99",
+        "GG2050-NEWS-4D51082DBAFF15A3",
+        "GG2050-NEWS-7493318A1EFD7D53"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-BC473532D8246923A016",
+      "project_id": "GG2050-REPD-11476",
+      "repd_ref": "11476",
+      "development_id": "GG2050-DEV-F9168FBCC20612",
+      "organisation_label_id": "PN-ORG-LABEL-B9EA95CDF35682C4EEAD",
+      "source_label": "Enso Green Holdings D Limited",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2025-12-16"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-BE967773ABE84AA3"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-DB8D881246475B238DA7",
+      "project_id": "GG2050-REPD-8393",
+      "repd_ref": "8393",
+      "development_id": "GG2050-DEV-BF1124CE39B435",
+      "organisation_label_id": "PN-ORG-LABEL-498C482D49C41EEC0B74",
+      "source_label": "BayWa r.e. UK Limited",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2022-12-21"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-C4B2F18AFF88FBB4"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-ECDFB901C74A7E897713",
+      "project_id": "GG2050-REPD-10085",
+      "repd_ref": "10085",
+      "development_id": "GG2050-DEV-BAF7E2396D59FC",
+      "organisation_label_id": "PN-ORG-LABEL-064FFFB5C57D2B0755AB",
+      "source_label": "Evolution Power",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2025-11-11"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-35363653B2310788",
+        "GG2050-NEWS-41DB7D3BBE5B96A8"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-ED1AE9D086811FC5BB66",
+      "project_id": "GG2050-REPD-12017",
+      "repd_ref": "12017",
+      "development_id": "GG2050-DEV-03955E55BF7E59",
+      "organisation_label_id": "PN-ORG-LABEL-4C3D437A1F11E07911A0",
+      "source_label": "Island Green Power",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2026-02-27"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-38117B21859E7FCC"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-F0EB3EFB5E09CF58C538",
+      "project_id": "GG2050-REPD-5452",
+      "repd_ref": "5452",
+      "development_id": "GG2050-DEV-1E2470FAD170DF",
+      "organisation_label_id": "PN-ORG-LABEL-CB86AD5072983CA8F65D",
+      "source_label": "Pike Solar",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2019-11-14"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-5972472B53E931D0"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-F1766B4F7B881DB8B5B3",
+      "project_id": "GG2050-REPD-9427",
+      "repd_ref": "9427",
+      "development_id": "GG2050-DEV-13408969AF918A",
+      "organisation_label_id": "PN-ORG-LABEL-F50CF6FB1713FAB43241",
+      "source_label": "Welbar Energy Storage Limited / Penso Power (BW ESS)",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2026-03-09"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-5D5AD065431E066A",
+        "GG2050-NEWS-B5B83CA7C50F85AA"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-F399CEB647520A3F9086",
+      "project_id": "GG2050-REPD-8100",
+      "repd_ref": "8100",
+      "development_id": "GG2050-DEV-EAEA650F605C48",
+      "organisation_label_id": "PN-ORG-LABEL-26E94B60C6550443D4C2",
+      "source_label": "Island Green Power UK",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2021-02-07"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-79DD0F33881BD4CC"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-FBEC106C35159952A341",
+      "project_id": "GG2050-REPD-15000",
+      "repd_ref": "15000",
+      "development_id": "GG2050-DEV-3F6A51011B5DEE",
+      "organisation_label_id": "PN-ORG-LABEL-8ED4AC6A1E87DB59C081",
+      "source_label": "JBM Solar / RWE",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2026-07-13"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-7E2092FF1850807E",
+        "GG2050-NEWS-E441750881AE6B8A"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    },
+    {
+      "project_operator_role_assertion_id": "PN-ORG-ROLE-FF6191CEBDB8D3D188D7",
+      "project_id": "GG2050-REPD-11063",
+      "repd_ref": "11063",
+      "development_id": "GG2050-DEV-0D957B31D4C452",
+      "organisation_label_id": "PN-ORG-LABEL-244662205DA664049DA5",
+      "source_label": "Renewable Energy Systems",
+      "role_type": "REPD_PROJECT_OPERATOR_LABEL",
+      "claim_class": "SOURCE_CLAIM",
+      "verification_status": "DIRECT_SOURCE_FIELD",
+      "source_record_updated_dates": [
+        "2026-02-19"
+      ],
+      "supporting_article_ids": [
+        "GG2050-NEWS-40C019892774BF64"
+      ],
+      "source": {
+        "path": "newsv1/dist/major_project_news_v9_5_1.json",
+        "field": "canonical_items[].operator",
+        "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+      },
+      "limitations": [
+        "The label is recorded on the pinned REPD-derived project record.",
+        "It is not resolved to a current legal entity and establishes no transaction role."
+      ]
+    }
+  ],
+  "transaction_role_decisions": [
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-2F928F077970CD1FE878",
+      "event_assertion_id": "PN-EVT-178E01376A535B3F1CE6",
+      "article_id": "GG2050-NEWS-59F4A8A091F11C92",
+      "project_id": "GG2050-REPD-13599",
+      "repd_ref": "13599",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-178E01376A535B3F1CE6",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-C55406EC2EE182223C0F",
+      "event_assertion_id": "PN-EVT-0B1B248D838C8DDC8B59",
+      "article_id": "GG2050-NEWS-EFAF7D710F26B406",
+      "project_id": "GG2050-REPD-1044",
+      "repd_ref": "1044",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-0B1B248D838C8DDC8B59",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-BB6652E10F77F04BAE5D",
+      "event_assertion_id": "PN-EVT-34AE9408219A50D489CF",
+      "article_id": "GG2050-NEWS-A139CA47C0541491",
+      "project_id": "GG2050-REPD-11974",
+      "repd_ref": "11974",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-34AE9408219A50D489CF",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-2559D8D15F901D5D017C",
+      "event_assertion_id": "PN-EVT-F984E1486E045CD404B9",
+      "article_id": "GG2050-NEWS-D7C850D5FCDB1CF3",
+      "project_id": "GG2050-REPD-11034",
+      "repd_ref": "11034",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-F984E1486E045CD404B9",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-8BF64468F04E2809EA10",
+      "event_assertion_id": "PN-EVT-6E53449B02D31AE14996",
+      "article_id": "GG2050-NEWS-D2ECDBC89241FA35",
+      "project_id": "GG2050-REPD-14550",
+      "repd_ref": "14550",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-6E53449B02D31AE14996",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-936ED633EC2C2EE37F34",
+      "event_assertion_id": "PN-EVT-A83AE8EBE4B885F8A62C",
+      "article_id": "GG2050-NEWS-36393293C01653C1",
+      "project_id": "GG2050-REPD-14806",
+      "repd_ref": "14806",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-A83AE8EBE4B885F8A62C",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-D3AB84275B3C37D57168",
+      "event_assertion_id": "PN-EVT-0625DB8AA1F539A9BCA8",
+      "article_id": "GG2050-NEWS-CC5ED31766C4523C",
+      "project_id": "GG2050-REPD-14550",
+      "repd_ref": "14550",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-0625DB8AA1F539A9BCA8",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-BDE7DA65D4D50BC8F0F1",
+      "event_assertion_id": "PN-EVT-9A89FEA3B11ADA411EAB",
+      "article_id": "GG2050-NEWS-6AB5AC911A4989B8",
+      "project_id": "GG2050-REPD-14550",
+      "repd_ref": "14550",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-9A89FEA3B11ADA411EAB",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-78F53A4AC3AF188072E5",
+      "event_assertion_id": "PN-EVT-58020077F56B243C5B7C",
+      "article_id": "GG2050-NEWS-77F5537BB103AD91",
+      "project_id": "GG2050-REPD-14550",
+      "repd_ref": "14550",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-58020077F56B243C5B7C",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-806EE3B00B0CD9F8B007",
+      "event_assertion_id": "PN-EVT-0984B5097C1C220341B7",
+      "article_id": "GG2050-NEWS-7E2092FF1850807E",
+      "project_id": "GG2050-REPD-15000",
+      "repd_ref": "15000",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-0984B5097C1C220341B7",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-58BE5B49320C9BFE5188",
+      "event_assertion_id": "PN-EVT-D1CE5C1382527F330641",
+      "article_id": "GG2050-NEWS-E441750881AE6B8A",
+      "project_id": "GG2050-REPD-15000",
+      "repd_ref": "15000",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-D1CE5C1382527F330641",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-62A15C524100AFC8DA9E",
+      "event_assertion_id": "PN-EVT-E901107B2F273D79EA61",
+      "article_id": "GG2050-NEWS-3386D3591FBDA7E9",
+      "project_id": "GG2050-REPD-14550",
+      "repd_ref": "14550",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-E901107B2F273D79EA61",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-0ABA447457AD1FA9284D",
+      "event_assertion_id": "PN-EVT-E4A04E23308AAD17CDB3",
+      "article_id": "GG2050-NEWS-40C019892774BF64",
+      "project_id": "GG2050-REPD-11063",
+      "repd_ref": "11063",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-E4A04E23308AAD17CDB3",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-8811CEDB759FB39448EA",
+      "event_assertion_id": "PN-EVT-691E113BA6EA50F8E117",
+      "article_id": "GG2050-NEWS-E3A49DB50D708576",
+      "project_id": "GG2050-REPD-12206",
+      "repd_ref": "12206",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-691E113BA6EA50F8E117",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-25F2D9984BBC5E2858B6",
+      "event_assertion_id": "PN-EVT-B54E0F042FBC5232BBDA",
+      "article_id": "GG2050-NEWS-AC12E1F4D302389A",
+      "project_id": "GG2050-REPD-11034",
+      "repd_ref": "11034",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-B54E0F042FBC5232BBDA",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-D33812369B707386D425",
+      "event_assertion_id": "PN-EVT-3ACA1C9F3D1CEAE8BABF",
+      "article_id": "GG2050-NEWS-AADF446AFB3D8CBE",
+      "project_id": "GG2050-REPD-11034",
+      "repd_ref": "11034",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-3ACA1C9F3D1CEAE8BABF",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-20F1619453C6268935A3",
+      "event_assertion_id": "PN-EVT-CE8870C3FE8F5DA103D2",
+      "article_id": "GG2050-NEWS-38117B21859E7FCC",
+      "project_id": "GG2050-REPD-12017",
+      "repd_ref": "12017",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-CE8870C3FE8F5DA103D2",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-D961C4DCDA922E752453",
+      "event_assertion_id": "PN-EVT-6F53B6D7771307529938",
+      "article_id": "GG2050-NEWS-7493318A1EFD7D53",
+      "project_id": "GG2050-REPD-10087",
+      "repd_ref": "10087",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-6F53B6D7771307529938",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-E22FD560D7EA27EE7A5C",
+      "event_assertion_id": "PN-EVT-AE0952E1D4A6A3FA4BA7",
+      "article_id": "GG2050-NEWS-4D51082DBAFF15A3",
+      "project_id": "GG2050-REPD-10087",
+      "repd_ref": "10087",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-AE0952E1D4A6A3FA4BA7",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-009719708138876E133D",
+      "event_assertion_id": "PN-EVT-4979E18C801BB1A3EFC7",
+      "article_id": "GG2050-NEWS-6EA92BFCA6D27DCC",
+      "project_id": "GG2050-REPD-8162",
+      "repd_ref": "8162",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-4979E18C801BB1A3EFC7",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-48B572DE7EB14F8983D9",
+      "event_assertion_id": "PN-EVT-EACE2D05B2F37C2061C5",
+      "article_id": "GG2050-NEWS-DACA6627AECFEE3F",
+      "project_id": "GG2050-REPD-2377",
+      "repd_ref": "2377",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-EACE2D05B2F37C2061C5",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-0CE0B2E47A9C499B7DC0",
+      "event_assertion_id": "PN-EVT-2CFB24B9258006434A99",
+      "article_id": "GG2050-NEWS-0B62C906FC62E3CA",
+      "project_id": "GG2050-REPD-5533",
+      "repd_ref": "5533",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-2CFB24B9258006434A99",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-56D7B87C2EB52DCB0A4D",
+      "event_assertion_id": "PN-EVT-6AA0C9BB921AAE57AEC0",
+      "article_id": "GG2050-NEWS-004B0EE9A2251D99",
+      "project_id": "GG2050-REPD-10087",
+      "repd_ref": "10087",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-6AA0C9BB921AAE57AEC0",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-6BEEFFAAEDDCFCD77006",
+      "event_assertion_id": "PN-EVT-2849F957E456BC5FB1BE",
+      "article_id": "GG2050-NEWS-57BF0491BEE6DF34",
+      "project_id": "GG2050-REPD-14763",
+      "repd_ref": "14763",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-2849F957E456BC5FB1BE",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-E8D134DAB4E1ED8CC499",
+      "event_assertion_id": "PN-EVT-BDFCE7B53DAB97C4EF5C",
+      "article_id": "GG2050-NEWS-B5B83CA7C50F85AA",
+      "project_id": "GG2050-REPD-9427",
+      "repd_ref": "9427",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-BDFCE7B53DAB97C4EF5C",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-D7046080D7055D51E54C",
+      "event_assertion_id": "PN-EVT-AA21FE1EE9DFB6AD2FAB",
+      "article_id": "GG2050-NEWS-5D5AD065431E066A",
+      "project_id": "GG2050-REPD-9427",
+      "repd_ref": "9427",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-AA21FE1EE9DFB6AD2FAB",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-C91C17BCEA85762D27E2",
+      "event_assertion_id": "PN-EVT-8832ECB2EF8243FF55D4",
+      "article_id": "GG2050-NEWS-C4B2F18AFF88FBB4",
+      "project_id": "GG2050-REPD-8393",
+      "repd_ref": "8393",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-8832ECB2EF8243FF55D4",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-FFCD9F8C231B7DFE48D5",
+      "event_assertion_id": "PN-EVT-7ABE99064EB8A41AD802",
+      "article_id": "GG2050-NEWS-E748283B9B9DF4A5",
+      "project_id": "GG2050-REPD-5967",
+      "repd_ref": "5967",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-7ABE99064EB8A41AD802",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-B5A321641FD4F202067A",
+      "event_assertion_id": "PN-EVT-53BF9A0A00CE7D62C912",
+      "article_id": "GG2050-NEWS-5972472B53E931D0",
+      "project_id": "GG2050-REPD-5452",
+      "repd_ref": "5452",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-53BF9A0A00CE7D62C912",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-523A11345DDBADE4C3AE",
+      "event_assertion_id": "PN-EVT-1632CE5722AE79BE0AF8",
+      "article_id": "GG2050-NEWS-450497BD9F3D0A94",
+      "project_id": "GG2050-REPD-11678",
+      "repd_ref": "11678",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-1632CE5722AE79BE0AF8",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-65487443806B81FAB802",
+      "event_assertion_id": "PN-EVT-E5994AD8067548F98515",
+      "article_id": "GG2050-NEWS-CCCAC38505FD4A78",
+      "project_id": "GG2050-REPD-11678",
+      "repd_ref": "11678",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-E5994AD8067548F98515",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-263FBFB252CCE613A2A4",
+      "event_assertion_id": "PN-EVT-4A053DF60A880D813E6F",
+      "article_id": "GG2050-NEWS-63A55D532EE32D8B",
+      "project_id": "GG2050-REPD-11678",
+      "repd_ref": "11678",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-4A053DF60A880D813E6F",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-AF04FD49C7A49875A2DF",
+      "event_assertion_id": "PN-EVT-559F5B9636944CD2EB1D",
+      "article_id": "GG2050-NEWS-2E451ABC0F909D1F",
+      "project_id": "GG2050-REPD-11678",
+      "repd_ref": "11678",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-559F5B9636944CD2EB1D",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-3A5D086EB0F20CE65F81",
+      "event_assertion_id": "PN-EVT-DDF8C33B0864A3AF1ECF",
+      "article_id": "GG2050-NEWS-238C862207DA7067",
+      "project_id": "GG2050-REPD-14098",
+      "repd_ref": "14098",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-DDF8C33B0864A3AF1ECF",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-9821244649EA24A8CAEF",
+      "event_assertion_id": "PN-EVT-4B8B00F39A4EA434A6E1",
+      "article_id": "GG2050-NEWS-BDB48D6540AC90AD",
+      "project_id": "GG2050-REPD-9610",
+      "repd_ref": "9610",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-4B8B00F39A4EA434A6E1",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-D163BBD7E661C208C698",
+      "event_assertion_id": "PN-EVT-B4627734723C113E2652",
+      "article_id": "GG2050-NEWS-B81A57211575BFAE",
+      "project_id": "GG2050-REPD-8162",
+      "repd_ref": "8162",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-B4627734723C113E2652",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-9264FB367751D675568E",
+      "event_assertion_id": "PN-EVT-CF91A6FAF0AC4A20B3EC",
+      "article_id": "GG2050-NEWS-E14D0BA799689626",
+      "project_id": "GG2050-REPD-11460",
+      "repd_ref": "11460",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-CF91A6FAF0AC4A20B3EC",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-1D110BD7215C652A4E4C",
+      "event_assertion_id": "PN-EVT-733F3E6F7BB8AFCA433B",
+      "article_id": "GG2050-NEWS-5C2CEBF928A26D33",
+      "project_id": "GG2050-REPD-13763",
+      "repd_ref": "13763",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-733F3E6F7BB8AFCA433B",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-E8C869F9DBB77007CA69",
+      "event_assertion_id": "PN-EVT-513472D4ECF7CC8223C0",
+      "article_id": "GG2050-NEWS-79DD0F33881BD4CC",
+      "project_id": "GG2050-REPD-8100",
+      "repd_ref": "8100",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-513472D4ECF7CC8223C0",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-2C53278BE50CCC7F9C7A",
+      "event_assertion_id": "PN-EVT-9CE7020129B496A2122D",
+      "article_id": "GG2050-NEWS-BE967773ABE84AA3",
+      "project_id": "GG2050-REPD-11476",
+      "repd_ref": "11476",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-9CE7020129B496A2122D",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-E4ED0877A45A5A4EDFB7",
+      "event_assertion_id": "PN-EVT-AE327F930F6031730E95",
+      "article_id": "GG2050-NEWS-5A90F874FDBB9150",
+      "project_id": "GG2050-REPD-5967",
+      "repd_ref": "5967",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-AE327F930F6031730E95",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-BEACC65AFC5FF9C1C25F",
+      "event_assertion_id": "PN-EVT-D1C958953913FA08FE1E",
+      "article_id": "GG2050-NEWS-35363653B2310788",
+      "project_id": "GG2050-REPD-10085",
+      "repd_ref": "10085",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-D1C958953913FA08FE1E",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-18E6AC5E4A20BB1D03D8",
+      "event_assertion_id": "PN-EVT-8322D33226EC367D607B",
+      "article_id": "GG2050-NEWS-41DB7D3BBE5B96A8",
+      "project_id": "GG2050-REPD-10085",
+      "repd_ref": "10085",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-8322D33226EC367D607B",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-C8C9967A876981F180E6",
+      "event_assertion_id": "PN-EVT-71F15C759339B0E94419",
+      "article_id": "GG2050-NEWS-A2110069E621C15D",
+      "project_id": "GG2050-REPD-12926",
+      "repd_ref": "12926",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-71F15C759339B0E94419",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    },
+    {
+      "transaction_role_decision_id": "PN-TXN-ROLE-FCAB21DA9F7E47BF7F68",
+      "event_assertion_id": "PN-EVT-7DC649C24AB7A06EC9FB",
+      "article_id": "GG2050-NEWS-B58AFE299AF1F66A",
+      "project_id": "GG2050-REPD-6502",
+      "repd_ref": "6502",
+      "roles": {
+        "buyer": null,
+        "seller": null,
+        "lender": null,
+        "epc": null,
+        "icp": null,
+        "oem": null,
+        "supplier": null,
+        "adviser": null
+      },
+      "decision": "ABSTAIN_NO_DIRECT_ROLE_EVIDENCE",
+      "claim_class": "ABSTAIN",
+      "reason": "The pinned project operator field and publisher headline do not directly establish a transaction party role.",
+      "source": {
+        "path": "newsv2/data/material_event_assertions.json",
+        "assertion_id": "PN-EVT-7DC649C24AB7A06EC9FB",
+        "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+      }
+    }
+  ]
+}
