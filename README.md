@@ -27,11 +27,11 @@ Green is not proof. File count is not proof. Size is not proof. A rendered brows
 
 ## Active build plan — NewsV7 cumulative public-app candidate
 
-Status: NewsV1 remains the frozen V9.7-parity public app. NewsV7 is the additive cumulative public-app candidate: it preserves the V9.7/NewsV1 interface and uses NewsV2–NewsV6, AnalyticsV1 and ConsumerV1 only as pinned governed source material.
+Status: NewsV1 remains the frozen V9.7-parity public app. NewsV7 is the deployed cumulative public-app candidate: it preserves the V9.7/NewsV1 interface and uses NewsV2–NewsV6, AnalyticsV1 and ConsumerV1 only as pinned governed source material.
 
 Public release path: `https://ventusltd.github.io/pipelinenews/newsv1/`.
 
-NewsV7 deployment target: `https://ventusltd.github.io/pipelinenews/newsv7/`.
+NewsV7 public release path: `https://ventusltd.github.io/pipelinenews/newsv7/`.
 
 ### NewsV7 cumulative improvements
 
@@ -118,7 +118,7 @@ Latest recovery checkpoint:
 - `PASS` — two byte-identical hosted builds prove NewsV1 `133/45/19/4/9/6` URL-order parity, Beacon Fen 13599, eleven project-table columns, contained mobile horizontal scrolling, zero publishable NewsV5 reasons and zero data-centre/renewable-project identity leakage. ConsumerV1 remains data-only and `CANDIDATE`, not a deployment claim.
 - `PASS` — Movement 7 commit `cf7737ed40952370aed8fab7896eca256060e6df` records the complete recovery table. A fresh remote checkout passed NewsV1, NewsV2–NewsV6, nine Parquet tables, DuckDB readback and ConsumerV1 twice with 21 byte-identical generated artifacts and a clean final diff.
 - `PASS` — Pages containment commit `252fa34132ea555538764f832f79b5dfe4445ee7` reduced the accidental branch/Jekyll artifact from 13,069,151 bytes containing the whole repository to 1,195,373 bytes containing the 43 whitelisted NewsV1 runtime files plus one generated theme stylesheet. Candidates, reports, skills and the legacy archive are excluded.
-- `BLOCKED` — GitHub Pages still uses branch/Jekyll rather than the canonical Actions workflow. The public boundary is safe through `_config.yml`, but changing the repository setting requires an authenticated GitHub settings session.
+- `PASS` — GitHub Pages uses the canonical Actions workflow. NewsV7 feature commit `a559e2fa3b98d7ac56d1948142b661cc303e0598` and run `32831502404` passed build/deploy with exactly 43 NewsV1 runtime files, 47 NewsV7 runtime files and `.nojekyll`; no candidate, analytics, consumer, report, skill, test or legacy directory was published.
 - `NOT TESTED` — live NewsV1 runtime at widths 390, 430, 440 and 768; static CSS and contained-scroll gates remain green.
 - Next bounded pass: switch Pages source to GitHub Actions, run the bounded NewsV1 workflow and verify its exact artifact whitelist. Create no NewsV7 or GlobalGrid V9.8 during this maintenance gate.
 
@@ -161,12 +161,12 @@ Current baton:
 
 | Field | Value |
 |---|---|
-| Last proven feature commit | `cf7737ed40952370aed8fab7896eca256060e6df` |
-| Outcome | `PASS` — Movement 7 independently accounts for NewsV2–NewsV6 and Movements 5/6, reruns every release gate twice, preserves frozen NewsV1 tree `2d6247c067aa5fad49995dcb9029d6cdb9898994`, proves 21 byte-identical generated artifacts and records honest deployment, mobile and archive gaps in `reports/MOVEMENT_7_RECOVERY_REVIEW_2026-08-25.md` |
-| Next movement | No incomplete numbered movement — deployment maintenance gate |
-| Next acceptance gate | Switch GitHub Pages source from branch/Jekyll to GitHub Actions; run `.github/workflows/pages.yml`; prove the deployed artifact contains only the 43 declared NewsV1 runtime files plus `.nojekyll`, and excludes Analytics V1, ConsumerV1, NewsV2–NewsV6, reports, skills, tests and the legacy archive |
-| Doubt to resolve | The GitHub settings session is not authenticated; live mobile widths remain untested; the immutable legacy snapshot omits separately named V9.4–V9.7 directories and needs a separate archive-release decision |
-| Next-run budget | One 120–300 second deployment-settings and artifact-proof block after GitHub authentication; stop before 500 seconds and make no release-content changes |
+| Last proven feature commit | `a559e2fa3b98d7ac56d1948142b661cc303e0598` |
+| Outcome | `PASS` — NewsV7 is a cumulative public app built from the frozen V9.7/NewsV1 baseline. NewsV1–NewsV6 regressions pass; the cumulative artifact rebuilds byte-identically; 45 event rows, 28 organisation labels, 29 operator claims, 45 role abstentions, 6 source-health decisions, 45 held/0 published reasons and 2 data-centre observations are integrated without changing project/news facts or creating cross-domain links. |
+| Next movement | No automatic feature movement — owner review of deployed NewsV7 |
+| Next acceptance gate | Verify the deployed NewsV7 interface in a real browser at desktop and 390/430/440/768 CSS-pixel widths; confirm no page overflow, all 11 columns inside the table scroller, cumulative cards/annotations and Beacon Fen 13599. |
+| Doubt to resolve | Live NewsV7 browser/mobile widths remain `NOT TESTED`; the immutable legacy snapshot still omits separately named V9.4–V9.7 directories. |
+| Next-run budget | One 120–300 second visual-verification block; stop before 500 seconds and make no data or identity changes. |
 
 At the end of every run:
 
