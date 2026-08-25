@@ -1,6 +1,6 @@
 {
   "schema": "pipelinenews.official-source-snapshot.v2",
-  "generated_at": "2026-08-25T16:04:18.319Z",
+  "generated_at": "2026-08-25T16:27:13.595Z",
   "spine": {
     "projects": 7680,
     "reference_groups": 6870
@@ -11,7 +11,7 @@
       "attempted": 13,
       "succeeded": 12,
       "status_code": 429,
-      "prior_good_at": "2026-08-25T15:56:06.576Z",
+      "prior_good_at": "2026-08-25T16:04:18.319Z",
       "message": "rate limited; unfinished work retained; retry-after 15s observed"
     },
     "govuk": {
@@ -19,7 +19,7 @@
       "attempted": 1,
       "succeeded": 1,
       "status_code": 200,
-      "prior_good_at": "2026-08-25T15:56:06.576Z",
+      "prior_good_at": "2026-08-25T16:04:18.319Z",
       "message": null
     }
   },
@@ -2137,6 +2137,852 @@
             "gg_project_id": "GG2050-REPD-3219",
             "project_name": "Knowehead",
             "planning_application_reference": "04/01664/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0402000": {
+      "checked_at": "2026-08-25T16:27:13.595Z",
+      "query_reference": "04/02000",
+      "records": []
+    },
+    "0402070DET": {
+      "checked_at": "2026-08-25T16:27:13.595Z",
+      "query_reference": "04/02070/DET",
+      "records": [
+        {
+          "uid": "04/02070/DET",
+          "reference": null,
+          "name": "Argyll/04/02070/DET",
+          "area_name": "Argyll",
+          "description": "Erection of 17 wind turbines and associated infrastructure, de-forestation works, engineering works to accommodate road improvements",
+          "app_state": "Rejected",
+          "start_date": "2004-10-18",
+          "decided_date": "2005-08-15",
+          "last_changed": "2023-05-16T15:28:57.405729",
+          "url": "https://publicaccess.argyll-bute.gov.uk/online-applications/applicationDetails.do?keyVal=I5RZG5CHU7000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3127",
+            "gg_project_id": "GG2050-REPD-3127",
+            "project_name": "Inverliever",
+            "planning_application_reference": "04/02070/DET",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0402420FUL": {
+      "checked_at": "2026-08-25T16:27:13.595Z",
+      "query_reference": "04/02420/FUL",
+      "records": [
+        {
+          "uid": "04/02420/FUL",
+          "reference": null,
+          "name": "Bedford/04/02420/FUL",
+          "area_name": "Bedford",
+          "description": "Erection of conservatory on rear elevation.",
+          "app_state": "Permitted",
+          "start_date": "2004-09-01",
+          "decided_date": "2004-10-20",
+          "last_changed": "2023-05-16T15:39:50.960675",
+          "url": "https://publicaccess.bedford.gov.uk/online-applications/applicationDetails.do?keyVal=0402420FUL&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3506",
+            "gg_project_id": "GG2050-REPD-3506",
+            "project_name": "Falahill",
+            "planning_application_reference": "04/02420/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "04/02420/FUL",
+          "reference": null,
+          "name": "Bradford/04/02420/FUL",
+          "area_name": "Bradford",
+          "description": "Single storey rear extension and front and rear dormer windows",
+          "app_state": "Permitted",
+          "start_date": "2004-05-26",
+          "decided_date": "2004-07-05",
+          "last_changed": "2023-06-10T13:40:44.869722",
+          "url": "https://planning.bradford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=HYMLB1DHJ2000",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3506",
+            "gg_project_id": "GG2050-REPD-3506",
+            "project_name": "Falahill",
+            "planning_application_reference": "04/02420/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "04/02420/FUL",
+          "reference": null,
+          "name": "Braintree/04/02420/FUL",
+          "area_name": "Braintree",
+          "description": "Provision of drop kerb and hardstanding to provide vehicular access for disabled occupant",
+          "app_state": "Permitted",
+          "start_date": "2004-12-02",
+          "decided_date": "2005-03-01",
+          "last_changed": "2023-05-16T15:45:37.113095",
+          "url": "https://publicaccess.braintree.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=I83PKRBFN3000",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3506",
+            "gg_project_id": "GG2050-REPD-3506",
+            "project_name": "Falahill",
+            "planning_application_reference": "04/02420/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "04/02420/FUL",
+          "reference": null,
+          "name": "Chelmsford/04/02420/FUL",
+          "area_name": "Chelmsford",
+          "description": "Side conservatory.",
+          "app_state": "Permitted",
+          "start_date": "2004-11-17",
+          "decided_date": "2005-01-10",
+          "last_changed": "2023-05-16T16:06:37.863158",
+          "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=I7DGGDBRQ8000",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3506",
+            "gg_project_id": "GG2050-REPD-3506",
+            "project_name": "Falahill",
+            "planning_application_reference": "04/02420/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "04/02420/FUL",
+          "reference": null,
+          "name": "Cotswold/04/02420/FUL",
+          "area_name": "Cotswold",
+          "description": "Dredging and re-lining Lower Lake with puddles clay and depositing soil on adjoining land",
+          "app_state": "Permitted",
+          "start_date": "2004-09-10",
+          "decided_date": "2005-01-14",
+          "last_changed": "2023-06-10T21:46:41.818903",
+          "url": "https://publicaccess.cotswold.gov.uk/online-applications/applicationDetails.do?keyVal=I3TN7TFIU2000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3506",
+            "gg_project_id": "GG2050-REPD-3506",
+            "project_name": "Falahill",
+            "planning_application_reference": "04/02420/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "04/02420/FUL",
+          "reference": null,
+          "name": "EastNorthamptonshire/04/02420/FUL",
+          "area_name": "East Northamptonshire",
+          "description": "Two storey side extension",
+          "app_state": "Permitted",
+          "start_date": "2004-11-30",
+          "decided_date": "2005-01-12",
+          "last_changed": "2023-05-20T08:51:16.787742",
+          "url": "https://publicaccess.east-northamptonshire.gov.uk/online-applications/applicationDetails.do?keyVal=I85F8NGOB3000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3506",
+            "gg_project_id": "GG2050-REPD-3506",
+            "project_name": "Falahill",
+            "planning_application_reference": "04/02420/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "04/02420/FUL",
+          "reference": null,
+          "name": "Edinburgh/04/02420/FUL",
+          "area_name": "Edinburgh",
+          "description": "Proposed extension of existing restaurant at Nos.99 -101 and change of use of hot food takeway No.97 to form restaurant",
+          "app_state": "Permitted",
+          "start_date": "2004-06-25",
+          "decided_date": "2004-09-16",
+          "last_changed": "2024-03-23T09:40:37.419193",
+          "url": "https://citydev-portal.edinburgh.gov.uk/idoxpa-web/applicationDetails.do?keyVal=I02P9REW7D000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3506",
+            "gg_project_id": "GG2050-REPD-3506",
+            "project_name": "Falahill",
+            "planning_application_reference": "04/02420/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "04/02420/FUL",
+          "reference": null,
+          "name": "Moray/04/02420/FUL",
+          "area_name": "Moray",
+          "description": "Demolish existing sheds and tunnels and replace with single timber shed and polytunnels at",
+          "app_state": "Permitted",
+          "start_date": "2004-09-14",
+          "decided_date": "2004-12-20",
+          "last_changed": "2023-06-17T13:51:32.087151",
+          "url": "https://publicaccess.moray.gov.uk/eplanning/applicationDetails.do?keyVal=0402420FUL&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3506",
+            "gg_project_id": "GG2050-REPD-3506",
+            "project_name": "Falahill",
+            "planning_application_reference": "04/02420/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "04/02420/FUL",
+          "reference": null,
+          "name": "Newark/04/02420/FUL",
+          "area_name": "Newark and Sherwood",
+          "description": "Alterations and extension to existing dwelling.",
+          "app_state": "Permitted",
+          "start_date": "2004-09-20",
+          "decided_date": "2004-12-13",
+          "last_changed": "2023-06-17T13:55:29.042613",
+          "url": "https://publicaccess.newark-sherwooddc.gov.uk/online-applications/applicationDetails.do?keyVal=I4C84OLBN3000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3506",
+            "gg_project_id": "GG2050-REPD-3506",
+            "project_name": "Falahill",
+            "planning_application_reference": "04/02420/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "04/02420/FUL",
+          "reference": null,
+          "name": "Perth/04/02420/FUL",
+          "area_name": "Perth",
+          "description": "Extension to dwellinghouse",
+          "app_state": "Permitted",
+          "start_date": "2004-11-29",
+          "decided_date": "2005-02-18",
+          "last_changed": "2023-06-11T21:18:10.040346",
+          "url": "https://planningapps.pkc.gov.uk/online-applications/applicationDetails.do?keyVal=I7ZL45MKR3000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3506",
+            "gg_project_id": "GG2050-REPD-3506",
+            "project_name": "Falahill",
+            "planning_application_reference": "04/02420/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "040406FL": {
+      "checked_at": "2026-08-25T16:27:13.595Z",
+      "query_reference": "04/0406/FL",
+      "records": [
+        {
+          "uid": "04/0406/FL",
+          "reference": null,
+          "name": "EastAyrshire/04/0406/FL",
+          "area_name": "East Ayrshire",
+          "description": "Proposed Construction Of 25 Turbines Assoc Tracks Anemometry Mast Electrical Control BDG And Sub Station Construction Compound And Operation Of A Wind Farm And Other Ancillary Works",
+          "app_state": "Withdrawn",
+          "start_date": "2004-04-16",
+          "decided_date": "2005-06-03",
+          "last_changed": "2023-06-11T01:47:51.937488",
+          "url": "https://eplanning.east-ayrshire.gov.uk/online/applicationDetails.do?keyVal=ZZZZTQGFXC471&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3216",
+            "gg_project_id": "GG2050-REPD-3216",
+            "project_name": "Chalmerston",
+            "planning_application_reference": "04/0406/FL",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0416350PPS": {
+      "checked_at": "2026-08-25T16:27:13.595Z",
+      "query_reference": "04/16/350/PPS",
+      "records": []
+    },
+    "0434FUL23": {
+      "checked_at": "2026-08-25T16:27:13.595Z",
+      "query_reference": "0434/FUL/23",
+      "records": [
+        {
+          "uid": "0434/FUL/23",
+          "reference": null,
+          "name": "WestLothian/0434/FUL/23",
+          "area_name": "West Lothian",
+          "description": "Erection of 2 wind turbines with maximum height to blade tip of 180m and 1 wind turbine with maximum height to blade tip of 149.9m with maximum 19.8 MW generating capacity with associated infrastructure (EIA Development) (as varied from 3 turbines all 180m)",
+          "app_state": "Undecided",
+          "start_date": "2023-05-16",
+          "decided_date": null,
+          "last_changed": "2025-10-18T13:45:47.584649",
+          "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?keyVal=RUQT1GRJHHS00&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "12422",
+            "gg_project_id": "GG2050-REPD-12422",
+            "project_name": "Heights Road, Blackridge - Woodend Wind Farm",
+            "planning_application_reference": "0434/FUL/23",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0442FUL22": {
+      "checked_at": "2026-08-25T16:27:13.595Z",
+      "query_reference": "0442/FUL/22",
+      "records": [
+        {
+          "uid": "0442/FUL/22",
+          "reference": null,
+          "name": "WestLothian/0442/FUL/22",
+          "area_name": "West Lothian",
+          "description": "Development of a solar farm of up 18MW and battery energy storage system (BESS) with associated access and infrastructure",
+          "app_state": "Permitted",
+          "start_date": "2022-05-16",
+          "decided_date": "2022-09-27",
+          "last_changed": "2026-01-28T08:32:19.368291",
+          "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?activeTab=summary&keyVal=RBZCCARJMXN00",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "9463",
+            "gg_project_id": "GG2050-REPD-9463",
+            "project_name": "Selms Muir - Solar Farm",
+            "planning_application_reference": "0442/FUL/22",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0466FUL13": {
+      "checked_at": "2026-08-25T16:27:13.595Z",
+      "query_reference": "0466/FUL/13",
+      "records": []
+    },
+    "0500132FUL": {
+      "checked_at": "2026-08-25T16:27:13.595Z",
+      "query_reference": "05/00132/FUL",
+      "records": [
+        {
+          "uid": "05/00132/FUL",
+          "reference": null,
+          "name": "Bath/05/00132/FUL",
+          "area_name": "Bath",
+          "description": "Single storey rear extension to form workshop and conservatory",
+          "app_state": "Permitted",
+          "start_date": "2005-01-12",
+          "decided_date": "2005-04-13",
+          "last_changed": "2023-05-24T15:09:35.116453",
+          "url": "https://www.bathnes.gov.uk/webforms/planning/details.html?refval=05%2F00132%2FFUL",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3237",
+            "gg_project_id": "GG2050-REPD-3237",
+            "project_name": "Salsburgh",
+            "planning_application_reference": "05/00132/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/00132/FUL",
+          "reference": null,
+          "name": "Bedford/05/00132/FUL",
+          "area_name": "Bedford",
+          "description": "Single storey rear extension",
+          "app_state": "Permitted",
+          "start_date": "2005-01-18",
+          "decided_date": "2005-03-14",
+          "last_changed": "2023-08-12T07:52:02.131775",
+          "url": "https://publicaccess.bedford.gov.uk/online-applications/applicationDetails.do?keyVal=0500132FUL&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3237",
+            "gg_project_id": "GG2050-REPD-3237",
+            "project_name": "Salsburgh",
+            "planning_application_reference": "05/00132/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/00132/FUL",
+          "reference": null,
+          "name": "Bolsover/05/00132/FUL",
+          "area_name": "Bolsover",
+          "description": "Single storey extension to rear",
+          "app_state": "Permitted",
+          "start_date": "2005-02-25",
+          "decided_date": "2005-06-08",
+          "last_changed": "2023-06-10T12:54:40.541697",
+          "url": "https://publicaccess.bolsover.gov.uk/online-applications/applicationDetails.do?keyVal=ICMNBZDDX6000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3237",
+            "gg_project_id": "GG2050-REPD-3237",
+            "project_name": "Salsburgh",
+            "planning_application_reference": "05/00132/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/00132/FUL",
+          "reference": null,
+          "name": "Bracknell/05/00132/FUL",
+          "area_name": "Bracknell",
+          "description": "Erection of single storey front/side extension and single storey rear/side extension.",
+          "app_state": "Permitted",
+          "start_date": "2005-02-14",
+          "decided_date": "2005-03-23",
+          "last_changed": "2023-06-10T13:30:14.954357",
+          "url": "https://planapp.bracknell-forest.gov.uk/online-applications/applicationDetails.do?keyVal=IC00C2BVG2000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3237",
+            "gg_project_id": "GG2050-REPD-3237",
+            "project_name": "Salsburgh",
+            "planning_application_reference": "05/00132/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/00132/FUL",
+          "reference": null,
+          "name": "Braintree/05/00132/FUL",
+          "area_name": "Braintree",
+          "description": "Erection of dwelling and garage",
+          "app_state": "Permitted",
+          "start_date": "2005-01-25",
+          "decided_date": "2005-04-27",
+          "last_changed": "2023-05-16T15:45:36.745315",
+          "url": "https://publicaccess.braintree.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=IAVLJBBFW7000",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3237",
+            "gg_project_id": "GG2050-REPD-3237",
+            "project_name": "Salsburgh",
+            "planning_application_reference": "05/00132/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/00132/FUL",
+          "reference": null,
+          "name": "Brentwood/05/00132/FUL",
+          "area_name": "Brentwood",
+          "description": "First Floor And Two Storey Extension To Side Incorporating Dormer Windows To Front",
+          "app_state": "Permitted",
+          "start_date": "2005-02-22",
+          "decided_date": "2005-04-18",
+          "last_changed": "2023-06-10T14:36:37.471298",
+          "url": "https://publicaccess.brentwood.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZZW8DJJV925&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3237",
+            "gg_project_id": "GG2050-REPD-3237",
+            "project_name": "Salsburgh",
+            "planning_application_reference": "05/00132/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/00132/FUL",
+          "reference": null,
+          "name": "Broxtowe/05/00132/FUL",
+          "area_name": "Broxtowe",
+          "description": "Demolish existing bungalow and garage and construct 4 semi-detached houses with integral garages",
+          "app_state": "Rejected",
+          "start_date": "2005-02-14",
+          "decided_date": "2005-04-08",
+          "last_changed": "2025-11-08T08:30:23.303717",
+          "url": "https://publicaccess.broxtowe.gov.uk/online-applications/applicationDetails.do?keyVal=IC1XQ3DRD2000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3237",
+            "gg_project_id": "GG2050-REPD-3237",
+            "project_name": "Salsburgh",
+            "planning_application_reference": "05/00132/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/00132/FUL",
+          "reference": null,
+          "name": "Calderdale/05/00132/FUL",
+          "area_name": "Calderdale",
+          "description": "Proposed extension to indoor tennis courts to form disabled toilet and entrance lobby",
+          "app_state": "Permitted",
+          "start_date": "2005-01-24",
+          "decided_date": "2005-03-21",
+          "last_changed": "2023-06-10T16:50:04.081529",
+          "url": "https://portal.calderdale.gov.uk/online-applications/applicationDetails.do?keyVal=IAVCWEDWWA000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3237",
+            "gg_project_id": "GG2050-REPD-3237",
+            "project_name": "Salsburgh",
+            "planning_application_reference": "05/00132/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/00132/FUL",
+          "reference": null,
+          "name": "Chelmsford/05/00132/FUL",
+          "area_name": "Chelmsford",
+          "description": "Removal of existing conservatory and garage and construction of a new conservatory and garage.",
+          "app_state": "Permitted",
+          "start_date": "2005-01-21",
+          "decided_date": "2005-02-17",
+          "last_changed": "2023-05-16T16:06:05.295576",
+          "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=IATRPXBRQ8000",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3237",
+            "gg_project_id": "GG2050-REPD-3237",
+            "project_name": "Salsburgh",
+            "planning_application_reference": "05/00132/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/00132/FUL",
+          "reference": null,
+          "name": "Chester/05/00132/FUL",
+          "area_name": "Chester",
+          "description": "Conservatory",
+          "app_state": "Permitted",
+          "start_date": "2005-02-02",
+          "decided_date": "2005-04-04",
+          "last_changed": "2023-05-20T08:10:40.737294",
+          "url": "https://pa.cheshirewestandchester.gov.uk/online-applications/applicationDetails.do?keyVal=IBAHTWEOE6000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3237",
+            "gg_project_id": "GG2050-REPD-3237",
+            "project_name": "Salsburgh",
+            "planning_application_reference": "05/00132/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0501043": {
+      "checked_at": "2026-08-25T16:27:13.595Z",
+      "query_reference": "05/01043",
+      "records": [
+        {
+          "uid": "05/01043",
+          "reference": null,
+          "name": "Dover/05/01043",
+          "area_name": "Dover",
+          "description": "Erection of 2 x externally illuminated fascia signs",
+          "app_state": "Permitted",
+          "start_date": "2005-09-02",
+          "decided_date": "2005-11-18",
+          "last_changed": "2023-06-11T01:00:51.283678",
+          "url": "https://publicaccess.dover.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZZQWFZMS485&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3273",
+            "gg_project_id": "GG2050-REPD-3273",
+            "project_name": "Snowgoat Glen Wind Farm II",
+            "planning_application_reference": "05/01043",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/01399/FUL",
+          "reference": null,
+          "name": "Ryedale/05/01399/FUL",
+          "area_name": "Ryedale",
+          "description": "Erection of general purpose agricultural storage building to include housing of livestock",
+          "app_state": "Permitted",
+          "start_date": "2005-11-24",
+          "decided_date": "2006-01-03",
+          "last_changed": "2023-06-12T01:20:35.556583",
+          "url": "https://planningregister.ryedale.gov.uk/caonline-applications/applicationDetails.do?keyVal=IQGVZMNOM2000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3273",
+            "gg_project_id": "GG2050-REPD-3273",
+            "project_name": "Snowgoat Glen Wind Farm II",
+            "planning_application_reference": "05/01043",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0502336FUL": {
+      "checked_at": "2026-08-25T16:27:13.595Z",
+      "query_reference": "05/02336/FUL",
+      "records": [
+        {
+          "uid": "05/02336/FUL",
+          "reference": null,
+          "name": "Bath/05/02336/FUL",
+          "area_name": "Bath",
+          "description": "First floor bathroom extension over existing utility room",
+          "app_state": "Permitted",
+          "start_date": "2005-07-11",
+          "decided_date": "2005-09-05",
+          "last_changed": "2023-05-24T15:09:32.84829",
+          "url": "https://www.bathnes.gov.uk/webforms/planning/details.html?refval=05%2F02336%2FFUL",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3213",
+            "gg_project_id": "GG2050-REPD-3213",
+            "project_name": "Dunion Hill Wind Farm",
+            "planning_application_reference": "05/02336/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/02336/FUL",
+          "reference": null,
+          "name": "Bedford/05/02336/FUL",
+          "area_name": "Bedford",
+          "description": "Erection of detached two storey dwelling and double garage (to rear of no. 30)",
+          "app_state": "Permitted",
+          "start_date": "2005-08-26",
+          "decided_date": "2005-10-17",
+          "last_changed": "2026-03-14T08:06:52.21158",
+          "url": "https://publicaccess.bedford.gov.uk/online-applications/applicationDetails.do?keyVal=IM53Y9CUY0000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3213",
+            "gg_project_id": "GG2050-REPD-3213",
+            "project_name": "Dunion Hill Wind Farm",
+            "planning_application_reference": "05/02336/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/02336/FUL",
+          "reference": null,
+          "name": "Bradford/05/02336/FUL",
+          "area_name": "Bradford",
+          "description": "Construction of a 25 metre high telecom lattice tower with ancillary ground equipment to base of the tower",
+          "app_state": "Rejected",
+          "start_date": "2005-04-01",
+          "decided_date": "2005-05-18",
+          "last_changed": "2023-06-10T13:39:44.897661",
+          "url": "https://planning.bradford.gov.uk/online-applications/applicationDetails.do?keyVal=IEKX5YDHV8000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3213",
+            "gg_project_id": "GG2050-REPD-3213",
+            "project_name": "Dunion Hill Wind Farm",
+            "planning_application_reference": "05/02336/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/02336/FUL",
+          "reference": null,
+          "name": "Braintree/05/02336/FUL",
+          "area_name": "Braintree",
+          "description": "Alterations to external cladding",
+          "app_state": "Permitted",
+          "start_date": "2005-11-18",
+          "decided_date": "2006-01-13",
+          "last_changed": "2023-05-16T15:45:34.170779",
+          "url": "https://publicaccess.braintree.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=IQ5FJVBFN3000",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3213",
+            "gg_project_id": "GG2050-REPD-3213",
+            "project_name": "Dunion Hill Wind Farm",
+            "planning_application_reference": "05/02336/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/02336/FUL",
+          "reference": null,
+          "name": "Chelmsford/05/02336/FUL",
+          "area_name": "Chelmsford",
+          "description": "Erection of a conservatory to the side elevation.",
+          "app_state": "Permitted",
+          "start_date": "2005-12-07",
+          "decided_date": "2006-01-25",
+          "last_changed": "2023-05-16T16:06:01.556648",
+          "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=IR8H0JBRSA000",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3213",
+            "gg_project_id": "GG2050-REPD-3213",
+            "project_name": "Dunion Hill Wind Farm",
+            "planning_application_reference": "05/02336/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/02336/FUL",
+          "reference": null,
+          "name": "Cotswold/05/02336/FUL",
+          "area_name": "Cotswold",
+          "description": "Erection of two storey extension. Subdivision of dwelling to create two dwellings",
+          "app_state": "Withdrawn",
+          "start_date": "2005-09-23",
+          "decided_date": "2005-11-07",
+          "last_changed": "2023-06-10T21:46:28.100626",
+          "url": "https://publicaccess.cotswold.gov.uk/online-applications/applicationDetails.do?keyVal=IN9M1HFIV2000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3213",
+            "gg_project_id": "GG2050-REPD-3213",
+            "project_name": "Dunion Hill Wind Farm",
+            "planning_application_reference": "05/02336/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/02336/FUL",
+          "reference": null,
+          "name": "Doncaster/05/02336/FUL",
+          "area_name": "Doncaster",
+          "description": "Erection of two storey retail/office and residential development on approx 0.05 ha of land",
+          "app_state": "Permitted",
+          "start_date": "2005-06-30",
+          "decided_date": "2005-08-25",
+          "last_changed": "2023-06-11T00:33:38.055612",
+          "url": "https://planning.doncaster.gov.uk/online-applications/applicationDetails.do?keyVal=IIY2ILFX22000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3213",
+            "gg_project_id": "GG2050-REPD-3213",
+            "project_name": "Dunion Hill Wind Farm",
+            "planning_application_reference": "05/02336/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/02336/FUL",
+          "reference": null,
+          "name": "Edinburgh/05/02336/FUL",
+          "area_name": "Edinburgh",
+          "description": "Partial demolition of existing hotel + conversion to residential use + erection of 3 flatted blocks with associated access and parking (as amended)",
+          "app_state": "Permitted",
+          "start_date": "2005-07-06",
+          "decided_date": "2006-10-13",
+          "last_changed": "2024-02-24T09:35:50.242994",
+          "url": "https://citydev-portal.edinburgh.gov.uk/idoxpa-web/applicationDetails.do?keyVal=IJ7M03EWF1000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3213",
+            "gg_project_id": "GG2050-REPD-3213",
+            "project_name": "Dunion Hill Wind Farm",
+            "planning_application_reference": "05/02336/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/02336/FUL",
+          "reference": null,
+          "name": "Lambeth/05/02336/FUL",
+          "area_name": "Lambeth",
+          "description": "Conversion of property to provide two self contained flats comprising 1 x 2 bed and 1 x 3 bed, along with associated alterations.",
+          "app_state": "Permitted",
+          "start_date": "2005-07-28",
+          "decided_date": "2005-09-30",
+          "last_changed": "2024-04-20T09:44:12.097209",
+          "url": "https://planning.lambeth.gov.uk/online-applications/applicationDetails.do?keyVal=IKCENZBOFF000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3213",
+            "gg_project_id": "GG2050-REPD-3213",
+            "project_name": "Dunion Hill Wind Farm",
+            "planning_application_reference": "05/02336/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "05/02336/FUL",
+          "reference": null,
+          "name": "MidSussex/05/02336/FUL",
+          "area_name": "Mid Sussex",
+          "description": "Single storey rear flat roof extension",
+          "app_state": "Rejected",
+          "start_date": "2005-10-19",
+          "decided_date": "2005-12-14",
+          "last_changed": "2023-05-20T10:35:21.86772",
+          "url": "https://pa.midsussex.gov.uk/online-applications/applicationDetails.do?keyVal=IOVDYNKTL4000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3213",
+            "gg_project_id": "GG2050-REPD-3213",
+            "project_name": "Dunion Hill Wind Farm",
+            "planning_application_reference": "05/02336/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0504FUL23": {
+      "checked_at": "2026-08-25T16:27:13.595Z",
+      "query_reference": "0504/FUL/23",
+      "records": [
+        {
+          "uid": "0504/FUL/23",
+          "reference": null,
+          "name": "WestLothian/0504/FUL/23",
+          "area_name": "West Lothian",
+          "description": "Erection of 2 wind turbines with maximum height to blade tip of 149.9m and 1 wind turbine with maximum height to blade tip of 135m maximum with total 15MW generating capacity with associated infrastructure (EIA Development) (as varied from 3 turbines all 149.9m)",
+          "app_state": "Permitted",
+          "start_date": "2023-06-12",
+          "decided_date": "2024-04-25",
+          "last_changed": "2026-01-03T13:05:33.451785",
+          "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?activeTab=summary&keyVal=RW4T2XRJI4K00",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "13132",
+            "gg_project_id": "GG2050-REPD-13132",
+            "project_name": "Drumduff Wind Farm Extension",
+            "planning_application_reference": "0504/FUL/23",
             "news_may_overwrite_official_facts": false
           }
         }
