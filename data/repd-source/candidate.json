@@ -1,8 +1,8 @@
 {
   "schema": "pipelinenews.repd-source-candidate.v2",
-  "checked_at": "2026-08-25T15:57:09.456Z",
+  "checked_at": "2026-08-25T16:04:01.452Z",
   "changed_source": false,
-  "first_baseline": true,
+  "first_baseline": false,
   "source": {
     "title": "Renewable Energy Planning Database (REPD): July 2026 (CSV)",
     "url": "https://assets.publishing.service.gov.uk/media/6a6cbdc00c36759b5ccaa305/REPD_Publication_Q2_2026.csv",
