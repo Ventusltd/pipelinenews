@@ -27,10 +27,10 @@ Green is not proof. File count is not proof. Size is not proof. A rendered brows
 ## Current repository and release state
 
 - NewsV1 is the frozen V9.7-parity public app; NewsV7 is the deployed cumulative public-app candidate.
-- `202608251929-pipelinenews` is the manual-recovery current candidate. It restores the complete frozen NewsV7-grade browser product while keeping privacy-sensitive raw text out of the new presentation.
+- `202608251929-pipelinenews` is the manually recovered current release. It restores the complete frozen NewsV7-grade browser product while keeping privacy-sensitive raw text out of the new presentation.
 - The official Q2 2026 source has 14,657 raw rows; the current four-technology, at-least-1-MW scope has 7,703 rows; the admitted public spine remains 7,680 projects and 356,474.09 MW. The 23-row delta is candidate-only.
 - The current official-source frontier is 60 of 6,870 reference groups with 174 observations: 29 authority-safe primary matches and 145 abstentions. The planning source is degraded, so degradation is not treated as authority proof.
-- The candidate pointer is not a production promotion. The stable timestamp route remains unswitched unless a manifest expressly records `publication.live: true`.
+- `releases/current.json` points to the recovered release only because its append-only closure attestation proves the immutable manifest, exact-head checks, both public surfaces and the GlobalGrid catalogue bytes. Prepublication fields in the immutable manifest remain unchanged and are resolved through its declared attestation pointers.
 - Release naming and immutability are governed by [`release-naming.md`](release-naming.md), [`RELEASE_ARCHITECTURE.md`](RELEASE_ARCHITECTURE.md) and [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Current timestamp continuation law
@@ -39,9 +39,9 @@ Green is not proof. File count is not proof. Size is not proof. A rendered brows
 - Every session creates a new immutable lowercase Europe/London timestamp release, publishes it through PipelineNews Pages, then adds it to the GlobalGrid root catalogue in chronological order. Earlier folders and manifests are never amended.
 - Every release must state how it advances market intelligence for the fastest possible path to net zero; report the official REPD progress state of Solar and BESS; and answer when and how projects connect. Missing grid-connection evidence is published as `UNKNOWN` or `ABSTAIN`, never inferred from planning, capacity, proximity or headlines.
 - Every release manifest carries a byte counter for its lightweight shell, new content-addressed bytes, reused pinned bytes, executable proof and minimum Pages impact.
-- The current manual-recovery candidate retains 3,563 Solar projects and 1,609 BESS projects, restores the full newspaper/table workflow, and keeps verified grid-connection dates and methods `UNKNOWN` pending exact network-owner, connection-agreement, register, energisation or planning-document evidence.
+- The current manual-recovery release retains 3,563 Solar projects and 1,609 BESS projects, restores the full newspaper/table workflow, and keeps verified grid-connection dates and methods `UNKNOWN` pending exact network-owner, connection-agreement, register, energisation or planning-document evidence.
 
-Current baton: deterministically verify `202608251929-pipelinenews`, commit it without modifying its timestamp directory again, verify the exact-head PipelineNews Pages deployment at desktop and 390 CSS pixels, then catalogue only that proven successor in the GlobalGrid root index while delisting the rejected 17:01 and 17:50 entries. Post-commit and live timestamps belong only in append-only Pipeline Pages and final closure attestations.
+Current baton: `202608251929-pipelinenews` passed deterministic, desktop, 390 CSS-pixel, interaction, exact-head Pages and public-byte checks. GlobalGrid commit `204aae6462a9851a8341af59760c3e7cb6ad08a5` catalogues it once in chronological position and delists the rejected 17:01 and 17:50 entries. The immutable release directory and manifest remain unchanged; post-commit facts are recorded only in append-only attestations. Any correction now requires a new timestamp successor.
 
 ## Frozen interface baseline — NewsV7 cumulative public-app candidate
 

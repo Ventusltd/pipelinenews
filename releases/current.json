@@ -1,8 +1,13 @@
 {
-  "schema": "pipelinenews.release-pointer.v1",
-  "channel": "candidate",
-  "release_id": "202608251750-pipelinenews",
-  "manifest": "releases/202608251750-pipelinenews.json",
-  "updated_at": "2026-08-25T17:50:00+01:00",
-  "public_app_switched": false
+  "schema": "pipelinenews.release-pointer.v2",
+  "channel": "current",
+  "release_id": "202608251929-pipelinenews",
+  "manifest": "releases/202608251929-pipelinenews.json",
+  "updated_at": "2026-08-25T22:08:05+01:00",
+  "public_app_switched": true,
+  "rejected_predecessors": [
+    "202608251701-pipelinenews",
+    "202608251750-pipelinenews"
+  ],
+  "closure_attestation": "attestations/202608251929-pipelinenews-closure.json"
 }

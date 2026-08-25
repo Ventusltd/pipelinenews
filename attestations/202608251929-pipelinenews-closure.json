@@ -1,0 +1,63 @@
+{
+  "schema": "pipelinenews.release-closure-attestation.v2",
+  "release_id": "202608251929-pipelinenews",
+  "manifest_sha256": "c88d4c0cf5dd8944e4b28a2c2e1acf83760e3aa52242a6cc2ac30bce350c96d0",
+  "pipeline_attestation_sha256": "eec17828332f2b66110b13a9055d49257be46e4780debc2fa8d0dc8aebebc615",
+  "committed_at": "2026-08-25T21:52:50+01:00",
+  "pipeline_pages_verified_at": "2026-08-25T21:56:58+01:00",
+  "catalogued_at": "2026-08-25T22:02:38+01:00",
+  "globalgrid_live_verified_at": "2026-08-25T22:08:05+01:00",
+  "pipeline_commit_sha": "c83d9e574b0dafa3f4ea245c5acbed159860f028",
+  "pipeline_attestation_commit_sha": "67155fdb39f5e863765ab203e0802252d985bf36",
+  "globalgrid_commit_sha": "204aae6462a9851a8341af59760c3e7cb6ad08a5",
+  "pipeline_live_url": "https://ventusltd.github.io/pipelinenews/202608251929-pipelinenews/",
+  "pipeline_live_index_sha256": "63044e59d06fa0a4f6bfb367219b0fe0fe12511c5c6067e9fc05a1a26fea0c7d",
+  "globalgrid_live_url": "https://globalgrid2050.com/",
+  "globalgrid_live_index_sha256": "9b95eeb6e1ec52c689c3143ac23906327138a99c4476d72a1e6e80db4baa10f4",
+  "globalgrid_root_blob_sha1": "067c814a8374a6d450132ad9e879c856b86a18a8",
+  "globalgrid_root_index_byte_delta": -279,
+  "globalgrid_repository": {
+    "commit_sha": "204aae6462a9851a8341af59760c3e7cb6ad08a5",
+    "index_path": "index.html",
+    "index_blob_sha1": "067c814a8374a6d450132ad9e879c856b86a18a8",
+    "index_sha256": "9b95eeb6e1ec52c689c3143ac23906327138a99c4476d72a1e6e80db4baa10f4",
+    "index_bytes": 16439,
+    "commit_url": "https://github.com/Ventusltd/globalgrid2050/commit/204aae6462a9851a8341af59760c3e7cb6ad08a5"
+  },
+  "globalgrid_live": {
+    "url": "https://globalgrid2050.com/",
+    "http_status": 200,
+    "index_sha256": "9b95eeb6e1ec52c689c3143ac23906327138a99c4476d72a1e6e80db4baa10f4",
+    "index_bytes": 16439,
+    "matches_repository": true
+  },
+  "actions": {
+    "globalgrid": {
+      "head_sha": "204aae6462a9851a8341af59760c3e7cb6ad08a5",
+      "run_id": 32898818013,
+      "url": "https://github.com/Ventusltd/globalgrid2050/actions/runs/32898818013",
+      "conclusion": "success"
+    },
+    "all_exact_head_runs": [
+      { "run_id": 32898817842, "workflow": "V9.3 Exact Commit Validation", "conclusion": "success" },
+      { "run_id": 32898817754, "workflow": "V9.4 Exact Commit Validation", "conclusion": "success" },
+      { "run_id": 32898817770, "workflow": "V9.5 Exact Commit Validation", "conclusion": "success" },
+      { "run_id": 32898817838, "workflow": "V9.5.1 Exact Commit Validation", "conclusion": "success" },
+      { "run_id": 32898817847, "workflow": "V9.6.1 Exact Commit Validation", "conclusion": "success" },
+      { "run_id": 32898817851, "workflow": "V9.6.2 Exact Commit Validation", "conclusion": "success" },
+      { "run_id": 32898817666, "workflow": "V9.7 Exact Commit Validation", "conclusion": "success" },
+      { "run_id": 32898818013, "workflow": "Deploy GlobalGrid2050 Pages", "conclusion": "success" }
+    ]
+  },
+  "catalogue": {
+    "new_link_count": 1,
+    "rejected_homepage_entries": 0,
+    "order": [
+      "newsv7",
+      "202608251929-pipelinenews",
+      "solar_deployment_statistics"
+    ],
+    "successor_link_http_status": 200
+  },
+  "publication_support_superseded": true
+}

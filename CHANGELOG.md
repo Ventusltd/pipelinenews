@@ -4,7 +4,7 @@ This is the authoritative repository change record from the frozen GlobalGrid205
 
 ## How to read this record
 
-- `LIVE` means a manifest expressly records `publication.live: true` and the stable route has been switched.
+- `LIVE` means the immutable manifest either records `publication.live: true` or declares an append-only closure-attestation path whose committed evidence proves the exact release, deployment, stable catalogue route and both public byte checks.
 - `DEPLOYED CANDIDATE` means GitHub Pages serves the immutable folder, but the stable product route has not been promoted.
 - `CANDIDATE_NOT_CURRENT` means deterministic fixtures or governed batches pass while a required current external-source run has not completed.
 - A moving `releases/current.json` candidate pointer is not a production promotion.
@@ -26,7 +26,7 @@ The admitted 7,680-project spine totals 356,474.09 MW. It remains the public bas
 
 ## 2026-08-25 — `202608251929-pipelinenews`
 
-Status: `CANDIDATE_PREPUBLICATION`; manual recovery successor. Live status remains unverified until a separate append-only closure attestation records the exact commit, PipelineNews Pages check, GlobalGrid catalogue commit and both live checks.
+Status: `CURRENT_LIVE_ATTESTED`; manual recovery successor. The immutable prepublication manifest is not rewritten: its declared append-only closure attestation records the exact commits, successful Pages checks, GlobalGrid catalogue correction and both public byte checks.
 
 - Restores the frozen NewsV7-grade surface: 133 typed evidence rows, the complete 7,680-project spine, eleven columns, 100-row pages, technology/status/region/search controls, inclusive official-capacity limits, bidirectional sorting, CSV export and Atlas links.
 - Preserves frozen NewsV7 data bytes through content hashes; neither rejected timestamp predecessor is a product baseline or current release.
@@ -37,6 +37,11 @@ Status: `CANDIDATE_PREPUBLICATION`; manual recovery successor. Live status remai
 - Reports the official-source frontier as 60 of 6,870 groups, 174 observations, 29 authority-safe primary matches and 145 abstentions; the planning source remains degraded.
 - Publishes connection timing and method as `UNKNOWN`, with the next gate limited to an accepted connection offer, network register, energisation notice or exact official network document.
 - Adds exact byte-category accounting, a deterministic builder/verifier, a desktop/390-pixel live-browser QA script and append-only closure-attestation pointers.
+- PipelineNews commit `c83d9e574b0dafa3f4ea245c5acbed159860f028` passed exact-head timestamp and Pages workflows; public index bytes are 5,788 with SHA-256 `63044e59d06fa0a4f6bfb367219b0fe0fe12511c5c6067e9fc05a1a26fea0c7d`. Commit `67155fdb39f5e863765ab203e0802252d985bf36` added the independently fetched Pipeline Pages attestation and also passed both exact-head workflows.
+- GlobalGrid commit `204aae6462a9851a8341af59760c3e7cb6ad08a5` changes only root `index.html`, adding this successor once after NewsV7 and before Solar Deployment while removing the rejected 17:01 and 17:50 homepage rows. All eight exact-head GlobalGrid workflows passed, including Pages run `32898818013`.
+- The deployed GlobalGrid root is byte-identical to commit blob `067c814a8374a6d450132ad9e879c856b86a18a8`: 16,439 bytes, SHA-256 `9b95eeb6e1ec52c689c3143ac23906327138a99c4476d72a1e6e80db4baa10f4`, a -279-byte root-index delta. The successor link resolves to the verified PipelineNews bytes.
+- The interrupted 18:41 trigger produced no checkpoint and did not allocate a release. `202608251841-pipelinenews` is not part of the lineage.
+- NewsV1, NewsV7 and both rejected timestamp trees remain unchanged; their immutable paths are retained for lineage but the rejected entries are no longer presented on the GlobalGrid homepage.
 
 ## 2026-08-25 — `202608251750-pipelinenews`
 
