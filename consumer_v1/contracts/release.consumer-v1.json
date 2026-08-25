@@ -1,0 +1,52 @@
+{
+  "schema": "pipelinenews.consumer-release-contract.v1",
+  "release": "consumer_v1",
+  "semantic_version": "1.0.0-rc.1",
+  "status": "CANDIDATE",
+  "generated_at": "2026-08-25T00:00:00Z",
+  "source": {
+    "parquet_manifest": "analytics_v1/data/parquet_manifest.json",
+    "required_parquet_artifacts": {
+      "newsv5_reason_decisions.parquet": "95c9ec582c0357462d2e87a07e59e207bf6b9289d02da89859d8712546f3ebcd",
+      "newsv6_dc_sources.parquet": "8503864496f70fa720731b20b55f5e65d9ac4f52c26d682c49cc37979b7d58f1",
+      "newsv6_dc_observations.parquet": "a5b8789a35fc49a98a70f32a48f46de63362461c85ce0fdfcc657a3bf30bd4d8",
+      "newsv6_dc_link_decisions.parquet": "b5b1a859981b63e1927720ca8b01d3608d278c987a17ecaa75ad43c831d65cf4"
+    },
+    "newsv1_hashes": {
+      "feed": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd",
+      "regional_news": "905237ddcbc71761f21d8c78961931676ac0c585030d29af95c75c7772254a99",
+      "regional_decisions": "66f9e8803c6d0d0e847950dc5002a2df3b1f1ac0451de0f76a931256ddcc7409",
+      "regional_manifest": "494030710673dea0e4db52937d2243966fc47639a406a335df5d6bbd4e575467",
+      "index": "d9369889eb55a14781e9eaa992541a3c42d248c6c824384d9d5aa389bef943a0",
+      "mobile_css": "851b0827ca2aa0950438c98ae3cf6cc7dce33667d37458122ea38bb2c6da2f81",
+      "release_contract": "8c6bdf326a82c2669637bb4dbce182cf11dc93e718b66e08c896b8dae2e31184"
+    }
+  },
+  "expected": {
+    "all_headlines": 133,
+    "uk_headlines": 45,
+    "international_headlines": 19,
+    "us": 4,
+    "europe": 9,
+    "international_other": 6,
+    "publishable_reasons": 0,
+    "data_centre_sources": 6,
+    "data_centre_observations": 2,
+    "data_centre_link_decisions": 2,
+    "project_table_columns": 11,
+    "beacon_fen_repd_ref": "13599",
+    "url_order_hashes": {
+      "all": "da4d119c55eaf1bf963402698ca1615448f4b3961f349bd393d24e1a1043eed8",
+      "uk": "341b8ab1baf327f301e128d9c6a770da42e6a734734fb96a06fc177d407ddd35",
+      "regional": "68a7e9e8ba11426abf8af7b1c6333b7177b425f401cbe8832da335e7eef2f37a"
+    }
+  },
+  "publication": {
+    "live": false,
+    "newsv1_interface_changed": false,
+    "newsv1_news_order_changed": false,
+    "consumer_order_source": "declared DuckDB queries with explicit ORDER BY",
+    "data_centre_project_signal_eligible": false
+  },
+  "rollback": "Remove consumer_v1 only; NewsV1 through NewsV6 and analytics_v1 remain byte-frozen and independently reproducible."
+}
