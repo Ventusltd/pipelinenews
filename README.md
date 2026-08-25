@@ -88,8 +88,9 @@ Latest recovery checkpoint:
 - `PASS` — NewsV2 pins the source SHA-256, retains Beacon Fen REPD 13599 and excludes sibling 13600, and leaves NewsV1 bytes and visible UI unchanged.
 - `PASS` — bounded Atlas V8 and UK Energy Tracking V6 adapter audit: deployed Atlas code matches the repository but most nested datasets are frozen April snapshots; Energy V6 payloads are frozen at 18 June despite historical `health: ok` fields.
 - `PASS` — reusable adapter/freshness contract recorded in `reports/ATLAS_V8_ENERGY_V6_ADAPTER_AUDIT.md`; no proven grid-constraint feed was found, so none may be inferred from frequency, interconnector or proximity data.
-- `DRAFT` — NewsV3 data law now declares 28 unresolved operator labels, 29 project/operator-label assertions and 45 explicit transaction-role abstentions. No builder, artifact, manifest or independent verifier exists yet, so NewsV3 does not count as a completed version.
-- Next bounded pass: build NewsV3 organisation labels and directly evidenced REPD project-operator roles, with explicit abstention from unsupported transaction roles.
+- `PASS` — NewsV3 candidate commit `c001b7018f6107ac9abebe6deab312e303817915` deterministically builds 28 unresolved operator labels, 29 project/operator-label source claims and 45 explicit transaction-role abstentions; every declared key is unique and non-null.
+- `PASS` — NewsV3 preserves `Firma Energy / IB Vogt` as one unsplit unresolved label, keeps every buyer/seller/lender/EPC/ICP/OEM/supplier/adviser field null, retains Beacon Fen on 13599 and excludes 13600. NewsV1 and NewsV2 regressions pass.
+- Next bounded pass: build NewsV4 as a separate source-health/freshness and market-context product with honest stale states; do not infer grid constraints from frequency, interconnector or proximity data.
 
 ## Overnight automation master score — authoritative
 
@@ -130,12 +131,12 @@ Current baton:
 
 | Field | Value |
 |---|---|
-| Last proven feature commit | `4ea24a9a2aaaefbe580044d82c5f9a8b1c7b3bc2` |
-| Outcome | Master score and NewsV3 DRAFT data law committed and read back |
-| Next movement | Movement 1 — NewsV3 organisation and role evidence |
-| Next acceptance gate | Add deterministic builder, 28/29/45 artifacts, manifest and independent verifier while NewsV2 remains green |
-| Doubt to resolve | Composite operator labels must remain unresolved and unsplit; no transaction role may be inferred |
-| Next-run budget | 02:00: exactly one 120–300 second block, hard stop 500 seconds |
+| Last proven feature commit | `c001b7018f6107ac9abebe6deab312e303817915` |
+| Outcome | `PASS` — NewsV3 CANDIDATE committed and read back with deterministic 28/29/45 evidence, composite-label protection, 45 transaction-role abstentions and green NewsV1/NewsV2 regressions |
+| Next movement | Movement 2 — NewsV4 energy-market and grid context |
+| Next acceptance gate | Build a deterministic source-health/freshness and market-context snapshot with explicit `CURRENT/STALE/DEGRADED/UNAVAILABLE` decisions while NewsV3 remains green |
+| Doubt to resolve | No proven grid-constraint feed exists in the audited Atlas/Energy V6 sources; source terms, record keys and stale-state thresholds must be explicit before ingest |
+| Next-run budget | Up to three reviewed blocks; target about 300 seconds, normal hard stop 500 seconds; one 1,000-second extension only for a named progressing acceptance gate |
 
 At the end of every run:
 
