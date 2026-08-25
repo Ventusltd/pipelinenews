@@ -1,6 +1,6 @@
 {
-  "schema": "pipelinenews.official-source-snapshot.v2",
-  "generated_at": "2026-08-25T16:27:13.595Z",
+  "schema": "pipelinenews.official-source-snapshot.v3",
+  "generated_at": "2026-08-25T17:29:07.700Z",
   "spine": {
     "projects": 7680,
     "reference_groups": 6870
@@ -11,7 +11,7 @@
       "attempted": 13,
       "succeeded": 12,
       "status_code": 429,
-      "prior_good_at": "2026-08-25T16:04:18.319Z",
+      "prior_good_at": "2026-08-25T16:27:13.595Z",
       "message": "rate limited; unfinished work retained; retry-after 15s observed"
     },
     "govuk": {
@@ -19,7 +19,7 @@
       "attempted": 1,
       "succeeded": 1,
       "status_code": 200,
-      "prior_good_at": "2026-08-25T16:04:18.319Z",
+      "prior_good_at": "2026-08-25T16:27:13.595Z",
       "message": null
     }
   },
@@ -45,6 +45,16 @@
           "last_changed": "2023-06-11T01:47:34.754388",
           "url": "https://eplanning.east-ayrshire.gov.uk/online/applicationDetails.do?activeTab=summary&keyVal=ZZZZTUGFXC416",
           "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "3537",
+            "gg_project_id": "GG2050-REPD-3537",
+            "project_name": "Little Kilmain",
+            "planning_application_reference": "00/0530/FL",
+            "planning_authority": "East Ayrshire",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3537",
@@ -73,6 +83,16 @@
           "url": "https://publicaccess.e-lindsey.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=TC54LYGMKTX00",
           "binding": {
             "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "19975",
+            "gg_project_id": "GG2050-REPD-19975",
+            "project_name": "North Ray Solar Farm, Lincoln Gate - Solar Panels",
+            "planning_application_reference": "00444/26/FUL",
+            "planning_authority": "East Lindsey",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
+            "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "19975",
             "gg_project_id": "GG2050-REPD-19975",
@@ -99,6 +119,16 @@
           "last_changed": "2025-11-10T08:43:53.431397",
           "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?activeTab=summary&keyVal=S7PJSHRJFR200",
           "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "15820",
+            "gg_project_id": "GG2050-REPD-15820",
+            "project_name": "Nettlehill Road - Solar Panels",
+            "planning_application_reference": "0042/FUL/24",
+            "planning_authority": "West Lothian",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "15820",
@@ -127,6 +157,16 @@
           "url": "https://paplanning.bolton.gov.uk/online-applications/applicationDetails.do?keyVal=TDZJEJDE03B00&activeTab=summary",
           "binding": {
             "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "20819",
+            "gg_project_id": "GG2050-REPD-20819",
+            "project_name": "Tesco Superstore, Mansell Way - Solar Panels",
+            "planning_application_reference": "00752/26",
+            "planning_authority": "Bolton",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
+            "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "20819",
             "gg_project_id": "GG2050-REPD-20819",
@@ -153,6 +193,16 @@
           "last_changed": "2025-02-22T11:33:48.460596",
           "url": "https://westdevon.planning-register.co.uk/Planning/Display/00715/2015",
           "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "5584",
+            "gg_project_id": "GG2050-REPD-5584",
+            "project_name": "Land at Martin Farm",
+            "planning_application_reference": "00715/2015",
+            "planning_authority": "West Devon",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "5584",
@@ -181,6 +231,16 @@
           "url": "https://westdevon.planning-register.co.uk/Planning/Display/01132/2014",
           "binding": {
             "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "4720",
+            "gg_project_id": "GG2050-REPD-4720",
+            "project_name": "Land Adjacent to Taw Valley Creamery",
+            "planning_application_reference": "01132/2014",
+            "planning_authority": "West Devon",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
+            "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "4720",
             "gg_project_id": "GG2050-REPD-4720",
@@ -207,6 +267,16 @@
           "last_changed": "2023-09-30T11:26:12.74602",
           "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?keyVal=P4129ZRJIF400&activeTab=summary",
           "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "8155",
+            "gg_project_id": "GG2050-REPD-8155",
+            "project_name": "Drumcross Battery Storage",
+            "planning_application_reference": "0114/FUL/18",
+            "planning_authority": "West Lothian",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "8155",
@@ -235,6 +305,16 @@
           "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?keyVal=QO7V3QRJH6500&activeTab=summary",
           "binding": {
             "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "8847",
+            "gg_project_id": "GG2050-REPD-8847",
+            "project_name": "Pearie Law 2 - Wind turbines",
+            "planning_application_reference": "0124/FUL/21",
+            "planning_authority": "West Lothian",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
+            "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "8847",
             "gg_project_id": "GG2050-REPD-8847",
@@ -261,6 +341,16 @@
           "last_changed": "2023-12-23T11:15:33.249419",
           "url": "https://westdevon.planning-register.co.uk/Planning/Display/01270/2011",
           "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "1044",
+            "gg_project_id": "GG2050-REPD-1044",
+            "project_name": "North Tawton Solar Farm",
+            "planning_application_reference": "01270/2011",
+            "planning_authority": "West Devon",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "1044",
@@ -313,6 +403,13 @@
           "last_changed": "2025-07-14T07:35:11.717809",
           "url": "https://planning.bradford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=0201865FUL",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3144"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3144",
@@ -334,6 +431,13 @@
           "last_changed": "2023-08-14T07:36:27.219334",
           "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=0201865FUL",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3144"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3144",
@@ -355,6 +459,10 @@
           "last_changed": "2023-05-16T16:06:45.299979",
           "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=HY0MFRBRP8000",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_REFERENCE_NOT_EXACT"
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3144",
@@ -376,6 +484,13 @@
           "last_changed": "2023-07-22T08:22:29.395111",
           "url": "https://publicaccess.cheltenham.gov.uk/online-applications/applicationDetails.do?keyVal=0201865FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3144"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3144",
@@ -397,6 +512,13 @@
           "last_changed": "2023-05-20T08:17:05.733656",
           "url": "https://planning.cornwall.gov.uk/online-applications/applicationDetails.do?keyVal=0300218FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3144"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3144",
@@ -418,6 +540,13 @@
           "last_changed": "2023-07-24T07:40:03.05756",
           "url": "https://publicaccess.cotswold.gov.uk/online-applications/applicationDetails.do?keyVal=0201865FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3144"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3144",
@@ -439,6 +568,13 @@
           "last_changed": "2023-06-17T11:07:22.126059",
           "url": "https://pa2.harborough.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=H79QT3HW15000",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3144"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3144",
@@ -460,6 +596,13 @@
           "last_changed": "2025-01-18T10:27:56.611057",
           "url": "https://pa.midsussex.gov.uk/online-applications/applicationDetails.do?keyVal=0201865FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3144"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3144",
@@ -481,6 +624,13 @@
           "last_changed": "2025-05-17T10:57:37.15172",
           "url": "https://public.oxford.gov.uk/online-applications/applicationDetails.do?keyVal=0201865FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3144"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3144",
@@ -502,6 +652,13 @@
           "last_changed": "2023-07-24T08:03:25.717565",
           "url": "https://planningapps.pkc.gov.uk/online-applications/applicationDetails.do?keyVal=0201865FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3144"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3144",
@@ -529,6 +686,13 @@
           "last_changed": "2023-05-16T15:46:53.895498",
           "url": "https://pa.brent.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=DCAPR_47001",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3470"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3470",
@@ -550,6 +714,13 @@
           "last_changed": "2023-06-11T06:59:05.712443",
           "url": "https://pa.fylde.gov.uk/Planning/Display/02/0538",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3470"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3470",
@@ -571,6 +742,13 @@
           "last_changed": "2023-05-20T10:50:20.989628",
           "url": "https://pa.newham.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=ZZZYFHJYXC213",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3470"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3470",
@@ -592,6 +770,13 @@
           "last_changed": "2023-06-17T14:14:36.357297",
           "url": "http://planning.newport.gov.uk/swift/apas/run/WPHAPPDETAIL.DisplayUrl?theApnID=02/0538",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3470"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3470",
@@ -613,6 +798,13 @@
           "last_changed": "2023-05-20T10:57:16.309188",
           "url": "http://planningonline.n-kesteven.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=ZZZZT3LLXE880",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3470"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3470",
@@ -634,6 +826,13 @@
           "last_changed": "2023-06-11T23:33:53.940881",
           "url": "https://www2.richmond.gov.uk/lbrplanning/Planning_CaseNo.aspx?strCASENO=02/0538",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3470"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3470",
@@ -655,6 +854,13 @@
           "last_changed": "2023-06-12T10:06:08.617766",
           "url": "http://isharemaps.surreyheath.gov.uk/ishare54/custom/planning/custom/planning?requesttype=parseTemplate&template=DevelopmentControlApplication.tmplt&Filter=%5ESYSTEMKEY%5E%3D%2718143%27&backurl=custom/planning?",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3470"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3470",
@@ -676,6 +882,13 @@
           "last_changed": "2024-01-11T08:09:43.955735",
           "url": "https://planningregister.westmorlandandfurness.gov.uk/Planning/Display/02/0538",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3470"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3470",
@@ -708,6 +921,13 @@
           "last_changed": "2024-08-24T07:32:24.62308",
           "url": "https://cumberlandcouncil.my.site.com/pr3/s/planning-application/a3X3X000004DBsdUAG",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3794"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3794",
@@ -741,6 +961,16 @@
           "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?activeTab=summary&keyVal=R9B0T3RJLGE00",
           "binding": {
             "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "8920",
+            "gg_project_id": "GG2050-REPD-8920",
+            "project_name": "Drumshoreland Road Battery Storage Facility",
+            "planning_application_reference": "0255/FUL/22",
+            "planning_authority": "West Lothian",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
+            "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "8920",
             "gg_project_id": "GG2050-REPD-8920",
@@ -767,6 +997,13 @@
           "last_changed": "2023-06-10T21:07:54.898596",
           "url": "https://npe.conwy.gov.uk/Northgate/EnglishPlanningExplorer/Generic/StdDetails.aspx?PT=PlanningApplicationsOn-Line&TYPE=PL/PlanningPK.xml&PARAM0=305144&XSLT=/Northgate/EnglishPlanningExplorer/SiteFiles/Skins/Conwy/xslt/PL/PLDetails.xslt&FT=PlanningApplicationDetails&PUBLIC=Y&XMLSIDE=&DAURI=PLANNING",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3250"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3250",
@@ -794,6 +1031,13 @@
           "last_changed": "2023-06-10T08:48:19.869703",
           "url": "https://planning.angus.gov.uk/online-applications/applicationDetails.do?keyVal=HFLOEQCFM0000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3170"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3170",
@@ -815,6 +1059,13 @@
           "last_changed": "2026-04-04T07:44:34.320423",
           "url": "https://online-befirst.lbbd.gov.uk/planning/index.html?fa=getApplication&id=9915",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3170"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3170",
@@ -836,6 +1087,13 @@
           "last_changed": "2023-05-24T15:10:09.405922",
           "url": "https://www.bathnes.gov.uk/webforms/planning/details.html?refval=03%2F00627%2FFUL",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3170"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3170",
@@ -857,6 +1115,13 @@
           "last_changed": "2023-06-10T12:54:40.912272",
           "url": "https://publicaccess.bolsover.gov.uk/online-applications/applicationDetails.do?keyVal=0300627FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3170"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3170",
@@ -878,6 +1143,13 @@
           "last_changed": "2023-06-10T13:29:51.598473",
           "url": "https://planapp.bracknell-forest.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=0300627FUL",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3170"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3170",
@@ -899,6 +1171,13 @@
           "last_changed": "2023-06-10T14:36:17.019575",
           "url": "https://publicaccess.brentwood.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZZWBDJJV519&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3170"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3170",
@@ -920,6 +1199,13 @@
           "last_changed": "2023-12-23T08:12:40.367548",
           "url": "https://publicaccess.broxtowe.gov.uk/online-applications/applicationDetails.do?keyVal=HHE6YKDRB2000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3170"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3170",
@@ -941,6 +1227,13 @@
           "last_changed": "2023-05-16T16:07:56.179189",
           "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=0300627FUL",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3170"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3170",
@@ -962,6 +1255,13 @@
           "last_changed": "2024-07-13T08:27:43.024117",
           "url": "https://publicaccess.cheltenham.gov.uk/online-applications/applicationDetails.do?keyVal=0300627FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3170"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3170",
@@ -983,6 +1283,13 @@
           "last_changed": "2025-09-27T08:56:26.476022",
           "url": "https://pa.cheshirewestandchester.gov.uk/online-applications/applicationDetails.do?keyVal=0300627FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3170"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3170",
@@ -1010,6 +1317,13 @@
           "last_changed": "2023-06-10T08:48:27.57159",
           "url": "https://planning.angus.gov.uk/online-applications/applicationDetails.do?keyVal=HM4YLDCFM0000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3178"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3178",
@@ -1031,6 +1345,13 @@
           "last_changed": "2023-05-24T15:10:08.365928",
           "url": "https://www.bathnes.gov.uk/webforms/planning/details.html?refval=03%2F01247%2FFUL",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3178"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3178",
@@ -1052,6 +1373,13 @@
           "last_changed": "2023-05-16T15:42:42.641751",
           "url": "https://pa.bexley.gov.uk/online-applications/applicationDetails.do?keyVal=HD4EB1BE82000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3178"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3178",
@@ -1073,6 +1401,13 @@
           "last_changed": "2025-06-21T08:11:34.467929",
           "url": "https://planning.bradford.gov.uk/online-applications/applicationDetails.do?keyVal=0301247FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3178"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3178",
@@ -1094,6 +1429,13 @@
           "last_changed": "2023-06-10T14:36:39.576911",
           "url": "https://publicaccess.brentwood.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZZWADJJV796&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3178"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3178",
@@ -1115,6 +1457,13 @@
           "last_changed": "2023-05-16T16:07:53.994045",
           "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=0301247FUL",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3178"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3178",
@@ -1136,6 +1485,13 @@
           "last_changed": "2023-06-10T19:14:54.62861",
           "url": "https://publicaccess.cheltenham.gov.uk/online-applications/applicationDetails.do?keyVal=0301247FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3178"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3178",
@@ -1157,6 +1513,13 @@
           "last_changed": "2025-10-18T08:56:59.100097",
           "url": "https://pa-csb.buckinghamshire.gov.uk/online-applications/applicationDetails.do?keyVal=0301247FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3178"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3178",
@@ -1178,6 +1541,13 @@
           "last_changed": "2023-06-10T21:47:22.940885",
           "url": "https://publicaccess.cotswold.gov.uk/online-applications/applicationDetails.do?keyVal=0301247FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3178"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3178",
@@ -1199,6 +1569,13 @@
           "last_changed": "2023-06-10T23:03:49.875606",
           "url": "https://publicaccess.darlington.gov.uk/online-applications/applicationDetails.do?keyVal=0301247FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3178"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3178",
@@ -1227,6 +1604,16 @@
           "url": "https://planning.fife.gov.uk/online/applicationDetails.do?keyVal=0303397EEIA&activeTab=summary",
           "binding": {
             "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "3180",
+            "gg_project_id": "GG2050-REPD-3180",
+            "project_name": "Clatto",
+            "planning_application_reference": "03/03397/EEIA",
+            "planning_authority": "Fife",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
+            "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3180",
             "gg_project_id": "GG2050-REPD-3180",
@@ -1253,6 +1640,16 @@
           "last_changed": "2025-06-20T08:56:09.886831",
           "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?keyVal=SV9MCRRJIUU00&activeTab=summary",
           "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "14041",
+            "gg_project_id": "GG2050-REPD-14041",
+            "project_name": "Brewster Brothers, Drumshoreland Road - Solar Panels",
+            "planning_application_reference": "0316/FUL/25",
+            "planning_authority": "West Lothian",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "14041",
@@ -1281,6 +1678,16 @@
           "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?keyVal=QQJ72SRJITZ00&activeTab=summary",
           "binding": {
             "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "8909",
+            "gg_project_id": "GG2050-REPD-8909",
+            "project_name": "Camilty Plantation - Wind Farm",
+            "planning_application_reference": "0320/FUL/21",
+            "planning_authority": "West Lothian",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
+            "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "8909",
             "gg_project_id": "GG2050-REPD-8909",
@@ -1307,6 +1714,16 @@
           "last_changed": "2026-02-07T09:41:42.862451",
           "url": "https://register.civicacx.co.uk/Erewash/Planning/Details/ShowDetails?id=26479&dpid=DetailsPage",
           "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "11017",
+            "gg_project_id": "GG2050-REPD-11017",
+            "project_name": "Pinnacle Storage Park, Dale Abbey - Solar PV Panels",
+            "planning_application_reference": "0322/0080",
+            "planning_authority": "Erewash",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "11017",
@@ -1340,6 +1757,16 @@
           "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?keyVal=PPZSXRRJI1R00&activeTab=summary",
           "binding": {
             "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "6327",
+            "gg_project_id": "GG2050-REPD-6327",
+            "project_name": "Longhill Burn Wind Farm",
+            "planning_application_reference": "0359/FUL/19",
+            "planning_authority": "West Lothian",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
+            "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "6327",
             "gg_project_id": "GG2050-REPD-6327",
@@ -1367,6 +1794,16 @@
           "url": "https://planning.baberghmidsuffolk.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZW4VCMPM700&activeTab=summary",
           "binding": {
             "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "2774",
+            "gg_project_id": "GG2050-REPD-2774",
+            "project_name": "J.W. Baldwin Wind Farm",
+            "planning_application_reference": "0385/11",
+            "planning_authority": "Mid Suffolk",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
+            "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "2774",
             "gg_project_id": "GG2050-REPD-2774",
@@ -1387,6 +1824,13 @@
           "last_changed": "2023-06-10T23:23:11.601753",
           "url": "https://dartmoor-online.tascomi.com/planning/index.html?fa=getApplication&id=152779",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2774"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "2774",
@@ -1408,6 +1852,13 @@
           "last_changed": "2023-06-11T22:34:45.681254",
           "url": "https://planning.agileapplications.co.uk/redbridge/application-details/130043",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2774"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "2774",
@@ -1436,6 +1887,16 @@
           "url": "https://eaccess.dumgal.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZW7JGBTA555&activeTab=summary",
           "binding": {
             "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "4529",
+            "gg_project_id": "GG2050-REPD-4529",
+            "project_name": "Torrs Hill",
+            "planning_application_reference": "03/P/2/0252",
+            "planning_authority": "Dumfries and Galloway",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
+            "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "4529",
             "gg_project_id": "GG2050-REPD-4529",
@@ -1462,6 +1923,13 @@
           "last_changed": "2023-06-10T08:48:46.981286",
           "url": "https://planning.angus.gov.uk/online-applications/applicationDetails.do?keyVal=HV35OUCFM0000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3215"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3215",
@@ -1483,6 +1951,13 @@
           "last_changed": "2023-05-16T15:42:01.712266",
           "url": "https://pa.bexley.gov.uk/online-applications/applicationDetails.do?keyVal=HS98Z9BED1000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3215"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3215",
@@ -1504,6 +1979,13 @@
           "last_changed": "2023-06-10T12:54:52.793725",
           "url": "https://publicaccess.bolsover.gov.uk/online-applications/applicationDetails.do?keyVal=HXP4ZNDDA7000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3215"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3215",
@@ -1525,6 +2007,13 @@
           "last_changed": "2023-06-10T13:30:16.069456",
           "url": "https://planapp.bracknell-forest.gov.uk/online-applications/applicationDetails.do?keyVal=0400350FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3215"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3215",
@@ -1546,6 +2035,13 @@
           "last_changed": "2025-04-26T08:09:16.726573",
           "url": "https://planning.bradford.gov.uk/online-applications/applicationDetails.do?keyVal=HS8W9IDHJ6000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3215"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3215",
@@ -1567,6 +2063,13 @@
           "last_changed": "2023-07-01T08:32:26.190662",
           "url": "https://publicaccess.brentwood.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZZWADJJV978&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3215"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3215",
@@ -1588,6 +2091,13 @@
           "last_changed": "2025-11-08T08:30:24.442684",
           "url": "https://publicaccess.broxtowe.gov.uk/online-applications/applicationDetails.do?keyVal=HWMCVJDRB2000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3215"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3215",
@@ -1609,6 +2119,13 @@
           "last_changed": "2023-05-16T16:06:48.019379",
           "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=HTBSTMBRQ8000",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3215"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3215",
@@ -1630,6 +2147,13 @@
           "last_changed": "2023-05-20T08:11:21.904693",
           "url": "https://pa.cheshirewestandchester.gov.uk/online-applications/applicationDetails.do?keyVal=HU0ASOEOF5000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3215"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3215",
@@ -1651,6 +2175,13 @@
           "last_changed": "2025-10-18T08:57:41.710248",
           "url": "https://pa-csb.buckinghamshire.gov.uk/online-applications/applicationDetails.do?keyVal=0400350FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3215"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3215",
@@ -1678,6 +2209,13 @@
           "last_changed": "2023-06-10T08:48:46.435482",
           "url": "https://planning.angus.gov.uk/online-applications/applicationDetails.do?keyVal=I1GPV6CFM0000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3283"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3283",
@@ -1699,6 +2237,13 @@
           "last_changed": "2023-06-10T11:43:59.722671",
           "url": "https://publicaccess.bedford.gov.uk/online-applications/applicationDetails.do?keyVal=0401049FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3283"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3283",
@@ -1720,6 +2265,13 @@
           "last_changed": "2023-06-10T13:30:15.433436",
           "url": "https://planapp.bracknell-forest.gov.uk/online-applications/applicationDetails.do?keyVal=I68QX5BV02000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3283"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3283",
@@ -1741,6 +2293,13 @@
           "last_changed": "2023-06-10T13:40:46.483621",
           "url": "https://planning.bradford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=HUCZSWDH12000",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3283"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3283",
@@ -1762,6 +2321,13 @@
           "last_changed": "2023-07-15T08:03:37.424067",
           "url": "https://publicaccess.brentwood.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZZW9DJJV518&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3283"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3283",
@@ -1783,6 +2349,13 @@
           "last_changed": "2025-11-01T08:26:00.476393",
           "url": "https://publicaccess.broxtowe.gov.uk/online-applications/applicationDetails.do?keyVal=I7DH55DRA2000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3283"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3283",
@@ -1804,6 +2377,13 @@
           "last_changed": "2025-03-29T08:21:56.320284",
           "url": "https://portal.calderdale.gov.uk/online-applications/applicationDetails.do?keyVal=HXLRX7DWWA000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3283"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3283",
@@ -1825,6 +2405,13 @@
           "last_changed": "2023-05-16T16:06:45.634843",
           "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=HXLHKABRP8000",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3283"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3283",
@@ -1846,6 +2433,13 @@
           "last_changed": "2023-07-29T08:21:55.105773",
           "url": "https://publicaccess.cheltenham.gov.uk/online-applications/applicationDetails.do?keyVal=HZAVUOEL65000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3283"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3283",
@@ -1867,6 +2461,13 @@
           "last_changed": "2026-08-22T09:02:16.152724",
           "url": "https://pa.cheshirewestandchester.gov.uk/online-applications/applicationDetails.do?keyVal=HZAZZGEOG5000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3283"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3283",
@@ -1895,6 +2496,16 @@
           "url": "https://publicaccess.argyll-bute.gov.uk/online-applications/applicationDetails.do?keyVal=I2DSZ1CHS7000&activeTab=summary",
           "binding": {
             "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "3217",
+            "gg_project_id": "GG2050-REPD-3217",
+            "project_name": "Largie Windfarm II",
+            "planning_application_reference": "04/01606/DET",
+            "planning_authority": "Argyll and Bute",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
+            "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3217",
             "gg_project_id": "GG2050-REPD-3217",
@@ -1915,6 +2526,13 @@
           "last_changed": "2024-05-18T09:42:14.170361",
           "url": "https://planning.lambeth.gov.uk/online-applications/applicationDetails.do?keyVal=HYQOJ8BOFF000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3217"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3217",
@@ -1942,6 +2560,13 @@
           "last_changed": "2023-06-10T08:48:45.772559",
           "url": "https://planning.angus.gov.uk/online-applications/applicationDetails.do?keyVal=I8I7JVCFM0000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3219"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3219",
@@ -1963,6 +2588,13 @@
           "last_changed": "2023-05-24T15:09:39.967137",
           "url": "https://www.bathnes.gov.uk/webforms/planning/details.html?refval=04%2F01664%2FFUL",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3219"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3219",
@@ -1984,6 +2616,13 @@
           "last_changed": "2023-05-16T15:42:00.538914",
           "url": "https://pa.bexley.gov.uk/online-applications/applicationDetails.do?keyVal=HWKGMHBE82000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3219"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3219",
@@ -2005,6 +2644,13 @@
           "last_changed": "2025-04-12T08:08:02.429634",
           "url": "https://planning.bradford.gov.uk/online-applications/applicationDetails.do?keyVal=HW7VQJDH12000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3219"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3219",
@@ -2026,6 +2672,13 @@
           "last_changed": "2023-05-16T15:46:06.886312",
           "url": "https://publicaccess.braintree.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=0401664FUL",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3219"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3219",
@@ -2047,6 +2700,13 @@
           "last_changed": "2023-05-16T16:06:40.491753",
           "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=I1O4CABRQ8000",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3219"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3219",
@@ -2068,6 +2728,13 @@
           "last_changed": "2023-05-20T08:10:59.308451",
           "url": "https://pa.cheshirewestandchester.gov.uk/online-applications/applicationDetails.do?keyVal=I3F7SYEOV5000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3219"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3219",
@@ -2089,6 +2756,13 @@
           "last_changed": "2024-03-23T09:39:20.341887",
           "url": "https://citydev-portal.edinburgh.gov.uk/idoxpa-web/applicationDetails.do?keyVal=HXJLE0EWU1000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3219"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3219",
@@ -2110,6 +2784,13 @@
           "last_changed": "2023-07-01T10:57:03.920083",
           "url": "https://planning.hambleton.gov.uk/online-applications/applicationDetails.do?keyVal=I2K4NFHU42000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3219"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3219",
@@ -2131,6 +2812,13 @@
           "last_changed": "2023-05-20T10:15:47.503709",
           "url": "https://planning.lancaster.gov.uk/online-applications/applicationDetails.do?keyVal=0401664FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3219"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3219",
@@ -2164,6 +2852,16 @@
           "url": "https://publicaccess.argyll-bute.gov.uk/online-applications/applicationDetails.do?keyVal=I5RZG5CHU7000&activeTab=summary",
           "binding": {
             "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "3127",
+            "gg_project_id": "GG2050-REPD-3127",
+            "project_name": "Inverliever",
+            "planning_application_reference": "04/02070/DET",
+            "planning_authority": "Argyll and Bute",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
+            "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3127",
             "gg_project_id": "GG2050-REPD-3127",
@@ -2190,6 +2888,13 @@
           "last_changed": "2023-05-16T15:39:50.960675",
           "url": "https://publicaccess.bedford.gov.uk/online-applications/applicationDetails.do?keyVal=0402420FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3506"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3506",
@@ -2211,6 +2916,13 @@
           "last_changed": "2023-06-10T13:40:44.869722",
           "url": "https://planning.bradford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=HYMLB1DHJ2000",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3506"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3506",
@@ -2232,6 +2944,13 @@
           "last_changed": "2023-05-16T15:45:37.113095",
           "url": "https://publicaccess.braintree.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=I83PKRBFN3000",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3506"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3506",
@@ -2253,6 +2972,13 @@
           "last_changed": "2023-05-16T16:06:37.863158",
           "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=I7DGGDBRQ8000",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3506"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3506",
@@ -2274,6 +3000,13 @@
           "last_changed": "2023-06-10T21:46:41.818903",
           "url": "https://publicaccess.cotswold.gov.uk/online-applications/applicationDetails.do?keyVal=I3TN7TFIU2000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3506"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3506",
@@ -2295,6 +3028,13 @@
           "last_changed": "2023-05-20T08:51:16.787742",
           "url": "https://publicaccess.east-northamptonshire.gov.uk/online-applications/applicationDetails.do?keyVal=I85F8NGOB3000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3506"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3506",
@@ -2316,6 +3056,13 @@
           "last_changed": "2024-03-23T09:40:37.419193",
           "url": "https://citydev-portal.edinburgh.gov.uk/idoxpa-web/applicationDetails.do?keyVal=I02P9REW7D000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3506"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3506",
@@ -2337,6 +3084,13 @@
           "last_changed": "2023-06-17T13:51:32.087151",
           "url": "https://publicaccess.moray.gov.uk/eplanning/applicationDetails.do?keyVal=0402420FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3506"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3506",
@@ -2358,6 +3112,13 @@
           "last_changed": "2023-06-17T13:55:29.042613",
           "url": "https://publicaccess.newark-sherwooddc.gov.uk/online-applications/applicationDetails.do?keyVal=I4C84OLBN3000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3506"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3506",
@@ -2379,6 +3140,13 @@
           "last_changed": "2023-06-11T21:18:10.040346",
           "url": "https://planningapps.pkc.gov.uk/online-applications/applicationDetails.do?keyVal=I7ZL45MKR3000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3506"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3506",
@@ -2406,6 +3174,16 @@
           "last_changed": "2023-06-11T01:47:51.937488",
           "url": "https://eplanning.east-ayrshire.gov.uk/online/applicationDetails.do?keyVal=ZZZZTQGFXC471&activeTab=summary",
           "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "3216",
+            "gg_project_id": "GG2050-REPD-3216",
+            "project_name": "Chalmerston",
+            "planning_application_reference": "04/0406/FL",
+            "planning_authority": "East Ayrshire",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3216",
@@ -2439,6 +3217,16 @@
           "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?keyVal=RUQT1GRJHHS00&activeTab=summary",
           "binding": {
             "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "12422",
+            "gg_project_id": "GG2050-REPD-12422",
+            "project_name": "Heights Road, Blackridge - Woodend Wind Farm",
+            "planning_application_reference": "0434/FUL/23",
+            "planning_authority": "West Lothian",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
+            "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "12422",
             "gg_project_id": "GG2050-REPD-12422",
@@ -2465,6 +3253,16 @@
           "last_changed": "2026-01-28T08:32:19.368291",
           "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?activeTab=summary&keyVal=RBZCCARJMXN00",
           "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "9463",
+            "gg_project_id": "GG2050-REPD-9463",
+            "project_name": "Selms Muir - Solar Farm",
+            "planning_application_reference": "0442/FUL/22",
+            "planning_authority": "West Lothian",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "9463",
@@ -2497,6 +3295,13 @@
           "last_changed": "2023-05-24T15:09:35.116453",
           "url": "https://www.bathnes.gov.uk/webforms/planning/details.html?refval=05%2F00132%2FFUL",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3237"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3237",
@@ -2518,6 +3323,13 @@
           "last_changed": "2023-08-12T07:52:02.131775",
           "url": "https://publicaccess.bedford.gov.uk/online-applications/applicationDetails.do?keyVal=0500132FUL&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3237"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3237",
@@ -2539,6 +3351,13 @@
           "last_changed": "2023-06-10T12:54:40.541697",
           "url": "https://publicaccess.bolsover.gov.uk/online-applications/applicationDetails.do?keyVal=ICMNBZDDX6000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3237"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3237",
@@ -2560,6 +3379,13 @@
           "last_changed": "2023-06-10T13:30:14.954357",
           "url": "https://planapp.bracknell-forest.gov.uk/online-applications/applicationDetails.do?keyVal=IC00C2BVG2000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3237"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3237",
@@ -2581,6 +3407,13 @@
           "last_changed": "2023-05-16T15:45:36.745315",
           "url": "https://publicaccess.braintree.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=IAVLJBBFW7000",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3237"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3237",
@@ -2602,6 +3435,13 @@
           "last_changed": "2023-06-10T14:36:37.471298",
           "url": "https://publicaccess.brentwood.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZZW8DJJV925&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3237"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3237",
@@ -2623,6 +3463,13 @@
           "last_changed": "2025-11-08T08:30:23.303717",
           "url": "https://publicaccess.broxtowe.gov.uk/online-applications/applicationDetails.do?keyVal=IC1XQ3DRD2000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3237"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3237",
@@ -2644,6 +3491,13 @@
           "last_changed": "2023-06-10T16:50:04.081529",
           "url": "https://portal.calderdale.gov.uk/online-applications/applicationDetails.do?keyVal=IAVCWEDWWA000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3237"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3237",
@@ -2665,6 +3519,13 @@
           "last_changed": "2023-05-16T16:06:05.295576",
           "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=IATRPXBRQ8000",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3237"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3237",
@@ -2686,6 +3547,13 @@
           "last_changed": "2023-05-20T08:10:40.737294",
           "url": "https://pa.cheshirewestandchester.gov.uk/online-applications/applicationDetails.do?keyVal=IBAHTWEOE6000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3237"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3237",
@@ -2713,6 +3581,13 @@
           "last_changed": "2023-06-11T01:00:51.283678",
           "url": "https://publicaccess.dover.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZZQWFZMS485&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3273"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3273",
@@ -2734,6 +3609,10 @@
           "last_changed": "2023-06-12T01:20:35.556583",
           "url": "https://planningregister.ryedale.gov.uk/caonline-applications/applicationDetails.do?keyVal=IQGVZMNOM2000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_REFERENCE_NOT_EXACT"
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3273",
@@ -2761,6 +3640,13 @@
           "last_changed": "2023-05-24T15:09:32.84829",
           "url": "https://www.bathnes.gov.uk/webforms/planning/details.html?refval=05%2F02336%2FFUL",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3213"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3213",
@@ -2782,6 +3668,13 @@
           "last_changed": "2026-03-14T08:06:52.21158",
           "url": "https://publicaccess.bedford.gov.uk/online-applications/applicationDetails.do?keyVal=IM53Y9CUY0000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3213"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3213",
@@ -2803,6 +3696,13 @@
           "last_changed": "2023-06-10T13:39:44.897661",
           "url": "https://planning.bradford.gov.uk/online-applications/applicationDetails.do?keyVal=IEKX5YDHV8000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3213"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3213",
@@ -2824,6 +3724,13 @@
           "last_changed": "2023-05-16T15:45:34.170779",
           "url": "https://publicaccess.braintree.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=IQ5FJVBFN3000",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3213"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3213",
@@ -2845,6 +3752,13 @@
           "last_changed": "2023-05-16T16:06:01.556648",
           "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=IR8H0JBRSA000",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3213"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3213",
@@ -2866,6 +3780,13 @@
           "last_changed": "2023-06-10T21:46:28.100626",
           "url": "https://publicaccess.cotswold.gov.uk/online-applications/applicationDetails.do?keyVal=IN9M1HFIV2000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3213"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3213",
@@ -2887,6 +3808,13 @@
           "last_changed": "2023-06-11T00:33:38.055612",
           "url": "https://planning.doncaster.gov.uk/online-applications/applicationDetails.do?keyVal=IIY2ILFX22000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3213"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3213",
@@ -2908,6 +3836,13 @@
           "last_changed": "2024-02-24T09:35:50.242994",
           "url": "https://citydev-portal.edinburgh.gov.uk/idoxpa-web/applicationDetails.do?keyVal=IJ7M03EWF1000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3213"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3213",
@@ -2929,6 +3864,13 @@
           "last_changed": "2024-04-20T09:44:12.097209",
           "url": "https://planning.lambeth.gov.uk/online-applications/applicationDetails.do?keyVal=IKCENZBOFF000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3213"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3213",
@@ -2950,6 +3892,13 @@
           "last_changed": "2023-05-20T10:35:21.86772",
           "url": "https://pa.midsussex.gov.uk/online-applications/applicationDetails.do?keyVal=IOVDYNKTL4000&activeTab=summary",
           "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3213"
+            ]
+          },
+          "previous_binding": {
             "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "3213",
@@ -2978,12 +3927,1030 @@
           "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?activeTab=summary&keyVal=RW4T2XRJI4K00",
           "binding": {
             "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "13132",
+            "gg_project_id": "GG2050-REPD-13132",
+            "project_name": "Drumduff Wind Farm Extension",
+            "planning_application_reference": "0504/FUL/23",
+            "planning_authority": "West Lothian",
+            "news_may_overwrite_official_facts": false
+          },
+          "previous_binding": {
+            "role": "PRIMARY_MATCH",
             "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
             "repd_ref": "13132",
             "gg_project_id": "GG2050-REPD-13132",
             "project_name": "Drumduff Wind Farm Extension",
             "planning_application_reference": "0504/FUL/23",
             "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0505933STPLFE": {
+      "checked_at": "2026-08-25T17:29:07.700Z",
+      "query_reference": "05/05933/STPLFE",
+      "records": [
+        {
+          "uid": "05/05933/STPLFE",
+          "reference": null,
+          "altid": null,
+          "name": "EastRiding/05/05933/STPLFE",
+          "area_name": "East Riding",
+          "description": "Construction and operation of 15 No. 2-3MW wind turbines, together with ancillary development of electricity substation, underground cables, access tracks and temporary construction compound",
+          "app_state": "Withdrawn",
+          "start_date": "2005-08-22",
+          "decided_date": "2010-11-25",
+          "last_changed": "2023-05-20T08:53:28.779414",
+          "url": "https://newplanningaccess.eastriding.gov.uk/newplanningaccess/applicationDetails.do?activeTab=summary&keyVal=ILOC42BJFA000",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2946"
+            ]
+          }
+        }
+      ]
+    },
+    "050594FL": {
+      "checked_at": "2026-08-25T17:29:07.700Z",
+      "query_reference": "05/0594/FL",
+      "records": [
+        {
+          "uid": "05/0594/FL",
+          "reference": null,
+          "altid": null,
+          "name": "EastAyrshire/05/0594/FL",
+          "area_name": "East Ayrshire",
+          "description": "Proposed Installation Of A Temporary Wind Measuring Mast Followed By The Installation Of Up To 4 Wind Turbines To Generate Electricity",
+          "app_state": "Withdrawn",
+          "start_date": "2005-05-13",
+          "decided_date": "2013-08-26",
+          "last_changed": "2023-06-11T01:47:50.33953",
+          "url": "https://eplanning.east-ayrshire.gov.uk/online/applicationDetails.do?keyVal=ZZZZTOGFXC956&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "4050",
+            "gg_project_id": "GG2050-REPD-4050",
+            "project_name": "Skares Windfarm",
+            "planning_application_reference": "05/0594/FL",
+            "planning_authority": "East Ayrshire",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "050758": {
+      "checked_at": "2026-08-25T17:29:07.700Z",
+      "query_reference": "05/0758",
+      "records": [
+        {
+          "uid": "05/0758",
+          "reference": null,
+          "altid": null,
+          "name": "Blackpool/05/0758",
+          "area_name": "Blackpool",
+          "description": "Erection of single storey rear extension.",
+          "app_state": "Permitted",
+          "start_date": "2005-08-16",
+          "decided_date": "2005-09-28",
+          "last_changed": "2023-06-10T12:37:53.886473",
+          "url": "https://idoxpa.blackpool.gov.uk/online-applications/applicationDetails.do?keyVal=_BLCKP_DCAPR_31248&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3553"
+            ]
+          }
+        },
+        {
+          "uid": "05/0758",
+          "reference": null,
+          "altid": "0025000720000010",
+          "name": "Brent/05/0758",
+          "area_name": "Brent",
+          "description": "Erection of single-storey extension and garage to dwellinghouse",
+          "app_state": "Rejected",
+          "start_date": "2005-03-14",
+          "decided_date": "2005-05-06",
+          "last_changed": "2026-05-09T08:26:35.096939",
+          "url": "https://pa.brent.gov.uk/online-applications/applicationDetails.do?keyVal=DCAPR_81368&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3553"
+            ]
+          }
+        },
+        {
+          "uid": "05/0758",
+          "reference": null,
+          "altid": null,
+          "name": "Carlisle/05/0758",
+          "area_name": "Carlisle",
+          "description": "Single storey side extension to provide bedroom, toilet and utility",
+          "app_state": "Permitted",
+          "start_date": "2005-07-21",
+          "decided_date": "2005-09-19",
+          "last_changed": "2026-01-10T08:37:48.246094",
+          "url": "https://publicaccess.carlisle.gov.uk/online-applications/applicationDetails.do?keyVal=_CARLI_DCAPR_40450&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3553"
+            ]
+          }
+        },
+        {
+          "uid": "05/0758",
+          "reference": null,
+          "altid": null,
+          "name": "Fylde/05/0758",
+          "area_name": "Fylde",
+          "description": "FIRST FLOOR EXTENSION ABOVE EXISTING GARAGE, ENTRANCE PORCH AND SINGLE STOREY SIDE EXTENSION. REPLACEMENT OF EXISTING WINDOWS AND RE-TILING OF EXISTING ROOF. DORMER EXTENSION TO EXISTING 2ND FLOOR AND ALTERATION TO EXISTING DORMER.",
+          "app_state": "Permitted",
+          "start_date": "2005-08-05",
+          "decided_date": "2005-10-12",
+          "last_changed": "2023-06-11T06:59:16.518632",
+          "url": "https://pa.fylde.gov.uk/Planning/Display/05/0758",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3553"
+            ]
+          }
+        },
+        {
+          "uid": "05/0758",
+          "reference": null,
+          "altid": null,
+          "name": "MidKent/05/0758",
+          "area_name": "Mid Kent",
+          "description": "Erection of a two storey rear extension, as shown on drawing numbers Pd_1959-01, Pd-1959-02, Pd-1959-03, Pd1959-04, Pd-1959-05, Pd-1959-06 received on 15/04/05.",
+          "app_state": "Permitted",
+          "start_date": "2005-04-15",
+          "decided_date": "2005-06-09",
+          "last_changed": "2023-08-19T09:52:39.620629",
+          "url": "https://pa.midkent.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZVU2KJTA200&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3553"
+            ]
+          }
+        },
+        {
+          "uid": "05/0758",
+          "reference": null,
+          "altid": null,
+          "name": "Newham/05/0758",
+          "area_name": "Newham",
+          "description": "Erection Of A Single Storey Brick Sub-station And Refuse Store Attached To A Grade Two Listed Building",
+          "app_state": "Permitted",
+          "start_date": "2005-05-04",
+          "decided_date": "2005-07-20",
+          "last_changed": "2023-05-20T10:52:19.365673",
+          "url": "https://pa.newham.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZYFAJYXC997&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3553"
+            ]
+          }
+        },
+        {
+          "uid": "05/0758",
+          "reference": null,
+          "altid": null,
+          "name": "Newport/05/0758",
+          "area_name": "Newport",
+          "description": "ERECTION OF A CONSERVATORY",
+          "app_state": "Conditions",
+          "start_date": "2005-06-02",
+          "decided_date": "2005-07-14",
+          "last_changed": "2024-06-01T10:08:45.874387",
+          "url": "https://publicaccess.newport.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZYYYLCPM909&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3553"
+            ]
+          }
+        },
+        {
+          "uid": "05/0758/FUL",
+          "reference": null,
+          "altid": "05/0758",
+          "name": "NorthKesteven/05/0758/FUL",
+          "area_name": "North Kesteven",
+          "description": "Erection of first floor extension above existing garage",
+          "app_state": "Permitted",
+          "start_date": "2005-05-22",
+          "decided_date": "2005-07-14",
+          "last_changed": "2023-05-20T10:57:39.530757",
+          "url": "https://planningonline.n-kesteven.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZZSWLLXE601&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3553"
+            ]
+          }
+        },
+        {
+          "uid": "05/0758",
+          "reference": null,
+          "altid": null,
+          "name": "WestmorlandFurness/05/0758",
+          "area_name": "Westmorland and Furness",
+          "description": "Erection of five wind turbines for generation of electricity, control building, anemometer mast.",
+          "app_state": "Withdrawn",
+          "start_date": "2005-08-23",
+          "decided_date": "2009-02-25",
+          "last_changed": "2024-07-06T09:02:24.52631",
+          "url": "https://planningregister.westmorlandandfurness.gov.uk/Planning/Display/05/0758",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "3553",
+            "gg_project_id": "GG2050-REPD-3553",
+            "project_name": "Lamonby Wind Farm",
+            "planning_application_reference": "05/0758",
+            "planning_authority": "Westmorland and Furness",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0520241579MD": {
+      "checked_at": "2026-08-25T17:29:07.700Z",
+      "query_reference": "05/2024/1579/MD",
+      "records": [
+        {
+          "uid": "05/2024/1579/MD",
+          "reference": null,
+          "altid": null,
+          "name": "Denbighshire2/05/2024/1579/MD",
+          "area_name": "Denbighshire",
+          "description": "Codi Fferm Solar 2MW a seilwaith cysylltiedig / Erection of a 2MW Solar Farm and associated infrastructure",
+          "app_state": null,
+          "start_date": "2024-12-03",
+          "decided_date": null,
+          "last_changed": "2025-09-19T07:54:40.941499",
+          "url": "https://developments.denbighshire.gov.uk/planning/index.html?fa=getApplication&id=125682",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "18371",
+            "gg_project_id": "GG2050-REPD-18371",
+            "project_name": "Trewyn Bach, Clawdd Poncen - Solar Panels",
+            "planning_application_reference": "05/2024/1579/MD",
+            "planning_authority": "Denbighshire",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0568FUL24": {
+      "checked_at": "2026-08-25T17:29:07.700Z",
+      "query_reference": "0568/FUL/24",
+      "records": [
+        {
+          "uid": "0568/FUL/24",
+          "reference": null,
+          "altid": "100673479-001",
+          "name": "WestLothian/0568/FUL/24",
+          "area_name": "West Lothian",
+          "description": "Construction of a 29.9mw solar photovoltaic array (PV) with associated substation, access road, tree pruning and landscape and ancillary works",
+          "app_state": "Permitted",
+          "start_date": "2024-07-26",
+          "decided_date": "2024-12-20",
+          "last_changed": "2025-01-06T08:12:49.709865",
+          "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?keyVal=SH82D3RJKBI00&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "11425",
+            "gg_project_id": "GG2050-REPD-11425",
+            "project_name": "Trinlaymire Farm - Solar farm, Battery storage",
+            "planning_application_reference": "0568/FUL/24",
+            "planning_authority": "West Lothian",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0600067FUL": {
+      "checked_at": "2026-08-25T17:29:07.700Z",
+      "query_reference": "06/00067/FUL",
+      "records": [
+        {
+          "uid": "06/00067/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Bath/06/00067/FUL",
+          "area_name": "Bath",
+          "description": "Erection of two storey office building",
+          "app_state": "Withdrawn",
+          "start_date": "2005-12-19",
+          "decided_date": "2006-08-24",
+          "last_changed": "2023-05-24T15:09:31.10384",
+          "url": "https://www.bathnes.gov.uk/webforms/planning/details.html?refval=06%2F00067%2FFUL",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3268"
+            ]
+          }
+        },
+        {
+          "uid": "06/00067/FUL",
+          "reference": null,
+          "altid": "C8345",
+          "name": "Bolsover/06/00067/FUL",
+          "area_name": "Bolsover",
+          "description": "Conversion of barn to create 3 dwellings and erection of 2 dwellings",
+          "app_state": "Rejected",
+          "start_date": "2006-02-02",
+          "decided_date": "2006-03-30",
+          "last_changed": "2023-06-10T12:54:52.189521",
+          "url": "https://publicaccess.bolsover.gov.uk/online-applications/applicationDetails.do?keyVal=IU9PM8DDB6000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3268"
+            ]
+          }
+        },
+        {
+          "uid": "06/00067/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Bracknell/06/00067/FUL",
+          "area_name": "Bracknell",
+          "description": "Retrospective application for change of use from social club to nightclub.",
+          "app_state": "Permitted",
+          "start_date": "2006-05-03",
+          "decided_date": "2006-06-27",
+          "last_changed": "2023-06-10T13:30:13.294852",
+          "url": "https://planapp.bracknell-forest.gov.uk/online-applications/applicationDetails.do?keyVal=ITN9F5BV95000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3268"
+            ]
+          }
+        },
+        {
+          "uid": "06/00067/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Bradford/06/00067/FUL",
+          "area_name": "Bradford",
+          "description": "Erection of perimeter security fencing, external site floodlighting, external flues and enlarged car parking",
+          "app_state": "Permitted",
+          "start_date": "2006-01-20",
+          "decided_date": "2006-03-15",
+          "last_changed": "2023-06-10T13:39:39.238362",
+          "url": "https://planning.bradford.gov.uk/online-applications/applicationDetails.do?keyVal=ISMEV3DHV6000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3268"
+            ]
+          }
+        },
+        {
+          "uid": "06/00067/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Braintree/06/00067/FUL",
+          "area_name": "Braintree",
+          "description": "Erection of outbuilding for games room and garden store with guest room over",
+          "app_state": "Withdrawn",
+          "start_date": "2006-01-12",
+          "decided_date": "2006-03-03",
+          "last_changed": "2023-05-16T15:45:18.345161",
+          "url": "https://publicaccess.braintree.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=ISZAMUBFO7000",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3268"
+            ]
+          }
+        },
+        {
+          "uid": "06/00067/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Brentwood/06/00067/FUL",
+          "area_name": "Brentwood",
+          "description": "Single Storey And Two Storey Extensions To Rear Together With First Floor Extension And Porch To Front",
+          "app_state": "Permitted",
+          "start_date": "2006-01-23",
+          "decided_date": "2006-03-14",
+          "last_changed": "2023-07-15T08:03:36.411725",
+          "url": "https://publicaccess.brentwood.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZZW7DJJV599&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3268"
+            ]
+          }
+        },
+        {
+          "uid": "06/00067/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Broxtowe/06/00067/FUL",
+          "area_name": "Broxtowe",
+          "description": "Change of use of first and second floor to single dwelling and construct two storey rear extension",
+          "app_state": "Conditions",
+          "start_date": "2006-01-25",
+          "decided_date": "2006-03-21",
+          "last_changed": "2025-11-08T08:30:21.992367",
+          "url": "https://publicaccess.broxtowe.gov.uk/online-applications/applicationDetails.do?keyVal=ITREIJDRD2000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3268"
+            ]
+          }
+        },
+        {
+          "uid": "06/00067/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Chelmsford/06/00067/FUL",
+          "area_name": "Chelmsford",
+          "description": "Two storey rear extension.",
+          "app_state": "Rejected",
+          "start_date": "2006-01-11",
+          "decided_date": "2006-03-03",
+          "last_changed": "2023-05-16T16:06:00.519038",
+          "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=ISXP6JBR7A000",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3268"
+            ]
+          }
+        },
+        {
+          "uid": "06/00067/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Cheltenham/06/00067/FUL",
+          "area_name": "Cheltenham",
+          "description": "Demolish existing betting office and first floor flat, erect 5 no. single bedroom flats",
+          "app_state": "Permitted",
+          "start_date": "2006-01-17",
+          "decided_date": "2006-03-10",
+          "last_changed": "2023-06-10T19:15:34.187683",
+          "url": "https://publicaccess.cheltenham.gov.uk/online-applications/applicationDetails.do?keyVal=ITAB9KEL51000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3268"
+            ]
+          }
+        },
+        {
+          "uid": "06/00067/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "ChilternSouthBucks/06/00067/FUL",
+          "area_name": "Chiltern South Bucks",
+          "description": "Replacement detached dwelling and outbuildings.",
+          "app_state": "Conditions",
+          "start_date": "2006-01-13",
+          "decided_date": "2006-02-23",
+          "last_changed": "2025-10-18T08:59:10.799296",
+          "url": "https://pa-csb.buckinghamshire.gov.uk/online-applications/applicationDetails.do?keyVal=IT16Z1OHC7000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3268"
+            ]
+          }
+        }
+      ]
+    },
+    "0600124FUL": {
+      "checked_at": "2026-08-25T17:29:07.700Z",
+      "query_reference": "06/00124/FUL",
+      "records": [
+        {
+          "uid": "06/00124/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Barking/06/00124/FUL",
+          "area_name": "Barking and Dagenham",
+          "description": "Erection of two storey rear extension in connection with conversion into 2 one bedroom flats",
+          "app_state": "Withdrawn",
+          "start_date": "2006-02-03",
+          "decided_date": "2006-05-12",
+          "last_changed": "2023-06-10T10:22:39.222416",
+          "url": "https://online-befirst.lbbd.gov.uk/planning/index.html?fa=getApplication&id=7966",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2937"
+            ]
+          }
+        },
+        {
+          "uid": "06/00124/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Bedford/06/00124/FUL",
+          "area_name": "Bedford",
+          "description": "Single storey rear extension.",
+          "app_state": "Permitted",
+          "start_date": "2006-01-23",
+          "decided_date": "2006-03-16",
+          "last_changed": "2023-05-16T15:39:46.378423",
+          "url": "https://publicaccess.bedford.gov.uk/online-applications/applicationDetails.do?keyVal=ITLHHJCUY0000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2937"
+            ]
+          }
+        },
+        {
+          "uid": "06/00124/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Bexley/06/00124/FUL",
+          "area_name": "Bexley",
+          "description": "Single storey rear extension.",
+          "app_state": "Conditions",
+          "start_date": "2006-01-16",
+          "decided_date": "2006-03-07",
+          "last_changed": "2023-05-16T15:42:35.642574",
+          "url": "https://pa.bexley.gov.uk/online-applications/applicationDetails.do?keyVal=ITAGGABEW4000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2937"
+            ]
+          }
+        },
+        {
+          "uid": "06/00124/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Bradford/06/00124/FUL",
+          "area_name": "Bradford",
+          "description": "Motorcycle store",
+          "app_state": "Permitted",
+          "start_date": "2006-01-09",
+          "decided_date": "2006-03-06",
+          "last_changed": "2023-06-10T13:39:39.195957",
+          "url": "https://planning.bradford.gov.uk/online-applications/applicationDetails.do?keyVal=ISTZJ0DHJ2000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2937"
+            ]
+          }
+        },
+        {
+          "uid": "06/00124/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Braintree/06/00124/FUL",
+          "area_name": "Braintree",
+          "description": "Erection of single storey rear extension",
+          "app_state": "Permitted",
+          "start_date": "2006-01-20",
+          "decided_date": "2006-04-03",
+          "last_changed": "2023-06-10T13:50:25.999648",
+          "url": "https://publicaccess.braintree.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=ITE2EUBFO7000",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2937"
+            ]
+          }
+        },
+        {
+          "uid": "06/00124/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Brentwood/06/00124/FUL",
+          "area_name": "Brentwood",
+          "description": "Change Of Use To Autocentre",
+          "app_state": "Rejected",
+          "start_date": "2006-03-21",
+          "decided_date": "2006-08-21",
+          "last_changed": "2023-06-10T14:36:35.360489",
+          "url": "https://publicaccess.brentwood.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZZW7DJJV554&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2937"
+            ]
+          }
+        },
+        {
+          "uid": "06/00124/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Broxtowe/06/00124/FUL",
+          "area_name": "Broxtowe",
+          "description": "Relocate garage and erect conservatory",
+          "app_state": "Rejected",
+          "start_date": "2006-02-09",
+          "decided_date": "2006-04-19",
+          "last_changed": "2025-11-15T08:33:11.673916",
+          "url": "https://publicaccess.broxtowe.gov.uk/online-applications/applicationDetails.do?keyVal=IUFBN2DR84000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2937"
+            ]
+          }
+        },
+        {
+          "uid": "06/00124/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Chelmsford/06/00124/FUL",
+          "area_name": "Chelmsford",
+          "description": "Alterations to front elevation including 2 no. bay window and entrance lobby. Alterations to rear elevation including patio, pergola and picket fence and alterations to door and window positions.",
+          "app_state": "Permitted",
+          "start_date": "2006-01-23",
+          "decided_date": "2006-03-17",
+          "last_changed": "2023-05-16T16:06:00.479734",
+          "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=ITLGBOBRTA000",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2937"
+            ]
+          }
+        },
+        {
+          "uid": "06/00124/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Cheltenham/06/00124/FUL",
+          "area_name": "Cheltenham",
+          "description": "Replacement of kitchen window with french doors, erection of small balcony and access stair to rear gardens",
+          "app_state": "Withdrawn",
+          "start_date": "2006-01-27",
+          "decided_date": "2006-03-29",
+          "last_changed": "2023-06-10T19:15:34.137913",
+          "url": "https://publicaccess.cheltenham.gov.uk/online-applications/applicationDetails.do?keyVal=ITYAKYEL51000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2937"
+            ]
+          }
+        },
+        {
+          "uid": "06/00124/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Chichester/06/00124/FUL",
+          "area_name": "Chichester",
+          "description": "Proposed bird rehabilitation enclosures and ponds (2 no.).",
+          "app_state": "Permitted",
+          "start_date": "2006-01-11",
+          "decided_date": "2006-02-21",
+          "last_changed": "2023-06-10T20:02:38.829462",
+          "url": "https://publicaccess.chichester.gov.uk/online-applications/applicationDetails.do?keyVal=ISXFPSERWI000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2937"
+            ]
+          }
+        }
+      ]
+    },
+    "0600554ELSA36": {
+      "checked_at": "2026-08-25T17:29:07.700Z",
+      "query_reference": "06/00554/ELSA36",
+      "records": []
+    },
+    "060075CPC": {
+      "checked_at": "2026-08-25T17:29:07.700Z",
+      "query_reference": "06/0075/CPC",
+      "records": []
+    },
+    "0601001FUL": {
+      "checked_at": "2026-08-25T17:29:07.700Z",
+      "query_reference": "06/01001/FUL",
+      "records": [
+        {
+          "uid": "06/01001/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Bedford/06/01001/FUL",
+          "area_name": "Bedford",
+          "description": "Single storey side and rear extension",
+          "app_state": "Permitted",
+          "start_date": "2006-04-18",
+          "decided_date": "2006-05-30",
+          "last_changed": "2023-05-16T15:39:43.9921",
+          "url": "https://publicaccess.bedford.gov.uk/online-applications/applicationDetails.do?keyVal=IYA2HPCUY0000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4030"
+            ]
+          }
+        },
+        {
+          "uid": "06/01001/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Braintree/06/01001/FUL",
+          "area_name": "Braintree",
+          "description": "Proposed loft conversion",
+          "app_state": "Permitted",
+          "start_date": "2006-05-11",
+          "decided_date": "2006-07-06",
+          "last_changed": "2023-05-16T15:45:17.214674",
+          "url": "https://publicaccess.braintree.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=IZ3KOJBFN3000",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4030"
+            ]
+          }
+        },
+        {
+          "uid": "06/01001/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Brentwood/06/01001/FUL",
+          "area_name": "Brentwood",
+          "description": "Extensions To Side And Rear, Raising Of Roof And Formation Of First Floor Accomodation (Modifications To Planning Permission Ref: Brw/190/2006 Comprising Retention Of Canopy To Front Elevation And Two Storey Extension To Side With No. 50)",
+          "app_state": "Permitted",
+          "start_date": "2006-11-09",
+          "decided_date": "2006-12-21",
+          "last_changed": "2023-06-10T14:36:34.831423",
+          "url": "https://publicaccess.brentwood.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZZW6DJJV528&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4030"
+            ]
+          }
+        },
+        {
+          "uid": "06/01001/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Broxtowe/06/01001/FUL",
+          "area_name": "Broxtowe",
+          "description": "Convert into 3 no. apartments and construct 2 storey extension (Amended Description)",
+          "app_state": "Conditions",
+          "start_date": "2006-11-23",
+          "decided_date": "2007-06-28",
+          "last_changed": "2025-11-15T08:33:10.832748",
+          "url": "https://publicaccess.broxtowe.gov.uk/online-applications/applicationDetails.do?keyVal=J970NXDR84000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4030"
+            ]
+          }
+        },
+        {
+          "uid": "06/01001/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Chelmsford/06/01001/FUL",
+          "area_name": "Chelmsford",
+          "description": "Dormer conversion to ground floor extension and rear garage.",
+          "app_state": "Permitted",
+          "start_date": "2006-05-24",
+          "decided_date": "2006-07-12",
+          "last_changed": "2023-05-16T16:05:59.174884",
+          "url": "https://publicaccess.chelmsford.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=IZBB6ZBRQ8000",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4030"
+            ]
+          }
+        },
+        {
+          "uid": "06/01001/FUL",
+          "reference": null,
+          "altid": "4965",
+          "name": "Chester/06/01001/FUL",
+          "area_name": "Chester",
+          "description": "Conservatory",
+          "app_state": "Permitted",
+          "start_date": "2006-06-05",
+          "decided_date": "2006-07-25",
+          "last_changed": "2023-05-20T08:10:28.528386",
+          "url": "https://pa.cheshirewestandchester.gov.uk/online-applications/applicationDetails.do?keyVal=J0HUALEOG5000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4030"
+            ]
+          }
+        },
+        {
+          "uid": "06/01001/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Chichester/06/01001/FUL",
+          "area_name": "Chichester",
+          "description": "Proposed demolition of 2 no. bungalows and replacement with 2 no. new dwellings.",
+          "app_state": "Permitted",
+          "start_date": "2006-03-13",
+          "decided_date": "2006-09-13",
+          "last_changed": "2023-06-10T20:02:38.208564",
+          "url": "https://publicaccess.chichester.gov.uk/online-applications/applicationDetails.do?keyVal=IW2LR5ERLF000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4030"
+            ]
+          }
+        },
+        {
+          "uid": "06/01001/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "ChilternSouthBucks/06/01001/FUL",
+          "area_name": "Chiltern South Bucks",
+          "description": "Retention of two first floor rear balconies.",
+          "app_state": "Rejected",
+          "start_date": "2006-07-06",
+          "decided_date": "2006-08-25",
+          "last_changed": "2025-10-18T08:57:09.626454",
+          "url": "https://pa-csb.buckinghamshire.gov.uk/online-applications/applicationDetails.do?keyVal=J21EX8OHF8000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4030"
+            ]
+          }
+        },
+        {
+          "uid": "06/01001/FUL",
+          "reference": null,
+          "altid": null,
+          "name": "Chorley/06/01001/FUL",
+          "area_name": "Chorley",
+          "description": "Erection of two storey rear extension, formation of new window to front elevation and replacement of all windows,",
+          "app_state": "Permitted",
+          "start_date": "2006-09-01",
+          "decided_date": "2006-11-08",
+          "last_changed": "2023-06-10T20:22:21.295686",
+          "url": "https://planning.chorley.gov.uk/online-applications/applicationDetails.do?keyVal=J57SZHETH4000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4030"
+            ]
+          }
+        },
+        {
+          "uid": "E2/07/01621/FUL",
+          "reference": null,
+          "altid": "06/01001/FUL",
+          "name": "Cornwall/E2/07/01621/FUL",
+          "area_name": "Cornwall",
+          "description": "Construction of extension to rear of dwelling (demolition of existing single storey extension)",
+          "app_state": "Conditions",
+          "start_date": "2007-11-14",
+          "decided_date": "2008-01-10",
+          "last_changed": "2023-05-20T08:22:16.05977",
+          "url": "https://planning.cornwall.gov.uk/online-applications/applicationDetails.do?keyVal=JRV3P1EB02S00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "4030"
+            ]
+          }
+        }
+      ]
+    },
+    "0601158DET": {
+      "checked_at": "2026-08-25T17:29:07.700Z",
+      "query_reference": "06/01158/DET",
+      "records": [
+        {
+          "uid": "06/01158/DET",
+          "reference": null,
+          "altid": null,
+          "name": "Argyll/06/01158/DET",
+          "area_name": "Argyll",
+          "description": "Erection of a windfarm consisting of 14 wind turbines (maximum hub height 115m), 9km access track, two temporary construction compounds, borrow pit, switchgear building and underground cables",
+          "app_state": "Rejected",
+          "start_date": "2006-06-01",
+          "decided_date": "2007-11-14",
+          "last_changed": "2024-08-17T07:35:40.062823",
+          "url": "https://publicaccess.argyll-bute.gov.uk/online-applications/applicationDetails.do?keyVal=J06KDECHQ9000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "3545",
+            "gg_project_id": "GG2050-REPD-3545",
+            "project_name": "Alt Dearg",
+            "planning_application_reference": "06/01158/DET",
+            "planning_authority": "Argyll and Bute",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0602000DET": {
+      "checked_at": "2026-08-25T17:29:07.700Z",
+      "query_reference": "06/02000/DET",
+      "records": [
+        {
+          "uid": "06/02000/DET",
+          "reference": null,
+          "altid": null,
+          "name": "Argyll/06/02000/DET",
+          "area_name": "Argyll",
+          "description": "Erection of a windfarm consisting of 19 wind turbines, associated concrete foundations (maximum hub height 60metres and blade tip 101.5metres), construction of 9.6km of access tracks, upgrading of 6.9km of existing access tracks, two temporary construction compounds, ten borrow pits, on-site switchgear and control room station, hard-standing areas, connecting cabling and one permanent wind monitoring mast.",
+          "app_state": "Withdrawn",
+          "start_date": "2006-09-14",
+          "decided_date": "2007-04-10",
+          "last_changed": "2023-05-16T15:29:29.0602",
+          "url": "https://publicaccess.argyll-bute.gov.uk/online-applications/applicationDetails.do?keyVal=J5MLWTCHZ2000&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "3009",
+            "gg_project_id": "GG2050-REPD-3009",
+            "project_name": "Black Craig",
+            "planning_application_reference": "06/02000/DET",
+            "planning_authority": "Argyll and Bute",
+            "news_may_overwrite_official_facts": false
+          }
+        },
+        {
+          "uid": "06/02000/DET",
+          "reference": null,
+          "altid": null,
+          "name": "Lambeth/06/02000/DET",
+          "area_name": "Lambeth",
+          "description": "Approval of details pursuant to condition 7 (Details/samples of external finishes) of planning permission Ref. 03/02067/FUL (Erection of an additional storey above existing two storey workshop unit together with the erection of a new front elevation and associated alterations) granted on 22.09.2003, and now constructed.",
+          "app_state": "Permitted",
+          "start_date": "2006-06-19",
+          "decided_date": "2006-08-14",
+          "last_changed": "2024-03-09T10:51:13.271353",
+          "url": "https://planning.lambeth.gov.uk/online-applications/applicationDetails.do?keyVal=J15RR6BO81000&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3009"
+            ]
           }
         }
       ]
