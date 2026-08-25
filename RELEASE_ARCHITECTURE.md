@@ -15,11 +15,13 @@ The first release under this convention is `202608251528-PipelineNews`, incepted
 
 Legacy `newsv1` through `newsv7` paths remain frozen and retain their historical names. They are not renamed or copied into the new convention.
 
-## One stable app, many small manifests
+## Lightweight timestamped app folders, shared assets
 
-The browser entry point is intended to remain at `/PipelineNews/`. It resolves a small pointer at `releases/current.json`, then loads the selected immutable release manifest. A historical release can be selected by its manifest rather than by cloning the whole application.
+Every creation has a visible root folder named exactly for its release ID, for example `202608251528-PipelineNews/`. That folder is a lightweight app shell: `index.html`, `release.json` and a short README. It must not contain copied CSS, JavaScript, data, Parquet or GeoJSON directories.
 
-Release manifests live at `releases/<release-id>.json`. They pin every admitted object by SHA-256, byte length and role. The release timestamp belongs to the manifest, not to duplicated CSS, JavaScript, data or GeoJSON folders.
+The browser entry point `/PipelineNews/` may later resolve `releases/current.json` to the selected timestamped folder. Historical app URLs remain directly addressable by their folder name without cloning substantial assets.
+
+Release manifests live at `releases/<release-id>.json`. They pin every admitted object by SHA-256, byte length and role. The release timestamp belongs to the app-shell folder and manifest, not to duplicated CSS, JavaScript, data or GeoJSON folders.
 
 Published objects are shared and content-addressed:
 
@@ -32,7 +34,7 @@ objects/
   geojson/sha256/<digest>.geojson
 ```
 
-An unchanged object is reused by every later manifest. A changed object receives a new digest path; the prior object remains addressable. `releases/current.json` is the only moving release pointer. Git commit history remains the source-control record underneath this release layer.
+An unchanged object is reused by every later app folder and manifest. A changed object receives a new digest path; the prior object remains addressable. `releases/current.json` is the only moving release pointer. Git commit history remains the source-control record underneath this release layer.
 
 ## Separate identity domains
 
@@ -45,4 +47,4 @@ High-recall discovery may admit a URL candidate. It may not, by itself, create a
 
 ## Publication transition
 
-`202608251528-PipelineNews` is a data-only candidate that proves the manifest and shared-object model. It does not replace the current public NewsV7 interface. A later timestamped release may switch the stable `/PipelineNews/` loader after peer review and browser validation; no frozen release is mutated to do so.
+`202608251528-PipelineNews/` is a thin candidate app shell that proves the timestamped-folder, manifest and shared-object model. It presents the governed discovery record but does not replace or copy the current public NewsV7 interface. A later timestamped release may switch the stable `/PipelineNews/` loader after peer review and browser validation; no frozen release is mutated to do so.

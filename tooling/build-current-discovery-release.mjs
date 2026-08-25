@@ -58,7 +58,11 @@ if (manifest.status !== "CANDIDATE") throw new Error("this builder admits candid
 
 const [inputBytes] = await Promise.all([
   verifyObject(manifest.objects.inputs[0]),
-  verifyObject(manifest.objects.modules[0]),
+  ...manifest.objects.modules.map(verifyObject),
+  ...manifest.objects.css.map(verifyObject),
+  ...manifest.objects.parquet.map(verifyObject),
+  ...manifest.objects.geojson.map(verifyObject),
+  ...manifest.app.shell_files.map(verifyObject),
   verifyObject(manifest.build.architecture),
 ]);
 

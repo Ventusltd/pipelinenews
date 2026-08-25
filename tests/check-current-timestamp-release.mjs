@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 
 const repositoryRoot = new URL("../", import.meta.url);
 const read = (path) => readFile(new URL(path, repositoryRoot));
@@ -27,13 +27,19 @@ const releaseMinute = new Date(Date.UTC(+year, +month - 1, +day, +hour, +minute)
 assert.equal(releaseMinute, "2026-08-25T15:28:00.000Z");
 assert.equal(new Date(manifest.incepted_at).toISOString(), releaseMinute);
 assert.equal(manifest.app.stable_route, "PipelineNews/");
-assert.equal(manifest.app.release_folder_created, false);
-assert.equal(existsSync(new URL(`${manifest.release_id}/`, repositoryRoot)), false);
+assert.equal(manifest.app.release_folder, "202608251528-PipelineNews/");
+assert.equal(manifest.app.release_folder_created, true);
+assert.equal(manifest.app.duplicated_asset_directories, 0);
+assert.equal(existsSync(new URL(`${manifest.release_id}/`, repositoryRoot)), true);
 
 const pinnedObjects = [
   ...manifest.objects.inputs,
   ...manifest.objects.modules,
   ...manifest.objects.artifacts,
+  ...manifest.objects.css,
+  ...manifest.objects.parquet,
+  ...manifest.objects.geojson,
+  ...manifest.app.shell_files,
   manifest.build.architecture,
   manifest.build.builder,
 ];
@@ -43,8 +49,23 @@ for (const object of pinnedObjects) {
   assert.equal(bytes.byteLength, object.bytes, object.path);
   if (object.path.includes("/sha256/")) assert.match(object.path, new RegExp(`${object.sha256.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\.`));
 }
-assert.deepEqual(manifest.objects.css, []);
+assert.equal(manifest.objects.css.length, 1);
+assert.equal(manifest.objects.modules.filter((row) => row.role === "timestamped_release_shell").length, 1);
 assert.deepEqual(manifest.objects.geojson, []);
+
+const folderEntries = await readdir(new URL(manifest.app.release_folder, repositoryRoot), { withFileTypes: true });
+assert.deepEqual(folderEntries.map((entry) => entry.name).sort(), ["README.md", "index.html", "release.json"]);
+assert.ok(folderEntries.every((entry) => entry.isFile()));
+const folderPointer = await json("202608251528-PipelineNews/release.json");
+assert.equal(folderPointer.release_id, manifest.release_id);
+assert.equal(folderPointer.manifest, "../releases/202608251528-PipelineNews.json");
+assert.equal(folderPointer.shared_assets, true);
+assert.equal(folderPointer.duplicated_asset_directories, 0);
+const shellHtml = (await read("202608251528-PipelineNews/index.html")).toString("utf8");
+assert.match(shellHtml, /objects\/css\/sha256\/5c196d2b307e0426447dc96f1762bc6e39de98f2a39ae8667265198f09d5166e\.css/);
+assert.match(shellHtml, /objects\/js\/sha256\/e57f8ead800893c351e9dfac7294b0995b14e9c20fdc5042773f451acfa98136\.mjs/);
+assert.doesNotMatch(shellHtml, /<style(?:\s|>)/i);
+assert.doesNotMatch(shellHtml, /<script(?![^>]*\bsrc=)[^>]*>/i);
 
 const input = await json(manifest.objects.inputs[0].path);
 const artifactBytes = await read(manifest.objects.artifacts[0].path);

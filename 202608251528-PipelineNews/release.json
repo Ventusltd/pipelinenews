@@ -1,0 +1,11 @@
+{
+  "schema": "pipelinenews.release-folder-pointer.v1",
+  "release_id": "202608251528-PipelineNews",
+  "app_title": "PipelineNews",
+  "manifest": "../releases/202608251528-PipelineNews.json",
+  "repository_root": "../",
+  "ui_parent": "../newsv7/",
+  "shared_assets": true,
+  "duplicated_asset_directories": 0,
+  "status": "CANDIDATE"
+}

@@ -22,11 +22,34 @@
   },
   "app": {
     "stable_route": "PipelineNews/",
-    "release_folder_created": false,
+    "release_folder": "202608251528-PipelineNews/",
+    "entrypoint": "202608251528-PipelineNews/index.html",
+    "release_folder_created": true,
     "loader_contract": "manifest-resolved shared objects",
-    "ui_projection": "NOT_YET_PROJECTED",
+    "ui_projection": "TIMESTAMPED_CANDIDATE_SHELL",
     "ui_parent": "newsv7",
-    "ui_parent_changed": false
+    "ui_parent_changed": false,
+    "duplicated_asset_directories": 0,
+    "shell_files": [
+      {
+        "role": "app_entrypoint",
+        "path": "202608251528-PipelineNews/index.html",
+        "sha256": "df823b6033130be662ea14cec08e3d7e7fe04c3b92630b93d13256010be85863",
+        "bytes": 3301
+      },
+      {
+        "role": "folder_release_pointer",
+        "path": "202608251528-PipelineNews/release.json",
+        "sha256": "92c91acb504b23e1f1d3430ddda0e88883551d457a93530a2a60ced1d9f00ea0",
+        "bytes": 337
+      },
+      {
+        "role": "folder_readme",
+        "path": "202608251528-PipelineNews/README.md",
+        "sha256": "ca77ee645179ba9c9a30b72fd50a5f979f3c8bd4d90ff327f992c500150d120a",
+        "bytes": 583
+      }
+    ]
   },
   "object_store": {
     "identity": "sha256",
@@ -50,6 +73,12 @@
         "path": "objects/js/sha256/8e4a229d0e059a498cafb70648f2bcb5d44c7bc4d114cf98ddcf97d108731b04.mjs",
         "sha256": "8e4a229d0e059a498cafb70648f2bcb5d44c7bc4d114cf98ddcf97d108731b04",
         "bytes": 6286
+      },
+      {
+        "role": "timestamped_release_shell",
+        "path": "objects/js/sha256/e57f8ead800893c351e9dfac7294b0995b14e9c20fdc5042773f451acfa98136.mjs",
+        "sha256": "e57f8ead800893c351e9dfac7294b0995b14e9c20fdc5042773f451acfa98136",
+        "bytes": 2792
       }
     ],
     "artifacts": [
@@ -61,20 +90,27 @@
         "rows": 1
       }
     ],
-    "css": [],
+    "css": [
+      {
+        "role": "timestamped_release_shell",
+        "path": "objects/css/sha256/5c196d2b307e0426447dc96f1762bc6e39de98f2a39ae8667265198f09d5166e.css",
+        "sha256": "5c196d2b307e0426447dc96f1762bc6e39de98f2a39ae8667265198f09d5166e",
+        "bytes": 1889
+      }
+    ],
     "parquet": [],
     "geojson": []
   },
   "build": {
     "architecture": {
       "path": "RELEASE_ARCHITECTURE.md",
-      "sha256": "a76a38b0594a29bf2fa9a830d18140d489ce3aab9a38b49d8bd4e6dcc96b938a",
-      "bytes": 2941
+      "sha256": "807273c23bab124f35b43fa35a804dbea39838183a9c7862bb69e13225f5be8d",
+      "bytes": 3307
     },
     "builder": {
       "path": "tooling/build-current-discovery-release.mjs",
-      "sha256": "843b6abbc2af1b9d37a9bd16b5daeef3d127a780aa658b2d705741f8ab3a7267",
-      "bytes": 3034
+      "sha256": "472245341b4cd615b568330f18116ab54aeac87b9eacabd42a94e51bc8e4fa62",
+      "bytes": 3230
     },
     "independent_verifier": "tests/check-current-timestamp-release.mjs",
     "deterministic_rebuild_required": true,
@@ -96,6 +132,8 @@
     "project_bindings": 0,
     "data_centre_bindings": 0,
     "capacity_assertions": 0,
+    "timestamped_folder_required": true,
+    "duplicated_asset_directories": 0,
     "outbound_source_credit_required": true,
     "newsv7_regression_required": true
   },
@@ -103,7 +141,7 @@
     "live": false,
     "visible_ui_changed": false,
     "public_path": null,
-    "reason": "Data-only candidate for AI peer review; stable app loader is not switched before browser validation."
+    "reason": "Timestamped candidate shell for AI peer review; the stable app loader is not switched before browser validation."
   },
   "recovery": {
     "rollback": "Move the candidate pointer to its prior manifest; content-addressed objects and frozen NewsV7 remain unchanged.",

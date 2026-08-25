@@ -5,6 +5,7 @@ on:
   push:
     branches: [main]
     paths:
+      - "*-PipelineNews/**"
       - "RELEASE_ARCHITECTURE.md"
       - "releases/**"
       - "objects/**"
