@@ -1,0 +1,37 @@
+{
+  "schema": "pipelinenews.release-contract.v1",
+  "release": "attributionv1",
+  "status": "CANDIDATE",
+  "feature": "organisational delivery attribution for UK renewable infrastructure",
+  "source_release": "202608251700-pipelinenews",
+  "stated_purpose": "AttributionV1 records, from public sources, which organisations delivered UK renewable energy infrastructure projects identified in the DESNZ Renewable Energy Planning Database. It records organisations, not individuals. It states what each source reported and when. It makes no assessment of any person.",
+  "data_law": {
+    "grain": "one dated, sourced organisation-role claim per canonical project",
+    "primary_key": ["attribution_id"],
+    "canonical_project_key": "GG2050-REPD-<repd_ref>",
+    "allowed_roles": ["DEVELOPER", "OWNER", "EPC", "PRINCIPAL_CONTRACTOR", "ICP", "OM_PROVIDER", "LENDER", "TECHNICAL_ADVISER"],
+    "allowed_claim_statuses": ["CONFIRMED", "REPORTED", "ABSTAIN"]
+  },
+  "acceptance": {
+    "organisation_rows_only": true,
+    "person_key_allowed": false,
+    "contradicting_claims_coexist": true,
+    "overwrite_on_conflict": false,
+    "repd_mutation_allowed": false,
+    "registered_charge_confirms_named_secured_party": true,
+    "financial_close_inferred_from_charge_alone": false,
+    "visible_ui_changed": false,
+    "deterministic_rebuild_required": true,
+    "independent_verifier_required": true
+  },
+  "publication": {
+    "live": false,
+    "public_path": null,
+    "reason": "AttributionV1 remains an isolated data candidate until all seven acceptance batches pass."
+  },
+  "recovery": {
+    "frozen_predecessor": "202608251700-pipelinenews",
+    "predecessor_mutated": false,
+    "rollback": "Discard attributionv1; timestamped releases, NewsV1 and NewsV7 remain independently reproducible."
+  }
+}

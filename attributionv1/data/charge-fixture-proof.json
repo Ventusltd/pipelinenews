@@ -1,0 +1,31 @@
+{
+  "schema": "pipelinenews.attribution-charge-fixture-proof.v1",
+  "fixture_only": true,
+  "counts": {
+    "roles": 1,
+    "confirmed": 1
+  },
+  "roles": [
+    {
+      "attribution_id": "PN-ATTR-514C827869D1A45631AE",
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "role": "LENDER",
+      "organisation": "Fixture Security Trustee Limited",
+      "company_number": "00000000",
+      "effective_from": "2026-08-20",
+      "effective_to": null,
+      "evidence_url": "https://find-and-update.company-information.service.gov.uk/company/00000000/charges/fixture",
+      "evidence_domain": "find-and-update.company-information.service.gov.uk",
+      "evidence_kind": "REGISTERED_CHARGE_NAMED_SECURED_PARTY",
+      "credibility": 1,
+      "observed_at": "2026-08-25T16:01:00Z",
+      "claim_status": "CONFIRMED"
+    }
+  ],
+  "interpretation": {
+    "named_secured_party_confirmed": true,
+    "registered_charge_date_confirmed": true,
+    "financial_close_inferred_from_charge_alone": false
+  }
+}

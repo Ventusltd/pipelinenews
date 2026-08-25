@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://globalgrid2050.com/contracts/attribution-role.v1.schema.json",
+  "title": "Pipeline News AttributionV1 organisation-role claim",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "attribution_id",
+    "repd_ref",
+    "gg_project_id",
+    "role",
+    "organisation",
+    "company_number",
+    "effective_from",
+    "effective_to",
+    "evidence_url",
+    "evidence_domain",
+    "evidence_kind",
+    "credibility",
+    "observed_at",
+    "claim_status"
+  ],
+  "properties": {
+    "attribution_id": {"type": "string", "pattern": "^PN-ATTR-[A-F0-9]{20}$"},
+    "repd_ref": {"type": "string", "pattern": "^[0-9]+$"},
+    "gg_project_id": {"type": "string", "pattern": "^GG2050-REPD-[0-9]+$"},
+    "role": {"enum": ["DEVELOPER", "OWNER", "EPC", "PRINCIPAL_CONTRACTOR", "ICP", "OM_PROVIDER", "LENDER", "TECHNICAL_ADVISER"]},
+    "organisation": {"type": "string", "minLength": 1},
+    "company_number": {"type": ["string", "null"]},
+    "effective_from": {"type": ["string", "null"], "format": "date"},
+    "effective_to": {"type": ["string", "null"], "format": "date"},
+    "evidence_url": {"type": "string", "format": "uri", "pattern": "^https://"},
+    "evidence_domain": {"type": "string", "minLength": 1},
+    "evidence_kind": {"type": "string", "minLength": 1},
+    "credibility": {"type": "number", "minimum": 0.01, "maximum": 1},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "claim_status": {"enum": ["CONFIRMED", "REPORTED", "ABSTAIN"]}
+  }
+}

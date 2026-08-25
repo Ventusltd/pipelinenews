@@ -1,0 +1,18 @@
+{
+  "schema": "pipelinenews.attribution-charge-fixture.v1",
+  "fixture_only": true,
+  "project": {
+    "repd_ref": "17494",
+    "gg_project_id": "GG2050-REPD-17494"
+  },
+  "charge": {
+    "company_number": "00000000",
+    "charge_code": "000000000001",
+    "created_on": "2026-08-20",
+    "observed_at": "2026-08-25T16:01:00Z",
+    "status": "outstanding",
+    "persons_entitled": ["Fixture Security Trustee Limited"],
+    "evidence_url": "https://find-and-update.company-information.service.gov.uk/company/00000000/charges/fixture",
+    "source_domain": "find-and-update.company-information.service.gov.uk"
+  }
+}
