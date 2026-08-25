@@ -1,0 +1,23 @@
+{
+  "schema": "pipelinenews.discovery-search-adapters.v1",
+  "status": "CANDIDATE",
+  "daily_budget": 400,
+  "trial_budget": 50,
+  "maximum_queries_per_project": 2,
+  "maximum_days_without_query": 30,
+  "providers": ["brave", "google_cse", "serper"],
+  "fetch_policy": {
+    "allowed_target_class": "configured third-party search API endpoint only",
+    "outbound_result_page_fetch": false,
+    "redirects": "error",
+    "missing_credentials": "fail closed as unavailable, never as zero results"
+  },
+  "query_policy": {
+    "exact_phrase": true,
+    "site_restriction_supported": true,
+    "deterministic": true,
+    "randomness": false,
+    "priority_queue_with_decay": true,
+    "starvation_guard": true
+  }
+}
