@@ -96,10 +96,10 @@ Latest recovery checkpoint:
 - `PASS` — NewsV5 independently rebuilds ledger SHA-256 `fbce604f865341391316917cb14d6319f8b1fdbb503a971a19a7c7d0ecfec06a`, proves 45 unique non-null keys, enforces six hostile negatives as 2 hold / 1 reject / 3 abstain, preserves Beacon Fen 13599 and leaves NewsV1–NewsV4 green.
 - `PASS` — NewsV6 candidate commit `a2259bf3c8a9f2b9b2cfaa39e223c299224c5c81` deterministically builds six governed source/licence records, two exact source observations and two explicit cross-source abstentions; every declared key is unique and non-null and no identity merge is made.
 - `PASS` — NewsV6 independently rebuilds artifact SHA-256 `e5e984f763877f41fef5c39bce248ee74bb9f22706c87cd51d6fd2a2ce9cd5d5`, preserves OSM `way/86528807`, records Atlas V8's dropped OSM identity, leaves all four capacity types null, enforces five hostile abstentions, keeps BBC/Data Center Map outbound-only and leaves NewsV1–NewsV5 green.
-- `BLOCKED` — Movement 5 staging commit `b0484e37761c948299b19ad952bb8ba40942963e` pins nine typed table laws across NewsV2–NewsV6 and reconciles 208 source rows with zero duplicate-key groups, zero required-null keys and zero cross-domain identity links.
-- `PASS` — the staged contract and independent verifier rebuild byte-identically; reconciliation SHA-256 is `eea610fcd24491baac08c498d345fa2dd39c2e770a0ee1b55b2fe5e9cf1ec071`, all five pinned input hashes match and NewsV2–NewsV6 regressions pass.
-- `BLOCKED` — this runner has no DuckDB CLI, Python `duckdb` module or PyArrow. No `.parquet` or `.duckdb` artifact was created, no physical schema/readback claim is made, and Movement 5 remains incomplete.
-- Next bounded pass: run the pinned analytical contract on a Python 3.11 environment with DuckDB/PyArrow, write zstd Parquet to staging, read every file back and prove schema/key/hash parity before advancing.
+- `PASS` — Movement 5 feature commit `7f799df7f85c453307eb95573d4fa932bd6884dc` adds the pinned Python 3.11 / DuckDB 1.3.2 / PyArrow 20.0.0 write-audit-publish path; validated artifact commit `684d556671e79d09f9988fb3cd318e62823816e8` publishes nine zstd Parquet tables and explicit DuckDB view SQL.
+- `PASS` — physical readback proves 208 source rows equal 208 Parquet rows, zero duplicate-key groups, zero required-null keys, zero schema mismatches, zero DuckDB view mismatches and zero renewable/data-centre identity links; Parquet audit SHA-256 is `2c2af8a38bcb9b6ce4127835b4e005a1dc22d097f2dd21b64c036b7ca38115be`.
+- `PASS` — the GitHub runner rebuilt every Parquet/audit/manifest/SQL artifact byte-identically and passed NewsV2–NewsV6 regressions. No `.duckdb` database is committed; views are reproducibly recreated from immutable Parquet.
+- Next bounded pass: build Movement 6 as compact consumer projections derived from declared DuckDB queries with explicit order, while leaving NewsV1 browser counts, controls, project order and mobile horizontal-scroll semantics unchanged.
 
 ## Overnight automation master score — authoritative
 
@@ -140,12 +140,12 @@ Current baton:
 
 | Field | Value |
 |---|---|
-| Last proven feature commit | `b0484e37761c948299b19ad952bb8ba40942963e` |
-| Outcome | `BLOCKED` — Movement 5 has a remotely verified staged contract for nine table laws / 208 source rows with zero duplicate groups, zero required-null keys, zero cross-domain identity links and reconciliation SHA-256 `eea610fcd24491baac08c498d345fa2dd39c2e770a0ee1b55b2fe5e9cf1ec071`; however DuckDB CLI, Python `duckdb` and PyArrow are all absent, so zero Parquet/DuckDB artifacts exist and physical schema/readback is honestly `NOT TESTED` |
-| Next movement | Movement 5 — complete analytical storage and cross-version reconciliation |
-| Next acceptance gate | Use a Python 3.11 runner with DuckDB >=1.0 and PyArrow >=16; transform all nine declared tables, write zstd Parquet to staging, read physical files back, prove pinned schema equality, 208 source rows, distinct-key equality, zero duplicate/null keys, byte-identical rebuild and explicit DuckDB views without crossing the renewable/data-centre identity boundary |
-| Doubt to resolve | The staged schemas are proven as declarations but not as physical Arrow schemas; timestamp casting, canonical nested-JSON serialisation and deterministic Parquet bytes remain untested until the required engines are available |
-| Next-run budget | One dependency/provisioning audit block, then up to two write/readback verification blocks only if the engines are genuinely available; target about 300 seconds and stop before 500 seconds, with the single 1,000-second extension reserved only for an already-running nine-table round-trip gate |
+| Last proven feature commit | `684d556671e79d09f9988fb3cd318e62823816e8` |
+| Outcome | `PASS` — Movement 5 committed nine typed zstd Parquet tables and reproducible DuckDB view SQL; pinned Python 3.11 / DuckDB 1.3.2 / PyArrow 20.0.0 readback proves `208 source = 208 Parquet`, zero duplicate/null keys, zero schema/view mismatches, zero cross-domain identity links, byte-identical rebuild and Parquet audit SHA-256 `2c2af8a38bcb9b6ce4127835b4e005a1dc22d097f2dd21b64c036b7ca38115be` with NewsV2–NewsV6 green |
+| Next movement | Movement 6 — consumer projection and interface protection |
+| Next acceptance gate | Read the progressive-static-data-UI skill, then derive compact immutable consumer JSON from declared DuckDB queries with explicit `ORDER BY`; prove source rows/hashes, NewsV1 `133/45/19/4/9/6` ordering, Beacon Fen 13599, zero data-centre project-signal leakage, unchanged eleven-column project table and unchanged contained mobile horizontal-scroll CSS before any deployment claim |
+| Doubt to resolve | NewsV5 correctly exposes zero publishable reasons and NewsV6 is an independent data-centre namespace; the first consumer projection must preserve those honest empty/separate states rather than force new intelligence into the frozen NewsV1 newspaper or project signal |
+| Next-run budget | Up to three reviewed blocks: projection contract/query, independent parity/static-interface verification, then remote proof and handoff; target about 300 seconds and stop before 500 seconds, reserving the single 1,000-second extension only for an already-running explicit order/parity gate |
 
 At the end of every run:
 
