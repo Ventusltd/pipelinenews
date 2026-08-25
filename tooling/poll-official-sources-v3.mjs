@@ -1,11 +1,22 @@
+import { createHash } from "node:crypto";
 import { readFile, mkdir, rename, writeFile } from "node:fs/promises";
 
 const root = new URL("../", import.meta.url);
 const readJson = async (path) => JSON.parse(await readFile(new URL(path, root), "utf8"));
 const pointer = await readJson("releases/current.json");
 const manifest = await readJson(pointer.manifest);
-const engineObject = manifest.objects.modules.find((item) => item.role === "official_frontier_engine" || item.role === "authority_safe_frontier_engine");
-if (!engineObject) throw new Error("current release does not expose official_frontier_engine");
+const PINNED_AUTHORITY_SAFE_ENGINE = Object.freeze({
+  role: "authority_safe_frontier_engine",
+  path: "objects/js/sha256/60ebe5b31cdb881e61c7275fd3f696b33a4f134c5c0a6e6cd8f1474545156acc.mjs",
+  sha256: "60ebe5b31cdb881e61c7275fd3f696b33a4f134c5c0a6e6cd8f1474545156acc",
+});
+const moduleDescriptors = Array.isArray(manifest.objects?.modules) ? manifest.objects.modules : [];
+const engineObject = moduleDescriptors.find((item) =>
+  item.role === "official_frontier_engine" || item.role === "authority_safe_frontier_engine"
+) ?? PINNED_AUTHORITY_SAFE_ENGINE;
+const engineBytes = await readFile(new URL(engineObject.path, root));
+const engineSha256 = createHash("sha256").update(engineBytes).digest("hex");
+if (engineSha256 !== engineObject.sha256) throw new Error("official_frontier_engine content hash mismatch");
 const { buildReferenceGroups, normalisePlanningReference, resolvePlanningBinding, selectFrontier, sourceHealth } = await import(new URL(engineObject.path, root));
 
 const statePath = "state/official-source-cursor.json";
@@ -125,3 +136,4 @@ await atomicJson(statePath, {
   govuk_last_good_at: govukSucceeded > 0 ? now : priorGovukGoodAt,
 });
 console.log(`official-source v3 poll: ${projects.length} projects; PlanIt ${completed}/${attempted}; GOV.UK ${govukSucceeded}/${govukAttempted}; next=${nextIndex}`);
+

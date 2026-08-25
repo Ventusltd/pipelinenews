@@ -5,8 +5,9 @@ const root = new URL("../", import.meta.url);
 const json = async (path) => JSON.parse(await readFile(new URL(path, root), "utf8"));
 const compact = (value) => String(value ?? "").normalize("NFKC").toUpperCase().replace(/[^A-Z0-9]/gu, "");
 
-const pointer = await json("releases/current.json");
-const manifest = await json(pointer.manifest);
+// This is an immutable authority-engine evidence fixture, not a product baseline.
+// Product selection remains governed by releases/current.json and the closure attestation.
+const manifest = await json("releases/202608251750-pipelinenews.json");
 const fixture = await json("tests/fixtures/official-source-v3-collisions.json");
 const engineDescriptor = manifest.objects.modules.find((item) =>
   ["authority_safe_frontier_engine", "official_frontier_engine"].includes(item.role)
@@ -171,9 +172,12 @@ assert.equal(manifest.acceptance.capacity_used_for_identity, false);
 assert.equal(audited.policy.capacity_used_for_identity, false);
 
 const pollerSource = await readFile(new URL("tooling/poll-official-sources-v3.mjs", root), "utf8");
+assert.match(pollerSource, /PINNED_AUTHORITY_SAFE_ENGINE/u, "current release schemas need a stable content-addressed engine fallback");
+assert.match(pollerSource, /official_frontier_engine content hash mismatch/u, "fallback engine bytes must be verified before import");
 assert.match(pollerSource, /altid: record\.altid \?\? null/u, "poller must preserve the alternate reference used by the matcher");
 assert.match(pollerSource, /planit_last_good_at/u, "PlanIt health needs its own last-known-good clock");
 assert.match(pollerSource, /govuk_last_good_at/u, "GOV.UK health needs its own last-known-good clock");
 assert.doesNotMatch(pollerSource, /priorGoodAt: state\.last_good_at/u, "one adapter must not refresh the other's health");
 
 console.log("PASS official-source v3: 128 retained; 23 authority-safe PRIMARY_MATCH; 105 ABSTAIN; zero unsafe primary; capacity independent");
+

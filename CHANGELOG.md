@@ -42,6 +42,7 @@ Status: `CURRENT_LIVE_ATTESTED`; manual recovery successor. The immutable prepub
 - The deployed GlobalGrid root is byte-identical to commit blob `067c814a8374a6d450132ad9e879c856b86a18a8`: 16,439 bytes, SHA-256 `9b95eeb6e1ec52c689c3143ac23906327138a99c4476d72a1e6e80db4baa10f4`, a -279-byte root-index delta. The successor link resolves to the verified PipelineNews bytes.
 - The interrupted 18:41 trigger produced no checkpoint and did not allocate a release. `202608251841-pipelinenews` is not part of the lineage.
 - NewsV1, NewsV7 and both rejected timestamp trees remain unchanged; their immutable paths are retained for lineage but the rejected entries are no longer presented on the GlobalGrid homepage.
+- Corrects the existing official-source poller for the promoted v2 manifest shape: release UI modules remain keyed, while the authority-safe frontier engine resolves through its explicit content-addressed SHA-256 pin and is hash-checked before import. This changes no schedule, trigger, identity rule or frozen release byte.
 
 ## 2026-08-25 — `202608251750-pipelinenews`
 
