@@ -1,0 +1,28 @@
+{
+  "schema": "pipelinenews.migration-manifest.v1",
+  "release": "newsv1",
+  "created_utc": "2026-08-24T00:00:00Z",
+  "source": {
+    "repository": "Ventusltd/globalgrid2050",
+    "commit": "824a23cd0cf9f90a9df942f1b37a09c2dc6472b7",
+    "path": "uk_renewables_pipeline/v9.7",
+    "subtree": "4fca94ede95789ade9490258a2323c00c13ec2ea"
+  },
+  "source_policy": "V9.7 remains frozen; NewsV1 is a new separately addressable performance lineage.",
+  "canonical_data_changed": false,
+  "news_content_or_order_changed": false,
+  "approved_runtime_changes": [
+    "100-row project pagination",
+    "verified first-partition preview before complete canonical hydration",
+    "bounded four-request project hydration",
+    "singleton immutable project loader",
+    "same-origin-first sequential news fallback",
+    "normal cache use for immutable release artifacts",
+    "160ms project-search debounce",
+    "pinned Chart.js loaded asynchronously after the application shell"
+  ],
+  "required_skills": [
+    "skills/build-auditable-duckdb-parquet/SKILL.md",
+    "skills/build-progressive-static-data-ui/SKILL.md"
+  ]
+}

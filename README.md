@@ -16,9 +16,55 @@ https://github.com/Ventusltd/globalgrid2050-hompage/blob/main/docs/DATA_DISCIPLI
 
 Repository-local implementation skill: [`build-auditable-duckdb-parquet`](skills/build-auditable-duckdb-parquet/SKILL.md). Read it before creating or changing any DuckDB, Parquet, audit, backfill, update or release pipeline.
 
+Repository-local performance skill: [`build-progressive-static-data-ui`](skills/build-progressive-static-data-ui/SKILL.md). Read it before changing browser loading, caching, table rendering, search, filtering, mobile behaviour or performance tests.
+
 Read that manual, this README, the local CHANGELOG, the source register and the contracts before patching, porting, backfilling, scheduling, publishing or wiring this repository to a UI.
 
 Green is not proof. File count is not proof. Size is not proof. A rendered browser page is not proof. The proof is that the data obeys its declared law at its declared grain and key.
+
+## Active build plan — News V1 / GlobalGrid V9.8 lineage
+
+Status: RC1 validated locally on 2026-08-24; publication and live-byte checks are the remaining bounded passes.
+
+Public release path: `https://ventusltd.github.io/pipelinenews/newsv1/`.
+
+This is the new PipelineNews numbering lineage for the post-V9.7 performance release. GlobalGrid V9.7 remains byte-frozen at source commit `824a23cd0cf9f90a9df942f1b37a09c2dc6472b7`, subtree `4fca94ede95789ade9490258a2323c00c13ec2ea`.
+
+Timing law for every continuation, including after context loss:
+
+- Target approximately 30 seconds per bounded take.
+- Stop at 500 seconds of active work rather than loop, hang or enter zombie mode.
+- At the hard stop, record completed checks, failures and the exact next pass here before returning control.
+- Never guess around a failed prerequisite; mark it `BLOCKED` or `NOT TESTED`.
+
+Locked scope and acceptance contract:
+
+- Preserve the V9.7 visual order, controls, cards, eleven project columns and contained mobile horizontal scrolling.
+- Preserve 7,680 projects, 356,474.09 MW, 133 ALL, 45 UK, 19 international, 4 US, 9 Europe and 6 international-other.
+- Preserve Beacon Fen as PRIMARY_MATCH to REPD 13599 and never 13600.
+- Keep every legacy release and archived byte unchanged.
+- Change performance architecture only: progressive project hydration, bounded visible rows, immutable-asset caching, one news request, no duplicate full-table render and deferred chart loading.
+
+Bounded passes:
+
+1. Audit both repository heads, PipelineNews skills/README/Pages and the frozen V9.7 source.
+2. Add and validate the Atlas-derived progressive static-data UI skill cartridge.
+3. Create `newsv1/` as a self-contained, provenance-pinned consumer of the frozen V9.7 runtime data.
+4. Implement progressive loading and a 100-row page window without changing filters, sort, export or mobile table semantics.
+5. Run data-count, capacity, news-order, Beacon Fen, DOM-budget, URL, mobile CSS and frozen-history checks.
+6. Commit PipelineNews `main`, deploy only `newsv1/` through GitHub Pages and verify the live bytes.
+7. Append News V1 immediately after V9.7 in the GlobalGrid root directory, commit `main` and verify both public URLs.
+
+Latest recovery checkpoint:
+
+- `PASS` — both repository skill cartridges validate.
+- `PASS` — 7,680 unique canonical projects, 356,474.09 MW, technology totals, geometry totals and all 16 partition hashes.
+- `PASS` — 133/45/19/4/9/6 news contract, exact feed and ledger hashes, and Beacon Fen REPD 13599 canary.
+- `PASS` — eleven columns, 100-row DOM window, first verified partition preview, local-first news, bounded concurrency, timeouts, caching rules and non-blocking pinned charts.
+- `PASS` — Pages staging produces a bounded 10.1 MB runtime artifact and excludes the frozen archive, fixtures and tests.
+- `PASS` — the tracked PipelineNews legacy archive and importer are unchanged.
+- `NOT TESTED` — local Playwright rendering because this runner has no installed Chromium binary; do not reinterpret static checks as browser proof.
+- Next bounded pass: commit PipelineNews `main`, inspect the Pages run, then commit the single GlobalGrid directory entry and inspect its deployment.
 
 ## Operating protocol
 

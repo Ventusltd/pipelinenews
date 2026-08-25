@@ -1,0 +1,124 @@
+name: Deploy PipelineNews Pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "newsv1/index.html"
+      - "newsv1/scripts/**"
+      - "newsv1/styles/**"
+      - "newsv1/contracts/**"
+      - "newsv1/data/**"
+      - "newsv1/dist/**"
+      - "newsv1/tests/check_newsv1.mjs"
+      - "newsv1/tests/run_newsv1.sh"
+      - "newsv1/MIGRATION_MANIFEST.json"
+      - ".github/workflows/pages.yml"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Verify News V1 release contract
+        run: bash newsv1/tests/run_newsv1.sh
+
+      - name: Stage News V1 runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          release="_site/newsv1"
+          mkdir -p \
+            "$release/scripts" \
+            "$release/styles" \
+            "$release/contracts" \
+            "$release/data/v9.1" \
+            "$release/data/v9.7" \
+            "$release/dist"
+
+          cp newsv1/index.html "$release/index.html"
+          cp newsv1/MIGRATION_MANIFEST.json "$release/"
+
+          # Exact browser-module closure for index.html. Legacy app modules,
+          # build utilities and test harnesses are intentionally not published.
+          runtime_modules=(
+            scripts/app-newsv1.js
+            scripts/core/plugin-host.js
+            scripts/core/project-filter-v9-2.js
+            scripts/core/state.js
+            scripts/core/utils.js
+            scripts/data/canonical-projects-newsv1-release.js
+            scripts/data/canonical-projects-newsv1.js
+            scripts/plugins/capacity-presentation-v9-3.js
+            scripts/plugins/gauges-v9-2.js
+            scripts/plugins/newspaper-newsv1-base.js
+            scripts/plugins/newspaper-newsv1.js
+            scripts/plugins/projects-newsv1.js
+          )
+          for module in "${runtime_modules[@]}"; do
+            install -Dm0644 "newsv1/$module" "$release/$module"
+          done
+
+          cp \
+            newsv1/styles/v7.css \
+            newsv1/styles/mobile.css \
+            newsv1/styles/v9-3.css \
+            newsv1/styles/v9-4.css \
+            newsv1/styles/v9-5-1.css \
+            newsv1/styles/v9-6-1.css \
+            newsv1/styles/performance-newsv1.css \
+            "$release/styles/"
+
+          cp \
+            newsv1/contracts/release.newsv1.json \
+            newsv1/contracts/release.v9.1.json \
+            "$release/contracts/"
+
+          cp newsv1/data/v9.1/build_manifest.json "$release/data/v9.1/"
+          cp -a newsv1/data/v9.1/projects "$release/data/v9.1/"
+          cp \
+            newsv1/data/v9.7/regional_manifest.json \
+            newsv1/data/v9.7/regional_news.json \
+            "$release/data/v9.7/"
+          cp newsv1/dist/major_project_news_v9_5_1.json "$release/dist/"
+
+          touch _site/.nojekyll
+
+          test -f "$release/index.html"
+          test -f "$release/MIGRATION_MANIFEST.json"
+          test -f "$release/scripts/app-newsv1.js"
+          test -f "$release/data/v9.1/projects/part-016.json"
+          test -f "$release/dist/major_project_news_v9_5_1.json"
+          ! find _site -type d \( -name tests -o -name node_modules -o -name v1-9-legacy-lessons \) -print -quit | grep -q .
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}newsv1/
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
