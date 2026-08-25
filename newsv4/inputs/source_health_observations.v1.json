@@ -1,0 +1,244 @@
+{
+  "schema": "pipelinenews.source-health-observations.v1",
+  "snapshot_id": "PN-SOURCE-AUDIT-2026-08-25",
+  "evaluated_at": "2026-08-25T00:00:00Z",
+  "audit_source": {
+    "path": "reports/ATLAS_V8_ENERGY_V6_ADAPTER_AUDIT.md",
+    "globalgrid_commit": "cfb32796e4a3c45a0ab7bec53623b96c84a818a4",
+    "usage": "AUDITED_METADATA_ONLY_NO_MARKET_VALUES"
+  },
+  "observations": [
+    {
+      "source_product_id": "ELEXON_FUELINST_V6_SNAPSHOT",
+      "domain": "GENERATION_MIX",
+      "source_owner": "Elexon",
+      "authoritative_tier": "OFFICIAL_API_VIA_DERIVED_SNAPSHOT",
+      "source_page_url": "https://bmrs.elexon.co.uk/api-documentation",
+      "source_record_url": "https://data.elexon.co.uk/bmrs/api/v1/datasets/FUELINST",
+      "observation_artifact_url": "https://globalgrid2050.com/uk_energy_tracking_v6/live_grid_energy.json",
+      "licence": {
+        "status": "RECORDED",
+        "url": "https://www.elexon.co.uk/bsc/data/balancing-mechanism-reporting-agent/copyright-licence-use-bmrs-api/",
+        "attribution": "Elexon BMRS"
+      },
+      "adapter_id": "globalgrid.update_uk_energy_v6.fuelinst",
+      "adapter_version": "AUDITED_GLOBALGRID_cfb32796",
+      "schema_version": "V6_DERIVED_SNAPSHOT",
+      "scheduler": {
+        "path": "Ventusltd/globalgrid2050 root workflow",
+        "state": "MANUAL_ONLY"
+      },
+      "source_updated_at": "2026-06-18T21:14:13Z",
+      "freshness_sla_seconds": 900,
+      "fetch_status": "LAST_KNOWN_SUCCESS",
+      "attempt_count": null,
+      "raw_sha256": null,
+      "prior_raw_sha256": null,
+      "record_count": null,
+      "distinct_key_count": null,
+      "null_key_count": null,
+      "duplicate_groups": null,
+      "source_record_key": ["periodStartUTC", "fuelType"],
+      "provisional": true,
+      "evidence_class": "REPORTED_VIA_DERIVED_SNAPSHOT",
+      "blocking_issues": [],
+      "metadata_gaps": ["deployed snapshot has no raw-source hash or record-count manifest"],
+      "last_known_good_commit": "cfb32796e4a3c45a0ab7bec53623b96c84a818a4"
+    },
+    {
+      "source_product_id": "ELEXON_MARKET_INDEX_PRICE_V6_SNAPSHOT",
+      "domain": "MARKET_INDEX_PRICE",
+      "source_owner": "Elexon",
+      "authoritative_tier": "OFFICIAL_API_VIA_DERIVED_SNAPSHOT",
+      "source_page_url": "https://bmrs.elexon.co.uk/api-documentation",
+      "source_record_url": "https://data.elexon.co.uk/bmrs/api/v1/balancing/pricing/market-index",
+      "observation_artifact_url": "https://globalgrid2050.com/uk_energy_tracking_v6/live_grid_price.json",
+      "licence": {
+        "status": "RECORDED",
+        "url": "https://www.elexon.co.uk/bsc/data/balancing-mechanism-reporting-agent/copyright-licence-use-bmrs-api/",
+        "attribution": "Elexon BMRS"
+      },
+      "adapter_id": "globalgrid.update_uk_price_v6.market_index",
+      "adapter_version": "AUDITED_GLOBALGRID_cfb32796",
+      "schema_version": "V6_DERIVED_SNAPSHOT",
+      "scheduler": {
+        "path": "Ventusltd/globalgrid2050 root workflow",
+        "state": "MANUAL_ONLY"
+      },
+      "source_updated_at": "2026-06-18T21:14:15Z",
+      "freshness_sla_seconds": 3600,
+      "fetch_status": "LAST_KNOWN_SUCCESS",
+      "attempt_count": null,
+      "raw_sha256": null,
+      "prior_raw_sha256": null,
+      "record_count": null,
+      "distinct_key_count": null,
+      "null_key_count": null,
+      "duplicate_groups": null,
+      "source_record_key": null,
+      "provisional": true,
+      "evidence_class": "REPORTED_VIA_DERIVED_SNAPSHOT",
+      "blocking_issues": [
+        "V6 labels Market Index Price as System or imbalance price",
+        "a complete stable record-key and duplicate guard are not preserved in the deployed snapshot"
+      ],
+      "metadata_gaps": ["raw-source hash", "record-count manifest"],
+      "last_known_good_commit": "cfb32796e4a3c45a0ab7bec53623b96c84a818a4"
+    },
+    {
+      "source_product_id": "NESO_CARBON_INTENSITY_V6_SNAPSHOT",
+      "domain": "CARBON_INTENSITY",
+      "source_owner": "National Energy System Operator",
+      "authoritative_tier": "OFFICIAL_API_VIA_DERIVED_SNAPSHOT",
+      "source_page_url": "https://carbonintensity.org.uk/",
+      "source_record_url": "https://api.carbonintensity.org.uk/intensity",
+      "observation_artifact_url": "https://globalgrid2050.com/uk_energy_tracking_v6/live_grid_price.json",
+      "licence": {
+        "status": "RECORDED",
+        "url": "https://github.com/carbon-intensity/terms/",
+        "attribution": "NESO Carbon Intensity API, CC BY 4.0"
+      },
+      "adapter_id": "globalgrid.update_uk_price_v6.carbon_intensity",
+      "adapter_version": "AUDITED_GLOBALGRID_cfb32796",
+      "schema_version": "V6_DERIVED_SNAPSHOT",
+      "scheduler": {
+        "path": "Ventusltd/globalgrid2050 root workflow",
+        "state": "MANUAL_ONLY"
+      },
+      "source_updated_at": "2026-06-18T21:14:15Z",
+      "freshness_sla_seconds": 3600,
+      "fetch_status": "LAST_KNOWN_SUCCESS",
+      "attempt_count": null,
+      "raw_sha256": null,
+      "prior_raw_sha256": null,
+      "record_count": null,
+      "distinct_key_count": null,
+      "null_key_count": null,
+      "duplicate_groups": null,
+      "source_record_key": null,
+      "provisional": true,
+      "evidence_class": "REPORTED_VIA_DERIVED_SNAPSHOT",
+      "blocking_issues": ["the V6 projection drops the source interval required for identity and deduplication"],
+      "metadata_gaps": ["raw-source hash", "record-count manifest", "source interval"],
+      "last_known_good_commit": "cfb32796e4a3c45a0ab7bec53623b96c84a818a4"
+    },
+    {
+      "source_product_id": "PVLIVE_SOLAR_V6_SNAPSHOT",
+      "domain": "SOLAR_GENERATION",
+      "source_owner": "Sheffield Solar",
+      "authoritative_tier": "SPECIALIST_API_VIA_DERIVED_SNAPSHOT",
+      "source_page_url": "https://github.com/SheffieldSolar/PV_Live-API",
+      "source_record_url": "https://api.solar.sheffield.ac.uk/pvlive/api/v4/gsp/0",
+      "observation_artifact_url": "https://globalgrid2050.com/uk_energy_tracking_v6/live_grid_energy.json",
+      "licence": {
+        "status": "DATA_TERMS_UNVERIFIED",
+        "url": "https://github.com/SheffieldSolar/PV_Live-API",
+        "attribution": "Sheffield Solar PVLive"
+      },
+      "adapter_id": "globalgrid.update_uk_energy_v6.pvlive",
+      "adapter_version": "AUDITED_GLOBALGRID_cfb32796",
+      "schema_version": "V6_DERIVED_SNAPSHOT",
+      "scheduler": {
+        "path": "Ventusltd/globalgrid2050 root workflow",
+        "state": "MANUAL_ONLY"
+      },
+      "source_updated_at": "2026-06-18T21:14:13Z",
+      "freshness_sla_seconds": 900,
+      "fetch_status": "LAST_KNOWN_SUCCESS",
+      "attempt_count": null,
+      "raw_sha256": null,
+      "prior_raw_sha256": null,
+      "record_count": null,
+      "distinct_key_count": null,
+      "null_key_count": null,
+      "duplicate_groups": null,
+      "source_record_key": null,
+      "provisional": true,
+      "evidence_class": "REPORTED_VIA_DERIVED_SNAPSHOT",
+      "blocking_issues": [
+        "adapter uses the non-production Sheffield endpoint",
+        "GSP identity and revision timestamps are discarded",
+        "data-licence terms are not recorded separately from package-code licensing"
+      ],
+      "metadata_gaps": ["production endpoint", "revision key", "data terms", "raw-source hash"],
+      "last_known_good_commit": "cfb32796e4a3c45a0ab7bec53623b96c84a818a4"
+    },
+    {
+      "source_product_id": "GRID_FREQUENCY_V6_HEURISTIC",
+      "domain": "GRID_FREQUENCY",
+      "source_owner": "Elexon candidate endpoints",
+      "authoritative_tier": "HEURISTIC_UNPROVEN",
+      "source_page_url": "https://bmrs.elexon.co.uk/api-documentation",
+      "source_record_url": null,
+      "observation_artifact_url": "https://globalgrid2050.com/uk_energy_tracking_v6/live_grid_frequency.json",
+      "licence": {
+        "status": "RECORDED",
+        "url": "https://www.elexon.co.uk/bsc/data/balancing-mechanism-reporting-agent/copyright-licence-use-bmrs-api/",
+        "attribution": "Elexon BMRS candidate endpoints"
+      },
+      "adapter_id": "globalgrid.update_uk_frequency_v6.heuristic",
+      "adapter_version": "AUDITED_GLOBALGRID_cfb32796",
+      "schema_version": "V6_HEURISTIC_SNAPSHOT",
+      "scheduler": {
+        "path": "Ventusltd/globalgrid2050 root workflow",
+        "state": "MANUAL_ONLY"
+      },
+      "source_updated_at": "2026-06-18T21:52:31Z",
+      "freshness_sla_seconds": 300,
+      "fetch_status": "LAST_KNOWN_SUCCESS",
+      "attempt_count": null,
+      "raw_sha256": null,
+      "prior_raw_sha256": null,
+      "record_count": null,
+      "distinct_key_count": null,
+      "null_key_count": null,
+      "duplicate_groups": null,
+      "source_record_key": ["source_time_utc"],
+      "provisional": true,
+      "evidence_class": "HEURISTIC",
+      "blocking_issues": [
+        "adapter scans arbitrary 45 to 55 numeric values as hertz",
+        "observation timestamp may fall back to ingestion time"
+      ],
+      "metadata_gaps": ["authoritative endpoint", "raw-source hash", "schema manifest"],
+      "last_known_good_commit": "cfb32796e4a3c45a0ab7bec53623b96c84a818a4"
+    },
+    {
+      "source_product_id": "OFFICIAL_GRID_CONSTRAINT_FEED_GAP",
+      "domain": "GRID_CONSTRAINTS",
+      "source_owner": null,
+      "authoritative_tier": "NO_SOURCE_CONFIGURED",
+      "source_page_url": null,
+      "source_record_url": null,
+      "observation_artifact_url": null,
+      "licence": {
+        "status": "NOT_APPLICABLE_NO_SOURCE",
+        "url": null,
+        "attribution": null
+      },
+      "adapter_id": null,
+      "adapter_version": null,
+      "schema_version": null,
+      "scheduler": {
+        "path": null,
+        "state": "NO_SOURCE_CONFIGURED"
+      },
+      "source_updated_at": null,
+      "freshness_sla_seconds": null,
+      "fetch_status": "NO_SOURCE_CONFIGURED",
+      "attempt_count": 0,
+      "raw_sha256": null,
+      "prior_raw_sha256": null,
+      "record_count": null,
+      "distinct_key_count": null,
+      "null_key_count": null,
+      "duplicate_groups": null,
+      "source_record_key": null,
+      "provisional": true,
+      "evidence_class": "SOURCE_GAP",
+      "blocking_issues": ["no proven live grid-constraint adapter exists in the audited V6 implementation"],
+      "metadata_gaps": ["source", "licence", "record key", "adapter", "snapshot"],
+      "last_known_good_commit": null
+    }
+  ]
+}

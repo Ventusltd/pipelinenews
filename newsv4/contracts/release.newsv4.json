@@ -1,0 +1,48 @@
+{
+  "schema": "pipelinenews.release-contract.v1",
+  "release": "newsv4",
+  "status": "CANDIDATE",
+  "feature": "deterministic market-context source health and freshness decisions",
+  "inputs": [
+    {
+      "path": "newsv4/inputs/source_health_observations.v1.json",
+      "sha256": "4c085bbc75c48de53e845c5152cfb105dac7349878177ee9a284a243ee457b1a"
+    }
+  ],
+  "data_law": {
+    "grain": "one row per audited source product or explicit source gap",
+    "primary_key": ["source_health_decision_id"],
+    "expected_rows": 6,
+    "evaluated_at": "2026-08-25T00:00:00Z",
+    "status_precedence": ["UNAVAILABLE", "DEGRADED", "STALE", "CURRENT"],
+    "allowed_statuses": ["CURRENT", "STALE", "DEGRADED", "UNAVAILABLE"]
+  },
+  "acceptance": {
+    "expected_status_counts": {
+      "CURRENT": 0,
+      "STALE": 1,
+      "DEGRADED": 4,
+      "UNAVAILABLE": 1
+    },
+    "expected_freshness_counts": {
+      "CURRENT": 0,
+      "STALE": 5,
+      "UNKNOWN": 1
+    },
+    "context_only": true,
+    "identity_event_grid_and_deal_use_forbidden": true,
+    "visible_ui_changed": false,
+    "deterministic_rebuild_required": true,
+    "independent_verifier_required": true
+  },
+  "publication": {
+    "live": false,
+    "public_path": null,
+    "reason": "NewsV4 is an audited metadata-only candidate and carries no market values."
+  },
+  "recovery": {
+    "frozen_predecessor": "newsv3",
+    "predecessor_mutated": false,
+    "rollback": "Discard newsv4; NewsV3, NewsV2 and NewsV1 remain independently reproducible."
+  }
+}

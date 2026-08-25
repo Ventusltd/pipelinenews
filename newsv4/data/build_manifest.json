@@ -1,0 +1,39 @@
+{
+  "schema": "pipelinenews.build-manifest.v1",
+  "release": "newsv4",
+  "status": "CANDIDATE",
+  "built_at": "2026-08-25T00:00:00Z",
+  "modules": [
+    {
+      "path": "newsv4/scripts/build-source-health-context.mjs",
+      "sha256": "4c836e1885dfa8fb922080d1e0d4c8b67aa30f27bf83bfef6c32e437a3e27f12"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "newsv4/inputs/source_health_observations.v1.json",
+      "sha256": "4c085bbc75c48de53e845c5152cfb105dac7349878177ee9a284a243ee457b1a"
+    },
+    {
+      "path": "newsv4/contracts/release.newsv4.json",
+      "sha256": "c529b03c3ab3eae21a3246b3318f4d662f0adbbdf569e530d55865dbeab686eb"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "newsv4/data/source_health_context.json",
+      "sha256": "5aa7f2bef3d99d2cc50c81695da406ccdd3f315c88237ecf0de2c0568deefd0d",
+      "bytes": 14664,
+      "rows": 6
+    }
+  ],
+  "checks": {
+    "source_health_context": {
+      "total_rows": 6,
+      "distinct_declared_keys": 6,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0
+    },
+    "independent_verifier": "newsv4/tests/check_newsv4.mjs"
+  }
+}
