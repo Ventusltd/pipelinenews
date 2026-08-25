@@ -1,6 +1,6 @@
 {
   "schema": "pipelinenews.official-source-snapshot.v3",
-  "generated_at": "2026-08-25T20:50:38.564Z",
+  "generated_at": "2026-08-25T21:17:54.721Z",
   "spine": {
     "projects": 7680,
     "reference_groups": 6870
@@ -11,7 +11,7 @@
       "attempted": 13,
       "succeeded": 12,
       "status_code": 429,
-      "prior_good_at": "2026-08-25T20:44:36.925Z",
+      "prior_good_at": "2026-08-25T20:50:38.564Z",
       "message": "rate limited; unfinished work retained; retry-after 15s observed"
     },
     "govuk": {
@@ -19,7 +19,7 @@
       "attempted": 1,
       "succeeded": 1,
       "status_code": 200,
-      "prior_good_at": "2026-08-25T20:44:36.925Z",
+      "prior_good_at": "2026-08-25T20:50:38.564Z",
       "message": null
     }
   },
@@ -6476,6 +6476,309 @@
           }
         }
       ]
+    },
+    "07220013": {
+      "checked_at": "2026-08-25T21:17:54.721Z",
+      "query_reference": "07/22/0013",
+      "records": [
+        {
+          "uid": "07/22/0013",
+          "reference": null,
+          "altid": null,
+          "name": "TauntonDeane/07/22/0013",
+          "area_name": "Taunton Deane",
+          "description": "Installation of an energy reserve facility with ancillary infrastructure on land at Hele Manor Farm, Hele Road, Bradford on Tone",
+          "app_state": "Conditions",
+          "start_date": "2022-08-22",
+          "decided_date": "2023-04-13",
+          "last_changed": "2026-08-14T09:57:25.269553",
+          "url": "https://www3.somersetwestandtaunton.gov.uk/asp/webpages/plan/PlAppDets.asp?casefullref=07/22/0013&QC=mZeC1",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "12174"
+            ]
+          }
+        }
+      ]
+    },
+    "07250392PNPV": {
+      "checked_at": "2026-08-25T21:17:54.721Z",
+      "query_reference": "07/25/0392/PNPV",
+      "records": [
+        {
+          "uid": "07/25/0392/PNPV",
+          "reference": null,
+          "altid": "529602",
+          "name": "Broxbourne/07/25/0392/PNPV",
+          "area_name": "Broxbourne",
+          "description": "Prior approval for roof mounted solar panels",
+          "app_state": "Undecided",
+          "start_date": "2025-05-06",
+          "decided_date": null,
+          "last_changed": "2025-07-01T07:40:02.774685",
+          "url": "https://planning.broxbourne.gov.uk/LPAssure/ES/Presentation/Planning/OnlinePlanning/OnlinePlanningOverview?applicationNumber=07%2F25%2F0392%2FPNPV",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "18739",
+            "gg_project_id": "GG2050-REPD-18739",
+            "project_name": "St Marys C Of E Va High School, Lieutenant Ellis Way - Solar Panels",
+            "planning_application_reference": "07/25/0392/PNPV",
+            "planning_authority": "Broxbourne",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "07980342F": {
+      "checked_at": "2026-08-25T21:17:54.721Z",
+      "query_reference": "07/98/0342/F",
+      "records": []
+    },
+    "07980343F": {
+      "checked_at": "2026-08-25T21:17:54.721Z",
+      "query_reference": "07/98/0343/f",
+      "records": []
+    },
+    "07P20006": {
+      "checked_at": "2026-08-25T21:17:54.721Z",
+      "query_reference": "07/P/2/0006",
+      "records": [
+        {
+          "uid": "07/P/2/0006",
+          "reference": null,
+          "altid": null,
+          "name": "Dumfries/07/P/2/0006",
+          "area_name": "Dumfries",
+          "description": "CONSTRUCTION OF TWO WIND TURBINES (NOT EXCEEDING 100 METRES), TURBINE TRANSFORMERS AND HOUSING, ANEMOMETRY MAST, ACCESS TRACKS, ON SITE SWITCHGEAR, METER HOUSING AND ASSOCIATED WORKS",
+          "app_state": "Permitted",
+          "start_date": "2007-01-08",
+          "decided_date": "2011-11-11",
+          "last_changed": "2023-05-20T08:46:49.069721",
+          "url": "https://eaccess.dumgal.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZW77GBTA398&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "4506",
+            "gg_project_id": "GG2050-REPD-4506",
+            "project_name": "Barnbackle Windfarm",
+            "planning_application_reference": "07/P/2/0006",
+            "planning_authority": "Dumfries and Galloway",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "08000471": {
+      "checked_at": "2026-08-25T21:17:54.721Z",
+      "query_reference": "08/00047/1",
+      "records": [
+        {
+          "uid": "08/00047/1",
+          "reference": null,
+          "altid": null,
+          "name": "NorthHertfordshire/08/00047/1",
+          "area_name": "North Hertfordshire",
+          "description": "Change of use of agricultural land and siting of 3, 120m Wind Turbines (2 MW.) 1, 52.5m wind speed mast, access tracks and detached equipment building (as amended by plan received 01/10/08). This application is submitted with an Environmental Statement - Section 9 of ES amended 21/11/08",
+          "app_state": "Rejected",
+          "start_date": "2008-09-04",
+          "decided_date": "2009-04-23",
+          "last_changed": "2023-06-11T16:50:29.060555",
+          "url": "https://pa2.north-herts.gov.uk/online-applications/applicationDetails.do?keyVal=ZZZYWCLKID118&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "2737",
+            "gg_project_id": "GG2050-REPD-2737",
+            "project_name": "Weston Hills",
+            "planning_application_reference": "08/00047/1",
+            "planning_authority": "North Hertfordshire",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0800066FULRC": {
+      "checked_at": "2026-08-25T21:17:54.721Z",
+      "query_reference": "08/00066/FULRC",
+      "records": [
+        {
+          "uid": "08/00066/FULRC",
+          "reference": null,
+          "altid": null,
+          "name": "Highland/08/00066/FULRC",
+          "area_name": "Highland",
+          "description": "Erection of five wind turbines, formation and improvement of access tracks, installation of underground cables, crane hardstanding, temporary construction compound, anemometer mast and borrow pit",
+          "app_state": "Rejected",
+          "start_date": "2008-01-24",
+          "decided_date": "2013-01-28",
+          "last_changed": "2024-03-16T10:07:20.884581",
+          "url": "https://wam.highland.gov.uk/wam/applicationDetails.do?keyVal=JVCYZXIH04900&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "3960",
+            "gg_project_id": "GG2050-REPD-3960",
+            "project_name": "Nigg Hill",
+            "planning_application_reference": "08/00066/FULRC",
+            "planning_authority": "Highland",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0800386FULCA": {
+      "checked_at": "2026-08-25T21:17:54.721Z",
+      "query_reference": "08/00386/FULCA",
+      "records": [
+        {
+          "uid": "08/00386/FULCA",
+          "reference": null,
+          "altid": null,
+          "name": "Highland/08/00386/FULCA",
+          "area_name": "Highland",
+          "description": "Erection of 13 no. wind turbines with height of 55m to the hub, control building, anemometer mast, temporary construction compound and access tracks",
+          "app_state": "Rejected",
+          "start_date": "2008-08-13",
+          "decided_date": "2010-11-22",
+          "last_changed": "2024-01-20T09:24:08.393308",
+          "url": "https://wam.highland.gov.uk/wam/applicationDetails.do?keyVal=K5JGNAIH01K00&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "EXACT_REFERENCE_PLUS_PLANNING_AUTHORITY",
+            "repd_ref": "3070",
+            "gg_project_id": "GG2050-REPD-3070",
+            "project_name": "Durran Mains",
+            "planning_application_reference": "08/00386/FULCA",
+            "planning_authority": "Highland",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0800426F": {
+      "checked_at": "2026-08-25T21:17:54.721Z",
+      "query_reference": "08/00426/F",
+      "records": [
+        {
+          "uid": "08/00426/F",
+          "reference": null,
+          "altid": null,
+          "name": "Bristol/08/00426/F",
+          "area_name": "Bristol",
+          "description": "Conversion of dwelling house to 2 no.self-contained flats including the erection of a single storey front extension to form shop/office and erection of part single and part two storey rear extensions.",
+          "app_state": "Rejected",
+          "start_date": "2008-01-30",
+          "decided_date": "2008-03-25",
+          "last_changed": "2023-06-10T15:07:25.599024",
+          "url": "https://pa.bristol.gov.uk/online-applications/applicationDetails.do?keyVal=JVIBKNDN00K00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2703"
+            ]
+          }
+        },
+        {
+          "uid": "08/00426/F",
+          "reference": null,
+          "altid": null,
+          "name": "Cherwell/08/00426/F",
+          "area_name": "Cherwell",
+          "description": "Conservatory to the rear",
+          "app_state": "Permitted",
+          "start_date": "2008-02-19",
+          "decided_date": "2008-04-16",
+          "last_changed": "2023-05-16T16:09:39.790308",
+          "url": "https://planningregister.cherwell.gov.uk/Planning/Display/08/00426/F",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2703"
+            ]
+          }
+        },
+        {
+          "uid": "08/00426/F",
+          "reference": null,
+          "altid": null,
+          "name": "KingsLynn/08/00426/F",
+          "area_name": "Kings Lynn",
+          "description": "Construction of garage",
+          "app_state": "Permitted",
+          "start_date": "2008-02-18",
+          "decided_date": "2008-04-14",
+          "last_changed": "2023-06-17T12:25:57.104291",
+          "url": "https://online.west-norfolk.gov.uk/online-applications/applicationDetails.do?keyVal=JWHOL5IV04S00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2703"
+            ]
+          }
+        },
+        {
+          "uid": "08/00426/F",
+          "reference": null,
+          "altid": null,
+          "name": "Norwich/08/00426/F",
+          "area_name": "Norwich",
+          "description": "Amendments to planning permission 06/00717/F; Change of first floor plan; adding of conservation rooflights and rebuild of east elevation.",
+          "app_state": "Permitted",
+          "start_date": "2008-04-17",
+          "decided_date": "2008-06-18",
+          "last_changed": "2023-06-11T19:09:27.375597",
+          "url": "https://planning.norwich.gov.uk/online-applications/applicationDetails.do?keyVal=JZGZMALX0HZ00&activeTab=summary",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "2703"
+            ]
+          }
+        }
+      ]
+    },
+    "0801411": {
+      "checked_at": "2026-08-25T21:17:54.721Z",
+      "query_reference": "08/01411",
+      "records": []
+    },
+    "08017503F": {
+      "checked_at": "2026-08-25T21:17:54.721Z",
+      "query_reference": "08/0175/03/F",
+      "records": [
+        {
+          "uid": "08/0175/03/F",
+          "reference": null,
+          "altid": null,
+          "name": "SouthWestDevon/08/0175/03/F",
+          "area_name": "South West Devon",
+          "description": "Erection of single wind turbine and ancillary equipment",
+          "app_state": "Rejected",
+          "start_date": "2003-03-07",
+          "decided_date": "2003-05-28",
+          "last_changed": "2024-04-27T11:24:28.800148",
+          "url": "https://westdevon.planning-register.co.uk/Planning/Display/08/0175/03/F",
+          "binding": {
+            "role": "ABSTAIN",
+            "reason": "PLANNING_AUTHORITY_OR_PROJECT_NAME_NOT_CONFIRMED",
+            "candidate_repd_refs": [
+              "3173"
+            ]
+          }
+        }
+      ]
+    },
+    "08018002": {
+      "checked_at": "2026-08-25T21:17:54.721Z",
+      "query_reference": "08/0180/02",
+      "records": []
     }
   },
   "govuk_items": [
