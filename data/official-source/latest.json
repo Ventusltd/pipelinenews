@@ -1,0 +1,993 @@
+{
+  "schema": "pipelinenews.official-source-snapshot.v1",
+  "generated_at": "2026-08-25T15:50:24.485Z",
+  "spine": {
+    "projects": 7680,
+    "reference_groups": 6870
+  },
+  "source_health": {
+    "planit": {
+      "status": "DEGRADED",
+      "attempted": 14,
+      "succeeded": 12,
+      "status_code": 429,
+      "prior_good_at": null,
+      "message": "rate limited; cursor retained for unfinished work"
+    },
+    "govuk": {
+      "status": "LIVE",
+      "attempted": 1,
+      "succeeded": 1,
+      "status_code": 200,
+      "prior_good_at": null,
+      "message": null
+    }
+  },
+  "planit_by_reference": {
+    "0001330DET": {
+      "checked_at": "2026-08-25T15:50:24.485Z",
+      "query_reference": "00/01330/DET",
+      "records": []
+    },
+    "000530FL": {
+      "checked_at": "2026-08-25T15:50:24.485Z",
+      "query_reference": "00/0530/FL",
+      "records": [
+        {
+          "uid": "00/0530/FL",
+          "reference": null,
+          "name": "EastAyrshire/00/0530/FL",
+          "area_name": "East Ayrshire",
+          "description": "Windfarm Comprising No More Than Six Turbines, Meteorological Mast, Switchgear Building And Access Tracks.",
+          "app_state": "Withdrawn",
+          "start_date": "2000-07-20",
+          "decided_date": "2010-02-11",
+          "last_changed": "2023-06-11T01:47:34.754388",
+          "url": "https://eplanning.east-ayrshire.gov.uk/online/applicationDetails.do?activeTab=summary&keyVal=ZZZZTUGFXC416",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "3537",
+            "gg_project_id": "GG2050-REPD-3537",
+            "project_name": "Little Kilmain",
+            "planning_application_reference": "00/0530/FL",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0044426FUL": {
+      "checked_at": "2026-08-25T15:50:24.485Z",
+      "query_reference": "00444/26/FUL",
+      "records": [
+        {
+          "uid": "00444/26/FUL",
+          "reference": null,
+          "name": "EastLindsey/00444/26/FUL",
+          "area_name": "East Lindsey",
+          "description": "Planning Permission - Installation of a photovoltaic solar energy farm with associated infrastructure, including erection of a substation, construction of a vehicular access and internal access roads, landscaping and biodiversity enhancements.",
+          "app_state": "Undecided",
+          "start_date": "2026-03-19",
+          "decided_date": null,
+          "last_changed": "2026-08-25T08:04:04.914712",
+          "url": "https://publicaccess.e-lindsey.gov.uk/online-applications/applicationDetails.do?activeTab=summary&keyVal=TC54LYGMKTX00",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "19975",
+            "gg_project_id": "GG2050-REPD-19975",
+            "project_name": "North Ray Solar Farm, Lincoln Gate - Solar Panels",
+            "planning_application_reference": "00444/26/FUL",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0042FUL24": {
+      "checked_at": "2026-08-25T15:50:24.485Z",
+      "query_reference": "0042/FUL/24",
+      "records": [
+        {
+          "uid": "0042/FUL/24",
+          "reference": null,
+          "name": "WestLothian/0042/FUL/24",
+          "area_name": "West Lothian",
+          "description": "Installation of roof mounted solar PV panels (2800kWp)",
+          "app_state": "Permitted",
+          "start_date": "2024-01-23",
+          "decided_date": "2024-02-29",
+          "last_changed": "2025-11-10T08:43:53.431397",
+          "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?activeTab=summary&keyVal=S7PJSHRJFR200",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "15820",
+            "gg_project_id": "GG2050-REPD-15820",
+            "project_name": "Nettlehill Road - Solar Panels",
+            "planning_application_reference": "0042/FUL/24",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0075226": {
+      "checked_at": "2026-08-25T15:50:24.485Z",
+      "query_reference": "00752/26",
+      "records": [
+        {
+          "uid": "00752/26",
+          "reference": null,
+          "name": "Bolton/00752/26",
+          "area_name": "Bolton",
+          "description": "PRIOR APPROVAL APPLICATION FOR INSTALLATION OF SOLAR PHOTOVOLTAIC EQUIPMENT ON THE ROOF.",
+          "app_state": "Permitted",
+          "start_date": "2026-04-23",
+          "decided_date": "2026-06-29",
+          "last_changed": "2026-07-17T07:34:27.764628",
+          "url": "https://paplanning.bolton.gov.uk/online-applications/applicationDetails.do?keyVal=TDZJEJDE03B00&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "20819",
+            "gg_project_id": "GG2050-REPD-20819",
+            "project_name": "Tesco Superstore, Mansell Way - Solar Panels",
+            "planning_application_reference": "00752/26",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "007152015": {
+      "checked_at": "2026-08-25T15:50:24.485Z",
+      "query_reference": "00715/2015",
+      "records": [
+        {
+          "uid": "00715/2015",
+          "reference": null,
+          "name": "SouthWestDevon/00715/2015",
+          "area_name": "South West Devon",
+          "description": "Installation of solar pv array (site area 11.82 Ha, estimated output 5MW, approx 19,230 panels) with associated infrastructure, landscaping, access and cable route",
+          "app_state": "Conditions",
+          "start_date": "2015-06-26",
+          "decided_date": "2015-11-16",
+          "last_changed": "2025-02-22T11:33:48.460596",
+          "url": "https://westdevon.planning-register.co.uk/Planning/Display/00715/2015",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "5584",
+            "gg_project_id": "GG2050-REPD-5584",
+            "project_name": "Land at Martin Farm",
+            "planning_application_reference": "00715/2015",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "011322014": {
+      "checked_at": "2026-08-25T15:50:24.485Z",
+      "query_reference": "01132/2014",
+      "records": [
+        {
+          "uid": "01132/2014",
+          "reference": null,
+          "name": "SouthWestDevon/01132/2014",
+          "area_name": "South West Devon",
+          "description": "30 year permission for development of 58 hectare Eco Park comprising of ground mounted solar photovolatic system (22MW) and associated infrastructure incorporating access trail and an ecology enhanced landscape.",
+          "app_state": "Rejected",
+          "start_date": "2014-10-03",
+          "decided_date": "2016-01-08",
+          "last_changed": "2025-03-08T11:46:48.595853",
+          "url": "https://westdevon.planning-register.co.uk/Planning/Display/01132/2014",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "4720",
+            "gg_project_id": "GG2050-REPD-4720",
+            "project_name": "Land Adjacent to Taw Valley Creamery",
+            "planning_application_reference": "01132/2014",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0114FUL18": {
+      "checked_at": "2026-08-25T15:50:24.485Z",
+      "query_reference": "0114/FUL/18",
+      "records": [
+        {
+          "uid": "0114/FUL/18",
+          "reference": null,
+          "name": "WestLothian/0114/FUL/18",
+          "area_name": "West Lothian",
+          "description": "Erection of containerised electricity storage facility with battery storage units, ancillary equipment, powder coated weldmesh fence and access track (as amended)",
+          "app_state": "Permitted",
+          "start_date": "2018-02-12",
+          "decided_date": "2018-06-12",
+          "last_changed": "2023-09-30T11:26:12.74602",
+          "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?keyVal=P4129ZRJIF400&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "8155",
+            "gg_project_id": "GG2050-REPD-8155",
+            "project_name": "Drumcross Battery Storage",
+            "planning_application_reference": "0114/FUL/18",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "0124FUL21": {
+      "checked_at": "2026-08-25T15:50:24.485Z",
+      "query_reference": "0124/FUL/21",
+      "records": [
+        {
+          "uid": "0124/FUL/21",
+          "reference": null,
+          "name": "WestLothian/0124/FUL/21",
+          "area_name": "West Lothian",
+          "description": "Erection of 3 wind turbines with maximum height to blade tip of 180m and 1 wind turbine with maximum height to blade tip of 150m and associated infrastructure (EIA Development) (as varied from 4 turbines all 180m)",
+          "app_state": "Permitted",
+          "start_date": "2021-02-08",
+          "decided_date": "2021-12-22",
+          "last_changed": "2025-11-15T13:44:36.456291",
+          "url": "https://planning.westlothian.gov.uk/publicaccess/applicationDetails.do?keyVal=QO7V3QRJH6500&activeTab=summary",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "8847",
+            "gg_project_id": "GG2050-REPD-8847",
+            "project_name": "Pearie Law 2 - Wind turbines",
+            "planning_application_reference": "0124/FUL/21",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "012702011": {
+      "checked_at": "2026-08-25T15:50:24.485Z",
+      "query_reference": "01270/2011",
+      "records": [
+        {
+          "uid": "01270/2011",
+          "reference": null,
+          "name": "SouthWestDevon/01270/2011",
+          "area_name": "South West Devon",
+          "description": "Change of use of land and construction of photovoltaic solar farm including plant buildings, panel mounting and boundary fencing",
+          "app_state": "Rejected",
+          "start_date": "2011-02-22",
+          "decided_date": "2011-05-24",
+          "last_changed": "2023-12-23T11:15:33.249419",
+          "url": "https://westdevon.planning-register.co.uk/Planning/Display/01270/2011",
+          "binding": {
+            "role": "PRIMARY_MATCH",
+            "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+            "repd_ref": "1044",
+            "gg_project_id": "GG2050-REPD-1044",
+            "project_name": "North Tawton Solar Farm",
+            "planning_application_reference": "01270/2011",
+            "news_may_overwrite_official_facts": false
+          }
+        }
+      ]
+    },
+    "01887FUL": {
+      "checked_at": "2026-08-25T15:50:24.485Z",
+      "query_reference": "01/887/FUL",
+      "records": []
+    },
+    "0146FUL13": {
+      "checked_at": "2026-08-25T15:50:24.485Z",
+      "query_reference": "0146/FUL/13",
+      "records": []
+    }
+  },
+  "govuk_items": [
+    {
+      "title": "DESNZ: workforce management information",
+      "description": "Documents relating to workforce management information summary data for the Department for Energy Security and Net Zero (DESNZ).",
+      "url": "https://www.gov.uk/government/collections/desnz-workforce-management-information",
+      "public_timestamp": "2026-08-25T12:51:33Z",
+      "bindings": []
+    },
+    {
+      "title": "DESNZ workforce management information, July 2026",
+      "description": "Report on departmental staff numbers and costs.",
+      "url": "https://www.gov.uk/government/publications/desnz-workforce-management-information-july-2026",
+      "public_timestamp": "2026-08-25T12:51:21Z",
+      "bindings": []
+    },
+    {
+      "title": "Warm Homes: Social Housing Fund statistics - July 2026",
+      "description": "Data to monitor the installation of energy efficiency measures in domestic properties via the Warm Homes: Social Housing Fund scheme in England.",
+      "url": "https://www.gov.uk/government/statistics/announcements/warm-homes-social-housing-fund-statistics-july-2026",
+      "public_timestamp": "2026-08-25T10:22:05Z",
+      "bindings": []
+    },
+    {
+      "title": "Warm Homes: Local Grant statistics - July 2026",
+      "description": "Data to monitor the installation of energy efficiency measures in domestic properties via the Warm Homes: Local Grant scheme in England.",
+      "url": "https://www.gov.uk/government/statistics/announcements/warm-homes-local-grant-statistics-july-2026",
+      "public_timestamp": "2026-08-25T09:32:07Z",
+      "bindings": []
+    },
+    {
+      "title": "Oil and gas: offshore environmental legislation",
+      "description": "Environmental regulations and guidance on offshore oil and gas exploration and production offshore gas unloading and storage and offshore carbon dioxide storage activities",
+      "url": "https://www.gov.uk/guidance/oil-and-gas-offshore-environmental-legislation",
+      "public_timestamp": "2026-08-24T11:05:21Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy trends and prices: June - August 2026",
+      "description": "Monthly production, trade, electricity generation and consumption of coal, electricity, gas, oil and total energy; retail price and EU comparative price data, and petrol & diesel price data.",
+      "url": "https://www.gov.uk/government/statistics/announcements/energy-trends-and-prices-june-2026",
+      "public_timestamp": "2026-08-21T15:52:41Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy infrastructure development applications: decisions",
+      "description": "Decisions by the Secretary of State on energy infrastructure applications.",
+      "url": "https://www.gov.uk/government/collections/energy-infrastructure-development-applications-decisions",
+      "public_timestamp": "2026-08-21T14:54:49Z",
+      "bindings": []
+    },
+    {
+      "title": "Beacon Fen Energy Park Project: decision on application for development consent under the Planning Act 2008",
+      "description": "Decision on an application for an energy park in Lincolnshire, under the Planning Act 2008.",
+      "url": "https://www.gov.uk/government/publications/beacon-fen-energy-park-project-decision-on-application-for-development-consent-under-the-planning-act-2008",
+      "public_timestamp": "2026-08-21T14:54:33Z",
+      "bindings": []
+    },
+    {
+      "title": "Oil and gas: EEMS database",
+      "description": "Access the Environmental and Emissions Monitoring System database to get data on oil rigs and other offshore installations around the UK.",
+      "url": "https://www.gov.uk/guidance/oil-and-gas-eems-database",
+      "public_timestamp": "2026-08-20T14:25:50Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy trends and prices: May - July 2027",
+      "description": "Monthly production, trade, electricity generation and consumption of coal, electricity, gas, oil and total energy; solar PV deployment; retail price and EU comparative price data, and petrol & diesel price data.",
+      "url": "https://www.gov.uk/government/statistics/announcements/energy-trends-and-prices-may-july-2027",
+      "public_timestamp": "2026-08-20T12:07:45Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy trends and prices: April - June 2027",
+      "description": "Monthly production, trade, electricity generation and consumption of coal, electricity, gas, oil and total energy; solar PV deployment; retail price and EU comparative price data, and petrol & diesel price data.",
+      "url": "https://www.gov.uk/government/statistics/announcements/energy-trends-and-prices-april-june-2027",
+      "public_timestamp": "2026-08-20T12:07:24Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy trends and prices: March - May 2027",
+      "description": "Monthly production, trade, electricity generation and consumption of coal, electricity, gas, oil and total energy; solar PV deployment; retail price and EU comparative price data, and petrol & diesel price data.",
+      "url": "https://www.gov.uk/government/statistics/announcements/energy-trends-and-prices-march-may-2027",
+      "public_timestamp": "2026-08-20T12:07:06Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy trends and prices: February - April 2027",
+      "description": "Monthly production, trade, electricity generation and consumption of coal, electricity, gas, oil and total energy; solar PV deployment; retail price and EU comparative price data, and petrol & diesel price data.",
+      "url": "https://www.gov.uk/government/statistics/announcements/energy-trends-and-prices-february-2027",
+      "public_timestamp": "2026-08-20T12:06:45Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy trends and prices: January - March 2027",
+      "description": "Monthly production, trade, electricity generation and consumption of coal, electricity, gas, oil and total energy; solar PV deployment; retail price and EU comparative price data, and petrol & diesel price data.",
+      "url": "https://www.gov.uk/government/statistics/announcements/energy-trends-and-prices-january-2027",
+      "public_timestamp": "2026-08-20T12:06:27Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy trends and prices: December 2026 - February 2027",
+      "description": "Monthly production, trade, electricity generation and consumption of coal, electricity, gas, oil and total energy; solar PV deployment; retail price and EU comparative price data, and petrol & diesel price data.",
+      "url": "https://www.gov.uk/government/statistics/announcements/energy-trends-and-prices-december-2026",
+      "public_timestamp": "2026-08-20T12:06:04Z",
+      "bindings": []
+    },
+    {
+      "title": "UK Energy in Brief: 2026",
+      "description": "Summary of some of the key annual statistics in the UK energy system: how energy is produced and used and the way in which energy use influences greenhouse gas emissions; combined heat and power, renewable energy, energy efficiency, energy prices and fuel poverty.",
+      "url": "https://www.gov.uk/government/statistics/announcements/uk-energy-in-brief-2026",
+      "public_timestamp": "2026-08-20T11:23:29Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy Flow Chart: 2026",
+      "description": "Flow chart illustrating the flow of primary fuels from home production or imports to their eventual final uses.",
+      "url": "https://www.gov.uk/government/statistics/announcements/energy-flow-chart-2026",
+      "public_timestamp": "2026-08-20T11:22:33Z",
+      "bindings": []
+    },
+    {
+      "title": "Digest of UK Energy Statistics: 2026",
+      "description": "The Digest of United Kingdom Energy Statistics (DUKES) is the annual energy statistics publication of DESNZ. It provides a detailed and comprehensive picture on the production, trade and consumption of individual fuels and of energy as a whole.",
+      "url": "https://www.gov.uk/government/statistics/announcements/digest-of-uk-energy-statistics-2026",
+      "public_timestamp": "2026-08-20T11:21:41Z",
+      "bindings": []
+    },
+    {
+      "title": "Social Housing Decarbonisation Fund: June 2026",
+      "description": "Data to monitor the installation of energy efficiency measures in domestic properties via the Social Housing Decarbonisation Fund (SHDF) scheme in England.",
+      "url": "https://www.gov.uk/government/statistics/announcements/social-housing-decarbonisation-fund-june-2026",
+      "public_timestamp": "2026-08-20T10:25:56Z",
+      "bindings": []
+    },
+    {
+      "title": "Smart Meters: April to June 2026",
+      "description": "Quarterly statistics which show the number of smart meters installed by large energy suppliers in April to June 2026 and the total numbers of smart and non-smart meters operated by these suppliers at the end of June 2026.",
+      "url": "https://www.gov.uk/government/statistics/announcements/smart-meters-april-to-june-2026",
+      "public_timestamp": "2026-08-20T10:02:23Z",
+      "bindings": []
+    },
+    {
+      "title": "New challenge launched to store clean energy for longer and protect households from price spikes",
+      "description": "Challenge aims to strengthen UK energy security, create jobs in new industries, and reduce energy bills in the long-term ",
+      "url": "https://www.gov.uk/government/news/new-challenge-launched-to-store-clean-energy-for-longer-and-protect-households-from-price-spikes",
+      "public_timestamp": "2026-08-20T09:25:50Z",
+      "bindings": []
+    },
+    {
+      "title": "DESNZ annual report and accounts 2025 to 2026",
+      "description": "Report on expenditure and performance of the Department for Energy Security and Net Zero, 1 April 2025 to 31 March 2026.",
+      "url": "https://www.gov.uk/government/publications/desnz-annual-report-and-accounts-2025-to-2026",
+      "public_timestamp": "2026-08-19T08:24:26Z",
+      "bindings": []
+    },
+    {
+      "title": "Apply for the Heat Network Efficiency Scheme (HNES): Round 13",
+      "description": "The Heat Network Efficiency Scheme supports performance improvements to existing district heating or communal heating projects.",
+      "url": "https://www.gov.uk/government/publications/heat-network-efficiency-scheme-hnes",
+      "public_timestamp": "2026-08-18T12:31:23Z",
+      "bindings": []
+    },
+    {
+      "title": "Gas system in transition: security of supply",
+      "description": "We are seeking views on our assessment of GB’s long-term supply of gas, and proposed policy actions to protect our gas and energy security during the transition.",
+      "url": "https://www.gov.uk/government/consultations/gas-system-in-transition-security-of-supply",
+      "public_timestamp": "2026-08-18T09:00:01Z",
+      "bindings": []
+    },
+    {
+      "title": "DESNZ major projects: business case publications",
+      "description": "Business cases for major projects by the Department for Energy Security and Net Zero (DESNZ).\r\n",
+      "url": "https://www.gov.uk/government/collections/desnz-major-projects-business-case-publications",
+      "public_timestamp": "2026-08-17T14:46:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Department for Energy Security and Net Zero major projects: accounting officer assessments",
+      "description": "Accounting officer assessment summaries for the Department for Energy Security and Net Zero programmes and projects.\r\n\r\n",
+      "url": "https://www.gov.uk/government/publications/department-for-energy-security-and-net-zero-major-projects-accounting-officer-assessments",
+      "public_timestamp": "2026-08-17T14:45:58Z",
+      "bindings": []
+    },
+    {
+      "title": "Small modular reactor Technology Partner: summary business case",
+      "description": "This is a summary of the full business case produced as part of the small modular reactor Technology Partner contract approvals process.",
+      "url": "https://www.gov.uk/government/publications/small-modular-reactor-technology-partner-summary-business-case",
+      "public_timestamp": "2026-08-17T14:45:40Z",
+      "bindings": []
+    },
+    {
+      "title": "Small modular reactor Owner’s Engineer Procurement: summary business case",
+      "description": "This is a summary business case produced for the small modular reactor Owner’s Engineer Procurement.",
+      "url": "https://www.gov.uk/government/publications/small-modular-reactor-owners-engineer-procurement-summary-business-case",
+      "public_timestamp": "2026-08-17T14:45:25Z",
+      "bindings": []
+    },
+    {
+      "title": "Proposed legislative changes to support implementation of the British Industrial Competitiveness Scheme",
+      "description": "We're seeking views on legislative amendments to the CfD supplier obligation to support implementation of the British Industrial Competitiveness Scheme (BICS).",
+      "url": "https://www.gov.uk/government/consultations/proposed-legislative-changes-to-support-implementation-of-the-british-industrial-competitiveness-scheme",
+      "public_timestamp": "2026-08-13T13:28:31Z",
+      "bindings": []
+    },
+    {
+      "title": "Capacity Market: Hydrogen to Power and interconnectors",
+      "description": "We're seeking views on enabling the participation of Hydrogen to Power in the Capacity Market and technical changes to setting interconnector de-rating factors.",
+      "url": "https://www.gov.uk/government/calls-for-evidence/capacity-market-hydrogen-to-power-and-interconnectors",
+      "public_timestamp": "2026-08-13T10:53:28Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy Trends: UK renewables",
+      "description": "Data on the UK’s renewables sector, including capacity, electricity generation and liquid biofuels consumption.",
+      "url": "https://www.gov.uk/government/statistics/energy-trends-section-6-renewables",
+      "public_timestamp": "2026-08-13T08:30:10Z",
+      "bindings": []
+    },
+    {
+      "title": "British Sign Language (BSL) 5-year plan and yearly updates: Department for Energy Security and Net Zero",
+      "description": "Information about what the Department for Energy Security and Net Zero is doing to improve the use of BSL in its communications. Includes 5-year plan and annual updates.",
+      "url": "https://www.gov.uk/government/collections/british-sign-language-bsl-5-year-plan-and-yearly-updates-department-for-energy-security-and-net-zero",
+      "public_timestamp": "2026-08-12T23:01:06Z",
+      "bindings": []
+    },
+    {
+      "title": "British Sign Language (BSL) 5-year plan: Department for Energy Security and Net Zero",
+      "description": "This plan sets out how the Department for Energy Security and Net Zero plans to improve the use of BSL in its communications in the next 5 years.",
+      "url": "https://www.gov.uk/government/publications/british-sign-language-5-year-plan-department-for-energy-security-and-net-zero",
+      "public_timestamp": "2026-08-12T23:01:05Z",
+      "bindings": []
+    },
+    {
+      "title": "Warm Homes Loan Scheme: apply to participate as a lender (Phase 1)",
+      "description": "The Warm Homes Loan Scheme (WHLS) will unlock private lending and investment at scale for home retrofit.",
+      "url": "https://www.gov.uk/government/publications/warm-homes-loan-scheme-apply-to-participate-as-a-lender-phase-1",
+      "public_timestamp": "2026-08-12T16:00:02Z",
+      "bindings": []
+    },
+    {
+      "title": "Households living near new pylons to save thousands on bills",
+      "description": "Government reveals the communities in over 40 locations eligible for cheaper electricity bills.",
+      "url": "https://www.gov.uk/government/news/households-living-near-new-pylons-to-save-thousands-on-bills",
+      "public_timestamp": "2026-08-11T23:01:00Z",
+      "bindings": []
+    },
+    {
+      "title": "Electricity bill discount scheme for transmission network infrastructure: expected eligible projects",
+      "description": "A list of transmission projects expected to be eligible for the scheme.",
+      "url": "https://www.gov.uk/government/publications/electricity-bill-discount-scheme-for-transmission-network-infrastructure-expected-eligible-projects",
+      "public_timestamp": "2026-08-11T23:01:00Z",
+      "bindings": []
+    },
+    {
+      "title": "Biomass Feedstocks Innovation Programme: successful projects",
+      "description": "£36 million in funding for projects to support innovation in the production of sustainable domestic biomass. ",
+      "url": "https://www.gov.uk/government/publications/biomass-feedstocks-innovation-programme-successful-projects",
+      "public_timestamp": "2026-08-11T10:27:27Z",
+      "bindings": []
+    },
+    {
+      "title": "Taking part in the UK Emissions Trading Scheme markets",
+      "description": "This guidance explains the operation of the UK ETS markets and how to take part in auctions and in trading on the secondary market.",
+      "url": "https://www.gov.uk/government/publications/taking-part-in-the-uk-emissions-trading-scheme-markets",
+      "public_timestamp": "2026-08-10T16:15:03Z",
+      "bindings": []
+    },
+    {
+      "title": "Apply for the Heat Training Grant: discounted heat pump training",
+      "description": "If you're a heating engineer, you could receive a discount of up to £500 towards the cost of heat pump training, plus support and advice when installing a heat pump for the first time.",
+      "url": "https://www.gov.uk/government/publications/heat-training-grant-for-heat-pumps",
+      "public_timestamp": "2026-08-10T11:35:48Z",
+      "bindings": []
+    },
+    {
+      "title": "Smart Secure Electricity Systems: proposed class exemptions from the requirement to hold a load control licence",
+      "description": "We’re seeking views on proposed class exemptions from the requirement to hold a load control licence in respect of a new load control licensing framework being introduced as part of the SSES programme under the Electricity Act 1989.",
+      "url": "https://www.gov.uk/government/publications/smart-secure-electricity-systems-proposed-class-exemptions-from-the-requirement-to-hold-a-load-control-licence",
+      "public_timestamp": "2026-08-07T09:55:50Z",
+      "bindings": []
+    },
+    {
+      "title": "Smart Secure Electricity Systems (SSES) Programme: draft load control licence regulations and conditions",
+      "description": "We're seeking views on the proposed regulations, including the licence conditions designed to protect consumers and the electricity system.",
+      "url": "https://www.gov.uk/government/consultations/smart-secure-electricity-systems-sses-programme-draft-load-control-licence-regulations-and-conditions",
+      "public_timestamp": "2026-08-07T09:55:05Z",
+      "bindings": []
+    },
+    {
+      "title": "Fuel poverty statistics",
+      "description": "This series brings together all documents relating to fuel poverty statistics.",
+      "url": "https://www.gov.uk/government/collections/fuel-poverty-statistics",
+      "public_timestamp": "2026-08-07T08:35:53Z",
+      "bindings": []
+    },
+    {
+      "title": "Fuel poverty detailed tables 2023 (2021 data)",
+      "description": "Fuel poverty detailed tables under the Low Income Low Energy Efficiency (LILEE) indicator (2021 data).",
+      "url": "https://www.gov.uk/government/statistics/fuel-poverty-detailed-tables-2023-2021-data",
+      "public_timestamp": "2026-08-07T08:35:28Z",
+      "bindings": []
+    },
+    {
+      "title": "Fuel poverty detailed tables 2024 (2022 data)",
+      "description": "Fuel poverty detailed tables under the Low Income Low Energy Efficiency (LILEE) indicator (2022 data).",
+      "url": "https://www.gov.uk/government/statistics/fuel-poverty-detailed-tables-2024-2022-data",
+      "public_timestamp": "2026-08-07T08:35:19Z",
+      "bindings": []
+    },
+    {
+      "title": "Fuel poverty detailed tables 2025 (2023 data)",
+      "description": "Fuel poverty detailed tables under the Low Income Low Energy Efficiency (LILEE) indicator (2023 data).",
+      "url": "https://www.gov.uk/government/statistics/fuel-poverty-detailed-tables-2025-2023-data",
+      "public_timestamp": "2026-08-07T08:35:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Fuel poverty detailed tables 2026 (2024 data)",
+      "description": "Fuel poverty detailed tables under the Low Income Low Energy Efficiency (LILEE) indicator (2024 data).",
+      "url": "https://www.gov.uk/government/statistics/fuel-poverty-detailed-tables-2026-2024-data",
+      "public_timestamp": "2026-08-07T08:35:03Z",
+      "bindings": []
+    },
+    {
+      "title": "Fuel poverty detailed tables 2026 (2025 data)",
+      "description": "Fuel poverty detailed tables under the Low Income Low Energy Efficiency (LILEE) indicator (2025 data).",
+      "url": "https://www.gov.uk/government/statistics/fuel-poverty-detailed-tables-2026-2025-data",
+      "public_timestamp": "2026-08-07T08:34:53Z",
+      "bindings": []
+    },
+    {
+      "title": "Fuel poverty statistics methodology handbooks",
+      "description": "Guides to the fuel poverty statistics series, for both the Low Income Low Energy Efficiency (LILEE) and the Low Income High Costs (LIHC) indicators. ",
+      "url": "https://www.gov.uk/government/publications/fuel-poverty-statistics-methodology-handbook",
+      "public_timestamp": "2026-08-07T08:34:16Z",
+      "bindings": []
+    },
+    {
+      "title": "Warm Home Discount: eligibility statement (England and Wales), 2026 to 2027 scheme year",
+      "description": "Statement setting out the eligibility criteria for the Warm Home Discount scheme in England and Wales for 2026 to 2027.\r\n",
+      "url": "https://www.gov.uk/government/publications/warm-home-discount-eligibility-statement-england-and-wales-2026-to-2027-scheme-year",
+      "public_timestamp": "2026-08-07T08:30:00Z",
+      "bindings": []
+    },
+    {
+      "title": "Youth Climate and Nature Panel",
+      "description": "We're creating a new Youth Climate and Nature Panel to put the voices of younger people at the heart of climate and nature policies. Find out how you can take part.  ",
+      "url": "https://www.gov.uk/government/publications/youth-climate-and-nature-panel",
+      "public_timestamp": "2026-08-06T14:30:38Z",
+      "bindings": []
+    },
+    {
+      "title": "Permitted development rights for electricity network ground investigations",
+      "description": "We're seeking views on proposed permitted development rights for ground investigations and surveys for electricity network infrastructure.",
+      "url": "https://www.gov.uk/government/consultations/permitted-development-rights-for-electricity-network-ground-investigations",
+      "public_timestamp": "2026-08-06T13:00:04Z",
+      "bindings": []
+    },
+    {
+      "title": "National Buildings Database phase 2: understanding Great Britain’s buildings",
+      "description": "Research on the National Buildings Database (NBD), with a focus on non-domestic premises and the building stock. ",
+      "url": "https://www.gov.uk/government/publications/national-buildings-database-phase-2-understanding-great-britains-buildings",
+      "public_timestamp": "2026-08-06T10:54:43Z",
+      "bindings": []
+    },
+    {
+      "title": "Heat Pump Investment Accelerator Competition: round 2 (closed)",
+      "description": "This competition provides grant funding for investments in the manufacture of heat pumps and strategically important heat pump components in the UK.\r\n",
+      "url": "https://www.gov.uk/government/publications/heat-pump-investment-accelerator-competition-round-2",
+      "public_timestamp": "2026-08-06T08:29:52Z",
+      "bindings": []
+    },
+    {
+      "title": "Whole energy cyber resilience requirements: reshaping cyber regulation in downstream gas and electricity",
+      "description": "We're seeking views on proposals for a new approach to cyber resilience regulation for downstream gas and electricity operators.",
+      "url": "https://www.gov.uk/government/consultations/whole-energy-cyber-resilience-requirements-reshaping-cyber-regulation-in-downstream-gas-and-electricity",
+      "public_timestamp": "2026-08-05T09:00:03Z",
+      "bindings": []
+    },
+    {
+      "title": "Renewable Energy Planning Database: quarterly extract",
+      "description": "A quarterly extract of the results of the renewable energy projects monitoring work.",
+      "url": "https://www.gov.uk/government/publications/renewable-energy-planning-database-quarterly-extract",
+      "public_timestamp": "2026-08-03T09:00:03Z",
+      "bindings": []
+    },
+    {
+      "title": "Heat networks pipelines",
+      "description": "An overview of current and planned heat networks projects and procurements, including those supported by government funding.",
+      "url": "https://www.gov.uk/government/publications/heat-networks-pipelines",
+      "public_timestamp": "2026-08-03T09:00:03Z",
+      "bindings": []
+    },
+    {
+      "title": "UK energy in brief 2026",
+      "description": "Summary of some of the key annual statistics in the UK energy system.",
+      "url": "https://www.gov.uk/government/statistics/uk-energy-in-brief-2026",
+      "public_timestamp": "2026-08-03T08:30:00Z",
+      "bindings": []
+    },
+    {
+      "title": "Fuel mix disclosure data table",
+      "description": "The data are for the disclosure period 1 April 2025 to 31 March 2026.",
+      "url": "https://www.gov.uk/government/publications/fuel-mix-disclosure-data-table",
+      "public_timestamp": "2026-08-03T08:30:00Z",
+      "bindings": []
+    },
+    {
+      "title": "Greenhouse gas reporting: conversion factors 2026",
+      "description": "These conversion factors enable users to calculate and report greenhouse gas emissions from their UK activities in 2026.",
+      "url": "https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2026",
+      "public_timestamp": "2026-07-31T12:51:53Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy Consumption in the UK – 2025",
+      "description": "Energy Consumption statistics presented in four key themes covering overall energy consumption in the UK, energy intensity by sector, primary energy consumption and end uses.",
+      "url": "https://www.gov.uk/government/statistics/announcements/energy-consumption-in-the-uk-2025",
+      "public_timestamp": "2026-07-31T10:22:00Z",
+      "bindings": []
+    },
+    {
+      "title": "Millions reminded to get £150 off energy bills this winter ",
+      "description": "Households eligible for the Warm Home Discount must be named on their energy bill by 23 August to receive it automatically this winter.",
+      "url": "https://www.gov.uk/government/news/millions-reminded-to-get-150-off-energy-bills-this-winter",
+      "public_timestamp": "2026-07-30T23:01:03Z",
+      "bindings": []
+    },
+    {
+      "title": "Domestic energy price indices",
+      "description": "Quarterly and monthly consumer price indices of fuel components in current and real terms.",
+      "url": "https://www.gov.uk/government/statistical-data-sets/monthly-domestic-energy-price-statistics",
+      "public_timestamp": "2026-07-30T08:30:21Z",
+      "bindings": []
+    },
+    {
+      "title": "Annual domestic energy bills",
+      "description": "Annual estimates of gas and electricity bills, along with statistics on household expenditure on fuel.",
+      "url": "https://www.gov.uk/government/statistical-data-sets/annual-domestic-energy-price-statistics",
+      "public_timestamp": "2026-07-30T08:30:21Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy balance: methodology note",
+      "description": "Energy balance: methodology note\r\n",
+      "url": "https://www.gov.uk/government/publications/energy-balance-methodology-note",
+      "public_timestamp": "2026-07-30T08:30:21Z",
+      "bindings": []
+    },
+    {
+      "title": "Warm Homes: Local Grant statistics - July 2026",
+      "description": "Data to monitor the installation of energy efficiency measures in domestic properties via the Warm Homes: Local Grant (WH:LG) scheme in England.",
+      "url": "https://www.gov.uk/government/statistics/warm-homes-local-grant-statistics-july-2026",
+      "public_timestamp": "2026-07-30T08:30:20Z",
+      "bindings": []
+    },
+    {
+      "title": "Warm Homes: Social Housing Fund statistics - July 2026",
+      "description": "Data to monitor the installation of energy efficiency measures in domestic properties via the Warm Homes: Social Housing Fund (WH:SHF) scheme in England.",
+      "url": "https://www.gov.uk/government/statistics/warm-homes-social-housing-fund-statistics-july-2026",
+      "public_timestamp": "2026-07-30T08:30:20Z",
+      "bindings": []
+    },
+    {
+      "title": "Warm Homes: Social Housing Fund statistics",
+      "description": "Data to monitor the installation of energy efficiency measures in domestic properties via the Warm Homes: Social Housing Fund (WH:SHF) scheme in England.",
+      "url": "https://www.gov.uk/government/collections/warm-homes-social-housing-fund-statistics",
+      "public_timestamp": "2026-07-30T08:30:20Z",
+      "bindings": []
+    },
+    {
+      "title": "Warm Homes: Local Grant statistics",
+      "description": "Data to monitor the installation of energy efficiency measures in domestic properties via the Warm Homes: Local Grant (WH:LG) scheme in England.",
+      "url": "https://www.gov.uk/government/collections/warm-homes-local-grant-statistics",
+      "public_timestamp": "2026-07-30T08:30:19Z",
+      "bindings": []
+    },
+    {
+      "title": "UK residual fuel consumption at regional and local authority level, 2005 to 2024",
+      "description": "Estimates of fuel consumption at a regional and local authority level for non-gas, non-electricity and non-road transport from 2005 to 2024.",
+      "url": "https://www.gov.uk/government/statistics/uk-residual-fuel-consumption-at-regional-and-local-authority-level-2005-to-2024",
+      "public_timestamp": "2026-07-30T08:30:18Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy Trends and Prices statistical release: 30 July 2026",
+      "description": "The latest provisional monthly energy production, trade, electricity generation, consumption and prices statistics produced by the Department for Energy Security and Net Zero.",
+      "url": "https://www.gov.uk/government/statistics/energy-trends-and-prices-statistical-release-30-july-2026",
+      "public_timestamp": "2026-07-30T08:30:18Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy Trends: UK gas",
+      "description": "Data on the UK's gas sector, including production, trade and demand.",
+      "url": "https://www.gov.uk/government/statistics/gas-section-4-energy-trends",
+      "public_timestamp": "2026-07-30T08:30:18Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy Trends: UK electricity",
+      "description": "Data on electricity generation, supply, consumption and fuel use for generation.",
+      "url": "https://www.gov.uk/government/statistics/electricity-section-5-energy-trends",
+      "public_timestamp": "2026-07-30T08:30:18Z",
+      "bindings": []
+    },
+    {
+      "title": "Sub-national residual fuel consumption data",
+      "description": "Estimates of non-gas, non-electricity and non-road transport energy consumption in the UK at a regional and local authority level.",
+      "url": "https://www.gov.uk/government/collections/sub-national-consumption-of-other-fuels",
+      "public_timestamp": "2026-07-30T08:30:18Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy Trends: UK weather",
+      "description": "Quarterly and monthly data on weather patterns, including temperature, heating degree days, wind speeds, sun hours and rainfall. ",
+      "url": "https://www.gov.uk/government/statistics/energy-trends-section-7-weather",
+      "public_timestamp": "2026-07-30T08:30:18Z",
+      "bindings": []
+    },
+    {
+      "title": "Total final energy consumption at regional and local authority level: 2005 to 2024",
+      "description": "Estimates of total final energy consumption from 2005 to 2024 at a country, regional and local authority level.",
+      "url": "https://www.gov.uk/government/statistics/total-final-energy-consumption-at-regional-and-local-authority-level-2005-to-2024",
+      "public_timestamp": "2026-07-30T08:30:17Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy Trends: UK total energy",
+      "description": "Data on overall energy balances of energy supply and demand in the United Kingdom.",
+      "url": "https://www.gov.uk/government/statistics/total-energy-section-1-energy-trends",
+      "public_timestamp": "2026-07-30T08:30:17Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy Trends: UK solid fuels and derived gases",
+      "description": "Data on coal and coal-related products, including production, trade, consumption and stocks.",
+      "url": "https://www.gov.uk/government/statistics/solid-fuels-and-derived-gases-section-2-energy-trends",
+      "public_timestamp": "2026-07-30T08:30:17Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy Trends: UK oil and oil products",
+      "description": "Data on oil and oil products, including upstream production and UK refinery activity, trade, stocks and demand.  ",
+      "url": "https://www.gov.uk/government/statistics/oil-and-oil-products-section-3-energy-trends",
+      "public_timestamp": "2026-07-30T08:30:17Z",
+      "bindings": []
+    },
+    {
+      "title": "Subnational methodology and guidance",
+      "description": "Information on subnational energy consumption statistics.",
+      "url": "https://www.gov.uk/government/publications/regional-energy-data-guidance-note",
+      "public_timestamp": "2026-07-30T08:30:17Z",
+      "bindings": []
+    },
+    {
+      "title": "Sub-national total final energy consumption data",
+      "description": "The total final energy consumption data is an aggregation of the electricity, gas, residual fuels and road transport datasets.",
+      "url": "https://www.gov.uk/government/collections/total-final-energy-consumption-at-sub-national-level",
+      "public_timestamp": "2026-07-30T08:30:17Z",
+      "bindings": []
+    },
+    {
+      "title": "Historical coke and breeze data: coal carbonized and coke and breeze produced at coke ovens",
+      "description": "Historical coke and breeze data: coal carbonized and coke and breeze produced at coke ovens 1920 to 2025",
+      "url": "https://www.gov.uk/government/statistical-data-sets/historical-coke-and-breeze-data-coal-carbonized-and-coke-and-breeze-produced-at-coke-ovens",
+      "public_timestamp": "2026-07-30T08:30:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Digest of UK Energy Statistics (DUKES): energy",
+      "description": "DUKES chapter 1: statistics on overall energy production and consumption.\r\n",
+      "url": "https://www.gov.uk/government/statistics/energy-chapter-1-digest-of-united-kingdom-energy-statistics-dukes",
+      "public_timestamp": "2026-07-30T08:30:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Digest of UK Energy Statistics (DUKES): solid fuels and derived gases",
+      "description": "DUKES chapter 2: statistics on supply and demand for coal and manufactured solid fuels.",
+      "url": "https://www.gov.uk/government/statistics/solid-fuels-and-derived-gases-chapter-2-digest-of-united-kingdom-energy-statistics-dukes",
+      "public_timestamp": "2026-07-30T08:30:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Digest of UK Energy Statistics (DUKES): petroleum",
+      "description": "DUKES chapter 3: statistics on supply and demand for petroleum.",
+      "url": "https://www.gov.uk/government/statistics/petroleum-chapter-3-digest-of-united-kingdom-energy-statistics-dukes",
+      "public_timestamp": "2026-07-30T08:30:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Digest of UK Energy Statistics (DUKES): natural gas",
+      "description": "DUKES chapter 4: statistics on supply and demand for natural gas.\r\n",
+      "url": "https://www.gov.uk/government/statistics/natural-gas-chapter-4-digest-of-united-kingdom-energy-statistics-dukes",
+      "public_timestamp": "2026-07-30T08:30:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Digest of UK Energy Statistics (DUKES): electricity",
+      "description": "DUKES chapter 5: statistics on electricity from generation through to sales.",
+      "url": "https://www.gov.uk/government/statistics/electricity-chapter-5-digest-of-united-kingdom-energy-statistics-dukes",
+      "public_timestamp": "2026-07-30T08:30:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Digest of UK Energy Statistics (DUKES): renewable sources of energy",
+      "description": "DUKES chapter 6: statistics on energy from renewable sources.\r\n",
+      "url": "https://www.gov.uk/government/statistics/renewable-sources-of-energy-chapter-6-digest-of-united-kingdom-energy-statistics-dukes",
+      "public_timestamp": "2026-07-30T08:30:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Digest of UK Energy Statistics (DUKES): combined heat and power",
+      "description": "DUKES chapter 7: statistics on the contribution made by Combined Heat and Power (CHP) to the UK’s energy requirement.\r\n",
+      "url": "https://www.gov.uk/government/statistics/combined-heat-and-power-chapter-7-digest-of-united-kingdom-energy-statistics-dukes",
+      "public_timestamp": "2026-07-30T08:30:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Digest of UK Energy Statistics (DUKES)",
+      "description": "This series brings together all documents relating to the Digest of United Kingdom Energy Statistics (DUKES).",
+      "url": "https://www.gov.uk/government/collections/digest-of-uk-energy-statistics-dukes",
+      "public_timestamp": "2026-07-30T08:30:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Digest of UK Energy Statistics (DUKES): weather",
+      "description": "Data on annual trends in temperatures and heating degree days produced as part of DUKES.",
+      "url": "https://www.gov.uk/government/statistics/weather-digest-of-united-kingdom-energy-statistics-dukes",
+      "public_timestamp": "2026-07-30T08:30:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Digest of UK Energy Statistics (DUKES): calorific values and density of fuels",
+      "description": "Estimated average calorific values and density of fuels.",
+      "url": "https://www.gov.uk/government/statistics/dukes-calorific-values",
+      "public_timestamp": "2026-07-30T08:30:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Digest of UK Energy Statistics (DUKES): foreign trade statistics",
+      "description": "DUKES: statistics on volume and value of foreign trade.",
+      "url": "https://www.gov.uk/government/statistics/dukes-foreign-trade-statistics",
+      "public_timestamp": "2026-07-30T08:30:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Digest of UK Energy Statistics (DUKES): annual tables",
+      "description": "Annual statistics on the value balance of traded energy, sales of electricity and gas by sector, and expenditure on energy by final user.",
+      "url": "https://www.gov.uk/government/statistics/dukes-annual-tables",
+      "public_timestamp": "2026-07-30T08:30:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Historical gas data: gas production and consumption and fuel input",
+      "description": "Historical gas data: gas production and consumption and fuel input 1920 to 2025.",
+      "url": "https://www.gov.uk/government/statistical-data-sets/historical-gas-data-gas-production-and-consumption-and-fuel-input",
+      "public_timestamp": "2026-07-30T08:30:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Crude oil and petroleum products: imports by product",
+      "description": "Crude oil and petroleum products: imports by product 1920 to 2025.",
+      "url": "https://www.gov.uk/government/statistical-data-sets/crude-oil-and-petroleum-products-imports-by-product",
+      "public_timestamp": "2026-07-30T08:30:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Crude oil and petroleum: production, imports and exports",
+      "description": "Crude oil and petroleum: production, imports and exports 1890 to 2025.",
+      "url": "https://www.gov.uk/government/statistical-data-sets/crude-oil-and-petroleum-production-imports-and-exports",
+      "public_timestamp": "2026-07-30T08:30:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Historical coal data: coal production, availability and consumption",
+      "description": "Historical coal data: coal production, availability and consumption 1853 to 2025",
+      "url": "https://www.gov.uk/government/statistical-data-sets/historical-coal-data-coal-production-availability-and-consumption",
+      "public_timestamp": "2026-07-30T08:30:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Historical electricity data",
+      "description": "Historical electricity data: 1920 to 2025.",
+      "url": "https://www.gov.uk/government/statistical-data-sets/historical-electricity-data",
+      "public_timestamp": "2026-07-30T08:30:12Z",
+      "bindings": []
+    },
+    {
+      "title": "Digest of UK Energy Statistics (DUKES) 2026",
+      "description": "Digest of UK Energy Statistics (DUKES) 2026: chapters 1-7, annexes A-J and commodity balances in flat file format.",
+      "url": "https://www.gov.uk/government/statistics/digest-of-uk-energy-statistics-dukes-2026",
+      "public_timestamp": "2026-07-30T08:30:11Z",
+      "bindings": []
+    },
+    {
+      "title": "Energy flow chart",
+      "description": "This series brings together all documents relating to Energy flow chart",
+      "url": "https://www.gov.uk/government/collections/energy-flow-charts",
+      "public_timestamp": "2026-07-30T08:30:11Z",
+      "bindings": []
+    }
+  ],
+  "google_news": {
+    "enabled": true,
+    "credibility_score": 30,
+    "role": "noisy discovery only"
+  }
+}

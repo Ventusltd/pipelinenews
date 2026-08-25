@@ -1,0 +1,7 @@
+{
+  "schema": "pipelinenews.official-source-cursor.v1",
+  "next_index": 12,
+  "total_groups": 6870,
+  "last_run_at": "2026-08-25T15:50:24.485Z",
+  "last_good_at": "2026-08-25T15:50:24.485Z"
+}
