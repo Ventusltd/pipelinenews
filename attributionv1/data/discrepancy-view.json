@@ -1,0 +1,14 @@
+{
+  "schema": "pipelinenews.attribution-discrepancy.v1",
+  "release_id": "202608251701-pipelinenews",
+  "fixture_only": false,
+  "publication_status": "NOT_RUN_CANDIDATE",
+  "counts": {
+    "rows": 0
+  },
+  "rows": [],
+  "publication_law": {
+    "descriptive_status_only": true,
+    "allegation_or_person_assessment": false
+  }
+}

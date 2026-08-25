@@ -1,0 +1,178 @@
+{
+  "schema": "pipelinenews.discovery-attribution-candidate.v1",
+  "release_id": "202608251701-pipelinenews",
+  "display_title": "Pipeline News",
+  "incepted_at": "2026-08-25T17:01:00+01:00",
+  "status": "CANDIDATE_NOT_CURRENT",
+  "spine": {
+    "canonical_projects": 7680,
+    "canonical_id_format": "GG2050-REPD-<repd_ref>",
+    "repd_mutated": false
+  },
+  "discovery": {
+    "live": {
+      "schema": "pipelinenews.discovery-mentions.v1",
+      "release_id": "202608251701-pipelinenews",
+      "fixture_only": false,
+      "publication_status": "NOT_RUN_CANDIDATE",
+      "counts": {
+        "observations": 0,
+        "primary_match": 0,
+        "abstain": 0,
+        "rejected": 0
+      },
+      "mentions": [],
+      "provider_statuses": [
+        {
+          "provider": "brave",
+          "status": "NOT_RUN_CANDIDATE",
+          "empty_result": false
+        },
+        {
+          "provider": "google_cse",
+          "status": "NOT_RUN_CANDIDATE",
+          "empty_result": false
+        },
+        {
+          "provider": "serper",
+          "status": "NOT_RUN_CANDIDATE",
+          "empty_result": false
+        }
+      ],
+      "publication_law": {
+        "empty_result_means_no_mentions": false,
+        "article_bodies_stored": false,
+        "outbound_result_pages_fetched": false
+      }
+    },
+    "regression_proof": {
+      "fixture_only": true,
+      "counts": {
+        "observations": 2,
+        "primary_match": 1,
+        "abstain": 1,
+        "rejected": 0
+      },
+      "east_pye_primary_match": "GG2050-REPD-17494"
+    },
+    "providers": [
+      {
+        "provider": "brave",
+        "status": "NOT_RUN_CANDIDATE",
+        "empty_result": false
+      },
+      {
+        "provider": "google_cse",
+        "status": "NOT_RUN_CANDIDATE",
+        "empty_result": false
+      },
+      {
+        "provider": "serper",
+        "status": "NOT_RUN_CANDIDATE",
+        "empty_result": false
+      }
+    ],
+    "daily_budget": 400,
+    "maximum_days_without_query": 30,
+    "event_credibility_not_identity": true,
+    "official_confirmation_confidence": 1
+  },
+  "attribution": {
+    "live": {
+      "schema": "pipelinenews.attribution-roles.v1",
+      "release_id": "202608251701-pipelinenews",
+      "fixture_only": false,
+      "publication_status": "NOT_RUN_CANDIDATE",
+      "counts": {
+        "roles": 0,
+        "confirmed": 0,
+        "reported": 0,
+        "abstain": 0
+      },
+      "roles": [],
+      "publication_law": {
+        "person_key_allowed": false,
+        "contradicting_claims_coexist": true,
+        "repd_mutated": false
+      }
+    },
+    "charge_fixture_proof": {
+      "fixture_only": true,
+      "counts": {
+        "roles": 1,
+        "confirmed": 1
+      }
+    },
+    "register_fixture_proof": {
+      "fixture_only": true,
+      "counts": {
+        "roles": 4,
+        "confirmed": 4,
+        "organisation_events": 1,
+        "abstentions": 1
+      }
+    },
+    "discrepancy_fixture_proof": {
+      "fixture_only": true,
+      "counts": {
+        "rows": 3,
+        "consistent": 1,
+        "conflicts_with_confirmed": 1,
+        "no_confirmed_record": 1
+      }
+    },
+    "organisations_only": true,
+    "contradictions_coexist": true
+  },
+  "coverage_fixture": {
+    "schema": "pipelinenews.discovery-coverage.v1",
+    "week_ending": "2026-08-30",
+    "channels": {
+      "search_index_events": 10,
+      "register_events": 12,
+      "overlap": 8
+    },
+    "estimate": {
+      "estimated_total": 15,
+      "recall_a": 0.667,
+      "recall_b": 0.8,
+      "note": "optimistic two-channel estimate; source dependence requires three-channel log-linear review"
+    },
+    "alert_threshold": 0.8,
+    "fixture_only": true
+  },
+  "publication_readiness": {
+    "schema": "pipelinenews.publication-readiness.v1",
+    "release_id": "202608251701-pipelinenews",
+    "status": "CANDIDATE_NOT_CURRENT",
+    "evaluated_at": "2026-08-25T16:01:00Z",
+    "latest_discovered_at": "2026-08-25T16:01:00Z",
+    "age_hours": 0,
+    "maximum_age_hours": 24,
+    "unavailable_providers": [
+      "brave",
+      "google_cse",
+      "serper"
+    ],
+    "empty_result_means_no_mentions": false,
+    "official_frontier": {
+      "status": "LIVE_WITH_DEGRADED_PLANIT",
+      "source_snapshot_commit": "051a57175794ecb5c173c945cb0014ed79c29f3e"
+    },
+    "decision": "KEEP_DATA_LAYERS_CANDIDATE_UNTIL_A_REAL_SEARCH_INDEX_RUN_IS_CURRENT"
+  },
+  "machine_interfaces": {
+    "discovery_ledger": "discoveryv1/data/live-discovery-mentions.json",
+    "attribution_ledger": "attributionv1/data/attribution-roles.json",
+    "discrepancy_view": "attributionv1/data/discrepancy-view.json"
+  },
+  "publication_law": {
+    "data_layers_only": true,
+    "newsv1_mutated": false,
+    "newsv7_mutated": false,
+    "article_bodies_stored": false,
+    "outbound_result_pages_fetched": false,
+    "person_key_allowed": false,
+    "no_live_claims_from_fixtures": true
+  }
+}

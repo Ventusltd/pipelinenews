@@ -1,6 +1,8 @@
 {
   "schema": "pipelinenews.discovery-mentions.v1",
   "release_id": "202608251701-pipelinenews",
+  "fixture_only": true,
+  "publication_status": "REGRESSION_FIXTURE_ONLY",
   "counts": {
     "observations": 2,
     "primary_match": 1,

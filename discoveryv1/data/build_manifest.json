@@ -1,0 +1,137 @@
+{
+  "schema": "pipelinenews.data-build-manifest.v1",
+  "release": "discoveryv1",
+  "status": "CANDIDATE_NOT_CURRENT",
+  "built_at": "2026-08-25T17:01:00+01:00",
+  "inputs": [
+    {
+      "role": "east_pye_regression_fixture",
+      "path": "discoveryv1/fixtures/east-pye-discovery.v1.json",
+      "sha256": "e6bead6974320ddaee096c4b3918f3bc190391c199572c3745692782d4705656",
+      "bytes": 1611
+    }
+  ],
+  "contracts": [
+    {
+      "role": "release_contract",
+      "path": "discoveryv1/contracts/release.discoveryv1.json",
+      "sha256": "35dd13b6e9db0332d0b2ee8c4947c5c2b89dce1623f88a87d4c39fc740ef8d9e",
+      "bytes": 1417
+    },
+    {
+      "role": "mention_schema",
+      "path": "discoveryv1/contracts/discovery-mention.v1.schema.json",
+      "sha256": "272351fc039fcd63e6606cbeed14892cb41303ff2375942a05df3a26e27888bd",
+      "bytes": 2222
+    },
+    {
+      "role": "search_adapter_contract",
+      "path": "discoveryv1/contracts/search-adapters.v1.json",
+      "sha256": "9ad1a3e5cec05735701679cdb716b5d851a88fa5c518626de17531d58f8c537b",
+      "bytes": 713
+    },
+    {
+      "role": "credibility_contract",
+      "path": "discoveryv1/contracts/credibility.v1.json",
+      "sha256": "866755a172eabf5b83aeba24d8ac07f3b544dcfea994f75311459b1b6c6f1083",
+      "bytes": 803
+    },
+    {
+      "role": "binding_contract",
+      "path": "discoveryv1/contracts/binding.v1.json",
+      "sha256": "a3c164956f26223aac115f3596733f1c55b5629d209095837c49041158dfa13c",
+      "bytes": 644
+    }
+  ],
+  "modules": [
+    {
+      "role": "query_planner",
+      "path": "discoveryv1/modules/query-planner.mjs",
+      "sha256": "0e34c18dabc30e65be613d84b7b7560ed9113b35768f424aa882f30a7092572f",
+      "bytes": 3697
+    },
+    {
+      "role": "search_adapters",
+      "path": "discoveryv1/modules/search-adapters.mjs",
+      "sha256": "3993ffb5a579c20a84cd19e6132e879d8f054b0893d5ac1769fb58e3f02f58f0",
+      "bytes": 3898
+    },
+    {
+      "role": "credibility",
+      "path": "discoveryv1/modules/credibility.mjs",
+      "sha256": "9691f43201cffc1066e5c45097fb4b8ca18db11a4414148ea2b9e0c7fa98662b",
+      "bytes": 2199
+    },
+    {
+      "role": "mention_normalizer",
+      "path": "discoveryv1/modules/mention-normalizer.mjs",
+      "sha256": "7204eb918c07972acf0e36a31556f0c43516419ff4b8aeb2df4a78c2bc37f19a",
+      "bytes": 2900
+    },
+    {
+      "role": "matcher_bridge",
+      "path": "discoveryv1/modules/matcher-bridge.mjs",
+      "sha256": "d4010a142675b46702c833a6e48f60076c90f1ca945a7b8a85bb9b94cb452016",
+      "bytes": 5085
+    },
+    {
+      "role": "discovery_ledger",
+      "path": "discoveryv1/modules/discovery-ledger.mjs",
+      "sha256": "d3dba4110c1d6a342f17c6217ae45b9429df27abef6072d736e7b530adf3ab96",
+      "bytes": 2554
+    },
+    {
+      "role": "capture_recapture",
+      "path": "discoveryv1/modules/capture-recapture.mjs",
+      "sha256": "3fc484a6fb37949d9ad4d1ab8a4f7e0e884bfc30473643b65fedd1710d6326f4",
+      "bytes": 1945
+    }
+  ],
+  "artifacts": [
+    {
+      "role": "regression_fixture_proof",
+      "path": "discoveryv1/data/discovery_mentions.json",
+      "sha256": "71b2d861be60f012ce2eca720ed15217028de82a51d7e27356e53b6a452035d1",
+      "bytes": 2533
+    },
+    {
+      "role": "live_candidate_ledger",
+      "path": "discoveryv1/data/live-discovery-mentions.json",
+      "sha256": "5a3589e94d6cbbe1f017bd52f6b292a79a081151f41a2b294390e4c437cb5886",
+      "bytes": 790
+    }
+  ],
+  "tests": [
+    {
+      "role": "batch_1",
+      "path": "discoveryv1/tests/check_batch1_schema.mjs",
+      "sha256": "7e3658552497940ceb510af0aa0e2d1ae455076d6b79046cfaa0e03f4b4ffca5",
+      "bytes": 1702
+    },
+    {
+      "role": "batch_2",
+      "path": "discoveryv1/tests/check_batch2_planner_adapters.mjs",
+      "sha256": "8e8e61716e58f2bf30cd3a6c2b16c312fe0b380073aa97c69f06f332224e942f",
+      "bytes": 3451
+    },
+    {
+      "role": "batch_3",
+      "path": "discoveryv1/tests/check_batch3_normalize_credibility.mjs",
+      "sha256": "6556dd7a00f0c1f22891abc3ac3ddcfcf8ca12d1bddea428ccaca55cdf6db54e",
+      "bytes": 2518
+    },
+    {
+      "role": "batch_4",
+      "path": "discoveryv1/tests/check_batch4_binding.mjs",
+      "sha256": "8027068ecf79ba84e1e3cd0656dc3035bb134f5e5dd1997dc897cd0f45d32ac4",
+      "bytes": 2043
+    }
+  ],
+  "acceptance": {
+    "regression_observations": 2,
+    "regression_primary_match": 1,
+    "regression_abstain": 1,
+    "live_observations": 0,
+    "real_search_index_run_completed": false
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "schema": "pipelinenews.data-build-manifest.v1",
+  "release": "attributionv1",
+  "status": "CANDIDATE_NOT_CURRENT",
+  "built_at": "2026-08-25T17:01:00+01:00",
+  "inputs": [
+    {
+      "role": "charge_fixture",
+      "path": "attributionv1/fixtures/charges.v1.json",
+      "sha256": "d2d703ea1ccb3cb4c55bbdb2341a0d503ad3e76d97fd28694c8f22c8a669af0f",
+      "bytes": 614
+    },
+    {
+      "role": "register_fixture",
+      "path": "attributionv1/fixtures/register-sources.v1.json",
+      "sha256": "2e6431e6b7930ea36be5219c645333bbe4ae2bc50659bc183041ba7804cce3ac",
+      "bytes": 2639
+    },
+    {
+      "role": "discrepancy_fixture",
+      "path": "attributionv1/fixtures/discrepancy.v1.json",
+      "sha256": "5ae5535ae6b006b44dc53f6cf553ea2c135ef2ae20408a54dbbb7f90baeaf810",
+      "bytes": 2173
+    }
+  ],
+  "contracts": [
+    {
+      "role": "release_contract",
+      "path": "attributionv1/contracts/release.attributionv1.json",
+      "sha256": "00512ee799b228cba39a87e0ceead8c8070fbf4349118815e597dc64ae29c160",
+      "bytes": 1801
+    },
+    {
+      "role": "role_schema",
+      "path": "attributionv1/contracts/attribution-role.v1.schema.json",
+      "sha256": "482cdbba2dd02a425fbaa1651827da8a09210b524f54862ad6633faf15c8a1ed",
+      "bytes": 1570
+    },
+    {
+      "role": "register_ingest_contract",
+      "path": "attributionv1/contracts/register-ingest.v1.json",
+      "sha256": "4b018b0c8d0a0cf5e78f4082590b4174f43e6db72d674a536d8e9424dad0a234",
+      "bytes": 673
+    }
+  ],
+  "modules": [
+    {
+      "role": "attribution_ledger",
+      "path": "attributionv1/modules/attribution-ledger.mjs",
+      "sha256": "97e6fe4b74a3b817417738859e6d2747956765345a8d62cdbc4f08f2e06c571e",
+      "bytes": 4606
+    },
+    {
+      "role": "register_ingest",
+      "path": "attributionv1/modules/register-ingest.mjs",
+      "sha256": "966d718ee9fa95e4b92cfb8bb1eb9a930af9ec169f8de4808bd8290212d9245a",
+      "bytes": 4213
+    },
+    {
+      "role": "discrepancy_view",
+      "path": "attributionv1/modules/discrepancy-view.mjs",
+      "sha256": "faf89dcb0a686edba96a6c1d45ed5d120955c418a2774efd5321cf183f3ae8cd",
+      "bytes": 2390
+    }
+  ],
+  "artifacts": [
+    {
+      "role": "charge_fixture_proof",
+      "path": "attributionv1/data/charge-fixture-proof.json",
+      "sha256": "4a5e12b8662552979a976f4fded3c9e1a3f72d721fe1e6d94924981847d53494",
+      "bytes": 1021
+    },
+    {
+      "role": "register_fixture_proof",
+      "path": "attributionv1/data/register-fixture-proof.json",
+      "sha256": "8e8127484e26b9971d4f22a91da0dd42fb46efb902bf4569f06c667a07a031df",
+      "bytes": 3658
+    },
+    {
+      "role": "discrepancy_fixture_proof",
+      "path": "attributionv1/data/discrepancy-fixture-proof.json",
+      "sha256": "6d19fa33df9a32ada0cbeb96bc6e05055cad6889a1ba901df44a77096f925fd1",
+      "bytes": 2286
+    },
+    {
+      "role": "live_candidate_roles",
+      "path": "attributionv1/data/attribution-roles.json",
+      "sha256": "e638fa6e982cc571afef1f90114942715640449e01214fe21f586376f201e7cc",
+      "bytes": 402
+    },
+    {
+      "role": "live_candidate_discrepancy",
+      "path": "attributionv1/data/discrepancy-view.json",
+      "sha256": "a2e18e58888fa9cf55b12fb74e69961ae4bb97baa0f212548d8bea76c6e44b9e",
+      "bytes": 330
+    }
+  ],
+  "tests": [
+    {
+      "role": "batch_5",
+      "path": "attributionv1/tests/check_batch5_attribution.mjs",
+      "sha256": "c97b3f66bc2c02397cc5e31fe9551e18f20cc9220445598c98653baa0d9087e2",
+      "bytes": 2094
+    },
+    {
+      "role": "batch_6",
+      "path": "attributionv1/tests/check_batch6_registers.mjs",
+      "sha256": "5101953f9d3a06a85a861e9d000b903633aed806ebfe7582146b1a4cdc3f7d17",
+      "bytes": 1850
+    },
+    {
+      "role": "batch_7",
+      "path": "attributionv1/tests/check_batch7_product.mjs",
+      "sha256": "fe1c739c517f72fa84520656b2f15cac765689b850508d04f0b97a16e2bee232",
+      "bytes": 2042
+    }
+  ],
+  "acceptance": {
+    "live_roles": 0,
+    "fixture_charge_roles": 1,
+    "fixture_register_roles": 4,
+    "fixture_discrepancy_rows": 3,
+    "person_key_allowed": false
+  }
+}

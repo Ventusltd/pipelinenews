@@ -1,0 +1,17 @@
+{
+  "schema": "pipelinenews.discovery-coverage.v1",
+  "week_ending": "2026-08-30",
+  "channels": {
+    "search_index_events": 10,
+    "register_events": 12,
+    "overlap": 8
+  },
+  "estimate": {
+    "estimated_total": 15,
+    "recall_a": 0.667,
+    "recall_b": 0.8,
+    "note": "optimistic two-channel estimate; source dependence requires three-channel log-linear review"
+  },
+  "alert_threshold": 0.8,
+  "fixture_only": true
+}

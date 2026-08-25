@@ -1,0 +1,18 @@
+{
+  "schema": "pipelinenews.attribution-roles.v1",
+  "release_id": "202608251701-pipelinenews",
+  "fixture_only": false,
+  "publication_status": "NOT_RUN_CANDIDATE",
+  "counts": {
+    "roles": 0,
+    "confirmed": 0,
+    "reported": 0,
+    "abstain": 0
+  },
+  "roles": [],
+  "publication_law": {
+    "person_key_allowed": false,
+    "contradicting_claims_coexist": true,
+    "repd_mutated": false
+  }
+}

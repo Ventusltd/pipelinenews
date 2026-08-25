@@ -1,0 +1,20 @@
+{
+  "schema": "pipelinenews.publication-readiness.v1",
+  "release_id": "202608251701-pipelinenews",
+  "status": "CANDIDATE_NOT_CURRENT",
+  "evaluated_at": "2026-08-25T16:01:00Z",
+  "latest_discovered_at": "2026-08-25T16:01:00Z",
+  "age_hours": 0,
+  "maximum_age_hours": 24,
+  "unavailable_providers": [
+    "brave",
+    "google_cse",
+    "serper"
+  ],
+  "empty_result_means_no_mentions": false,
+  "official_frontier": {
+    "status": "LIVE_WITH_DEGRADED_PLANIT",
+    "source_snapshot_commit": "051a57175794ecb5c173c945cb0014ed79c29f3e"
+  },
+  "decision": "KEEP_DATA_LAYERS_CANDIDATE_UNTIL_A_REAL_SEARCH_INDEX_RUN_IS_CURRENT"
+}

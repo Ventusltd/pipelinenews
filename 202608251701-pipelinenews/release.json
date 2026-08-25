@@ -1,0 +1,8 @@
+{
+  "schema": "pipelinenews.release-folder-pointer.v1",
+  "release_id": "202608251701-pipelinenews",
+  "manifest": "../releases/202608251701-pipelinenews.json",
+  "repository_root": "../",
+  "shared_assets": true,
+  "duplicated_asset_directories": 0
+}

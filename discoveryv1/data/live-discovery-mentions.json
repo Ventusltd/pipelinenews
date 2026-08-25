@@ -1,0 +1,35 @@
+{
+  "schema": "pipelinenews.discovery-mentions.v1",
+  "release_id": "202608251701-pipelinenews",
+  "fixture_only": false,
+  "publication_status": "NOT_RUN_CANDIDATE",
+  "counts": {
+    "observations": 0,
+    "primary_match": 0,
+    "abstain": 0,
+    "rejected": 0
+  },
+  "mentions": [],
+  "provider_statuses": [
+    {
+      "provider": "brave",
+      "status": "NOT_RUN_CANDIDATE",
+      "empty_result": false
+    },
+    {
+      "provider": "google_cse",
+      "status": "NOT_RUN_CANDIDATE",
+      "empty_result": false
+    },
+    {
+      "provider": "serper",
+      "status": "NOT_RUN_CANDIDATE",
+      "empty_result": false
+    }
+  ],
+  "publication_law": {
+    "empty_result_means_no_mentions": false,
+    "article_bodies_stored": false,
+    "outbound_result_pages_fetched": false
+  }
+}

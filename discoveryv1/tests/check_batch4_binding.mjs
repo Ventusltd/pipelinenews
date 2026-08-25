@@ -7,6 +7,8 @@ const fixture = JSON.parse(await readFile(new URL("../fixtures/east-pye-discover
 const contract = JSON.parse(await readFile(new URL("../contracts/binding.v1.json", import.meta.url)));
 const ledger = buildDiscoveryLedger(fixture);
 
+assert.equal(ledger.fixture_only, true);
+assert.equal(ledger.publication_status, "REGRESSION_FIXTURE_ONLY");
 assert.equal(ledger.counts.observations, 2);
 assert.equal(ledger.counts.primary_match, 1);
 assert.equal(ledger.counts.abstain, 1);

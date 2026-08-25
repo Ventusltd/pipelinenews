@@ -1,0 +1,70 @@
+{
+  "schema": "pipelinenews.attribution-discrepancy-fixture.v1",
+  "fixture_only": true,
+  "projects": [
+    {
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "name": "East Pye Solar Farm",
+      "lifecycle": "LIVE_PRE_CONSTRUCTION"
+    }
+  ],
+  "roles": [
+    {
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "role": "OWNER",
+      "organisation": "Fixture Grid Owner Limited",
+      "company_number": "00000002",
+      "effective_from": "2026-08-02",
+      "effective_to": null,
+      "evidence_url": "https://api.neso.energy/api/3/action/datastore_search?fixture=confirmed",
+      "evidence_kind": "OFFICIAL_CONNECTION_REGISTER",
+      "credibility": 1,
+      "observed_at": "2026-08-25T15:55:00Z",
+      "claim_status": "CONFIRMED"
+    },
+    {
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "role": "OWNER",
+      "organisation": "Fixture Grid Owner Limited",
+      "company_number": null,
+      "effective_from": null,
+      "effective_to": null,
+      "evidence_url": "https://publisher.example/consistent",
+      "evidence_kind": "INDEXED_SNIPPET",
+      "credibility": 0.3,
+      "observed_at": "2026-08-25T16:00:00Z",
+      "claim_status": "REPORTED"
+    },
+    {
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "role": "OWNER",
+      "organisation": "Fixture Alternative Owner Limited",
+      "company_number": null,
+      "effective_from": null,
+      "effective_to": null,
+      "evidence_url": "https://publisher.example/conflict",
+      "evidence_kind": "INDEXED_SNIPPET",
+      "credibility": 0.3,
+      "observed_at": "2026-08-25T16:00:00Z",
+      "claim_status": "REPORTED"
+    },
+    {
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "role": "EPC",
+      "organisation": "Fixture EPC Limited",
+      "company_number": null,
+      "effective_from": null,
+      "effective_to": null,
+      "evidence_url": "https://publisher.example/no-confirmation",
+      "evidence_kind": "INDEXED_SNIPPET",
+      "credibility": 0.3,
+      "observed_at": "2026-08-25T16:00:00Z",
+      "claim_status": "REPORTED"
+    }
+  ]
+}

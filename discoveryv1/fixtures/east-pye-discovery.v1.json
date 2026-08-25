@@ -1,5 +1,6 @@
 {
   "schema": "pipelinenews.discovery-fixture.v1",
+  "fixture_only": true,
   "release_id": "202608251701-pipelinenews",
   "projects": [
     {

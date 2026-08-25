@@ -4,6 +4,7 @@ import { matchDiscoveryMention } from "./matcher-bridge.mjs";
 
 export function buildDiscoveryLedger(input) {
   if (input.schema !== "pipelinenews.discovery-fixture.v1") throw new Error("unexpected discovery input schema");
+  if (input.fixture_only !== true) throw new Error("fixture marker required for candidate ledger build");
   const rows = input.observations.map((observation) => {
     if (Object.hasOwn(observation, "body")) throw new Error("article body storage is forbidden");
     const url = canonicalUrl(observation.url);
@@ -36,6 +37,8 @@ export function buildDiscoveryLedger(input) {
   return {
     schema: "pipelinenews.discovery-mentions.v1",
     release_id: input.release_id,
+    fixture_only: true,
+    publication_status: "REGRESSION_FIXTURE_ONLY",
     counts: {
       observations: clustered.length,
       primary_match: clustered.filter((row) => row.binding_status === "PRIMARY_MATCH").length,

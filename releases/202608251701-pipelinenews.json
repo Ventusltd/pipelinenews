@@ -1,0 +1,171 @@
+{
+  "schema": "pipelinenews.release-manifest.v1",
+  "release_id": "202608251701-pipelinenews",
+  "app_title": "PipelineNews",
+  "display_title": "Pipeline News",
+  "incepted_at": "2026-08-25T17:01:00+01:00",
+  "status": "CANDIDATE_NOT_CURRENT",
+  "feature": "governed indexed-web discovery and organisational delivery attribution",
+  "naming": {
+    "format": "yyyymmddhhmm-pipelinenews",
+    "time_basis": "Europe/London operator inception clock",
+    "path_slug": "pipelinenews",
+    "visible_title": "Pipeline News",
+    "lowercase_paths_required": true,
+    "lowercase_filenames_required": true,
+    "sequential_versions_retired": true
+  },
+  "lineage": {
+    "parent_release": "202608251700-pipelinenews",
+    "parent_commit": "48d60afa3517bebc04783d69fd3cb0e578f4095a",
+    "frozen_versions_mutated": false,
+    "v1_v9_lineage_scan": "reports/202608251701-lineage-scan.json",
+    "newsv1_mutated": false,
+    "newsv7_mutated": false
+  },
+  "app": {
+    "stable_route": "pipelinenews/",
+    "release_folder": "202608251701-pipelinenews/",
+    "entrypoint": "202608251701-pipelinenews/index.html",
+    "loader_contract": "manifest-resolved shared objects",
+    "ui_parent": "timestamp-shell",
+    "duplicated_asset_directories": 0,
+    "shell_files": [
+      {
+        "role": "app_entrypoint",
+        "path": "202608251701-pipelinenews/index.html",
+        "sha256": "c178b59df1d9b16f36f78e7f808ef0decdbaf6a048a74070d70229c66caf66a6",
+        "bytes": 3403
+      },
+      {
+        "role": "folder_release_pointer",
+        "path": "202608251701-pipelinenews/release.json",
+        "sha256": "6b83f51233de8d7f771c9072555bfb43a958febdfd527f0adee1f88c34e2b1b8",
+        "bytes": 252
+      },
+      {
+        "role": "folder_readme",
+        "path": "202608251701-pipelinenews/readme.md",
+        "sha256": "134cb7e9c55059d0e49a9287a6859aa973a7e37f13183f772a61c4eac55ea535",
+        "bytes": 400
+      }
+    ]
+  },
+  "object_store": {
+    "identity": "sha256",
+    "immutable": true,
+    "reuse_unchanged_objects": true
+  },
+  "objects": {
+    "inputs": [
+      {
+        "role": "discovery_build_manifest",
+        "path": "discoveryv1/data/build_manifest.json",
+        "sha256": "4292b35508c92960c3e7dd4dc20e0aed7aee309699ddb6a321d3f172b9d5b1f9",
+        "bytes": 4465
+      },
+      {
+        "role": "attribution_build_manifest",
+        "path": "attributionv1/data/build_manifest.json",
+        "sha256": "3bee497594abd1ebd450c4d51f1ccf9c31d0304a1eba6173c671935d35749f0e",
+        "bytes": 4079
+      }
+    ],
+    "modules": [
+      {
+        "role": "timestamped_release_shell",
+        "path": "objects/js/sha256/a8b7e2e6207eabfb46821dfeee6ea1e4600d901d45048901aad6ed234bba95f0.mjs",
+        "sha256": "a8b7e2e6207eabfb46821dfeee6ea1e4600d901d45048901aad6ed234bba95f0",
+        "bytes": 1781
+      }
+    ],
+    "artifacts": [
+      {
+        "role": "discovery_attribution_candidate",
+        "path": "objects/data/sha256/47aca2052cd65fb8d6e65499b27e7a4025e4af73facd2e970acc39b12f96ed9c.json",
+        "sha256": "47aca2052cd65fb8d6e65499b27e7a4025e4af73facd2e970acc39b12f96ed9c",
+        "bytes": 4888
+      },
+      {
+        "role": "live_discovery_ledger",
+        "path": "discoveryv1/data/live-discovery-mentions.json",
+        "sha256": "5a3589e94d6cbbe1f017bd52f6b292a79a081151f41a2b294390e4c437cb5886",
+        "bytes": 790
+      },
+      {
+        "role": "live_attribution_ledger",
+        "path": "attributionv1/data/attribution-roles.json",
+        "sha256": "e638fa6e982cc571afef1f90114942715640449e01214fe21f586376f201e7cc",
+        "bytes": 402
+      },
+      {
+        "role": "live_discrepancy_view",
+        "path": "attributionv1/data/discrepancy-view.json",
+        "sha256": "a2e18e58888fa9cf55b12fb74e69961ae4bb97baa0f212548d8bea76c6e44b9e",
+        "bytes": 330
+      }
+    ],
+    "css": [
+      {
+        "role": "shared_timestamp_shell",
+        "path": "objects/css/sha256/5c196d2b307e0426447dc96f1762bc6e39de98f2a39ae8667265198f09d5166e.css",
+        "sha256": "5c196d2b307e0426447dc96f1762bc6e39de98f2a39ae8667265198f09d5166e",
+        "bytes": 1889
+      }
+    ],
+    "reports": [
+      {
+        "role": "lineage_scan",
+        "path": "reports/202608251701-lineage-scan.json",
+        "sha256": "783139d0433802a2cbf1910a99c34bbfdfa0261378802208f50618aefdba6f00",
+        "bytes": 2931
+      },
+      {
+        "role": "coverage_fixture",
+        "path": "reports/202608251701-coverage-fixture.json",
+        "sha256": "4f65afb970e41d856d219a849176e2695d96fe548358d28470768e2cf2a28d69",
+        "bytes": 428
+      },
+      {
+        "role": "publication_readiness",
+        "path": "reports/202608251701-publication-readiness.json",
+        "sha256": "bc77db189cc8cefe7273bf277f56d6079812ffb5a31ed044b282f284a77f0b34",
+        "bytes": 627
+      }
+    ],
+    "parquet": [],
+    "geojson": []
+  },
+  "build": {
+    "builder": {
+      "role": "release_builder",
+      "path": "tooling/build-202608251701-release.mjs",
+      "sha256": "8c51ee31f3ed15211a2016fef89dedd1683781bc02eb1fb5f55e1db7f4ee3aea",
+      "bytes": 21362
+    },
+    "verifier": "tests/check-202608251701-pipelinenews.mjs",
+    "runner": "tests/run-current-timestamp-release.sh",
+    "deterministic_rebuild_required": true
+  },
+  "acceptance": {
+    "independently_green_batches": 7,
+    "repd_projects": 7680,
+    "east_pye_primary_match": "GG2050-REPD-17494",
+    "headline_only_action": "ABSTAIN",
+    "credibility_gates_identity": false,
+    "article_body_stored": false,
+    "outbound_result_page_fetched": false,
+    "person_key_allowed": false,
+    "contradictory_claims_coexist": true,
+    "live_search_index_run_completed": false,
+    "lowercase_release_path": true,
+    "lowercase_new_filenames": true,
+    "duplicated_asset_directories": 0
+  },
+  "publication": {
+    "live": false,
+    "candidate_pointer_updated": true,
+    "stable_app_switched": false,
+    "reason": "Seven deterministic candidate batches pass; live discovery and attribution remain unpublished until a current governed source run completes."
+  }
+}

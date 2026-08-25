@@ -1,0 +1,65 @@
+{
+  "schema": "pipelinenews.attribution-discrepancy-fixture-proof.v1",
+  "fixture_only": true,
+  "counts": {
+    "rows": 3,
+    "consistent": 1,
+    "conflicts_with_confirmed": 1,
+    "no_confirmed_record": 1
+  },
+  "rows": [
+    {
+      "discrepancy_id": "PN-ATTR-4153B6208E508AB51101-VIEW",
+      "gg_project_id": "GG2050-REPD-17494",
+      "project_name": "East Pye Solar Farm",
+      "role": "EPC",
+      "reported_organisation": "Fixture EPC Limited",
+      "reported_source": "https://publisher.example/no-confirmation",
+      "reported_at": "2026-08-25T16:00:00Z",
+      "confirmed_records": [],
+      "project_state_at_claim": "LIVE_PRE_CONSTRUCTION",
+      "status": "NO_CONFIRMED_RECORD"
+    },
+    {
+      "discrepancy_id": "PN-ATTR-9FDE6701C549F6B8CBF4-VIEW",
+      "gg_project_id": "GG2050-REPD-17494",
+      "project_name": "East Pye Solar Farm",
+      "role": "OWNER",
+      "reported_organisation": "Fixture Alternative Owner Limited",
+      "reported_source": "https://publisher.example/conflict",
+      "reported_at": "2026-08-25T16:00:00Z",
+      "confirmed_records": [
+        {
+          "organisation": "Fixture Grid Owner Limited",
+          "evidence_url": "https://api.neso.energy/api/3/action/datastore_search?fixture=confirmed",
+          "observed_at": "2026-08-25T15:55:00Z"
+        }
+      ],
+      "project_state_at_claim": "LIVE_PRE_CONSTRUCTION",
+      "status": "CONFLICTS_WITH_CONFIRMED"
+    },
+    {
+      "discrepancy_id": "PN-ATTR-4D89F008D12B48BDB722-VIEW",
+      "gg_project_id": "GG2050-REPD-17494",
+      "project_name": "East Pye Solar Farm",
+      "role": "OWNER",
+      "reported_organisation": "Fixture Grid Owner Limited",
+      "reported_source": "https://publisher.example/consistent",
+      "reported_at": "2026-08-25T16:00:00Z",
+      "confirmed_records": [
+        {
+          "organisation": "Fixture Grid Owner Limited",
+          "evidence_url": "https://api.neso.energy/api/3/action/datastore_search?fixture=confirmed",
+          "observed_at": "2026-08-25T15:55:00Z"
+        }
+      ],
+      "project_state_at_claim": "LIVE_PRE_CONSTRUCTION",
+      "status": "CONSISTENT"
+    }
+  ],
+  "publication_law": {
+    "descriptive_status_only": true,
+    "allegation_or_person_assessment": false,
+    "source_links_retained": true
+  }
+}
