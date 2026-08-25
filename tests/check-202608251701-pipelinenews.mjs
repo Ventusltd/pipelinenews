@@ -24,6 +24,8 @@ assert.equal(manifest.acceptance.independently_green_batches, 7);
 assert.equal(manifest.acceptance.live_search_index_run_completed, false);
 assert.equal(manifest.acceptance.credibility_gates_identity, false);
 assert.equal(manifest.acceptance.person_key_allowed, false);
+assert.equal(manifest.objects.modules.some((item) => item.role === "official_frontier_engine"), true);
+assert.equal(manifest.objects.artifacts.some((item) => item.role === "official_frontier_contract"), true);
 
 const pinned = [...manifest.objects.inputs, ...manifest.objects.modules, ...manifest.objects.artifacts, ...manifest.objects.css, ...manifest.objects.reports, ...manifest.app.shell_files, manifest.build.builder];
 for (const item of pinned) {

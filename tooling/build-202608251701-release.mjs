@@ -311,9 +311,9 @@ const manifest = {
   app: { stable_route: "pipelinenews/", release_folder: `${releaseId}/`, entrypoint: `${releaseId}/index.html`, loader_contract: "manifest-resolved shared objects", ui_parent: "timestamp-shell", duplicated_asset_directories: 0, shell_files: shellFiles },
   object_store: { identity: "sha256", immutable: true, reuse_unchanged_objects: true },
   objects: {
-    inputs: [await record("discovery_build_manifest", "discoveryv1/data/build_manifest.json"), await record("attribution_build_manifest", "attributionv1/data/build_manifest.json")],
-    modules: [{ role: "timestamped_release_shell", ...uiObject }],
-    artifacts: [{ role: "discovery_attribution_candidate", ...artifactObject }, await record("live_discovery_ledger", "discoveryv1/data/live-discovery-mentions.json"), await record("live_attribution_ledger", "attributionv1/data/attribution-roles.json"), await record("live_discrepancy_view", "attributionv1/data/discrepancy-view.json")],
+    inputs: [await record("discovery_build_manifest", "discoveryv1/data/build_manifest.json"), await record("attribution_build_manifest", "attributionv1/data/build_manifest.json"), await record("official_frontier_input", "objects/data/sha256/b7f1740f7735f58997c8f128ef7236d57bb144fd5db23c8140739236af8bdabb.json")],
+    modules: [{ role: "timestamped_release_shell", ...uiObject }, await record("official_frontier_engine", "objects/js/sha256/bf8b87533cda64fa145de9ca28998b29bf7f863f483a26a78e34fc3272fe9f7d.mjs")],
+    artifacts: [{ role: "discovery_attribution_candidate", ...artifactObject }, await record("official_frontier_contract", "objects/data/sha256/b518e2c02a4059a8c07f226f9c0f284215acc4fc0f9f5790ce8ec19e49a5755d.json"), await record("live_discovery_ledger", "discoveryv1/data/live-discovery-mentions.json"), await record("live_attribution_ledger", "attributionv1/data/attribution-roles.json"), await record("live_discrepancy_view", "attributionv1/data/discrepancy-view.json")],
     css: [await record("shared_timestamp_shell", cssPath)],
     reports: [await record("lineage_scan", "reports/202608251701-lineage-scan.json"), await record("coverage_fixture", "reports/202608251701-coverage-fixture.json"), await record("publication_readiness", "reports/202608251701-publication-readiness.json")],
     parquet: [],

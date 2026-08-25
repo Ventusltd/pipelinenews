@@ -69,6 +69,12 @@
         "path": "attributionv1/data/build_manifest.json",
         "sha256": "3bee497594abd1ebd450c4d51f1ccf9c31d0304a1eba6173c671935d35749f0e",
         "bytes": 4079
+      },
+      {
+        "role": "official_frontier_input",
+        "path": "objects/data/sha256/b7f1740f7735f58997c8f128ef7236d57bb144fd5db23c8140739236af8bdabb.json",
+        "sha256": "b7f1740f7735f58997c8f128ef7236d57bb144fd5db23c8140739236af8bdabb",
+        "bytes": 3513
       }
     ],
     "modules": [
@@ -77,6 +83,12 @@
         "path": "objects/js/sha256/a8b7e2e6207eabfb46821dfeee6ea1e4600d901d45048901aad6ed234bba95f0.mjs",
         "sha256": "a8b7e2e6207eabfb46821dfeee6ea1e4600d901d45048901aad6ed234bba95f0",
         "bytes": 1781
+      },
+      {
+        "role": "official_frontier_engine",
+        "path": "objects/js/sha256/bf8b87533cda64fa145de9ca28998b29bf7f863f483a26a78e34fc3272fe9f7d.mjs",
+        "sha256": "bf8b87533cda64fa145de9ca28998b29bf7f863f483a26a78e34fc3272fe9f7d",
+        "bytes": 1158
       }
     ],
     "artifacts": [
@@ -85,6 +97,12 @@
         "path": "objects/data/sha256/47aca2052cd65fb8d6e65499b27e7a4025e4af73facd2e970acc39b12f96ed9c.json",
         "sha256": "47aca2052cd65fb8d6e65499b27e7a4025e4af73facd2e970acc39b12f96ed9c",
         "bytes": 4888
+      },
+      {
+        "role": "official_frontier_contract",
+        "path": "objects/data/sha256/b518e2c02a4059a8c07f226f9c0f284215acc4fc0f9f5790ce8ec19e49a5755d.json",
+        "sha256": "b518e2c02a4059a8c07f226f9c0f284215acc4fc0f9f5790ce8ec19e49a5755d",
+        "bytes": 4275
       },
       {
         "role": "live_discovery_ledger",
@@ -140,8 +158,8 @@
     "builder": {
       "role": "release_builder",
       "path": "tooling/build-202608251701-release.mjs",
-      "sha256": "8c51ee31f3ed15211a2016fef89dedd1683781bc02eb1fb5f55e1db7f4ee3aea",
-      "bytes": 21362
+      "sha256": "a135b9ac3f6bfebd8ad13914bc5ee3a81ff10da3374d90f25fe64a107a3d694e",
+      "bytes": 21765
     },
     "verifier": "tests/check-202608251701-pipelinenews.mjs",
     "runner": "tests/run-current-timestamp-release.sh",
