@@ -1,0 +1,14 @@
+import assert from "node:assert/strict";
+import {createHash} from "node:crypto";
+import {readFile} from "node:fs/promises";
+const read=async p=>readFile(new URL(p,import.meta.url)),sha256=v=>createHash("sha256").update(v).digest("hex");
+const [contractBytes,ledgerBytes,auditBytes,manifestBytes]=await Promise.all([read("../contracts/storage.v1.json"),read("../data/cross_version_reconciliation.json"),read("../reports/dependency_audit.json"),read("../data/staging_manifest.json")]);
+const contract=JSON.parse(contractBytes),ledger=JSON.parse(ledgerBytes),audit=JSON.parse(auditBytes),manifest=JSON.parse(manifestBytes);
+assert.equal(contract.status,"BLOCKED_DEPENDENCIES"); assert.equal(contract.physical_law.write_state,"NOT_WRITTEN"); assert.equal(contract.tables.length,9);
+assert.deepEqual(ledger.counts,{tables:9,rows:208,duplicate_key_groups:0,required_null_key_rows:0,renewable_tables:5,data_centre_tables:3,cross_domain_identity_links:0});
+assert.equal(new Set(ledger.tables.map(x=>`${x.release_id}\u001f${x.table_id}`)).size,9); assert.ok(ledger.tables.every(x=>x.total_rows===x.distinct_declared_keys&&x.parquet_path===null));
+assert.equal(ledger.domain_boundary.identity_bridge_decision,"ABSTAIN_NO_AUTHORISED_BRIDGE"); assert.equal(contract.reconciliation_law.renewable_to_data_centre_identity_links_allowed,false);
+assert.ok(contract.tables.every(t=>t.columns.some(c=>c[0]==="payload_json"&&c[1]==="VARCHAR"&&c[2]===false))); assert.ok(contract.tables.every(t=>t.key.length>0&&t.expected_rows>0));
+assert.equal(audit.status,"BLOCKED"); assert.ok(Object.values(audit.checks).every(x=>x.available===false)); assert.equal(manifest.parquet_artifacts.length,0); assert.equal(manifest.duckdb_artifacts.length,0);
+assert.equal(manifest.artifacts[0].sha256,sha256(ledgerBytes)); assert.equal(manifest.artifacts[1].sha256,sha256(auditBytes));
+console.log("PASS staged Movement 5 contract: 9 table laws / 208 rows reconciled; real Parquet correctly BLOCKED");

@@ -1,0 +1,21 @@
+{
+  "schema": "pipelinenews.analytical-dependency-audit.v1",
+  "status": "BLOCKED",
+  "audited_at": "2026-08-25T00:00:00Z",
+  "checks": {
+    "duckdb_cli": {
+      "available": false,
+      "version": null
+    },
+    "python_duckdb": {
+      "available": false,
+      "version": null
+    },
+    "pyarrow": {
+      "available": false,
+      "version": null
+    }
+  },
+  "blocker": "No installed DuckDB CLI, Python duckdb module or PyArrow writer; no Parquet or DuckDB artifact was created.",
+  "next_gate": "Run on a capable Python 3.11 environment, write zstd Parquet, read every file back and prove pinned schemas and key law."
+}

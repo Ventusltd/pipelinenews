@@ -1,0 +1,197 @@
+{
+  "schema": "pipelinenews.cross-version-reconciliation.v1",
+  "status": "STAGED_CONTRACT_ONLY",
+  "generated_at": "2026-08-25T00:00:00Z",
+  "grain": "one row per release and analytical table",
+  "primary_key": [
+    "release_id",
+    "table_id"
+  ],
+  "counts": {
+    "tables": 9,
+    "rows": 208,
+    "duplicate_key_groups": 0,
+    "required_null_key_rows": 0,
+    "renewable_tables": 5,
+    "data_centre_tables": 3,
+    "cross_domain_identity_links": 0
+  },
+  "domain_boundary": {
+    "renewable_namespace": "GG2050-REPD-*",
+    "data_centre_namespace": "PN-DC-*",
+    "identity_bridge_decision": "ABSTAIN_NO_AUTHORISED_BRIDGE"
+  },
+  "tables": [
+    {
+      "release_id": "newsv2",
+      "table_id": "newsv2_event_assertions",
+      "domain": "RENEWABLE_PROJECT",
+      "namespace": "GG2050-REPD-*",
+      "grain": "one row per material event assertion",
+      "key": [
+        "assertion_id"
+      ],
+      "source_path": "newsv2/data/material_event_assertions.json",
+      "source_sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31",
+      "total_rows": 45,
+      "distinct_declared_keys": 45,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0,
+      "parquet_path": null,
+      "parquet_sha256": null,
+      "parquet_state": "BLOCKED_DEPENDENCIES"
+    },
+    {
+      "release_id": "newsv3",
+      "table_id": "newsv3_organisation_labels",
+      "domain": "RENEWABLE_PROJECT",
+      "namespace": "PN-ORG-LABEL-*",
+      "grain": "one row per exact normalised REPD operator label",
+      "key": [
+        "organisation_label_id"
+      ],
+      "source_path": "newsv3/data/organisation_role_evidence.json",
+      "source_sha256": "03a258e0b90c1d95e8a8582ff203676651bfc7d5cd33f8652aef17ddfc04da75",
+      "total_rows": 28,
+      "distinct_declared_keys": 28,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0,
+      "parquet_path": null,
+      "parquet_sha256": null,
+      "parquet_state": "BLOCKED_DEPENDENCIES"
+    },
+    {
+      "release_id": "newsv3",
+      "table_id": "newsv3_project_operator_roles",
+      "domain": "RENEWABLE_PROJECT",
+      "namespace": "GG2050-REPD-*",
+      "grain": "one row per project and source-recorded operator-label assertion",
+      "key": [
+        "project_operator_role_assertion_id"
+      ],
+      "source_path": "newsv3/data/organisation_role_evidence.json",
+      "source_sha256": "03a258e0b90c1d95e8a8582ff203676651bfc7d5cd33f8652aef17ddfc04da75",
+      "total_rows": 29,
+      "distinct_declared_keys": 29,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0,
+      "parquet_path": null,
+      "parquet_sha256": null,
+      "parquet_state": "BLOCKED_DEPENDENCIES"
+    },
+    {
+      "release_id": "newsv3",
+      "table_id": "newsv3_transaction_role_decisions",
+      "domain": "RENEWABLE_PROJECT",
+      "namespace": "GG2050-REPD-*",
+      "grain": "one row per event assertion and transaction-role decision version",
+      "key": [
+        "transaction_role_decision_id"
+      ],
+      "source_path": "newsv3/data/organisation_role_evidence.json",
+      "source_sha256": "03a258e0b90c1d95e8a8582ff203676651bfc7d5cd33f8652aef17ddfc04da75",
+      "total_rows": 45,
+      "distinct_declared_keys": 45,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0,
+      "parquet_path": null,
+      "parquet_sha256": null,
+      "parquet_state": "BLOCKED_DEPENDENCIES"
+    },
+    {
+      "release_id": "newsv4",
+      "table_id": "newsv4_source_health",
+      "domain": "MARKET_CONTEXT",
+      "namespace": "PN-SOURCE-HEALTH-*",
+      "grain": "one row per source product and freshness decision version",
+      "key": [
+        "source_health_decision_id"
+      ],
+      "source_path": "newsv4/data/source_health_context.json",
+      "source_sha256": "5aa7f2bef3d99d2cc50c81695da406ccdd3f315c88237ecf0de2c0568deefd0d",
+      "total_rows": 6,
+      "distinct_declared_keys": 6,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0,
+      "parquet_path": null,
+      "parquet_sha256": null,
+      "parquet_state": "BLOCKED_DEPENDENCIES"
+    },
+    {
+      "release_id": "newsv5",
+      "table_id": "newsv5_reason_decisions",
+      "domain": "RENEWABLE_PROJECT",
+      "namespace": "GG2050-REPD-*",
+      "grain": "one row per event assertion and reason-rule version",
+      "key": [
+        "reason_decision_id"
+      ],
+      "source_path": "newsv5/data/reason_decision_ledger.json",
+      "source_sha256": "fbce604f865341391316917cb14d6319f8b1fdbb503a971a19a7c7d0ecfec06a",
+      "total_rows": 45,
+      "distinct_declared_keys": 45,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0,
+      "parquet_path": null,
+      "parquet_sha256": null,
+      "parquet_state": "BLOCKED_DEPENDENCIES"
+    },
+    {
+      "release_id": "newsv6",
+      "table_id": "newsv6_dc_sources",
+      "domain": "DATA_CENTRE",
+      "namespace": "PN-DC-*",
+      "grain": "one row per pinned source and licence record",
+      "key": [
+        "source_id"
+      ],
+      "source_path": "newsv6/data/data_centre_evidence.json",
+      "source_sha256": "e5e984f763877f41fef5c39bce248ee74bb9f22706c87cd51d6fd2a2ce9cd5d5",
+      "total_rows": 6,
+      "distinct_declared_keys": 6,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0,
+      "parquet_path": null,
+      "parquet_sha256": null,
+      "parquet_state": "BLOCKED_DEPENDENCIES"
+    },
+    {
+      "release_id": "newsv6",
+      "table_id": "newsv6_dc_observations",
+      "domain": "DATA_CENTRE",
+      "namespace": "PN-DC-*",
+      "grain": "one row per exact source observation",
+      "key": [
+        "evidence_id"
+      ],
+      "source_path": "newsv6/data/data_centre_evidence.json",
+      "source_sha256": "e5e984f763877f41fef5c39bce248ee74bb9f22706c87cd51d6fd2a2ce9cd5d5",
+      "total_rows": 2,
+      "distinct_declared_keys": 2,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0,
+      "parquet_path": null,
+      "parquet_sha256": null,
+      "parquet_state": "BLOCKED_DEPENDENCIES"
+    },
+    {
+      "release_id": "newsv6",
+      "table_id": "newsv6_dc_link_decisions",
+      "domain": "DATA_CENTRE",
+      "namespace": "PN-DC-*",
+      "grain": "one row per proposed cross-source identity link",
+      "key": [
+        "link_decision_id"
+      ],
+      "source_path": "newsv6/data/data_centre_evidence.json",
+      "source_sha256": "e5e984f763877f41fef5c39bce248ee74bb9f22706c87cd51d6fd2a2ce9cd5d5",
+      "total_rows": 2,
+      "distinct_declared_keys": 2,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0,
+      "parquet_path": null,
+      "parquet_sha256": null,
+      "parquet_state": "BLOCKED_DEPENDENCIES"
+    }
+  ]
+}
