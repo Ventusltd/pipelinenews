@@ -34,8 +34,6 @@ const reusedPaths = [
   "newsv7/data/v9.7/regional_news.json",
   "newsv7/dist/major_project_news_v9_5_1.json",
   "newsv7/data/newsv7/cumulative_intelligence.json",
-  "data/official-source/latest.json",
-  "state/official-source-cursor.json",
 ];
 const proofPaths = [
   "tooling/build-202608251929-release.mjs",
@@ -54,8 +52,10 @@ const publicationSupportPaths = ["README.md", "CHANGELOG.md", candidatePointerPa
 const projects = (await Promise.all(partPaths.map(async (path) => JSON.parse(await readFile(abs(path), "utf8"))))).flatMap((part) => part.projects);
 const news = JSON.parse(await readFile(abs("newsv7/dist/major_project_news_v9_5_1.json"), "utf8"));
 const regional = JSON.parse(await readFile(abs("newsv7/data/v9.7/regional_news.json"), "utf8"));
-const cursor = JSON.parse(await readFile(abs("state/official-source-cursor.json"), "utf8"));
-const official = JSON.parse(await readFile(abs("data/official-source/latest.json"), "utf8"));
+const cursorSourceBytes = await readFile(abs("state/official-source-cursor.json"));
+const officialSourceBytes = await readFile(abs("data/official-source/latest.json"));
+const cursor = JSON.parse(cursorSourceBytes.toString("utf8"));
+const official = JSON.parse(officialSourceBytes.toString("utf8"));
 const cumulative = JSON.parse(await readFile(abs("newsv7/data/newsv7/cumulative_intelligence.json"), "utf8"));
 const changelog = await readFile(abs("CHANGELOG.md"));
 
@@ -160,6 +160,16 @@ for (const [key, kind, extension, bytes] of objectSpecs) {
   await ensureWrite(abs(path), bytes);
   objects[key] = { path, bytes: bytes.length, sha256: hash };
 }
+const sourcePins = [];
+for (const [sourcePath, kind, bytes] of [
+  ["data/official-source/latest.json", "official-frontier", officialSourceBytes],
+  ["state/official-source-cursor.json", "official-cursor", cursorSourceBytes],
+]) {
+  const hash = sha256(bytes);
+  const path = `objects/source/sha256/${hash}.json`;
+  await ensureWrite(abs(path), bytes);
+  sourcePins.push({ path, bytes: bytes.length, sha256: hash, source_path: sourcePath, source_commit: "92985c76eaa449a8960d7e1d6059d8ae26800a18", classification: kind });
+}
 
 const index = `<!doctype html>
 <html lang="en" data-summary-object="../${objects.data.path}" data-evidence-object="../${objects.evidence.path}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pipeline News ${releaseId}</title><link rel="stylesheet" href="../${objects.css.path}"></head><body><div class="layout">
@@ -189,7 +199,7 @@ const pointer = { schema: "pipelinenews.release-pointer.v2", channel: "candidate
 const pointerBytes = Buffer.from(canonicalJson(pointer));
 await ensureWrite(abs(candidatePointerPath), pointerBytes);
 
-const reused = await Promise.all(reusedPaths.map(fileEntry));
+const reused = [...await Promise.all(reusedPaths.map(fileEntry)), ...sourcePins];
 const proof = await Promise.all(proofPaths.map(fileEntry));
 const publicationSupport = await Promise.all(publicationSupportPaths.map(fileEntry));
 const shell = await Promise.all(shellFiles.map(([path]) => fileEntry(path)));

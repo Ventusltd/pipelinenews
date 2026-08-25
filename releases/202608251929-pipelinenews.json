@@ -63,14 +63,14 @@
   },
   "objects": {
     "modules": {
-      "path": "objects/modules/sha256/625cd9033e3cad979bf1ed5bf85de292f21ca0cd4246ac9aeb999f03ab6a86f0.js",
-      "bytes": 23119,
-      "sha256": "625cd9033e3cad979bf1ed5bf85de292f21ca0cd4246ac9aeb999f03ab6a86f0"
+      "path": "objects/modules/sha256/ae4bb559312e84d7cdcb69dfee444644b328c370e198d5939ff8abeca92d6235.js",
+      "bytes": 23594,
+      "sha256": "ae4bb559312e84d7cdcb69dfee444644b328c370e198d5939ff8abeca92d6235"
     },
     "css": {
-      "path": "objects/css/sha256/26732fb255ee81f479262ef21a5dc3bca3b6ef8b4b4cd2d2bd41d1ab2604177d.css",
-      "bytes": 7624,
-      "sha256": "26732fb255ee81f479262ef21a5dc3bca3b6ef8b4b4cd2d2bd41d1ab2604177d"
+      "path": "objects/css/sha256/791986f1196c5b6c2626140f98dd32ed9f1a1de2e2e55c99a82e57d85a1bd14e.css",
+      "bytes": 7678,
+      "sha256": "791986f1196c5b6c2626140f98dd32ed9f1a1de2e2e55c99a82e57d85a1bd14e"
     },
     "data": {
       "path": "objects/data/sha256/0eddc858b6d8a788da26eac3911fe487b9380ac53c1b46894a33f7fd1f12bcd6.json",
@@ -195,41 +195,47 @@
       "sha256": "65767316a618b6ed8048e34b805168ea431f27ea666d89b02971586bfef9f05b"
     },
     {
-      "path": "data/official-source/latest.json",
+      "path": "objects/source/sha256/84f4c36bfd72ee0fd50d9002d54c79088444a8a8e777bff54112fa89b56bfe99.json",
       "bytes": 246205,
-      "sha256": "84f4c36bfd72ee0fd50d9002d54c79088444a8a8e777bff54112fa89b56bfe99"
+      "sha256": "84f4c36bfd72ee0fd50d9002d54c79088444a8a8e777bff54112fa89b56bfe99",
+      "source_path": "data/official-source/latest.json",
+      "source_commit": "92985c76eaa449a8960d7e1d6059d8ae26800a18",
+      "classification": "official-frontier"
     },
     {
-      "path": "state/official-source-cursor.json",
+      "path": "objects/source/sha256/1fb5ae0e8a7453315d568e7053c70237b6e054f82eac219cb3ac70c4eba5422c.json",
       "bytes": 251,
-      "sha256": "1fb5ae0e8a7453315d568e7053c70237b6e054f82eac219cb3ac70c4eba5422c"
+      "sha256": "1fb5ae0e8a7453315d568e7053c70237b6e054f82eac219cb3ac70c4eba5422c",
+      "source_path": "state/official-source-cursor.json",
+      "source_commit": "92985c76eaa449a8960d7e1d6059d8ae26800a18",
+      "classification": "official-cursor"
     }
   ],
   "proof": [
     {
       "path": "tooling/build-202608251929-release.mjs",
-      "bytes": 25789,
-      "sha256": "853403586a5df3904c4f2abcaf5c3a1ad3eca72b2bbeed29a6d6c093cbe412cf"
+      "bytes": 26369,
+      "sha256": "c61ff5cd10a376ee242b386481403a469ec6139b5fdb3efd529d6e221de870b0"
     },
     {
       "path": "tooling/templates/202608251929-app.js",
-      "bytes": 23119,
-      "sha256": "625cd9033e3cad979bf1ed5bf85de292f21ca0cd4246ac9aeb999f03ab6a86f0"
+      "bytes": 23594,
+      "sha256": "ae4bb559312e84d7cdcb69dfee444644b328c370e198d5939ff8abeca92d6235"
     },
     {
       "path": "tooling/templates/202608251929-app.css",
-      "bytes": 7624,
-      "sha256": "26732fb255ee81f479262ef21a5dc3bca3b6ef8b4b4cd2d2bd41d1ab2604177d"
+      "bytes": 7678,
+      "sha256": "791986f1196c5b6c2626140f98dd32ed9f1a1de2e2e55c99a82e57d85a1bd14e"
     },
     {
       "path": "tests/check-202608251929-pipelinenews.mjs",
-      "bytes": 21182,
-      "sha256": "228ca4d1e0c6997c2e68e0da0c82ed4123b2145587f97699a2c611964835aff1"
+      "bytes": 21582,
+      "sha256": "7d52415f998d801bc8a7d8dec54a3a8955c224694b5f0e335bca92d92b748efa"
     },
     {
       "path": "tests/browser-live-202608251929.mjs",
-      "bytes": 9077,
-      "sha256": "b8f9326222ecfede68590612f8992d09dc8c9e89cc290882ff0cbdf077b834bd"
+      "bytes": 9183,
+      "sha256": "2f81bc69b5c6db584ef13db5bdf2d7292200c415468d5e0874cd638ad08730a2"
     },
     {
       "path": "tests/check-current-timestamp-release.mjs",
@@ -259,7 +265,7 @@
     {
       "path": "reports/202608251929-pipelinenews-proof.json",
       "bytes": 6431,
-      "sha256": "3bb7f6594fe05a92d9943989d59397585b6ee6faa51a3ba69e7c2539c2b071e8"
+      "sha256": "1c382613e3fa985032cb107b45adff0d293eef5905bc44c790e70388d1f2e65b"
     }
   ],
   "publication_support": {
@@ -301,7 +307,7 @@
     },
     "new_content_addressed": {
       "files": 5,
-      "bytes": 128527
+      "bytes": 129056
     },
     "reused_or_pinned": {
       "files": 23,
@@ -309,7 +315,7 @@
     },
     "proof_and_evidence": {
       "files": 10,
-      "bytes": 103689
+      "bytes": 105304
     },
     "publication_support": {
       "files": 3,
@@ -321,15 +327,15 @@
     },
     "manifest": {
       "files": 1,
-      "bytes": 11212
+      "bytes": 11666
     },
     "minimum_pages_deployment_impact": {
       "files": 11,
-      "bytes": 153389
+      "bytes": 154372
     },
     "total_closure": {
       "files": 46,
-      "bytes": 10682157
+      "bytes": 10684755
     }
   }
 }

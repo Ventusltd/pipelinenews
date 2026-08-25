@@ -1,0 +1,8 @@
+{
+  "schema": "pipelinenews.official-source-cursor.v3",
+  "next_index": 60,
+  "total_groups": 6870,
+  "last_run_at": "2026-08-25T17:29:07.700Z",
+  "planit_last_good_at": "2026-08-25T17:29:07.700Z",
+  "govuk_last_good_at": "2026-08-25T17:29:07.700Z"
+}

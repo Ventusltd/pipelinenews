@@ -258,6 +258,10 @@ function safeStory(item) {
     technology: String(item.technology || "ENERGY").toUpperCase(),
     event: String(item.event || "PROJECT UPDATE").toUpperCase(),
     projectId: item.project_id || "NO PROJECT BINDING",
+    siteLabel: item.site_label || "",
+    officialStatus: item.official_status || "",
+    officialCapacityMw: Number.isFinite(item.official_capacity_mw) ? Number(item.official_capacity_mw) : null,
+    geography: String(item.geography || ""),
     region: String(item.region || "DISCOVERY"),
     eligible: item.eligible === true,
     confidence: Number(item.confidence || 0),
@@ -278,7 +282,7 @@ function visibleStories() {
     if (state.newsMode === "BESS" && !story.technology.includes("BESS")) return false;
     if (state.newsMode === "CONSENT" && story.event !== "CONSENT") return false;
     if (state.newsMode === "CONSTRUCTION" && story.event !== "CONSTRUCTION") return false;
-    if (query.length && !query.every((token) => [story.technology, story.event, story.projectId, story.region, story.date, story.evidenceId, story.evidenceUrlHash, String(story.rank)].join(" ").toLocaleLowerCase("en-GB").includes(token))) return false;
+    if (query.length && !query.every((token) => [story.siteLabel, story.officialStatus, story.geography, story.technology, story.event, story.projectId, story.region, story.date, story.evidenceId, story.evidenceUrlHash, String(story.rank)].join(" ").toLocaleLowerCase("en-GB").includes(token))) return false;
     return true;
   });
 }
@@ -288,8 +292,12 @@ function renderNews() {
   document.getElementById("stories").innerHTML = rows.length ? rows.map((story) => {
     const title = story.restricted
       ? `EVIDENCE ITEM ${String(story.rank).padStart(3, "0")} · PERSONAL IDENTIFIER WITHHELD`
-      : `EVIDENCE ITEM ${String(story.rank).padStart(3, "0")} · ${story.technology} · ${story.event}`;
-    const binding = story.eligible ? `${story.projectId} · PRIMARY MATCH · ${story.confidence}%` : "DISCOVERY ONLY · NO PROJECT SIGNAL";
+      : story.siteLabel
+        ? `${story.siteLabel} · ${story.event}`
+        : `${story.technology} · ${story.event} · ${story.geography || story.region}`;
+    const binding = story.eligible
+      ? `OFFICIAL REPD: ${story.officialStatus} · ${formatNumber(story.officialCapacityMw)} MW · ${story.projectId} · PRIMARY MATCH ${story.confidence}%`
+      : `DISCOVERY ONLY · NO PROJECT SIGNAL · IDENTITY ABSTAINS`;
     const evidenceLink = !story.restricted && story.evidenceUrl
       ? `<a href="${escapeHtml(story.evidenceUrl)}" target="_blank" rel="noopener">SOURCE DOMAIN ↗</a>`
       : '<span class="disabled">EVIDENCE LINK WITHHELD</span>';

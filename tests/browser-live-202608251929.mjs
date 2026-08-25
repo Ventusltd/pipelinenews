@@ -32,6 +32,7 @@ for (const [label, viewport] of [["desktop", { width: 1365, height: 900 }], ["mo
   assert.equal(await page.locator("thead th").count(), 11); assert.equal(await page.locator("#intelligenceCards article").count(), 5);
   assert.match(await page.locator("#solarGauge").textContent(), /^3,563 \/ 67,013\.29$/u); assert.match(await page.locator("#bessGauge").textContent(), /^1,609 \/ 147,681\.94$/u);
   assert.equal(await page.locator("#stories .provenance").count(), 133); assert.ok(await page.locator("#stories .provenance code").evaluateAll((nodes) => nodes.every((node) => /^URL SHA-256 [a-f0-9]{64}$/u.test(node.textContent))));
+  assert.doesNotMatch(await page.locator("#stories .story h3").first().textContent(), /^EVIDENCE ITEM/u);
   await page.evaluate(() => window.scrollTo(0, 0)); await page.screenshot({ path: `${output}/${label}-newspaper.png` });
   assert.equal(await page.locator(".story a").count(), 130); assert.equal(await page.locator(".story .disabled").count(), 3);
   assert.ok(await page.locator(".story a").evaluateAll((links) => links.every((link) => new URL(link.href).pathname === "/" && !new URL(link.href).search && !new URL(link.href).hash)));

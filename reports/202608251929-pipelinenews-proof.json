@@ -204,7 +204,7 @@
     },
     "new_content_addressed": {
       "files": 5,
-      "bytes": 128527
+      "bytes": 129056
     },
     "reused_or_pinned": {
       "files": 23,
@@ -212,7 +212,7 @@
     },
     "proof_and_evidence": {
       "files": 10,
-      "bytes": 103689
+      "bytes": 105304
     },
     "publication_support": {
       "files": 3,
@@ -224,15 +224,15 @@
     },
     "manifest": {
       "files": 1,
-      "bytes": 11212
+      "bytes": 11666
     },
     "minimum_pages_deployment_impact": {
       "files": 11,
-      "bytes": 153389
+      "bytes": 154372
     },
     "total_closure": {
       "files": 46,
-      "bytes": 10682157
+      "bytes": 10684755
     }
   }
 }
