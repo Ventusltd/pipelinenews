@@ -214,8 +214,8 @@
   "proof": [
     {
       "path": "tooling/build-202608251929-release.mjs",
-      "bytes": 26369,
-      "sha256": "c61ff5cd10a376ee242b386481403a469ec6139b5fdb3efd529d6e221de870b0"
+      "bytes": 26737,
+      "sha256": "700ce72b26e4bf5356b3d34c6d51c7839801e6cb6124644039971076e29476da"
     },
     {
       "path": "tooling/templates/202608251929-app.js",
@@ -265,7 +265,7 @@
     {
       "path": "reports/202608251929-pipelinenews-proof.json",
       "bytes": 6431,
-      "sha256": "1c382613e3fa985032cb107b45adff0d293eef5905bc44c790e70388d1f2e65b"
+      "sha256": "4ad81f25e4d7c34d9619c0b61cf9ffa1bd98a2b2b64824a70a1c26ab99224846"
     }
   ],
   "publication_support": {
@@ -315,7 +315,7 @@
     },
     "proof_and_evidence": {
       "files": 10,
-      "bytes": 105304
+      "bytes": 105672
     },
     "publication_support": {
       "files": 3,
@@ -335,7 +335,7 @@
     },
     "total_closure": {
       "files": 46,
-      "bytes": 10684755
+      "bytes": 10685123
     }
   }
 }

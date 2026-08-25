@@ -212,7 +212,7 @@
     },
     "proof_and_evidence": {
       "files": 10,
-      "bytes": 105304
+      "bytes": 105672
     },
     "publication_support": {
       "files": 3,
@@ -232,7 +232,7 @@
     },
     "total_closure": {
       "files": 46,
-      "bytes": 10684755
+      "bytes": 10685123
     }
   }
 }
