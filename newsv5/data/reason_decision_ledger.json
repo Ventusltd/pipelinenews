@@ -1,0 +1,2139 @@
+{
+  "schema": "pipelinenews.reason-decision-ledger.v1",
+  "release": "newsv5",
+  "status": "CANDIDATE",
+  "generated_at": "2026-08-25T00:00:00Z",
+  "grain": "one row per NewsV2 event assertion and reason-rule version",
+  "primary_key": [
+    "reason_decision_id"
+  ],
+  "source_usage": "PUBLIC_EVIDENCE_AND_SEARCH_VOCABULARY_NO_PRIVATE_WORKFLOW",
+  "module_versions": {
+    "rules": "event-to-capability.v1",
+    "vocabulary": "market-pain-vocabulary.v1",
+    "reconciliation": "reason-evidence-reconciler.v1",
+    "browser_projection": "reason-browser-projection.v1"
+  },
+  "counts": {
+    "rows": 45,
+    "decisions": {
+      "PUBLISH_REASON_TO_RESEARCH": 0,
+      "HOLD_FOR_VERIFICATION": 45,
+      "REJECT": 0,
+      "ABSTAIN": 0
+    },
+    "hostile_decisions": {
+      "PUBLISH_REASON_TO_RESEARCH": 0,
+      "HOLD_FOR_VERIFICATION": 2,
+      "REJECT": 1,
+      "ABSTAIN": 3
+    },
+    "current_context_rows": 0
+  },
+  "event_to_capability_rules": [
+    {
+      "event_type": "ACQUISITION",
+      "capability": "TRANSACTION_TECHNICAL_DUE_DILIGENCE",
+      "theme_evidence_id": "VENTUS-PODCAST-THEME-005"
+    },
+    {
+      "event_type": "CONSENT",
+      "capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "theme_evidence_id": "VENTUS-PODCAST-THEME-001"
+    },
+    {
+      "event_type": "CONTRACT",
+      "capability": "PROCUREMENT_AND_DELIVERY_RESEARCH",
+      "theme_evidence_id": "VENTUS-PODCAST-THEME-006"
+    },
+    {
+      "event_type": "FINANCIAL_CLOSE",
+      "capability": "INVESTMENT_TECHNICAL_DUE_DILIGENCE",
+      "theme_evidence_id": "VENTUS-PODCAST-THEME-005"
+    },
+    {
+      "event_type": "PROJECT_UPDATE",
+      "capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "theme_evidence_id": "VENTUS-PODCAST-THEME-001"
+    },
+    {
+      "event_type": "REFUSAL",
+      "capability": "PLANNING_AND_DELIVERY_RISK_RESEARCH",
+      "theme_evidence_id": "VENTUS-PODCAST-THEME-001"
+    }
+  ],
+  "market_pain_vocabulary": [
+    {
+      "theme_evidence_id": "VENTUS-PODCAST-THEME-001",
+      "theme": "project lifecycle and origination",
+      "search_terms": [
+        "land",
+        "grid",
+        "planning",
+        "ready-to-build",
+        "notice-to-proceed",
+        "finance",
+        "EPC",
+        "operations"
+      ],
+      "source_url": "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid",
+      "evidence_class": "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME",
+      "claim_status": "THEME_ONLY_NOT_OPPORTUNITY",
+      "permitted_use": "SEARCH_VOCABULARY_ONLY"
+    },
+    {
+      "theme_evidence_id": "VENTUS-PODCAST-THEME-002",
+      "theme": "commercial and industrial solar delivery",
+      "search_terms": [
+        "behind-the-meter",
+        "remote delivery",
+        "refurbishment",
+        "safety"
+      ],
+      "source_url": "https://www.buzzsprout.com/2272772/episodes/17481165-nick-spicer-your-eco-commercial-solar-projects",
+      "evidence_class": "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME",
+      "claim_status": "THEME_ONLY_NOT_OPPORTUNITY",
+      "permitted_use": "SEARCH_VOCABULARY_ONLY"
+    },
+    {
+      "theme_evidence_id": "VENTUS-PODCAST-THEME-003",
+      "theme": "standards and bankability",
+      "search_terms": [
+        "interoperability",
+        "cybersecurity",
+        "standards",
+        "bankability"
+      ],
+      "source_url": "https://www.buzzsprout.com/2272772/episodes/17203568-erin-mahan-sunspec-alliance",
+      "evidence_class": "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME",
+      "claim_status": "THEME_ONLY_NOT_OPPORTUNITY",
+      "permitted_use": "SEARCH_VOCABULARY_ONLY"
+    },
+    {
+      "theme_evidence_id": "VENTUS-PODCAST-THEME-004",
+      "theme": "ageing fleet and operations",
+      "search_terms": [
+        "O&M",
+        "repowering",
+        "asset performance",
+        "ageing fleet"
+      ],
+      "source_url": "https://www.buzzsprout.com/2272772/episodes/15076356-rob-tippett-challenges-and-opportunities-in-solar-o-m-and-repowering",
+      "evidence_class": "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME",
+      "claim_status": "THEME_ONLY_NOT_OPPORTUNITY",
+      "permitted_use": "SEARCH_VOCABULARY_ONLY"
+    },
+    {
+      "theme_evidence_id": "VENTUS-PODCAST-THEME-005",
+      "theme": "investment and technical due diligence",
+      "search_terms": [
+        "investor",
+        "asset manager",
+        "technical due diligence",
+        "investment"
+      ],
+      "source_url": "https://www.buzzsprout.com/2272772/episodes/14193404-arnoud-klaren-unlocking-solar-success-insights-from-a-seasoned-technical-director-in-investment-and-asset-management",
+      "evidence_class": "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME",
+      "claim_status": "THEME_ONLY_NOT_OPPORTUNITY",
+      "permitted_use": "SEARCH_VOCABULARY_ONLY"
+    },
+    {
+      "theme_evidence_id": "VENTUS-PODCAST-THEME-006",
+      "theme": "solar construction delivery",
+      "search_terms": [
+        "civils",
+        "soil",
+        "piling",
+        "drainage",
+        "logistics",
+        "labour",
+        "safety"
+      ],
+      "source_url": "https://www.buzzsprout.com/2272772/episodes/18798878-uk-s-first-nationally-significant-solar-farm-clark-frost",
+      "evidence_class": "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME",
+      "claim_status": "THEME_ONLY_NOT_OPPORTUNITY",
+      "permitted_use": "SEARCH_VOCABULARY_ONLY"
+    }
+  ],
+  "hostile_negative_decisions": [
+    {
+      "case_id": "SHARED_NAME_CONFLICTING_PROJECT_IDS",
+      "expected_decision": "REJECT",
+      "decision": "REJECT",
+      "code": "CONFLICTING_AUTHORITATIVE_IDENTITY",
+      "reason": "A shared name cannot overcome conflicting authoritative identities."
+    },
+    {
+      "case_id": "COMPOSITE_OPERATOR_LABEL_ONLY",
+      "expected_decision": "ABSTAIN",
+      "decision": "ABSTAIN",
+      "code": "INSUFFICIENT_DIRECT_PROJECT_EVIDENCE",
+      "reason": "A composite source label does not establish a legal entity or commercial role."
+    },
+    {
+      "case_id": "PODCAST_GUEST_WITHOUT_PROJECT_EVIDENCE",
+      "expected_decision": "ABSTAIN",
+      "decision": "ABSTAIN",
+      "code": "INSUFFICIENT_DIRECT_PROJECT_EVIDENCE",
+      "reason": "A podcast appearance is theme evidence, not a project opportunity."
+    },
+    {
+      "case_id": "STALE_MARKET_RECORD_WITH_UNVERIFIED_EVENT",
+      "expected_decision": "HOLD_FOR_VERIFICATION",
+      "decision": "HOLD_FOR_VERIFICATION",
+      "code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "reason": "Stale context cannot verify a project event or justify publication."
+    },
+    {
+      "case_id": "HEADLINE_WITHOUT_VERIFIED_EVENT",
+      "expected_decision": "HOLD_FOR_VERIFICATION",
+      "decision": "HOLD_FOR_VERIFICATION",
+      "code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "reason": "A headline-derived event requires direct public-record verification."
+    },
+    {
+      "case_id": "NEARBY_SUBSTATION_WITHOUT_CONNECTION_EVIDENCE",
+      "expected_decision": "ABSTAIN",
+      "decision": "ABSTAIN",
+      "code": "INSUFFICIENT_DIRECT_PROJECT_EVIDENCE",
+      "reason": "Proximity is context and does not establish a grid connection."
+    }
+  ],
+  "reason_decisions": [
+    {
+      "reason_decision_id": "PN-REASON-DECISION-BF6C65B9DE9109BEA1DB",
+      "reason_id": "PN-REASON-574E7F5ACB7463274145",
+      "rule_id": "event-to-capability.v1:CONSENT",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 1,
+      "project_id": "GG2050-REPD-13599",
+      "repd_ref": "13599",
+      "event_assertion_id": "PN-EVT-178E01376A535B3F1CE6",
+      "transaction_role_decision_id": "PN-TXN-ROLE-2F928F077970CD1FE878",
+      "capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-178E01376A535B3F1CE6",
+        "PN-TXN-ROLE-2F928F077970CD1FE878",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMinAFBVV95cUxPWDQydUp0MHVEVzBaQWg4amx2ejVQUU9CZlVoaE9oR2habGdxTUkxaEdtNmtIMDhXOFc5TFpsSzRTbHVIX3FPaGRPSjNJVWx5dk1IWTlPVHRPYkRVNUNQc0ZwcDA1QmFndjF5dWtxdXJFU0RjT1B2enRwcUFnWHIwNXU2bWR6cS02c3MxTFJ5aWthekpiblNPeE1FWHk?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The CONSENT headline claim matches the CONSENT_TO_DELIVERY_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-48773BE3FCE0F9033FF5",
+      "reason_id": "PN-REASON-BF753B3FDF5DA524ED15",
+      "rule_id": "event-to-capability.v1:PROJECT_UPDATE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 2,
+      "project_id": "GG2050-REPD-1044",
+      "repd_ref": "1044",
+      "event_assertion_id": "PN-EVT-0B1B248D838C8DDC8B59",
+      "transaction_role_decision_id": "PN-TXN-ROLE-C55406EC2EE182223C0F",
+      "capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-0B1B248D838C8DDC8B59",
+        "PN-TXN-ROLE-C55406EC2EE182223C0F",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMimAFBVV95cUxOZ0UzaHRwbjVaRmRIVWYzLWJYV3VrTUZXTk1kUjFWN0FZbzhzd0gwc3Y1bmV5Z0huS3Qwd1B4Y0hFcEp6OVZlZkxMaDlXb1kyTlJ6ZjhTUFl4T0FfUGkyNkpkWmpxRkt4Ull1VUo4WmQzUWZrMHhhS0pCQVV2b19yZWtKWU51WEtXOWwteXFhYWhLVFVrYS1Maw?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The PROJECT_UPDATE headline claim matches the PROJECT_LIFECYCLE_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-FD76F89648E779575C82",
+      "reason_id": "PN-REASON-6FAD4020CE70EC758D22",
+      "rule_id": "event-to-capability.v1:ACQUISITION",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 3,
+      "project_id": "GG2050-REPD-11974",
+      "repd_ref": "11974",
+      "event_assertion_id": "PN-EVT-34AE9408219A50D489CF",
+      "transaction_role_decision_id": "PN-TXN-ROLE-BB6652E10F77F04BAE5D",
+      "capability": "TRANSACTION_TECHNICAL_DUE_DILIGENCE",
+      "triggering_evidence_ids": [
+        "PN-EVT-34AE9408219A50D489CF",
+        "PN-TXN-ROLE-BB6652E10F77F04BAE5D",
+        "VENTUS-PODCAST-THEME-005"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMixAFBVV95cUxQVHZ6NXhSdjhiT1J1bm9DY3poR3I3dG5wM3MwOHNIS1JLUVZuRXhrS0p6ZlVzQ2xKRnlId3JfbldHVzZtNzFUM1kzSkJSbThYbGY3VEFmWWNNWDdveVptQzJrakE3YXVHODNvVmN5QXZtZWZtM2d2OUh4NjBmeHlsQ0VRR00wck80SnlJbVVVOFNFcUVNWU15RjZSNi03d1UtcmVhOGNscUQzcEV1YXltamFEZjZ1cVE5c2RSMm96ZVZTQWhW?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/14193404-arnoud-klaren-unlocking-solar-success-insights-from-a-seasoned-technical-director-in-investment-and-asset-management"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The ACQUISITION headline claim matches the TRANSACTION_TECHNICAL_DUE_DILIGENCE research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-C37A5D3AFA3AED3ECA1D",
+      "reason_id": "PN-REASON-8876C8FEDFA91D37AFAC",
+      "rule_id": "event-to-capability.v1:PROJECT_UPDATE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 4,
+      "project_id": "GG2050-REPD-11034",
+      "repd_ref": "11034",
+      "event_assertion_id": "PN-EVT-F984E1486E045CD404B9",
+      "transaction_role_decision_id": "PN-TXN-ROLE-2559D8D15F901D5D017C",
+      "capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-F984E1486E045CD404B9",
+        "PN-TXN-ROLE-2559D8D15F901D5D017C",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMitgFBVV95cUxQTm1iamxWcUgyd2NOTS13cWgwbExYOGpqM0tLczhsY0hpTThiZ1N1U3V4eXJoT0dxLTFIREhqaHNuRUk2NV9FR3dWVUpyYVBNUDBpajRiZDRFMkRPY2dfbDdNWW90YWZ0UzBuSURpZTdXTDFUS3p2UXJuTzYtNDhNa0RjWU5tZzdoYmpLYklyZm1KMnRGeGkxX2tTTDlMZ0xkZm9EaVNpNURjYmlodnJCYjd6ZEU5Zw?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The PROJECT_UPDATE headline claim matches the PROJECT_LIFECYCLE_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-D14EDCFF95FD2580DBF0",
+      "reason_id": "PN-REASON-54120B574F001528BEB5",
+      "rule_id": "event-to-capability.v1:PROJECT_UPDATE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 5,
+      "project_id": "GG2050-REPD-14550",
+      "repd_ref": "14550",
+      "event_assertion_id": "PN-EVT-6E53449B02D31AE14996",
+      "transaction_role_decision_id": "PN-TXN-ROLE-8BF64468F04E2809EA10",
+      "capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-6E53449B02D31AE14996",
+        "PN-TXN-ROLE-8BF64468F04E2809EA10",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5fRHNsY202RTZwellHTmxuZU0ycnViaFl2YzBvMnNMRDNDbV9UWXlQNUtUbFBfQ0d5dmVCNHhubk02Ny0wOHFKTTFoT2JnNXB0c1Z5VFlqRkQ5TXBE?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The PROJECT_UPDATE headline claim matches the PROJECT_LIFECYCLE_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-E7A10AFB02FAFC624605",
+      "reason_id": "PN-REASON-49C365DECB86506023F7",
+      "rule_id": "event-to-capability.v1:PROJECT_UPDATE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 6,
+      "project_id": "GG2050-REPD-14806",
+      "repd_ref": "14806",
+      "event_assertion_id": "PN-EVT-A83AE8EBE4B885F8A62C",
+      "transaction_role_decision_id": "PN-TXN-ROLE-936ED633EC2C2EE37F34",
+      "capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-A83AE8EBE4B885F8A62C",
+        "PN-TXN-ROLE-936ED633EC2C2EE37F34",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMid0FVX3lxTE1ncXRpRTR1MjRmNHVQY1Z3RFkzdXN2ZEZFSHBManRGamo3SkV3Z0N3X1hBZ0ptOUFPaGYtcU12TFF3QTIzY0JKNmNzTk5fU3NiR0lpVkNEbE14QnpoX2ptS3hSQlNmZzU4aHRCSHhUQUVRSkNuc3VJ?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The PROJECT_UPDATE headline claim matches the PROJECT_LIFECYCLE_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-8CEA72F7F02DBAE4693A",
+      "reason_id": "PN-REASON-626E867C7B7D94CA213A",
+      "rule_id": "event-to-capability.v1:CONSENT",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 7,
+      "project_id": "GG2050-REPD-14550",
+      "repd_ref": "14550",
+      "event_assertion_id": "PN-EVT-0625DB8AA1F539A9BCA8",
+      "transaction_role_decision_id": "PN-TXN-ROLE-D3AB84275B3C37D57168",
+      "capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-0625DB8AA1F539A9BCA8",
+        "PN-TXN-ROLE-D3AB84275B3C37D57168",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMivgFBVV95cUxQekdWd2JIV1hDSW0zdWdUQng0N3NaUVJ5YldvX2FYNU82M0hJUUVyQmJCUnlxbUdFX3dfTklUNXVQZ1hmVHVzb2R5LVhXOGFmRlByUXprYllyYTNPenhxeEVHbFVla3lXVW9rMk5HOGhZYVpOWjVQYk91TnpianhyM2lDazJNZVE4bWQtWjNTZ19GempXcFJ6SVpHbTZXR3RVUU8tOFhyZHJJMExCM1VnYklRLU14MlhKNDh0Rm53?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The CONSENT headline claim matches the CONSENT_TO_DELIVERY_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-850BD408BB9437D409D7",
+      "reason_id": "PN-REASON-4DBF5E27E93B6602B9AC",
+      "rule_id": "event-to-capability.v1:CONSENT",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 8,
+      "project_id": "GG2050-REPD-14550",
+      "repd_ref": "14550",
+      "event_assertion_id": "PN-EVT-9A89FEA3B11ADA411EAB",
+      "transaction_role_decision_id": "PN-TXN-ROLE-BDE7DA65D4D50BC8F0F1",
+      "capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-9A89FEA3B11ADA411EAB",
+        "PN-TXN-ROLE-BDE7DA65D4D50BC8F0F1",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMisAFBVV95cUxNaG5QNlhBMzZzVFdKVkwtcGpNT2hDamNVdUNUOWhyNTM2N1BqR3RFZTlfY29vNXZXLU9oVDFzcmo3enJZcDNsWjdDTUVSX2VJUVVIRlhyQmJldzctaDZyYk1uaWR4MkNidFB4TW1vc19CRVpVWjdNT0pWUGpyYmRfRFp6UjlKRFFlZWV0SjBoTjlEdHVxcW00dXFxVm43OTlqampvYjNlcjZ1RGlBTWNOcg?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The CONSENT headline claim matches the CONSENT_TO_DELIVERY_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-4F2861C0504003018F4D",
+      "reason_id": "PN-REASON-720F64960D39818CD8C0",
+      "rule_id": "event-to-capability.v1:CONSENT",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 9,
+      "project_id": "GG2050-REPD-14550",
+      "repd_ref": "14550",
+      "event_assertion_id": "PN-EVT-58020077F56B243C5B7C",
+      "transaction_role_decision_id": "PN-TXN-ROLE-78F53A4AC3AF188072E5",
+      "capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-58020077F56B243C5B7C",
+        "PN-TXN-ROLE-78F53A4AC3AF188072E5",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMisAFBVV95cUxNb0daVWdoSFdOR1JCWjNjY0tyd3IteE54cWR4WVhPMFNGemlEaUhwYUNPMTAycGlKX1NKYjlLLUNySW9iT0hMeXRDcU10d0JqNUhTczF5R1lOa1Jwd0RrQzFyOFZQc3ZJZUJZVS0yZldmSTh4ZExSeHdnZkc2Ym9abVNDaUU5RnhCbVdXOENpMmtzY0Y1eFZmY1hEQWFwc3NHZUE4YlVLeFlfTVR0RFVEYQ?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The CONSENT headline claim matches the CONSENT_TO_DELIVERY_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-E50D6BF78FE92B3A6A1E",
+      "reason_id": "PN-REASON-98715CEABB98B9EC60FA",
+      "rule_id": "event-to-capability.v1:CONSENT",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 10,
+      "project_id": "GG2050-REPD-15000",
+      "repd_ref": "15000",
+      "event_assertion_id": "PN-EVT-0984B5097C1C220341B7",
+      "transaction_role_decision_id": "PN-TXN-ROLE-806EE3B00B0CD9F8B007",
+      "capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-0984B5097C1C220341B7",
+        "PN-TXN-ROLE-806EE3B00B0CD9F8B007",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9WeVBuUWQ3VGhtOWkzTFpmczZmbnJuaXhadC15ajRSMlVXaWhQc21PelRxS1NuSzRHXy04dzM1YVF4LUFEV3NVV0pRWmlVRlYteFQyWHFrQk95dTVD?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The CONSENT headline claim matches the CONSENT_TO_DELIVERY_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-5D616026D5744574D993",
+      "reason_id": "PN-REASON-6BF3C48EBEE41390ECAC",
+      "rule_id": "event-to-capability.v1:CONSENT",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 11,
+      "project_id": "GG2050-REPD-15000",
+      "repd_ref": "15000",
+      "event_assertion_id": "PN-EVT-D1CE5C1382527F330641",
+      "transaction_role_decision_id": "PN-TXN-ROLE-58BE5B49320C9BFE5188",
+      "capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-D1CE5C1382527F330641",
+        "PN-TXN-ROLE-58BE5B49320C9BFE5188",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMinwFBVV95cUxNeWdvRFItQ05Wd2ZKSThwR1E4cmVXV2xwQW9oVVg1N1NWWEE4SnFESlR0RnB2dFJCcEVhSllhMFAybk1mbEEzSGkxNWZDZk1UZjgxRUdDeGRIbTl4R1BZTWxHbC04U3dybkpMMkc2cUxKNURJWnFJUkZ4WGRMQVh4alNHMkc3Nl9sdmpkclZXenRUX3JSR0dhMGVHdlN5LTg?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The CONSENT headline claim matches the CONSENT_TO_DELIVERY_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-FBE41C6AAAE29C373C21",
+      "reason_id": "PN-REASON-597DC6F0DA1806A4CDD7",
+      "rule_id": "event-to-capability.v1:CONSENT",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 12,
+      "project_id": "GG2050-REPD-14550",
+      "repd_ref": "14550",
+      "event_assertion_id": "PN-EVT-E901107B2F273D79EA61",
+      "transaction_role_decision_id": "PN-TXN-ROLE-62A15C524100AFC8DA9E",
+      "capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-E901107B2F273D79EA61",
+        "PN-TXN-ROLE-62A15C524100AFC8DA9E",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMimgFBVV95cUxNZDNGdGtoRlhzRWhhWGpaczUzRllKdHJtMUh0c2sxc2dFeHVpY2d2NGdablFYVUVfRUxZclJNSGtsY0RONm83dk9IV0VDUXNEdHJRNU52TUk3NHhhaW5xWGV6RHhscGgwV1oyeU1EQXFKTmhZWTFnLVdyOEFhZXYyZWFRUjNvc2ZlTDhFRmxUMUxFYUl4a0xQSFNR?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The CONSENT headline claim matches the CONSENT_TO_DELIVERY_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-34174E589A7ECF541A4F",
+      "reason_id": "PN-REASON-B411CC5DC23E7BB5AA62",
+      "rule_id": "event-to-capability.v1:ACQUISITION",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 13,
+      "project_id": "GG2050-REPD-11063",
+      "repd_ref": "11063",
+      "event_assertion_id": "PN-EVT-E4A04E23308AAD17CDB3",
+      "transaction_role_decision_id": "PN-TXN-ROLE-0ABA447457AD1FA9284D",
+      "capability": "TRANSACTION_TECHNICAL_DUE_DILIGENCE",
+      "triggering_evidence_ids": [
+        "PN-EVT-E4A04E23308AAD17CDB3",
+        "PN-TXN-ROLE-0ABA447457AD1FA9284D",
+        "VENTUS-PODCAST-THEME-005"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMimAFBVV95cUxNZ1NSTDZmY3ZzSTM2VU5DUm55TVpjckw5c3hXV3llZTN2MHFSV2JrVXByRHJFQ01QTHZjTTdVX1gwVExKMDZReTY0anFJR3h1ak1VR3ZicVR3N3ZUN0NnOHppSDJ5WFRzQlB1R3NoT3hQTkVFdWswZ1k3NlR4TDlGSEk3ekN3MFF5bUsyMWVPRFRHNEJHb1I5QQ?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/14193404-arnoud-klaren-unlocking-solar-success-insights-from-a-seasoned-technical-director-in-investment-and-asset-management"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The ACQUISITION headline claim matches the TRANSACTION_TECHNICAL_DUE_DILIGENCE research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-C559079703454A2AE713",
+      "reason_id": "PN-REASON-E048FD34A7285FB35019",
+      "rule_id": "event-to-capability.v1:ACQUISITION",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 14,
+      "project_id": "GG2050-REPD-12206",
+      "repd_ref": "12206",
+      "event_assertion_id": "PN-EVT-691E113BA6EA50F8E117",
+      "transaction_role_decision_id": "PN-TXN-ROLE-8811CEDB759FB39448EA",
+      "capability": "TRANSACTION_TECHNICAL_DUE_DILIGENCE",
+      "triggering_evidence_ids": [
+        "PN-EVT-691E113BA6EA50F8E117",
+        "PN-TXN-ROLE-8811CEDB759FB39448EA",
+        "VENTUS-PODCAST-THEME-005"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMixwFBVV95cUxObWZLSUpHUktYY3hnNzBuMWw0RkJPd1AzRjlTN0o0bzkwZ2d0S2ZGSnpQV0ItbHhuU25yXzgtSks4R0lwbXpqNzRRNGY3YVZreUF5NThFVW05UEJtN282eUs5NFRIQkJHUXF0ejY3bzJEU1ZBTnRuUmNNWkZtbkZITnFNcnY4d1lzMGtkM09YZWVianJ1ZmRuVlJ4bzZpU2tfdzY4aGpGM01iY0xIR1lFenNzNUlWeVBEWkRheHJQZXRyVHJ6LU5n?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/14193404-arnoud-klaren-unlocking-solar-success-insights-from-a-seasoned-technical-director-in-investment-and-asset-management"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The ACQUISITION headline claim matches the TRANSACTION_TECHNICAL_DUE_DILIGENCE research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-5F7A58D3577E872E61D8",
+      "reason_id": "PN-REASON-E153FB1575C65F50C3DA",
+      "rule_id": "event-to-capability.v1:ACQUISITION",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 15,
+      "project_id": "GG2050-REPD-11034",
+      "repd_ref": "11034",
+      "event_assertion_id": "PN-EVT-B54E0F042FBC5232BBDA",
+      "transaction_role_decision_id": "PN-TXN-ROLE-25F2D9984BBC5E2858B6",
+      "capability": "TRANSACTION_TECHNICAL_DUE_DILIGENCE",
+      "triggering_evidence_ids": [
+        "PN-EVT-B54E0F042FBC5232BBDA",
+        "PN-TXN-ROLE-25F2D9984BBC5E2858B6",
+        "VENTUS-PODCAST-THEME-005"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMi7wFBVV95cUxQY1ZUamJVSVMySFhvNkNOVDlSQ2p5Z1BBVWlMOFhqQ0RJZk00R3QtRXJmMEpfeXZPYVR4U2IyMjF3b1FlMVkwRDRzR21FUUQ5MnNkZld1UWlIMTFMWUw2NjdieEw1ejlwN0tfbno2ekVTanJnd28wS1doUDdsZ1ZxenRCNWxCX2FxQ1Rkekt5TTRjR2VjTTV0VE1XMTg0RWpEQnVSQmwyazY2VjlPUlk3aUlfRHFZYzdhVmU0S284cUlQeTJ6Tnh6dnlJZTlDc2lpbFJFZmNfUHBLemU5WnMyM3lZYUhINnotMnptdTd3SQ?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/14193404-arnoud-klaren-unlocking-solar-success-insights-from-a-seasoned-technical-director-in-investment-and-asset-management"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The ACQUISITION headline claim matches the TRANSACTION_TECHNICAL_DUE_DILIGENCE research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-74E234C3CF9BE7419DEC",
+      "reason_id": "PN-REASON-549E02CE098F44421BBE",
+      "rule_id": "event-to-capability.v1:FINANCIAL_CLOSE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 16,
+      "project_id": "GG2050-REPD-11034",
+      "repd_ref": "11034",
+      "event_assertion_id": "PN-EVT-3ACA1C9F3D1CEAE8BABF",
+      "transaction_role_decision_id": "PN-TXN-ROLE-D33812369B707386D425",
+      "capability": "INVESTMENT_TECHNICAL_DUE_DILIGENCE",
+      "triggering_evidence_ids": [
+        "PN-EVT-3ACA1C9F3D1CEAE8BABF",
+        "PN-TXN-ROLE-D33812369B707386D425",
+        "VENTUS-PODCAST-THEME-005"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMirAFBVV95cUxPZnlqdmdwUVB3TjFoa3BxV2EzbUI5QTJJV19XOENTSkxSbHdDS2tIVFRfZFp6M1Q5bmJVbGludVd1NklGTXM0ZkhEVllyYXNWam1YREcxSkJBWFo0LUF4cTY0a19tWVpwYkw0dkZmOVZSMGE1U0lGMkZDMWd2WldWck53ZmFTNTJRU0FtNnhwUWtjbExqaC1odkg2NkYwUUl4c0RPdnlzeVpTZHI4?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/14193404-arnoud-klaren-unlocking-solar-success-insights-from-a-seasoned-technical-director-in-investment-and-asset-management"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The FINANCIAL_CLOSE headline claim matches the INVESTMENT_TECHNICAL_DUE_DILIGENCE research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-86A6D9EE526DC93CB244",
+      "reason_id": "PN-REASON-937740CFAA569922CCCF",
+      "rule_id": "event-to-capability.v1:FINANCIAL_CLOSE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 17,
+      "project_id": "GG2050-REPD-12017",
+      "repd_ref": "12017",
+      "event_assertion_id": "PN-EVT-CE8870C3FE8F5DA103D2",
+      "transaction_role_decision_id": "PN-TXN-ROLE-20F1619453C6268935A3",
+      "capability": "INVESTMENT_TECHNICAL_DUE_DILIGENCE",
+      "triggering_evidence_ids": [
+        "PN-EVT-CE8870C3FE8F5DA103D2",
+        "PN-TXN-ROLE-20F1619453C6268935A3",
+        "VENTUS-PODCAST-THEME-005"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQTnNCOHM3WG5DMkZRbnpGLTFMYnlNcFBfU1R5MFNoYWpqblBad3pJYjFYOE5zcG1CaVZ2by1ndEdjYlExQ1V6QTRERkJEcWtxdGVfbHhTUUJ4LTRrZm1jdnFkWGp3cm1MeFdKZkZXdEt4UkFRd181WUg1ZlhpeGY3b0lFSDEyUnVhdGI4SkFfQ3lRV2pLTFAwTzBZOS01ZHhYTWZEVFAzeG8xdjF2Nm9jTXNkTF84SVl5NThfOURpR0JDRERPb1k3UQ?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/14193404-arnoud-klaren-unlocking-solar-success-insights-from-a-seasoned-technical-director-in-investment-and-asset-management"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The FINANCIAL_CLOSE headline claim matches the INVESTMENT_TECHNICAL_DUE_DILIGENCE research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-5B0582FA0AFDFC92A583",
+      "reason_id": "PN-REASON-EAB1C25BB05E3E377C8B",
+      "rule_id": "event-to-capability.v1:FINANCIAL_CLOSE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 18,
+      "project_id": "GG2050-REPD-10087",
+      "repd_ref": "10087",
+      "event_assertion_id": "PN-EVT-6F53B6D7771307529938",
+      "transaction_role_decision_id": "PN-TXN-ROLE-D961C4DCDA922E752453",
+      "capability": "INVESTMENT_TECHNICAL_DUE_DILIGENCE",
+      "triggering_evidence_ids": [
+        "PN-EVT-6F53B6D7771307529938",
+        "PN-TXN-ROLE-D961C4DCDA922E752453",
+        "VENTUS-PODCAST-THEME-005"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMic0FVX3lxTE92U0czNXdXMll4MUtrRmJacWxLaGFuSmNzQ29Ra1VZUWtjY1Z2eDFSZDhCZFFHZFl3bktlX3Ywc0hRNGlmczB0UmxZQzV3cWdvMzFkX3cwdjdrYnZDUlZUbU80V3ZvbkRseUlJQ1RiUE5VcUk?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/14193404-arnoud-klaren-unlocking-solar-success-insights-from-a-seasoned-technical-director-in-investment-and-asset-management"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The FINANCIAL_CLOSE headline claim matches the INVESTMENT_TECHNICAL_DUE_DILIGENCE research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-A9D4BD5EC4B2EDA94A9C",
+      "reason_id": "PN-REASON-E72FC90FB6199EF57C0C",
+      "rule_id": "event-to-capability.v1:FINANCIAL_CLOSE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 19,
+      "project_id": "GG2050-REPD-10087",
+      "repd_ref": "10087",
+      "event_assertion_id": "PN-EVT-AE0952E1D4A6A3FA4BA7",
+      "transaction_role_decision_id": "PN-TXN-ROLE-E22FD560D7EA27EE7A5C",
+      "capability": "INVESTMENT_TECHNICAL_DUE_DILIGENCE",
+      "triggering_evidence_ids": [
+        "PN-EVT-AE0952E1D4A6A3FA4BA7",
+        "PN-TXN-ROLE-E22FD560D7EA27EE7A5C",
+        "VENTUS-PODCAST-THEME-005"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMitgFBVV95cUxOWEdFa1pQSE5GMmJaYjFfQ19oOGY0YUtOalJiM2JEUzM2QjlidDNFcDJjSThqWUU5SmlNZjFJczc3YnF6VWYzbndVMEl0T0RFRlRub2NIQ29ZbDB2Vm1KZVpsTENhWjcwUkxpWHJoRGkzd2NxcmxraDNyaUtSd1JjNmRlT1ZGd3A5OF9FX0lpbjIwZk5uMXJNajd6V25PZzNiR2JHNXcxVmNDMy1PSWRzd1ZpTlkzZw?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/14193404-arnoud-klaren-unlocking-solar-success-insights-from-a-seasoned-technical-director-in-investment-and-asset-management"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The FINANCIAL_CLOSE headline claim matches the INVESTMENT_TECHNICAL_DUE_DILIGENCE research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-76F7D163566FA8F0ADE1",
+      "reason_id": "PN-REASON-6CB39676C8B8F2F9EA9C",
+      "rule_id": "event-to-capability.v1:PROJECT_UPDATE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 20,
+      "project_id": "GG2050-REPD-8162",
+      "repd_ref": "8162",
+      "event_assertion_id": "PN-EVT-4979E18C801BB1A3EFC7",
+      "transaction_role_decision_id": "PN-TXN-ROLE-009719708138876E133D",
+      "capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-4979E18C801BB1A3EFC7",
+        "PN-TXN-ROLE-009719708138876E133D",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMiswFBVV95cUxQMUNNMi0wamo3SExnYmdzQmJyOXRuYnJDRGEtR0txb1lkMnFrS0g3cUkzSHExNFozanpzRWQ5ZUNsLW5Yc0dTRGFUYWRsZW9OLXh3WnlBQllra2cxVU5sd3BGUmZldWkzUFNlQXl1aUx0aVN2MmlKbXQya2ZxbDQzcmQzRFJpQ2F5MDRsYUpJVVhLSENSZnJUU3piendwZUJiVldlcjVlT190ekNZS3l0TWlDOA?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The PROJECT_UPDATE headline claim matches the PROJECT_LIFECYCLE_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-F75C9637AD7C1485EC6B",
+      "reason_id": "PN-REASON-0301B4B19F295F145641",
+      "rule_id": "event-to-capability.v1:PROJECT_UPDATE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 21,
+      "project_id": "GG2050-REPD-2377",
+      "repd_ref": "2377",
+      "event_assertion_id": "PN-EVT-EACE2D05B2F37C2061C5",
+      "transaction_role_decision_id": "PN-TXN-ROLE-48B572DE7EB14F8983D9",
+      "capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-EACE2D05B2F37C2061C5",
+        "PN-TXN-ROLE-48B572DE7EB14F8983D9",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMitAFBVV95cUxQSjFPTTI3ZV9samJpWUh0cHFMdW9Ed096TVRKSFBHX0ZReDlZMTI4QmlDRzlvQ1JLZ2pTdFdfWGNTNkU1WmY3Rkl2NDc0aUtHU005UGZOWmNwa2liT0NMT29FbkF1Z2JnS1VLRmJST1FvSGE1aEg4OXR5czl1N2NVc203OG8ycHJwX1dkRVdrMVhiUDR2X1g5R29KOWpsM1YwSHlVVW0xUzdXX1M5cUJKbVdMRy0?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The PROJECT_UPDATE headline claim matches the PROJECT_LIFECYCLE_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-7A7245A589FBEF2F4571",
+      "reason_id": "PN-REASON-646493E831516C43C4CD",
+      "rule_id": "event-to-capability.v1:PROJECT_UPDATE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 22,
+      "project_id": "GG2050-REPD-5533",
+      "repd_ref": "5533",
+      "event_assertion_id": "PN-EVT-2CFB24B9258006434A99",
+      "transaction_role_decision_id": "PN-TXN-ROLE-0CE0B2E47A9C499B7DC0",
+      "capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-2CFB24B9258006434A99",
+        "PN-TXN-ROLE-0CE0B2E47A9C499B7DC0",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9tanJsVVNFbjdTdy1hc0NWajFnLVhwYnlUQm5EbGFFZXRJY3Y1dUp0bzRNelNwaDNHWUpmNzRiblg4RmhTTUZpUzc0WklZRkZ0a2g0aDZZN2RTRmtF?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The PROJECT_UPDATE headline claim matches the PROJECT_LIFECYCLE_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-695FA4A25BB27BDBD80C",
+      "reason_id": "PN-REASON-9304CD28FC6379CA6393",
+      "rule_id": "event-to-capability.v1:PROJECT_UPDATE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 23,
+      "project_id": "GG2050-REPD-10087",
+      "repd_ref": "10087",
+      "event_assertion_id": "PN-EVT-6AA0C9BB921AAE57AEC0",
+      "transaction_role_decision_id": "PN-TXN-ROLE-56D7B87C2EB52DCB0A4D",
+      "capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-6AA0C9BB921AAE57AEC0",
+        "PN-TXN-ROLE-56D7B87C2EB52DCB0A4D",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMiygFBVV95cUxPYUVOUi1jemV6VW9FdnJOdlZ1QVdveGt4S0c4YVdpR1RkeDZaNmRsSEhUN0Z5M1JZZURDNkRjR19qRndaSXJuU3c0UUhUQXV2SXlYemV3aVRtWVJhdjg2UHl3ckxQbHZ2SFhrekd6aTEzM2R4ZU5FMTNzc0RVY25YalpZbEtpMDgzZ3oyUjM0c1NaZFlIZi1NLWxLRGpLek5zUW9fVUlpWE5nV2JnUXRwQmlTNUZIV3ZWRnE1MEx2VUxtMU9iRTE2R1hB?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The PROJECT_UPDATE headline claim matches the PROJECT_LIFECYCLE_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-05B385F32CF368155707",
+      "reason_id": "PN-REASON-6BA764A282FDE6516CD7",
+      "rule_id": "event-to-capability.v1:ACQUISITION",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 24,
+      "project_id": "GG2050-REPD-14763",
+      "repd_ref": "14763",
+      "event_assertion_id": "PN-EVT-2849F957E456BC5FB1BE",
+      "transaction_role_decision_id": "PN-TXN-ROLE-6BEEFFAAEDDCFCD77006",
+      "capability": "TRANSACTION_TECHNICAL_DUE_DILIGENCE",
+      "triggering_evidence_ids": [
+        "PN-EVT-2849F957E456BC5FB1BE",
+        "PN-TXN-ROLE-6BEEFFAAEDDCFCD77006",
+        "VENTUS-PODCAST-THEME-005"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMirAFBVV95cUxQbU9icGRUcGtHQlhHMkRLMGRxeWhwZFRIWDIwQ2FmYjNIZmhRSkJkVjBDQTNzRFdHMlY0YWFoUktvOFdvN2x0V1lJX2ZMc1NvRnNzWlRldEFRTFc4SlROUnJqUmExMlBCQzJselhZdXRoX0RZQVhiNVpxcXY5VzFrWVppaVhYTUptajRrZFNHQjBxNnl6OS03ekNzMFp3UG1QMmdyQ2U5emlhMU1H?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/14193404-arnoud-klaren-unlocking-solar-success-insights-from-a-seasoned-technical-director-in-investment-and-asset-management"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The ACQUISITION headline claim matches the TRANSACTION_TECHNICAL_DUE_DILIGENCE research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-FDEA8BC85B790D2D6264",
+      "reason_id": "PN-REASON-514FEA9F59E1FB659AAB",
+      "rule_id": "event-to-capability.v1:CONTRACT",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 25,
+      "project_id": "GG2050-REPD-9427",
+      "repd_ref": "9427",
+      "event_assertion_id": "PN-EVT-BDFCE7B53DAB97C4EF5C",
+      "transaction_role_decision_id": "PN-TXN-ROLE-E8D134DAB4E1ED8CC499",
+      "capability": "PROCUREMENT_AND_DELIVERY_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-BDFCE7B53DAB97C4EF5C",
+        "PN-TXN-ROLE-E8D134DAB4E1ED8CC499",
+        "VENTUS-PODCAST-THEME-006"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMixAFBVV95cUxNS3VQT1piNnRuc1Q1ZXJ3YmRnaUcydlB4MnpTM1pkT2V6SmZZeU1iTGFOeWhhOTRORGdnODJwbi1CclRiRzBQWE5hbjdoRkpyd0dXLTNwWjJ6UEdJZEJyaWNoSlhibF95QVhucVRsall3elY0bzgzSjlaSVhLZGdHMnJ4b3ROc0x2eU9yemlKbXBFXzNCd1JTRnA5dlExMTNXdk1Yb3lQNEFoTktPaU5vbXRjMXc5aGtMMzhhVkpCZDhHWk9n?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/18798878-uk-s-first-nationally-significant-solar-farm-clark-frost"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The CONTRACT headline claim matches the PROCUREMENT_AND_DELIVERY_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-7585CCC869ABA7C96DE2",
+      "reason_id": "PN-REASON-C7CE96F31F35B72E6158",
+      "rule_id": "event-to-capability.v1:CONTRACT",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 26,
+      "project_id": "GG2050-REPD-9427",
+      "repd_ref": "9427",
+      "event_assertion_id": "PN-EVT-AA21FE1EE9DFB6AD2FAB",
+      "transaction_role_decision_id": "PN-TXN-ROLE-D7046080D7055D51E54C",
+      "capability": "PROCUREMENT_AND_DELIVERY_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-AA21FE1EE9DFB6AD2FAB",
+        "PN-TXN-ROLE-D7046080D7055D51E54C",
+        "VENTUS-PODCAST-THEME-006"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMilAFBVV95cUxNY3FBRVJQOWtXdVFlZklLSzk5eTI3X0Y4Z2dUSzh0cFVCelJ5dUtaOUtxdWx6RGdCNUxMOGdKTTNLN1kyMVJqdVNVc25IaXBxVURmS0hoQmVQc25xUDhNRm5EMTlzNi1kSWRPTUcwOVppeG1faGd1d0xFendacURubjJEemJJV2V0U0h2bVN1NGJyTV9B?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/18798878-uk-s-first-nationally-significant-solar-farm-clark-frost"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The CONTRACT headline claim matches the PROCUREMENT_AND_DELIVERY_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-76CE0F81399FCD8A8FFC",
+      "reason_id": "PN-REASON-D6A451BBE1264757CAEB",
+      "rule_id": "event-to-capability.v1:PROJECT_UPDATE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 27,
+      "project_id": "GG2050-REPD-8393",
+      "repd_ref": "8393",
+      "event_assertion_id": "PN-EVT-8832ECB2EF8243FF55D4",
+      "transaction_role_decision_id": "PN-TXN-ROLE-C91C17BCEA85762D27E2",
+      "capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-8832ECB2EF8243FF55D4",
+        "PN-TXN-ROLE-C91C17BCEA85762D27E2",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMimAFBVV95cUxNcEV1el93SjRoV2FZYTlDRlhRaDREWTVCb1JWVXJZSkQ0UDJlTnk2TjBtc0ZwTnhqUmZ3ODNxT2VNRmc3REwxOVN0eG1jSjVLS1lmdURHZ2NkWmY5NExmb2VqNUpYNHllSVlrRXd1Ulh0V2swcEdOVnZoTjU0RU9EUExMQm9IN3NNNjZkcEV6TFVvQXRxQ3JaVg?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The PROJECT_UPDATE headline claim matches the PROJECT_LIFECYCLE_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-EE3CB8B5BBF8F0D48751",
+      "reason_id": "PN-REASON-AE88317BB699A9D77B41",
+      "rule_id": "event-to-capability.v1:REFUSAL",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 28,
+      "project_id": "GG2050-REPD-5967",
+      "repd_ref": "5967",
+      "event_assertion_id": "PN-EVT-7ABE99064EB8A41AD802",
+      "transaction_role_decision_id": "PN-TXN-ROLE-FFCD9F8C231B7DFE48D5",
+      "capability": "PLANNING_AND_DELIVERY_RISK_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-7ABE99064EB8A41AD802",
+        "PN-TXN-ROLE-FFCD9F8C231B7DFE48D5",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMikAFBVV95cUxPZUVlbFJiQjNYMHduem1GZmlQV08taUxUQk9tX3pCQlVqb2J1VGNDcWhPVjdCc1RINDVDZ1RkZHAtVGg4dHFYOFh3VVpLYjl4THhYSENjQmJwYW9uUU1pRDU4Tk01cWZsR3ZsMV9nbVI4cUZTTFZ3YkdXSlR4cVRGTjJySWoxYTJTYTFFRjI0a20?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The REFUSAL headline claim matches the PLANNING_AND_DELIVERY_RISK_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-6119B5AA28485A1CAC57",
+      "reason_id": "PN-REASON-0EB999657311622A933F",
+      "rule_id": "event-to-capability.v1:PROJECT_UPDATE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 29,
+      "project_id": "GG2050-REPD-5452",
+      "repd_ref": "5452",
+      "event_assertion_id": "PN-EVT-53BF9A0A00CE7D62C912",
+      "transaction_role_decision_id": "PN-TXN-ROLE-B5A321641FD4F202067A",
+      "capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-53BF9A0A00CE7D62C912",
+        "PN-TXN-ROLE-B5A321641FD4F202067A",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMipgFBVV95cUxObXRfaXZTSktQVEliMVV3cWZoOVRUdXpVaWJrLVNndFJFcHlteXRxRElYTHp6WXBjakVBQkRmSzVxZFNnWmFpOFFFQnl5ZkVkNGpsclBwMlhNdGZydTdEUFlOWVdJS0R2VkFraUJ3aGhaVUZsNWxMZzdnSE1JZmMtaHRFdzhLUWMyeDVJRVVKRWpBX09iZW5CNGtvVEtXcHBmOTRYMmxn?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The PROJECT_UPDATE headline claim matches the PROJECT_LIFECYCLE_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-DCE657F55CE9BE53FCAD",
+      "reason_id": "PN-REASON-5F1AFA1F9253440F1043",
+      "rule_id": "event-to-capability.v1:ACQUISITION",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 30,
+      "project_id": "GG2050-REPD-11678",
+      "repd_ref": "11678",
+      "event_assertion_id": "PN-EVT-1632CE5722AE79BE0AF8",
+      "transaction_role_decision_id": "PN-TXN-ROLE-523A11345DDBADE4C3AE",
+      "capability": "TRANSACTION_TECHNICAL_DUE_DILIGENCE",
+      "triggering_evidence_ids": [
+        "PN-EVT-1632CE5722AE79BE0AF8",
+        "PN-TXN-ROLE-523A11345DDBADE4C3AE",
+        "VENTUS-PODCAST-THEME-005"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMilwFBVV95cUxPOF9icWczcnlORzNmQjViLW1udlNRM0hvU3VwQUROWHl1dS00UnpaVkZGVEVWbFZsSEVTY1l0RGpRYzI5d3dQTEppR1JWOHFqX181SFdTZHFhREExMVZ2Tm4xQ2lJLW1ITHpXVG4tSElsSFFRUW5QZFA2THQ2QXR5UGNacVo0Tmk4ZTh4WnpmNm5KS29uZTJJ?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/14193404-arnoud-klaren-unlocking-solar-success-insights-from-a-seasoned-technical-director-in-investment-and-asset-management"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The ACQUISITION headline claim matches the TRANSACTION_TECHNICAL_DUE_DILIGENCE research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-2009450C61C823B13AC1",
+      "reason_id": "PN-REASON-24360A1EEEA99F4FCCED",
+      "rule_id": "event-to-capability.v1:ACQUISITION",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 31,
+      "project_id": "GG2050-REPD-11678",
+      "repd_ref": "11678",
+      "event_assertion_id": "PN-EVT-E5994AD8067548F98515",
+      "transaction_role_decision_id": "PN-TXN-ROLE-65487443806B81FAB802",
+      "capability": "TRANSACTION_TECHNICAL_DUE_DILIGENCE",
+      "triggering_evidence_ids": [
+        "PN-EVT-E5994AD8067548F98515",
+        "PN-TXN-ROLE-65487443806B81FAB802",
+        "VENTUS-PODCAST-THEME-005"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMi0gFBVV95cUxOUk9TYWEtOUo1Z19jeXFzdHdsQ1dELVVLQ1dTWWFPQ0h2LTlKVFhDeHN0VVZfZ3VmUXI2X3N5ck5pbTdyMEM3ZlBYSlFPRHM5SHpnbDNVQWRqUFJOeXprTUJ4WnRrZy1xN285bllVUzBzX2FFTnRLd0dfLXMxdnZ3T284TnViZHByNTdlMF84Slg5d3BDLUpwcFJIMllaRUlPMnpBd3dFa0YzWWYyNGhsNDkySGZPaHVTVG5pSUlXQWQ4ZFVVa18zRkF1eWVYeU9XWkE?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/14193404-arnoud-klaren-unlocking-solar-success-insights-from-a-seasoned-technical-director-in-investment-and-asset-management"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The ACQUISITION headline claim matches the TRANSACTION_TECHNICAL_DUE_DILIGENCE research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-5B383B51ED41E45B732B",
+      "reason_id": "PN-REASON-5ABDE38C568133B01187",
+      "rule_id": "event-to-capability.v1:ACQUISITION",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 32,
+      "project_id": "GG2050-REPD-11678",
+      "repd_ref": "11678",
+      "event_assertion_id": "PN-EVT-4A053DF60A880D813E6F",
+      "transaction_role_decision_id": "PN-TXN-ROLE-263FBFB252CCE613A2A4",
+      "capability": "TRANSACTION_TECHNICAL_DUE_DILIGENCE",
+      "triggering_evidence_ids": [
+        "PN-EVT-4A053DF60A880D813E6F",
+        "PN-TXN-ROLE-263FBFB252CCE613A2A4",
+        "VENTUS-PODCAST-THEME-005"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMijAFBVV95cUxNdndmMVZ0T2djS2Z0VEVnS3RkN21LRHF1TTg0OVBza2lwb3hBZ3ZuNmt2UEZKSWY1U1dnOEdlNlVXd3VpVlU3YU1tLTJnWER6YkswS3h4VHowTHl3LVZ1V1VMVm9ydVhnMFd1OXdGa0kyY05pU21mcFJuS3l6d0VKMUdEbEJKeHZOclBsaA?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/14193404-arnoud-klaren-unlocking-solar-success-insights-from-a-seasoned-technical-director-in-investment-and-asset-management"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The ACQUISITION headline claim matches the TRANSACTION_TECHNICAL_DUE_DILIGENCE research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-7DF13276FEC31E51B339",
+      "reason_id": "PN-REASON-755A151169347D6633CA",
+      "rule_id": "event-to-capability.v1:PROJECT_UPDATE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 33,
+      "project_id": "GG2050-REPD-11678",
+      "repd_ref": "11678",
+      "event_assertion_id": "PN-EVT-559F5B9636944CD2EB1D",
+      "transaction_role_decision_id": "PN-TXN-ROLE-AF04FD49C7A49875A2DF",
+      "capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-559F5B9636944CD2EB1D",
+        "PN-TXN-ROLE-AF04FD49C7A49875A2DF",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMiogFBVV95cUxQVHZ2SjR1ODFqa0ROcEUtOFVmWWNYbVhKNS1hejFnbE9QdThQLWhtS3ZXZTVQNlBEN2xlVHJKZGZwWGs2WXlHSi1pbURVVWVLSDVqRXFsRkNJM09Ybk9jdDhKU3M2bkVHNzNkdUpwR1hEWVlKZ0dvWHJON0FWNWZNRmRCcmc5OXZMc3lkSU1WX053UkVELXFVZ2txb1ZoOTVTV2c?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The PROJECT_UPDATE headline claim matches the PROJECT_LIFECYCLE_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-D04609A71A24AFA981C7",
+      "reason_id": "PN-REASON-F8CA1E1692EFBAECFD9D",
+      "rule_id": "event-to-capability.v1:CONSENT",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 34,
+      "project_id": "GG2050-REPD-14098",
+      "repd_ref": "14098",
+      "event_assertion_id": "PN-EVT-DDF8C33B0864A3AF1ECF",
+      "transaction_role_decision_id": "PN-TXN-ROLE-3A5D086EB0F20CE65F81",
+      "capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-DDF8C33B0864A3AF1ECF",
+        "PN-TXN-ROLE-3A5D086EB0F20CE65F81",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMilwFBVV95cUxOYzd6VWl5bXY4TmVRNDNUaFB0bW1JNk9sdF9Qdi1VV0YzWnhWLXVjYlBubXZxaEI0NG4wMU9FT3lNYk91ZXdFaW56OVZrUGpkX21TUFFJMFRCZ0ZWd252ZDlHVVFzSmx5dS1VNUxfcHJtZkNHYnp2bFpEbTlhTFlVNHZuSWtwSV9ZdUJERDdZaWtDOEVRMlhr?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The CONSENT headline claim matches the CONSENT_TO_DELIVERY_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-E0B35C9169BF1E6799FE",
+      "reason_id": "PN-REASON-A096D8F561FDDBFE8C6C",
+      "rule_id": "event-to-capability.v1:PROJECT_UPDATE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 35,
+      "project_id": "GG2050-REPD-9610",
+      "repd_ref": "9610",
+      "event_assertion_id": "PN-EVT-4B8B00F39A4EA434A6E1",
+      "transaction_role_decision_id": "PN-TXN-ROLE-9821244649EA24A8CAEF",
+      "capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-4B8B00F39A4EA434A6E1",
+        "PN-TXN-ROLE-9821244649EA24A8CAEF",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMiekFVX3lxTE1XRGxyaVp3Mm1nUnFYcDE5Y3RldGtwTWNYMTVCNlV1ZFVxUEJLVnlzcm01U01vWDVCV0RvOTh2RFRvdFpxNi1KMTlSWUJnTkppLWVVN2VNdUk4djA0THRzSlNjelZmQ1N4YXlsVUtJQXRra0V3OENNMzh3?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The PROJECT_UPDATE headline claim matches the PROJECT_LIFECYCLE_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-E528659B9C3A172DDA3B",
+      "reason_id": "PN-REASON-4869C9FEBD0843C127CC",
+      "rule_id": "event-to-capability.v1:PROJECT_UPDATE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 36,
+      "project_id": "GG2050-REPD-8162",
+      "repd_ref": "8162",
+      "event_assertion_id": "PN-EVT-B4627734723C113E2652",
+      "transaction_role_decision_id": "PN-TXN-ROLE-D163BBD7E661C208C698",
+      "capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-B4627734723C113E2652",
+        "PN-TXN-ROLE-D163BBD7E661C208C698",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMiswFBVV95cUxON1BZWWZXbW9DZ21jZWg0ZnBwelRLNExOYVVuTUxzb1cxOWZEUWJJYlp2c3RBZG1kQUtFSWU0MjBNbzVPZzlXVTdqRi01S2xwbWQ3QTEtQ1ZCTVpjQ3YzdnhXUlZ4UU8zTXNHYzFlWkVuVnQ4M0JDTnF6WThvOVBmMlFiY01HMERQVTNoenJuSFdLMUtYOGI5WW80dDhicVMxbFBaYzRETTJKXzlHUFk1V0xxdw?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The PROJECT_UPDATE headline claim matches the PROJECT_LIFECYCLE_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-69D6245B0F34EDED376E",
+      "reason_id": "PN-REASON-895DC644B61BD268425E",
+      "rule_id": "event-to-capability.v1:CONSENT",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 37,
+      "project_id": "GG2050-REPD-11460",
+      "repd_ref": "11460",
+      "event_assertion_id": "PN-EVT-CF91A6FAF0AC4A20B3EC",
+      "transaction_role_decision_id": "PN-TXN-ROLE-9264FB367751D675568E",
+      "capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-CF91A6FAF0AC4A20B3EC",
+        "PN-TXN-ROLE-9264FB367751D675568E",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMiXEFVX3lxTE43R3Q5N0R1dmk3Z08wRkl0eXhidVEyc2wxX29PNEQ2d3Y4TVhmaEc3dkQ0ZzN1U3FCOXNkWHl6UW9xRHVJWldyZEJzd0xjUWs0TzQ0MEpQZ2hMUTJS?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The CONSENT headline claim matches the CONSENT_TO_DELIVERY_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-7AD7192E9064645D5042",
+      "reason_id": "PN-REASON-BFF32AF4B2A4D16274E7",
+      "rule_id": "event-to-capability.v1:CONSENT",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 38,
+      "project_id": "GG2050-REPD-13763",
+      "repd_ref": "13763",
+      "event_assertion_id": "PN-EVT-733F3E6F7BB8AFCA433B",
+      "transaction_role_decision_id": "PN-TXN-ROLE-1D110BD7215C652A4E4C",
+      "capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-733F3E6F7BB8AFCA433B",
+        "PN-TXN-ROLE-1D110BD7215C652A4E4C",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMipwFBVV95cUxOX3ZfYXVMemQ1TEhTREtKYjlFUzh4cHBZY3RIQTdZWF9KcjJDRFkzVVRhRUZOSDdKcFgxZW5lR2owb0tQRTE0Xzh1WjBidmMteHhtdFRZQ0EyVmdTU0o2Sk91ekgtbVQ1Wi1WRXNFTnIxdGd5Y3B6V0ZRbEVVVExFRHhmNWk2QnNtMjRrM1A0dDNldW5xMW9LZjU0a0pMbHNtVExoSnFfTQ?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The CONSENT headline claim matches the CONSENT_TO_DELIVERY_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-73A10F54E124695F5601",
+      "reason_id": "PN-REASON-99E8863F7F5ADDC6C0E8",
+      "rule_id": "event-to-capability.v1:PROJECT_UPDATE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 39,
+      "project_id": "GG2050-REPD-8100",
+      "repd_ref": "8100",
+      "event_assertion_id": "PN-EVT-513472D4ECF7CC8223C0",
+      "transaction_role_decision_id": "PN-TXN-ROLE-E8C869F9DBB77007CA69",
+      "capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-513472D4ECF7CC8223C0",
+        "PN-TXN-ROLE-E8C869F9DBB77007CA69",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1OTFFtWkV1Wm9SUnpvU3pzdDZhdHh5blZCWG82ZjdweURsYVFLWlRyWG1FUjZvTG5SSmwxSlZ0TlRxU29Hc0Q1VGJ3SklVT3UtVFRfU0I0WmxqTThW?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The PROJECT_UPDATE headline claim matches the PROJECT_LIFECYCLE_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-35D7DB77677E751F3DF4",
+      "reason_id": "PN-REASON-BDECD6859651370B36F4",
+      "rule_id": "event-to-capability.v1:CONSENT",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 40,
+      "project_id": "GG2050-REPD-11476",
+      "repd_ref": "11476",
+      "event_assertion_id": "PN-EVT-9CE7020129B496A2122D",
+      "transaction_role_decision_id": "PN-TXN-ROLE-2C53278BE50CCC7F9C7A",
+      "capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-9CE7020129B496A2122D",
+        "PN-TXN-ROLE-2C53278BE50CCC7F9C7A",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOMjFhNGpENExHdWl1WjlaLVF2U3VjZEJpUHV6NVAtdk9YQ1RjbkoxYTFodGNUaEJaVkplQXNwWnJ0MGU5eUNrUHEwTU9OYjc3TV9wQmhhNWdDSGVpYjZ2QmFnaV9CLWphSS1QelRPRlpNOVRYWWxJZFhfY0U5cnNUTG05cHN1QUJ2X0xBTkE3R05sRzFJSmQxRTVzMFJiVmprNFBYNl9Ob0w?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The CONSENT headline claim matches the CONSENT_TO_DELIVERY_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-0334144CF0CA9BB86498",
+      "reason_id": "PN-REASON-530C79338F04657943AB",
+      "rule_id": "event-to-capability.v1:PROJECT_UPDATE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 41,
+      "project_id": "GG2050-REPD-5967",
+      "repd_ref": "5967",
+      "event_assertion_id": "PN-EVT-AE327F930F6031730E95",
+      "transaction_role_decision_id": "PN-TXN-ROLE-E4ED0877A45A5A4EDFB7",
+      "capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-AE327F930F6031730E95",
+        "PN-TXN-ROLE-E4ED0877A45A5A4EDFB7",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMingFBVV95cUxPcXQtaEIwMFhobDVWQ1kwM2I3cXYxck51ZFRvdk1xQ21FcjU2YjRzTGpCdk4yMDAtazR5MXdpMmNMZklZVVpWd0RyZ0J1YmE4X2pKdDY2SDhrM2xtUlI4WWg0SjZyck1jTWdicnVETWxLYmtjSUJnOWVCM194R1ExSkdJOGowQmUzNENJXzVhTVNraVNJQ2RlNmZGdG9KUQ?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The PROJECT_UPDATE headline claim matches the PROJECT_LIFECYCLE_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-296019983712E7637758",
+      "reason_id": "PN-REASON-0DA0DBA81E154940D472",
+      "rule_id": "event-to-capability.v1:CONSENT",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 42,
+      "project_id": "GG2050-REPD-10085",
+      "repd_ref": "10085",
+      "event_assertion_id": "PN-EVT-D1C958953913FA08FE1E",
+      "transaction_role_decision_id": "PN-TXN-ROLE-BEACC65AFC5FF9C1C25F",
+      "capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-D1C958953913FA08FE1E",
+        "PN-TXN-ROLE-BEACC65AFC5FF9C1C25F",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMitgFBVV95cUxPSnVYYV95d2szYmtjTVlLVnIwMU80SXRnTmo3RlFxY3Q2RHhkMVRnaGJKNUp3aVpKS2FONXotTk1WOUhBSjk3TzdvRWU4czBpTUllYW5RcTVtU2pRZnpVRWliOS00ZTRBVlZlaXZYdTN0V2w1Mzk4ZWFrMEVqaHluNENsV1N2c2s3M3Rab3VxSk10bWlKWlpRZkE2cU1mbXpka2xYRkx4ZUsyWWloQkpGOTB2d0NQZw?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The CONSENT headline claim matches the CONSENT_TO_DELIVERY_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-9776B4178CBC6201A6F4",
+      "reason_id": "PN-REASON-9944ACCBE183294AE6FE",
+      "rule_id": "event-to-capability.v1:CONSENT",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 43,
+      "project_id": "GG2050-REPD-10085",
+      "repd_ref": "10085",
+      "event_assertion_id": "PN-EVT-8322D33226EC367D607B",
+      "transaction_role_decision_id": "PN-TXN-ROLE-18E6AC5E4A20BB1D03D8",
+      "capability": "CONSENT_TO_DELIVERY_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-8322D33226EC367D607B",
+        "PN-TXN-ROLE-18E6AC5E4A20BB1D03D8",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMingFBVV95cUxNZjhycEY0MTNSS1J4R1BWcU02MlFVS1dFTXZxZ2pYbmNpV2dMcXhsRXJpVkVCbUY2LXB1cEVVMU9iZDYtWnVWLWhScHdtelEtSzBZemtnZXlYTmxVX1lkeThhNUNKeFJEakx3c2RVaUFoMUZna2E5VHJwSWxPYXdvNGdQaVFwZFhxSzlFSFEzNUlnOWtjeXVwZ3FNVXBoUQ?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The CONSENT headline claim matches the CONSENT_TO_DELIVERY_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-B5878F743086234B7A30",
+      "reason_id": "PN-REASON-21B5E4B6FEBF469BBFE0",
+      "rule_id": "event-to-capability.v1:PROJECT_UPDATE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 44,
+      "project_id": "GG2050-REPD-12926",
+      "repd_ref": "12926",
+      "event_assertion_id": "PN-EVT-71F15C759339B0E94419",
+      "transaction_role_decision_id": "PN-TXN-ROLE-C8C9967A876981F180E6",
+      "capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-71F15C759339B0E94419",
+        "PN-TXN-ROLE-C8C9967A876981F180E6",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOQlFHZVV0aVVHUG9fNUt1NFNXdTlLQVM5c3ZOYnhua3d2akRsLTVjZ1JLWlFHQWpwNkZHSDZ0Y3pZLTh4UkIzZmlyQWgyUXMyUTNXd2o2WGFXMEFPZlJwWmFrbllieFhTbTd2MjlfVTg5cTRjM1BWY1RabFhqQnZQX2pKRS1IUHNpSUtnaXRYQzdMWmx6LWdwWHg2QzdpVFJqc2JsUXh5TmM1MFhWeE81aU9pZnI1Skt0YXpkdVloWnpRdThwNFljbUtMbWl0UXBTQ1ZvcktpQWMyNGtF?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The PROJECT_UPDATE headline claim matches the PROJECT_LIFECYCLE_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    },
+    {
+      "reason_decision_id": "PN-REASON-DECISION-9850A55A966EF228F422",
+      "reason_id": "PN-REASON-034D8F809D4A83BF620A",
+      "rule_id": "event-to-capability.v1:PROJECT_UPDATE",
+      "rule_version": "event-to-capability.v1",
+      "source_display_order": 45,
+      "project_id": "GG2050-REPD-6502",
+      "repd_ref": "6502",
+      "event_assertion_id": "PN-EVT-7DC649C24AB7A06EC9FB",
+      "transaction_role_decision_id": "PN-TXN-ROLE-FCAB21DA9F7E47BF7F68",
+      "capability": "PROJECT_LIFECYCLE_RESEARCH",
+      "triggering_evidence_ids": [
+        "PN-EVT-7DC649C24AB7A06EC9FB",
+        "PN-TXN-ROLE-FCAB21DA9F7E47BF7F68",
+        "VENTUS-PODCAST-THEME-001"
+      ],
+      "evidence_classes": [
+        "PUBLISHER_HEADLINE_CLAIM",
+        "ABSTAIN",
+        "PUBLISHER_SHOW_NOTE_OR_TRANSCRIPT_THEME"
+      ],
+      "source_urls": [
+        "https://news.google.com/rss/articles/CBMimwFBVV95cUxORVFHckdrTkwybUZZUG9ITHFoQ21nNWM3TF9MdXp2eG1LOXlwdjN4QUh1LUo3TVdnUWJ4OTdrdjNMdml0N0Y3eDV2enZxdkUxLWRJc3F6YThZZm5ISlZMRFZDbF9lTlpOR0ZUT2RWTmtvWU1KaUpINzlNX201Qm5VZlJGRWt4bVhjcnF2cVRtVEwyazEwLVVWcDZ4UQ?oc=5",
+        "https://www.buzzsprout.com/2272772/episodes/17967604-valerio-pelizzi-agrivoltaics-c-i-and-grid"
+      ],
+      "claim_status": "RESEARCH_HYPOTHESIS_EVENT_UNVERIFIED",
+      "explanation": "The PROJECT_UPDATE headline claim matches the PROJECT_LIFECYCLE_RESEARCH research vocabulary, but no direct public record verifies the event.",
+      "limitations": [
+        "The event is derived from a publisher headline and is not independently verified.",
+        "Podcast-derived vocabulary is theme evidence only and does not establish an opportunity or relationship.",
+        "No current market-context record exists in NewsV4 and context cannot verify a project event.",
+        "No buyer, seller, lender, contractor, supplier, adviser, budget, intent, probability or deal stage is asserted."
+      ],
+      "decision": "HOLD_FOR_VERIFICATION",
+      "decision_code": "DIRECT_EVENT_EVIDENCE_REQUIRED",
+      "protections": {
+        "opportunity_claimed": false,
+        "relationship_claimed": false,
+        "transaction_role_claimed": false,
+        "market_context_used_as_event_proof": false,
+        "private_sales_workflow_included": false
+      }
+    }
+  ]
+}

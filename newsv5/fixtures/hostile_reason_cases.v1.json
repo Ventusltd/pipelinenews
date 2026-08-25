@@ -1,0 +1,41 @@
+{
+  "schema": "pipelinenews.hostile-reason-cases.v1",
+  "cases": [
+    {
+      "case_id": "SHARED_NAME_CONFLICTING_PROJECT_IDS",
+      "evidence": ["same project stem", "different authoritative project identifiers"],
+      "expected_decision": "REJECT",
+      "reason": "A shared name cannot overcome conflicting authoritative identities."
+    },
+    {
+      "case_id": "COMPOSITE_OPERATOR_LABEL_ONLY",
+      "evidence": ["Firma Energy / IB Vogt"],
+      "expected_decision": "ABSTAIN",
+      "reason": "A composite source label does not establish a legal entity or commercial role."
+    },
+    {
+      "case_id": "PODCAST_GUEST_WITHOUT_PROJECT_EVIDENCE",
+      "evidence": ["podcast theme evidence", "no project record"],
+      "expected_decision": "ABSTAIN",
+      "reason": "A podcast appearance is theme evidence, not a project opportunity."
+    },
+    {
+      "case_id": "STALE_MARKET_RECORD_WITH_UNVERIFIED_EVENT",
+      "evidence": ["stale market context", "headline-derived event"],
+      "expected_decision": "HOLD_FOR_VERIFICATION",
+      "reason": "Stale context cannot verify a project event or justify publication."
+    },
+    {
+      "case_id": "HEADLINE_WITHOUT_VERIFIED_EVENT",
+      "evidence": ["publisher headline claim", "no direct public record"],
+      "expected_decision": "HOLD_FOR_VERIFICATION",
+      "reason": "A headline-derived event requires direct public-record verification."
+    },
+    {
+      "case_id": "NEARBY_SUBSTATION_WITHOUT_CONNECTION_EVIDENCE",
+      "evidence": ["geographic proximity", "no connection record"],
+      "expected_decision": "ABSTAIN",
+      "reason": "Proximity is context and does not establish a grid connection."
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "schema": "pipelinenews.build-manifest.v1",
+  "release": "newsv5",
+  "status": "CANDIDATE",
+  "built_at": "2026-08-25T00:00:00Z",
+  "modules": [
+    {
+      "path": "newsv5/modules/event-to-capability-rules.mjs",
+      "sha256": "1d05c4a8b4c27a99f75fd7df1bd97d1df4da3e00d034e5973685cac03c276eda"
+    },
+    {
+      "path": "newsv5/modules/market-pain-vocabulary.mjs",
+      "sha256": "728a48405d1e4b1fc9ff0c671c707fb29b5c4fc77035744fd6bef5663e15d22d"
+    },
+    {
+      "path": "newsv5/modules/evidence-reconciliation.mjs",
+      "sha256": "9a6854ce9f7e2eec9916ac82d28ab3eda91e35213fc8b8a62ce63e1d8827047b"
+    },
+    {
+      "path": "newsv5/modules/browser-projection.mjs",
+      "sha256": "a67707370b2258c63709301938e2c8d62845b513af8243597ebb83121f7a8bb4"
+    },
+    {
+      "path": "newsv5/scripts/build-reason-decisions.mjs",
+      "sha256": "2e7f0de36920a6721f031467b953f2add4b32ad04267fe857dfee87b6df6a30b"
+    }
+  ],
+  "inputs": [
+    {
+      "path": "newsv2/data/material_event_assertions.json",
+      "sha256": "329ae3cdbecfaa486bfca435100604aae08e2be14f2732ad2da78ad075304e31"
+    },
+    {
+      "path": "newsv3/data/organisation_role_evidence.json",
+      "sha256": "03a258e0b90c1d95e8a8582ff203676651bfc7d5cd33f8652aef17ddfc04da75"
+    },
+    {
+      "path": "newsv4/data/source_health_context.json",
+      "sha256": "5aa7f2bef3d99d2cc50c81695da406ccdd3f315c88237ecf0de2c0568deefd0d"
+    },
+    {
+      "path": "reports/public-source-sales-theme-audit.v1.json",
+      "sha256": "4649d6b4b8388e0f3ff816851094568869c267c0ae53d7405d8a477756700552"
+    },
+    {
+      "path": "newsv5/fixtures/hostile_reason_cases.v1.json",
+      "sha256": "964ee981c70c800a7695ef4a4ce75a7167c949fa86d2555b0370030811e42579"
+    },
+    {
+      "path": "newsv5/contracts/release.newsv5.json",
+      "sha256": "edb8a661f0da9c28a11dd5608936c309dba34ca24bfdafd4814f16a298294d64"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "newsv5/data/reason_decision_ledger.json",
+      "sha256": "fbce604f865341391316917cb14d6319f8b1fdbb503a971a19a7c7d0ecfec06a",
+      "bytes": 111206,
+      "rows": 45
+    },
+    {
+      "path": "newsv5/data/reasons_browser.json",
+      "sha256": "6367a722e5ea1a86e4453981782d58d3f9897823f18889ab1c9f5f844d36eb98",
+      "bytes": 321,
+      "rows": 0
+    }
+  ],
+  "checks": {
+    "reason_decisions": {
+      "total_rows": 45,
+      "distinct_declared_keys": 45,
+      "duplicate_key_groups": 0,
+      "required_null_key_rows": 0
+    },
+    "independent_verifier": "newsv5/tests/check_newsv5.mjs"
+  }
+}

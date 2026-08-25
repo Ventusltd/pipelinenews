@@ -1,0 +1,10 @@
+{
+  "schema": "pipelinenews.reason-to-research-browser.v1",
+  "release": "newsv5",
+  "status": "CANDIDATE",
+  "generated_at": "2026-08-25T00:00:00Z",
+  "source_artifact": "newsv5/data/reason_decision_ledger.json",
+  "order_law": "source display_order ascending, then reason_id ascending",
+  "count": 0,
+  "reasons": []
+}
