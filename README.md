@@ -92,7 +92,9 @@ Latest recovery checkpoint:
 - `PASS` — NewsV3 preserves `Firma Energy / IB Vogt` as one unsplit unresolved label, keeps every buyer/seller/lender/EPC/ICP/OEM/supplier/adviser field null, retains Beacon Fen on 13599 and excludes 13600. NewsV1 and NewsV2 regressions pass.
 - `PASS` — NewsV4 candidate commit `f467febc6ba5d6b7c61e0ee42bc9bb3f4193333e` deterministically builds six source-health decisions: 0 current, 1 stale, 4 degraded and 1 unavailable; all six keys are unique and non-null.
 - `PASS` — NewsV4 independently rebuilds artifact SHA-256 `5aa7f2bef3d99d2cc50c81695da406ccdd3f315c88237ecf0de2c0568deefd0d`, records five stale/one unknown freshness states, forbids identity/event/grid/deal use and leaves NewsV1–NewsV3 green.
-- Next bounded pass: build NewsV5 as a separate transparent reason-decision ledger; default headline-only and stale-context combinations to `HOLD_FOR_VERIFICATION` or `ABSTAIN`, not opportunity claims.
+- `PASS` — NewsV5 candidate commit `9ffdb64fca4dbb4cc2e41ec1315e8444c71ce1c7` deterministically builds 45 transparent reason decisions, all `HOLD_FOR_VERIFICATION`, with six separate event-to-capability rules and six theme-vocabulary rows; the compact browser projection correctly contains zero unsupported reasons.
+- `PASS` — NewsV5 independently rebuilds ledger SHA-256 `fbce604f865341391316917cb14d6319f8b1fdbb503a971a19a7c7d0ecfec06a`, proves 45 unique non-null keys, enforces six hostile negatives as 2 hold / 1 reject / 3 abstain, preserves Beacon Fen 13599 and leaves NewsV1–NewsV4 green.
+- Next bounded pass: build NewsV6 as a separate `PN-DC-*` UK data-centre evidence namespace with a pinned source/licence register, explicit facility/campus/building and capacity-type laws, and hostile near-duplicate abstentions.
 
 ## Overnight automation master score — authoritative
 
@@ -133,12 +135,12 @@ Current baton:
 
 | Field | Value |
 |---|---|
-| Last proven feature commit | `f467febc6ba5d6b7c61e0ee42bc9bb3f4193333e` |
-| Outcome | `PASS` — NewsV4 CANDIDATE committed and read back with six deterministic source-health decisions (`CURRENT 0 / STALE 1 / DEGRADED 4 / UNAVAILABLE 1`), artifact SHA-256 `5aa7f2bef3d99d2cc50c81695da406ccdd3f315c88237ecf0de2c0568deefd0d`, unique non-null keys, byte-identical rebuild and green NewsV1–NewsV3 regressions |
-| Next movement | Movement 3 — NewsV5 transparent reasons to research |
-| Next acceptance gate | Build deterministic event-to-capability rules and a reason decision ledger with complete evidence IDs, source URLs, explanations and limitations; hostile headline-only, stale-context, composite-label, podcast-only and proximity-only fixtures must resolve to `HOLD_FOR_VERIFICATION`, `REJECT` or `ABSTAIN` while NewsV4 remains green |
-| Doubt to resolve | NewsV2 events are publisher-headline `SOURCE_CLAIM`s rather than independently verified events, and NewsV4 contains no current context; the first NewsV5 slice may honestly publish zero reasons until a direct public record is pinned |
-| Next-run budget | Up to three reviewed blocks; target about 300 seconds, normal hard stop 500 seconds; use the single 1,000-second extension only if a named NewsV5 hostile-negative acceptance gate is demonstrably near completion |
+| Last proven feature commit | `9ffdb64fca4dbb4cc2e41ec1315e8444c71ce1c7` |
+| Outcome | `PASS` — NewsV5 CANDIDATE committed and read back with 45 deterministic `HOLD_FOR_VERIFICATION` decisions, zero unsupported browser reasons, six modular capability rules, six theme-vocabulary rows, hostile-negative result `2 HOLD / 1 REJECT / 3 ABSTAIN`, ledger SHA-256 `fbce604f865341391316917cb14d6319f8b1fdbb503a971a19a7c7d0ecfec06a` and green NewsV1–NewsV4 regressions |
+| Next movement | Movement 4 — NewsV6 UK data-centre evidence namespace |
+| Next acceptance gate | Build a deterministic `PN-DC-*` source/licence register, separately keyed campus/facility/building candidates and cross-source decision ledger; preserve OSM type/id for Atlas discovery rows, keep BBC and Data Center Map as credited outbound research links only, and prove positive fixtures plus hostile near-duplicate/name/proximity abstentions while NewsV5 remains green |
+| Doubt to resolve | The audited Atlas data-centre layer is discovery evidence rather than official facility, capacity, lifecycle or role proof; a pinned source snapshot and at least one terms-compatible official public record must be identified before any candidate can be promoted beyond discovery-only |
+| Next-run budget | Up to three reviewed blocks; target about 300 seconds, normal hard stop 500 seconds; use the single 1,000-second extension only if the pinned-source/licence and hostile-identity gate is demonstrably near completion |
 
 At the end of every run:
 
