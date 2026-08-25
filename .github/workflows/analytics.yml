@@ -1,0 +1,54 @@
+name: Build PipelineNews Analytics
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/analytics.yml"
+      - "analytics_v1/contracts/**"
+      - "analytics_v1/scripts/build_parquet.py"
+      - "analytics_v1/tests/verify_parquet.py"
+      - "analytics_v1/tests/run-parquet.sh"
+      - "analytics_v1/requirements.lock"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pipelinenews-analytics
+  cancel-in-progress: false
+
+jobs:
+  build-audit-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: analytics_v1/requirements.lock
+      - name: Install pinned analytical engines
+        run: python -m pip install -r analytics_v1/requirements.lock
+      - name: Write, read back and independently verify
+        run: bash analytics_v1/tests/run-parquet.sh
+      - name: Prove deterministic rebuild
+        shell: bash
+        run: |
+          set -euo pipefail
+          find analytics_v1/parquet -type f -print0 | sort -z | xargs -0 sha256sum > "$RUNNER_TEMP/first.sha256"
+          sha256sum analytics_v1/data/parquet_manifest.json analytics_v1/reports/parquet_audit.json analytics_v1/sql/views.sql >> "$RUNNER_TEMP/first.sha256"
+          bash analytics_v1/tests/run-parquet.sh
+          sha256sum -c "$RUNNER_TEMP/first.sha256"
+      - name: Commit validated analytical artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add analytics_v1/parquet analytics_v1/data/parquet_manifest.json analytics_v1/reports/parquet_audit.json analytics_v1/sql/views.sql
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "data: publish validated Movement 5 parquet"
+          git push origin HEAD:main

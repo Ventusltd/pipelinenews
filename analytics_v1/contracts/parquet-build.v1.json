@@ -1,0 +1,10 @@
+{
+  "schema": "pipelinenews.parquet-build-spec.v1",
+  "status": "BUILD_SPEC",
+  "base_contract": {"path":"analytics_v1/contracts/storage.v1.json","sha256":"8d9fefbaf198e36d51f7b3df175db6387d96cf8d95122c49eb0c786ccf98d243"},
+  "runtime": {"python":"3.11","duckdb":"1.3.2","pyarrow":"20.0.0"},
+  "outputs": {"parquet_directory":"analytics_v1/parquet","sql_views":"analytics_v1/sql/views.sql","audit":"analytics_v1/reports/parquet_audit.json","manifest":"analytics_v1/data/parquet_manifest.json"},
+  "acceptance": {"tables":9,"source_rows":208,"duplicate_key_groups":0,"required_null_key_rows":0,"schema_mismatches":0,"duckdb_view_mismatches":0,"cross_domain_identity_links":0,"compression":"ZSTD","deterministic_rebuild":true,"predecessor_regression":"newsv6/tests/run_newsv6.sh"},
+  "publication": {"live":false,"browser_projection_changed":false},
+  "rollback":"Discard the generated analytics_v1/parquet, SQL, audit and Parquet manifest artifacts; the blocked staging checkpoint and NewsV2-NewsV6 remain reproducible."
+}
