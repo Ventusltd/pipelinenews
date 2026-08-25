@@ -24,7 +24,7 @@ Green is not proof. File count is not proof. Size is not proof. A rendered brows
 
 ## Active build plan — News V1 / GlobalGrid V9.8 lineage
 
-Status: RC1 committed on 2026-08-25; PipelineNews Pages enablement is the explicit publication blocker.
+Status: RC1 deployed and live bytes verified on 2026-08-25; browser/mobile runtime proof remains the next gate.
 
 Public release path: `https://ventusltd.github.io/pipelinenews/newsv1/`.
 
@@ -65,8 +65,11 @@ Latest recovery checkpoint:
 - `PASS` — the tracked PipelineNews legacy archive and importer are unchanged.
 - `NOT TESTED` — local Playwright rendering because this runner has no installed Chromium binary; do not reinterpret static checks as browser proof.
 - `PASS` — PipelineNews `main` commit `d1f573fb6421903e37e164edafcc3c8cae2407f0` and GlobalGrid directory commit `cfb32796e4a3c45a0ab7bec53623b96c84a818a4` are published.
-- `BLOCKED` — PipelineNews Pages run `32791931375` failed only at `Configure Pages` because repository Pages is not enabled; build verification and deployment were therefore skipped.
-- Next bounded pass: enable `Ventusltd/pipelinenews` Pages with source **GitHub Actions**, rerun `Deploy PipelineNews Pages`, then perform the Playwright/live-byte gates before changing `CANDIDATE` to `LIVE`.
+- `PASS` — PipelineNews Pages retry `32791931375` completed both build and deploy after Pages enablement.
+- `PASS` — deployed index, release contract, project manifest, first/last project partitions, 133-item news feed, application module and inherited mobile CSS are byte-identical to the committed release.
+- `PASS` — the deployed contract and manifest both declare 7,680 projects, the feed declares 133 total / 45 canonical UK headlines, and the live GlobalGrid homepage contains the News V1 URL.
+- `NOT TESTED` — live JavaScript interaction and mobile rendering at 390/430/440/768 pixels.
+- Next bounded pass: run browser/mobile parity against the live release, record DOM, scrolling, filters, pagination and Beacon Fen evidence, then decide whether `CANDIDATE` can advance.
 
 ## Operating protocol
 
