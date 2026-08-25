@@ -1,0 +1,44 @@
+{
+  "schema": "pipelinenews.predeployment-preview-attestation.v1",
+  "release_id": "202608251929-pipelinenews",
+  "manifest_sha256": "c88d4c0cf5dd8944e4b28a2c2e1acf83760e3aa52242a6cc2ac30bce350c96d0",
+  "candidate_commit_sha": "4ede2311749055a21c4a1b7fb66445c604159176",
+  "reviewed_at": "2026-08-25T21:52:05+01:00",
+  "repository": {
+    "index_sha256": "63044e59d06fa0a4f6bfb367219b0fe0fe12511c5c6067e9fc05a1a26fea0c7d",
+    "release_contract_sha256": "9cea9ffe8434897b8c05c086d5bf2877af25e0e5ff42739c68c9e7c8f4c70f71"
+  },
+  "actions": {
+    "pages": {
+      "head_sha": "4ede2311749055a21c4a1b7fb66445c604159176",
+      "run_id": 32897658951,
+      "url": "https://github.com/Ventusltd/pipelinenews/actions/runs/32897658951",
+      "conclusion": "success",
+      "build": "success",
+      "deploy": "skipped",
+      "verify_live": "skipped"
+    },
+    "timestamp": {
+      "head_sha": "4ede2311749055a21c4a1b7fb66445c604159176",
+      "run_id": 32897659118,
+      "url": "https://github.com/Ventusltd/pipelinenews/actions/runs/32897659118",
+      "conclusion": "success"
+    }
+  },
+  "deployment_started": false,
+  "browser": {
+    "desktop": "PASS",
+    "mobile_390": "PASS",
+    "optional_intelligence_failure": "PASS",
+    "visual_review": "PASS",
+    "artifact_id": 9581841861,
+    "artifact_name": "pipelinenews-202608251929-preview-4ede2311749055a21c4a1b7fb66445c604159176",
+    "screenshot_sha256": {
+      "desktop_newspaper": "077e25c9642118dca86cdb1ddbd0ffee47d375107457150d5a63a73dc4de3e12",
+      "desktop_project_table": "5af464db0a0cea8afb0959c71d5c6b4fada6cc44596e074db5f3b65728e825c9",
+      "mobile_390_newspaper": "1db0581751b710697e7f4a091273cae2e92064dfa9c184eee8c8067eea07ccee",
+      "mobile_390_project_table": "67da65c3ddcbce9919173210839786e3b9d67cb721aaf3cc85c9056a4953b1c1",
+      "mobile_390_fail_closed": "aa1c53accb1a5cf66686b1b9b119d6131812d26254da0f24b88dc71729facb36"
+    }
+  }
+}
