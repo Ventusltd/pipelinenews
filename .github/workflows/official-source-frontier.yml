@@ -1,0 +1,39 @@
+name: Official source frontier
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 5 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: official-source-frontier
+  cancel-in-progress: false
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify release before network work
+        run: bash tests/run-current-timestamp-release.sh
+      - name: Poll bounded official-source batch
+        env:
+          PLANIT_BUDGET: "48"
+        run: node tooling/poll-official-sources.mjs
+      - name: Commit cursor and admitted observations
+        run: |
+          git config user.name "PipelineNews Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/official-source/latest.json state/official-source-cursor.json
+          git diff --cached --quiet && exit 0
+          git commit -m "data: advance official-source frontier"
+          git push

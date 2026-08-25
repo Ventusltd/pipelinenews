@@ -1,0 +1,128 @@
+{
+  "schema": "pipelinenews.official-frontier-contract.v1",
+  "release_id": "202608251636-PipelineNews",
+  "app_title": "PipelineNews",
+  "incepted_at": "2026-08-25T16:36:00+01:00",
+  "policy_id": "PN-OFFICIAL-FRONTIER-V1",
+  "contract_id": "PN-CONTRACT-72C0DBA473317EDC562F",
+  "spine": {
+    "source": "newsv7/data/v9.1/projects/part-001.json … part-016.json",
+    "partitions": 16,
+    "total_projects": 7680,
+    "with_planning_reference": 7315,
+    "without_planning_reference": 365,
+    "live_pre_construction": 2752,
+    "canonical_id_format": "GG2050-REPD-{repd_ref}"
+  },
+  "scheduler": {
+    "reference_budget_per_run": 48,
+    "max_concurrency": 2,
+    "request_timeout_ms": 10000,
+    "max_run_seconds": 170,
+    "cursor_path": "state/official-source-cursor.json",
+    "snapshot_path": "data/official-source/latest.json",
+    "strategy": "PERSISTENT_PRIORITY_FRONTIER",
+    "unfinished_work_resumes": true,
+    "duplicate_queries_per_run": false
+  },
+  "source_order": [
+    {
+      "source_class": "OFFICIAL_REPD_REGISTER",
+      "score": 100
+    },
+    {
+      "source_class": "OFFICIAL_GOV_UK",
+      "score": 95
+    },
+    {
+      "source_class": "OFFICIAL_PLANNING_AUTHORITY",
+      "score": 95
+    },
+    {
+      "source_class": "OFFICIAL_AGGREGATOR_PLANIT",
+      "score": 90
+    },
+    {
+      "source_class": "ORIGINAL_PUBLISHER",
+      "score": 65
+    },
+    {
+      "source_class": "NEWS_AGGREGATOR_GOOGLE",
+      "score": 30
+    }
+  ],
+  "adapters": {
+    "repd": {
+      "enabled": true,
+      "score": 100,
+      "role": "canonical project spine",
+      "cadence": "monthly check; government releases admitted when source hash changes"
+    },
+    "govuk": {
+      "enabled": true,
+      "score": 95,
+      "role": "official decisions and announcements",
+      "endpoint": "https://www.gov.uk/api/search.json"
+    },
+    "planit": {
+      "enabled": true,
+      "score": 90,
+      "role": "exact planning-reference discovery",
+      "endpoint": "https://www.planit.org.uk/api/applics/json",
+      "query": "id_match",
+      "rate_limited": true
+    },
+    "google_news": {
+      "enabled": true,
+      "score": 30,
+      "role": "noisy high-recall discovery; never identity authority"
+    },
+    "publishers": {
+      "enabled": true,
+      "score": 65,
+      "role": "credited narrative signal; direct outbound links"
+    }
+  },
+  "fixture_proof": {
+    "selected_references": [
+      "EN010125",
+      "EN0110014"
+    ],
+    "next_index": 0,
+    "east_pye_binding": {
+      "role": "PRIMARY_MATCH",
+      "method": "REPD_AND_PLANIT_EXACT_REFERENCE",
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "project_name": "East Pye Solar Farm",
+      "planning_application_reference": "EN0110014",
+      "news_may_overwrite_official_facts": false
+    },
+    "duplicate_reference_decision": {
+      "role": "ABSTAIN",
+      "reason": "AMBIGUOUS_REPD_PLANNING_REFERENCE",
+      "candidate_repd_refs": [
+        "15001",
+        "15002"
+      ]
+    }
+  },
+  "publication_law": {
+    "full_repd_spine_retained": true,
+    "official_sources_rank_above_news": true,
+    "google_discovery_retained": true,
+    "original_outlet_gets_outbound_link": true,
+    "article_body_stored": false,
+    "empty_fetch_means_no_news": false,
+    "ambiguous_binding": "ABSTAIN",
+    "news_may_overwrite_repd": false
+  },
+  "mission_invariants": [
+    "Show the complete official renewable-energy project pipeline rather than silently narrowing it.",
+    "Keep official REPD facts separate from news signals.",
+    "Preserve the familiar newspaper and project-table mission while expanding capability.",
+    "Credit publishers and send readers to the original outlet.",
+    "Prefer abstention to a false project binding.",
+    "Never let capacity alone establish project identity."
+  ]
+}

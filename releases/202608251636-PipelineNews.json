@@ -1,0 +1,91 @@
+{
+  "schema": "pipelinenews.release-manifest.v1",
+  "release_id": "202608251636-PipelineNews",
+  "app_title": "PipelineNews",
+  "display_title": "Pipeline News",
+  "incepted_at": "2026-08-25T16:36:00+01:00",
+  "status": "CANDIDATE",
+  "feature": "full-REPD official-source frontier with noisy Google discovery retained",
+  "naming": {
+    "format": "YYYYMMDDHHmm-PipelineNews",
+    "time_basis": "Europe/London operator inception clock",
+    "fixed_title": "PipelineNews",
+    "sequential_versions_retired": true
+  },
+  "lineage": {
+    "parent_release": "202608251622-PipelineNews",
+    "parent_commit": "fa58df4e1190ab749b04038c889034d758a9bcd8",
+    "frozen_versions_mutated": false,
+    "v1_v5_compared": true,
+    "newsv7_regressed": true
+  },
+  "app": {
+    "stable_route": "PipelineNews/",
+    "release_folder": "202608251636-PipelineNews/",
+    "entrypoint": "202608251636-PipelineNews/index.html",
+    "loader_contract": "manifest-resolved shared objects",
+    "ui_parent": "newsv7",
+    "duplicated_asset_directories": 0,
+    "shell_files": [
+      {"role":"app_entrypoint","path":"202608251636-PipelineNews/index.html","sha256":"191b3794e0782c8eb2b35aed3e610232670b8e3e71057a16aadba1062f944649","bytes":3663},
+      {"role":"folder_release_pointer","path":"202608251636-PipelineNews/release.json","sha256":"303d07ad6be01dcd8e35cf3acf2941a0be166e12cd3a4a83f65b5eb240c1d53e","bytes":333},
+      {"role":"folder_readme","path":"202608251636-PipelineNews/README.md","sha256":"4ef34e9b9c0d18ad1b7a288a0810cddbd3d3d1cd2d16f509a672275cd88a3c3b","bytes":652}
+    ]
+  },
+  "object_store": {"identity":"sha256","immutable":true,"reuse_unchanged_objects":true},
+  "objects": {
+    "inputs": [
+      {"role":"official_frontier_input","path":"objects/data/sha256/bee8c8d767323736cc047fec17fd25a94c97374afe9ca3ca8aa446856b640aed.json","sha256":"bee8c8d767323736cc047fec17fd25a94c97374afe9ca3ca8aa446856b640aed","bytes":3238}
+    ],
+    "modules": [
+      {"role":"official_frontier_engine","path":"objects/js/sha256/0f0adf842d22158b882f168d6c131480afd81bce6609b8453a073f15d201d18c.mjs","sha256":"0f0adf842d22158b882f168d6c131480afd81bce6609b8453a073f15d201d18c","bytes":8572},
+      {"role":"timestamped_release_shell","path":"objects/js/sha256/9bce91d7bde247265bdf369416ff4771c4866d3369c22d3b3d9c96aef4a95272.mjs","sha256":"9bce91d7bde247265bdf369416ff4771c4866d3369c22d3b3d9c96aef4a95272","bytes":2136}
+    ],
+    "artifacts": [
+      {"role":"official_frontier_contract","path":"objects/data/sha256/6b33735ff6020881fd92b646dec4d839001ac8af9fb5dc68fac059a1b4758f51.json","sha256":"6b33735ff6020881fd92b646dec4d839001ac8af9fb5dc68fac059a1b4758f51","bytes":3815}
+    ],
+    "css": [
+      {"role":"shared_timestamp_shell","path":"objects/css/sha256/5c196d2b307e0426447dc96f1762bc6e39de98f2a39ae8667265198f09d5166e.css","sha256":"5c196d2b307e0426447dc96f1762bc6e39de98f2a39ae8667265198f09d5166e","bytes":1889}
+    ],
+    "parquet": [],
+    "geojson": []
+  },
+  "build": {
+    "builder": {"path":"tooling/build-official-frontier-release.mjs","sha256":"fdf2af0452be9a1ee768368feeaca52bc4575022f2aa6fd3f368335a1a2b92bf","bytes":1371},
+    "official_poller": {"path":"tooling/poll-official-sources.mjs","sha256":"9f9436f23e1270a450ddf96cc6e39d7f7f43df25811b0f08043bc310f42e1f52","bytes":7100},
+    "repd_source_checker": {"path":"tooling/check-repd-source.mjs","sha256":"ed17e537886d2b4dc2484b7442c0306ed048086bce4ba79114aa070dcd222154","bytes":5428},
+    "verifier": "tests/check-202608251636-release.mjs",
+    "deterministic_rebuild_required": true
+  },
+  "source_policy": {
+    "official_repd_score": 100,
+    "official_govuk_score": 95,
+    "official_planning_score": 95,
+    "planit_score": 90,
+    "publisher_score": 65,
+    "google_discovery_score": 30,
+    "google_discovery_enabled": true,
+    "outbound_credit_required": true,
+    "article_body_copied": false
+  },
+  "automation": {
+    "official_frontier": {"workflow":".github/workflows/official-source-frontier.yml","cadence":"daily","budget":48,"cancel_in_progress":false},
+    "repd_source": {"workflow":".github/workflows/repd-monthly-check.yml","cadence":"monthly check of quarterly government publication","automatic_candidate_diff":true,"automatic_canonical_admission":false}
+  },
+  "acceptance": {
+    "repd_projects": 7680,
+    "projects_with_planning_reference": 7315,
+    "projects_without_planning_reference": 365,
+    "live_pre_construction": 2752,
+    "east_pye_primary_match": "GG2050-REPD-17494",
+    "duplicate_planning_reference_action": "ABSTAIN",
+    "v1_v5_mission_invariants": 6,
+    "duplicated_asset_directories": 0
+  },
+  "publication": {
+    "live": false,
+    "candidate_pointer_updated": true,
+    "stable_app_switched": false,
+    "reason": "Candidate release publishes the complete official-source scheduling contract without replacing the established full NewsV7 interface."
+  }
+}

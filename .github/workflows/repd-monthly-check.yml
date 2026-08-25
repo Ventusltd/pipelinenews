@@ -1,0 +1,36 @@
+name: REPD monthly source fetch
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "41 6 2 * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: repd-monthly-change-check
+  cancel-in-progress: false
+
+jobs:
+  fetch-and-diff:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify the admitted REPD spine and release
+        run: |
+          bash tests/run-current-timestamp-release.sh
+      - name: Fetch current government CSV and diff Ref IDs
+        run: node tooling/check-repd-source.mjs
+      - name: Commit source state and candidate delta
+        run: |
+          git config user.name "PipelineNews Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/repd-source/candidate.json state/repd-source.json
+          git diff --cached --quiet && exit 0
+          git commit -m "data: check quarterly REPD source"
+          git push
