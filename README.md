@@ -1,4 +1,5 @@
 # Pipeline News
+# Pipeline News
 
 Pipeline News is the independent news-data and intelligence engine for the GlobalGrid2050 federation.
 
@@ -24,9 +25,9 @@ Read that manual, this README, the local CHANGELOG, the source register and the 
 
 Green is not proof. File count is not proof. Size is not proof. A rendered browser page is not proof. The proof is that the data obeys its declared law at its declared grain and key.
 
-## Active build plan — frozen NewsV1 and NewsV2 candidate
+## Active build plan — frozen NewsV1 with NewsV2–NewsV6 and ConsumerV1 candidates
 
-Status: NewsV1 is deployed with live desktop runtime proof. NewsV2 is a tested, data-first material-event ledger candidate and does not change the public interface.
+Status: NewsV1 is deployed with live desktop runtime proof. NewsV2–NewsV6, Analytics V1 and ConsumerV1 are tested data-only candidates and do not change the public interface.
 
 Public release path: `https://ventusltd.github.io/pipelinenews/newsv1/`.
 
@@ -49,7 +50,7 @@ Locked scope and acceptance contract:
 - Keep every legacy release and archived byte unchanged.
 - Change performance architecture only: progressive project hydration, bounded visible rows, immutable-asset caching, one news request, no duplicate full-table render and deferred chart loading.
 
-Frozen five-release queue:
+Completed five-release candidate sequence:
 
 1. NewsV2 — material-event assertions and REPD delta-ready contracts.
 2. NewsV3 — organisations and directly evidenced commercial party roles.
@@ -101,7 +102,11 @@ Latest recovery checkpoint:
 - `PASS` — the GitHub runner rebuilt every Parquet/audit/manifest/SQL artifact byte-identically and passed NewsV2–NewsV6 regressions. No `.duckdb` database is committed; views are reproducibly recreated from immutable Parquet.
 - `PASS` — Movement 6 source commit `060c5b69448ad1290185c653f45349f587222ebf`, exact-provenance correction `1722ac99aee0fdc826c6af2aa19b4f2f5fbd7a54` and validated artifact commit `8960a1635d49dcd9f065fb5e0caeaa363da1573c` publish four explicitly ordered DuckDB consumer projections and a separate frozen-interface guard.
 - `PASS` — two byte-identical hosted builds prove NewsV1 `133/45/19/4/9/6` URL-order parity, Beacon Fen 13599, eleven project-table columns, contained mobile horizontal scrolling, zero publishable NewsV5 reasons and zero data-centre/renewable-project identity leakage. ConsumerV1 remains data-only and `CANDIDATE`, not a deployment claim.
-- Next bounded pass: perform Movement 7 independent recovery review from a clean remote tree, account for every NewsV2–NewsV6 and Movement 5/6 source/artifact commit, rerun all release gates and write the final recovery table without changing frozen versions.
+- `PASS` — Movement 7 commit `cf7737ed40952370aed8fab7896eca256060e6df` records the complete recovery table. A fresh remote checkout passed NewsV1, NewsV2–NewsV6, nine Parquet tables, DuckDB readback and ConsumerV1 twice with 21 byte-identical generated artifacts and a clean final diff.
+- `PASS` — Pages containment commit `252fa34132ea555538764f832f79b5dfe4445ee7` reduced the accidental branch/Jekyll artifact from 13,069,151 bytes containing the whole repository to 1,195,373 bytes containing the 43 whitelisted NewsV1 runtime files plus one generated theme stylesheet. Candidates, reports, skills and the legacy archive are excluded.
+- `BLOCKED` — GitHub Pages still uses branch/Jekyll rather than the canonical Actions workflow. The public boundary is safe through `_config.yml`, but changing the repository setting requires an authenticated GitHub settings session.
+- `NOT TESTED` — live NewsV1 runtime at widths 390, 430, 440 and 768; static CSS and contained-scroll gates remain green.
+- Next bounded pass: switch Pages source to GitHub Actions, run the bounded NewsV1 workflow and verify its exact artifact whitelist. Create no NewsV7 or GlobalGrid V9.8 during this maintenance gate.
 
 ## Overnight automation master score — authoritative
 
@@ -142,12 +147,12 @@ Current baton:
 
 | Field | Value |
 |---|---|
-| Last proven feature commit | `8960a1635d49dcd9f065fb5e0caeaa363da1573c` |
-| Outcome | `PASS` — Movement 6 source `060c5b69448ad1290185c653f45349f587222ebf`, provenance fix `1722ac99aee0fdc826c6af2aa19b4f2f5fbd7a54` and validated artifacts `8960a1635d49dcd9f065fb5e0caeaa363da1573c` produce four consumer collections through explicit DuckDB `ORDER BY`; deterministic rebuild proves NewsV1 `133/45/19/4/9/6` URL order, Beacon Fen 13599, eleven columns, contained mobile horizontal scroll, zero publishable reasons and zero data-centre project-signal leakage |
-| Next movement | Movement 7 — independent recovery review |
-| Next acceptance gate | Resolve current remote `main` from a clean tree; account for NewsV2–NewsV6 and Movement 5/6 in one recovery table containing feature, source commit, artifact commit, contract, builder, artifacts, test command, result, live status and rollback; rerun every release gate, verify frozen NewsV1/source hashes and exact remote head, and distinguish static/data proof from unresolved mobile runtime or deployment proof |
-| Doubt to resolve | ConsumerV1 is a data-only candidate and has not been connected to the public interface; live mobile widths remain untested, NewsV5 has zero publishable reasons by design, and NewsV6 currently contains only two exact observations with all capacity fields null |
-| Next-run budget | One independent review block targeted at 240–400 seconds and stopped before 500 seconds; use a second block only to repair documentation or a deterministic test uncovered by the clean-tree review, never to mutate a frozen version or manufacture live status |
+| Last proven feature commit | `cf7737ed40952370aed8fab7896eca256060e6df` |
+| Outcome | `PASS` — Movement 7 independently accounts for NewsV2–NewsV6 and Movements 5/6, reruns every release gate twice, preserves frozen NewsV1 tree `2d6247c067aa5fad49995dcb9029d6cdb9898994`, proves 21 byte-identical generated artifacts and records honest deployment, mobile and archive gaps in `reports/MOVEMENT_7_RECOVERY_REVIEW_2026-08-25.md` |
+| Next movement | No incomplete numbered movement — deployment maintenance gate |
+| Next acceptance gate | Switch GitHub Pages source from branch/Jekyll to GitHub Actions; run `.github/workflows/pages.yml`; prove the deployed artifact contains only the 43 declared NewsV1 runtime files plus `.nojekyll`, and excludes Analytics V1, ConsumerV1, NewsV2–NewsV6, reports, skills, tests and the legacy archive |
+| Doubt to resolve | The GitHub settings session is not authenticated; live mobile widths remain untested; the immutable legacy snapshot omits separately named V9.4–V9.7 directories and needs a separate archive-release decision |
+| Next-run budget | One 120–300 second deployment-settings and artifact-proof block after GitHub authentication; stop before 500 seconds and make no release-content changes |
 
 At the end of every run:
 
