@@ -86,7 +86,9 @@ Latest recovery checkpoint:
 - `BLOCKED` — live mobile runtime at 390/430/440/768 because the cloud browser does not expose viewport resizing. Static mobile CSS, contained-scroll and eleven-column gates pass; that is not runtime proof.
 - `PASS` — NewsV2 deterministically builds 45 material-event assertions with exact 8 acquisition / 13 consent / 2 contract / 4 financial-close / 17 project-update / 1 refusal counts, preserves source order and keeps all commercial roles and values null.
 - `PASS` — NewsV2 pins the source SHA-256, retains Beacon Fen REPD 13599 and excludes sibling 13600, and leaves NewsV1 bytes and visible UI unchanged.
-- Next bounded pass: audit the Atlas V8 and UK Energy Tracking V6 adapters, then use only proven contracts to design NewsV3 organisation/role evidence and NewsV4 grid milestones.
+- `PASS` — bounded Atlas V8 and UK Energy Tracking V6 adapter audit: deployed Atlas code matches the repository but most nested datasets are frozen April snapshots; Energy V6 payloads are frozen at 18 June despite historical `health: ok` fields.
+- `PASS` — reusable adapter/freshness contract recorded in `reports/ATLAS_V8_ENERGY_V6_ADAPTER_AUDIT.md`; no proven grid-constraint feed was found, so none may be inferred from frequency, interconnector or proximity data.
+- Next bounded pass: build NewsV3 organisation labels and directly evidenced REPD project-operator roles, with explicit abstention from unsupported transaction roles.
 
 ## Operating protocol
 
