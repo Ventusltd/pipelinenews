@@ -1,0 +1,28 @@
+{
+  "schema": "pipelinenews.discovery-credibility.v1",
+  "purpose": "rank and label event evidence without changing project identity",
+  "tiers": {
+    "authoritative": 1,
+    "trade_press": 0.7,
+    "national_or_regional_press": 0.6,
+    "corporate_social_or_unknown": 0.3
+  },
+  "default_credibility": 0.3,
+  "zero_credibility_allowed": false,
+  "identity_gate": false,
+  "corroboration": {
+    "distinct_domain_increment": 0.05,
+    "maximum_increment": 0.2,
+    "maximum_confidence": 1
+  },
+  "canonicalisation": {
+    "network_requests": false,
+    "strip_tracking_parameters": true,
+    "remove_fragments": true,
+    "normalise_amp_suffix": true
+  },
+  "deduplication": {
+    "method": "deterministic 64-component MinHash over title-and-snippet word shingles",
+    "jaccard_threshold": 0.85
+  }
+}
