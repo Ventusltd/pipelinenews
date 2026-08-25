@@ -1,0 +1,48 @@
+{
+  "schema": "pipelinenews.discovery-fixture.v1",
+  "release_id": "202608251701-pipelinenews",
+  "projects": [
+    {
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "name": "East Pye Solar Farm",
+      "technology": "Solar Photovoltaics",
+      "capacity_mw": 500,
+      "operator": "Island Green Power",
+      "county": "Norfolk",
+      "planning_application_reference": "EN0110014"
+    },
+    {
+      "repd_ref": "20670",
+      "gg_project_id": "GG2050-REPD-20670",
+      "name": "East Pye Solar Farm Battery Storage",
+      "technology": "Battery",
+      "capacity_mw": 500,
+      "operator": "Island Green Power",
+      "county": "Norfolk",
+      "planning_application_reference": ""
+    }
+  ],
+  "observations": [
+    {
+      "fixture_id": "headline-only",
+      "url": "https://www.bbc.co.uk/news/articles/clyelee255do?utm_source=fixture",
+      "title": "Huge solar farm set to cost £1bn",
+      "snippet": "",
+      "published_at": "2026-08-25",
+      "discovered_at": "2026-08-25T16:01:00Z",
+      "discovery_method": "google_cse",
+      "query_used": "\"East Pye solar\""
+    },
+    {
+      "fixture_id": "search-snippet",
+      "url": "https://www.bbc.co.uk/news/articles/clyelee255do",
+      "title": "Huge solar farm set to cost £1bn",
+      "snippet": "Island Green Power said the East Pye scheme near Long Stratton in Norfolk would be a 500MW solar development.",
+      "published_at": "2026-08-25",
+      "discovered_at": "2026-08-25T16:01:00Z",
+      "discovery_method": "google_cse",
+      "query_used": "\"East Pye solar\""
+    }
+  ]
+}

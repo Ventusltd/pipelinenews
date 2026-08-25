@@ -1,0 +1,17 @@
+{
+  "schema": "pipelinenews.discovery-binding.v1",
+  "status": "CANDIDATE",
+  "matcher_policy": "closed REPD gazetteer with identity gate, technology gate, location corroboration, ambiguity margin and abstention",
+  "identity_authority": "matcher evidence only",
+  "credibility_input_used": false,
+  "headline_without_identity": "ABSTAIN",
+  "ambiguous_top_score": "ABSTAIN",
+  "foreign_location_conflict": "REJECTED",
+  "abstention_retained": true,
+  "regression": {
+    "headline": "Huge solar farm set to cost £1bn",
+    "headline_result": "ABSTAIN",
+    "snippet_primary_repd_ref": "17494",
+    "forbidden_primary_repd_ref": "20670"
+  }
+}

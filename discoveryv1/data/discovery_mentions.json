@@ -1,0 +1,75 @@
+{
+  "schema": "pipelinenews.discovery-mentions.v1",
+  "release_id": "202608251701-pipelinenews",
+  "counts": {
+    "observations": 2,
+    "primary_match": 1,
+    "abstain": 1,
+    "rejected": 0
+  },
+  "mentions": [
+    {
+      "mention_id": "PN-MENTION-FEDFC1E422AB6842E4F1",
+      "repd_ref": null,
+      "gg_project_id": null,
+      "candidate_gg_project_ids": [],
+      "canonical_url": "https://www.bbc.co.uk/news/articles/clyelee255do",
+      "source_domain": "www.bbc.co.uk",
+      "credibility": 0.6,
+      "title": "Huge solar farm set to cost £1bn",
+      "snippet": "",
+      "published_at": "2026-08-25",
+      "discovered_at": "2026-08-25T16:01:00Z",
+      "discovery_method": "google_cse",
+      "query_used": "\"East Pye solar\"",
+      "binding_evidence": {
+        "reason": "NO_IDENTITY_EVIDENCE",
+        "observed_technology": "SOLAR",
+        "credibility_used": false
+      },
+      "binding_status": "ABSTAIN",
+      "cluster_id": "PN-CLUSTER-4B0CC5557E6383CA6600"
+    },
+    {
+      "mention_id": "PN-MENTION-86BFFA5E54A9C51D07D9",
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "candidate_gg_project_ids": [
+        "GG2050-REPD-17494"
+      ],
+      "canonical_url": "https://www.bbc.co.uk/news/articles/clyelee255do",
+      "source_domain": "www.bbc.co.uk",
+      "credibility": 0.6,
+      "title": "Huge solar farm set to cost £1bn",
+      "snippet": "Island Green Power said the East Pye scheme near Long Stratton in Norfolk would be a 500MW solar development.",
+      "published_at": "2026-08-25",
+      "discovered_at": "2026-08-25T16:01:00Z",
+      "discovery_method": "google_cse",
+      "query_used": "\"East Pye solar\"",
+      "binding_evidence": {
+        "reason": "CLOSED_GAZETTEER_GATES_PASSED",
+        "identity_gate": true,
+        "exact_name": false,
+        "name_stem": true,
+        "planning_reference": false,
+        "operator": true,
+        "technology": true,
+        "location": true,
+        "capacity": true,
+        "score": 10,
+        "observed_technology": "SOLAR",
+        "credibility_used": false,
+        "news_may_overwrite_repd": false
+      },
+      "binding_status": "PRIMARY_MATCH",
+      "cluster_id": "PN-CLUSTER-3DBD8FF2B4C6FBDD8F21"
+    }
+  ],
+  "publication_law": {
+    "repd_mutated": false,
+    "credibility_gates_binding": false,
+    "outbound_result_pages_fetched": false,
+    "article_bodies_stored": false,
+    "abstentions_retained": true
+  }
+}
