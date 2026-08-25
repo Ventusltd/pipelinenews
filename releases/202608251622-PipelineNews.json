@@ -1,0 +1,84 @@
+{
+  "schema": "pipelinenews.release-manifest.v1",
+  "release_id": "202608251622-PipelineNews",
+  "app_title": "PipelineNews",
+  "display_title": "Pipeline News",
+  "incepted_at": "2026-08-25T16:22:00+01:00",
+  "status": "CANDIDATE",
+  "feature": "official-first evidence credibility with noisy Google discovery retained",
+  "naming": {
+    "format": "YYYYMMDDHHmm-PipelineNews",
+    "time_basis": "Europe/London operator inception clock",
+    "fixed_title": "PipelineNews",
+    "sequential_versions_retired": true
+  },
+  "lineage": {
+    "parent_release": "202608251528-PipelineNews",
+    "parent_commit": "5ab716b5281381da822ea2aef9c859a8d4d1a14e",
+    "frozen_versions_mutated": false,
+    "v1_v5_compared": true,
+    "newsv7_regressed": true
+  },
+  "app": {
+    "stable_route": "PipelineNews/",
+    "release_folder": "202608251622-PipelineNews/",
+    "entrypoint": "202608251622-PipelineNews/index.html",
+    "loader_contract": "manifest-resolved shared objects",
+    "ui_parent": "newsv7",
+    "duplicated_asset_directories": 0,
+    "shell_files": [
+      {"role":"app_entrypoint","path":"202608251622-PipelineNews/index.html","sha256":"2e250472b6586ccc699d0d1c87ddbd5e6b598d2da949989325a809f23a1deae7","bytes":3142},
+      {"role":"folder_release_pointer","path":"202608251622-PipelineNews/release.json","sha256":"8dbc0a605cb642705688f057121669bbbe5427363fbe11816bed2400d40e1914","bytes":337},
+      {"role":"folder_readme","path":"202608251622-PipelineNews/README.md","sha256":"59710f66af8856844aa674ef38ec239d50a6b18308ba7aa7e161f80868ff63ad","bytes":575}
+    ]
+  },
+  "object_store": {"identity":"sha256","immutable":true,"reuse_unchanged_objects":true},
+  "objects": {
+    "inputs": [
+      {"role":"evidence_snapshot","path":"objects/data/sha256/fd90d5e386ab94b1d94113e78364a4dcfd2d3842beee8f5e3b1771f0b242d977.json","sha256":"fd90d5e386ab94b1d94113e78364a4dcfd2d3842beee8f5e3b1771f0b242d977","bytes":4409,"rows":4}
+    ],
+    "modules": [
+      {"role":"evidence_credibility_engine","path":"objects/js/sha256/d7c0164d2d767996c45e86d27c4754d4388e4493a00a33e2429c6759cfe9b328.mjs","sha256":"d7c0164d2d767996c45e86d27c4754d4388e4493a00a33e2429c6759cfe9b328","bytes":7107},
+      {"role":"timestamped_release_shell","path":"objects/js/sha256/dca6a33a559496cfb7f0e6141f81e37a25513b1af7976d712dc9e23cf5cc2ee6.mjs","sha256":"dca6a33a559496cfb7f0e6141f81e37a25513b1af7976d712dc9e23cf5cc2ee6","bytes":2412}
+    ],
+    "artifacts": [
+      {"role":"evidence_credibility_ledger","path":"objects/data/sha256/3d2cd9cba8581bbc8c4e7434deb0c584d3969639a00926393cf011e2c3f8a00b.json","sha256":"3d2cd9cba8581bbc8c4e7434deb0c584d3969639a00926393cf011e2c3f8a00b","bytes":6082,"rows":4}
+    ],
+    "css": [
+      {"role":"shared_timestamp_shell","path":"objects/css/sha256/5c196d2b307e0426447dc96f1762bc6e39de98f2a39ae8667265198f09d5166e.css","sha256":"5c196d2b307e0426447dc96f1762bc6e39de98f2a39ae8667265198f09d5166e","bytes":1889}
+    ],
+    "parquet": [],
+    "geojson": []
+  },
+  "build": {
+    "builder": {"path":"tooling/build-evidence-release.mjs","sha256":"c09534bcdb5ec1d6431958811a7badfd82cca254d42a8a6470bf0f8c4ae8f2ba","bytes":1072},
+    "verifier": "tests/check-202608251622-release.mjs",
+    "deterministic_rebuild_required": true
+  },
+  "source_policy": {
+    "official_repd_score": 100,
+    "official_planning_score": 95,
+    "planit_score": 90,
+    "publisher_score": 65,
+    "google_discovery_score": 30,
+    "google_discovery_enabled": true,
+    "outbound_credit_required": true,
+    "article_body_copied": false
+  },
+  "acceptance": {
+    "official_observations": 2,
+    "publisher_observations": 1,
+    "discovery_observations": 1,
+    "primary_match": "GG2050-REPD-17494",
+    "excluded_colocated_bess_ref": "20670",
+    "planning_reference": "EN0110014",
+    "v1_v5_mission_invariants": 6,
+    "duplicated_asset_directories": 0
+  },
+  "publication": {
+    "live": false,
+    "candidate_pointer_updated": true,
+    "stable_app_switched": false,
+    "reason": "Candidate release published for browser and owner review without mutating the established full interface."
+  }
+}

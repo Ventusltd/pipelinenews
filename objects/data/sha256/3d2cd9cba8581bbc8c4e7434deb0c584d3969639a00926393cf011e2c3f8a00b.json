@@ -1,0 +1,165 @@
+{
+  "schema": "pipelinenews.evidence-ledger.v1",
+  "release_id": "202608251622-PipelineNews",
+  "app_title": "PipelineNews",
+  "incepted_at": "2026-08-25T16:22:00+01:00",
+  "policy_id": "PN-EVIDENCE-CREDIBILITY-V1",
+  "counts": {
+    "observations": 4,
+    "official_observations": 2,
+    "publisher_observations": 1,
+    "discovery_observations": 1,
+    "primary_matches": 1
+  },
+  "event": {
+    "event_id": "PN-EVENT-BA0AB18ACBC5B560BFEB",
+    "headline": "Huge Norfolk solar farm near Long Stratton set to cost £1bn",
+    "direct_outbound_url": "https://www.bbc.co.uk/news/articles/clyelee255do",
+    "publisher_label": "BBC News",
+    "published_at": "2026-08-25T13:34:22Z",
+    "publisher_reported_claim": "Estimated project cost: £1bn",
+    "publisher_claim_credibility_score": 65,
+    "official_status": "Application Submitted",
+    "highest_credibility_score": 100,
+    "binding": {
+      "role": "PRIMARY_MATCH",
+      "method": "EXACT_REPD_REF",
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "project_name": "East Pye Solar Farm",
+      "technology": "solar",
+      "official_capacity_mw": 500,
+      "planning_application_reference": "EN0110014",
+      "related_repd_refs": [
+        "20670"
+      ],
+      "news_may_overwrite_official_facts": false
+    }
+  },
+  "evidence": [
+    {
+      "evidence_id": "PN-EVIDENCE-B132DB908BB27BE614DD",
+      "source_class": "OFFICIAL_REPD_REGISTER",
+      "credibility_score": 100,
+      "credibility_label": "OFFICIAL",
+      "identity_authority": true,
+      "publisher_label": "DESNZ Renewable Energy Planning Database",
+      "source_ref": "REPD:17494",
+      "canonical_url": "https://www.gov.uk/government/publications/renewable-energy-planning-database-monthly-extract",
+      "observed_at": "2026-08-25T16:22:00+01:00",
+      "permitted_use": "OPEN_GOVERNMENT_DATA",
+      "claims": {
+        "repd_ref": "17494",
+        "planning_application_reference": "EN0110014",
+        "project_name": "East Pye Solar Farm",
+        "official_capacity_mw": 500,
+        "official_status": "Application Submitted"
+      }
+    },
+    {
+      "evidence_id": "PN-EVIDENCE-99AD51DA69A4DAC8A778",
+      "source_class": "OFFICIAL_PLANNING_AUTHORITY",
+      "credibility_score": 95,
+      "credibility_label": "OFFICIAL",
+      "identity_authority": true,
+      "publisher_label": "Broadland and South Norfolk Councils",
+      "source_ref": "PINS:EN0110014",
+      "canonical_url": "https://www.southnorfolkandbroadland.gov.uk/planning/nationally-significant-infrastructure-projects/east-pye-solar-island-green-power",
+      "observed_at": "2026-08-25T16:22:00+01:00",
+      "permitted_use": "CREDITED_OFFICIAL_LINK",
+      "claims": {
+        "planning_application_reference": "EN0110014",
+        "project_name": "East Pye Solar",
+        "official_capacity_mw": 500,
+        "official_status": "Accepted for Examination 2 April 2026"
+      }
+    },
+    {
+      "evidence_id": "PN-EVIDENCE-5D4474B2B8088C5135F4",
+      "source_class": "ORIGINAL_PUBLISHER",
+      "credibility_score": 65,
+      "credibility_label": "PUBLISHER",
+      "identity_authority": false,
+      "publisher_label": "BBC News",
+      "source_ref": "BBC:clyelee255do",
+      "canonical_url": "https://www.bbc.co.uk/news/articles/clyelee255do",
+      "observed_at": "2026-08-25T16:22:00+01:00",
+      "permitted_use": "CREDITED_OUTBOUND_LINK_ONLY",
+      "claims": {
+        "headline": "Huge Norfolk solar farm near Long Stratton set to cost £1bn",
+        "published_at": "2026-08-25T13:34:22Z",
+        "publisher_reported_claim": "Estimated project cost: £1bn"
+      }
+    },
+    {
+      "evidence_id": "PN-EVIDENCE-770C99D69B5C17456E8F",
+      "source_class": "NEWS_AGGREGATOR",
+      "credibility_score": 30,
+      "credibility_label": "DISCOVERY",
+      "identity_authority": false,
+      "publisher_label": "Google News RSS",
+      "source_ref": "GOOGLE_NEWS:BBC:clyelee255do",
+      "canonical_url": "https://news.google.com/rss/search?ceid=GB%3Aen&gl=GB&hl=en-GB&q=East+Pye+Solar",
+      "observed_at": "2026-08-25T16:22:00+01:00",
+      "permitted_use": "DISCOVERY_METADATA_ONLY",
+      "claims": {
+        "headline": "Huge Norfolk solar farm near Long Stratton set to cost £1bn - BBC"
+      }
+    }
+  ],
+  "source_adapters": [
+    {
+      "adapter_id": "repd",
+      "status": "LIVE_SNAPSHOT",
+      "credibility_score": 100,
+      "purpose": "canonical project facts"
+    },
+    {
+      "adapter_id": "local-government-planning",
+      "status": "LIVE_SNAPSHOT",
+      "credibility_score": 95,
+      "purpose": "planning-reference corroboration"
+    },
+    {
+      "adapter_id": "planit",
+      "status": "READY_FOR_POLLING",
+      "credibility_score": 90,
+      "purpose": "national planning discovery by reference"
+    },
+    {
+      "adapter_id": "govuk",
+      "status": "READY_FOR_POLLING",
+      "credibility_score": 95,
+      "purpose": "government decisions and announcements"
+    },
+    {
+      "adapter_id": "neso",
+      "status": "READY_FOR_POLLING",
+      "credibility_score": 95,
+      "purpose": "grid connection corroboration"
+    },
+    {
+      "adapter_id": "google-news-rss",
+      "status": "LIVE_DISCOVERY",
+      "credibility_score": 30,
+      "purpose": "high-recall noisy discovery"
+    }
+  ],
+  "mission_invariants": [
+    "Show the complete official renewable-energy project pipeline rather than silently narrowing it.",
+    "Keep official REPD facts separate from news signals.",
+    "Preserve the familiar newspaper and project-table mission while expanding capability.",
+    "Credit publishers and send readers to the original outlet.",
+    "Prefer abstention to a false project binding.",
+    "Never let capacity alone establish project identity."
+  ],
+  "publication_law": {
+    "official_sources_rank_above_news": true,
+    "google_discovery_retained": true,
+    "original_outlet_credited_and_linked": true,
+    "article_body_stored": false,
+    "non_official_sources_may_establish_identity": false,
+    "news_may_overwrite_repd": false,
+    "default_ambiguous_binding": "ABSTAIN"
+  }
+}

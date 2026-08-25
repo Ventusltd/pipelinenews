@@ -10,7 +10,9 @@ on:
       - "releases/**"
       - "objects/**"
       - "tooling/build-current-discovery-release.mjs"
+      - "tooling/build-evidence-release.mjs"
       - "tests/check-current-timestamp-release.mjs"
+      - "tests/check-202608251622-release.mjs"
       - "tests/run-current-timestamp-release.sh"
       - ".github/workflows/timestamp-release.yml"
 
@@ -30,7 +32,7 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Verify manifest-resolved candidate twice
+      - name: Verify evidence-ranked candidate twice
         run: bash tests/run-current-timestamp-release.sh
 
       - name: Regress the frozen cumulative parent

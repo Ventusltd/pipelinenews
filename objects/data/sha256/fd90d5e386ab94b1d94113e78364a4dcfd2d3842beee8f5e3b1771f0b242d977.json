@@ -1,0 +1,84 @@
+{
+  "schema": "pipelinenews.evidence-input.v1",
+  "release_id": "202608251622-PipelineNews",
+  "app_title": "PipelineNews",
+  "incepted_at": "2026-08-25T16:22:00+01:00",
+  "v1_v5_mission_invariants": [
+    "Show the complete official renewable-energy project pipeline rather than silently narrowing it.",
+    "Keep official REPD facts separate from news signals.",
+    "Preserve the familiar newspaper and project-table mission while expanding capability.",
+    "Credit publishers and send readers to the original outlet.",
+    "Prefer abstention to a false project binding.",
+    "Never let capacity alone establish project identity."
+  ],
+  "projects": [
+    {
+      "repd_ref": "17494",
+      "project_name": "East Pye Solar Farm",
+      "technology": "solar",
+      "official_capacity_mw": 500,
+      "operator": "Island Green Power",
+      "planning_application_reference": "EN0110014",
+      "planning_authority": "The Planning Inspectorate - National Infrastructure",
+      "official_status": "Application Submitted",
+      "related_repd_refs": ["20670"]
+    },
+    {
+      "repd_ref": "20670",
+      "project_name": "East Pye Solar Farm Battery Storage",
+      "technology": "battery",
+      "official_capacity_mw": 500,
+      "operator": "Island Green Power",
+      "planning_application_reference": "",
+      "planning_authority": "The Planning Inspectorate - National Infrastructure",
+      "official_status": "Application Submitted",
+      "related_repd_refs": ["17494"]
+    }
+  ],
+  "source_adapters": [
+    {"adapter_id":"repd","status":"LIVE_SNAPSHOT","credibility_score":100,"purpose":"canonical project facts"},
+    {"adapter_id":"local-government-planning","status":"LIVE_SNAPSHOT","credibility_score":95,"purpose":"planning-reference corroboration"},
+    {"adapter_id":"planit","status":"READY_FOR_POLLING","credibility_score":90,"purpose":"national planning discovery by reference"},
+    {"adapter_id":"govuk","status":"READY_FOR_POLLING","credibility_score":95,"purpose":"government decisions and announcements"},
+    {"adapter_id":"neso","status":"READY_FOR_POLLING","credibility_score":95,"purpose":"grid connection corroboration"},
+    {"adapter_id":"google-news-rss","status":"LIVE_DISCOVERY","credibility_score":30,"purpose":"high-recall noisy discovery"}
+  ],
+  "observations": [
+    {
+      "source_class": "OFFICIAL_REPD_REGISTER",
+      "publisher_label": "DESNZ Renewable Energy Planning Database",
+      "source_ref": "REPD:17494",
+      "url": "https://www.gov.uk/government/publications/renewable-energy-planning-database-monthly-extract",
+      "observed_at": "2026-08-25T16:22:00+01:00",
+      "permitted_use": "OPEN_GOVERNMENT_DATA",
+      "claims": {"repd_ref":"17494","planning_application_reference":"EN0110014","project_name":"East Pye Solar Farm","official_capacity_mw":500,"official_status":"Application Submitted"}
+    },
+    {
+      "source_class": "OFFICIAL_PLANNING_AUTHORITY",
+      "publisher_label": "Broadland and South Norfolk Councils",
+      "source_ref": "PINS:EN0110014",
+      "url": "https://www.southnorfolkandbroadland.gov.uk/planning/nationally-significant-infrastructure-projects/east-pye-solar-island-green-power",
+      "observed_at": "2026-08-25T16:22:00+01:00",
+      "permitted_use": "CREDITED_OFFICIAL_LINK",
+      "claims": {"planning_application_reference":"EN0110014","project_name":"East Pye Solar","official_capacity_mw":500,"official_status":"Accepted for Examination 2 April 2026"}
+    },
+    {
+      "source_class": "ORIGINAL_PUBLISHER",
+      "publisher_label": "BBC News",
+      "source_ref": "BBC:clyelee255do",
+      "url": "https://www.bbc.co.uk/news/articles/clyelee255do",
+      "observed_at": "2026-08-25T16:22:00+01:00",
+      "permitted_use": "CREDITED_OUTBOUND_LINK_ONLY",
+      "claims": {"headline":"Huge Norfolk solar farm near Long Stratton set to cost £1bn","published_at":"2026-08-25T13:34:22Z","publisher_reported_claim":"Estimated project cost: £1bn"}
+    },
+    {
+      "source_class": "NEWS_AGGREGATOR",
+      "publisher_label": "Google News RSS",
+      "source_ref": "GOOGLE_NEWS:BBC:clyelee255do",
+      "url": "https://news.google.com/rss/search?q=East%20Pye%20Solar&hl=en-GB&gl=GB&ceid=GB%3Aen",
+      "observed_at": "2026-08-25T16:22:00+01:00",
+      "permitted_use": "DISCOVERY_METADATA_ONLY",
+      "claims": {"headline":"Huge Norfolk solar farm near Long Stratton set to cost £1bn - BBC"}
+    }
+  ]
+}
