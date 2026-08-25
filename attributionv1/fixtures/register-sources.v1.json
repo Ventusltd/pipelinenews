@@ -1,0 +1,77 @@
+{
+  "schema": "pipelinenews.attribution-register-fixture.v1",
+  "fixture_only": true,
+  "records": [
+    {
+      "source_type": "planit",
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "role": "DEVELOPER",
+      "organisation": "Fixture Project Development Limited",
+      "company_number": "00000001",
+      "effective_from": "2026-08-01",
+      "evidence_url": "https://www.planit.org.uk/api/applics/json?fixture=1",
+      "observed_at": "2026-08-25T16:01:00Z",
+      "source_ref": "EN0110014"
+    },
+    {
+      "source_type": "neso",
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "role": "OWNER",
+      "organisation": "Fixture Grid Owner Limited",
+      "company_number": "00000002",
+      "effective_from": "2026-08-02",
+      "evidence_url": "https://api.neso.energy/api/3/action/datastore_search?fixture=1",
+      "observed_at": "2026-08-25T16:01:00Z",
+      "source_ref": "TEC-FIXTURE-1"
+    },
+    {
+      "source_type": "lccc",
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "role": "OWNER",
+      "organisation": "Fixture Contract Holder Limited",
+      "company_number": "00000003",
+      "effective_from": "2026-08-03",
+      "evidence_url": "https://www.lowcarboncontracts.uk/fixture",
+      "observed_at": "2026-08-25T16:01:00Z",
+      "source_ref": "CFD-FIXTURE-1"
+    },
+    {
+      "source_type": "planning_data",
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "role": "DEVELOPER",
+      "organisation": "Fixture Project Development Limited",
+      "company_number": "00000001",
+      "effective_from": "2026-08-01",
+      "evidence_url": "https://www.planning.data.gov.uk/entity/11100000000",
+      "observed_at": "2026-08-25T16:01:00Z",
+      "source_ref": "EN0110014"
+    },
+    {
+      "source_type": "gazette",
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "organisation": "Fixture Grid Owner Limited",
+      "company_number": "00000002",
+      "event_type": "STATUTORY_NOTICE",
+      "event_date": "2026-08-24",
+      "evidence_url": "https://www.thegazette.co.uk/notice/fixture",
+      "observed_at": "2026-08-25T16:01:00Z",
+      "source_ref": "GAZETTE-FIXTURE-1"
+    },
+    {
+      "source_type": "neso",
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "role": "OWNER",
+      "organisation": null,
+      "effective_from": "2026-08-02",
+      "evidence_url": "https://api.neso.energy/api/3/action/datastore_search?fixture=missing",
+      "observed_at": "2026-08-25T16:01:00Z",
+      "source_ref": "TEC-FIXTURE-MISSING"
+    }
+  ]
+}

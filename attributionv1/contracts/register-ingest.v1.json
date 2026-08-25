@@ -1,0 +1,17 @@
+{
+  "schema": "pipelinenews.attribution-register-ingest.v1",
+  "status": "CANDIDATE",
+  "sources": ["planit", "planning_data", "neso", "lccc", "gazette"],
+  "source_law": {
+    "official_register_credibility": 1,
+    "role_must_be_explicit_in_source_record": true,
+    "missing_organisation": "ABSTAIN",
+    "gazette_notice_is_organisation_event_not_delivery_role": true,
+    "contradictions_overwrite": false
+  },
+  "outputs": {
+    "roles": "one organisation-role claim per explicit source assertion",
+    "organisation_events": "one dated statutory event per project-linked organisation",
+    "abstentions": "one retained source record that cannot support a role"
+  }
+}

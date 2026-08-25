@@ -1,0 +1,107 @@
+{
+  "schema": "pipelinenews.attribution-register-fixture-proof.v1",
+  "fixture_only": true,
+  "counts": {
+    "roles": 4,
+    "confirmed": 4,
+    "organisation_events": 1,
+    "abstentions": 1
+  },
+  "roles": [
+    {
+      "attribution_id": "PN-ATTR-8CE4462A5EB916D13D68",
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "role": "DEVELOPER",
+      "organisation": "Fixture Project Development Limited",
+      "company_number": "00000001",
+      "effective_from": "2026-08-01",
+      "effective_to": null,
+      "evidence_url": "https://www.planit.org.uk/api/applics/json?fixture=1",
+      "evidence_domain": "www.planit.org.uk",
+      "evidence_kind": "OFFICIAL_PLANNING_AGGREGATOR",
+      "credibility": 1,
+      "observed_at": "2026-08-25T16:01:00Z",
+      "claim_status": "CONFIRMED"
+    },
+    {
+      "attribution_id": "PN-ATTR-B53BBCE08926A5949F86",
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "role": "DEVELOPER",
+      "organisation": "Fixture Project Development Limited",
+      "company_number": "00000001",
+      "effective_from": "2026-08-01",
+      "effective_to": null,
+      "evidence_url": "https://www.planning.data.gov.uk/entity/11100000000",
+      "evidence_domain": "www.planning.data.gov.uk",
+      "evidence_kind": "OFFICIAL_PLANNING_DATA",
+      "credibility": 1,
+      "observed_at": "2026-08-25T16:01:00Z",
+      "claim_status": "CONFIRMED"
+    },
+    {
+      "attribution_id": "PN-ATTR-4D1287E66B30BEF53E96",
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "role": "OWNER",
+      "organisation": "Fixture Contract Holder Limited",
+      "company_number": "00000003",
+      "effective_from": "2026-08-03",
+      "effective_to": null,
+      "evidence_url": "https://www.lowcarboncontracts.uk/fixture",
+      "evidence_domain": "www.lowcarboncontracts.uk",
+      "evidence_kind": "OFFICIAL_CFD_REGISTER",
+      "credibility": 1,
+      "observed_at": "2026-08-25T16:01:00Z",
+      "claim_status": "CONFIRMED"
+    },
+    {
+      "attribution_id": "PN-ATTR-829F511C7E049F933750",
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "role": "OWNER",
+      "organisation": "Fixture Grid Owner Limited",
+      "company_number": "00000002",
+      "effective_from": "2026-08-02",
+      "effective_to": null,
+      "evidence_url": "https://api.neso.energy/api/3/action/datastore_search?fixture=1",
+      "evidence_domain": "api.neso.energy",
+      "evidence_kind": "OFFICIAL_CONNECTION_REGISTER",
+      "credibility": 1,
+      "observed_at": "2026-08-25T16:01:00Z",
+      "claim_status": "CONFIRMED"
+    }
+  ],
+  "organisation_events": [
+    {
+      "organisation_event_id": "PN-ORG-EVENT-A798CCAAC3AA3031EE51",
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "organisation": "Fixture Grid Owner Limited",
+      "company_number": "00000002",
+      "event_type": "STATUTORY_NOTICE",
+      "event_date": "2026-08-24",
+      "evidence_url": "https://www.thegazette.co.uk/notice/fixture",
+      "evidence_domain": "www.thegazette.co.uk",
+      "evidence_kind": "OFFICIAL_STATUTORY_NOTICE",
+      "credibility": 1,
+      "observed_at": "2026-08-25T16:01:00Z"
+    }
+  ],
+  "abstentions": [
+    {
+      "source_type": "neso",
+      "source_ref": "TEC-FIXTURE-MISSING",
+      "gg_project_id": "GG2050-REPD-17494",
+      "decision": "ABSTAIN",
+      "reason": "NO_EXPLICIT_ORGANISATION",
+      "observed_at": "2026-08-25T16:01:00Z"
+    }
+  ],
+  "publication_law": {
+    "source_role_must_be_explicit": true,
+    "contradictions_overwritten": false,
+    "gazette_event_inferred_as_delivery_role": false
+  }
+}
