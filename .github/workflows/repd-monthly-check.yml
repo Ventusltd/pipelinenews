@@ -2,6 +2,12 @@ name: REPD monthly source fetch
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "tooling/check-repd-source.mjs"
+      - "releases/current.json"
+      - ".github/workflows/repd-monthly-check.yml"
   schedule:
     - cron: "41 6 2 * *"
 

@@ -2,6 +2,13 @@ name: Official source frontier
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "tooling/poll-official-sources.mjs"
+      - "objects/js/sha256/**"
+      - "releases/current.json"
+      - ".github/workflows/official-source-frontier.yml"
   schedule:
     - cron: "17 5 * * *"
 
