@@ -7,10 +7,10 @@
   "source": {
     "parquet_manifest": "analytics_v1/data/parquet_manifest.json",
     "required_parquet_artifacts": {
-      "newsv5_reason_decisions.parquet": "95c9ec582c0357462d2e87a07e59e207bf6b9289d02da89859d8712546f3ebcd",
-      "newsv6_dc_sources.parquet": "8503864496f70fa720731b20b55f5e65d9ac4f52c26d682c49cc37979b7d58f1",
-      "newsv6_dc_observations.parquet": "a5b8789a35fc49a98a70f32a48f46de63362461c85ce0fdfcc657a3bf30bd4d8",
-      "newsv6_dc_link_decisions.parquet": "b5b1a859981b63e1927720ca8b01d3608d278c987a17ecaa75ad43c831d65cf4"
+      "newsv5_reason_decisions.parquet": "95c9ec5879bc561283973dfc7e7f803ce78448a2e0786ec4c147b88a09edb6df",
+      "newsv6_dc_sources.parquet": "8503864423c4a89700b7422a1969edefb59295cc1ffbf0f8a7b9b699a1b7f57f",
+      "newsv6_dc_observations.parquet": "a5b8789a600196d9f47ea4de38a4f34d68da61f443a58ea3d66372aa8ebbea35",
+      "newsv6_dc_link_decisions.parquet": "b5b1a8592a26310603af730ea8bac666043e4fdbb75d96553c2495f98862d217"
     },
     "newsv1_hashes": {
       "feed": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd",
