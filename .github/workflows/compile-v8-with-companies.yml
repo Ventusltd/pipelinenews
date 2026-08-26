@@ -1,0 +1,71 @@
+name: Compile PipelineNews V8 With Companies
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate_stamp:
+        description: Candidate to gate and compile
+        required: true
+        default: "202608262115"
+        type: string
+      companies_ref:
+        description: Exact 40-character Ventusltd/companies data commit
+        required: true
+        type: string
+
+concurrency:
+  group: compile-pipelinenews-v8-with-companies
+  cancel-in-progress: false
+
+jobs:
+  gate-compile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: Ventusltd/companies
+          ref: ${{ inputs.companies_ref }}
+          path: companies-source
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: |
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Prove V8 foundation before compilation
+        env:
+          BUILD_STAMP: ${{ inputs.candidate_stamp }}
+        run: |
+          python3 -m http.server 4173 >/tmp/v8-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          node build/javascript/202608262300-verify-v8-reachability.mjs | tee v8-foundation-proof.json
+      - name: Compile pinned evidence contract
+        env:
+          CANDIDATE_STAMP: ${{ inputs.candidate_stamp }}
+        run: |
+          set -euo pipefail
+          [[ "$CANDIDATE_STAMP" =~ ^[0-9]{12}$ ]]
+          build_stamp="$(date -u +%Y%m%d%H%M)"
+          python build/python/202608262300-compile-v8-contract.py \
+            --stamp "$build_stamp" \
+            --base "releases/${CANDIDATE_STAMP}-v8-candidate.html" \
+            --project-engine "releases/javascript/${CANDIDATE_STAMP}-projects-v8-windowed.js" \
+            --foundation-proof v8-foundation-proof.json \
+            --companies-manifest companies-source/data/current/manifest-v1.json \
+            --output "work/${build_stamp}-v8-compile-manifest.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-v8-compiled-contract-${{ github.run_id }}
+          path: |
+            work/
+            v8-foundation-proof.json
+          if-no-files-found: error
+          retention-days: 30
