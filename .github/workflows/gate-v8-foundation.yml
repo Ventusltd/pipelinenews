@@ -1,0 +1,43 @@
+name: Gate PipelineNews V8 Foundation
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate_stamp:
+        required: true
+        default: "202608262115"
+        type: string
+
+concurrency:
+  group: gate-pipelinenews-v8-foundation
+  cancel-in-progress: false
+
+jobs:
+  reachability-performance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: |
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Prove all 7,680 projects are reachable
+        env:
+          BUILD_STAMP: ${{ inputs.candidate_stamp }}
+        run: |
+          python3 -m http.server 4173 >/tmp/v8-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          node build/javascript/202608262300-verify-v8-reachability.mjs | tee v8-foundation-proof.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pipelinenews-v8-foundation-proof-${{ github.run_id }}
+          path: v8-foundation-proof.json
+          if-no-files-found: warn
+          retention-days: 30
