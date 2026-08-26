@@ -1,0 +1,66 @@
+name: Build PipelineNews V8 Candidate
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/build-pipelinenews-v8-candidate.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-pipelinenews-v8-candidate
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Set immutable stamp
+        run: echo "BUILD_STAMP=$(date -u +%Y%m%d%H%M)" >> "$GITHUB_ENV"
+      - name: Build bounded candidate
+        run: node build/javascript/202608262230-build-v8-candidate.mjs
+      - name: Static gates
+        run: |
+          set -euo pipefail
+          node --check "releases/javascript/${BUILD_STAMP}-projects-v8-windowed.js"
+          node --check "releases/javascript/${BUILD_STAMP}-app-v8-candidate.js"
+          ! grep -q "body.innerHTML = filtered.map" "releases/javascript/${BUILD_STAMP}-projects-v8-windowed.js"
+      - name: Install browser verifier
+        run: |
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Verify cold mobile candidate
+        run: |
+          python3 -m http.server 4173 >/tmp/pipelinenews-v8-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          node build/javascript/202608262230-verify-v8-candidate.mjs | tee "build/${BUILD_STAMP}-v8-browser-proof.json"
+      - name: Upload candidate
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-v8-candidate-${{ env.BUILD_STAMP }}
+          path: |
+            releases/${{ env.BUILD_STAMP }}-v8-candidate.html
+            releases/javascript/${{ env.BUILD_STAMP }}-projects-v8-windowed.js
+            releases/javascript/${{ env.BUILD_STAMP }}-app-v8-candidate.js
+            build/${{ env.BUILD_STAMP }}-v8-candidate-manifest.json
+            build/${{ env.BUILD_STAMP }}-v8-browser-proof.json
+      - name: Commit green candidate only
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "releases/${BUILD_STAMP}-v8-candidate.html" "releases/javascript/${BUILD_STAMP}-projects-v8-windowed.js" "releases/javascript/${BUILD_STAMP}-app-v8-candidate.js" "build/${BUILD_STAMP}-v8-candidate-manifest.json" "build/${BUILD_STAMP}-v8-browser-proof.json"
+          git commit -m "v8: publish bounded candidate ${BUILD_STAMP}"
+          git pull --rebase origin main
+          git push origin HEAD:main
