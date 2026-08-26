@@ -1,0 +1,168 @@
+name: Deploy PipelineNews Pages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      deployed_sha: ${{ steps.source.outputs.sha }}
+      generation: ${{ steps.release.outputs.generation }}
+      release_path: ${{ steps.release.outputs.release_path }}
+      release_sha256: ${{ steps.release.outputs.release_sha256 }}
+    steps:
+      - name: Checkout exact dispatch commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Record exact deployment source
+        id: source
+        shell: bash
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Configure Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Validate committed release and stage public closure
+        id: release
+        shell: bash
+        run: python3 atman/202608262014-build-pages.py --generation latest --stage _site
+
+      - name: Install pinned browser harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Browser-proof staged modular release
+        shell: bash
+        env:
+          PIPELINENEWS_GENERATION: ${{ steps.release.outputs.generation }}
+          PIPELINENEWS_PAGE_URL: http://127.0.0.1:4173/${{ steps.release.outputs.release_path }}
+          PIPELINENEWS_DEPLOY_SHA: preview-${{ steps.source.outputs.sha }}
+          PIPELINENEWS_EVIDENCE_DIR: reports/browser-${{ steps.release.outputs.generation }}-preview
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory _site >"$RUNNER_TEMP/pipelinenews-preview.log" 2>&1 &
+          server_pid="$!"
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..20}; do
+            if curl --fail --silent --show-error "$PIPELINENEWS_PAGE_URL" >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl --fail --silent --show-error "$PIPELINENEWS_PAGE_URL" >/dev/null
+          node atman/202608262014-browser-proof.mjs
+
+      - name: Upload predeployment browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-${{ steps.release.outputs.generation || 'unknown' }}-preview-${{ steps.source.outputs.sha || github.sha }}
+          path: reports/browser-*-preview
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Upload checked Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}${{ needs.build.outputs.release_path }}
+    runs-on: ubuntu-latest
+    needs: build
+    timeout-minutes: 8
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  verify-live:
+    runs-on: ubuntu-latest
+    needs: [build, deploy]
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact deployed commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.build.outputs.deployed_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Configure Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install pinned browser harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Wait for exact deployed HTML bytes
+        shell: bash
+        env:
+          PAGE_ROOT: ${{ needs.deploy.outputs.page_url }}
+          RELEASE_PATH: ${{ needs.build.outputs.release_path }}
+          EXPECTED_SHA256: ${{ needs.build.outputs.release_sha256 }}
+          DEPLOYED_SHA: ${{ needs.build.outputs.deployed_sha }}
+        run: |
+          set -euo pipefail
+          live="${PAGE_ROOT%/}/${RELEASE_PATH}?deployment=${DEPLOYED_SHA}"
+          for attempt in {1..30}; do
+            if curl --fail --silent --show-error --location --max-time 20 "$live" --output "$RUNNER_TEMP/live-index.html"; then
+              actual="$(sha256sum "$RUNNER_TEMP/live-index.html" | cut -d' ' -f1)"
+              if [[ "$actual" == "$EXPECTED_SHA256" ]]; then
+                exit 0
+              fi
+            fi
+            sleep 2
+          done
+          echo "Exact modular release HTML did not become observable at $live" >&2
+          exit 1
+
+      - name: Browser-proof deployed modular release
+        env:
+          PIPELINENEWS_GENERATION: ${{ needs.build.outputs.generation }}
+          PIPELINENEWS_PAGE_URL: ${{ needs.deploy.outputs.page_url }}${{ needs.build.outputs.release_path }}
+          PIPELINENEWS_DEPLOY_SHA: ${{ needs.build.outputs.deployed_sha }}
+          PIPELINENEWS_EVIDENCE_DIR: reports/browser-${{ needs.build.outputs.generation }}-live
+        run: node atman/202608262014-browser-proof.mjs
+
+      - name: Upload deployed browser evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-${{ needs.build.outputs.generation }}-live-${{ needs.build.outputs.deployed_sha }}
+          path: reports/browser-*-live
+          if-no-files-found: warn
+          retention-days: 30
