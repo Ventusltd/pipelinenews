@@ -1,0 +1,22 @@
+{
+  "schema": "pipelinenews.v962-copy-release.v1",
+  "release_id": "202608260159-pipelinenews",
+  "status": "CANDIDATE_PREPUBLICATION",
+  "immutable": true,
+  "source": {
+    "repository": "Ventusltd/globalgrid2050",
+    "commit": "204aae6462a9851a8341af59760c3e7cb6ad08a5",
+    "path": "uk_renewables_pipeline/v9.6.2",
+    "closure_decision": "../plans/20260826-v962-source-closure-decision.md"
+  },
+  "manifest": "../releases/202608260159-pipelinenews.json",
+  "changelog_snapshot": "CHANGELOG_SNAPSHOT.md",
+  "interface": {
+    "exact_v962_copy": true,
+    "table_columns": 11,
+    "full_project_rows": 7680,
+    "headline_rows": 133,
+    "mobile_horizontal_scroll": true,
+    "individual_person_names_published": false
+  }
+}

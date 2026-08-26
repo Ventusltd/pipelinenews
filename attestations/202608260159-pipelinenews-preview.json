@@ -1,0 +1,49 @@
+{
+  "schema": "pipelinenews.local-preview-attestation.v1",
+  "release_id": "202608260159-pipelinenews",
+  "reviewed_at": "2026-08-26T02:59:16+01:00",
+  "repository_head_before_build": "4e2906b76732db19bb72f255608b45764b8612a5",
+  "deployment_started": false,
+  "browser": {
+    "desktop": "PASS",
+    "mobile_390": "PASS",
+    "interactions": "PASS",
+    "optional_news_failure_core_boot": "PASS",
+    "visual_review": "PASS",
+    "screenshots": [
+      {
+        "path": "reports/browser-202608260159-pipelinenews/desktop.png",
+        "bytes": 205649,
+        "sha256": "af3adbf0062522411a63653f5dde0e92c12dc2839499a979227de7427a5a93a2"
+      },
+      {
+        "path": "reports/browser-202608260159-pipelinenews/mobile-390.png",
+        "bytes": 74701,
+        "sha256": "3e2906f84156f115ee38cf110c69938517dbc29493144cd039dcfb4868505d4e"
+      },
+      {
+        "path": "reports/browser-202608260159-pipelinenews/mobile-390-fail-closed.png",
+        "bytes": 61125,
+        "sha256": "bdf85c39ebf8410809e2d72f81d0d5cb1cb6edb95fdc93938e7f3e3b218ee2a7"
+      }
+    ]
+  },
+  "data": {
+    "projects": 7680,
+    "capacity_mw": 356474.09,
+    "solar": {
+      "projects": 3563,
+      "capacity_mw": 67013.29
+    },
+    "bess": {
+      "projects": 1609,
+      "capacity_mw": 147681.94
+    },
+    "headlines": 133,
+    "governed_uk": 45,
+    "sentinels": {
+      "13599": "PASS",
+      "17494": "PASS"
+    }
+  }
+}

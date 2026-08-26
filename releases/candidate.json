@@ -1,12 +1,13 @@
 {
   "schema": "pipelinenews.release-pointer.v2",
   "channel": "candidate",
-  "release_id": "202608251929-pipelinenews",
-  "manifest": "releases/202608251929-pipelinenews.json",
-  "updated_at": "2026-08-25T19:45:57+01:00",
+  "release_id": "202608260159-pipelinenews",
+  "manifest": "releases/202608260159-pipelinenews.json",
+  "updated_at": "2026-08-26T02:59:16+01:00",
   "public_app_switched": false,
   "rejected_predecessors": [
     "202608251701-pipelinenews",
-    "202608251750-pipelinenews"
+    "202608251750-pipelinenews",
+    "202608251929-pipelinenews"
   ]
 }

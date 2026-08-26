@@ -1,0 +1,72 @@
+{
+  "schema": "pipelinenews.v962-copy-proof.v1",
+  "release_id": "202608260159-pipelinenews",
+  "status": "LOCAL_PREPUBLICATION_PASS_LIVE_UNVERIFIED",
+  "checks": {
+    "source_closure": "PASS",
+    "source_manifest_hashes": "34_OF_34_PASS",
+    "project_count": 7680,
+    "capacity_mw": 356474.09,
+    "solar": {
+      "projects": 3563,
+      "capacity_mw": 67013.29
+    },
+    "bess": {
+      "projects": 1609,
+      "capacity_mw": 147681.94
+    },
+    "headlines": 133,
+    "table_columns": 11,
+    "sentinel_13599": "PASS",
+    "sentinel_17494": "PASS",
+    "privacy": "PASS",
+    "desktop": "PASS",
+    "mobile_390": "PASS",
+    "interactions": "PASS",
+    "csv": "PASS",
+    "atlas": "PASS",
+    "optional_news_failure_core_boot": "PASS",
+    "console_errors": 0,
+    "network_failures": 0,
+    "connection_timing": "UNKNOWN",
+    "connection_method": "UNKNOWN"
+  },
+  "byte_accounting": {
+    "lightweight_release_shell": {
+      "files": 3,
+      "bytes": 10366
+    },
+    "new_content_addressed": {
+      "files": 1,
+      "bytes": 208522
+    },
+    "reused_or_pinned": {
+      "files": 53,
+      "bytes": 12385191
+    },
+    "proof_and_evidence": {
+      "files": 14,
+      "bytes": 532755
+    },
+    "publication_support": {
+      "files": 4,
+      "bytes": 14049
+    },
+    "report": {
+      "files": 1,
+      "bytes": 1576
+    },
+    "manifest": {
+      "files": 1,
+      "bytes": 54129
+    },
+    "minimum_pages_deployment_impact": {
+      "files": 70,
+      "bytes": 13169907
+    },
+    "total_closure": {
+      "files": 77,
+      "bytes": 13206588
+    }
+  }
+}

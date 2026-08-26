@@ -1,0 +1,73 @@
+{
+  "schema": "pipelinenews.v962-copy-substitutions.v1",
+  "release_id": "202608260159-pipelinenews",
+  "source_inventory_files": 58,
+  "source_inventory_bytes": 12831093,
+  "exact_reused_files": 53,
+  "substitutions": [
+    {
+      "path": "202608260159-pipelinenews/dist/major_project_news_v9_5_1.json",
+      "source_path": "dist/major_project_news_v9_5_1.json",
+      "source_bytes": 406514,
+      "source_blob_sha1": "7a7aa7b60eaca60ca0cdf2591b23df112d9f55da",
+      "source_sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd",
+      "candidate_bytes": 113883,
+      "candidate_sha256": "c1d7d89f25077a883166ce0d11cfe58fa0fe35b71507980e8e8492fd10667283",
+      "reason": "privacy-safe typed same-origin evidence payload"
+    },
+    {
+      "path": "202608260159-pipelinenews/index.html",
+      "source_path": "uk_renewables_pipeline/v9.6.2/index.html",
+      "source_bytes": 8502,
+      "source_blob_sha1": "fe2b8e6eb9fb588e953d16c050df235c0d7c4b10",
+      "source_sha256": "06382e57a58e460defcdd3c460ad01b93aa4c4578065348afa846b446e6d34ae",
+      "candidate_bytes": 9300,
+      "candidate_sha256": "0440e87ba32e922b1d9b9796a2d040f3c95566379b9545516e8d26720db71c6a",
+      "reason": "release labels, absolute legacy links and local chart dependency"
+    },
+    {
+      "path": "202608260159-pipelinenews/scripts/core/news-regions-v9-6-2.js",
+      "source_path": "uk_renewables_pipeline/v9.6.2/scripts/core/news-regions-v9-6-2.js",
+      "source_bytes": 4781,
+      "source_blob_sha1": "0127ebdd379d54b7f87b781f496a28e3c3e65325",
+      "source_sha256": "dd8a50414632200f9022bb19b934df50dab3785f1f88cfeadb133a4a207ccaa5",
+      "candidate_bytes": 4795,
+      "candidate_sha256": "cf760b42674a2e0afbd481c72533047357ac3ff42f94cddebb6ececef6ac8456",
+      "reason": "same-origin, privacy or fail-closed path substitution"
+    },
+    {
+      "path": "202608260159-pipelinenews/scripts/plugins/newspaper-v9-5-1.js",
+      "source_path": "uk_renewables_pipeline/v9.6.2/scripts/plugins/newspaper-v9-5-1.js",
+      "source_bytes": 7887,
+      "source_blob_sha1": "43600e3a6e0edcd0ebffbe27d3e83e7c01231c93",
+      "source_sha256": "3a328d6d8eaa55884a8bbf1f134db98caccea655c7379096833ffc4ad802a59f",
+      "candidate_bytes": 7771,
+      "candidate_sha256": "ab2e2d891681e3f8c5bd86033c9443d3f9496893fbf593cb6abdaca5d3a750f5",
+      "reason": "same-origin, privacy or fail-closed path substitution"
+    },
+    {
+      "path": "202608260159-pipelinenews/scripts/plugins/projects-v9-5-1.js",
+      "source_path": "uk_renewables_pipeline/v9.6.2/scripts/plugins/projects-v9-5-1.js",
+      "source_bytes": 18218,
+      "source_blob_sha1": "ac2cffee071baee3e297053f3f6334de10ab8004",
+      "source_sha256": "7dd35aa7fbdc74b095fc9ff0ba26670b23fd34e8d04da7a7288a12aa2d4c5e32",
+      "candidate_bytes": 18267,
+      "candidate_sha256": "f0c63602d85a5726aa38106157e8d3d6924d0ab1a684194ffe2de93df1c6d823",
+      "reason": "same-origin, privacy or fail-closed path substitution"
+    }
+  ],
+  "additions": [
+    {
+      "path": "202608260159-pipelinenews/vendor/chart.umd.min.js",
+      "bytes": 208522,
+      "sha256": "48444a82d4edcb5bec0f1965faacdde18d9c17db3063d042abada2f705c9f54a"
+    }
+  ],
+  "out_of_scope": [
+    "engine",
+    "discovery",
+    "attribution",
+    "crawler",
+    "search improvements"
+  ]
+}
