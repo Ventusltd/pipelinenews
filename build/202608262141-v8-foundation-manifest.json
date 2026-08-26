@@ -1,0 +1,8 @@
+{
+  "schema": "pipelinenews-v8-foundation-v1",
+  "stamp": "202608262141",
+  "canonical_records": 7680,
+  "physical_rows": 50,
+  "all_records_reachable_required": true,
+  "deployment": "not-authorised"
+}
