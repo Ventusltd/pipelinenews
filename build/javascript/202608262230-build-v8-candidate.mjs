@@ -1,0 +1,18 @@
+import assert from "node:assert/strict";
+import { readFile, writeFile } from "node:fs/promises";
+const stamp=process.env.BUILD_STAMP, base="202608261927";
+assert.match(stamp,/^[0-9]{12}$/);
+let source=await readFile("releases/javascript/"+base+"-projects-v9-5-1.js","utf8");
+source=source.replace("let controlsBound = false;","let controlsBound = false;\nconst WINDOW_SIZE=50;\nlet windowStart=0;");
+source=source.replace('body.innerHTML = filtered.map((project) => {','body.innerHTML = filtered.slice(windowStart, windowStart + WINDOW_SIZE).map((project) => {');
+source=source.replace('  state.filtered = filtered;\n  updateGaugesV9_2(filtered);','  state.filtered = filtered;\n  windowStart = 0;\n  updateGaugesV9_2(filtered);');
+assert.ok(!source.includes("body.innerHTML = filtered.map"));
+const projectName=stamp+"-projects-v8-windowed.js";
+await writeFile("releases/javascript/"+projectName,source);
+let app=await readFile("releases/javascript/"+base+"-app-v9-6-2.js","utf8");
+app=app.replace("./"+base+"-projects-v9-5-1.js","./"+projectName);
+await writeFile("releases/javascript/"+stamp+"-app-v8-candidate.js",app);
+let html=await readFile("releases/"+base+"-index.html","utf8");
+html=html.replaceAll("V9.6.2","V8 CANDIDATE").replace("javascript/"+base+"-app-v9-6-2.js","javascript/"+stamp+"-app-v8-candidate.js");
+await writeFile("releases/"+stamp+"-v8-candidate.html",html);
+await writeFile("build/"+stamp+"-v8-candidate-manifest.json",JSON.stringify({stamp,base_release:base,canonical_records:7680,maximum_physical_project_rows:50,deployment:"not-authorised"},null,2)+"\n");
