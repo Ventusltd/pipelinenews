@@ -5,8 +5,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const GENERATION = "202608261812-index";
-const REPOSITORY_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
-const JAVASCRIPT_ROOT = "ui/202608261557-javascript";
+const COMPILER_FILE = "202608261812-compile-index.mjs";
+const REPOSITORY_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const JAVASCRIPT_ROOT = "ui/javascript";
 
 const JAVASCRIPT_MODULES = Object.freeze([
   `${JAVASCRIPT_ROOT}/202608261557-startplugins.js`,
@@ -111,7 +112,7 @@ async function assetReadiness() {
 }
 
 async function main() {
-  assert.equal(path.basename(path.dirname(fileURLToPath(import.meta.url))), GENERATION);
+  assert.equal(path.basename(fileURLToPath(import.meta.url)), COMPILER_FILE);
   await stat(repositoryPath("archive"));
   const javascript = await verifyJavascriptGraph();
   const assets = await assetReadiness();
