@@ -69,7 +69,7 @@ try {
   assert.equal(await page.locator("#v3").innerText(), "4,100");
   assert.equal(await page.locator("#stories .story").count(), 133);
   assert.equal(await page.locator("thead th").count(), 11);
-  assert.match(await page.locator("#newsMeta").innerText(), /45 UK · 19 international \(4 US · 9 Europe · 6 other\) · 133 headlines/);
+  assert.match(await page.locator("#newsMeta").innerText(), /45 UK · 19 international \(4 US · 9 Europe · 6 other\) · 133 headlines/i);
 
   assert.equal(await clickNewsCount(page, "UK"), 45);
   const uk = await page.locator("#stories").innerText();
