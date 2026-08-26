@@ -1,0 +1,179 @@
+{
+  "schema": "pipelinenews.atman-precision-report.v1",
+  "atman_generation": "202608261830",
+  "trusted_release": "V9.6.2",
+  "compiler_generation": "202608261812-index",
+  "status": "INCOMPLETE_NO_COMPILED_RELEASE",
+  "conclusion": "No compiled release exists. The modular JavaScript is faithful, but V9.6.2 parity cannot yet be claimed.",
+  "comparison": {
+    "javascript": {
+      "trusted_total": 13,
+      "matched_total": 13,
+      "modules": [
+        {
+          "trusted": "scripts/core/plugin-host.js",
+          "modular": "ui/javascript/202608261557-startplugins.js",
+          "status": "BYTE_EXACT",
+          "import_rewrites": 0,
+          "trusted_sha256": "e5aaa19b5bee93683fae461f7ead55d019e8c2edc8ce377680c0da634606e378",
+          "modular_sha256": "e5aaa19b5bee93683fae461f7ead55d019e8c2edc8ce377680c0da634606e378"
+        },
+        {
+          "trusted": "scripts/core/utils.js",
+          "modular": "ui/javascript/202608261630-utils.js",
+          "status": "BYTE_EXACT",
+          "import_rewrites": 0,
+          "trusted_sha256": "bec300e2720e0793bc08434e91c0ea0dd8c3d8e36e79b97172e4d5270f01eda0",
+          "modular_sha256": "bec300e2720e0793bc08434e91c0ea0dd8c3d8e36e79b97172e4d5270f01eda0"
+        },
+        {
+          "trusted": "scripts/core/state.js",
+          "modular": "ui/javascript/202608261632-state.js",
+          "status": "BYTE_EXACT",
+          "import_rewrites": 0,
+          "trusted_sha256": "7280acd43f72e166e7b7b3dac1d6e75439b1e1bf46b9e137c1b8aa891b52aad7",
+          "modular_sha256": "7280acd43f72e166e7b7b3dac1d6e75439b1e1bf46b9e137c1b8aa891b52aad7"
+        },
+        {
+          "trusted": "scripts/core/project-filter-v9-2.js",
+          "modular": "ui/javascript/202608261640-filters.js",
+          "status": "BYTE_EXACT",
+          "import_rewrites": 0,
+          "trusted_sha256": "007126279582d5dbbe6bb5ebf30a79fd998b4839e8498c5a9a76ab2e4033c842",
+          "modular_sha256": "007126279582d5dbbe6bb5ebf30a79fd998b4839e8498c5a9a76ab2e4033c842"
+        },
+        {
+          "trusted": "scripts/plugins/capacity-presentation-v9-3.js",
+          "modular": "ui/javascript/202608261723-capacity-presentation.js",
+          "status": "BYTE_EXACT",
+          "import_rewrites": 0,
+          "trusted_sha256": "650e2d1ca9fea55d0cb96db58c752e03ac03645499f033d11d4f76d29c917cef",
+          "modular_sha256": "650e2d1ca9fea55d0cb96db58c752e03ac03645499f033d11d4f76d29c917cef"
+        },
+        {
+          "trusted": "scripts/plugins/gauges-v9-2.js",
+          "modular": "ui/javascript/202608261725-gauges.js",
+          "status": "BYTE_EXACT",
+          "import_rewrites": 0,
+          "trusted_sha256": "30803e3ecc787175bc31b6913541d52cc6065e9be2b50dc4d3ed900797348682",
+          "modular_sha256": "30803e3ecc787175bc31b6913541d52cc6065e9be2b50dc4d3ed900797348682"
+        },
+        {
+          "trusted": "scripts/core/news-regions-v9-6-2.js",
+          "modular": "ui/javascript/202608261742-news-regions.js",
+          "status": "IMPORT_REWRITTEN_EXACT",
+          "import_rewrites": 1,
+          "trusted_sha256": "dd8a50414632200f9022bb19b934df50dab3785f1f88cfeadb133a4a207ccaa5",
+          "modular_sha256": "673126663b69f67c73dfed4f6393e56e7779514e612559f0b6aad88a4354037f"
+        },
+        {
+          "trusted": "scripts/data/canonical-projects-v9-1.js",
+          "modular": "ui/javascript/202608261752-canonical-projects-v9-1.js",
+          "status": "BYTE_EXACT",
+          "import_rewrites": 0,
+          "trusted_sha256": "26dd3f1da795717b7e82b317a795658ef0c51338525f65a9c6b43ba2a88c0ebb",
+          "modular_sha256": "26dd3f1da795717b7e82b317a795658ef0c51338525f65a9c6b43ba2a88c0ebb"
+        },
+        {
+          "trusted": "scripts/data/canonical-projects-v9-5-1.js",
+          "modular": "ui/javascript/202608261754-canonical-projects-v9-5-1.js",
+          "status": "IMPORT_REWRITTEN_EXACT",
+          "import_rewrites": 1,
+          "trusted_sha256": "7e4bd9108eeaeb1b557e1b4f6ef4d8053f4429a4df46d5e5c8f886c4da88029b",
+          "modular_sha256": "4e6f3351576c898e0c1c3d5018ae40dd28b0e28a86cb9c513ea8b5e099118060"
+        },
+        {
+          "trusted": "scripts/plugins/newspaper-v9-5-1.js",
+          "modular": "ui/javascript/202608261755-newspaper-v9-5-1.js",
+          "status": "IMPORT_REWRITTEN_EXACT",
+          "import_rewrites": 2,
+          "trusted_sha256": "3a328d6d8eaa55884a8bbf1f134db98caccea655c7379096833ffc4ad802a59f",
+          "modular_sha256": "9a3436bae58d3a982285c2caf77830b11f0a157a99255b623cd822c89bf81549"
+        },
+        {
+          "trusted": "scripts/plugins/newspaper-v9-6-2.js",
+          "modular": "ui/javascript/202608261802-newspaper-v9-6-2.js",
+          "status": "IMPORT_REWRITTEN_EXACT",
+          "import_rewrites": 4,
+          "trusted_sha256": "d5ea34b3ff4b006e454edd012e02b993c93dd9db8951323fd0fbb865006e0eb9",
+          "modular_sha256": "1a883ff28bb7e5b98e1daba50510d3807e2ed794c93447a851042ac40e9945c8"
+        },
+        {
+          "trusted": "scripts/plugins/projects-v9-5-1.js",
+          "modular": "ui/javascript/202608261804-projects-v9-5-1.js",
+          "status": "IMPORT_REWRITTEN_EXACT",
+          "import_rewrites": 6,
+          "trusted_sha256": "7dd35aa7fbdc74b095fc9ff0ba26670b23fd34e8d04da7a7288a12aa2d4c5e32",
+          "modular_sha256": "394c2990622648321e74754afd40cb51b6978ae0d3aeb5fd139f45646c473c13"
+        },
+        {
+          "trusted": "scripts/app-v9-6-2.js",
+          "modular": "ui/javascript/202608261806-app-v9-6-2.js",
+          "status": "IMPORT_REWRITTEN_EXACT",
+          "import_rewrites": 4,
+          "trusted_sha256": "4eed3a69f4755647dd223d45af438561bf80e6bd6b0a9bdacc5a789457b9e38d",
+          "modular_sha256": "371ad15c570df5408e5060dd9e298309a39b183ee7c00dd387c12a3ee57bfc1a"
+        }
+      ]
+    },
+    "styles": {
+      "trusted_total": 6,
+      "matched_total": 2,
+      "matched": [
+        {
+          "trusted": "styles/mobile.css",
+          "modular": "ui/styles/202608261614-mobile.css",
+          "status": "BYTE_EXACT",
+          "sha256": "9855b9c11255a85f477873d07cca45b057aedcdc8a6cc4aab2d29a0ffaac9b85"
+        },
+        {
+          "trusted": "styles/v7.css",
+          "modular": "ui/styles/202608261740-v7-foundation.css",
+          "status": "BYTE_EXACT",
+          "sha256": "036dbfe43ef1ffb2c55ba277d49dec57ab7c7be976289226a5d568e1f1be319d"
+        }
+      ],
+      "missing": [
+        "styles/v9-3.css",
+        "styles/v9-4.css",
+        "styles/v9-5-1.css",
+        "styles/v9-6-1.css"
+      ]
+    },
+    "compiler_assets": {
+      "resolved_total": 3,
+      "missing_total": 24,
+      "missing": [
+        "-v9-3.css",
+        "-v9-4.css",
+        "-v9-5-1.css",
+        "-v9-6-1.css",
+        "-shell-v9-6-2.html",
+        "-release-v9-1.json",
+        "-build-manifest-v9-1.json",
+        "-major-project-news-v9-5-1.json",
+        "-project-partition-v9-1-01.json",
+        "-project-partition-v9-1-02.json",
+        "-project-partition-v9-1-03.json",
+        "-project-partition-v9-1-04.json",
+        "-project-partition-v9-1-05.json",
+        "-project-partition-v9-1-06.json",
+        "-project-partition-v9-1-07.json",
+        "-project-partition-v9-1-08.json",
+        "-project-partition-v9-1-09.json",
+        "-project-partition-v9-1-10.json",
+        "-project-partition-v9-1-11.json",
+        "-project-partition-v9-1-12.json",
+        "-project-partition-v9-1-13.json",
+        "-project-partition-v9-1-14.json",
+        "-project-partition-v9-1-15.json",
+        "-project-partition-v9-1-16.json"
+      ],
+      "ambiguous": []
+    },
+    "compiled_release": {
+      "path": "releases/202608261812-index",
+      "present": false
+    }
+  }
+}
