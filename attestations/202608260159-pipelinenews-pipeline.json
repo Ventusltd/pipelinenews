@@ -1,0 +1,74 @@
+{
+  "schema": "pipelinenews.pipeline-pages-attestation.v3",
+  "release_id": "202608260159-pipelinenews",
+  "release_manifest_sha256": "230344675fd9a0cd751cbc60072057a861d99fae016f38d14d900e58f375d9e3",
+  "preview_attestation_sha256": "5456bd8478fbe35bc52d2829ae97004625bcccf6d2a271bdb72605324d9347bc",
+  "initial_commit_sha": "e9955fc3e596d2e14a8063d33a72a99f11424dd3",
+  "initial_commit_tree": "f40aac7a698c07a940eb621cdbf19e35408dc293",
+  "repository_head_at_closure": "2acf848e916e664edd5b35b47d854fdc892bfbc6",
+  "committed_at": "2026-08-26T03:12:03+01:00",
+  "pipeline_pages_verified_at": "2026-08-26T03:15:12+01:00",
+  "actions": {
+    "pages": {
+      "run_id": 32921845762,
+      "url": "https://github.com/Ventusltd/pipelinenews/actions/runs/32921845762",
+      "head_sha": "e9955fc3e596d2e14a8063d33a72a99f11424dd3",
+      "conclusion": "success"
+    },
+    "release_validation": {
+      "run_id": 32921845767,
+      "url": "https://github.com/Ventusltd/pipelinenews/actions/runs/32921845767",
+      "head_sha": "e9955fc3e596d2e14a8063d33a72a99f11424dd3",
+      "conclusion": "success"
+    }
+  },
+  "live": {
+    "url": "https://ventusltd.github.io/pipelinenews/202608260159-pipelinenews/",
+    "http_status": 200,
+    "release_files": 62,
+    "release_bytes": 12767611,
+    "committed_live_sha256_matches": 62,
+    "committed_live_sha256_mismatches": 0,
+    "index_bytes": 9300,
+    "index_sha256": "0440e87ba32e922b1d9b9796a2d040f3c95566379b9545516e8d26720db71c6a",
+    "release_contract_bytes": 729,
+    "release_contract_sha256": "0438b38efa078b6a998ff9e4fde7cee853099d46eb96e882ad4c43631f979c42",
+    "page_origin_console_errors": 0,
+    "broken_images": 0
+  },
+  "browser": {
+    "desktop": "PASS",
+    "mobile_390": "PASS",
+    "visual_parity_with_v9_6_2": "PASS",
+    "filters": "PASS",
+    "search": "PASS",
+    "sorting": "PASS",
+    "csv": "PASS",
+    "atlas": "PASS",
+    "optional_news_failure_core_boot": "PASS",
+    "artifact_id": 9590135948,
+    "artifact_name": "pipelinenews-202608260159-browser-e9955fc3e596d2e14a8063d33a72a99f11424dd3",
+    "artifact_zip_sha256": "90d447a6b1e230fefae9c9327148de16f58dded0dafcb2ad7ca168c950473b79"
+  },
+  "data": {
+    "projects": 7680,
+    "capacity_mw": 356474.09,
+    "solar_projects": 3563,
+    "solar_capacity_mw": 67013.29,
+    "bess_projects": 1609,
+    "bess_capacity_mw": 147681.94,
+    "headlines": 133,
+    "table_columns": 11,
+    "sentinel_13599": "PASS",
+    "sentinel_17494": "PASS"
+  },
+  "frozen_preservation": {
+    "newsv1_tree": "2d6247c067aa5fad49995dcb9029d6cdb9898994",
+    "newsv7_tree": "5a59a926d0688d05c08c5ecc008c174133728007",
+    "rejected_1701_tree": "84b748df685b9306ce232e415531ee4eca05b4d6",
+    "rejected_1750_tree": "8a86c549b14a104b247aaadfc522644155b22ddb",
+    "rejected_1929_tree": "0b583c16f693e27efe1a83bb451255fcc20b1cb8",
+    "release_tree": "77dafba33e11d9b5b335d8a2f90c317a2170506c",
+    "predecessor_or_release_bytes_written_after_initial_commit": false
+  }
+}

@@ -24,6 +24,22 @@ The three REPD quantities below are different and must never be collapsed into o
 
 The admitted 7,680-project spine totals 356,474.09 MW. It remains the public baseline until the 23-row candidate delta passes the declared quarterly-release admission process.
 
+## 2026-08-26 — `202608260159-pipelinenews`
+
+Status: `CURRENT_LIVE_ATTESTED`; copy-first recovery successor. The immutable prepublication manifest and release directory are not rewritten. Append-only Pipeline Pages and closure attestations record the exact commits, checks, public bytes and catalogue promotion.
+
+- Copies the accepted GlobalGrid2050 V9.6.2 interface and its complete local asset closure. No engine, discovery, attribution, crawler or search-engine roadmap work is mixed into the release.
+- Publishes 7,680 projects totalling 356,474.09 MW, including 3,563 Solar projects totalling 67,013.29 MW and 1,609 BESS projects totalling 147,681.94 MW.
+- Preserves 133 headlines, eleven project-table columns, technology/status/region and official-capacity filters, project and headline search, bidirectional sorting, CSV export, Atlas links and deliberate mobile table scrolling.
+- PipelineNews commit `e9955fc3e596d2e14a8063d33a72a99f11424dd3` passed exact-head release and Pages workflows. Desktop, 390-pixel mobile, interaction, fail-closed and visual-parity checks passed with zero page-origin console errors or broken images.
+- All 62 deployed release files, totalling 12,767,611 bytes, matched the exact committed SHA-256 values. The live index is 9,300 bytes with SHA-256 `0440e87ba32e922b1d9b9796a2d040f3c95566379b9545516e8d26720db71c6a`.
+- GlobalGrid2050 commit `c36e41a689a62bdfa13b4258f3cbc48301854108` changes only root `index.html`. The successor appears once after NewsV7 and before Solar Deployment Statistics; rejected timestamps are absent from the homepage.
+- All eight exact-head GlobalGrid workflows passed. The committed and deployed root index is 16,447 bytes with SHA-256 `04a1cc280a6f86c6073def77cd4d168afcb90030795b72c0b316c9e853a5446a`, an 8-byte delta from its predecessor.
+- Connection timing and connection method remain `UNKNOWN_NOT_IN_PINNED_EVIDENCE`. Ambiguous or unsupported identity claims remain `ABSTAIN`; the frozen V9.6.2 contract does not aggregate one authoritative abstention count.
+- The post-release official-source frontier reached 120 of 6,870 reference groups and 336 collected records. The planning source was degraded by one HTTP 429 response from 13 attempts; the government source succeeded. This later frontier is not incorporated into the immutable release.
+- NewsV1, NewsV7, all three rejected timestamp directories and the new release tree remain byte-identical to their recorded trees. The rejected URLs remain available for lineage but are not presented as current products.
+- Exact byte accounting and timeline evidence are pinned in `attestations/202608260159-pipelinenews-pipeline.json` and `attestations/202608260159-pipelinenews-closure.json`.
+
 ## 2026-08-25 — `202608251929-pipelinenews`
 
 Status: `CURRENT_LIVE_ATTESTED`; manual recovery successor. The immutable prepublication manifest is not rewritten: its declared append-only closure attestation records the exact commits, successful Pages checks, GlobalGrid catalogue correction and both public byte checks.

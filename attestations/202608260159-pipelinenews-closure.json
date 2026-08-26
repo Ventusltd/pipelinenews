@@ -1,0 +1,95 @@
+{
+  "schema": "pipelinenews.release-closure-attestation.v3",
+  "release_id": "202608260159-pipelinenews",
+  "status": "CURRENT_LIVE_ATTESTED",
+  "attested_at": "2026-08-26T06:03:37+01:00",
+  "release_manifest_sha256": "230344675fd9a0cd751cbc60072057a861d99fae016f38d14d900e58f375d9e3",
+  "pipeline_attestation_path": "attestations/202608260159-pipelinenews-pipeline.json",
+  "pipeline_attestation_sha256": "bd569f32fa5131e52312499960d0b635fa32bf883af996c1306d83ca36d8e1ad",
+  "timeline": {
+    "incepted_at": "2026-08-26T01:59:35+01:00",
+    "created_at": "2026-08-26T02:59:16+01:00",
+    "committed_at": "2026-08-26T03:12:03+01:00",
+    "pipeline_pages_verified_at": "2026-08-26T03:15:12+01:00",
+    "catalogued_at": "2026-08-26T05:01:12+01:00",
+    "globalgrid_live_verified_at": "2026-08-26T05:05:13+01:00"
+  },
+  "pipeline": {
+    "commit_sha": "e9955fc3e596d2e14a8063d33a72a99f11424dd3",
+    "commit_url": "https://github.com/Ventusltd/pipelinenews/commit/e9955fc3e596d2e14a8063d33a72a99f11424dd3",
+    "pages_run_id": 32921845762,
+    "validation_run_id": 32921845767,
+    "live_url": "https://ventusltd.github.io/pipelinenews/202608260159-pipelinenews/",
+    "release_files": 62,
+    "release_bytes": 12767611,
+    "committed_live_sha256_matches": 62,
+    "committed_live_sha256_mismatches": 0
+  },
+  "globalgrid": {
+    "commit_sha": "c36e41a689a62bdfa13b4258f3cbc48301854108",
+    "commit_url": "https://github.com/Ventusltd/globalgrid2050/commit/c36e41a689a62bdfa13b4258f3cbc48301854108",
+    "pages_run_id": 32928622891,
+    "pages_run_url": "https://github.com/Ventusltd/globalgrid2050/actions/runs/32928622891",
+    "live_url": "https://globalgrid2050.com/",
+    "root_blob_sha1": "c8ba5221a05acb3a0326afb550cce03e804829ad",
+    "root_index_bytes": 16447,
+    "root_index_sha256": "04a1cc280a6f86c6073def77cd4d168afcb90030795b72c0b316c9e853a5446a",
+    "root_index_byte_delta": 8,
+    "committed_live_bytes_match": true,
+    "successor_link_http_status": 200,
+    "successor_link_count": 1,
+    "rejected_homepage_entries": 0,
+    "catalogue_order": [
+      "newsv7",
+      "202608260159-pipelinenews",
+      "solar_deployment_statistics"
+    ],
+    "exact_head_workflows": {
+      "v9_3": {"run_id": 32928622954, "conclusion": "success"},
+      "v9_4": {"run_id": 32928622926, "conclusion": "success"},
+      "v9_5": {"run_id": 32928622902, "conclusion": "success"},
+      "v9_5_1": {"run_id": 32928622886, "conclusion": "success"},
+      "v9_6_1": {"run_id": 32928623003, "conclusion": "success"},
+      "v9_6_2": {"run_id": 32928622887, "conclusion": "success"},
+      "v9_7": {"run_id": 32928622943, "conclusion": "success"},
+      "pages": {"run_id": 32928622891, "conclusion": "success"}
+    }
+  },
+  "byte_accounting": {
+    "source_closure": {"files": 58, "bytes": 12831093},
+    "lightweight_release_shell": {"files": 3, "bytes": 10366},
+    "new_content_addressed": {"files": 1, "bytes": 208522},
+    "reused_or_pinned": {"files": 53, "bytes": 12385191},
+    "proof_and_evidence": {"files": 14, "bytes": 532755},
+    "publication_support": {"files": 4, "bytes": 14049},
+    "report": {"files": 1, "bytes": 1576},
+    "manifest": {"files": 1, "bytes": 54129},
+    "minimum_pipeline_pages_impact": {"files": 70, "bytes": 13169907},
+    "total_checkpoint_closure": {"files": 77, "bytes": 13206588},
+    "globalgrid_root_index_delta": {"files": 1, "bytes": 8}
+  },
+  "evidence_states": {
+    "connection_timing": "UNKNOWN_NOT_IN_PINNED_EVIDENCE",
+    "connection_method": "UNKNOWN_NOT_IN_PINNED_EVIDENCE",
+    "ambiguous_or_unsupported_binding": "ABSTAIN",
+    "abstention_count": "NOT_AGGREGATED_IN_FROZEN_V9_6_2_CONTRACT",
+    "next_connection_evidence_gate": "dated accepted connection offer, network register entry, energisation notice, construction update, official planning or network document, or official developer statement"
+  },
+  "source_degradation": {
+    "scope": "post-release repository frontier; not incorporated into the immutable release",
+    "generated_at": "2026-08-26T02:12:36.608Z",
+    "reference_groups_total": 6870,
+    "reference_groups_inspected": 120,
+    "records_collected": 336,
+    "planit": {"status": "DEGRADED", "attempted": 13, "succeeded": 12, "status_code": 429},
+    "govuk": {"status": "LIVE", "attempted": 1, "succeeded": 1, "status_code": 200}
+  },
+  "immutability": {
+    "release_manifest_rewritten": false,
+    "release_directory_rewritten": false,
+    "newsv1_rewritten": false,
+    "newsv7_rewritten": false,
+    "rejected_release_directories_rewritten": false,
+    "corrections_are_append_only": true
+  }
+}
