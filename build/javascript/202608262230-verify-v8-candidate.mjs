@@ -1,0 +1,11 @@
+import assert from "node:assert/strict";
+import { chromium } from "playwright";
+const stamp=process.env.BUILD_STAMP,browser=await chromium.launch({headless:true});
+const page=await browser.newPage({viewport:{width:390,height:844}});
+await page.goto("http://127.0.0.1:4173/releases/"+stamp+"-v8-candidate.html",{waitUntil:"networkidle"});
+await page.waitForFunction(()=>document.querySelector("#resultsMeta")?.dataset.totalCount==="7680",null,{timeout:30000});
+const rows=await page.locator("#tbody > tr").count(),nodes=await page.locator("*").count();
+assert.ok(rows>0&&rows<=50); assert.ok(nodes<15000);
+await page.selectOption("#sortProjects","updated_desc"); await page.waitForTimeout(250);
+assert.ok(await page.locator("#tbody > tr").count()<=50); assert.ok(await page.locator("*").count()<15000);
+console.log(JSON.stringify({rows,nodes})); await browser.close();
