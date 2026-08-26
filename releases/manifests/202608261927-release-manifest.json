@@ -1,0 +1,440 @@
+{
+  "schema": "pipelinenews.compiled-release.v1",
+  "generation": "202608261927-index",
+  "trusted_parent": "GlobalGrid2050 V9.6.2",
+  "public_url": "https://ventusltd.github.io/pipelinenews/releases/202608261927-index.html",
+  "status": "COMPILED_AWAITING_BROWSER_ATTESTATION",
+  "compiler": {
+    "path": "index/202608261927-compile-index.mjs",
+    "sha256": "dcfd83e3cf7587740d612645838720ef7d031f8a25f377bbf3a0abb2c812a568"
+  },
+  "discipline": {
+    "stable_folders": true,
+    "timestamped_files": true,
+    "source_mutation": false,
+    "data_cartridges_copied": false,
+    "release_references_immutable_data_cartridges": true
+  },
+  "substitutions": {
+    "javascript_imports": 18,
+    "html_asset_and_navigation_urls": 25,
+    "mutable_news_sources_removed": true,
+    "project_manifest_paths": 16,
+    "atlas_manifest_paths": 18,
+    "chart_js_pinned_locally": "4.5.1"
+  },
+  "inputs": [
+    {
+      "path": "data/atlas/202608261927-atlas-bess-partition-v9-1-001.geojson",
+      "bytes": 185821,
+      "sha256": "70d936864c973c342729b37c6eb81151a9d2965e7fa2b6dff0cd998635c3581a"
+    },
+    {
+      "path": "data/atlas/202608261927-atlas-bess-partition-v9-1-002.geojson",
+      "bytes": 181213,
+      "sha256": "791dbb6485e5161f1157c058dedf5221633042a5898206b842672e3b0b5f5d48"
+    },
+    {
+      "path": "data/atlas/202608261927-atlas-bess-partition-v9-1-003.geojson",
+      "bytes": 179165,
+      "sha256": "190d42c2ac743844fca134cf80ba3307e96d1dace175b1d855ccac26c8e5ad07"
+    },
+    {
+      "path": "data/atlas/202608261927-atlas-bess-partition-v9-1-004.geojson",
+      "bytes": 37826,
+      "sha256": "27275a795cf4ea9e17d8b71ce3e695b421d96f04954d9c532e73d34388161951"
+    },
+    {
+      "path": "data/atlas/202608261927-atlas-solar-partition-v9-1-001.geojson",
+      "bytes": 185787,
+      "sha256": "2c66e688e0966d0c8907f31d48811a86a34605c266c5bae11ec4468ae92ccf86"
+    },
+    {
+      "path": "data/atlas/202608261927-atlas-solar-partition-v9-1-002.geojson",
+      "bytes": 183444,
+      "sha256": "4b07ae35614e386c4160b9f0139ed6c6de5d749f0359e40b2fb006c4a62e6f45"
+    },
+    {
+      "path": "data/atlas/202608261927-atlas-solar-partition-v9-1-003.geojson",
+      "bytes": 178513,
+      "sha256": "b51bd20c614a779ce9926947444b19e3e048d6d9a6c579f36e93e3ea824e06a9"
+    },
+    {
+      "path": "data/atlas/202608261927-atlas-solar-partition-v9-1-004.geojson",
+      "bytes": 175390,
+      "sha256": "7d3fff522ceca3a8f71568a44d9b9e51cc9acd958312bc154663de5d7ab9f512"
+    },
+    {
+      "path": "data/atlas/202608261927-atlas-solar-partition-v9-1-005.geojson",
+      "bytes": 173737,
+      "sha256": "067e74aac181909807e9383d7a316f8ef602fb4a339a1f6365416fa9d2d6a107"
+    },
+    {
+      "path": "data/atlas/202608261927-atlas-solar-partition-v9-1-006.geojson",
+      "bytes": 178457,
+      "sha256": "e252687e29d7d2450f2e0fac3c27ed14bc760897cdd6676697c69830898a19c8"
+    },
+    {
+      "path": "data/atlas/202608261927-atlas-solar-partition-v9-1-007.geojson",
+      "bytes": 183422,
+      "sha256": "f557f0e54aea75c5fd29527a9a15bcabfc261c87d6e82087604c18ca5c556c70"
+    },
+    {
+      "path": "data/atlas/202608261927-atlas-solar-partition-v9-1-008.geojson",
+      "bytes": 21425,
+      "sha256": "bf9d31c63334b1525d1d5a9672fb093f38716278e33a21f7837f4188c5ee35de"
+    },
+    {
+      "path": "data/atlas/202608261927-atlas-wind-offshore-partition-v9-1-001.geojson",
+      "bytes": 33753,
+      "sha256": "b0bb0b5fd7b00ae4d94f14c8a20ad9519867e762d339968434c82f4263a0c452"
+    },
+    {
+      "path": "data/atlas/202608261927-atlas-wind-onshore-partition-v9-1-001.geojson",
+      "bytes": 176966,
+      "sha256": "bea59e1e17acef821616936763de2e9cda33ca8914d2451c7242352c16a6b8ba"
+    },
+    {
+      "path": "data/atlas/202608261927-atlas-wind-onshore-partition-v9-1-002.geojson",
+      "bytes": 175155,
+      "sha256": "88a10b117c157d312d8142515ff4935141b70451338495dbaf28c5d59ce96cb3"
+    },
+    {
+      "path": "data/atlas/202608261927-atlas-wind-onshore-partition-v9-1-003.geojson",
+      "bytes": 174204,
+      "sha256": "430eb076f6dc8d4fcb3df819df47e3664c0b291dda604e2dd4d59978f051b09c"
+    },
+    {
+      "path": "data/atlas/202608261927-atlas-wind-onshore-partition-v9-1-004.geojson",
+      "bytes": 174540,
+      "sha256": "9eff2764c9ee64837af4b417c620b25ba13c132cb3c6f5bebbdcd8c11ef24a4b"
+    },
+    {
+      "path": "data/atlas/202608261927-atlas-wind-onshore-partition-v9-1-005.geojson",
+      "bytes": 138385,
+      "sha256": "fdb27b58dd70cde5257bf2296b227d1dc181dabb7261926f7ef3f6102ae2b887"
+    },
+    {
+      "path": "data/contracts/202608261721-release-v9-6-2.json",
+      "bytes": 1414,
+      "sha256": "661bb4f226ac3c75811f9e1d36546602f401491a5c21e1ddebccda170da92ece"
+    },
+    {
+      "path": "data/contracts/202608261737-release-v9-5-1.json",
+      "bytes": 2505,
+      "sha256": "4137a31477be33a04b6ad5406d7cd13cefec1be8d84a94e23997c129c82076f1"
+    },
+    {
+      "path": "data/contracts/202608261927-release-v9-1.json",
+      "bytes": 1957,
+      "sha256": "bc21070f44aae1d32da333e4954816acd907aa8c9fa9cb639c64d651f7fd4259"
+    },
+    {
+      "path": "data/manifests/202608261927-build-manifest-v9-1.json",
+      "bytes": 7849,
+      "sha256": "67976a1bbcaf383ed7121b13060db3b864db9ce33dfc721a88b59c8ca8b8e06c"
+    },
+    {
+      "path": "data/news/202608261927-major-project-news-v9-5-1.json",
+      "bytes": 406514,
+      "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-01.json",
+      "bytes": 624542,
+      "sha256": "6e72d36a8f880bfc39274221edf58d1b895202f01f2e56aae001ad25cb3b337d"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-02.json",
+      "bytes": 629501,
+      "sha256": "a2ba3598af8ff45726587b3a498c0f6a433ae007ec9eadbd5bfc682b7dca4b2e"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-03.json",
+      "bytes": 628898,
+      "sha256": "6f012e9251433e0d32095b2df75ae1c988a813a14647debe16c057dee550d23b"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-04.json",
+      "bytes": 625997,
+      "sha256": "1cdc7405098c85a477dd156930c4503ef7850ff005d1ec85a69928f10db6b7f5"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-05.json",
+      "bytes": 631815,
+      "sha256": "43988789140bf2211263ffe49b756bc8f7f4cd69531b2e91c56b2e7c2a90bcae"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-06.json",
+      "bytes": 630303,
+      "sha256": "e2c4d0c29e622270260e8fa71c1efae260e84fd3c9ebfa31b7dbf7bfe3da2d69"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-07.json",
+      "bytes": 628660,
+      "sha256": "8f2b2d2d74a031f459b94e626e288c11c148629e955f97ef688a27eb1a5e2c59"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-08.json",
+      "bytes": 631189,
+      "sha256": "f3c0dff755bc657c41b3e04305403bbcfbf94be5d893e85309faf9dd7cb1fa92"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-09.json",
+      "bytes": 630867,
+      "sha256": "a9427f109b7ad5ee881628fcbde3602daab62896e8517922ff68d2efe6a23b15"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-10.json",
+      "bytes": 628464,
+      "sha256": "57145897a6a457f3bfb58f431d7bfa6a75dd63bfd2708eb56c3802391847c6b3"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-11.json",
+      "bytes": 620261,
+      "sha256": "e79c4eb42d1d366f01f8f2a941d92ff231b8ea14c2e40a2677a89601926938d1"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-12.json",
+      "bytes": 615891,
+      "sha256": "ad077a3172f6813f2a641e2f51ab693bf038cae03b5cbbdaa4167973ce7a7388"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-13.json",
+      "bytes": 620861,
+      "sha256": "4545362b1355e256dc3025019f971ffa208cc8828059152a26b99ac66fb47817"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-14.json",
+      "bytes": 619833,
+      "sha256": "9cf8da7fcbf3c1d08830c613c69d0447c490d6126be3ebe8c2d9021a4ddcd004"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-15.json",
+      "bytes": 616440,
+      "sha256": "109f20651ce1234d8933bb5efab78cbf45081ae7b4966e63ec0fca560a76cf03"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-16.json",
+      "bytes": 221745,
+      "sha256": "ed4c672a6cb684a5fd29e17e436d4ee632de358de5e0a2cee9801c7ffa5ecc4b"
+    },
+    {
+      "path": "ui/javascript/202608261557-startplugins.js",
+      "bytes": 669,
+      "sha256": "e5aaa19b5bee93683fae461f7ead55d019e8c2edc8ce377680c0da634606e378"
+    },
+    {
+      "path": "ui/javascript/202608261630-utils.js",
+      "bytes": 707,
+      "sha256": "bec300e2720e0793bc08434e91c0ea0dd8c3d8e36e79b97172e4d5270f01eda0"
+    },
+    {
+      "path": "ui/javascript/202608261632-state.js",
+      "bytes": 574,
+      "sha256": "7280acd43f72e166e7b7b3dac1d6e75439b1e1bf46b9e137c1b8aa891b52aad7"
+    },
+    {
+      "path": "ui/javascript/202608261640-filters.js",
+      "bytes": 2532,
+      "sha256": "007126279582d5dbbe6bb5ebf30a79fd998b4839e8498c5a9a76ab2e4033c842"
+    },
+    {
+      "path": "ui/javascript/202608261723-capacity-presentation.js",
+      "bytes": 1916,
+      "sha256": "650e2d1ca9fea55d0cb96db58c752e03ac03645499f033d11d4f76d29c917cef"
+    },
+    {
+      "path": "ui/javascript/202608261725-gauges.js",
+      "bytes": 2753,
+      "sha256": "30803e3ecc787175bc31b6913541d52cc6065e9be2b50dc4d3ed900797348682"
+    },
+    {
+      "path": "ui/javascript/202608261742-news-regions.js",
+      "bytes": 4794,
+      "sha256": "673126663b69f67c73dfed4f6393e56e7779514e612559f0b6aad88a4354037f"
+    },
+    {
+      "path": "ui/javascript/202608261752-canonical-projects-v9-1.js",
+      "bytes": 4014,
+      "sha256": "26dd3f1da795717b7e82b317a795658ef0c51338525f65a9c6b43ba2a88c0ebb"
+    },
+    {
+      "path": "ui/javascript/202608261754-canonical-projects-v9-5-1.js",
+      "bytes": 1804,
+      "sha256": "4e6f3351576c898e0c1c3d5018ae40dd28b0e28a86cb9c513ea8b5e099118060"
+    },
+    {
+      "path": "ui/javascript/202608261755-newspaper-v9-5-1.js",
+      "bytes": 7901,
+      "sha256": "9a3436bae58d3a982285c2caf77830b11f0a157a99255b623cd822c89bf81549"
+    },
+    {
+      "path": "ui/javascript/202608261802-newspaper-v9-6-2.js",
+      "bytes": 3619,
+      "sha256": "1a883ff28bb7e5b98e1daba50510d3807e2ed794c93447a851042ac40e9945c8"
+    },
+    {
+      "path": "ui/javascript/202608261804-projects-v9-5-1.js",
+      "bytes": 18255,
+      "sha256": "394c2990622648321e74754afd40cb51b6978ae0d3aeb5fd139f45646c473c13"
+    },
+    {
+      "path": "ui/javascript/202608261806-app-v9-6-2.js",
+      "bytes": 721,
+      "sha256": "371ad15c570df5408e5060dd9e298309a39b183ee7c00dd387c12a3ee57bfc1a"
+    },
+    {
+      "path": "ui/styles/202608261614-mobile.css",
+      "bytes": 203,
+      "sha256": "9855b9c11255a85f477873d07cca45b057aedcdc8a6cc4aab2d29a0ffaac9b85"
+    },
+    {
+      "path": "ui/styles/202608261740-v7-foundation.css",
+      "bytes": 6245,
+      "sha256": "036dbfe43ef1ffb2c55ba277d49dec57ab7c7be976289226a5d568e1f1be319d"
+    },
+    {
+      "path": "ui/styles/202608261927-v9-3.css",
+      "bytes": 3581,
+      "sha256": "219782d5f3fba11b8418a5b46075a8b1b918eed272f6bc2360f6b1060c1f2e9b"
+    },
+    {
+      "path": "ui/styles/202608261927-v9-4.css",
+      "bytes": 402,
+      "sha256": "39f7d0fd3ff42e82407c1f5129444e6cc308ef5c0ec551d43c7396ac53310d17"
+    },
+    {
+      "path": "ui/styles/202608261927-v9-5-1.css",
+      "bytes": 408,
+      "sha256": "79ff5b1db85ae82a381fbad061c0122e7151bb9c9c7ba80c549051761f0bfae3"
+    },
+    {
+      "path": "ui/styles/202608261927-v9-6-1.css",
+      "bytes": 321,
+      "sha256": "851b0827ca2aa0950438c98ae3cf6cc7dce33667d37458122ea38bb2c6da2f81"
+    },
+    {
+      "path": "ui/templates/202608261927-shell-v9-6-2.html",
+      "bytes": 8502,
+      "sha256": "06382e57a58e460defcdd3c460ad01b93aa4c4578065348afa846b446e6d34ae"
+    },
+    {
+      "path": "ui/vendor/202608261927-chart-umd.min.js",
+      "bytes": 208522,
+      "sha256": "48444a82d4edcb5bec0f1965faacdde18d9c17db3063d042abada2f705c9f54a"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "releases/202608261927-index.html",
+      "bytes": 9235,
+      "sha256": "902d920c23687704829e9e71fa09fa34c388a784441b19578684739409d3b8d1"
+    },
+    {
+      "path": "releases/javascript/202608261927-app-v9-6-2.js",
+      "bytes": 721,
+      "sha256": "1cf251f1210cf6258d555ed5a39157da8c86c92e7943ca211a7b2079fa22e878"
+    },
+    {
+      "path": "releases/javascript/202608261927-canonical-projects-v9-1.js",
+      "bytes": 4053,
+      "sha256": "88fb3508e0d2d70877e874af1a1b401331f50871030eb28859e9b744612a65fa"
+    },
+    {
+      "path": "releases/javascript/202608261927-canonical-projects-v9-5-1.js",
+      "bytes": 1825,
+      "sha256": "8dd8a2199deb678005c9f221821e86338019e133690cac93c64a07306ea6ab33"
+    },
+    {
+      "path": "releases/javascript/202608261927-capacity-presentation.js",
+      "bytes": 1916,
+      "sha256": "650e2d1ca9fea55d0cb96db58c752e03ac03645499f033d11d4f76d29c917cef"
+    },
+    {
+      "path": "releases/javascript/202608261927-filters.js",
+      "bytes": 2532,
+      "sha256": "007126279582d5dbbe6bb5ebf30a79fd998b4839e8498c5a9a76ab2e4033c842"
+    },
+    {
+      "path": "releases/javascript/202608261927-gauges.js",
+      "bytes": 2753,
+      "sha256": "30803e3ecc787175bc31b6913541d52cc6065e9be2b50dc4d3ed900797348682"
+    },
+    {
+      "path": "releases/javascript/202608261927-news-regions.js",
+      "bytes": 4794,
+      "sha256": "9f433f60229541b10d66456cc11b573038e75ae60e9d3368f75a6e74ccef4b35"
+    },
+    {
+      "path": "releases/javascript/202608261927-newspaper-v9-5-1.js",
+      "bytes": 7801,
+      "sha256": "ea1bf2511e06c7984ed666cb6f6c02158cd2ef1665661f395b72bf6ab7f09acc"
+    },
+    {
+      "path": "releases/javascript/202608261927-newspaper-v9-6-2.js",
+      "bytes": 3619,
+      "sha256": "4ef5afb85ef729e26d8e861576e45342fe4bec422fcdce27a0c99d7725360246"
+    },
+    {
+      "path": "releases/javascript/202608261927-projects-v9-5-1.js",
+      "bytes": 18255,
+      "sha256": "7f0241b5c05bed07011ecf733f23167811227af12038e3d2b1c5a0c92e736459"
+    },
+    {
+      "path": "releases/javascript/202608261927-startplugins.js",
+      "bytes": 669,
+      "sha256": "e5aaa19b5bee93683fae461f7ead55d019e8c2edc8ce377680c0da634606e378"
+    },
+    {
+      "path": "releases/javascript/202608261927-state.js",
+      "bytes": 554,
+      "sha256": "ad7ef220e333d4ce3372a03e306c7d9bab58f9046cd2561eb1908e38d371b318"
+    },
+    {
+      "path": "releases/javascript/202608261927-utils.js",
+      "bytes": 707,
+      "sha256": "bec300e2720e0793bc08434e91c0ea0dd8c3d8e36e79b97172e4d5270f01eda0"
+    },
+    {
+      "path": "releases/manifests/202608261927-build-manifest-v9-1.json",
+      "bytes": 8779,
+      "sha256": "7f6768500b1860f07992c859435f5ea1d14ca132a1b6f810307ebc330123c102"
+    },
+    {
+      "path": "releases/styles/202608261927-mobile.css",
+      "bytes": 203,
+      "sha256": "9855b9c11255a85f477873d07cca45b057aedcdc8a6cc4aab2d29a0ffaac9b85"
+    },
+    {
+      "path": "releases/styles/202608261927-v7-foundation.css",
+      "bytes": 6245,
+      "sha256": "036dbfe43ef1ffb2c55ba277d49dec57ab7c7be976289226a5d568e1f1be319d"
+    },
+    {
+      "path": "releases/styles/202608261927-v9-3.css",
+      "bytes": 3581,
+      "sha256": "219782d5f3fba11b8418a5b46075a8b1b918eed272f6bc2360f6b1060c1f2e9b"
+    },
+    {
+      "path": "releases/styles/202608261927-v9-4.css",
+      "bytes": 402,
+      "sha256": "39f7d0fd3ff42e82407c1f5129444e6cc308ef5c0ec551d43c7396ac53310d17"
+    },
+    {
+      "path": "releases/styles/202608261927-v9-5-1.css",
+      "bytes": 408,
+      "sha256": "79ff5b1db85ae82a381fbad061c0122e7151bb9c9c7ba80c549051761f0bfae3"
+    },
+    {
+      "path": "releases/styles/202608261927-v9-6-1.css",
+      "bytes": 321,
+      "sha256": "851b0827ca2aa0950438c98ae3cf6cc7dce33667d37458122ea38bb2c6da2f81"
+    },
+    {
+      "path": "releases/vendor/202608261927-chart-umd.min.js",
+      "bytes": 208522,
+      "sha256": "48444a82d4edcb5bec0f1965faacdde18d9c17db3063d042abada2f705c9f54a"
+    }
+  ]
+}
