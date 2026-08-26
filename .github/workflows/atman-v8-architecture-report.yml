@@ -1,0 +1,132 @@
+name: Generate PipelineNews V8 Atman Report
+
+on:
+  workflow_dispatch:
+    inputs:
+      audit_run_id:
+        description: Passed performance-audit workflow run ID
+        required: true
+        default: "33010182783"
+        type: string
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: pipelinenews-v8-atman-report
+  cancel-in-progress: false
+
+jobs:
+  report:
+    name: Generate evidence-bound architecture report
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      AUDIT_RUN_ID: ${{ inputs.audit_run_id }}
+      ATLAS_COMMIT: c36e41a689a62bdfa13b4258f3cbc48301854108
+    steps:
+      - name: Checkout exact dispatch commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Configure Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Download passed performance evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$AUDIT_RUN_ID" =~ ^[0-9]+$ ]]
+          mkdir -p audit-input atman-input
+          artifact_name="pipelinenews-performance-audit-${AUDIT_RUN_ID}"
+          gh run download "$AUDIT_RUN_ID" \
+            --repo "$GITHUB_REPOSITORY" \
+            --name "$artifact_name" \
+            --dir audit-input
+          mapfile -t audit_files < <(find audit-input -type f -name 'performance-audit.json' -print)
+          test "${#audit_files[@]}" -eq 1
+          echo "AUDIT_JSON=${audit_files[0]}" >> "$GITHUB_ENV"
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${AUDIT_RUN_ID}/artifacts" \
+            --jq '.artifacts[] | select(.name == "'"$artifact_name"'") | [.id, .digest, .expired] | @tsv' \
+            | tee atman-input/audit-artifact-provenance.tsv
+          test -s atman-input/audit-artifact-provenance.tsv
+          ! grep -q $'\ttrue$' atman-input/audit-artifact-provenance.tsv
+
+      - name: Fetch pinned trusted Atlas V8 implementation
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="https://raw.githubusercontent.com/Ventusltd/globalgrid2050/${ATLAS_COMMIT}/repd_grid_atlasv8"
+          curl --fail --silent --show-error --location --retry 3 \
+            "$base/ventus-corev8engine.js" \
+            --output atman-input/atlas-v8-engine.js
+          curl --fail --silent --show-error --location --retry 3 \
+            "$base/index.html" \
+            --output atman-input/atlas-v8-index.html
+          test -s atman-input/atlas-v8-engine.js
+          test -s atman-input/atlas-v8-index.html
+          sha256sum atman-input/atlas-v8-engine.js atman-input/atlas-v8-index.html \
+            | tee atman-input/atlas-source-digests.txt
+
+      - name: Generate timestamped Atman report
+        shell: bash
+        run: |
+          set -euo pipefail
+          report_stamp="$(date -u +%Y%m%d%H%M)"
+          echo "REPORT_STAMP=$report_stamp" >> "$GITHUB_ENV"
+          REPORT_STAMP="$report_stamp" \
+          AUDIT_JSON="$AUDIT_JSON" \
+          AUDIT_RUN_ID="$AUDIT_RUN_ID" \
+            node atman/202608262042-generate-pipelinenews-v8-atman.mjs
+          report_path="$(tr -d '\r\n' < atman-report-path.txt)"
+          [[ "$report_path" =~ ^atman/[0-9]{12}-PIPELINENEWS-V8-ARCHITECTURE-ATMAN\.md$ ]]
+          test -s "$report_path"
+          echo "REPORT_PATH=$report_path" >> "$GITHUB_ENV"
+
+      - name: Publish report in workflow summary
+        shell: bash
+        run: cat "$REPORT_PATH" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload report evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-v8-atman-${{ env.REPORT_STAMP }}
+          path: |
+            ${{ env.REPORT_PATH }}
+            atman-input/audit-artifact-provenance.tsv
+            atman-input/atlas-source-digests.txt
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Commit only the generated report
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$REPORT_PATH" =~ ^atman/[0-9]{12}-PIPELINENEWS-V8-ARCHITECTURE-ATMAN\.md$ ]]
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git checkout -B atman-report origin/main
+          test -s "$REPORT_PATH"
+          git add -- "$REPORT_PATH"
+          mapfile -t staged < <(git diff --cached --name-only)
+          test "${#staged[@]}" -eq 1
+          test "${staged[0]}" = "$REPORT_PATH"
+          git commit -m "atman: publish PipelineNews V8 architecture report ${REPORT_STAMP}"
+          git push origin HEAD:main
+
+      - name: Record committed report
+        shell: bash
+        run: |
+          {
+            echo
+            echo "Committed report: \`$REPORT_PATH\`"
+            echo "Commit: \`$(git rev-parse HEAD)\`"
+          } >> "$GITHUB_STEP_SUMMARY"
