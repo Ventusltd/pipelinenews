@@ -1,0 +1,70 @@
+name: Audit PipelineNews Performance
+
+on:
+  workflow_dispatch:
+    inputs:
+      rounds:
+        description: Repeated cold-page measurements per target/profile
+        required: false
+        default: "3"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pipelinenews-performance-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    name: Compare four live implementations
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      AUDIT_ROUNDS: ${{ inputs.rounds }}
+    steps:
+      - name: Checkout exact dispatch commit
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Configure Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Install pinned browser harness
+        run: |
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Record audit source
+        run: |
+          mkdir -p audit-results
+          {
+            echo "repository=${{ github.repository }}"
+            echo "commit=${{ github.sha }}"
+            echo "run_id=${{ github.run_id }}"
+            echo "rounds=${{ inputs.rounds }}"
+            node --version
+            npx playwright --version
+          } | tee audit-results/audit-source.txt
+
+      - name: Measure load sort and scroll
+        run: node atman/202608262120-performance-audit.mjs
+
+      - name: Publish summary
+        if: always()
+        run: |
+          if [ -f audit-results/performance-audit.md ]; then
+            cat audit-results/performance-audit.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload complete evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-performance-audit-${{ github.run_id }}
+          path: audit-results/
+          if-no-files-found: error
+          retention-days: 30
