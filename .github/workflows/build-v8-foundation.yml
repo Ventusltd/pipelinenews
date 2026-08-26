@@ -1,0 +1,65 @@
+name: Build PipelineNews V8 Foundation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-pipelinenews-v8-foundation
+  cancel-in-progress: false
+
+jobs:
+  build-gate-record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Establish immutable stamp
+        run: echo "BUILD_STAMP=$(date -u +%Y%m%d%H%M)" >> "$GITHUB_ENV"
+      - name: Build reachable bounded foundation
+        run: node build/javascript/202608262315-build-v8-foundation.mjs
+      - name: Static gates
+        run: |
+          set -euo pipefail
+          node --check "releases/javascript/${BUILD_STAMP}-projects-v8-foundation.js"
+          node --check "releases/javascript/${BUILD_STAMP}-app-v8-foundation.js"
+          ! grep -q "body.innerHTML = filtered.map" "releases/javascript/${BUILD_STAMP}-projects-v8-foundation.js"
+      - name: Install pinned mobile verifier
+        run: |
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Prove all 7,680 projects are reachable
+        run: |
+          python3 -m http.server 4173 >/tmp/v8-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          node build/javascript/202608262300-verify-v8-reachability.mjs | tee "build/${BUILD_STAMP}-v8-foundation-proof.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-v8-foundation-${{ env.BUILD_STAMP }}
+          path: |
+            releases/${{ env.BUILD_STAMP }}-v8-candidate.html
+            releases/javascript/${{ env.BUILD_STAMP }}-projects-v8-foundation.js
+            releases/javascript/${{ env.BUILD_STAMP }}-app-v8-foundation.js
+            releases/styles/${{ env.BUILD_STAMP }}-v8-foundation.css
+            build/${{ env.BUILD_STAMP }}-v8-foundation-manifest.json
+            build/${{ env.BUILD_STAMP }}-v8-foundation-proof.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Commit only green foundation candidate
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "releases/${BUILD_STAMP}-v8-candidate.html" "releases/javascript/${BUILD_STAMP}-projects-v8-foundation.js" "releases/javascript/${BUILD_STAMP}-app-v8-foundation.js" "releases/styles/${BUILD_STAMP}-v8-foundation.css" "build/${BUILD_STAMP}-v8-foundation-manifest.json" "build/${BUILD_STAMP}-v8-foundation-proof.json"
+          git commit -m "v8: publish reachable foundation candidate ${BUILD_STAMP}"
+          git pull --rebase origin main
+          git push origin HEAD:main
