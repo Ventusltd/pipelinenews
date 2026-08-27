@@ -1,0 +1,115 @@
+name: Audit PipelineNews Atlas V8 Deep-Link Quarantine
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/202608271329-audit-atlas-v8-deep-link-quarantine.yml"
+      - "atman/202608271329-audit-atlas-v8-deep-link-quarantine.py"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: audit-pipelinenews-atlas-v8-deep-link-quarantine-202608271329
+  cancel-in-progress: false
+
+env:
+  ATLAS_GENERATION: "202608271329"
+  ATLAS_OUTPUT_COMMIT: "e269aa0d67f8d39304938dc42584f2b6dd3dee9e"
+  ATLAS_SOURCE_COMMIT: "799bb304d38765aa1f9b176dc46525c30acaf9cc"
+  ATLAS_RECOVERY_COMMIT: "63158a90d9cef956091038f9d4d88f5b122f3dc0"
+  ATLAS_WORK_ROOT: "work/202608271329-production-pages-audit"
+
+jobs:
+  audit:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact audit commit
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Configure Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Prove the audit envelope
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          read -r -a audit_parents <<< "$(git show -s --format=%P HEAD)"
+          test "${#audit_parents[@]}" = "1"
+          test "$(git rev-parse HEAD^)" = "$ATLAS_OUTPUT_COMMIT"
+          test "$(git rev-parse "$ATLAS_OUTPUT_COMMIT^")" = "$ATLAS_RECOVERY_COMMIT"
+          git merge-base --is-ancestor "$ATLAS_SOURCE_COMMIT" "$ATLAS_OUTPUT_COMMIT"
+          git fetch --no-tags origin refs/heads/main
+          test "$(git rev-parse FETCH_HEAD)" = "$GITHUB_SHA"
+
+          expected_audit_paths=(
+            ".github/workflows/202608271329-audit-atlas-v8-deep-link-quarantine.yml"
+            "atman/202608271329-audit-atlas-v8-deep-link-quarantine.py"
+          )
+          mapfile -t actual_audit_paths < <(
+            git diff --name-only "$ATLAS_OUTPUT_COMMIT" "$GITHUB_SHA" | LC_ALL=C sort
+          )
+          test "${#actual_audit_paths[@]}" = "${#expected_audit_paths[@]}"
+          for index in "${!expected_audit_paths[@]}"; do
+            test "${actual_audit_paths[$index]}" = "${expected_audit_paths[$index]}"
+          done
+          git diff --quiet "$ATLAS_OUTPUT_COMMIT" "$GITHUB_SHA" -- releases data archive build ui index
+
+          expected_output_paths=(
+            "build/202608271329-v8-fast-site-manifest.json"
+            "releases/202608271329-v8-fast-candidate.html"
+            "releases/data/202608271329-v8-fast-registry.json"
+            "releases/javascript/202608271329-atlas-v8-deep-link-cartridge.js"
+            "releases/javascript/202608271329-v8-fast-runtime.js"
+          )
+          mapfile -t actual_output_paths < <(
+            git diff-tree --no-commit-id --name-only -r "$ATLAS_OUTPUT_COMMIT" | LC_ALL=C sort
+          )
+          test "${#actual_output_paths[@]}" = "${#expected_output_paths[@]}"
+          for index in "${!expected_output_paths[@]}"; do
+            test "${actual_output_paths[$index]}" = "${expected_output_paths[$index]}"
+          done
+
+          test ! -e "build/authorisations/$ATLAS_GENERATION-v8-fast-pages-authorisation.json"
+          mkdir -p "$ATLAS_WORK_ROOT"
+
+      - name: Exercise the real production classifier and staging path
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 "atman/$ATLAS_GENERATION-audit-atlas-v8-deep-link-quarantine.py" \
+            --root . \
+            --generation "$ATLAS_GENERATION" \
+            --output-commit "$ATLAS_OUTPUT_COMMIT" \
+            | tee "$ATLAS_WORK_ROOT/production-pages-audit.json"
+
+      - name: Confirm the audit restored repository state
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f build/authorisations/202608270055-v8-fast-pages-authorisation.json
+          test ! -e "build/authorisations/$ATLAS_GENERATION-v8-fast-pages-authorisation.json"
+          git diff --quiet
+          git diff --cached --quiet
+
+      - name: Upload production-gate evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-atlas-v8-deep-link-pages-audit-202608271329-${{ github.run_id }}
+          path: ${{ env.ATLAS_WORK_ROOT }}
+          if-no-files-found: error
+          retention-days: 30
