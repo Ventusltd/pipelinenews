@@ -37,6 +37,7 @@ concurrency:
 env:
   LIVE_NEWS_GENERATION: "202608270844"
   LIVE_NEWS_PARENT: "77bda8c3809d02550d06a1c4154315f56d1120fb"
+  LIVE_NEWS_SOURCE: "e6205f02ff34ea877fc529361f69c0c6b80b1c1d"
   LIVE_NEWS_WORK_ROOT: "work/202608270844-live-news-discovery"
 
 jobs:
@@ -48,7 +49,7 @@ jobs:
       - name: Checkout exact source commit
         uses: actions/checkout@v5
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ env.LIVE_NEWS_SOURCE }}
           fetch-depth: 0
 
       - name: Configure Node
@@ -60,12 +61,21 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git cat-file -e "$GITHUB_SHA^{commit}" 2>/dev/null || git fetch --no-tags origin "$GITHUB_SHA"
+          test "$(git rev-parse HEAD)" = "$LIVE_NEWS_SOURCE"
           test "$GITHUB_REF" = "refs/heads/main"
-          test "$(git rev-parse HEAD^)" = "$LIVE_NEWS_PARENT"
+          test "$(git rev-parse "$LIVE_NEWS_SOURCE^")" = "$LIVE_NEWS_PARENT"
+          test "$(git rev-parse "$GITHUB_SHA^")" = "$LIVE_NEWS_SOURCE"
+          test "$(git diff --name-only "$LIVE_NEWS_SOURCE" "$GITHUB_SHA")" = ".github/workflows/202608270844-live-news-discovery.yml"
+          git diff --quiet "$LIVE_NEWS_PARENT" "$LIVE_NEWS_SOURCE" -- \
+            atman/202608262014-build-pages.py \
+            .github/workflows/pages.yml \
+            .github/workflows/authorise-v8-fast-pages.yml \
+            archive/202608261547-pipelinenews/releases/current.json
           mkdir -p "$LIVE_NEWS_WORK_ROOT/evidence"
-          git show -s --format='%H%n%P%n%T%n%ct' HEAD > "$LIVE_NEWS_WORK_ROOT/evidence/source-record.txt"
-          git diff --name-only "$LIVE_NEWS_PARENT" HEAD > "$LIVE_NEWS_WORK_ROOT/evidence/source-paths.txt"
+          git show -s --format='%H%n%P%n%T%n%ct' "$LIVE_NEWS_SOURCE" > "$LIVE_NEWS_WORK_ROOT/evidence/source-record.txt"
+          git show -s --format='%H%n%P%n%T%n%ct' "$GITHUB_SHA" > "$LIVE_NEWS_WORK_ROOT/evidence/workflow-recovery-record.txt"
+          git diff --name-only "$LIVE_NEWS_PARENT" "$LIVE_NEWS_SOURCE" > "$LIVE_NEWS_WORK_ROOT/evidence/source-paths.txt"
           node --input-type=module <<'NODE'
           import assert from "node:assert/strict";
           import { readFile, writeFile } from "node:fs/promises";
@@ -85,8 +95,10 @@ jobs:
             process.env.LIVE_NEWS_WORK_ROOT + "/evidence/scope-proof.json",
             JSON.stringify({
               schema: "pipelinenews.live-news-source-scope-proof.v1",
-              source_commit: process.env.GITHUB_SHA,
+              source_commit: process.env.LIVE_NEWS_SOURCE,
               protected_parent: process.env.LIVE_NEWS_PARENT,
+              workflow_recovery_commit: process.env.GITHUB_SHA,
+              workflow_recovery_paths: [".github/workflows/202608270844-live-news-discovery.yml"],
               changed_paths: paths,
               pipeline_news_only: true,
               rollback_untouched: true,
@@ -141,8 +153,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          SOURCE_COMMIT="$GITHUB_SHA" GITHUB_RUN_ID="$GITHUB_RUN_ID" node "index/$LIVE_NEWS_GENERATION-compile-v8-live-news.mjs" --out-root "$LIVE_NEWS_WORK_ROOT/pass-a" | tee "$LIVE_NEWS_WORK_ROOT/evidence/compiler-pass-a.json"
-          SOURCE_COMMIT="$GITHUB_SHA" GITHUB_RUN_ID="$GITHUB_RUN_ID" node "index/$LIVE_NEWS_GENERATION-compile-v8-live-news.mjs" --out-root "$LIVE_NEWS_WORK_ROOT/pass-b" | tee "$LIVE_NEWS_WORK_ROOT/evidence/compiler-pass-b.json"
+          SOURCE_COMMIT="$LIVE_NEWS_SOURCE" GITHUB_RUN_ID="$GITHUB_RUN_ID" node "index/$LIVE_NEWS_GENERATION-compile-v8-live-news.mjs" --out-root "$LIVE_NEWS_WORK_ROOT/pass-a" | tee "$LIVE_NEWS_WORK_ROOT/evidence/compiler-pass-a.json"
+          SOURCE_COMMIT="$LIVE_NEWS_SOURCE" GITHUB_RUN_ID="$GITHUB_RUN_ID" node "index/$LIVE_NEWS_GENERATION-compile-v8-live-news.mjs" --out-root "$LIVE_NEWS_WORK_ROOT/pass-b" | tee "$LIVE_NEWS_WORK_ROOT/evidence/compiler-pass-b.json"
 
       - name: Byte-compare compiler passes and materialise closure
         shell: bash
@@ -160,7 +172,7 @@ jobs:
           const passB = path.join(root, work, "pass-b");
           const manifestRelative = `build/${generation}-v8-fast-site-manifest.json`;
           const manifest = JSON.parse(await readFile(path.join(passA, manifestRelative)));
-          assert.equal(manifest.source_commit, process.env.GITHUB_SHA);
+          assert.equal(manifest.source_commit, process.env.LIVE_NEWS_SOURCE);
           assert.equal(manifest.deployment, "not-authorised");
           assert.equal(manifest.outputs.length, 4);
           const expected = [manifestRelative, ...manifest.outputs.map((record) => record.path)].sort();
@@ -188,7 +200,7 @@ jobs:
             JSON.stringify({
               schema: "pipelinenews.live-news-determinism-proof.v1",
               generation,
-              source_commit: process.env.GITHUB_SHA,
+              source_commit: process.env.LIVE_NEWS_SOURCE,
               byte_identical_passes: true,
               files: expected,
             }, null, 2) + "\n",
@@ -209,26 +221,100 @@ jobs:
           import importlib.util
           import json
           import os
+          import subprocess
+          import tempfile
           from pathlib import Path
           root = Path.cwd().resolve()
           module_path = root / "atman/202608262014-build-pages.py"
           spec = importlib.util.spec_from_file_location("pipelinenews_pages_gate", module_path)
           module = importlib.util.module_from_spec(spec)
           spec.loader.exec_module(module)
-          generation, _, release_manifest = module.select_release(root, "latest")
-          release = {"release_path": f"releases/{generation}-index.html", "manifest": release_manifest}
-          excluded, authorised = module.candidate_publication_boundary(root, release)
-          successor = json.loads((root / f"build/{os.environ['LIVE_NEWS_GENERATION']}-v8-fast-site-manifest.json").read_text())
-          expected = {record["path"] for record in successor["outputs"]}
-          module.require(expected.issubset(excluded), "0844 candidate is not fully quarantined")
-          module.require(expected.isdisjoint(authorised), "0844 candidate was unexpectedly authorised")
+          successor_generation = os.environ["LIVE_NEWS_GENERATION"]
+          manifest_relative = f"build/{successor_generation}-v8-fast-site-manifest.json"
+          successor = json.loads((root / manifest_relative).read_text())
+          module.require(successor["schema"] == module.FAST_CANDIDATE_SCHEMA, "0844 candidate schema changed")
+          module.require(successor["generation"] == successor_generation, "0844 candidate generation changed")
+          module.require(successor["deployment"] == "not-authorised", "0844 candidate deployment state changed")
+          module.require(successor["source_commit"] == os.environ["LIVE_NEWS_SOURCE"], "0844 candidate source binding changed")
+          module.require(str(successor["github_run_id"]) == os.environ["GITHUB_RUN_ID"], "0844 candidate run binding changed")
+          module.require(isinstance(successor["cache_identity"], str) and module.SHA256_RE.fullmatch(successor["cache_identity"]), "0844 cache identity changed")
+          outputs = successor.get("outputs")
+          module.require(isinstance(outputs, list) and len(outputs) == 4, "0844 candidate output closure changed")
+          for index, record in enumerate(outputs):
+              module.require(isinstance(record, dict), f"0844 candidate output {index} is not an object")
+              module.require(set(record) == {"path", "bytes", "sha256"}, f"0844 candidate output {index} fields changed")
+              module.require(type(record["bytes"]) is int and record["bytes"] >= 0, f"0844 candidate output {index} bytes changed")
+              module.require(isinstance(record["sha256"], str) and module.SHA256_RE.fullmatch(record["sha256"]), f"0844 candidate output {index} SHA-256 changed")
+          expected = {
+              f"releases/{successor_generation}-v8-fast-candidate.html",
+              f"releases/javascript/{successor_generation}-v8-fast-runtime.js",
+              f"releases/data/{successor_generation}-v8-fast-registry.json",
+              f"releases/data/{successor_generation}-{successor['cache_identity'][:12]}-v8-fast-news.json",
+          }
+          module.require({record["path"] for record in outputs} == expected, "0844 candidate path closure changed")
+          for record in outputs:
+              relative = module.normalise_candidate_output_path(record["path"], "0844 candidate output")
+              module.require(Path(relative).name.startswith(successor_generation), f"0844 output generation changed: {relative}")
+              module.require_no_symlink_components(root, relative, "0844 candidate output path")
+              module.verify_record(root, record, "0844 candidate output")
+              archived = root / module.ARCHIVE / relative
+              module.require(not archived.exists() and not archived.is_symlink(), f"0844 candidate overlaps historical public path: {relative}")
+          authorisation_path = root / "build/authorisations" / f"{successor_generation}-v8-fast-pages-authorisation.json"
+          module.require(not authorisation_path.exists() and not authorisation_path.is_symlink(), "0844 Pages authorisation already exists")
+          governed_generation, _, release_manifest = module.select_release(root, "latest")
+          governed_release_path = f"releases/{governed_generation}-index.html"
+          governed = {"releases/current.json", "releases/candidate.json", governed_release_path}
+          governed.update(record["path"] for record in release_manifest["outputs"])
+          governed.update(record["path"] for record in release_manifest["inputs"] if record["path"].startswith("releases/"))
+          module.require(expected.isdisjoint(governed), "0844 candidate overlaps the governed release")
+          committed = set(subprocess.run(
+              ["git", "ls-tree", "-r", "--name-only", os.environ["GITHUB_SHA"]],
+              cwd=root, check=True, capture_output=True, text=True,
+          ).stdout.splitlines())
+          module.require(({manifest_relative} | expected).isdisjoint(committed), "0844 generated closure already exists in the recovery commit")
+          index = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=root, check=False)
+          module.require(index.returncode == 0, "index changed before verified closure staging")
+          workflow_source = subprocess.run(
+              ["git", "show", f"{os.environ['GITHUB_SHA']}:.github/workflows/{successor_generation}-live-news-discovery.yml"],
+              cwd=root, check=True, capture_output=True, text=True,
+          ).stdout
+          for forbidden in (
+              "actions/" + "upload-pages-artifact@",
+              "actions/" + "deploy-pages@",
+              "pages" + ": write",
+              "id-token" + ": write",
+              "/actions/workflows/" + "pages.yml/dispatches",
+          ):
+              module.require(forbidden not in workflow_source, f"deployment capability entered 0844 workflow: {forbidden}")
+          with tempfile.TemporaryDirectory(prefix="0844-quarantine-") as temporary:
+              probe = Path(temporary)
+              staged_releases = probe / "releases"
+              module.copy_tree(root / module.ARCHIVE / "releases", staged_releases)
+              module.copy_release_tree(root / "releases", staged_releases, expected)
+              for relative in expected:
+                  target = probe / relative
+                  module.require(not target.exists() and not target.is_symlink(), f"0844 candidate entered quarantine probe: {relative}")
+              module.require(
+                  (staged_releases / "current.json").read_bytes() == (root / module.ARCHIVE / "releases/current.json").read_bytes(),
+                  "stable pointer changed during quarantine probe",
+              )
+              module.require(
+                  (probe / governed_release_path).read_bytes() == (root / governed_release_path).read_bytes(),
+                  "governed release changed during quarantine probe",
+              )
           print(json.dumps({
               "schema": "pipelinenews.v8.live-news-pages-boundary-proof.v1",
               "generation": successor["generation"],
               "deployment": successor["deployment"],
               "successor_excluded_outputs": sorted(expected),
-              "all_excluded_outputs": sorted(excluded),
-              "authorised_outputs": sorted(authorised),
+              "successor_authorised_outputs": [],
+              "successor_authorisation_path_absent": True,
+              "quarantine_basis": "NO_GENERATION_AUTHORISATION_RECORD",
+              "governed_release_generation": governed_generation,
+              "governed_release_disjoint": True,
+              "candidate_quarantine_probe_passed": True,
+              "real_pages_gate_unchanged": True,
+              "full_pages_gate_invoked": False,
               "pages_artifact_created": False,
               "stable_route_changed": False,
               "globalgrid_catalogue_changed": False,
@@ -271,7 +357,7 @@ jobs:
           const generation = process.env.LIVE_NEWS_GENERATION;
           const manifestPath = `build/${generation}-v8-fast-site-manifest.json`;
           const manifest = JSON.parse(await readFile(manifestPath));
-          assert.equal(manifest.source_commit, process.env.GITHUB_SHA);
+          assert.equal(manifest.source_commit, process.env.LIVE_NEWS_SOURCE);
           assert.equal(manifest.deployment, "not-authorised");
           const declared = manifest.outputs.map((record) => record.path);
           const expected = [manifestPath, ...declared].sort();
@@ -293,7 +379,7 @@ jobs:
           assert.ok(status.stdout.trim().split("\n").every((line) => line.startsWith("A\t")), "immutable output would overwrite a path");
           await writeFile(
             path.join(process.env.LIVE_NEWS_WORK_ROOT, "evidence", "staged-closure.json"),
-            JSON.stringify({ generation, source_commit: process.env.GITHUB_SHA, files: expected }, null, 2) + "\n",
+            JSON.stringify({ generation, source_commit: process.env.LIVE_NEWS_SOURCE, files: expected }, null, 2) + "\n",
           );
           NODE
 
@@ -311,8 +397,12 @@ jobs:
         run: |
           set -euo pipefail
           git fetch --no-tags origin refs/heads/main
-          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse HEAD)" = "$LIVE_NEWS_SOURCE"
           test "$(git rev-parse FETCH_HEAD)" = "$GITHUB_SHA"
+          git switch --detach "$GITHUB_SHA"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git diff --cached --name-only | wc -l)" -eq 5
+          test -z "$(git diff --cached --name-only | grep -v "^\(build/$LIVE_NEWS_GENERATION-v8-fast-site-manifest.json\|releases/$LIVE_NEWS_GENERATION-v8-fast-candidate.html\|releases/javascript/$LIVE_NEWS_GENERATION-v8-fast-runtime.js\|releases/data/$LIVE_NEWS_GENERATION-.*-v8-fast-news.json\|releases/data/$LIVE_NEWS_GENERATION-v8-fast-registry.json\)$" || true)"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "v8: build Live News Discovery candidate $LIVE_NEWS_GENERATION"
