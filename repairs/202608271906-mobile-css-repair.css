@@ -1,0 +1,112 @@
+/* PipelineNews 202608271906 quarantine-only mobile CSS repair.
+ * Measured source: 202608271656 comparator evidence.
+ * This stylesheet does not authorise deployment or change stable/current.
+ */
+
+html,
+body {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-left: env(safe-area-inset-left, 0px);
+}
+
+.sidebar {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.nav {
+  flex: 1 1 auto;
+  max-height: 100%;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.main,
+.gauges,
+.gauges .card,
+.chart,
+.chart svg,
+.chart canvas {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+}
+
+@media (max-width: 1100px) {
+  .gauges {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+:where(a[href], button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])) {
+  box-sizing: border-box;
+  min-block-size: 44px;
+  min-inline-size: 44px;
+}
+
+a[href],
+summary {
+  align-items: center;
+  display: inline-flex;
+}
+
+.nav a {
+  display: flex;
+  min-height: 44px;
+}
+
+.tablewrap a.action-link,
+.tablewrap button.copy-id,
+.tablewrap details > summary,
+.tablewrap #sortUpdated {
+  min-block-size: 32px;
+  min-inline-size: 32px;
+}
+
+.story p,
+.meta span,
+.strap span,
+.signal-note,
+.record-grid span,
+.results-meta,
+.export-meta {
+  font-size: max(10px, 0.625rem) !important;
+}
+
+@media (orientation: landscape) and (max-height: 430px) {
+  .tablewrap {
+    height: calc(85vh - 2px) !important;
+    max-height: calc(85vh - 2px) !important;
+    min-height: 0 !important;
+    overflow: auto !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    height: min(40dvh, 320px) !important;
+    max-height: min(40dvh, 320px) !important;
+  }
+
+  .nav {
+    display: flex !important;
+    flex-direction: column;
+    max-height: 100%;
+    overflow-y: auto;
+  }
+}
