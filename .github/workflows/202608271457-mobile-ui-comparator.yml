@@ -1,0 +1,535 @@
+name: Audit PipelineNews Mobile UI Comparator 202608271457
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/202608271457-mobile-ui-comparator.yml"
+      - "atman/202608271457-verify-mobile-ui-browser.mjs"
+      - "atman/202608271457-compare-mobile-ui.mjs"
+      - "atman/202608271457-mobile-ui-invariants.mjs"
+      - "manifests/202608271457-mobile-ui-comparator.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pipelinenews-mobile-ui-comparator-202608271457
+  cancel-in-progress: false
+
+env:
+  MOBILE_UI_GENERATION: "202608271457"
+  MOBILE_UI_SOURCE_PARENT: "35f35ada161223fb3ee19e525664ee7f17df1ddd"
+  MOBILE_UI_WORK_ROOT: "work/202608271457-mobile-ui-comparator"
+  MOBILE_UI_RAW_DIR: "work/202608271457-mobile-ui-comparator/audit/raw"
+  REPORT_DIR: "work/202608271457-mobile-ui-comparator/compact"
+  MOBILE_UI_SERVER_URL: "http://127.0.0.1:4173"
+  PLAYWRIGHT_VERSION: "1.55.0"
+
+jobs:
+  audit:
+    name: Measure candidate baseline and original
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout the exact audit source
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Configure Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Prove the immutable audit-only source envelope
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          mkdir -p "$MOBILE_UI_RAW_DIR" "$REPORT_DIR"
+
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { readFile, writeFile } from "node:fs/promises";
+          import { spawnSync } from "node:child_process";
+
+          const generation = process.env.MOBILE_UI_GENERATION;
+          const manifestPath = `manifests/${generation}-mobile-ui-comparator.json`;
+          const expected = [
+            `.github/workflows/${generation}-mobile-ui-comparator.yml`,
+            `atman/${generation}-compare-mobile-ui.mjs`,
+            `atman/${generation}-mobile-ui-invariants.mjs`,
+            `atman/${generation}-verify-mobile-ui-browser.mjs`,
+            manifestPath,
+          ].sort();
+
+          const tracked = spawnSync("git", ["ls-files", "--", ...expected], { encoding: "utf8" });
+          assert.equal(tracked.status, 0, tracked.stderr);
+          assert.deepEqual(tracked.stdout.trim().split("\n").filter(Boolean).sort(), expected,
+            "the five-file comparator source closure is incomplete");
+
+          if (process.env.GITHUB_EVENT_NAME === "push") {
+            assert.equal(process.env.GITHUB_REF, "refs/heads/main");
+            const parents = spawnSync("git", ["show", "-s", "--format=%P", "HEAD"], { encoding: "utf8" });
+            assert.equal(parents.status, 0, parents.stderr);
+            assert.deepEqual(parents.stdout.trim().split(/\s+/), [process.env.MOBILE_UI_SOURCE_PARENT],
+              "audit source is not the single successor of the protected main commit");
+            const changed = spawnSync(
+              "git",
+              ["diff", "--name-only", process.env.MOBILE_UI_SOURCE_PARENT, process.env.GITHUB_SHA],
+              { encoding: "utf8" },
+            );
+            assert.equal(changed.status, 0, changed.stderr);
+            assert.deepEqual(changed.stdout.trim().split("\n").filter(Boolean).sort(), expected,
+              "push commit differs from the exact five-file audit boundary");
+          }
+
+          for (const relative of expected) {
+            assert.ok(relative.includes(generation), `unstamped source path: ${relative}`);
+          }
+          for (const forbidden of [
+            ".github/workflows/pages.yml",
+            ".github/workflows/authorise-v8-fast-pages.yml",
+            "releases/current.json",
+            "releases/candidate.json",
+          ]) assert.ok(!expected.includes(forbidden), `protected path entered audit source: ${forbidden}`);
+          assert.ok(expected.every((relative) =>
+            !relative.startsWith("releases/") &&
+            !relative.startsWith("data/") &&
+            !relative.startsWith("archive/") &&
+            !relative.startsWith("build/authorisations/")
+          ), "release or deployment state entered the source closure");
+
+          const workflow = await readFile(expected[0], "utf8");
+          const forbiddenCapabilities = [
+            ["actions", "deploy-pages@"].join("/"),
+            ["actions", "upload-pages-artifact@"].join("/"),
+            ["pages", "write"].join(": "),
+            ["id-token", "write"].join(": "),
+          ];
+          for (const capability of forbiddenCapabilities) {
+            assert.ok(!workflow.includes(capability), `deployment capability entered audit workflow: ${capability}`);
+          }
+
+          await writeFile(
+            `${process.env.MOBILE_UI_RAW_DIR}/source-envelope.json`,
+            `${JSON.stringify({
+              schema: "pipelinenews.mobile-ui-comparator-source-envelope.v1",
+              generation,
+              event: process.env.GITHUB_EVENT_NAME,
+              source_commit: process.env.GITHUB_SHA,
+              required_parent_on_push: process.env.MOBILE_UI_SOURCE_PARENT,
+              source_boundary: expected,
+              deployment_capability: false,
+              pages_state_changed: false,
+            }, null, 2)}\n`,
+          );
+          NODE
+
+      - name: Validate source manifest and pinned hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { readFile, stat } from "node:fs/promises";
+
+          const generation = process.env.MOBILE_UI_GENERATION;
+          const manifestPath = `manifests/${generation}-mobile-ui-comparator.json`;
+          const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+          const boundary = [
+            `.github/workflows/${generation}-mobile-ui-comparator.yml`,
+            `atman/${generation}-compare-mobile-ui.mjs`,
+            `atman/${generation}-mobile-ui-invariants.mjs`,
+            `atman/${generation}-verify-mobile-ui-browser.mjs`,
+            manifestPath,
+          ].sort();
+          assert.equal(manifest.schema, "pipelinenews.mobile-ui-comparator-manifest.v1");
+          assert.equal(manifest.generation, generation);
+          assert.equal(manifest.source_parent_commit, process.env.MOBILE_UI_SOURCE_PARENT);
+          assert.equal(manifest.deployment, "not-authorised");
+          assert.equal(manifest.scope, "audit-only-browser-evidence");
+          assert.equal(manifest.candidate_generation, "202608271329");
+          assert.equal(manifest.trusted_baseline_generation, "202608261927");
+          assert.equal(manifest.original_context_url,
+            "https://globalgrid2050.com/uk_renewables_pipeline/dashboard.html");
+          assert.deepEqual(manifest.browser, { playwright_version: "1.55.0", engine: "chromium" });
+          assert.deepEqual([...manifest.source_boundary].sort(), boundary, "manifest source boundary changed");
+          assert.ok(Array.isArray(manifest.hashed_source_files), "manifest hash list is absent");
+          const expectedHashed = boundary.filter((relative) => relative !== manifestPath);
+          const actualHashed = manifest.hashed_source_files.map(({ path }) => path).sort();
+          assert.deepEqual(actualHashed, expectedHashed, "manifest must hash the four non-self source files");
+          for (const record of manifest.hashed_source_files) {
+            assert.match(record.sha256, /^[0-9a-f]{64}$/);
+            const bytes = await readFile(record.path);
+            const metadata = await stat(record.path);
+            assert.ok(metadata.isFile(), `not a regular source file: ${record.path}`);
+            assert.equal(bytes.length, record.bytes, `source byte count changed: ${record.path}`);
+            assert.equal(createHash("sha256").update(bytes).digest("hex"), record.sha256,
+              `source SHA-256 changed: ${record.path}`);
+          }
+          NODE
+
+      - name: Syntax-check the audit instrument
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check "atman/$MOBILE_UI_GENERATION-mobile-ui-invariants.mjs"
+          node --check "atman/$MOBILE_UI_GENERATION-verify-mobile-ui-browser.mjs"
+          node --check "atman/$MOBILE_UI_GENERATION-compare-mobile-ui.mjs"
+          ! grep -R "SHA256_PENDING" \
+            "atman/$MOBILE_UI_GENERATION-mobile-ui-invariants.mjs" \
+            "atman/$MOBILE_UI_GENERATION-verify-mobile-ui-browser.mjs" \
+            "atman/$MOBILE_UI_GENERATION-compare-mobile-ui.mjs" \
+            "manifests/$MOBILE_UI_GENERATION-mobile-ui-comparator.json"
+
+      - name: Install the pinned browser harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --no-package-lock "playwright@$PLAYWRIGHT_VERSION"
+          test "$(node -p "require('playwright/package.json').version")" = "$PLAYWRIGHT_VERSION"
+          npx playwright install --with-deps chromium
+
+      - name: Run the bounded browser audit and comparator
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory . \
+            > "$RUNNER_TEMP/202608271457-mobile-ui-http-server.log" 2>&1 &
+          server_pid="$!"
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent --show-error \
+              "$MOBILE_UI_SERVER_URL/releases/202608271329-v8-fast-candidate.html" >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl --fail --silent --show-error \
+            "$MOBILE_UI_SERVER_URL/releases/202608271329-v8-fast-candidate.html" >/dev/null
+          curl --fail --silent --show-error \
+            "$MOBILE_UI_SERVER_URL/releases/202608261927-index.html" >/dev/null
+
+          node "atman/$MOBILE_UI_GENERATION-verify-mobile-ui-browser.mjs" \
+            | tee "$MOBILE_UI_RAW_DIR/verifier-stdout.json"
+          node "atman/$MOBILE_UI_GENERATION-compare-mobile-ui.mjs" \
+            | tee "$RUNNER_TEMP/202608271457-mobile-ui-comparator-stdout.json"
+
+      - name: Prove compact evidence without requiring a green candidate verdict
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { lstat, readFile, readdir, stat } from "node:fs/promises";
+          import path from "node:path";
+
+          const reportDir = process.env.REPORT_DIR;
+          const rawDir = process.env.MOBILE_UI_RAW_DIR;
+          const expected = ["artifact-manifest.json", "metrics.json", "report.md"];
+          assert.deepEqual((await readdir(reportDir)).sort(), expected, "compact evidence closure changed");
+          const reportBytes = await readFile(path.join(reportDir, "report.md"));
+          const metricsBytes = await readFile(path.join(reportDir, "metrics.json"));
+          const report = reportBytes.toString("utf8");
+          assert.ok(report.trim().length > 0, "empty audit report");
+          assert.ok(report.includes(process.env.MOBILE_UI_GENERATION), "report generation binding is absent");
+          assert.ok(report.includes(process.env.GITHUB_SHA), "report source-commit binding is absent");
+          assert.ok(reportBytes.length <= 256 * 1024, "report.md exceeds 256 KiB");
+          assert.ok(metricsBytes.length <= 1024 * 1024, "metrics.json exceeds 1 MiB");
+          const metrics = JSON.parse(metricsBytes);
+          assert.equal(metrics.schema, "pipelinenews.mobile-ui-comparison.v1");
+          assert.equal(metrics.generation, process.env.MOBILE_UI_GENERATION);
+          assert.equal(metrics.source_commit, process.env.GITHUB_SHA);
+          const manifest = JSON.parse(await readFile(path.join(reportDir, "artifact-manifest.json"), "utf8"));
+          assert.equal(manifest.schema, "pipelinenews.mobile-ui-comparator-artifacts.v1");
+          assert.equal(manifest.generation, process.env.MOBILE_UI_GENERATION);
+          assert.equal(manifest.source_commit, process.env.GITHUB_SHA);
+          assert.ok(Array.isArray(manifest.compact_files), "compact evidence hashes are absent");
+          assert.deepEqual(manifest.compact_files.map(({ path: relative }) => relative).sort(),
+            ["metrics.json", "report.md"]);
+          for (const record of manifest.compact_files) {
+            const filename = path.join(reportDir, record.path);
+            const metadata = await stat(filename);
+            assert.ok(metadata.isFile());
+            const bytes = await readFile(filename);
+            assert.equal(bytes.length, record.bytes, `compact evidence byte count changed: ${record.path}`);
+            assert.equal(createHash("sha256").update(bytes).digest("hex"), record.sha256,
+              `compact evidence SHA-256 changed: ${record.path}`);
+          }
+          const compactBytes = (await Promise.all(expected.map(async (filename) =>
+            (await stat(path.join(reportDir, filename))).size
+          ))).reduce((total, size) => total + size, 0);
+          assert.ok(compactBytes <= 1536 * 1024, "compact evidence exceeds 1.5 MiB");
+
+          async function walk(directory) {
+            const files = [];
+            for (const entry of await readdir(directory, { withFileTypes: true })) {
+              const filename = path.join(directory, entry.name);
+              const metadata = await lstat(filename);
+              assert.ok(!metadata.isSymbolicLink(), `symlink entered raw evidence: ${filename}`);
+              if (metadata.isDirectory()) files.push(...await walk(filename));
+              else {
+                assert.ok(metadata.isFile(), `non-file entered raw evidence: ${filename}`);
+                files.push({ filename, bytes: metadata.size });
+              }
+            }
+            return files;
+          }
+          const rawFiles = await walk(rawDir);
+          const rawBytes = rawFiles.reduce((total, record) => total + record.bytes, 0);
+          assert.ok(rawBytes <= 25 * 1024 * 1024, "raw audit closure exceeds 25 MiB");
+          const rawRecords = (await Promise.all(rawFiles.map(async ({ filename, bytes }) => {
+            const payload = await readFile(filename);
+            return {
+              path: path.relative(rawDir, filename).split(path.sep).join("/"),
+              sha256: createHash("sha256").update(payload).digest("hex"),
+              bytes,
+            };
+          }))).sort((left, right) => left.path.localeCompare(right.path));
+          assert.deepEqual(rawRecords, manifest.full_artifacts,
+            "raw files differ from the comparator artifact manifest");
+          const rawClosure = createHash("sha256").update(Buffer.from(
+            rawRecords.map((record) => `${record.path}\0${record.sha256}\0${record.bytes}\n`).join(""),
+            "utf8",
+          )).digest("hex");
+          assert.equal(rawClosure, manifest.raw_closure_sha256,
+            "raw evidence closure SHA-256 changed after comparison");
+          const screenshots = rawFiles.filter(({ filename }) => /\.(?:jpe?g|png)$/i.test(filename));
+          assert.ok(screenshots.length > 0, "raw audit has no screenshots");
+          for (const screenshot of screenshots) {
+            assert.ok(screenshot.bytes <= 750 * 1024,
+              `screenshot exceeds 750 KiB: ${path.relative(rawDir, screenshot.filename)}`);
+          }
+          // Generation A records UI failures as its result. Only instrument or evidence
+          // failures fail this job; the candidate gate is intentionally not asserted here.
+          NODE
+          git diff --quiet
+          git diff --cached --quiet
+
+      - name: Publish audit summary
+        if: always()
+        shell: bash
+        run: |
+          if [[ -f "$REPORT_DIR/report.md" ]]; then
+            cat "$REPORT_DIR/report.md" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload complete audit and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-mobile-ui-audit-202608271457-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ env.MOBILE_UI_RAW_DIR }}
+            ${{ env.REPORT_DIR }}
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload compact evidence for the immutable report commit
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-mobile-ui-compact-202608271457-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.REPORT_DIR }}
+          if-no-files-found: error
+          retention-days: 30
+
+  commit-evidence:
+    name: Commit only compact quarantine evidence
+    needs: audit
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      needs.audit.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout the exact audited source
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Configure Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Download compact evidence only
+        uses: actions/download-artifact@v5
+        with:
+          name: pipelinenews-mobile-ui-compact-202608271457-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.MOBILE_UI_WORK_ROOT }}/incoming
+
+      - name: Guard current main and materialise the evidence closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          incoming="$MOBILE_UI_WORK_ROOT/incoming"
+          target="atman/reports/$MOBILE_UI_GENERATION"
+          mapfile -t incoming_files < <(find "$incoming" -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort)
+          expected=(artifact-manifest.json metrics.json report.md)
+          test "${#incoming_files[@]}" = "${#expected[@]}"
+          for index in "${!expected[@]}"; do
+            test "${incoming_files[$index]}" = "${expected[$index]}"
+          done
+          test -z "$(find "$incoming" -mindepth 1 -maxdepth 1 ! -type f -print -quit)"
+
+          git fetch --no-tags origin refs/heads/main
+          remote_head="$(git rev-parse FETCH_HEAD)"
+          git merge-base --is-ancestor "$GITHUB_SHA" "$remote_head"
+          source_paths=(
+            ".github/workflows/$MOBILE_UI_GENERATION-mobile-ui-comparator.yml"
+            "atman/$MOBILE_UI_GENERATION-compare-mobile-ui.mjs"
+            "atman/$MOBILE_UI_GENERATION-mobile-ui-invariants.mjs"
+            "atman/$MOBILE_UI_GENERATION-verify-mobile-ui-browser.mjs"
+            "manifests/$MOBILE_UI_GENERATION-mobile-ui-comparator.json"
+          )
+          git diff --quiet "$GITHUB_SHA" "$remote_head" -- "${source_paths[@]}"
+          test -z "$(git ls-tree -r --name-only "$remote_head" -- "$target")"
+          git switch --detach "$remote_head"
+
+          mkdir -p "$target"
+          cp "$incoming/report.md" "$target/report.md"
+          cp "$incoming/metrics.json" "$target/metrics.json"
+          cp "$incoming/artifact-manifest.json" "$target/artifact-manifest.json"
+
+          REPORT_DIR="$target" node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { readFile, readdir, stat } from "node:fs/promises";
+          import path from "node:path";
+          const root = process.env.REPORT_DIR;
+          const expected = ["artifact-manifest.json", "metrics.json", "report.md"];
+          assert.deepEqual((await readdir(root)).sort(), expected);
+          assert.ok(expected.every((filename) => !/\.(?:jpe?g|png)$/i.test(filename)),
+            "screenshot entered compact evidence");
+          const reportBytes = await readFile(path.join(root, "report.md"));
+          const metricsBytes = await readFile(path.join(root, "metrics.json"));
+          assert.ok(reportBytes.length <= 256 * 1024, "report.md exceeds 256 KiB");
+          assert.ok(metricsBytes.length <= 1024 * 1024, "metrics.json exceeds 1 MiB");
+          assert.ok(reportBytes.toString("utf8").includes(process.env.MOBILE_UI_GENERATION));
+          assert.ok(reportBytes.toString("utf8").includes(process.env.GITHUB_SHA));
+          const metrics = JSON.parse(metricsBytes);
+          assert.equal(metrics.schema, "pipelinenews.mobile-ui-comparison.v1");
+          assert.equal(metrics.generation, process.env.MOBILE_UI_GENERATION);
+          assert.equal(metrics.source_commit, process.env.GITHUB_SHA);
+          const manifest = JSON.parse(await readFile(path.join(root, "artifact-manifest.json"), "utf8"));
+          assert.equal(manifest.schema, "pipelinenews.mobile-ui-comparator-artifacts.v1");
+          assert.equal(manifest.generation, process.env.MOBILE_UI_GENERATION);
+          assert.equal(manifest.source_commit, process.env.GITHUB_SHA);
+          assert.ok(Array.isArray(manifest.compact_files));
+          assert.deepEqual(manifest.compact_files.map(({ path: relative }) => relative).sort(),
+            ["metrics.json", "report.md"]);
+          for (const record of manifest.compact_files) {
+            assert.match(record.sha256, /^[0-9a-f]{64}$/);
+            const bytes = await readFile(path.join(root, record.path));
+            assert.equal(bytes.length, record.bytes);
+            assert.equal(createHash("sha256").update(bytes).digest("hex"), record.sha256);
+          }
+          const compactBytes = (await Promise.all(expected.map(async (filename) =>
+            (await stat(path.join(root, filename))).size
+          ))).reduce((total, size) => total + size, 0);
+          assert.ok(compactBytes <= 1536 * 1024, "compact evidence exceeds 1.5 MiB");
+          assert.ok(reportBytes.toString("utf8").trim());
+          NODE
+
+      - name: Commit and push exactly three evidence files
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="atman/reports/$MOBILE_UI_GENERATION"
+          expected=(
+            "$target/artifact-manifest.json"
+            "$target/metrics.json"
+            "$target/report.md"
+          )
+          mapfile -t expected_sorted < <(printf '%s\n' "${expected[@]}" | LC_ALL=C sort)
+
+          verify_evidence_commit() {
+            mapfile -t committed < <(git diff-tree --no-commit-id --name-only -r HEAD | LC_ALL=C sort)
+            test "${#committed[@]}" = "${#expected_sorted[@]}"
+            for index in "${!expected_sorted[@]}"; do
+              test "${committed[$index]}" = "${expected_sorted[$index]}"
+              git show "HEAD:${expected_sorted[$index]}" | cmp - "${expected_sorted[$index]}"
+            done
+            git diff --quiet
+            git diff --cached --quiet
+            REPORT_DIR="$target" node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { readFile, readdir, stat } from "node:fs/promises";
+          import path from "node:path";
+          const root = process.env.REPORT_DIR;
+          const expected = ["artifact-manifest.json", "metrics.json", "report.md"];
+          assert.deepEqual((await readdir(root)).sort(), expected);
+          const reportBytes = await readFile(path.join(root, "report.md"));
+          const metricsBytes = await readFile(path.join(root, "metrics.json"));
+          assert.ok(reportBytes.length <= 256 * 1024);
+          assert.ok(metricsBytes.length <= 1024 * 1024);
+          assert.ok(reportBytes.toString("utf8").includes(process.env.MOBILE_UI_GENERATION));
+          assert.ok(reportBytes.toString("utf8").includes(process.env.GITHUB_SHA));
+          const metrics = JSON.parse(metricsBytes);
+          assert.equal(metrics.schema, "pipelinenews.mobile-ui-comparison.v1");
+          assert.equal(metrics.generation, process.env.MOBILE_UI_GENERATION);
+          assert.equal(metrics.source_commit, process.env.GITHUB_SHA);
+          const manifest = JSON.parse(await readFile(path.join(root, "artifact-manifest.json"), "utf8"));
+          assert.equal(manifest.schema, "pipelinenews.mobile-ui-comparator-artifacts.v1");
+          assert.equal(manifest.generation, process.env.MOBILE_UI_GENERATION);
+          assert.equal(manifest.source_commit, process.env.GITHUB_SHA);
+          assert.deepEqual(manifest.compact_files.map(({ path: relative }) => relative).sort(),
+            ["metrics.json", "report.md"]);
+          for (const record of manifest.compact_files) {
+            const bytes = await readFile(path.join(root, record.path));
+            assert.equal(bytes.length, record.bytes);
+            assert.equal(createHash("sha256").update(bytes).digest("hex"), record.sha256);
+          }
+          const compactBytes = (await Promise.all(expected.map(async (filename) =>
+            (await stat(path.join(root, filename))).size
+          ))).reduce((total, size) => total + size, 0);
+          assert.ok(compactBytes <= 1536 * 1024);
+          NODE
+          }
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- "${expected[@]}"
+          mapfile -d '' -t staged < <(git diff --cached --name-only -z | LC_ALL=C sort -z)
+          test "${#staged[@]}" = "${#expected[@]}"
+          for index in "${!expected_sorted[@]}"; do
+            test "${staged[$index]}" = "${expected_sorted[$index]}"
+          done
+          test -z "$(git diff --cached --name-status | awk '$1 != "A" { print; exit }')"
+          git commit -m "Record $MOBILE_UI_GENERATION mobile UI audit evidence"
+          verify_evidence_commit
+
+          for attempt in 1 2 3; do
+            git fetch --no-tags origin refs/heads/main
+            remote_head="$(git rev-parse FETCH_HEAD)"
+            if [[ "$(git rev-parse HEAD^)" != "$remote_head" ]]; then
+              git diff --quiet "$GITHUB_SHA" "$remote_head" -- \
+                ".github/workflows/$MOBILE_UI_GENERATION-mobile-ui-comparator.yml" \
+                "atman/$MOBILE_UI_GENERATION-compare-mobile-ui.mjs" \
+                "atman/$MOBILE_UI_GENERATION-mobile-ui-invariants.mjs" \
+                "atman/$MOBILE_UI_GENERATION-verify-mobile-ui-browser.mjs" \
+                "manifests/$MOBILE_UI_GENERATION-mobile-ui-comparator.json"
+              test -z "$(git ls-tree -r --name-only "$remote_head" -- "$target")"
+              git rebase "$remote_head"
+            fi
+            git merge-base --is-ancestor "$GITHUB_SHA" HEAD
+            verify_evidence_commit
+            if git push origin HEAD:refs/heads/main; then
+              exit 0
+            fi
+          done
+          echo "main advanced during all guarded push attempts" >&2
+          exit 1
