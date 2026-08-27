@@ -1,0 +1,5522 @@
+{
+  "schema": "pipelinenews.mobile-ui-comparison.v1",
+  "generation": "202608271656",
+  "source_commit": "6be8d21567e97a772d36d472a74e88a00d99a7c1",
+  "candidate_generation": "202608271524",
+  "mode": "audit",
+  "deployment": "not-authorised",
+  "project_posture": {
+    "owner": "Ventus Ltd",
+    "application": "non-commercial-open-source",
+    "publisher_redistribution_rights": "source-specific-not-inferred"
+  },
+  "contract": {
+    "path": "atman/202608271656-mobile-ui-invariants.mjs",
+    "sha256": "3dbee93a7de2cc01f9fece3e3318b1f151871231ae254bff9cc67fe4fd69aae2"
+  },
+  "browser": {
+    "engine": "chromium",
+    "playwright_version": "1.55.0",
+    "chromium_version": "140.0.7339.16",
+    "executable_sha256": "2fa605e3639b8cfbe8037d0b8e0324dbf7f9e6ad7beb345374ecd26764e2d92b"
+  },
+  "targets": [
+    {
+      "id": "candidate",
+      "label": "V8 fast candidate 202608271524",
+      "required": true,
+      "gated": true
+    },
+    {
+      "id": "baseline",
+      "label": "Trusted compiled V9.6.2",
+      "required": true,
+      "gated": false
+    },
+    {
+      "id": "original",
+      "label": "Original live dashboard",
+      "required": false,
+      "gated": false
+    }
+  ],
+  "cells": [
+    {
+      "id": "P1",
+      "width": 390,
+      "height": 844,
+      "dpr": 3,
+      "orientation": "portrait",
+      "represents": "iPhone 14/15 portrait"
+    },
+    {
+      "id": "P2",
+      "width": 375,
+      "height": 667,
+      "dpr": 2,
+      "orientation": "portrait",
+      "represents": "iPhone SE portrait"
+    },
+    {
+      "id": "L1",
+      "width": 844,
+      "height": 390,
+      "dpr": 3,
+      "orientation": "landscape",
+      "represents": "iPhone 14/15 landscape"
+    },
+    {
+      "id": "L2",
+      "width": 932,
+      "height": 430,
+      "dpr": 3,
+      "orientation": "landscape",
+      "represents": "iPhone Pro Max landscape"
+    },
+    {
+      "id": "L3",
+      "width": 667,
+      "height": 375,
+      "dpr": 2,
+      "orientation": "landscape",
+      "represents": "iPhone SE landscape"
+    },
+    {
+      "id": "L4",
+      "width": 852,
+      "height": 393,
+      "dpr": 3,
+      "orientation": "landscape",
+      "represents": "iPhone 16 landscape"
+    },
+    {
+      "id": "T1",
+      "width": 768,
+      "height": 1024,
+      "dpr": 2,
+      "orientation": "portrait",
+      "represents": "768px breakpoint boundary"
+    },
+    {
+      "id": "R1",
+      "dpr": 3,
+      "orientation": "rotate"
+    }
+  ],
+  "invariants": [
+    {
+      "id": "I1",
+      "name": "NO-HORIZONTAL-TRAP",
+      "applies_to": "static",
+      "mode": "gated"
+    },
+    {
+      "id": "I2",
+      "name": "BODY-SCROLLABLE",
+      "applies_to": "static",
+      "mode": "gated"
+    },
+    {
+      "id": "I3",
+      "name": "PANEL-FITS",
+      "applies_to": "static",
+      "mode": "gated"
+    },
+    {
+      "id": "I4",
+      "name": "STICKY-BUDGET",
+      "applies_to": "static",
+      "mode": "gated"
+    },
+    {
+      "id": "I5",
+      "name": "CONTROLS-REACHABLE",
+      "applies_to": "static",
+      "mode": "gated"
+    },
+    {
+      "id": "I6",
+      "name": "TAP-TARGETS",
+      "applies_to": "static",
+      "mode": "gated"
+    },
+    {
+      "id": "I7",
+      "name": "SAFE-AREA",
+      "applies_to": "static",
+      "mode": "report-only"
+    },
+    {
+      "id": "I8",
+      "name": "MENU-BOUNDED",
+      "applies_to": "static",
+      "mode": "gated"
+    },
+    {
+      "id": "I9",
+      "name": "NODE-STABILITY",
+      "applies_to": "rotate",
+      "mode": "gated"
+    },
+    {
+      "id": "I10",
+      "name": "TABLE-USABLE",
+      "applies_to": "landscape",
+      "mode": "gated"
+    },
+    {
+      "id": "I11",
+      "name": "TEXT-LEGIBLE",
+      "applies_to": "static",
+      "mode": "gated"
+    },
+    {
+      "id": "I12",
+      "name": "BASELINE-HONESTY",
+      "applies_to": "comparison",
+      "mode": "report-only"
+    }
+  ],
+  "matrix": {
+    "I1": {
+      "P1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "P2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "FAIL"
+      },
+      "L1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L2": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L3": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I2": {
+      "P1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "P2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "L1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "L2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "L3": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I3": {
+      "P1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "P2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "L1": {
+        "candidate": "PASS",
+        "baseline": "FAIL",
+        "original": "PASS"
+      },
+      "L2": {
+        "candidate": "PASS",
+        "baseline": "FAIL",
+        "original": "PASS"
+      },
+      "L3": {
+        "candidate": "PASS",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "PASS",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I4": {
+      "P1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "P2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "L1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "L2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "L3": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I5": {
+      "P1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "FAIL"
+      },
+      "P2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "FAIL"
+      },
+      "L1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "FAIL"
+      },
+      "L2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "FAIL"
+      },
+      "L3": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I6": {
+      "P1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "P2": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L2": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L3": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I7": {
+      "P1": {
+        "candidate": "REPORT-ONLY",
+        "baseline": "REPORT-ONLY",
+        "original": "REPORT-ONLY"
+      },
+      "P2": {
+        "candidate": "REPORT-ONLY",
+        "baseline": "REPORT-ONLY",
+        "original": "REPORT-ONLY"
+      },
+      "L1": {
+        "candidate": "REPORT-ONLY",
+        "baseline": "REPORT-ONLY",
+        "original": "REPORT-ONLY"
+      },
+      "L2": {
+        "candidate": "REPORT-ONLY",
+        "baseline": "REPORT-ONLY",
+        "original": "REPORT-ONLY"
+      },
+      "L3": {
+        "candidate": "REPORT-ONLY",
+        "baseline": "REPORT-ONLY",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "REPORT-ONLY",
+        "baseline": "REPORT-ONLY",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "REPORT-ONLY",
+        "baseline": "REPORT-ONLY",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I8": {
+      "P1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "P2": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L2": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L3": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I9": {
+      "P1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "P2": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "L1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "L2": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "L3": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      }
+    },
+    "I10": {
+      "P1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "P2": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "L1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "FAIL"
+      },
+      "L3": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I11": {
+      "P1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "P2": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L2": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L3": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I12": {
+      "P1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "P2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "L1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "L2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "L3": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      }
+    }
+  },
+  "observed": {
+    "I1": {
+      "P1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "P2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "FAIL"
+      },
+      "L1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L2": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L3": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I2": {
+      "P1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "P2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "L1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "L2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "L3": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I3": {
+      "P1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "P2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "L1": {
+        "candidate": "PASS",
+        "baseline": "FAIL",
+        "original": "PASS"
+      },
+      "L2": {
+        "candidate": "PASS",
+        "baseline": "FAIL",
+        "original": "PASS"
+      },
+      "L3": {
+        "candidate": "PASS",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "PASS",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I4": {
+      "P1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "P2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "L1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "L2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "PASS"
+      },
+      "L3": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I5": {
+      "P1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "FAIL"
+      },
+      "P2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "FAIL"
+      },
+      "L1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "FAIL"
+      },
+      "L2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "FAIL"
+      },
+      "L3": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I6": {
+      "P1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "P2": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L2": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L3": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I7": {
+      "P1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "P2": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L2": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L3": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I8": {
+      "P1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "P2": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L2": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L3": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I9": {
+      "P1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "P2": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "L1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "L2": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "L3": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      }
+    },
+    "I10": {
+      "P1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "P2": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "L1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "FAIL"
+      },
+      "L3": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I11": {
+      "P1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "P2": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L2": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "FAIL"
+      },
+      "L3": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "FAIL",
+        "baseline": "FAIL",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "N/A",
+        "baseline": "N/A",
+        "original": "N/A"
+      }
+    },
+    "I12": {
+      "P1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "P2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "L1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "L2": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "L3": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "L4": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "T1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      },
+      "R1": {
+        "candidate": "PASS",
+        "baseline": "PASS",
+        "original": "N/A"
+      }
+    }
+  },
+  "verdict": {
+    "producer_status": "PASS",
+    "audit_producer_status": "PASS",
+    "candidate_gate": {
+      "status": "FAIL",
+      "checks": 61,
+      "failures": [
+        {
+          "invariant": "I1",
+          "cell": "L1",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I1",
+          "cell": "L2",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I1",
+          "cell": "L4",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I6",
+          "cell": "P1",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I6",
+          "cell": "P2",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I6",
+          "cell": "L1",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I6",
+          "cell": "L2",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I6",
+          "cell": "L3",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I6",
+          "cell": "L4",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I6",
+          "cell": "T1",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I8",
+          "cell": "P1",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I8",
+          "cell": "P2",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I8",
+          "cell": "L1",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I8",
+          "cell": "L2",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I8",
+          "cell": "L3",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I8",
+          "cell": "L4",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I8",
+          "cell": "T1",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I10",
+          "cell": "L1",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I10",
+          "cell": "L4",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I11",
+          "cell": "P1",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I11",
+          "cell": "P2",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I11",
+          "cell": "L1",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I11",
+          "cell": "L2",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I11",
+          "cell": "L3",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I11",
+          "cell": "L4",
+          "status": "FAIL"
+        },
+        {
+          "invariant": "I11",
+          "cell": "T1",
+          "status": "FAIL"
+        }
+      ],
+      "excluded_report_only": [
+        "I7",
+        "I12"
+      ]
+    },
+    "baseline_characterisation": {
+      "status": "RECORDED",
+      "failures": [
+        {
+          "invariant": "I1",
+          "cell": "L1"
+        },
+        {
+          "invariant": "I1",
+          "cell": "L2"
+        },
+        {
+          "invariant": "I1",
+          "cell": "L4"
+        },
+        {
+          "invariant": "I3",
+          "cell": "L1"
+        },
+        {
+          "invariant": "I3",
+          "cell": "L2"
+        },
+        {
+          "invariant": "I3",
+          "cell": "L3"
+        },
+        {
+          "invariant": "I3",
+          "cell": "L4"
+        },
+        {
+          "invariant": "I6",
+          "cell": "P1"
+        },
+        {
+          "invariant": "I6",
+          "cell": "P2"
+        },
+        {
+          "invariant": "I6",
+          "cell": "L1"
+        },
+        {
+          "invariant": "I6",
+          "cell": "L2"
+        },
+        {
+          "invariant": "I6",
+          "cell": "L3"
+        },
+        {
+          "invariant": "I6",
+          "cell": "L4"
+        },
+        {
+          "invariant": "I6",
+          "cell": "T1"
+        },
+        {
+          "invariant": "I8",
+          "cell": "P1"
+        },
+        {
+          "invariant": "I8",
+          "cell": "P2"
+        },
+        {
+          "invariant": "I8",
+          "cell": "L1"
+        },
+        {
+          "invariant": "I8",
+          "cell": "L2"
+        },
+        {
+          "invariant": "I8",
+          "cell": "L3"
+        },
+        {
+          "invariant": "I8",
+          "cell": "L4"
+        },
+        {
+          "invariant": "I8",
+          "cell": "T1"
+        },
+        {
+          "invariant": "I10",
+          "cell": "L1"
+        },
+        {
+          "invariant": "I10",
+          "cell": "L4"
+        },
+        {
+          "invariant": "I11",
+          "cell": "P1"
+        },
+        {
+          "invariant": "I11",
+          "cell": "P2"
+        },
+        {
+          "invariant": "I11",
+          "cell": "L1"
+        },
+        {
+          "invariant": "I11",
+          "cell": "L2"
+        },
+        {
+          "invariant": "I11",
+          "cell": "L3"
+        },
+        {
+          "invariant": "I11",
+          "cell": "L4"
+        },
+        {
+          "invariant": "I11",
+          "cell": "T1"
+        }
+      ]
+    },
+    "original_context": {
+      "status": "PARTIAL",
+      "measured_cells": 4,
+      "expected_cells": 7,
+      "gated": false
+    }
+  },
+  "prediction": {
+    "status": "CONTRADICTED",
+    "checks": [
+      {
+        "target": "candidate",
+        "cell": "L1",
+        "invariant": "I2",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L1",
+        "invariant": "I3",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L1",
+        "invariant": "I4",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L2",
+        "invariant": "I2",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L2",
+        "invariant": "I3",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L2",
+        "invariant": "I4",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L3",
+        "invariant": "I2",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L3",
+        "invariant": "I3",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L3",
+        "invariant": "I4",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L4",
+        "invariant": "I2",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L4",
+        "invariant": "I3",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L4",
+        "invariant": "I4",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "baseline",
+        "cell": "L1",
+        "invariant": "I2",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "baseline",
+        "cell": "L1",
+        "invariant": "I3",
+        "expected": "FAIL",
+        "actual": "FAIL",
+        "matches": true
+      },
+      {
+        "target": "baseline",
+        "cell": "L1",
+        "invariant": "I4",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "baseline",
+        "cell": "L2",
+        "invariant": "I2",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "baseline",
+        "cell": "L2",
+        "invariant": "I3",
+        "expected": "FAIL",
+        "actual": "FAIL",
+        "matches": true
+      },
+      {
+        "target": "baseline",
+        "cell": "L2",
+        "invariant": "I4",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "baseline",
+        "cell": "L3",
+        "invariant": "I2",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "baseline",
+        "cell": "L3",
+        "invariant": "I3",
+        "expected": "FAIL",
+        "actual": "FAIL",
+        "matches": true
+      },
+      {
+        "target": "baseline",
+        "cell": "L3",
+        "invariant": "I4",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "baseline",
+        "cell": "L4",
+        "invariant": "I2",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "baseline",
+        "cell": "L4",
+        "invariant": "I3",
+        "expected": "FAIL",
+        "actual": "FAIL",
+        "matches": true
+      },
+      {
+        "target": "baseline",
+        "cell": "L4",
+        "invariant": "I4",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      }
+    ],
+    "contradictions": [
+      {
+        "target": "candidate",
+        "cell": "L1",
+        "invariant": "I2",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L1",
+        "invariant": "I3",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L1",
+        "invariant": "I4",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L2",
+        "invariant": "I2",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L2",
+        "invariant": "I3",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L2",
+        "invariant": "I4",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L3",
+        "invariant": "I2",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L3",
+        "invariant": "I3",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L3",
+        "invariant": "I4",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L4",
+        "invariant": "I2",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L4",
+        "invariant": "I3",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "candidate",
+        "cell": "L4",
+        "invariant": "I4",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "baseline",
+        "cell": "L1",
+        "invariant": "I2",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "baseline",
+        "cell": "L1",
+        "invariant": "I4",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "baseline",
+        "cell": "L2",
+        "invariant": "I2",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "baseline",
+        "cell": "L2",
+        "invariant": "I4",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "baseline",
+        "cell": "L3",
+        "invariant": "I2",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "baseline",
+        "cell": "L3",
+        "invariant": "I4",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "baseline",
+        "cell": "L4",
+        "invariant": "I2",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      },
+      {
+        "target": "baseline",
+        "cell": "L4",
+        "invariant": "I4",
+        "expected": "FAIL",
+        "actual": "PASS",
+        "matches": false
+      }
+    ],
+    "gates_workflow": false,
+    "note": "Predictions are hypotheses. Contradictions revise the study; they never invalidate captured evidence."
+  },
+  "records": [
+    {
+      "target": "baseline",
+      "target_label": "Trusted compiled V9.6.2",
+      "target_url": "http://127.0.0.1:4173/releases/202608261927-index.html",
+      "cell": "L1",
+      "availability": "MEASURED",
+      "evidence": "baseline--L1.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "baseline",
+      "target_label": "Trusted compiled V9.6.2",
+      "target_url": "http://127.0.0.1:4173/releases/202608261927-index.html",
+      "cell": "L2",
+      "availability": "MEASURED",
+      "evidence": "baseline--L2.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "baseline",
+      "target_label": "Trusted compiled V9.6.2",
+      "target_url": "http://127.0.0.1:4173/releases/202608261927-index.html",
+      "cell": "L3",
+      "availability": "MEASURED",
+      "evidence": "baseline--L3.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "baseline",
+      "target_label": "Trusted compiled V9.6.2",
+      "target_url": "http://127.0.0.1:4173/releases/202608261927-index.html",
+      "cell": "L4",
+      "availability": "MEASURED",
+      "evidence": "baseline--L4.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "baseline",
+      "target_label": "Trusted compiled V9.6.2",
+      "target_url": "http://127.0.0.1:4173/releases/202608261927-index.html",
+      "cell": "P1",
+      "availability": "MEASURED",
+      "evidence": "baseline--P1.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "baseline",
+      "target_label": "Trusted compiled V9.6.2",
+      "target_url": "http://127.0.0.1:4173/releases/202608261927-index.html",
+      "cell": "P2",
+      "availability": "MEASURED",
+      "evidence": "baseline--P2.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "baseline",
+      "target_label": "Trusted compiled V9.6.2",
+      "target_url": "http://127.0.0.1:4173/releases/202608261927-index.html",
+      "cell": "R1",
+      "availability": "MEASURED",
+      "evidence": "baseline--R1.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "baseline",
+      "target_label": "Trusted compiled V9.6.2",
+      "target_url": "http://127.0.0.1:4173/releases/202608261927-index.html",
+      "cell": "T1",
+      "availability": "MEASURED",
+      "evidence": "baseline--T1.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "candidate",
+      "target_label": "V8 fast candidate 202608271524",
+      "target_url": "http://127.0.0.1:4173/releases/202608271524-v8-fast-candidate.html",
+      "cell": "L1",
+      "availability": "MEASURED",
+      "evidence": "candidate--L1.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "candidate",
+      "target_label": "V8 fast candidate 202608271524",
+      "target_url": "http://127.0.0.1:4173/releases/202608271524-v8-fast-candidate.html",
+      "cell": "L2",
+      "availability": "MEASURED",
+      "evidence": "candidate--L2.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "candidate",
+      "target_label": "V8 fast candidate 202608271524",
+      "target_url": "http://127.0.0.1:4173/releases/202608271524-v8-fast-candidate.html",
+      "cell": "L3",
+      "availability": "MEASURED",
+      "evidence": "candidate--L3.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "candidate",
+      "target_label": "V8 fast candidate 202608271524",
+      "target_url": "http://127.0.0.1:4173/releases/202608271524-v8-fast-candidate.html",
+      "cell": "L4",
+      "availability": "MEASURED",
+      "evidence": "candidate--L4.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "candidate",
+      "target_label": "V8 fast candidate 202608271524",
+      "target_url": "http://127.0.0.1:4173/releases/202608271524-v8-fast-candidate.html",
+      "cell": "P1",
+      "availability": "MEASURED",
+      "evidence": "candidate--P1.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "candidate",
+      "target_label": "V8 fast candidate 202608271524",
+      "target_url": "http://127.0.0.1:4173/releases/202608271524-v8-fast-candidate.html",
+      "cell": "P2",
+      "availability": "MEASURED",
+      "evidence": "candidate--P2.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "candidate",
+      "target_label": "V8 fast candidate 202608271524",
+      "target_url": "http://127.0.0.1:4173/releases/202608271524-v8-fast-candidate.html",
+      "cell": "R1",
+      "availability": "MEASURED",
+      "evidence": "candidate--R1.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "candidate",
+      "target_label": "V8 fast candidate 202608271524",
+      "target_url": "http://127.0.0.1:4173/releases/202608271524-v8-fast-candidate.html",
+      "cell": "T1",
+      "availability": "MEASURED",
+      "evidence": "candidate--T1.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "original",
+      "target_label": "Original live dashboard",
+      "target_url": "https://globalgrid2050.com/uk_renewables_pipeline/dashboard.html",
+      "cell": "L1",
+      "availability": "MEASURED",
+      "evidence": "original--L1.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "original",
+      "target_label": "Original live dashboard",
+      "target_url": "https://globalgrid2050.com/uk_renewables_pipeline/dashboard.html",
+      "cell": "L2",
+      "availability": "MEASURED",
+      "evidence": "original--L2.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "original",
+      "target_label": "Original live dashboard",
+      "target_url": "https://globalgrid2050.com/uk_renewables_pipeline/dashboard.html",
+      "cell": "L3",
+      "availability": "UNAVAILABLE",
+      "evidence": "original--L3.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "original",
+      "target_label": "Original live dashboard",
+      "target_url": "https://globalgrid2050.com/uk_renewables_pipeline/dashboard.html",
+      "cell": "L4",
+      "availability": "UNAVAILABLE",
+      "evidence": "original--L4.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "original",
+      "target_label": "Original live dashboard",
+      "target_url": "https://globalgrid2050.com/uk_renewables_pipeline/dashboard.html",
+      "cell": "P1",
+      "availability": "MEASURED",
+      "evidence": "original--P1.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "original",
+      "target_label": "Original live dashboard",
+      "target_url": "https://globalgrid2050.com/uk_renewables_pipeline/dashboard.html",
+      "cell": "P2",
+      "availability": "MEASURED",
+      "evidence": "original--P2.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    },
+    {
+      "target": "original",
+      "target_label": "Original live dashboard",
+      "target_url": "https://globalgrid2050.com/uk_renewables_pipeline/dashboard.html",
+      "cell": "T1",
+      "availability": "UNAVAILABLE",
+      "evidence": "original--T1.json",
+      "ready": null,
+      "diagnostics": {
+        "console_errors": 0,
+        "page_errors": 0,
+        "failed_requests": 0,
+        "http_errors": 0
+      }
+    }
+  ],
+  "measurement_excerpts": [
+    {
+      "target": "baseline",
+      "cell": "L1",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": true,
+          "pass": false,
+          "viewport_width": 844,
+          "root_scroll_width": 844,
+          "body_scroll_width": 844,
+          "offender_count": 9
+        },
+        "I10": {
+          "applicable": true,
+          "pass": false,
+          "present": true,
+          "visible_row_count": 2,
+          "minimum_visible_rows": 3,
+          "client_width": 532,
+          "scroll_width": 1492,
+          "maximum_scroll_left": 960,
+          "reached_final_position": true,
+          "final_column_visible": true
+        },
+        "I11": {
+          "applicable": true,
+          "pass": false,
+          "minimum_copy_font_px": 9,
+          "required_minimum_px": 10,
+          "webkit_text_size_adjust": "auto",
+          "text_size_adjust_explicit": false,
+          "clipped_text_count": 0
+        },
+        "I2": {
+          "applicable": true,
+          "pass": true,
+          "viewport_height": 390,
+          "body_scroll_height": 912,
+          "root_scroll_height": 912,
+          "maximum_root_scroll": 522,
+          "probe_px": 200,
+          "probe_delta_px": 200,
+          "overflow_y": "hidden"
+        },
+        "I3": {
+          "applicable": true,
+          "pass": false,
+          "maximum_panel_height": 331.5,
+          "maximum_rect_height": 819,
+          "maximum_constrained_height": 520,
+          "panel_count": 6,
+          "exceed_count": 1
+        },
+        "I4": {
+          "applicable": true,
+          "pass": true,
+          "maximum_sticky_pixels": 136.5,
+          "occupied_pixels": 54,
+          "occupied_ratio": 0.1385,
+          "union_band_count": 1,
+          "contributor_count": 4,
+          "contributor_sample": [
+            {
+              "element": "th",
+              "position": "sticky",
+              "top": 1,
+              "bottom": 55
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 1,
+              "bottom": 55
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 1,
+              "bottom": 55
+            }
+          ]
+        },
+        "I5": {
+          "applicable": true,
+          "pass": true,
+          "controls": {
+            "search": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "technology": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "status": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "sort": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            }
+          }
+        },
+        "I6": {
+          "applicable": true,
+          "pass": false,
+          "interactive_count": 30875,
+          "explicit_exception_count": 30693,
+          "failure_count": 30742,
+          "top_failure_labels": [
+            {
+              "element": "a.active",
+              "text": "V9.6.2 LIVE VALIDATED",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.6.1 FROZEN APP",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.6 DISCONTINUED",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.5.1 FROZEN APP",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.5 FROZEN APP",
+              "required_px": 44
+            }
+          ]
+        },
+        "I7": {
+          "applicable": true,
+          "pass": false,
+          "cdp_override_supported": true,
+          "viewport_fit_cover": false,
+          "env_match": true,
+          "intersection_count": 33
+        },
+        "I8": {
+          "applicable": true,
+          "pass": false,
+          "menu_applicable": true,
+          "fits_viewport": false,
+          "internally_scrollable": false,
+          "outside_dismiss": null,
+          "underlying_scroll_locked": null
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "rotation-only invariant"
+        }
+      }
+    },
+    {
+      "target": "baseline",
+      "cell": "L2",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": true,
+          "pass": false,
+          "viewport_width": 932,
+          "root_scroll_width": 932,
+          "body_scroll_width": 932,
+          "offender_count": 9
+        },
+        "I10": {
+          "applicable": true,
+          "pass": true,
+          "present": true,
+          "visible_row_count": 3,
+          "minimum_visible_rows": 3,
+          "client_width": 620,
+          "scroll_width": 1492,
+          "maximum_scroll_left": 872,
+          "reached_final_position": true,
+          "final_column_visible": true
+        },
+        "I11": {
+          "applicable": true,
+          "pass": false,
+          "minimum_copy_font_px": 9,
+          "required_minimum_px": 10,
+          "webkit_text_size_adjust": "auto",
+          "text_size_adjust_explicit": false,
+          "clipped_text_count": 0
+        },
+        "I2": {
+          "applicable": true,
+          "pass": true,
+          "viewport_height": 430,
+          "body_scroll_height": 912,
+          "root_scroll_height": 912,
+          "maximum_root_scroll": 482,
+          "probe_px": 200,
+          "probe_delta_px": 200,
+          "overflow_y": "hidden"
+        },
+        "I3": {
+          "applicable": true,
+          "pass": false,
+          "maximum_panel_height": 365.5,
+          "maximum_rect_height": 819,
+          "maximum_constrained_height": 520,
+          "panel_count": 6,
+          "exceed_count": 1
+        },
+        "I4": {
+          "applicable": true,
+          "pass": true,
+          "maximum_sticky_pixels": 150.5,
+          "occupied_pixels": 83,
+          "occupied_ratio": 0.193,
+          "union_band_count": 1,
+          "contributor_count": 1,
+          "contributor_sample": [
+            {
+              "element": "#newsTools",
+              "position": "sticky",
+              "top": 344,
+              "bottom": 427
+            }
+          ]
+        },
+        "I5": {
+          "applicable": true,
+          "pass": true,
+          "controls": {
+            "search": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "technology": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "status": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "sort": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            }
+          }
+        },
+        "I6": {
+          "applicable": true,
+          "pass": false,
+          "interactive_count": 30875,
+          "explicit_exception_count": 30693,
+          "failure_count": 30742,
+          "top_failure_labels": [
+            {
+              "element": "a.active",
+              "text": "V9.6.2 LIVE VALIDATED",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.6.1 FROZEN APP",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.6 DISCONTINUED",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.5.1 FROZEN APP",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.5 FROZEN APP",
+              "required_px": 44
+            }
+          ]
+        },
+        "I7": {
+          "applicable": true,
+          "pass": false,
+          "cdp_override_supported": true,
+          "viewport_fit_cover": false,
+          "env_match": true,
+          "intersection_count": 33
+        },
+        "I8": {
+          "applicable": true,
+          "pass": false,
+          "menu_applicable": true,
+          "fits_viewport": false,
+          "internally_scrollable": false,
+          "outside_dismiss": null,
+          "underlying_scroll_locked": null
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "rotation-only invariant"
+        }
+      }
+    },
+    {
+      "target": "baseline",
+      "cell": "L3",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": true,
+          "pass": true,
+          "viewport_width": 667,
+          "root_scroll_width": 667,
+          "body_scroll_width": 667,
+          "offender_count": 0
+        },
+        "I10": {
+          "applicable": true,
+          "pass": true,
+          "present": true,
+          "visible_row_count": 3,
+          "minimum_visible_rows": 3,
+          "client_width": 645,
+          "scroll_width": 1280,
+          "maximum_scroll_left": 635,
+          "reached_final_position": true,
+          "final_column_visible": true
+        },
+        "I11": {
+          "applicable": true,
+          "pass": false,
+          "minimum_copy_font_px": 9,
+          "required_minimum_px": 10,
+          "webkit_text_size_adjust": "auto",
+          "text_size_adjust_explicit": false,
+          "clipped_text_count": 0
+        },
+        "I2": {
+          "applicable": true,
+          "pass": true,
+          "viewport_height": 375,
+          "body_scroll_height": 775764,
+          "root_scroll_height": 775764,
+          "maximum_root_scroll": 775389,
+          "probe_px": 200,
+          "probe_delta_px": 200,
+          "overflow_y": "auto"
+        },
+        "I3": {
+          "applicable": true,
+          "pass": false,
+          "maximum_panel_height": 318.75,
+          "maximum_rect_height": 773692.31,
+          "maximum_constrained_height": 480,
+          "panel_count": 5,
+          "exceed_count": 1
+        },
+        "I4": {
+          "applicable": true,
+          "pass": true,
+          "maximum_sticky_pixels": 131.25,
+          "occupied_pixels": 38,
+          "occupied_ratio": 0.1013,
+          "union_band_count": 1,
+          "contributor_count": 4,
+          "contributor_sample": [
+            {
+              "element": "th",
+              "position": "sticky",
+              "top": 1,
+              "bottom": 39
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 1,
+              "bottom": 39
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 1,
+              "bottom": 39
+            }
+          ]
+        },
+        "I5": {
+          "applicable": true,
+          "pass": true,
+          "controls": {
+            "search": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "technology": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "status": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "sort": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            }
+          }
+        },
+        "I6": {
+          "applicable": true,
+          "pass": false,
+          "interactive_count": 30854,
+          "explicit_exception_count": 30693,
+          "failure_count": 30721,
+          "top_failure_labels": [
+            {
+              "element": "a",
+              "text": "Official REPD source",
+              "required_px": 44
+            },
+            {
+              "element": "button.active",
+              "text": "ALL",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "UK",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "INTERNATIONAL",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "US",
+              "required_px": 44
+            }
+          ]
+        },
+        "I7": {
+          "applicable": true,
+          "pass": false,
+          "cdp_override_supported": true,
+          "viewport_fit_cover": false,
+          "env_match": true,
+          "intersection_count": 0
+        },
+        "I8": {
+          "applicable": true,
+          "pass": false,
+          "menu_applicable": true,
+          "fits_viewport": null,
+          "internally_scrollable": null,
+          "outside_dismiss": null,
+          "underlying_scroll_locked": null
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "rotation-only invariant"
+        }
+      }
+    },
+    {
+      "target": "baseline",
+      "cell": "L4",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": true,
+          "pass": false,
+          "viewport_width": 852,
+          "root_scroll_width": 852,
+          "body_scroll_width": 852,
+          "offender_count": 9
+        },
+        "I10": {
+          "applicable": true,
+          "pass": false,
+          "present": true,
+          "visible_row_count": 2,
+          "minimum_visible_rows": 3,
+          "client_width": 540,
+          "scroll_width": 1492,
+          "maximum_scroll_left": 952,
+          "reached_final_position": true,
+          "final_column_visible": true
+        },
+        "I11": {
+          "applicable": true,
+          "pass": false,
+          "minimum_copy_font_px": 9,
+          "required_minimum_px": 10,
+          "webkit_text_size_adjust": "auto",
+          "text_size_adjust_explicit": false,
+          "clipped_text_count": 0
+        },
+        "I2": {
+          "applicable": true,
+          "pass": true,
+          "viewport_height": 393,
+          "body_scroll_height": 912,
+          "root_scroll_height": 912,
+          "maximum_root_scroll": 519,
+          "probe_px": 200,
+          "probe_delta_px": 200,
+          "overflow_y": "hidden"
+        },
+        "I3": {
+          "applicable": true,
+          "pass": false,
+          "maximum_panel_height": 334.05,
+          "maximum_rect_height": 819,
+          "maximum_constrained_height": 520,
+          "panel_count": 6,
+          "exceed_count": 1
+        },
+        "I4": {
+          "applicable": true,
+          "pass": true,
+          "maximum_sticky_pixels": 137.55,
+          "occupied_pixels": 54,
+          "occupied_ratio": 0.1374,
+          "union_band_count": 1,
+          "contributor_count": 4,
+          "contributor_sample": [
+            {
+              "element": "th",
+              "position": "sticky",
+              "top": 1,
+              "bottom": 55
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 1,
+              "bottom": 55
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 1,
+              "bottom": 55
+            }
+          ]
+        },
+        "I5": {
+          "applicable": true,
+          "pass": true,
+          "controls": {
+            "search": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "technology": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "status": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "sort": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            }
+          }
+        },
+        "I6": {
+          "applicable": true,
+          "pass": false,
+          "interactive_count": 30875,
+          "explicit_exception_count": 30693,
+          "failure_count": 30742,
+          "top_failure_labels": [
+            {
+              "element": "a.active",
+              "text": "V9.6.2 LIVE VALIDATED",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.6.1 FROZEN APP",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.6 DISCONTINUED",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.5.1 FROZEN APP",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.5 FROZEN APP",
+              "required_px": 44
+            }
+          ]
+        },
+        "I7": {
+          "applicable": true,
+          "pass": false,
+          "cdp_override_supported": true,
+          "viewport_fit_cover": false,
+          "env_match": true,
+          "intersection_count": 33
+        },
+        "I8": {
+          "applicable": true,
+          "pass": false,
+          "menu_applicable": true,
+          "fits_viewport": false,
+          "internally_scrollable": false,
+          "outside_dismiss": null,
+          "underlying_scroll_locked": null
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "rotation-only invariant"
+        }
+      }
+    },
+    {
+      "target": "baseline",
+      "cell": "P1",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": true,
+          "pass": true,
+          "viewport_width": 390,
+          "root_scroll_width": 390,
+          "body_scroll_width": 390,
+          "offender_count": 0
+        },
+        "I10": {
+          "applicable": false,
+          "pass": null,
+          "reason": null
+        },
+        "I11": {
+          "applicable": true,
+          "pass": false,
+          "minimum_copy_font_px": 9,
+          "required_minimum_px": 10,
+          "webkit_text_size_adjust": "auto",
+          "text_size_adjust_explicit": false,
+          "clipped_text_count": 0
+        },
+        "I2": {
+          "applicable": true,
+          "pass": true,
+          "viewport_height": 844,
+          "body_scroll_height": 776088,
+          "root_scroll_height": 776088,
+          "maximum_root_scroll": 775244,
+          "probe_px": 200,
+          "probe_delta_px": 200,
+          "overflow_y": "auto"
+        },
+        "I3": {
+          "applicable": true,
+          "pass": true,
+          "maximum_panel_height": 717.4,
+          "maximum_rect_height": 773692.25,
+          "maximum_constrained_height": 548.594,
+          "panel_count": 5,
+          "exceed_count": 0
+        },
+        "I4": {
+          "applicable": true,
+          "pass": true,
+          "maximum_sticky_pixels": 295.4,
+          "occupied_pixels": 38,
+          "occupied_ratio": 0.045,
+          "union_band_count": 1,
+          "contributor_count": 3,
+          "contributor_sample": [
+            {
+              "element": "th",
+              "position": "sticky",
+              "top": 716.59,
+              "bottom": 754.59
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 716.59,
+              "bottom": 754.59
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 716.59,
+              "bottom": 754.59
+            }
+          ]
+        },
+        "I5": {
+          "applicable": true,
+          "pass": true,
+          "controls": {
+            "search": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "technology": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "status": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "sort": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            }
+          }
+        },
+        "I6": {
+          "applicable": true,
+          "pass": false,
+          "interactive_count": 30854,
+          "explicit_exception_count": 30693,
+          "failure_count": 30721,
+          "top_failure_labels": [
+            {
+              "element": "a",
+              "text": "Official REPD source",
+              "required_px": 44
+            },
+            {
+              "element": "button.active",
+              "text": "ALL",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "UK",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "INTERNATIONAL",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "US",
+              "required_px": 44
+            }
+          ]
+        },
+        "I7": {
+          "applicable": true,
+          "pass": false,
+          "cdp_override_supported": true,
+          "viewport_fit_cover": false,
+          "env_match": true,
+          "intersection_count": 2
+        },
+        "I8": {
+          "applicable": true,
+          "pass": false,
+          "menu_applicable": true,
+          "fits_viewport": null,
+          "internally_scrollable": null,
+          "outside_dismiss": null,
+          "underlying_scroll_locked": null
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "rotation-only invariant"
+        }
+      }
+    },
+    {
+      "target": "baseline",
+      "cell": "P2",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": true,
+          "pass": true,
+          "viewport_width": 375,
+          "root_scroll_width": 375,
+          "body_scroll_width": 375,
+          "offender_count": 0
+        },
+        "I10": {
+          "applicable": false,
+          "pass": null,
+          "reason": null
+        },
+        "I11": {
+          "applicable": true,
+          "pass": false,
+          "minimum_copy_font_px": 9,
+          "required_minimum_px": 10,
+          "webkit_text_size_adjust": "auto",
+          "text_size_adjust_explicit": false,
+          "clipped_text_count": 0
+        },
+        "I2": {
+          "applicable": true,
+          "pass": true,
+          "viewport_height": 667,
+          "body_scroll_height": 776019,
+          "root_scroll_height": 776019,
+          "maximum_root_scroll": 775352,
+          "probe_px": 200,
+          "probe_delta_px": 200,
+          "overflow_y": "auto"
+        },
+        "I3": {
+          "applicable": true,
+          "pass": true,
+          "maximum_panel_height": 566.95,
+          "maximum_rect_height": 773692.31,
+          "maximum_constrained_height": 480,
+          "panel_count": 5,
+          "exceed_count": 0
+        },
+        "I4": {
+          "applicable": true,
+          "pass": true,
+          "maximum_sticky_pixels": 233.45,
+          "occupied_pixels": 38,
+          "occupied_ratio": 0.057,
+          "union_band_count": 1,
+          "contributor_count": 3,
+          "contributor_sample": [
+            {
+              "element": "th",
+              "position": "sticky",
+              "top": 628,
+              "bottom": 666
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 628,
+              "bottom": 666
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 628,
+              "bottom": 666
+            }
+          ]
+        },
+        "I5": {
+          "applicable": true,
+          "pass": true,
+          "controls": {
+            "search": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "technology": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "status": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "sort": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            }
+          }
+        },
+        "I6": {
+          "applicable": true,
+          "pass": false,
+          "interactive_count": 30854,
+          "explicit_exception_count": 30693,
+          "failure_count": 30721,
+          "top_failure_labels": [
+            {
+              "element": "a",
+              "text": "Official REPD source",
+              "required_px": 44
+            },
+            {
+              "element": "button.active",
+              "text": "ALL",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "UK",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "INTERNATIONAL",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "US",
+              "required_px": 44
+            }
+          ]
+        },
+        "I7": {
+          "applicable": true,
+          "pass": false,
+          "cdp_override_supported": true,
+          "viewport_fit_cover": false,
+          "env_match": true,
+          "intersection_count": 0
+        },
+        "I8": {
+          "applicable": true,
+          "pass": false,
+          "menu_applicable": true,
+          "fits_viewport": null,
+          "internally_scrollable": null,
+          "outside_dismiss": null,
+          "underlying_scroll_locked": null
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "rotation-only invariant"
+        }
+      }
+    },
+    {
+      "target": "baseline",
+      "cell": "R1",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I10": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I11": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I2": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I3": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I4": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I5": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I6": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I7": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I8": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I9": {
+          "applicable": true,
+          "pass": true,
+          "connected_delta": 0,
+          "connected_tolerance": 16189,
+          "document_delta": 0,
+          "document_tolerance": 1,
+          "node_delta": 0,
+          "node_tolerance": 30493,
+          "listener_delta": 0,
+          "listener_tolerance": 3,
+          "detached_supported": true,
+          "detached_delta": 0,
+          "detached_tolerance": 0,
+          "detached_stable": true,
+          "documents_stable": true,
+          "listeners_stable": true,
+          "monotonic_growth": false
+        }
+      }
+    },
+    {
+      "target": "baseline",
+      "cell": "T1",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": true,
+          "pass": true,
+          "viewport_width": 768,
+          "root_scroll_width": 768,
+          "body_scroll_width": 768,
+          "offender_count": 0
+        },
+        "I10": {
+          "applicable": false,
+          "pass": null,
+          "reason": null
+        },
+        "I11": {
+          "applicable": true,
+          "pass": false,
+          "minimum_copy_font_px": 9,
+          "required_minimum_px": 10,
+          "webkit_text_size_adjust": "auto",
+          "text_size_adjust_explicit": false,
+          "clipped_text_count": 0
+        },
+        "I2": {
+          "applicable": true,
+          "pass": true,
+          "viewport_height": 1024,
+          "body_scroll_height": 775926,
+          "root_scroll_height": 775926,
+          "maximum_root_scroll": 774902,
+          "probe_px": 200,
+          "probe_delta_px": 200,
+          "overflow_y": "auto"
+        },
+        "I3": {
+          "applicable": true,
+          "pass": true,
+          "maximum_panel_height": 870.4,
+          "maximum_rect_height": 773692.25,
+          "maximum_constrained_height": 665.594,
+          "panel_count": 5,
+          "exceed_count": 0
+        },
+        "I4": {
+          "applicable": true,
+          "pass": true,
+          "maximum_sticky_pixels": 358.4,
+          "occupied_pixels": 38,
+          "occupied_ratio": 0.0371,
+          "union_band_count": 1,
+          "contributor_count": 5,
+          "contributor_sample": [
+            {
+              "element": "th",
+              "position": "sticky",
+              "top": 770.59,
+              "bottom": 808.59
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 770.59,
+              "bottom": 808.59
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 770.59,
+              "bottom": 808.59
+            }
+          ]
+        },
+        "I5": {
+          "applicable": true,
+          "pass": true,
+          "controls": {
+            "search": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "technology": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "status": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "sort": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            }
+          }
+        },
+        "I6": {
+          "applicable": true,
+          "pass": false,
+          "interactive_count": 30854,
+          "explicit_exception_count": 30693,
+          "failure_count": 30721,
+          "top_failure_labels": [
+            {
+              "element": "a",
+              "text": "Official REPD source",
+              "required_px": 44
+            },
+            {
+              "element": "button.active",
+              "text": "ALL",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "UK",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "INTERNATIONAL",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "US",
+              "required_px": 44
+            }
+          ]
+        },
+        "I7": {
+          "applicable": true,
+          "pass": false,
+          "cdp_override_supported": true,
+          "viewport_fit_cover": false,
+          "env_match": true,
+          "intersection_count": 0
+        },
+        "I8": {
+          "applicable": true,
+          "pass": false,
+          "menu_applicable": true,
+          "fits_viewport": null,
+          "internally_scrollable": null,
+          "outside_dismiss": null,
+          "underlying_scroll_locked": null
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "rotation-only invariant"
+        }
+      }
+    },
+    {
+      "target": "candidate",
+      "cell": "L1",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": true,
+          "pass": false,
+          "viewport_width": 844,
+          "root_scroll_width": 844,
+          "body_scroll_width": 844,
+          "offender_count": 9
+        },
+        "I10": {
+          "applicable": true,
+          "pass": false,
+          "present": true,
+          "visible_row_count": 2,
+          "minimum_visible_rows": 3,
+          "client_width": 532,
+          "scroll_width": 1500,
+          "maximum_scroll_left": 968,
+          "reached_final_position": true,
+          "final_column_visible": true
+        },
+        "I11": {
+          "applicable": true,
+          "pass": false,
+          "minimum_copy_font_px": 9,
+          "required_minimum_px": 10,
+          "webkit_text_size_adjust": "auto",
+          "text_size_adjust_explicit": false,
+          "clipped_text_count": 0
+        },
+        "I2": {
+          "applicable": true,
+          "pass": true,
+          "viewport_height": 390,
+          "body_scroll_height": 973,
+          "root_scroll_height": 973,
+          "maximum_root_scroll": 583,
+          "probe_px": 200,
+          "probe_delta_px": 200,
+          "overflow_y": "hidden"
+        },
+        "I3": {
+          "applicable": true,
+          "pass": true,
+          "maximum_panel_height": 331.5,
+          "maximum_rect_height": 864,
+          "maximum_constrained_height": 265.188,
+          "panel_count": 6,
+          "exceed_count": 0
+        },
+        "I4": {
+          "applicable": true,
+          "pass": true,
+          "maximum_sticky_pixels": 136.5,
+          "occupied_pixels": 118,
+          "occupied_ratio": 0.3026,
+          "union_band_count": 2,
+          "contributor_count": 5,
+          "contributor_sample": [
+            {
+              "element": "th",
+              "position": "sticky",
+              "top": 1.19,
+              "bottom": 55.19
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 1.19,
+              "bottom": 55.19
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 1.19,
+              "bottom": 55.19
+            }
+          ]
+        },
+        "I5": {
+          "applicable": true,
+          "pass": true,
+          "controls": {
+            "search": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "technology": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "status": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "sort": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            }
+          }
+        },
+        "I6": {
+          "applicable": true,
+          "pass": false,
+          "interactive_count": 269,
+          "explicit_exception_count": 188,
+          "failure_count": 238,
+          "top_failure_labels": [
+            {
+              "element": "a",
+              "text": "V9.6.1 FROZEN APP",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.6 DISCONTINUED",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.5.1 FROZEN APP",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.5 FROZEN APP",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.4 FROZEN APP",
+              "required_px": 44
+            }
+          ]
+        },
+        "I7": {
+          "applicable": true,
+          "pass": false,
+          "cdp_override_supported": true,
+          "viewport_fit_cover": false,
+          "env_match": true,
+          "intersection_count": 22
+        },
+        "I8": {
+          "applicable": true,
+          "pass": false,
+          "menu_applicable": true,
+          "fits_viewport": false,
+          "internally_scrollable": false,
+          "outside_dismiss": null,
+          "underlying_scroll_locked": null
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "rotation-only invariant"
+        }
+      }
+    },
+    {
+      "target": "candidate",
+      "cell": "L2",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": true,
+          "pass": false,
+          "viewport_width": 932,
+          "root_scroll_width": 932,
+          "body_scroll_width": 932,
+          "offender_count": 9
+        },
+        "I10": {
+          "applicable": true,
+          "pass": true,
+          "present": true,
+          "visible_row_count": 3,
+          "minimum_visible_rows": 3,
+          "client_width": 620,
+          "scroll_width": 1500,
+          "maximum_scroll_left": 880,
+          "reached_final_position": true,
+          "final_column_visible": true
+        },
+        "I11": {
+          "applicable": true,
+          "pass": false,
+          "minimum_copy_font_px": 9,
+          "required_minimum_px": 10,
+          "webkit_text_size_adjust": "auto",
+          "text_size_adjust_explicit": false,
+          "clipped_text_count": 0
+        },
+        "I2": {
+          "applicable": true,
+          "pass": true,
+          "viewport_height": 430,
+          "body_scroll_height": 973,
+          "root_scroll_height": 973,
+          "maximum_root_scroll": 543,
+          "probe_px": 200,
+          "probe_delta_px": 200,
+          "overflow_y": "hidden"
+        },
+        "I3": {
+          "applicable": true,
+          "pass": true,
+          "maximum_panel_height": 365.5,
+          "maximum_rect_height": 864,
+          "maximum_constrained_height": 292.391,
+          "panel_count": 6,
+          "exceed_count": 0
+        },
+        "I4": {
+          "applicable": true,
+          "pass": true,
+          "maximum_sticky_pixels": 150.5,
+          "occupied_pixels": 118,
+          "occupied_ratio": 0.2744,
+          "union_band_count": 2,
+          "contributor_count": 6,
+          "contributor_sample": [
+            {
+              "element": "th",
+              "position": "sticky",
+              "top": 1.39,
+              "bottom": 55.39
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 1.39,
+              "bottom": 55.39
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 1.39,
+              "bottom": 55.39
+            }
+          ]
+        },
+        "I5": {
+          "applicable": true,
+          "pass": true,
+          "controls": {
+            "search": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "technology": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "status": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "sort": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            }
+          }
+        },
+        "I6": {
+          "applicable": true,
+          "pass": false,
+          "interactive_count": 269,
+          "explicit_exception_count": 188,
+          "failure_count": 238,
+          "top_failure_labels": [
+            {
+              "element": "a",
+              "text": "V9.6.1 FROZEN APP",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.6 DISCONTINUED",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.5.1 FROZEN APP",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.5 FROZEN APP",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.4 FROZEN APP",
+              "required_px": 44
+            }
+          ]
+        },
+        "I7": {
+          "applicable": true,
+          "pass": false,
+          "cdp_override_supported": true,
+          "viewport_fit_cover": false,
+          "env_match": true,
+          "intersection_count": 33
+        },
+        "I8": {
+          "applicable": true,
+          "pass": false,
+          "menu_applicable": true,
+          "fits_viewport": false,
+          "internally_scrollable": false,
+          "outside_dismiss": null,
+          "underlying_scroll_locked": null
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "rotation-only invariant"
+        }
+      }
+    },
+    {
+      "target": "candidate",
+      "cell": "L3",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": true,
+          "pass": true,
+          "viewport_width": 667,
+          "root_scroll_width": 667,
+          "body_scroll_width": 667,
+          "offender_count": 0
+        },
+        "I10": {
+          "applicable": true,
+          "pass": true,
+          "present": true,
+          "visible_row_count": 4,
+          "minimum_visible_rows": 3,
+          "client_width": 645,
+          "scroll_width": 1500,
+          "maximum_scroll_left": 855,
+          "reached_final_position": true,
+          "final_column_visible": true
+        },
+        "I11": {
+          "applicable": true,
+          "pass": false,
+          "minimum_copy_font_px": 9,
+          "required_minimum_px": 10,
+          "webkit_text_size_adjust": "auto",
+          "text_size_adjust_explicit": false,
+          "clipped_text_count": 0
+        },
+        "I2": {
+          "applicable": true,
+          "pass": true,
+          "viewport_height": 375,
+          "body_scroll_height": 6842,
+          "root_scroll_height": 6842,
+          "maximum_root_scroll": 6467,
+          "probe_px": 200,
+          "probe_delta_px": 200,
+          "overflow_y": "auto"
+        },
+        "I3": {
+          "applicable": true,
+          "pass": true,
+          "maximum_panel_height": 318.75,
+          "maximum_rect_height": 4857.97,
+          "maximum_constrained_height": 243.75,
+          "panel_count": 5,
+          "exceed_count": 0
+        },
+        "I4": {
+          "applicable": true,
+          "pass": true,
+          "maximum_sticky_pixels": 131.25,
+          "occupied_pixels": 38,
+          "occupied_ratio": 0.1013,
+          "union_band_count": 1,
+          "contributor_count": 3,
+          "contributor_sample": [
+            {
+              "element": "th",
+              "position": "sticky",
+              "top": 0.75,
+              "bottom": 38.75
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 0.75,
+              "bottom": 38.75
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 0.75,
+              "bottom": 38.75
+            }
+          ]
+        },
+        "I5": {
+          "applicable": true,
+          "pass": true,
+          "controls": {
+            "search": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "technology": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "status": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "sort": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            }
+          }
+        },
+        "I6": {
+          "applicable": true,
+          "pass": false,
+          "interactive_count": 248,
+          "explicit_exception_count": 188,
+          "failure_count": 218,
+          "top_failure_labels": [
+            {
+              "element": "a",
+              "text": "Official REPD source",
+              "required_px": 44
+            },
+            {
+              "element": "button.active",
+              "text": "ALL",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "UK",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "INTERNATIONAL",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "US",
+              "required_px": 44
+            }
+          ]
+        },
+        "I7": {
+          "applicable": true,
+          "pass": false,
+          "cdp_override_supported": true,
+          "viewport_fit_cover": false,
+          "env_match": true,
+          "intersection_count": 0
+        },
+        "I8": {
+          "applicable": true,
+          "pass": false,
+          "menu_applicable": true,
+          "fits_viewport": null,
+          "internally_scrollable": null,
+          "outside_dismiss": null,
+          "underlying_scroll_locked": null
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "rotation-only invariant"
+        }
+      }
+    },
+    {
+      "target": "candidate",
+      "cell": "L4",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": true,
+          "pass": false,
+          "viewport_width": 852,
+          "root_scroll_width": 852,
+          "body_scroll_width": 852,
+          "offender_count": 9
+        },
+        "I10": {
+          "applicable": true,
+          "pass": false,
+          "present": true,
+          "visible_row_count": 2,
+          "minimum_visible_rows": 3,
+          "client_width": 540,
+          "scroll_width": 1500,
+          "maximum_scroll_left": 960,
+          "reached_final_position": true,
+          "final_column_visible": true
+        },
+        "I11": {
+          "applicable": true,
+          "pass": false,
+          "minimum_copy_font_px": 9,
+          "required_minimum_px": 10,
+          "webkit_text_size_adjust": "auto",
+          "text_size_adjust_explicit": false,
+          "clipped_text_count": 0
+        },
+        "I2": {
+          "applicable": true,
+          "pass": true,
+          "viewport_height": 393,
+          "body_scroll_height": 973,
+          "root_scroll_height": 973,
+          "maximum_root_scroll": 580,
+          "probe_px": 200,
+          "probe_delta_px": 200,
+          "overflow_y": "hidden"
+        },
+        "I3": {
+          "applicable": true,
+          "pass": true,
+          "maximum_panel_height": 334.05,
+          "maximum_rect_height": 864,
+          "maximum_constrained_height": 267.234,
+          "panel_count": 6,
+          "exceed_count": 0
+        },
+        "I4": {
+          "applicable": true,
+          "pass": true,
+          "maximum_sticky_pixels": 137.55,
+          "occupied_pixels": 118,
+          "occupied_ratio": 0.3003,
+          "union_band_count": 2,
+          "contributor_count": 5,
+          "contributor_sample": [
+            {
+              "element": "th",
+              "position": "sticky",
+              "top": 1.23,
+              "bottom": 55.23
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 1.23,
+              "bottom": 55.23
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 1.23,
+              "bottom": 55.23
+            }
+          ]
+        },
+        "I5": {
+          "applicable": true,
+          "pass": true,
+          "controls": {
+            "search": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "technology": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "status": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "sort": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            }
+          }
+        },
+        "I6": {
+          "applicable": true,
+          "pass": false,
+          "interactive_count": 269,
+          "explicit_exception_count": 188,
+          "failure_count": 238,
+          "top_failure_labels": [
+            {
+              "element": "a",
+              "text": "V9.6.1 FROZEN APP",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.6 DISCONTINUED",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.5.1 FROZEN APP",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.5 FROZEN APP",
+              "required_px": 44
+            },
+            {
+              "element": "a",
+              "text": "V9.4 FROZEN APP",
+              "required_px": 44
+            }
+          ]
+        },
+        "I7": {
+          "applicable": true,
+          "pass": false,
+          "cdp_override_supported": true,
+          "viewport_fit_cover": false,
+          "env_match": true,
+          "intersection_count": 22
+        },
+        "I8": {
+          "applicable": true,
+          "pass": false,
+          "menu_applicable": true,
+          "fits_viewport": false,
+          "internally_scrollable": false,
+          "outside_dismiss": null,
+          "underlying_scroll_locked": null
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "rotation-only invariant"
+        }
+      }
+    },
+    {
+      "target": "candidate",
+      "cell": "P1",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": true,
+          "pass": true,
+          "viewport_width": 390,
+          "root_scroll_width": 390,
+          "body_scroll_width": 390,
+          "offender_count": 0
+        },
+        "I10": {
+          "applicable": false,
+          "pass": null,
+          "reason": null
+        },
+        "I11": {
+          "applicable": true,
+          "pass": false,
+          "minimum_copy_font_px": 9,
+          "required_minimum_px": 10,
+          "webkit_text_size_adjust": "auto",
+          "text_size_adjust_explicit": false,
+          "clipped_text_count": 0
+        },
+        "I2": {
+          "applicable": true,
+          "pass": true,
+          "viewport_height": 844,
+          "body_scroll_height": 7428,
+          "root_scroll_height": 7428,
+          "maximum_root_scroll": 6584,
+          "probe_px": 200,
+          "probe_delta_px": 200,
+          "overflow_y": "auto"
+        },
+        "I3": {
+          "applicable": true,
+          "pass": true,
+          "maximum_panel_height": 717.4,
+          "maximum_rect_height": 4857.97,
+          "maximum_constrained_height": 548.594,
+          "panel_count": 5,
+          "exceed_count": 0
+        },
+        "I4": {
+          "applicable": true,
+          "pass": true,
+          "maximum_sticky_pixels": 295.4,
+          "occupied_pixels": 38,
+          "occupied_ratio": 0.045,
+          "union_band_count": 1,
+          "contributor_count": 2,
+          "contributor_sample": [
+            {
+              "element": "th",
+              "position": "sticky",
+              "top": 716.59,
+              "bottom": 754.59
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 716.59,
+              "bottom": 754.59
+            }
+          ]
+        },
+        "I5": {
+          "applicable": true,
+          "pass": true,
+          "controls": {
+            "search": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "technology": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "status": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "sort": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            }
+          }
+        },
+        "I6": {
+          "applicable": true,
+          "pass": false,
+          "interactive_count": 248,
+          "explicit_exception_count": 188,
+          "failure_count": 218,
+          "top_failure_labels": [
+            {
+              "element": "a",
+              "text": "Official REPD source",
+              "required_px": 44
+            },
+            {
+              "element": "button.active",
+              "text": "ALL",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "UK",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "INTERNATIONAL",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "US",
+              "required_px": 44
+            }
+          ]
+        },
+        "I7": {
+          "applicable": true,
+          "pass": false,
+          "cdp_override_supported": true,
+          "viewport_fit_cover": false,
+          "env_match": true,
+          "intersection_count": 2
+        },
+        "I8": {
+          "applicable": true,
+          "pass": false,
+          "menu_applicable": true,
+          "fits_viewport": null,
+          "internally_scrollable": null,
+          "outside_dismiss": null,
+          "underlying_scroll_locked": null
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "rotation-only invariant"
+        }
+      }
+    },
+    {
+      "target": "candidate",
+      "cell": "P2",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": true,
+          "pass": true,
+          "viewport_width": 375,
+          "root_scroll_width": 375,
+          "body_scroll_width": 375,
+          "offender_count": 0
+        },
+        "I10": {
+          "applicable": false,
+          "pass": null,
+          "reason": null
+        },
+        "I11": {
+          "applicable": true,
+          "pass": false,
+          "minimum_copy_font_px": 9,
+          "required_minimum_px": 10,
+          "webkit_text_size_adjust": "auto",
+          "text_size_adjust_explicit": false,
+          "clipped_text_count": 0
+        },
+        "I2": {
+          "applicable": true,
+          "pass": true,
+          "viewport_height": 667,
+          "body_scroll_height": 7313,
+          "root_scroll_height": 7313,
+          "maximum_root_scroll": 6646,
+          "probe_px": 200,
+          "probe_delta_px": 200,
+          "overflow_y": "auto"
+        },
+        "I3": {
+          "applicable": true,
+          "pass": true,
+          "maximum_panel_height": 566.95,
+          "maximum_rect_height": 4857.97,
+          "maximum_constrained_height": 433.547,
+          "panel_count": 5,
+          "exceed_count": 0
+        },
+        "I4": {
+          "applicable": true,
+          "pass": true,
+          "maximum_sticky_pixels": 233.45,
+          "occupied_pixels": 38,
+          "occupied_ratio": 0.057,
+          "union_band_count": 1,
+          "contributor_count": 2,
+          "contributor_sample": [
+            {
+              "element": "th",
+              "position": "sticky",
+              "top": 628.55,
+              "bottom": 666.55
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 628.55,
+              "bottom": 666.55
+            }
+          ]
+        },
+        "I5": {
+          "applicable": true,
+          "pass": true,
+          "controls": {
+            "search": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "technology": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "status": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "sort": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            }
+          }
+        },
+        "I6": {
+          "applicable": true,
+          "pass": false,
+          "interactive_count": 248,
+          "explicit_exception_count": 188,
+          "failure_count": 218,
+          "top_failure_labels": [
+            {
+              "element": "a",
+              "text": "Official REPD source",
+              "required_px": 44
+            },
+            {
+              "element": "button.active",
+              "text": "ALL",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "UK",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "INTERNATIONAL",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "US",
+              "required_px": 44
+            }
+          ]
+        },
+        "I7": {
+          "applicable": true,
+          "pass": false,
+          "cdp_override_supported": true,
+          "viewport_fit_cover": false,
+          "env_match": true,
+          "intersection_count": 0
+        },
+        "I8": {
+          "applicable": true,
+          "pass": false,
+          "menu_applicable": true,
+          "fits_viewport": null,
+          "internally_scrollable": null,
+          "outside_dismiss": null,
+          "underlying_scroll_locked": null
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "rotation-only invariant"
+        }
+      }
+    },
+    {
+      "target": "candidate",
+      "cell": "R1",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I10": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I11": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I2": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I3": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I4": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I5": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I6": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I7": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I8": {
+          "applicable": false,
+          "pass": null,
+          "reason": "not evaluated in rotation cell"
+        },
+        "I9": {
+          "applicable": true,
+          "pass": true,
+          "connected_delta": 0,
+          "connected_tolerance": 88,
+          "document_delta": 0,
+          "document_tolerance": 1,
+          "node_delta": 0,
+          "node_tolerance": 213,
+          "listener_delta": 0,
+          "listener_tolerance": 4,
+          "detached_supported": true,
+          "detached_delta": 0,
+          "detached_tolerance": 0,
+          "detached_stable": true,
+          "documents_stable": true,
+          "listeners_stable": true,
+          "monotonic_growth": false
+        }
+      }
+    },
+    {
+      "target": "candidate",
+      "cell": "T1",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": true,
+          "pass": true,
+          "viewport_width": 768,
+          "root_scroll_width": 768,
+          "body_scroll_width": 768,
+          "offender_count": 0
+        },
+        "I10": {
+          "applicable": false,
+          "pass": null,
+          "reason": null
+        },
+        "I11": {
+          "applicable": true,
+          "pass": false,
+          "minimum_copy_font_px": 9,
+          "required_minimum_px": 10,
+          "webkit_text_size_adjust": "auto",
+          "text_size_adjust_explicit": false,
+          "clipped_text_count": 0
+        },
+        "I2": {
+          "applicable": true,
+          "pass": true,
+          "viewport_height": 1024,
+          "body_scroll_height": 7264,
+          "root_scroll_height": 7264,
+          "maximum_root_scroll": 6240,
+          "probe_px": 200,
+          "probe_delta_px": 200,
+          "overflow_y": "auto"
+        },
+        "I3": {
+          "applicable": true,
+          "pass": true,
+          "maximum_panel_height": 870.4,
+          "maximum_rect_height": 4857.97,
+          "maximum_constrained_height": 665.594,
+          "panel_count": 5,
+          "exceed_count": 0
+        },
+        "I4": {
+          "applicable": true,
+          "pass": true,
+          "maximum_sticky_pixels": 358.4,
+          "occupied_pixels": 38,
+          "occupied_ratio": 0.0371,
+          "union_band_count": 1,
+          "contributor_count": 4,
+          "contributor_sample": [
+            {
+              "element": "th",
+              "position": "sticky",
+              "top": 770.59,
+              "bottom": 808.59
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 770.59,
+              "bottom": 808.59
+            },
+            {
+              "element": "th.hide-mobile",
+              "position": "sticky",
+              "top": 770.59,
+              "bottom": 808.59
+            }
+          ]
+        },
+        "I5": {
+          "applicable": true,
+          "pass": true,
+          "controls": {
+            "search": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "technology": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "status": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            },
+            "sort": {
+              "present": true,
+              "rendered": true,
+              "hit_testable": true,
+              "scroll_actions": 1,
+              "pass": true
+            }
+          }
+        },
+        "I6": {
+          "applicable": true,
+          "pass": false,
+          "interactive_count": 248,
+          "explicit_exception_count": 188,
+          "failure_count": 218,
+          "top_failure_labels": [
+            {
+              "element": "a",
+              "text": "Official REPD source",
+              "required_px": 44
+            },
+            {
+              "element": "button.active",
+              "text": "ALL",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "UK",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "INTERNATIONAL",
+              "required_px": 44
+            },
+            {
+              "element": "button",
+              "text": "US",
+              "required_px": 44
+            }
+          ]
+        },
+        "I7": {
+          "applicable": true,
+          "pass": false,
+          "cdp_override_supported": true,
+          "viewport_fit_cover": false,
+          "env_match": true,
+          "intersection_count": 0
+        },
+        "I8": {
+          "applicable": true,
+          "pass": false,
+          "menu_applicable": true,
+          "fits_viewport": null,
+          "internally_scrollable": null,
+          "outside_dismiss": null,
+          "underlying_scroll_locked": null
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "rotation-only invariant"
+        }
+      }
+    },
+    {
+      "target": "original",
+      "cell": "L1",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": true,
+          "pass": false,
+          "viewport_width": 844,
+          "root_scroll_width": 844,
+          "body_scroll_width": 844,
+          "offender_count": 20
+        },
+        "I10": {
+          "applicable": true,
+          "pass": false,
+          "present": false,
+          "visible_row_count": null,
+          "minimum_visible_rows": null,
+          "client_width": null,
+          "scroll_width": null,
+          "maximum_scroll_left": null,
+          "reached_final_position": null,
+          "final_column_visible": null
+        },
+        "I11": {
+          "applicable": true,
+          "pass": false,
+          "minimum_copy_font_px": null,
+          "required_minimum_px": 10,
+          "webkit_text_size_adjust": "auto",
+          "text_size_adjust_explicit": false,
+          "clipped_text_count": 0
+        },
+        "I2": {
+          "applicable": true,
+          "pass": true,
+          "viewport_height": 390,
+          "body_scroll_height": 390,
+          "root_scroll_height": 390,
+          "maximum_root_scroll": 0,
+          "probe_px": 0,
+          "probe_delta_px": 0,
+          "overflow_y": "hidden"
+        },
+        "I3": {
+          "applicable": true,
+          "pass": true,
+          "maximum_panel_height": 331.5,
+          "maximum_rect_height": null,
+          "maximum_constrained_height": null,
+          "panel_count": 0,
+          "exceed_count": 0
+        },
+        "I4": {
+          "applicable": true,
+          "pass": true,
+          "maximum_sticky_pixels": 136.5,
+          "occupied_pixels": 0,
+          "occupied_ratio": 0,
+          "union_band_count": 0,
+          "contributor_count": 0,
+          "contributor_sample": []
+        },
+        "I5": {
+          "applicable": true,
+          "pass": false,
+          "controls": {
+            "search": {
+              "present": false,
+              "rendered": null,
+              "hit_testable": null,
+              "scroll_actions": null,
+              "pass": false
+            },
+            "technology": {
+              "present": false,
+              "rendered": null,
+              "hit_testable": null,
+              "scroll_actions": null,
+              "pass": false
+            },
+            "status": {
+              "present": false,
+              "rendered": null,
+              "hit_testable": null,
+              "scroll_actions": null,
+              "pass": false
+            },
+            "sort": {
+              "present": false,
+              "rendered": null,
+              "hit_testable": null,
+              "scroll_actions": null,
+              "pass": false
+            }
+          }
+        },
+        "I6": {
+          "applicable": true,
+          "pass": false,
+          "interactive_count": 5226,
+          "explicit_exception_count": 0,
+          "failure_count": 5226,
+          "top_failure_labels": [
+            {
+              "element": "a.nav-item.active",
+              "text": "UK REPD DASH",
+              "required_px": 44
+            },
+            {
+              "element": "a.nav-item",
+              "text": "DIRECTORY",
+              "required_px": 44
+            },
+            {
+              "element": "a.nav-item",
+              "text": "MAP ATLAS",
+              "required_px": 44
+            },
+            {
+              "element": "#btn-export-csv",
+              "text": "EXPORT CSV",
+              "required_px": 44
+            },
+            {
+              "element": "button.btn.tech-btn.active",
+              "text": "ALL TECH",
+              "required_px": 44
+            }
+          ]
+        },
+        "I7": {
+          "applicable": true,
+          "pass": false,
+          "cdp_override_supported": true,
+          "viewport_fit_cover": false,
+          "env_match": true,
+          "intersection_count": 4
+        },
+        "I8": {
+          "applicable": true,
+          "pass": false,
+          "menu_applicable": true,
+          "fits_viewport": null,
+          "internally_scrollable": null,
+          "outside_dismiss": null,
+          "underlying_scroll_locked": null
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "rotation-only invariant"
+        }
+      }
+    },
+    {
+      "target": "original",
+      "cell": "L2",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": true,
+          "pass": false,
+          "viewport_width": 932,
+          "root_scroll_width": 932,
+          "body_scroll_width": 932,
+          "offender_count": 20
+        },
+        "I10": {
+          "applicable": true,
+          "pass": false,
+          "present": false,
+          "visible_row_count": null,
+          "minimum_visible_rows": null,
+          "client_width": null,
+          "scroll_width": null,
+          "maximum_scroll_left": null,
+          "reached_final_position": null,
+          "final_column_visible": null
+        },
+        "I11": {
+          "applicable": true,
+          "pass": false,
+          "minimum_copy_font_px": null,
+          "required_minimum_px": 10,
+          "webkit_text_size_adjust": "auto",
+          "text_size_adjust_explicit": false,
+          "clipped_text_count": 0
+        },
+        "I2": {
+          "applicable": true,
+          "pass": true,
+          "viewport_height": 430,
+          "body_scroll_height": 430,
+          "root_scroll_height": 430,
+          "maximum_root_scroll": 0,
+          "probe_px": 0,
+          "probe_delta_px": 0,
+          "overflow_y": "hidden"
+        },
+        "I3": {
+          "applicable": true,
+          "pass": true,
+          "maximum_panel_height": 365.5,
+          "maximum_rect_height": null,
+          "maximum_constrained_height": null,
+          "panel_count": 0,
+          "exceed_count": 0
+        },
+        "I4": {
+          "applicable": true,
+          "pass": true,
+          "maximum_sticky_pixels": 150.5,
+          "occupied_pixels": 0,
+          "occupied_ratio": 0,
+          "union_band_count": 0,
+          "contributor_count": 0,
+          "contributor_sample": []
+        },
+        "I5": {
+          "applicable": true,
+          "pass": false,
+          "controls": {
+            "search": {
+              "present": false,
+              "rendered": null,
+              "hit_testable": null,
+              "scroll_actions": null,
+              "pass": false
+            },
+            "technology": {
+              "present": false,
+              "rendered": null,
+              "hit_testable": null,
+              "scroll_actions": null,
+              "pass": false
+            },
+            "status": {
+              "present": false,
+              "rendered": null,
+              "hit_testable": null,
+              "scroll_actions": null,
+              "pass": false
+            },
+            "sort": {
+              "present": false,
+              "rendered": null,
+              "hit_testable": null,
+              "scroll_actions": null,
+              "pass": false
+            }
+          }
+        },
+        "I6": {
+          "applicable": true,
+          "pass": false,
+          "interactive_count": 5226,
+          "explicit_exception_count": 0,
+          "failure_count": 5226,
+          "top_failure_labels": [
+            {
+              "element": "a.nav-item.active",
+              "text": "UK REPD DASH",
+              "required_px": 44
+            },
+            {
+              "element": "a.nav-item",
+              "text": "DIRECTORY",
+              "required_px": 44
+            },
+            {
+              "element": "a.nav-item",
+              "text": "MAP ATLAS",
+              "required_px": 44
+            },
+            {
+              "element": "#btn-export-csv",
+              "text": "EXPORT CSV",
+              "required_px": 44
+            },
+            {
+              "element": "button.btn.tech-btn.active",
+              "text": "ALL TECH",
+              "required_px": 44
+            }
+          ]
+        },
+        "I7": {
+          "applicable": true,
+          "pass": false,
+          "cdp_override_supported": true,
+          "viewport_fit_cover": false,
+          "env_match": true,
+          "intersection_count": 4
+        },
+        "I8": {
+          "applicable": true,
+          "pass": false,
+          "menu_applicable": true,
+          "fits_viewport": null,
+          "internally_scrollable": null,
+          "outside_dismiss": null,
+          "underlying_scroll_locked": null
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "rotation-only invariant"
+        }
+      }
+    },
+    {
+      "target": "original",
+      "cell": "L3",
+      "availability": "UNAVAILABLE",
+      "invariants": {
+        "I1": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I10": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I11": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I2": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I3": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I4": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I5": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I6": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I7": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I8": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        }
+      }
+    },
+    {
+      "target": "original",
+      "cell": "L4",
+      "availability": "UNAVAILABLE",
+      "invariants": {
+        "I1": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I10": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I11": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I2": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I3": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I4": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I5": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I6": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I7": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I8": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        }
+      }
+    },
+    {
+      "target": "original",
+      "cell": "P1",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": true,
+          "pass": true,
+          "viewport_width": 390,
+          "root_scroll_width": 390,
+          "body_scroll_width": 390,
+          "offender_count": 0
+        },
+        "I10": {
+          "applicable": false,
+          "pass": null,
+          "reason": null
+        },
+        "I11": {
+          "applicable": true,
+          "pass": false,
+          "minimum_copy_font_px": null,
+          "required_minimum_px": 10,
+          "webkit_text_size_adjust": "auto",
+          "text_size_adjust_explicit": false,
+          "clipped_text_count": 0
+        },
+        "I2": {
+          "applicable": true,
+          "pass": true,
+          "viewport_height": 844,
+          "body_scroll_height": 1039,
+          "root_scroll_height": 1039,
+          "maximum_root_scroll": 195,
+          "probe_px": 195,
+          "probe_delta_px": 195,
+          "overflow_y": "auto"
+        },
+        "I3": {
+          "applicable": true,
+          "pass": true,
+          "maximum_panel_height": 717.4,
+          "maximum_rect_height": null,
+          "maximum_constrained_height": null,
+          "panel_count": 0,
+          "exceed_count": 0
+        },
+        "I4": {
+          "applicable": true,
+          "pass": true,
+          "maximum_sticky_pixels": 295.4,
+          "occupied_pixels": 0,
+          "occupied_ratio": 0,
+          "union_band_count": 0,
+          "contributor_count": 0,
+          "contributor_sample": []
+        },
+        "I5": {
+          "applicable": true,
+          "pass": false,
+          "controls": {
+            "search": {
+              "present": false,
+              "rendered": null,
+              "hit_testable": null,
+              "scroll_actions": null,
+              "pass": false
+            },
+            "technology": {
+              "present": false,
+              "rendered": null,
+              "hit_testable": null,
+              "scroll_actions": null,
+              "pass": false
+            },
+            "status": {
+              "present": false,
+              "rendered": null,
+              "hit_testable": null,
+              "scroll_actions": null,
+              "pass": false
+            },
+            "sort": {
+              "present": false,
+              "rendered": null,
+              "hit_testable": null,
+              "scroll_actions": null,
+              "pass": false
+            }
+          }
+        },
+        "I6": {
+          "applicable": true,
+          "pass": false,
+          "interactive_count": 12,
+          "explicit_exception_count": 0,
+          "failure_count": 12,
+          "top_failure_labels": [
+            {
+              "element": "button.btn.tech-btn.active",
+              "text": "ALL TECH",
+              "required_px": 44
+            },
+            {
+              "element": "button.btn.tech-btn",
+              "text": "SOLAR",
+              "required_px": 44
+            },
+            {
+              "element": "button.btn.tech-btn",
+              "text": "BATTERY",
+              "required_px": 44
+            },
+            {
+              "element": "button.btn.tech-btn",
+              "text": "ONSHORE",
+              "required_px": 44
+            },
+            {
+              "element": "button.btn.tech-btn",
+              "text": "OFFSHORE",
+              "required_px": 44
+            }
+          ]
+        },
+        "I7": {
+          "applicable": true,
+          "pass": false,
+          "cdp_override_supported": true,
+          "viewport_fit_cover": false,
+          "env_match": true,
+          "intersection_count": 5
+        },
+        "I8": {
+          "applicable": true,
+          "pass": false,
+          "menu_applicable": true,
+          "fits_viewport": null,
+          "internally_scrollable": null,
+          "outside_dismiss": null,
+          "underlying_scroll_locked": null
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "rotation-only invariant"
+        }
+      }
+    },
+    {
+      "target": "original",
+      "cell": "P2",
+      "availability": "MEASURED",
+      "invariants": {
+        "I1": {
+          "applicable": true,
+          "pass": false,
+          "viewport_width": 375,
+          "root_scroll_width": 375,
+          "body_scroll_width": 375,
+          "offender_count": 20
+        },
+        "I10": {
+          "applicable": false,
+          "pass": null,
+          "reason": null
+        },
+        "I11": {
+          "applicable": true,
+          "pass": false,
+          "minimum_copy_font_px": null,
+          "required_minimum_px": 10,
+          "webkit_text_size_adjust": "auto",
+          "text_size_adjust_explicit": false,
+          "clipped_text_count": 0
+        },
+        "I2": {
+          "applicable": true,
+          "pass": true,
+          "viewport_height": 667,
+          "body_scroll_height": 342132,
+          "root_scroll_height": 342132,
+          "maximum_root_scroll": 341465,
+          "probe_px": 200,
+          "probe_delta_px": 200,
+          "overflow_y": "auto"
+        },
+        "I3": {
+          "applicable": true,
+          "pass": true,
+          "maximum_panel_height": 566.95,
+          "maximum_rect_height": null,
+          "maximum_constrained_height": null,
+          "panel_count": 0,
+          "exceed_count": 0
+        },
+        "I4": {
+          "applicable": true,
+          "pass": true,
+          "maximum_sticky_pixels": 233.45,
+          "occupied_pixels": 0,
+          "occupied_ratio": 0,
+          "union_band_count": 0,
+          "contributor_count": 0,
+          "contributor_sample": []
+        },
+        "I5": {
+          "applicable": true,
+          "pass": false,
+          "controls": {
+            "search": {
+              "present": false,
+              "rendered": null,
+              "hit_testable": null,
+              "scroll_actions": null,
+              "pass": false
+            },
+            "technology": {
+              "present": false,
+              "rendered": null,
+              "hit_testable": null,
+              "scroll_actions": null,
+              "pass": false
+            },
+            "status": {
+              "present": false,
+              "rendered": null,
+              "hit_testable": null,
+              "scroll_actions": null,
+              "pass": false
+            },
+            "sort": {
+              "present": false,
+              "rendered": null,
+              "hit_testable": null,
+              "scroll_actions": null,
+              "pass": false
+            }
+          }
+        },
+        "I6": {
+          "applicable": true,
+          "pass": false,
+          "interactive_count": 5222,
+          "explicit_exception_count": 0,
+          "failure_count": 5222,
+          "top_failure_labels": [
+            {
+              "element": "button.btn.tech-btn.active",
+              "text": "ALL TECH",
+              "required_px": 44
+            },
+            {
+              "element": "button.btn.tech-btn",
+              "text": "SOLAR",
+              "required_px": 44
+            },
+            {
+              "element": "button.btn.tech-btn",
+              "text": "BATTERY",
+              "required_px": 44
+            },
+            {
+              "element": "button.btn.tech-btn",
+              "text": "ONSHORE",
+              "required_px": 44
+            },
+            {
+              "element": "button.btn.tech-btn",
+              "text": "OFFSHORE",
+              "required_px": 44
+            }
+          ]
+        },
+        "I7": {
+          "applicable": true,
+          "pass": false,
+          "cdp_override_supported": true,
+          "viewport_fit_cover": false,
+          "env_match": true,
+          "intersection_count": 0
+        },
+        "I8": {
+          "applicable": true,
+          "pass": false,
+          "menu_applicable": true,
+          "fits_viewport": null,
+          "internally_scrollable": null,
+          "outside_dismiss": null,
+          "underlying_scroll_locked": null
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "rotation-only invariant"
+        }
+      }
+    },
+    {
+      "target": "original",
+      "cell": "T1",
+      "availability": "UNAVAILABLE",
+      "invariants": {
+        "I1": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I10": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I11": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I2": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I3": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I4": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I5": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I6": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I7": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I8": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        },
+        "I9": {
+          "applicable": false,
+          "pass": null,
+          "reason": "target unavailable"
+        }
+      }
+    }
+  ],
+  "artifact_identity": {
+    "github_run_id": "33091704595",
+    "github_run_attempt": "1",
+    "full_artifact_name": "pipelinenews-mobile-ui-audit-202608271656-33091704595-1",
+    "compact_artifact_name": "pipelinenews-mobile-ui-compact-202608271656-33091704595-1",
+    "retention_days": 30,
+    "raw_artifact_expiry": "30 days"
+  },
+  "raw_artifacts": {
+    "count": 73,
+    "bytes": 4813617,
+    "closure_sha256": "4b24fd6cd85df4fd9af92f160f918e84db0daf64e35c923a046ef7018e9fd9a3"
+  }
+}
