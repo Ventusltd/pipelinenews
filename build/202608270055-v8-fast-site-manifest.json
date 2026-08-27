@@ -1,0 +1,337 @@
+{
+  "schema": "pipelinenews.v8.fast-site-candidate.v1",
+  "generation": "202608270055",
+  "source_commit": "6c403c2f4719c104798fa2268c6bf50f3594d140",
+  "github_run_id": "33029856342",
+  "compiler": {
+    "path": "index/202608270055-compile-v8-fast.mjs",
+    "method": "pipelinenews-v8-fast-dictionary-index-lazy-detail-v1",
+    "sha256": "c6c9fe28afd2c4eb3c439ae9b1ed0ed3c63f813a8122855dbb22638d8fd1cc99"
+  },
+  "cache_identity": "8ab1807551bc77066e46e01cb0690dfaa41d473d8433644046f56b6984579b06",
+  "cache_contract": {
+    "schema": "pipelinenews.v8.fast-cache-contract.v1",
+    "compiler_method": "pipelinenews-v8-fast-dictionary-index-lazy-detail-v1",
+    "compiler": {
+      "path": "index/202608270055-compile-v8-fast.mjs",
+      "sha256": "c6c9fe28afd2c4eb3c439ae9b1ed0ed3c63f813a8122855dbb22638d8fd1cc99"
+    },
+    "sources": {
+      "project_manifest_sha256": "67976a1bbcaf383ed7121b13060db3b864db9ce33dfc721a88b59c8ca8b8e06c",
+      "release_contract_sha256": "bc21070f44aae1d32da333e4954816acd907aa8c9fa9cb639c64d651f7fd4259",
+      "trusted_v9_6_2_contract_sha256": "661bb4f226ac3c75811f9e1d36546602f401491a5c21e1ddebccda170da92ece",
+      "news_sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+    },
+    "project_index": {
+      "schema": "pipelinenews.v8.fast-project-index.v1",
+      "fields": [
+        "repd_ref",
+        "gg_project_id",
+        "name",
+        "technology",
+        "status",
+        "capacity_mw",
+        "county",
+        "region",
+        "operator",
+        "repd_record_updated",
+        "geometry_status",
+        "latitude",
+        "longitude"
+      ],
+      "dictionary_fields": [
+        "technology",
+        "status",
+        "county",
+        "region",
+        "operator",
+        "geometry_status"
+      ],
+      "stable_key": "repd_ref",
+      "detail_locator": "floor(global_row_index/500)"
+    },
+    "search_index": {
+      "schema": "pipelinenews.v8.fast-search-index.v1",
+      "row_alignment": "global_project_row_index",
+      "activation": "first-nonempty-search"
+    },
+    "news_index": {
+      "schema": "pipelinenews.v8.fast-news-index.v1",
+      "fields": [
+        "gg_article_id",
+        "repd_ref",
+        "gg_project_id",
+        "project",
+        "technology",
+        "capacity_mw",
+        "operator",
+        "county",
+        "country",
+        "event",
+        "headline",
+        "published",
+        "source",
+        "url",
+        "confidence",
+        "canonical_relevant",
+        "role",
+        "eligible_for_news_signal",
+        "regional_classification",
+        "regional_technology",
+        "regional_evidence"
+      ],
+      "stable_key": "gg_article_id",
+      "activation": "idle-after-core-ready"
+    },
+    "runtime": {
+      "physical_project_rows": 50,
+      "physical_news_rows": 30,
+      "detail_fetch_concurrency": 4,
+      "immutable_cache_mode": "force-cache"
+    }
+  },
+  "trusted_parent": {
+    "repository": "Ventusltd/globalgrid2050",
+    "release": "V9.6.2",
+    "tree": "99d3b5d80be77b43c9819a571f468913e6132d07",
+    "contract": "data/contracts/202608261721-release-v9-6-2.json",
+    "contract_sha256": "661bb4f226ac3c75811f9e1d36546602f401491a5c21e1ddebccda170da92ece"
+  },
+  "parity": {
+    "project_count": 7680,
+    "capacity_mw": 356474.09,
+    "largest_mw": 4100,
+    "solar_count": 3563,
+    "bess_count": 1609,
+    "wind_onshore_count": 2399,
+    "wind_offshore_count": 109,
+    "geometry_count": 7652,
+    "missing_geometry_count": 28,
+    "headlines": 133,
+    "canonical_headlines": 45,
+    "international_headlines": 19,
+    "beacon_fen_repd_ref": "13599"
+  },
+  "performance_contract": {
+    "maximum_physical_project_rows": 50,
+    "maximum_physical_news_rows": 30,
+    "maximum_dom_elements": 5000,
+    "maximum_initial_decoded_bytes": 2000000,
+    "maximum_mobile_interaction_ms": 200,
+    "maximum_desktop_interaction_ms": 100,
+    "maximum_ordinary_long_task_ms": 200,
+    "maximum_detail_fetch_concurrency": 4,
+    "initial_decoded_bytes": 1055492,
+    "project_index_bytes": 979338
+  },
+  "discipline": {
+    "source_mutation": false,
+    "immutable_outputs": true,
+    "bounded_dom": true,
+    "bounded_detail_fetches": true,
+    "full_data_copied": false,
+    "deployment_separate": true
+  },
+  "inputs": [
+    {
+      "path": "data/contracts/202608261721-release-v9-6-2.json",
+      "bytes": 1414,
+      "sha256": "661bb4f226ac3c75811f9e1d36546602f401491a5c21e1ddebccda170da92ece"
+    },
+    {
+      "path": "data/contracts/202608261927-release-v9-1.json",
+      "bytes": 1957,
+      "sha256": "bc21070f44aae1d32da333e4954816acd907aa8c9fa9cb639c64d651f7fd4259"
+    },
+    {
+      "path": "data/manifests/202608261927-build-manifest-v9-1.json",
+      "bytes": 7849,
+      "sha256": "67976a1bbcaf383ed7121b13060db3b864db9ce33dfc721a88b59c8ca8b8e06c"
+    },
+    {
+      "path": "data/news/202608261927-major-project-news-v9-5-1.json",
+      "bytes": 406514,
+      "sha256": "cea104c3e9cfc07971680afdf5f64073e1d4825b63bfaf4e969266df8386ebbd"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-01.json",
+      "bytes": 624542,
+      "sha256": "6e72d36a8f880bfc39274221edf58d1b895202f01f2e56aae001ad25cb3b337d"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-02.json",
+      "bytes": 629501,
+      "sha256": "a2ba3598af8ff45726587b3a498c0f6a433ae007ec9eadbd5bfc682b7dca4b2e"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-03.json",
+      "bytes": 628898,
+      "sha256": "6f012e9251433e0d32095b2df75ae1c988a813a14647debe16c057dee550d23b"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-04.json",
+      "bytes": 625997,
+      "sha256": "1cdc7405098c85a477dd156930c4503ef7850ff005d1ec85a69928f10db6b7f5"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-05.json",
+      "bytes": 631815,
+      "sha256": "43988789140bf2211263ffe49b756bc8f7f4cd69531b2e91c56b2e7c2a90bcae"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-06.json",
+      "bytes": 630303,
+      "sha256": "e2c4d0c29e622270260e8fa71c1efae260e84fd3c9ebfa31b7dbf7bfe3da2d69"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-07.json",
+      "bytes": 628660,
+      "sha256": "8f2b2d2d74a031f459b94e626e288c11c148629e955f97ef688a27eb1a5e2c59"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-08.json",
+      "bytes": 631189,
+      "sha256": "f3c0dff755bc657c41b3e04305403bbcfbf94be5d893e85309faf9dd7cb1fa92"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-09.json",
+      "bytes": 630867,
+      "sha256": "a9427f109b7ad5ee881628fcbde3602daab62896e8517922ff68d2efe6a23b15"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-10.json",
+      "bytes": 628464,
+      "sha256": "57145897a6a457f3bfb58f431d7bfa6a75dd63bfd2708eb56c3802391847c6b3"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-11.json",
+      "bytes": 620261,
+      "sha256": "e79c4eb42d1d366f01f8f2a941d92ff231b8ea14c2e40a2677a89601926938d1"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-12.json",
+      "bytes": 615891,
+      "sha256": "ad077a3172f6813f2a641e2f51ab693bf038cae03b5cbbdaa4167973ce7a7388"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-13.json",
+      "bytes": 620861,
+      "sha256": "4545362b1355e256dc3025019f971ffa208cc8828059152a26b99ac66fb47817"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-14.json",
+      "bytes": 619833,
+      "sha256": "9cf8da7fcbf3c1d08830c613c69d0447c490d6126be3ebe8c2d9021a4ddcd004"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-15.json",
+      "bytes": 616440,
+      "sha256": "109f20651ce1234d8933bb5efab78cbf45081ae7b4966e63ec0fca560a76cf03"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-16.json",
+      "bytes": 221745,
+      "sha256": "ed4c672a6cb684a5fd29e17e436d4ee632de358de5e0a2cee9801c7ffa5ecc4b"
+    },
+    {
+      "path": "releases/vendor/202608261927-chart-umd.min.js",
+      "bytes": 208522,
+      "sha256": "48444a82d4edcb5bec0f1965faacdde18d9c17db3063d042abada2f705c9f54a"
+    },
+    {
+      "path": "ui/javascript/202608261630-utils.js",
+      "bytes": 707,
+      "sha256": "bec300e2720e0793bc08434e91c0ea0dd8c3d8e36e79b97172e4d5270f01eda0"
+    },
+    {
+      "path": "ui/javascript/202608261742-news-regions.js",
+      "bytes": 4794,
+      "sha256": "673126663b69f67c73dfed4f6393e56e7779514e612559f0b6aad88a4354037f"
+    },
+    {
+      "path": "ui/javascript/202608270055-v8-fast-runtime.js",
+      "bytes": 40933,
+      "sha256": "70d49f2a40dbfa87b0a3b1bd3fe12e186551f64b3fc33c0066ba7561bc9d6534"
+    },
+    {
+      "path": "ui/styles/202608261614-mobile.css",
+      "bytes": 203,
+      "sha256": "9855b9c11255a85f477873d07cca45b057aedcdc8a6cc4aab2d29a0ffaac9b85"
+    },
+    {
+      "path": "ui/styles/202608261740-v7-foundation.css",
+      "bytes": 6245,
+      "sha256": "036dbfe43ef1ffb2c55ba277d49dec57ab7c7be976289226a5d568e1f1be319d"
+    },
+    {
+      "path": "ui/styles/202608261927-v9-3.css",
+      "bytes": 3581,
+      "sha256": "219782d5f3fba11b8418a5b46075a8b1b918eed272f6bc2360f6b1060c1f2e9b"
+    },
+    {
+      "path": "ui/styles/202608261927-v9-4.css",
+      "bytes": 402,
+      "sha256": "39f7d0fd3ff42e82407c1f5129444e6cc308ef5c0ec551d43c7396ac53310d17"
+    },
+    {
+      "path": "ui/styles/202608261927-v9-5-1.css",
+      "bytes": 408,
+      "sha256": "79ff5b1db85ae82a381fbad061c0122e7151bb9c9c7ba80c549051761f0bfae3"
+    },
+    {
+      "path": "ui/styles/202608261927-v9-6-1.css",
+      "bytes": 321,
+      "sha256": "851b0827ca2aa0950438c98ae3cf6cc7dce33667d37458122ea38bb2c6da2f81"
+    },
+    {
+      "path": "ui/styles/202608270055-v8-fast-overrides.css",
+      "bytes": 2937,
+      "sha256": "9ad5d52f9c898afe4ada9b9b4ae6e73c36f073d533ce1e9ed2e5793f07ae80b5"
+    },
+    {
+      "path": "ui/templates/202608261927-shell-v9-6-2.html",
+      "bytes": 8502,
+      "sha256": "06382e57a58e460defcdd3c460ad01b93aa4c4578065348afa846b446e6d34ae"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "releases/202608270055-v8-fast-candidate.html",
+      "bytes": 8861,
+      "sha256": "0734655081d1f4ccd79f4af6a5d1b71e924ecea5ef33b5c3aa9f25de7bfdb7c5"
+    },
+    {
+      "path": "releases/data/202608270055-8ab1807551bc-v8-fast-news.json",
+      "bytes": 77639,
+      "sha256": "cfca3ab92012022f752de887a47d5eb2b3632ebad0f89d28ba5df2fcb454d194"
+    },
+    {
+      "path": "releases/data/202608270055-8ab1807551bc-v8-fast-projects.json",
+      "bytes": 979338,
+      "sha256": "c06aedef176d2d38fd135806306a8ef81b4af9994c7be31e8bd760304149f862"
+    },
+    {
+      "path": "releases/data/202608270055-8ab1807551bc-v8-fast-search.json",
+      "bytes": 1912681,
+      "sha256": "a1cbfc5202b717889a471409e850ea5cae13626f91c60f08cda0b06da5102b65"
+    },
+    {
+      "path": "releases/data/202608270055-v8-fast-registry.json",
+      "bytes": 11901,
+      "sha256": "cc69f0261acaf5fdb59ab1566a20c5b54eef12a0df6eec387bd05607889c5955"
+    },
+    {
+      "path": "releases/javascript/202608270055-v8-fast-runtime.js",
+      "bytes": 40995,
+      "sha256": "3deb228d3e8fa63db46712a5e8d6d89048fb3a61f4013041312dde7da8be04f8"
+    },
+    {
+      "path": "releases/styles/202608270055-v8-fast.css",
+      "bytes": 14397,
+      "sha256": "d6c8100dbf79dd02f65d78e4fc9cacae92f2e4b5a749ea0fd3ff481fe5bb4792"
+    }
+  ],
+  "evidence": "workflow-artifact-only",
+  "companies_house": "deferred-phase-two",
+  "deployment": "not-authorised"
+}
