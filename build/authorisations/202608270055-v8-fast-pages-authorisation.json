@@ -1,0 +1,67 @@
+{
+  "schema": "pipelinenews.v8.fast-pages-authorisation.v1",
+  "generation": "202608270055",
+  "scope": "github-pages-immutable-candidate",
+  "deployment": "authorised",
+  "candidate_manifest": {
+    "path": "build/202608270055-v8-fast-site-manifest.json",
+    "sha256": "48483afade72813649d9168bb27723a9bca3ba4f81a8d8e5983946a381999601"
+  },
+  "candidate": {
+    "source_commit": "6c403c2f4719c104798fa2268c6bf50f3594d140",
+    "build_run": "33029856342",
+    "cache_identity": "8ab1807551bc77066e46e01cb0690dfaa41d473d8433644046f56b6984579b06"
+  },
+  "outputs": [
+    {
+      "path": "releases/202608270055-v8-fast-candidate.html",
+      "bytes": 8861,
+      "sha256": "0734655081d1f4ccd79f4af6a5d1b71e924ecea5ef33b5c3aa9f25de7bfdb7c5"
+    },
+    {
+      "path": "releases/data/202608270055-8ab1807551bc-v8-fast-news.json",
+      "bytes": 77639,
+      "sha256": "cfca3ab92012022f752de887a47d5eb2b3632ebad0f89d28ba5df2fcb454d194"
+    },
+    {
+      "path": "releases/data/202608270055-8ab1807551bc-v8-fast-projects.json",
+      "bytes": 979338,
+      "sha256": "c06aedef176d2d38fd135806306a8ef81b4af9994c7be31e8bd760304149f862"
+    },
+    {
+      "path": "releases/data/202608270055-8ab1807551bc-v8-fast-search.json",
+      "bytes": 1912681,
+      "sha256": "a1cbfc5202b717889a471409e850ea5cae13626f91c60f08cda0b06da5102b65"
+    },
+    {
+      "path": "releases/data/202608270055-v8-fast-registry.json",
+      "bytes": 11901,
+      "sha256": "cc69f0261acaf5fdb59ab1566a20c5b54eef12a0df6eec387bd05607889c5955"
+    },
+    {
+      "path": "releases/javascript/202608270055-v8-fast-runtime.js",
+      "bytes": 40995,
+      "sha256": "3deb228d3e8fa63db46712a5e8d6d89048fb3a61f4013041312dde7da8be04f8"
+    },
+    {
+      "path": "releases/styles/202608270055-v8-fast.css",
+      "bytes": 14397,
+      "sha256": "d6c8100dbf79dd02f65d78e4fc9cacae92f2e4b5a749ea0fd3ff481fe5bb4792"
+    }
+  ],
+  "outputs_sha256": "eb2f060d9e506716ec264998ffe6bb7b6675bd34ebc214d7c1790c2f14f7adca",
+  "output_closure_sha256": "eb2f060d9e506716ec264998ffe6bb7b6675bd34ebc214d7c1790c2f14f7adca",
+  "candidate_output_commit": "05ad62ead902f4da83653bcc92271253955e74cc",
+  "authorisation_source_commit": "f721899b5d9fedea1eda429186df2b19274ae02d",
+  "github_run_id": "33031423738",
+  "authorised_by": "Ventusltd",
+  "authorised_at_source_commit": "2026-08-27T02:51:13+01:00",
+  "evidence": {
+    "actor": "Ventusltd",
+    "run_id": "33031423738",
+    "source": "f721899b5d9fedea1eda429186df2b19274ae02d",
+    "authorised_at_utc": "2026-08-27T02:51:13+01:00"
+  },
+  "stable_route_promoted": false,
+  "globalgrid_catalogue_changed": false
+}
