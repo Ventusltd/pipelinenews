@@ -1,0 +1,817 @@
+{
+  "schema": "pipelinenews.v8.live-news-registry.v1",
+  "generation": "202608272048",
+  "name": "Mobile Orientation Repair + Live News Discovery + Chronology + Atlas V8 Deep-Link",
+  "compiler_method": "pipelinenews-v8-mobile-orientation-css-v3",
+  "cache_identity": "f3620fff8b48a04e0e3264b472fe3af03dd8dbdb5cd65359e680d5d8d848afc2",
+  "cache_contract": {
+    "schema": "pipelinenews.v8.mobile-orientation-cache-contract.v1",
+    "compiler_method": "pipelinenews-v8-mobile-orientation-css-v3",
+    "compiler": {
+      "path": "index/202608272048-compile-v8-mobile-orientation.mjs",
+      "sha256": "3c447f4e2048927a08333acd4d5f18904ae97b6ed18382fc236be1ca0d091a29"
+    },
+    "project_posture": {
+      "owner": "Ventus Ltd",
+      "application": "non-commercial-open-source",
+      "publisher_redistribution_rights": "source-specific-not-inferred"
+    },
+    "source_parent_commit": "8c3d9443f175aacaf533b9148fe80106b207fd22",
+    "protected_recovery_commit": "77bda8c3809d02550d06a1c4154315f56d1120fb",
+    "parent_generation": "202608271524",
+    "news_source_generation": "202608270844",
+    "rollback_generation": "202608270055",
+    "parent_cache_identity": "fd2212a8c76d9fb97ec50cc97b1fefa104ae8cd7ac33cd4b4adcd57c8149e844",
+    "sources": {
+      "parentManifest_sha256": "fef485accb1509297dbc64c5e30806c60d977bedb06591e8b324e7bbab06e818",
+      "parentHtml_sha256": "fc457af07b26eafa19505f7daa160ce1e870146a056a0728fbb17e8dafd3e049",
+      "parentRuntime_sha256": "95637eb69cedacb124f980dabd4881a652cf641eefd73bdf37e05900f84f0c92",
+      "parentRegistry_sha256": "db1a4899a47668f80b40b2ac3e4091ea5e244c7757b47a3ae2336a5c5aa264fb",
+      "parentNews_sha256": "00cfbc6243e83cca274707a19b7848f776ce223d5e02808164e213dde887a8be",
+      "baseStyle_sha256": "d6c8100dbf79dd02f65d78e4fc9cacae92f2e4b5a749ea0fd3ff481fe5bb4792",
+      "atlasCartridge_sha256": "d8e997acea1ed6c628e4d69f27653a5fe9a21bb459ff95d4ee0a7d040b431ff7",
+      "orientationStyle_sha256": "e9e1cbefd49f10d2d3b06f31274357a947672242159e9f1b50434ca175a870bc",
+      "auditContract_sha256": "3dbee93a7de2cc01f9fece3e3318b1f151871231ae254bff9cc67fe4fd69aae2",
+      "auditVerifier_sha256": "f0f383cfd1a6ad0cc12f46a8a1173831ac7fed506cf4eabb59ae2d3e0ca68ca7",
+      "auditComparator_sha256": "5fb162b9396db069dcd754c3deddc0bb0287522250265108426e7059ea342147",
+      "auditSourceManifest_sha256": "45e33fc5a14cbb73790bfa6d5cab6dcbc86d0f588b7244703adc623662c4dfe7",
+      "auditMetrics_sha256": "c4bbf6697c0ad92a57f3b4696499bdaa81e979ff6118d1aee8ae46a12ea06894",
+      "auditReport_sha256": "88a2915e0c62f10a4261a6e886379abab6c590376ef521ceaa3609860043c82c",
+      "auditArtifactManifest_sha256": "7c631ecae2ea793e5790886a1afa4f51ac19bb7586f03cb1d0bfa04a8cf1ebbe"
+    },
+    "project_index": {
+      "schema": "pipelinenews.v8.fast-project-index.v1",
+      "fields": [
+        "repd_ref",
+        "gg_project_id",
+        "name",
+        "technology",
+        "status",
+        "capacity_mw",
+        "county",
+        "region",
+        "operator",
+        "repd_record_updated",
+        "geometry_status",
+        "latitude",
+        "longitude"
+      ],
+      "dictionary_fields": [
+        "technology",
+        "status",
+        "county",
+        "region",
+        "operator",
+        "geometry_status"
+      ],
+      "stable_key": "repd_ref",
+      "detail_locator": "floor(global_row_index/500)"
+    },
+    "search_index": {
+      "schema": "pipelinenews.v8.fast-search-index.v1",
+      "row_alignment": "global_project_row_index",
+      "activation": "first-nonempty-search"
+    },
+    "news_index": {
+      "schema": "pipelinenews.v8.live-news-index.v1",
+      "fields": [
+        "gg_article_id",
+        "repd_ref",
+        "gg_project_id",
+        "project",
+        "technology",
+        "capacity_mw",
+        "operator",
+        "county",
+        "country",
+        "event",
+        "headline",
+        "published",
+        "source",
+        "url",
+        "confidence",
+        "canonical_relevant",
+        "role",
+        "eligible_for_news_signal",
+        "regional_classification",
+        "regional_technology",
+        "regional_evidence",
+        "event_detail",
+        "relationship",
+        "related_context_repd_ref",
+        "related_context_project",
+        "binding_label",
+        "related_components",
+        "evidence_snippet"
+      ],
+      "stable_key": "gg_article_id",
+      "activation": "idle-after-core-ready"
+    },
+    "runtime": {
+      "physical_project_rows": 50,
+      "physical_news_rows": 30,
+      "detail_fetch_concurrency": 4,
+      "immutable_cache_mode": "force-cache"
+    },
+    "news_ordering": {
+      "key": "published",
+      "parsing": "strict-YYYY-MM-DD-at-UTC-midnight",
+      "direction": "descending",
+      "tie_breaks": [
+        "parent_row_index_ascending",
+        "gg_article_id_ascending_if_parent_index_equal"
+      ],
+      "invariant": "published timestamps are non-increasing",
+      "physical_first_window": 30
+    },
+    "atlas_deep_link": {
+      "schema": "pipelinenews.atlas-v8-deep-link-cartridge.v1",
+      "generation": "202608271329",
+      "source": {
+        "path": "ui/cartridges/202608271329-atlas-v8-deep-link.mjs",
+        "sha256": "d8e997acea1ed6c628e4d69f27653a5fe9a21bb459ff95d4ee0a7d040b431ff7"
+      },
+      "runtime": {
+        "path": "javascript/202608271329-atlas-v8-deep-link-cartridge.js",
+        "sha256": "d8e997acea1ed6c628e4d69f27653a5fe9a21bb459ff95d4ee0a7d040b431ff7",
+        "bytes": 2945,
+        "activation": "module-import-before-project-render"
+      },
+      "target": {
+        "protocol": "https:",
+        "hostname": "globalgrid2050.com",
+        "pathname": "/repd_grid_atlasv8/",
+        "base_url": "https://globalgrid2050.com/repd_grid_atlasv8/"
+      },
+      "eligibility": {
+        "field": "geometry_status",
+        "equals": "valid",
+        "ineligible_result": "",
+        "presentation": "NO MAP"
+      },
+      "identity_anchor": "repd_ref",
+      "query_parameter_order": [
+        "repd_ref",
+        "project",
+        "technology",
+        "capacity_mw",
+        "latitude",
+        "longitude",
+        "zoom"
+      ],
+      "project_field_by_parameter": {
+        "repd_ref": "repd_ref",
+        "project": "name",
+        "technology": "technology",
+        "capacity_mw": "capacity_mw",
+        "latitude": "latitude",
+        "longitude": "longitude"
+      },
+      "fixed_parameters": {
+        "zoom": "12"
+      },
+      "receiver_contract": {
+        "canonical_identity": [
+          "repd_ref",
+          "technology"
+        ],
+        "display_context": [
+          "project",
+          "capacity_mw"
+        ],
+        "coordinate_fallback": [
+          "longitude",
+          "latitude",
+          "zoom"
+        ],
+        "query_context_never_establishes_identity": true
+      }
+    },
+    "mobile_orientation": {
+      "schema": "pipelinenews.v8.mobile-orientation-repair.v1",
+      "audit_generation": "202608271656",
+      "audit_source_commit": "6be8d21567e97a772d36d472a74e88a00d99a7c1",
+      "audit_evidence_commit": "bce84eb32b7464e9b560c9e9aa9f110feed62df7",
+      "audit_candidate_generation": "202608271524",
+      "audit_failures": [
+        {
+          "invariant": "I1",
+          "cell": "L1"
+        },
+        {
+          "invariant": "I1",
+          "cell": "L2"
+        },
+        {
+          "invariant": "I1",
+          "cell": "L4"
+        },
+        {
+          "invariant": "I10",
+          "cell": "L1"
+        },
+        {
+          "invariant": "I10",
+          "cell": "L4"
+        },
+        {
+          "invariant": "I11",
+          "cell": "L1"
+        },
+        {
+          "invariant": "I11",
+          "cell": "L2"
+        },
+        {
+          "invariant": "I11",
+          "cell": "L3"
+        },
+        {
+          "invariant": "I11",
+          "cell": "L4"
+        },
+        {
+          "invariant": "I11",
+          "cell": "P1"
+        },
+        {
+          "invariant": "I11",
+          "cell": "P2"
+        },
+        {
+          "invariant": "I11",
+          "cell": "T1"
+        },
+        {
+          "invariant": "I6",
+          "cell": "L1"
+        },
+        {
+          "invariant": "I6",
+          "cell": "L2"
+        },
+        {
+          "invariant": "I6",
+          "cell": "L3"
+        },
+        {
+          "invariant": "I6",
+          "cell": "L4"
+        },
+        {
+          "invariant": "I6",
+          "cell": "P1"
+        },
+        {
+          "invariant": "I6",
+          "cell": "P2"
+        },
+        {
+          "invariant": "I6",
+          "cell": "T1"
+        },
+        {
+          "invariant": "I8",
+          "cell": "L1"
+        },
+        {
+          "invariant": "I8",
+          "cell": "L2"
+        },
+        {
+          "invariant": "I8",
+          "cell": "L3"
+        },
+        {
+          "invariant": "I8",
+          "cell": "L4"
+        },
+        {
+          "invariant": "I8",
+          "cell": "P1"
+        },
+        {
+          "invariant": "I8",
+          "cell": "P2"
+        },
+        {
+          "invariant": "I8",
+          "cell": "T1"
+        }
+      ],
+      "unchanged_contract": {
+        "path": "atman/202608271656-mobile-ui-invariants.mjs",
+        "sha256": "3dbee93a7de2cc01f9fece3e3318b1f151871231ae254bff9cc67fe4fd69aae2"
+      },
+      "unchanged_verifier": {
+        "path": "atman/202608271656-verify-mobile-ui-browser.mjs",
+        "sha256": "f0f383cfd1a6ad0cc12f46a8a1173831ac7fed506cf4eabb59ae2d3e0ca68ca7"
+      },
+      "unchanged_comparator": {
+        "path": "atman/202608271656-compare-mobile-ui.mjs",
+        "sha256": "5fb162b9396db069dcd754c3deddc0bb0287522250265108426e7059ea342147"
+      },
+      "base_style": {
+        "path": "styles/202608270055-v8-fast.css",
+        "sha256": "d6c8100dbf79dd02f65d78e4fc9cacae92f2e4b5a749ea0fd3ff481fe5bb4792"
+      },
+      "additive_style": {
+        "path": "styles/202608272048-orientation.css",
+        "sha256": "e9e1cbefd49f10d2d3b06f31274357a947672242159e9f1b50434ca175a870bc",
+        "bytes": 7131
+      },
+      "viewport_meta": "width=device-width,initial-scale=1,viewport-fit=cover",
+      "short_viewport_gates": {
+        "narrow_table_density": "(orientation: landscape) and (max-height: 500px) and (max-width: 768px)",
+        "cockpit": "(orientation: landscape) and (max-height: 500px) and (min-width: 769px)"
+      },
+      "inherited_narrow_mobile_path": "max-width:768px-with-landscape-table-density-only",
+      "rotation_implementation": "css-only-no-resize-or-orientation-handler",
+      "release_menu": "native-auto-popover-light-dismiss",
+      "safe_area": "env-safe-area-insets",
+      "safe_area_hit_shield": "fixed-bottom-env-safe-area-inset-bottom",
+      "portrait_parity": "stable-component-pixel-identity-with-declared-accessibility-masks",
+      "reconciliation": {
+        "proven_css_source": "local-202608271710-draft",
+        "excluded_timestamp": "202608272000",
+        "failed_attempts": [
+          {
+            "generation": "202608271906",
+            "run_id": "33102634868",
+            "failure": "release-relative-assets-not-staged"
+          },
+          {
+            "generation": "202608271934",
+            "run_id": "33104418233",
+            "failure": "runtime-identity-1524-expected-1934"
+          },
+          {
+            "generation": "202608271957",
+            "run_id": "33106228801",
+            "failure": "runtime-identity-1524-expected-1957"
+          },
+          {
+            "generation": "202608272001",
+            "run_id": "33106832748",
+            "failure": "candidate-invariant-gate",
+            "failed_cells": [
+              "L1/I1",
+              "L2/I1",
+              "L3/I10",
+              "L4/I1",
+              "P1/I1",
+              "P1/I7",
+              "P2/I1"
+            ]
+          },
+          {
+            "generation": "202608272015",
+            "run_id": "33110044657",
+            "failure": "compatibility-esm-module-resolution",
+            "failed_job": "compatibility-browser",
+            "details": [
+              "rewritten-chronology-verifier-under-runner-temp-could-not-resolve-repo-local-playwright",
+              "commit-candidate-explicit-needs-omitted-compatibility-browser-but-aggregate-gate-transitively-blocked-publication"
+            ],
+            "successful_jobs": [
+              "build",
+              "candidate-static",
+              "original-static",
+              "rotations"
+            ],
+            "baseline_status_at_handover": "in-progress",
+            "publication": "skipped-fail-closed"
+          }
+        ]
+      }
+    },
+    "reuse": {
+      "project_generation": "202608270055",
+      "search_generation": "202608270055",
+      "news_generation": "202608271524",
+      "detail_generation": "202608261927",
+      "atlas_deep_link_generation": "202608271329",
+      "base_style_generation": "202608270055"
+    }
+  },
+  "lifecycle": [
+    "WAIT",
+    "QUEUED",
+    "LOAD",
+    "INDEX",
+    "OK",
+    "EMPTY",
+    "FAIL"
+  ],
+  "totals": {
+    "project_count": 7680,
+    "capacity_mw": 356474.09,
+    "largest_mw": 4100,
+    "solar_count": 3563,
+    "bess_count": 1609,
+    "wind_onshore_count": 2399,
+    "wind_offshore_count": 109,
+    "geometry_count": 7652,
+    "missing_geometry_count": 28
+  },
+  "news_counts": {
+    "all": 136,
+    "uk": 47,
+    "international": 19,
+    "us": 4,
+    "europe": 9,
+    "other": 6
+  },
+  "signals": {
+    "1044": [
+      "PROJECT UPDATE",
+      81,
+      "2026-08-21"
+    ],
+    "2377": [
+      "PROJECT UPDATE",
+      72,
+      "2026-05-15"
+    ],
+    "5452": [
+      "PROJECT UPDATE",
+      72,
+      "2026-03-27"
+    ],
+    "5533": [
+      "PROJECT UPDATE",
+      69,
+      "2026-05-12"
+    ],
+    "5967": [
+      "PROJECT UPDATE",
+      69,
+      "2026-04-03"
+    ],
+    "6502": [
+      "PROJECT UPDATE",
+      69,
+      "2025-09-26"
+    ],
+    "8100": [
+      "PROJECT UPDATE",
+      69,
+      "2025-12-04"
+    ],
+    "8162": [
+      "PROJECT UPDATE",
+      82,
+      "2025-12-19"
+    ],
+    "8393": [
+      "PROJECT UPDATE",
+      64,
+      "2026-04-04"
+    ],
+    "9427": [
+      "PROJECT UPDATE",
+      75,
+      "2026-04-28"
+    ],
+    "9610": [
+      "PROJECT UPDATE",
+      73,
+      "2026-02-05"
+    ],
+    "10085": [
+      "CONSENT",
+      83,
+      "2025-10-23"
+    ],
+    "10087": [
+      "FINANCIAL CLOSE",
+      77,
+      "2026-06-10"
+    ],
+    "11034": [
+      "PROJECT UPDATE",
+      85,
+      "2026-08-13"
+    ],
+    "11063": [
+      "ACQUISITION",
+      72,
+      "2026-06-24"
+    ],
+    "11460": [
+      "CONSENT",
+      74,
+      "2025-12-19"
+    ],
+    "11476": [
+      "CONSENT",
+      83,
+      "2025-12-03"
+    ],
+    "11678": [
+      "ACQUISITION",
+      81,
+      "2026-02-22"
+    ],
+    "11974": [
+      "ACQUISITION",
+      78,
+      "2026-08-18"
+    ],
+    "12017": [
+      "FINANCIAL CLOSE",
+      84,
+      "2026-06-12"
+    ],
+    "12206": [
+      "ACQUISITION",
+      80,
+      "2026-06-23"
+    ],
+    "12926": [
+      "PROJECT UPDATE",
+      73,
+      "2025-10-20"
+    ],
+    "13599": [
+      "PROJECT UPDATE",
+      100,
+      "2026-08-24"
+    ],
+    "13763": [
+      "PROJECT UPDATE",
+      65,
+      "2025-12-11"
+    ],
+    "14098": [
+      "CONSENT",
+      83,
+      "2026-02-18"
+    ],
+    "14550": [
+      "PROJECT UPDATE",
+      90,
+      "2026-07-03"
+    ],
+    "14763": [
+      "ACQUISITION",
+      70,
+      "2026-05-08"
+    ],
+    "14806": [
+      "PROJECT UPDATE",
+      72,
+      "2026-07-08"
+    ],
+    "15000": [
+      "CONSENT",
+      90,
+      "2026-07-02"
+    ],
+    "17494": [
+      "PROJECT UPDATE",
+      100,
+      "2026-08-25"
+    ]
+  },
+  "assets": {
+    "projects": {
+      "path": "data/202608270055-8ab1807551bc-v8-fast-projects.json",
+      "schema": "pipelinenews.v8.fast-project-index.v1",
+      "sha256": "c06aedef176d2d38fd135806306a8ef81b4af9994c7be31e8bd760304149f862",
+      "bytes": 979338,
+      "activation": "boot",
+      "generation": "202608270055",
+      "cache_identity": "8ab1807551bc77066e46e01cb0690dfaa41d473d8433644046f56b6984579b06"
+    },
+    "search": {
+      "path": "data/202608270055-8ab1807551bc-v8-fast-search.json",
+      "schema": "pipelinenews.v8.fast-search-index.v1",
+      "sha256": "a1cbfc5202b717889a471409e850ea5cae13626f91c60f08cda0b06da5102b65",
+      "bytes": 1912681,
+      "activation": "first-nonempty-search",
+      "generation": "202608270055",
+      "cache_identity": "8ab1807551bc77066e46e01cb0690dfaa41d473d8433644046f56b6984579b06"
+    },
+    "news": {
+      "path": "data/202608271524-fd2212a8c76d-v8-fast-news.json",
+      "schema": "pipelinenews.v8.live-news-index.v1",
+      "sha256": "00cfbc6243e83cca274707a19b7848f776ce223d5e02808164e213dde887a8be",
+      "bytes": 82460,
+      "activation": "idle-after-core-ready",
+      "generation": "202608271524",
+      "cache_identity": "fd2212a8c76d9fb97ec50cc97b1fefa104ae8cd7ac33cd4b4adcd57c8149e844"
+    },
+    "chart": {
+      "path": "vendor/202608261927-chart-umd.min.js",
+      "sha256": "48444a82d4edcb5bec0f1965faacdde18d9c17db3063d042abada2f705c9f54a",
+      "bytes": 208522,
+      "activation": "idle-after-core-ready"
+    },
+    "style": {
+      "path": "styles/202608270055-v8-fast.css",
+      "sha256": "d6c8100dbf79dd02f65d78e4fc9cacae92f2e4b5a749ea0fd3ff481fe5bb4792",
+      "bytes": 14397,
+      "activation": "boot",
+      "generation": "202608270055"
+    }
+  },
+  "detail_schema": "globalgrid2050.v9.project-partition.v9.1",
+  "detail_partition_size": 500,
+  "detail_partitions": [
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-01.json",
+      "sha256": "6e72d36a8f880bfc39274221edf58d1b895202f01f2e56aae001ad25cb3b337d",
+      "bytes": 624542,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-02.json",
+      "sha256": "a2ba3598af8ff45726587b3a498c0f6a433ae007ec9eadbd5bfc682b7dca4b2e",
+      "bytes": 629501,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-03.json",
+      "sha256": "6f012e9251433e0d32095b2df75ae1c988a813a14647debe16c057dee550d23b",
+      "bytes": 628898,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-04.json",
+      "sha256": "1cdc7405098c85a477dd156930c4503ef7850ff005d1ec85a69928f10db6b7f5",
+      "bytes": 625997,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-05.json",
+      "sha256": "43988789140bf2211263ffe49b756bc8f7f4cd69531b2e91c56b2e7c2a90bcae",
+      "bytes": 631815,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-06.json",
+      "sha256": "e2c4d0c29e622270260e8fa71c1efae260e84fd3c9ebfa31b7dbf7bfe3da2d69",
+      "bytes": 630303,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-07.json",
+      "sha256": "8f2b2d2d74a031f459b94e626e288c11c148629e955f97ef688a27eb1a5e2c59",
+      "bytes": 628660,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-08.json",
+      "sha256": "f3c0dff755bc657c41b3e04305403bbcfbf94be5d893e85309faf9dd7cb1fa92",
+      "bytes": 631189,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-09.json",
+      "sha256": "a9427f109b7ad5ee881628fcbde3602daab62896e8517922ff68d2efe6a23b15",
+      "bytes": 630867,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-10.json",
+      "sha256": "57145897a6a457f3bfb58f431d7bfa6a75dd63bfd2708eb56c3802391847c6b3",
+      "bytes": 628464,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-11.json",
+      "sha256": "e79c4eb42d1d366f01f8f2a941d92ff231b8ea14c2e40a2677a89601926938d1",
+      "bytes": 620261,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-12.json",
+      "sha256": "ad077a3172f6813f2a641e2f51ab693bf038cae03b5cbbdaa4167973ce7a7388",
+      "bytes": 615891,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-13.json",
+      "sha256": "4545362b1355e256dc3025019f971ffa208cc8828059152a26b99ac66fb47817",
+      "bytes": 620861,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-14.json",
+      "sha256": "9cf8da7fcbf3c1d08830c613c69d0447c490d6126be3ebe8c2d9021a4ddcd004",
+      "bytes": 619833,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-15.json",
+      "sha256": "109f20651ce1234d8933bb5efab78cbf45081ae7b4966e63ec0fca560a76cf03",
+      "bytes": 616440,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-16.json",
+      "sha256": "ed4c672a6cb684a5fd29e17e436d4ee632de358de5e0a2cee9801c7ffa5ecc4b",
+      "bytes": 221745,
+      "record_count": 180,
+      "activation": "project-detail-or-export"
+    }
+  ],
+  "source": {
+    "dataset": "DESNZ Renewable Energy Planning Database Q2 2026",
+    "source_record_count": 14657,
+    "projects_sha256": "24484ca837ac56520ba971fb2c2c1d29620e16a3c71bbaa5764e94c9b515ad52",
+    "identity_sha256": "d614084c05c0380862cf2d9da58309c43cdb128d6917458db4dc53717062ea95",
+    "coordinate_fixture_sha256": "8ca7a99a9f3a95b4de6f1dff79af64ead3aaa14627356eb198ae7be21539741f",
+    "workbook_sha256": "99ec4d0509a9fdfb999116e33c459084ce9ab59b44e3fafba5fc9b280ae2d5a6",
+    "admitted_project_count": 7680,
+    "candidate_delta": {
+      "count": 23,
+      "status": "held-fail-closed"
+    }
+  },
+  "performance": {
+    "maximum_physical_project_rows": 50,
+    "maximum_physical_news_rows": 30,
+    "maximum_dom_elements": 5000,
+    "maximum_initial_decoded_bytes": 2000000,
+    "maximum_mobile_interaction_ms": 200,
+    "maximum_desktop_interaction_ms": 100,
+    "maximum_ordinary_long_task_ms": 200,
+    "maximum_detail_fetch_concurrency": 4
+  },
+  "discovery": {
+    "added_records": 3,
+    "primary_matches": 2,
+    "related_editorial_mentions": 1,
+    "enrichment": "strict-bbc-one-link-layer",
+    "evidence": "data/news-discovery/202608270844-bbc-live-news-evidence.json",
+    "raw_html_retained": false,
+    "article_bodies_retained": false
+  },
+  "deployment": "not-authorised",
+  "cartridges": {
+    "atlas_v8_deep_link": {
+      "schema": "pipelinenews.atlas-v8-deep-link-cartridge.v1",
+      "generation": "202608271329",
+      "source_sha256": "d8e997acea1ed6c628e4d69f27653a5fe9a21bb459ff95d4ee0a7d040b431ff7",
+      "path": "javascript/202608271329-atlas-v8-deep-link-cartridge.js",
+      "sha256": "d8e997acea1ed6c628e4d69f27653a5fe9a21bb459ff95d4ee0a7d040b431ff7",
+      "bytes": 2945,
+      "identity_anchor": "repd_ref",
+      "query_parameter_order": [
+        "repd_ref",
+        "project",
+        "technology",
+        "capacity_mw",
+        "latitude",
+        "longitude",
+        "zoom"
+      ],
+      "deployment": "not-authorised"
+    },
+    "mobile_orientation": {
+      "schema": "pipelinenews.v8.mobile-orientation-repair.v1",
+      "generation": "202608272048",
+      "path": "styles/202608272048-orientation.css",
+      "sha256": "e9e1cbefd49f10d2d3b06f31274357a947672242159e9f1b50434ca175a870bc",
+      "bytes": 7131,
+      "runtime_dom_mutation": false,
+      "deployment": "not-authorised"
+    }
+  },
+  "chronology": {
+    "schema": "pipelinenews.v8.news-chronology.v1",
+    "source_generation": "202608270844",
+    "order": "published-descending",
+    "dates": "strict-YYYY-MM-DD",
+    "stable_ties": "parent-row-order",
+    "first_window_size": 30,
+    "first_window_bbc_article_ids": [
+      "GG2050-NEWS-0E813A86D54E39FC",
+      "GG2050-NEWS-B4B91FD3DA8F596C",
+      "GG2050-NEWS-C3D0A5910F32E821"
+    ],
+    "source_rows_changed": false
+  },
+  "project_posture": {
+    "owner": "Ventus Ltd",
+    "application": "non-commercial-open-source",
+    "publisher_redistribution_rights": "source-specific-not-inferred"
+  }
+}
