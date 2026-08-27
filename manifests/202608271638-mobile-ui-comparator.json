@@ -1,0 +1,135 @@
+{
+  "schema": "pipelinenews.mobile-ui-comparator-manifest.v1",
+  "generation": "202608271638",
+  "name": "PipelineNews Mobile Browser Orientation Comparator",
+  "source_parent_commit": "ed308a324c62e88db7dc3760205798f50cfdca9e",
+  "deployment": "not-authorised",
+  "scope": "audit-only-browser-evidence",
+  "project_posture": {
+    "owner": "Ventus Ltd",
+    "application": "non-commercial-open-source",
+    "publisher_redistribution_rights": "source-specific-not-inferred"
+  },
+  "candidate_generation": "202608271524",
+  "trusted_baseline_generation": "202608261927",
+  "original_context_url": "https://globalgrid2050.com/uk_renewables_pipeline/dashboard.html",
+  "browser": {
+    "playwright_version": "1.55.0",
+    "engine": "chromium",
+    "screenshot_encoder": "sharp@0.34.3"
+  },
+  "source_boundary": [
+    ".github/workflows/202608271638-mobile-ui-comparator.yml",
+    "atman/202608271638-compare-mobile-ui.mjs",
+    "atman/202608271638-mobile-ui-invariants.mjs",
+    "atman/202608271638-verify-mobile-ui-browser.mjs",
+    "manifests/202608271638-mobile-ui-comparator.json"
+  ],
+  "hashed_source_files": [
+    {
+      "path": ".github/workflows/202608271638-mobile-ui-comparator.yml",
+      "bytes": 45338,
+      "sha256": "19a97ba41da9ea9ecbddf19c9a4f19a2dab03928f88c0935e7f1054d880d4ce1"
+    },
+    {
+      "path": "atman/202608271638-compare-mobile-ui.mjs",
+      "bytes": 40196,
+      "sha256": "428b4be88d594faf209b6b44ad039c39676e2f68c09dcc81a2c4f769be5874a4"
+    },
+    {
+      "path": "atman/202608271638-mobile-ui-invariants.mjs",
+      "bytes": 8081,
+      "sha256": "92f762281a1618e06a0355a1f74c80cfeaafb19517bec0cdebe2eddf9f547b44"
+    },
+    {
+      "path": "atman/202608271638-verify-mobile-ui-browser.mjs",
+      "bytes": 69264,
+      "sha256": "f727a1dbc969b085b0169552d0b75eaead37183f5a50ba994235454f90506b07"
+    }
+  ],
+  "targets": [
+    {
+      "id": "candidate",
+      "generation": "202608271524",
+      "path": "releases/202608271524-v8-fast-candidate.html",
+      "required": true,
+      "gated": true,
+      "serving": "hermetic-local-checkout"
+    },
+    {
+      "id": "baseline",
+      "generation": "202608261927",
+      "path": "releases/202608261927-index.html",
+      "required": true,
+      "gated": false,
+      "serving": "hermetic-local-checkout"
+    },
+    {
+      "id": "original",
+      "url": "https://globalgrid2050.com/uk_renewables_pipeline/dashboard.html",
+      "required": false,
+      "gated": false,
+      "serving": "read-only-live-context"
+    }
+  ],
+  "cells": [
+    { "id": "P1", "width": 390, "height": 844, "dpr": 3, "orientation": "portrait" },
+    { "id": "P2", "width": 375, "height": 667, "dpr": 2, "orientation": "portrait" },
+    { "id": "L1", "width": 844, "height": 390, "dpr": 3, "orientation": "landscape" },
+    { "id": "L2", "width": 932, "height": 430, "dpr": 3, "orientation": "landscape" },
+    { "id": "L3", "width": 667, "height": 375, "dpr": 2, "orientation": "landscape" },
+    { "id": "L4", "width": 852, "height": 393, "dpr": 3, "orientation": "landscape" },
+    { "id": "T1", "width": 768, "height": 1024, "dpr": 2, "orientation": "portrait" },
+    { "id": "R1", "sequence": "P1-L1-P1", "cycles": 3, "dpr": 3, "orientation": "dynamic" }
+  ],
+  "evidence": {
+    "raw_artifact_retention_days": 30,
+    "raw_artifact_max_bytes": 26214400,
+    "screenshot_max_bytes": 409600,
+    "compact_commit_files": [
+      "artifact-manifest.json",
+      "metrics.json",
+      "report.md"
+    ]
+  },
+  "execution": {
+    "job_timeout_minutes": 55,
+    "cell_record_max_bytes": 262144,
+    "browser_rasterizations_per_screenshot": 1,
+    "full_page_capture_limits": {
+      "max_dimension_css_px": 16384,
+      "max_area_css_pixels": 4194304,
+      "max_project_rows": 1000
+    },
+    "rotation_initial_sequence": "navigate-target-meta-before-viewport-readiness",
+    "rotation_readiness_gate": "inner-viewport-and-match-media-orientation",
+    "rotation_screen_fields": "observed-not-gated",
+    "rotation_screenshot_state": "reasserted-before-node-snapshot",
+    "rotation_snapshot_viewport_gate": "inner-viewport-and-match-media-orientation",
+    "baseline_static_shards": [
+      ["P1", "P2", "L1"],
+      ["L2", "L3"],
+      ["L4", "T1"]
+    ],
+    "candidate_static_shards": [
+      ["P1", "P2", "L1", "L2", "L3", "L4", "T1"]
+    ],
+    "original_context_shards": [
+      ["P1", "P2", "L1", "L2", "L3", "L4", "T1"]
+    ],
+    "rotation_shards": [
+      ["candidate", "baseline"]
+    ],
+    "aggregate_record_count": 23
+  },
+  "discipline": {
+    "expected_ui_failures_fail_producer": false,
+    "instrument_or_schema_failures_fail_producer": true,
+    "candidate_gate_recorded": true,
+    "baseline_characterised_not_gated": true,
+    "original_context_tolerated_to_fail": true,
+    "pages_capability": false,
+    "stable_pointer_changed": false,
+    "release_files_changed": false
+  }
+}
