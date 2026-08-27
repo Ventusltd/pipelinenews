@@ -1,0 +1,381 @@
+name: Build PipelineNews Atlas V8 Deep-Link Cartridge
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/202608271329-atlas-v8-deep-link.yml"
+      - "ui/cartridges/202608271329-atlas-v8-deep-link.mjs"
+      - "index/202608271329-compile-v8-atlas-deep-link.mjs"
+      - "build/javascript/202608271329-verify-v8-fast-contract.mjs"
+      - "build/javascript/202608271329-verify-v8-fast-browser.mjs"
+      - "atman/202608271329-compare-atlas-v8-deep-links.mjs"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-pipelinenews-atlas-v8-deep-link-202608271329
+  cancel-in-progress: false
+
+env:
+  ATLAS_GENERATION: "202608271329"
+  ATLAS_PARENT_GENERATION: "202608270844"
+  ATLAS_SOURCE_PARENT: "270f069182d272f85575fda1a3906764a8603080"
+  ATLAS_ROLLBACK_GENERATION: "202608270055"
+  ATLAS_WORK_ROOT: "work/202608271329-atlas-v8-deep-link"
+
+jobs:
+  verify:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact source commit
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Configure Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Prove progressive source lineage and quarantine scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$(git rev-parse HEAD^)" = "$ATLAS_SOURCE_PARENT"
+          mkdir -p "$ATLAS_WORK_ROOT/evidence"
+          git show -s --format='%H%n%P%n%T%n%ct' HEAD > "$ATLAS_WORK_ROOT/evidence/source-record.txt"
+          git diff --name-only "$ATLAS_SOURCE_PARENT" HEAD | LC_ALL=C sort > "$ATLAS_WORK_ROOT/evidence/source-paths.txt"
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { readFile, writeFile } from "node:fs/promises";
+          const generation = process.env.ATLAS_GENERATION;
+          const actual = (await readFile(`${process.env.ATLAS_WORK_ROOT}/evidence/source-paths.txt`, "utf8"))
+            .trim().split("\n").filter(Boolean);
+          const expected = [
+            `.github/workflows/${generation}-atlas-v8-deep-link.yml`,
+            `atman/${generation}-compare-atlas-v8-deep-links.mjs`,
+            `build/javascript/${generation}-verify-v8-fast-browser.mjs`,
+            `build/javascript/${generation}-verify-v8-fast-contract.mjs`,
+            `index/${generation}-compile-v8-atlas-deep-link.mjs`,
+            `ui/cartridges/${generation}-atlas-v8-deep-link.mjs`,
+          ].sort();
+          assert.deepEqual(actual, expected, "source closure differs from the six declared timestamped files");
+          assert.ok(actual.every((relative) => relative.includes(generation)));
+          assert.ok(actual.every((relative) => !relative.startsWith("data/")), "quarantined cartridge entered the Pages data tree");
+          for (const forbidden of [
+            ".github/workflows/pages.yml",
+            ".github/workflows/authorise-v8-fast-pages.yml",
+            "releases/current.json",
+            "releases/candidate.json",
+          ]) assert.ok(!actual.includes(forbidden), `protected path changed: ${forbidden}`);
+          await writeFile(
+            `${process.env.ATLAS_WORK_ROOT}/evidence/scope-proof.json`,
+            `${JSON.stringify({
+              schema: "pipelinenews.atlas-v8-deep-link-source-scope-proof.v1",
+              generation,
+              source_commit: process.env.GITHUB_SHA,
+              source_parent: process.env.ATLAS_SOURCE_PARENT,
+              changed_paths: actual,
+              data_tree_changed: false,
+              pages_workflow_changed: false,
+              deployment_authorised: false,
+            }, null, 2)}\n`,
+          );
+          NODE
+          git diff --quiet "$ATLAS_SOURCE_PARENT" HEAD -- "build/202608270844-v8-fast-site-manifest.json" "releases/202608270844-v8-fast-candidate.html" "releases/javascript/202608270844-v8-fast-runtime.js" "releases/data/202608270844-v8-fast-registry.json" "build/202608270055-v8-fast-site-manifest.json" "releases/202608270055-v8-fast-candidate.html" "archive/202608261547-pipelinenews/releases/current.json" "atman/202608262014-build-pages.py"
+
+      - name: Reject an existing immutable generation
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "build/$ATLAS_GENERATION-v8-fast-site-manifest.json"
+          test ! -e "releases/$ATLAS_GENERATION-v8-fast-candidate.html"
+          test ! -e "releases/javascript/$ATLAS_GENERATION-v8-fast-runtime.js"
+          test ! -e "releases/javascript/$ATLAS_GENERATION-atlas-v8-deep-link-cartridge.js"
+          test ! -e "releases/data/$ATLAS_GENERATION-v8-fast-registry.json"
+
+      - name: Syntax-check source scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check "ui/cartridges/$ATLAS_GENERATION-atlas-v8-deep-link.mjs"
+          node --check "index/$ATLAS_GENERATION-compile-v8-atlas-deep-link.mjs"
+          node --check "atman/$ATLAS_GENERATION-compare-atlas-v8-deep-links.mjs"
+          node --check "build/javascript/$ATLAS_GENERATION-verify-v8-fast-contract.mjs"
+          node --check "build/javascript/$ATLAS_GENERATION-verify-v8-fast-browser.mjs"
+          ! grep -R "SHA256_PENDING" "ui/cartridges/$ATLAS_GENERATION-atlas-v8-deep-link.mjs" "index/$ATLAS_GENERATION-compile-v8-atlas-deep-link.mjs" "atman/$ATLAS_GENERATION-compare-atlas-v8-deep-links.mjs" "build/javascript/$ATLAS_GENERATION-verify-v8-fast-contract.mjs"
+
+      - name: Compare all 7,680 source links with trusted V9.6.2
+        shell: bash
+        run: |
+          set -euo pipefail
+          node "atman/$ATLAS_GENERATION-compare-atlas-v8-deep-links.mjs" | tee "$ATLAS_WORK_ROOT/evidence/source-atman-proof.json"
+
+      - name: Compile two independent immutable candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_COMMIT="$GITHUB_SHA" GITHUB_RUN_ID="$GITHUB_RUN_ID" node "index/$ATLAS_GENERATION-compile-v8-atlas-deep-link.mjs" --out-root "$ATLAS_WORK_ROOT/pass-a" | tee "$ATLAS_WORK_ROOT/evidence/compiler-pass-a.json"
+          SOURCE_COMMIT="$GITHUB_SHA" GITHUB_RUN_ID="$GITHUB_RUN_ID" node "index/$ATLAS_GENERATION-compile-v8-atlas-deep-link.mjs" --out-root "$ATLAS_WORK_ROOT/pass-b" | tee "$ATLAS_WORK_ROOT/evidence/compiler-pass-b.json"
+
+      - name: Prove deterministic bytes and materialise the candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          diff --recursive --brief "$ATLAS_WORK_ROOT/pass-a" "$ATLAS_WORK_ROOT/pass-b"
+          (
+            cd "$ATLAS_WORK_ROOT/pass-a"
+            find . -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum
+          ) > "$ATLAS_WORK_ROOT/evidence/pass-a-sha256.txt"
+          (
+            cd "$ATLAS_WORK_ROOT/pass-b"
+            find . -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum
+          ) > "$ATLAS_WORK_ROOT/evidence/pass-b-sha256.txt"
+          diff --unified "$ATLAS_WORK_ROOT/evidence/pass-a-sha256.txt" "$ATLAS_WORK_ROOT/evidence/pass-b-sha256.txt"
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { constants } from "node:fs";
+          import { copyFile, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+          import path from "node:path";
+          const work = process.env.ATLAS_WORK_ROOT;
+          const generation = process.env.ATLAS_GENERATION;
+          const passA = path.resolve(work, "pass-a");
+          const manifestRelative = `build/${generation}-v8-fast-site-manifest.json`;
+          const manifest = JSON.parse(await readFile(path.join(passA, manifestRelative)));
+          assert.equal(manifest.source_commit, process.env.GITHUB_SHA);
+          assert.equal(manifest.source_parent_commit, process.env.ATLAS_SOURCE_PARENT);
+          assert.equal(String(manifest.github_run_id), process.env.GITHUB_RUN_ID);
+          assert.equal(manifest.deployment, "not-authorised");
+          const expected = [manifestRelative, ...manifest.outputs.map((record) => record.path)].sort();
+          assert.equal(expected.length, 5);
+          async function walk(directory, base = directory) {
+            const files = [];
+            for (const entry of await readdir(directory, { withFileTypes: true })) {
+              const filename = path.join(directory, entry.name);
+              if (entry.isDirectory()) files.push(...await walk(filename, base));
+              else files.push(path.relative(base, filename).split(path.sep).join("/"));
+            }
+            return files.sort();
+          }
+          assert.deepEqual(await walk(passA), expected);
+          for (const relative of expected) {
+            const target = path.resolve(relative);
+            assert.ok(target.startsWith(`${process.cwd()}${path.sep}`));
+            await mkdir(path.dirname(target), { recursive: true });
+            await copyFile(path.join(passA, relative), target, constants.COPYFILE_EXCL);
+          }
+          await writeFile(
+            `${work}/evidence/determinism-proof.json`,
+            `${JSON.stringify({
+              schema: "pipelinenews.atlas-v8-deep-link-determinism-proof.v1",
+              generation,
+              source_commit: process.env.GITHUB_SHA,
+              byte_identical_passes: true,
+              files: expected,
+            }, null, 2)}\n`,
+          );
+          NODE
+
+      - name: Verify the compiled contract and full V9.6.2 parity
+        shell: bash
+        run: |
+          set -euo pipefail
+          node "build/javascript/$ATLAS_GENERATION-verify-v8-fast-contract.mjs" --root . --generation "$ATLAS_GENERATION" --source-manifest "build/$ATLAS_GENERATION-v8-fast-site-manifest.json" | tee "$ATLAS_WORK_ROOT/evidence/contract-proof.json"
+          node "atman/$ATLAS_GENERATION-compare-atlas-v8-deep-links.mjs" --adapter "releases/javascript/$ATLAS_GENERATION-atlas-v8-deep-link-cartridge.js" | tee "$ATLAS_WORK_ROOT/evidence/compiled-atman-proof.json"
+
+      - name: Prove the cartridge and candidate cannot enter Pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY' | tee "$ATLAS_WORK_ROOT/evidence/pages-boundary-proof.json"
+          import importlib.util
+          import json
+          import os
+          import tempfile
+          from pathlib import Path
+          root = Path.cwd().resolve()
+          generation = os.environ["ATLAS_GENERATION"]
+          module_path = root / "atman/202608262014-build-pages.py"
+          spec = importlib.util.spec_from_file_location("pipelinenews_pages_gate", module_path)
+          module = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(module)
+          governed_generation, _, release_manifest = module.select_release(root, "latest")
+          release = {
+              "release_path": f"releases/{governed_generation}-index.html",
+              "manifest": release_manifest,
+          }
+          excluded, authorised = module.candidate_publication_boundary(root, release)
+          manifest_path = root / "build" / f"{generation}-v8-fast-site-manifest.json"
+          candidate = json.loads(manifest_path.read_text())
+          expected = {record["path"] for record in candidate["outputs"]}
+          module.require(expected.issubset(excluded), "13:29 output closure is not fully excluded")
+          module.require(expected.isdisjoint(authorised), "13:29 output was authorised")
+          with tempfile.TemporaryDirectory(prefix="atlas-v8-deep-link-pages-") as temporary:
+              site = Path(temporary) / "site"
+              module.stage_site(root, site, release)
+              for relative in expected:
+                  module.require(not (site / relative).exists(), f"candidate leaked into Pages: {relative}")
+              module.require(not (site / "ui").exists(), "UI source tree leaked into Pages")
+              module.require(not (site / "atman").exists(), "Atman source tree leaked into Pages")
+              module.require(
+                  (site / "releases/current.json").read_bytes()
+                  == (root / module.ARCHIVE / "releases/current.json").read_bytes(),
+                  "stable pointer changed",
+              )
+          print(json.dumps({
+              "schema": "pipelinenews.atlas-v8-deep-link-pages-boundary-proof.v1",
+              "generation": generation,
+              "deployment": candidate["deployment"],
+              "excluded_outputs": sorted(expected),
+              "authorised_outputs": [],
+              "source_cartridge_published": False,
+              "pages_artifact_created": False,
+              "stable_route_changed": False,
+              "globalgrid_catalogue_changed": False,
+              "status": "PASS",
+          }, indent=2))
+          PY
+
+      - name: Install pinned browser verifier
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Browser-proof desktop and mobile Atlas handoff
+        shell: bash
+        env:
+          FAST_SITE_URL: http://127.0.0.1:4173/releases/202608271329-v8-fast-candidate.html
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory . > "$RUNNER_TEMP/202608271329-atlas-http.log" 2>&1 &
+          server_pid="$!"
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..20}; do
+            if curl --fail --silent --show-error "$FAST_SITE_URL" >/dev/null; then break; fi
+            sleep 1
+          done
+          curl --fail --silent --show-error "$FAST_SITE_URL" >/dev/null
+          node "build/javascript/$ATLAS_GENERATION-verify-v8-fast-browser.mjs" | tee "$ATLAS_WORK_ROOT/evidence/browser-proof.json"
+
+      - name: Upload immutable closure
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-atlas-v8-deep-link-closure-202608271329-${{ github.run_id }}
+          path: ${{ env.ATLAS_WORK_ROOT }}/pass-a
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload verification evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-atlas-v8-deep-link-evidence-202608271329-${{ github.run_id }}
+          path: ${{ env.ATLAS_WORK_ROOT }}/evidence
+          if-no-files-found: error
+          retention-days: 30
+
+  commit:
+    if: github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout exact verified source
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Configure Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Download verified immutable closure
+        uses: actions/download-artifact@v4
+        with:
+          name: pipelinenews-atlas-v8-deep-link-closure-202608271329-${{ github.run_id }}
+          path: ${{ env.ATLAS_WORK_ROOT }}/verified-closure
+
+      - name: Reverify and stage only the declared closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin refs/heads/main
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse HEAD^)" = "$ATLAS_SOURCE_PARENT"
+          test "$(git rev-parse FETCH_HEAD)" = "$GITHUB_SHA"
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { constants } from "node:fs";
+          import { copyFile, mkdir, readFile, readdir } from "node:fs/promises";
+          import { spawnSync } from "node:child_process";
+          import path from "node:path";
+          const generation = process.env.ATLAS_GENERATION;
+          const closure = path.resolve(process.env.ATLAS_WORK_ROOT, "verified-closure");
+          const manifestRelative = `build/${generation}-v8-fast-site-manifest.json`;
+          const manifest = JSON.parse(await readFile(path.join(closure, manifestRelative)));
+          assert.equal(manifest.generation, generation);
+          assert.equal(manifest.source_commit, process.env.GITHUB_SHA);
+          assert.equal(manifest.source_parent_commit, process.env.ATLAS_SOURCE_PARENT);
+          assert.equal(String(manifest.github_run_id), process.env.GITHUB_RUN_ID);
+          assert.equal(manifest.deployment, "not-authorised");
+          const expected = [manifestRelative, ...manifest.outputs.map((record) => record.path)].sort();
+          assert.equal(expected.length, 5);
+          async function walk(directory, base = directory) {
+            const files = [];
+            for (const entry of await readdir(directory, { withFileTypes: true })) {
+              const filename = path.join(directory, entry.name);
+              if (entry.isDirectory()) files.push(...await walk(filename, base));
+              else files.push(path.relative(base, filename).split(path.sep).join("/"));
+            }
+            return files.sort();
+          }
+          assert.deepEqual(await walk(closure), expected, "downloaded artifact has undeclared files");
+          const records = new Map(manifest.outputs.map((record) => [record.path, record]));
+          for (const relative of expected) {
+            const source = path.join(closure, relative);
+            const bytes = await readFile(source);
+            if (relative !== manifestRelative) {
+              const record = records.get(relative);
+              assert.equal(bytes.length, record.bytes);
+              assert.equal(createHash("sha256").update(bytes).digest("hex"), record.sha256);
+            }
+            const target = path.resolve(relative);
+            assert.ok(target.startsWith(`${process.cwd()}${path.sep}`));
+            await mkdir(path.dirname(target), { recursive: true });
+            await copyFile(source, target, constants.COPYFILE_EXCL);
+          }
+          const add = spawnSync("git", ["add", "--", ...expected], { encoding: "utf8" });
+          assert.equal(add.status, 0, add.stderr || add.stdout);
+          const diff = spawnSync("git", ["diff", "--cached", "--name-only", "-z"], { encoding: "buffer" });
+          assert.equal(diff.status, 0, diff.stderr.toString());
+          const staged = diff.stdout.toString("utf8").split("\0").filter(Boolean).sort();
+          assert.deepEqual(staged, expected);
+          const status = spawnSync("git", ["diff", "--cached", "--name-status"], { encoding: "utf8" });
+          assert.equal(status.status, 0, status.stderr);
+          assert.ok(status.stdout.trim().split("\n").every((line) => line.startsWith("A\t")));
+          NODE
+
+      - name: Commit the green quarantined successor
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "v8: build Atlas V8 deep-link candidate $ATLAS_GENERATION"
+          git push origin HEAD:main
