@@ -35,6 +35,9 @@ EXPECTED_IMPORTS = 18
 EXPECTED_PROJECT_PARTITIONS = 16
 EXPECTED_ATLAS_PARTITIONS = 18
 GENERATION_RE = re.compile(r"^\d{12}$")
+FAST_CANDIDATE_SCHEMA = "pipelinenews.v8.fast-site-candidate.v1"
+FAST_CANDIDATE_MANIFEST_RE = re.compile(r"^(\d{12})-v8-fast-site-manifest\.json$")
+SAFE_RELEASE_OUTPUT_RE = re.compile(r"^releases/[A-Za-z0-9._/-]+$")
 IMPORT_RE = re.compile(r"\bfrom\s+[\"']([^\"']+)[\"']|\bimport\s+[\"']([^\"']+)[\"']")
 RUNTIME_JSON_RE = re.compile(
     r"[\"']((?:\.{1,2}/)*(?:data|manifests)/[^\"']+\.(?:json|geojson))[\"']"
@@ -298,6 +301,99 @@ def copy_tree(source: Path, target: Path) -> None:
     shutil.copytree(source, target, dirs_exist_ok=True)
 
 
+def require_no_symlink_components(root: Path, relative: str, label: str) -> None:
+    current = root
+    for component in relative.split("/"):
+        current = current / component
+        require(not current.is_symlink(), f"symlink in {label}: {relative}")
+
+
+def normalise_candidate_output_path(value: object, label: str) -> str:
+    require(isinstance(value, str) and value, f"{label} has no path")
+    require("\\" not in value and "\x00" not in value, f"invalid path in {label}: {value!r}")
+    require(bool(SAFE_RELEASE_OUTPUT_RE.fullmatch(value)), f"unsafe release path in {label}: {value}")
+    normalised = posixpath.normpath(value)
+    require(normalised == value, f"non-normalised path in {label}: {value}")
+    components = value.split("/")
+    require(all(component not in ("", ".", "..") for component in components), f"unsafe path in {label}: {value}")
+    require(components[0] == "releases" and len(components) > 1, f"candidate output is outside releases/: {value}")
+    return value
+
+
+def non_deploying_candidate_outputs(root: Path, release: dict) -> set[str]:
+    """Validate fast-candidate manifests and return paths barred from Pages."""
+    build = root / "build"
+    if not build.is_dir():
+        return set()
+    manifests = sorted(build.glob("*-v8-fast-site-manifest.json"))
+    excluded: set[str] = set()
+    owners: dict[str, str] = {}
+    protected = {"releases/current.json", "releases/candidate.json", release["release_path"]}
+    protected.update(record["path"] for record in release["manifest"]["outputs"])
+
+    for manifest_path in manifests:
+        match = FAST_CANDIDATE_MANIFEST_RE.fullmatch(manifest_path.name)
+        require(match is not None, f"invalid fast candidate manifest name: {manifest_path.name}")
+        relative_manifest = manifest_path.relative_to(root).as_posix()
+        require_no_symlink_components(root, relative_manifest, "fast candidate manifest path")
+        require(manifest_path.is_file(), f"fast candidate manifest is not a file: {relative_manifest}")
+        manifest = read_json(manifest_path)
+        require(isinstance(manifest, dict), f"fast candidate manifest is not an object: {relative_manifest}")
+        require(manifest.get("schema") == FAST_CANDIDATE_SCHEMA, f"fast candidate schema changed: {relative_manifest}")
+        generation = match.group(1)
+        require(manifest.get("generation") == generation, f"fast candidate generation mismatch: {relative_manifest}")
+        deployment = manifest.get("deployment")
+        require(
+            deployment in ("not-authorised", "authorised"),
+            f"unsupported fast candidate deployment state in {relative_manifest}: {deployment!r}",
+        )
+        outputs = manifest.get("outputs")
+        require(isinstance(outputs, list) and outputs, f"fast candidate has no outputs: {relative_manifest}")
+        manifest_paths: set[str] = set()
+        for index, record in enumerate(outputs):
+            label = f"fast candidate output {index} in {relative_manifest}"
+            require(isinstance(record, dict), f"{label} is not an object")
+            relative = normalise_candidate_output_path(record.get("path"), label)
+            require(relative not in manifest_paths, f"duplicate path in {relative_manifest}: {relative}")
+            manifest_paths.add(relative)
+            require(relative not in ("releases/current.json", "releases/candidate.json"), f"candidate may not declare a public pointer: {relative}")
+            require(Path(relative).name.startswith(generation), f"candidate output generation mismatch: {relative}")
+            require(isinstance(record.get("bytes"), int) and record["bytes"] >= 0, f"invalid byte count for {relative}")
+            require(bool(re.fullmatch(r"[0-9a-f]{64}", str(record.get("sha256", "")))), f"invalid SHA-256 for {relative}")
+            require_no_symlink_components(root, relative, "fast candidate output path")
+            verify_record(root, record, "fast candidate output")
+            previous = owners.get(relative)
+            require(previous is None, f"candidate output declared by both {previous} and {relative_manifest}: {relative}")
+            owners[relative] = relative_manifest
+            if deployment == "not-authorised":
+                require(relative not in protected, f"non-deploying candidate overlaps the governed release: {relative}")
+                archived = root / ARCHIVE / relative
+                require(not archived.exists() and not archived.is_symlink(), f"non-deploying candidate overlaps historical public path: {relative}")
+                excluded.add(relative)
+    return excluded
+
+
+def copy_release_tree(source: Path, target: Path, excluded: set[str]) -> None:
+    """Overlay committed releases without copying non-deploying candidates."""
+    require(source.is_dir(), f"release publication tree missing: {source}")
+    target.mkdir(parents=True, exist_ok=True)
+    for candidate in sorted(source.rglob("*")):
+        relative = candidate.relative_to(source).as_posix()
+        public_relative = f"releases/{relative}"
+        require(not candidate.is_symlink(), f"symlink in release publication tree: {public_relative}")
+        if public_relative in excluded:
+            require(candidate.is_file(), f"excluded candidate output is not a file: {public_relative}")
+            continue
+        destination = target / relative
+        if candidate.is_dir():
+            destination.mkdir(parents=True, exist_ok=True)
+        elif candidate.is_file():
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(candidate, destination)
+        else:
+            raise AssertionError(f"unsupported release publication entry: {public_relative}")
+
+
 def stage_legacy_apps(archive: Path, site: Path) -> None:
     v1_files = [
         "newsv1/index.html", "newsv1/MIGRATION_MANIFEST.json",
@@ -365,9 +461,13 @@ def stage_site(root: Path, site: Path, release: dict) -> None:
         if relative.startswith("reports/"):
             copy_file(archive, site, relative)
 
-    copy_tree(root / "releases", site / "releases")
+    excluded_candidates = non_deploying_candidate_outputs(root, release)
+    copy_release_tree(root / "releases", site / "releases", excluded_candidates)
     copy_tree(root / "data", site / "data")
     (site / ".nojekyll").touch()
+
+    for relative in excluded_candidates:
+        require(not (site / relative).exists(), f"non-deploying candidate entered Pages artifact: {relative}")
 
     required = [
         "newsv1/index.html", "newsv7/index.html", "202608260159-pipelinenews/index.html",
