@@ -1,0 +1,784 @@
+name: Audit PipelineNews Mobile UI Comparator 202608271631
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/202608271631-mobile-ui-comparator.yml"
+      - "atman/202608271631-verify-mobile-ui-browser.mjs"
+      - "atman/202608271631-compare-mobile-ui.mjs"
+      - "atman/202608271631-mobile-ui-invariants.mjs"
+      - "manifests/202608271631-mobile-ui-comparator.json"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pipelinenews-mobile-ui-comparator-202608271631
+  cancel-in-progress: false
+
+env:
+  MOBILE_UI_GENERATION: "202608271631"
+  MOBILE_UI_SOURCE_PARENT: "4a5a5c05d89a4f178fae1e60494c6bb6c50863cb"
+  MOBILE_UI_WORK_ROOT: "work/202608271631-mobile-ui-comparator"
+  MOBILE_UI_RAW_DIR: "work/202608271631-mobile-ui-comparator/audit/raw"
+  REPORT_DIR: "work/202608271631-mobile-ui-comparator/compact"
+  MOBILE_UI_SERVER_URL: "http://127.0.0.1:4173"
+  PLAYWRIGHT_VERSION: "1.55.0"
+  SHARP_VERSION: "0.34.3"
+
+jobs:
+  audit-shards:
+    name: Measure ${{ matrix.id }}
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        include:
+          - id: candidate-static
+            target_ids: candidate
+            cell_ids: P1,P2,L1,L2,L3,L4,T1
+            include_rotate: "false"
+          - id: original-static
+            target_ids: original
+            cell_ids: P1,P2,L1,L2,L3,L4,T1
+            include_rotate: "false"
+          - id: baseline-a
+            target_ids: baseline
+            cell_ids: P1,P2,L1
+            include_rotate: "false"
+          - id: baseline-b
+            target_ids: baseline
+            cell_ids: L2,L3
+            include_rotate: "false"
+          - id: baseline-c
+            target_ids: baseline
+            cell_ids: L4,T1
+            include_rotate: "false"
+          - id: rotations
+            target_ids: candidate,baseline
+            cell_ids: none
+            include_rotate: "true"
+    env:
+      SHARD_RAW_DIR: work/202608271631-mobile-ui-comparator/shards/${{ matrix.id }}/raw
+      MOBILE_UI_TARGET_IDS: ${{ matrix.target_ids }}
+      MOBILE_UI_CELL_IDS: ${{ matrix.cell_ids }}
+      MOBILE_UI_INCLUDE_ROTATE: ${{ matrix.include_rotate }}
+      MOBILE_UI_SHARD_ID: ${{ matrix.id }}
+      MOBILE_UI_SOURCE_COMMIT: ${{ github.sha }}
+      MOBILE_UI_CANDIDATE_GENERATION: "202608271524"
+    steps:
+      - name: Checkout the exact audit source
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Configure Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Prove the five-file audit-only source envelope
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          mkdir -p "$SHARD_RAW_DIR"
+
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { readFile, stat, writeFile } from "node:fs/promises";
+          import { spawnSync } from "node:child_process";
+
+          const generation = process.env.MOBILE_UI_GENERATION;
+          const manifestPath = `manifests/${generation}-mobile-ui-comparator.json`;
+          const expected = [
+            `.github/workflows/${generation}-mobile-ui-comparator.yml`,
+            `atman/${generation}-compare-mobile-ui.mjs`,
+            `atman/${generation}-mobile-ui-invariants.mjs`,
+            `atman/${generation}-verify-mobile-ui-browser.mjs`,
+            manifestPath,
+          ].sort();
+          const tracked = spawnSync("git", ["ls-files", "--", ...expected], { encoding: "utf8" });
+          assert.equal(tracked.status, 0, tracked.stderr);
+          assert.deepEqual(tracked.stdout.trim().split("\n").filter(Boolean).sort(), expected,
+            "the five-file comparator source closure is incomplete");
+
+          if (process.env.GITHUB_EVENT_NAME === "push") {
+            const parents = spawnSync("git", ["show", "-s", "--format=%P", "HEAD"], { encoding: "utf8" });
+            assert.equal(parents.status, 0, parents.stderr);
+            assert.deepEqual(parents.stdout.trim().split(/\s+/u), [process.env.MOBILE_UI_SOURCE_PARENT],
+              "audit source is not the single successor of protected main");
+            const changed = spawnSync(
+              "git",
+              ["diff", "--name-only", process.env.MOBILE_UI_SOURCE_PARENT, process.env.GITHUB_SHA],
+              { encoding: "utf8" },
+            );
+            assert.equal(changed.status, 0, changed.stderr);
+            assert.deepEqual(changed.stdout.trim().split("\n").filter(Boolean).sort(), expected,
+              "push commit differs from the exact five-file boundary");
+          }
+          assert.ok(expected.every((relative) => relative.includes(generation)), "unstamped source path");
+          assert.ok(expected.every((relative) =>
+            !relative.startsWith("releases/")
+            && !relative.startsWith("data/")
+            && !relative.startsWith("archive/")
+            && !relative.startsWith("build/authorisations/")
+          ), "release or deployment state entered the source closure");
+
+          const workflow = await readFile(expected[0], "utf8");
+          for (const capability of [
+            ["actions", "deploy-pages@"].join("/"),
+            ["actions", "upload-pages-artifact@"].join("/"),
+            ["pages", "write"].join(": "),
+            ["id-token", "write"].join(": "),
+          ]) assert.ok(!workflow.includes(capability), `deployment capability entered workflow: ${capability}`);
+
+          const manifest = JSON.parse(await readFile(manifestPath, "utf8"));
+          assert.equal(manifest.schema, "pipelinenews.mobile-ui-comparator-manifest.v1");
+          assert.equal(manifest.generation, generation);
+          assert.equal(manifest.source_parent_commit, process.env.MOBILE_UI_SOURCE_PARENT);
+          assert.equal(manifest.deployment, "not-authorised");
+          assert.equal(manifest.scope, "audit-only-browser-evidence");
+          assert.deepEqual(manifest.project_posture, {
+            owner: "Ventus Ltd",
+            application: "non-commercial-open-source",
+            publisher_redistribution_rights: "source-specific-not-inferred",
+          });
+          assert.equal(manifest.candidate_generation, "202608271524");
+          assert.equal(manifest.trusted_baseline_generation, "202608261927");
+          assert.equal(manifest.original_context_url,
+            "https://globalgrid2050.com/uk_renewables_pipeline/dashboard.html");
+          assert.deepEqual(manifest.browser, {
+            playwright_version: process.env.PLAYWRIGHT_VERSION,
+            engine: "chromium",
+            screenshot_encoder: `sharp@${process.env.SHARP_VERSION}`,
+          });
+          assert.deepEqual([...manifest.source_boundary].sort(), expected);
+          const expectedHashed = expected.filter((relative) => relative !== manifestPath);
+          assert.deepEqual(manifest.hashed_source_files.map(({ path }) => path).sort(), expectedHashed);
+          for (const record of manifest.hashed_source_files) {
+            assert.match(record.sha256, /^[0-9a-f]{64}$/u);
+            const bytes = await readFile(record.path);
+            assert.ok((await stat(record.path)).isFile());
+            assert.equal(bytes.length, record.bytes, `source byte count changed: ${record.path}`);
+            assert.equal(createHash("sha256").update(bytes).digest("hex"), record.sha256,
+              `source SHA-256 changed: ${record.path}`);
+          }
+          assert.deepEqual(manifest.execution.baseline_static_shards,
+            [["P1", "P2", "L1"], ["L2", "L3"], ["L4", "T1"]]);
+          assert.equal(manifest.execution.job_timeout_minutes, 55);
+          assert.equal(manifest.execution.cell_record_max_bytes, 262144);
+          assert.equal(manifest.execution.browser_rasterizations_per_screenshot, 1);
+          assert.equal(manifest.execution.rotation_initial_sequence,
+            "navigate-target-meta-before-viewport-readiness");
+          assert.equal(manifest.execution.rotation_readiness_gate,
+            "inner-viewport-and-match-media-orientation");
+          assert.equal(manifest.execution.rotation_screen_fields, "observed-not-gated");
+
+          const verifierPath = `atman/${generation}-verify-mobile-ui-browser.mjs`;
+          const verifierSource = await readFile(verifierPath, "utf8");
+          const rotateStart = verifierSource.indexOf("async function runRotateCell(browser, target) {");
+          const rotateEnd = verifierSource.indexOf("\nfunction unavailableRecord", rotateStart);
+          assert.ok(rotateStart >= 0 && rotateEnd > rotateStart, "runRotateCell source is absent");
+          const rotateSource = verifierSource.slice(rotateStart, rotateEnd);
+          const navigationPosition = rotateSource.indexOf("const ready = await navigate(page, target);");
+          const readinessPosition = rotateSource.indexOf(
+            "await applyRotationViewport(page, cdp, initialViewport, rotate.dpr);",
+          );
+          assert.ok(navigationPosition >= 0 && readinessPosition > navigationPosition,
+            "initial rotation readiness must run after target navigation loads viewport metadata");
+
+          const predicateMatch = verifierSource.match(
+            /function rotationViewportReady\(\{ width, height, orientation \}\) \{[\s\S]*?\n\}/u,
+          );
+          assert.ok(predicateMatch, "rotation viewport readiness predicate is absent");
+          assert.doesNotMatch(predicateMatch[0], /\bscreen(?:\.|\[)/u,
+            "screen fields entered the rotation readiness hard gate");
+          const viewportReady = Function(`"use strict"; return (${predicateMatch[0]});`)();
+          globalThis.innerWidth = 390;
+          globalThis.innerHeight = 844;
+          globalThis.screen = {
+            width: 9_999,
+            height: 8_888,
+            orientation: { type: "landscape-primary", angle: 90 },
+          };
+          globalThis.matchMedia = (query) => ({ matches: query === "(orientation: portrait)" });
+          assert.equal(viewportReady({ width: 390, height: 844, orientation: "portrait" }), true,
+            "mismatched screen fields must remain evidence-only when the layout viewport is ready");
+          globalThis.innerWidth = 980;
+          assert.equal(viewportReady({ width: 390, height: 844, orientation: "portrait" }), false,
+            "the layout viewport dimensions remain a hard readiness gate");
+          assert.match(verifierSource, /screen_width: screen\.width/u);
+          assert.match(verifierSource, /screen_height: screen\.height/u);
+          assert.match(verifierSource, /screen_orientation_type: screen\.orientation/u);
+
+          await writeFile(
+            `${process.env.SHARD_RAW_DIR}/source-envelope.json`,
+            `${JSON.stringify({
+              schema: "pipelinenews.mobile-ui-comparator-source-envelope.v1",
+              generation,
+              source_commit: process.env.GITHUB_SHA,
+              required_parent_on_push: process.env.MOBILE_UI_SOURCE_PARENT,
+              source_boundary: expected,
+              project_posture: manifest.project_posture,
+              deployment_capability: false,
+              pages_state_changed: false,
+            }, null, 2)}\n`,
+          );
+          NODE
+
+      - name: Syntax-check the instrument
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check "atman/$MOBILE_UI_GENERATION-mobile-ui-invariants.mjs"
+          node --check "atman/$MOBILE_UI_GENERATION-verify-mobile-ui-browser.mjs"
+          node --check "atman/$MOBILE_UI_GENERATION-compare-mobile-ui.mjs"
+          ! grep -R "SHA256_PENDING" \
+            "atman/$MOBILE_UI_GENERATION-mobile-ui-invariants.mjs" \
+            "atman/$MOBILE_UI_GENERATION-verify-mobile-ui-browser.mjs" \
+            "atman/$MOBILE_UI_GENERATION-compare-mobile-ui.mjs" \
+            "manifests/$MOBILE_UI_GENERATION-mobile-ui-comparator.json"
+
+      - name: Install the pinned browser and screenshot encoder
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --no-package-lock \
+            "playwright@$PLAYWRIGHT_VERSION" "sharp@$SHARP_VERSION"
+          test "$(node -p "require('playwright/package.json').version")" = "$PLAYWRIGHT_VERSION"
+          test "$(node -p "require('sharp/package.json').version")" = "$SHARP_VERSION"
+          npx playwright install --with-deps chromium
+
+      - name: Run the bounded browser shard
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory . \
+            > "$RUNNER_TEMP/202608271631-${MOBILE_UI_SHARD_ID}-http.log" 2>&1 &
+          server_pid="$!"
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent --show-error \
+              "$MOBILE_UI_SERVER_URL/releases/202608271524-v8-fast-candidate.html" >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl --fail --silent --show-error \
+            "$MOBILE_UI_SERVER_URL/releases/202608271524-v8-fast-candidate.html" >/dev/null
+          curl --fail --silent --show-error \
+            "$MOBILE_UI_SERVER_URL/releases/202608261927-index.html" >/dev/null
+
+          MOBILE_UI_RAW_DIR="$SHARD_RAW_DIR" \
+            node "atman/$MOBILE_UI_GENERATION-verify-mobile-ui-browser.mjs" \
+            | tee "$RUNNER_TEMP/202608271631-${MOBILE_UI_SHARD_ID}-stdout.json"
+          test -s "$SHARD_RAW_DIR/run.json"
+
+      - name: Upload the raw shard
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-mobile-ui-shard-202608271631-${{ matrix.id }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.SHARD_RAW_DIR }}
+          if-no-files-found: error
+          retention-days: 30
+
+  aggregate:
+    name: Reconstruct and compare exactly 23 records
+    needs: audit-shards
+    if: needs.audit-shards.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      MOBILE_UI_SOURCE_COMMIT: ${{ github.sha }}
+    steps:
+      - name: Checkout the exact audit source
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Configure Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Download every browser shard
+        uses: actions/download-artifact@v5
+        with:
+          pattern: pipelinenews-mobile-ui-shard-202608271631-*-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.MOBILE_UI_WORK_ROOT }}/incoming/shards
+
+      - name: Reconstruct the single immutable raw closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "$MOBILE_UI_RAW_DIR"
+          test ! -e "$REPORT_DIR"
+          mkdir -p "$MOBILE_UI_RAW_DIR/screenshots" "$REPORT_DIR"
+
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { copyFile, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+          import path from "node:path";
+
+          const incomingRoot = path.resolve(process.env.MOBILE_UI_WORK_ROOT, "incoming", "shards");
+          const finalRoot = path.resolve(process.env.MOBILE_UI_RAW_DIR);
+          const generation = process.env.MOBILE_UI_GENERATION;
+          const sourceCommit = process.env.GITHUB_SHA;
+          const planned = new Map([
+            ["candidate-static", { targets: ["candidate"], cells: ["P1", "P2", "L1", "L2", "L3", "L4", "T1"], rotate: false }],
+            ["original-static", { targets: ["original"], cells: ["P1", "P2", "L1", "L2", "L3", "L4", "T1"], rotate: false }],
+            ["baseline-a", { targets: ["baseline"], cells: ["P1", "P2", "L1"], rotate: false }],
+            ["baseline-b", { targets: ["baseline"], cells: ["L2", "L3"], rotate: false }],
+            ["baseline-c", { targets: ["baseline"], cells: ["L4", "T1"], rotate: false }],
+            ["rotations", { targets: ["candidate", "baseline"], cells: [], rotate: true }],
+          ]);
+
+          async function walk(directory) {
+            const files = [];
+            for (const entry of await readdir(directory, { withFileTypes: true })) {
+              const filename = path.join(directory, entry.name);
+              if (entry.isDirectory()) files.push(...await walk(filename));
+              else if (entry.isFile()) files.push(filename);
+              else throw new Error(`non-file artifact entry: ${filename}`);
+            }
+            return files;
+          }
+          const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
+          const inside = (root, candidate) => {
+            const relative = path.relative(root, candidate);
+            return relative !== "" && relative !== ".." && !relative.startsWith(`..${path.sep}`)
+              && !path.isAbsolute(relative);
+          };
+          const screenshotReferences = (record) => {
+            const references = [];
+            const visit = (value) => {
+              if (!value || typeof value !== "object") return;
+              if (typeof value.path === "string") {
+                references.push(value);
+                return;
+              }
+              for (const child of Object.values(value)) visit(child);
+            };
+            visit(record.screenshots);
+            return references;
+          };
+
+          const allFiles = await walk(incomingRoot);
+          const runPaths = allFiles.filter((filename) => path.basename(filename) === "run.json");
+          assert.equal(runPaths.length, planned.size, "exactly six shard run records are required");
+          const records = new Map();
+          const copiedScreenshots = new Map();
+          const sourceEnvelopes = [];
+          const shardSummaries = [];
+          let commonBrowser = null;
+
+          for (const runPath of runPaths) {
+            const shardRoot = path.dirname(runPath);
+            const run = JSON.parse(await readFile(runPath, "utf8"));
+            assert.equal(run.schema, "pipelinenews.mobile-ui-browser-run.v1");
+            assert.equal(run.generation, generation);
+            assert.equal(run.source_commit, sourceCommit);
+            assert.equal(run.candidate_generation, "202608271524");
+            assert.deepEqual(run.project_posture, {
+              owner: "Ventus Ltd",
+              application: "non-commercial-open-source",
+              publisher_redistribution_rights: "source-specific-not-inferred",
+            });
+            assert.equal(run.contract_schema, "pipelinenews.mobile-ui-invariants.v1");
+            assert.equal(run.mode, "audit");
+            assert.equal(run.deployment, "not-authorised");
+            assert.equal(run.status, "CAPTURED");
+            assert.deepEqual(run.required_failures, []);
+            assert.ok(run.shard && planned.has(run.shard.id), `unexpected shard ${run.shard?.id}`);
+            const plan = planned.get(run.shard.id);
+            assert.deepEqual(run.shard.target_ids, plan.targets);
+            assert.deepEqual(run.shard.static_cell_ids, plan.cells);
+            assert.equal(run.shard.include_rotate, plan.rotate);
+            const expectedCount = plan.targets.length * plan.cells.length + (plan.rotate ? 2 : 0);
+            assert.equal(run.expected_record_count, expectedCount);
+            assert.equal(run.records.length, expectedCount);
+            if (commonBrowser === null) commonBrowser = run.browser;
+            else assert.deepEqual(run.browser, commonBrowser, "browser build differs between shards");
+
+            const envelopeBytes = await readFile(path.join(shardRoot, "source-envelope.json"));
+            const envelope = JSON.parse(envelopeBytes);
+            assert.equal(envelope.generation, generation);
+            assert.equal(envelope.source_commit, sourceCommit);
+            assert.deepEqual(envelope.project_posture, run.project_posture);
+            sourceEnvelopes.push({ bytes: envelopeBytes, hash: sha256(envelopeBytes) });
+
+            for (const filename of run.records) {
+              assert.equal(filename, path.basename(filename), "cell record must be a root filename");
+              const sourcePath = path.resolve(shardRoot, filename);
+              assert.ok(inside(shardRoot, sourcePath));
+              const bytes = await readFile(sourcePath);
+              assert.ok(bytes.length <= 262144, `${filename} exceeds the 256 KiB record budget`);
+              const record = JSON.parse(bytes);
+              assert.equal(record.schema, "pipelinenews.mobile-ui-cell-evidence.v1");
+              assert.equal(record.generation, generation);
+              assert.equal(record.source_commit, sourceCommit);
+              assert.deepEqual(record.project_posture, run.project_posture);
+              const key = `${record.target.id}::${record.cell.id}`;
+              assert.ok(!records.has(key), `duplicate record ${key}`);
+              records.set(key, filename);
+              await copyFile(sourcePath, path.join(finalRoot, filename));
+
+              for (const reference of screenshotReferences(record)) {
+                assert.match(reference.path, /^screenshots\/[a-zA-Z0-9._-]+\.jpeg$/u);
+                const screenshotSource = path.resolve(shardRoot, reference.path);
+                assert.ok(inside(shardRoot, screenshotSource));
+                const screenshotBytes = await readFile(screenshotSource);
+                assert.ok(screenshotBytes.length <= 409600, `${reference.path} exceeds 400 KiB`);
+                assert.equal(screenshotBytes.length, reference.bytes);
+                assert.equal(sha256(screenshotBytes), reference.sha256);
+                if (copiedScreenshots.has(reference.path)) {
+                  assert.equal(copiedScreenshots.get(reference.path), reference.sha256,
+                    `conflicting screenshot ${reference.path}`);
+                } else {
+                  copiedScreenshots.set(reference.path, reference.sha256);
+                  const destination = path.join(finalRoot, reference.path);
+                  await mkdir(path.dirname(destination), { recursive: true });
+                  await copyFile(screenshotSource, destination);
+                }
+              }
+            }
+            shardSummaries.push({
+              id: run.shard.id,
+              started_at: run.started_at,
+              completed_at: run.completed_at,
+              record_count: run.records.length,
+              optional_original_unavailable: run.optional_original_unavailable,
+            });
+            planned.delete(run.shard.id);
+          }
+          assert.equal(planned.size, 0, "one or more planned shards are absent");
+          assert.ok(sourceEnvelopes.every(({ hash }) => hash === sourceEnvelopes[0].hash),
+            "source envelope differs between shards");
+          await writeFile(path.join(finalRoot, "source-envelope.json"), sourceEnvelopes[0].bytes);
+
+          const expectedKeys = new Set();
+          for (const target of ["candidate", "baseline", "original"]) {
+            for (const cell of ["P1", "P2", "L1", "L2", "L3", "L4", "T1"]) {
+              expectedKeys.add(`${target}::${cell}`);
+            }
+          }
+          expectedKeys.add("candidate::R1");
+          expectedKeys.add("baseline::R1");
+          assert.equal(records.size, 23);
+          assert.deepEqual([...records.keys()].sort(), [...expectedKeys].sort(),
+            "the reconstructed record matrix is incomplete");
+
+          shardSummaries.sort((left, right) => left.id.localeCompare(right.id));
+          const run = {
+            schema: "pipelinenews.mobile-ui-browser-run.v1",
+            generation,
+            project_posture: {
+              owner: "Ventus Ltd",
+              application: "non-commercial-open-source",
+              publisher_redistribution_rights: "source-specific-not-inferred",
+            },
+            source_commit: sourceCommit,
+            candidate_generation: "202608271524",
+            contract_schema: "pipelinenews.mobile-ui-invariants.v1",
+            mode: "audit",
+            deployment: "not-authorised",
+            started_at: shardSummaries.map(({ started_at }) => started_at).sort()[0],
+            completed_at: shardSummaries.map(({ completed_at }) => completed_at).sort().at(-1),
+            browser: commonBrowser,
+            records: [...records.values()].sort(),
+            expected_record_count: 23,
+            shards: shardSummaries,
+            required_failures: [],
+            optional_original_unavailable: shardSummaries
+              .some(({ optional_original_unavailable }) => optional_original_unavailable),
+            status: "CAPTURED",
+          };
+          await writeFile(path.join(finalRoot, "run.json"), `${JSON.stringify(run, null, 2)}\n`);
+          NODE
+
+      - name: Run the unchanged comparator contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          node "atman/$MOBILE_UI_GENERATION-compare-mobile-ui.mjs" \
+            | tee "$RUNNER_TEMP/202608271631-mobile-ui-comparator-stdout.json"
+
+      - name: Prove the bounded evidence closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { lstat, readFile, readdir, stat } from "node:fs/promises";
+          import path from "node:path";
+
+          const reportDir = process.env.REPORT_DIR;
+          const rawDir = process.env.MOBILE_UI_RAW_DIR;
+          const expected = ["artifact-manifest.json", "metrics.json", "report.md"];
+          assert.deepEqual((await readdir(reportDir)).sort(), expected);
+          const reportBytes = await readFile(path.join(reportDir, "report.md"));
+          const metricsBytes = await readFile(path.join(reportDir, "metrics.json"));
+          assert.ok(reportBytes.length <= 256 * 1024);
+          assert.ok(metricsBytes.length <= 1024 * 1024);
+          assert.ok(reportBytes.toString("utf8").includes(process.env.MOBILE_UI_GENERATION));
+          assert.ok(reportBytes.toString("utf8").includes(process.env.GITHUB_SHA));
+          const metrics = JSON.parse(metricsBytes);
+          assert.equal(metrics.schema, "pipelinenews.mobile-ui-comparison.v1");
+          assert.equal(metrics.generation, process.env.MOBILE_UI_GENERATION);
+          assert.equal(metrics.source_commit, process.env.GITHUB_SHA);
+          assert.deepEqual(metrics.project_posture, {
+            owner: "Ventus Ltd",
+            application: "non-commercial-open-source",
+            publisher_redistribution_rights: "source-specific-not-inferred",
+          });
+          assert.equal(metrics.records.length, 23);
+          const manifest = JSON.parse(await readFile(path.join(reportDir, "artifact-manifest.json"), "utf8"));
+          assert.equal(manifest.schema, "pipelinenews.mobile-ui-comparator-artifacts.v1");
+          assert.deepEqual(manifest.project_posture, metrics.project_posture);
+          assert.deepEqual(manifest.compact_files.map(({ path: relative }) => relative).sort(),
+            ["metrics.json", "report.md"]);
+          for (const record of manifest.compact_files) {
+            const bytes = await readFile(path.join(reportDir, record.path));
+            assert.equal(bytes.length, record.bytes);
+            assert.equal(createHash("sha256").update(bytes).digest("hex"), record.sha256);
+          }
+
+          async function walk(directory) {
+            const files = [];
+            for (const entry of await readdir(directory, { withFileTypes: true })) {
+              const filename = path.join(directory, entry.name);
+              const metadata = await lstat(filename);
+              assert.ok(!metadata.isSymbolicLink(), `symlink entered evidence: ${filename}`);
+              if (metadata.isDirectory()) files.push(...await walk(filename));
+              else {
+                assert.ok(metadata.isFile());
+                files.push({ filename, bytes: metadata.size });
+              }
+            }
+            return files;
+          }
+          const rawFiles = await walk(rawDir);
+          assert.ok(rawFiles.reduce((sum, item) => sum + item.bytes, 0) <= 25 * 1024 * 1024);
+          const rawRecords = (await Promise.all(rawFiles.map(async ({ filename, bytes }) => {
+            const payload = await readFile(filename);
+            return {
+              path: path.relative(rawDir, filename).split(path.sep).join("/"),
+              sha256: createHash("sha256").update(payload).digest("hex"),
+              bytes,
+            };
+          }))).sort((left, right) => left.path.localeCompare(right.path));
+          assert.deepEqual(rawRecords, manifest.full_artifacts);
+          const closure = createHash("sha256").update(Buffer.from(
+            rawRecords.map((record) => `${record.path}\0${record.sha256}\0${record.bytes}\n`).join(""),
+            "utf8",
+          )).digest("hex");
+          assert.equal(closure, manifest.raw_closure_sha256);
+          for (const { filename, bytes } of rawFiles.filter(({ filename }) => /\.(?:jpe?g|png)$/iu.test(filename))) {
+            assert.ok(bytes <= 409600, `screenshot exceeds 400 KiB: ${filename}`);
+          }
+          const compactBytes = (await Promise.all(expected.map(async (filename) =>
+            (await stat(path.join(reportDir, filename))).size
+          ))).reduce((total, size) => total + size, 0);
+          assert.ok(compactBytes <= 1536 * 1024);
+          NODE
+          git diff --quiet
+          git diff --cached --quiet
+
+      - name: Publish audit summary
+        if: always()
+        shell: bash
+        run: |
+          if [[ -f "$REPORT_DIR/report.md" ]]; then
+            cat "$REPORT_DIR/report.md" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload complete audit and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-mobile-ui-audit-202608271631-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ env.MOBILE_UI_RAW_DIR }}
+            ${{ env.REPORT_DIR }}
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload compact evidence for the immutable report commit
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-mobile-ui-compact-202608271631-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.REPORT_DIR }}
+          if-no-files-found: error
+          retention-days: 30
+
+  commit-evidence:
+    name: Commit only compact quarantine evidence
+    needs: aggregate
+    if: >-
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/main' &&
+      needs.aggregate.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout the exact audited source
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Configure Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Download compact evidence only
+        uses: actions/download-artifact@v5
+        with:
+          name: pipelinenews-mobile-ui-compact-202608271631-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ env.MOBILE_UI_WORK_ROOT }}/incoming-compact
+
+      - name: Guard main and materialise exactly three report files
+        shell: bash
+        run: |
+          set -euo pipefail
+          incoming="$MOBILE_UI_WORK_ROOT/incoming-compact"
+          target="atman/reports/$MOBILE_UI_GENERATION"
+          mapfile -t incoming_files < <(find "$incoming" -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort)
+          expected=(artifact-manifest.json metrics.json report.md)
+          test "${#incoming_files[@]}" = "${#expected[@]}"
+          for index in "${!expected[@]}"; do
+            test "${incoming_files[$index]}" = "${expected[$index]}"
+          done
+          test -z "$(find "$incoming" -mindepth 1 -maxdepth 1 ! -type f -print -quit)"
+
+          git fetch --no-tags origin refs/heads/main
+          remote_head="$(git rev-parse FETCH_HEAD)"
+          git merge-base --is-ancestor "$GITHUB_SHA" "$remote_head"
+          source_paths=(
+            ".github/workflows/$MOBILE_UI_GENERATION-mobile-ui-comparator.yml"
+            "atman/$MOBILE_UI_GENERATION-compare-mobile-ui.mjs"
+            "atman/$MOBILE_UI_GENERATION-mobile-ui-invariants.mjs"
+            "atman/$MOBILE_UI_GENERATION-verify-mobile-ui-browser.mjs"
+            "manifests/$MOBILE_UI_GENERATION-mobile-ui-comparator.json"
+          )
+          git diff --quiet "$GITHUB_SHA" "$remote_head" -- "${source_paths[@]}"
+          test -z "$(git ls-tree -r --name-only "$remote_head" -- "$target")"
+          git switch --detach "$remote_head"
+
+          mkdir -p "$target"
+          cp "$incoming/artifact-manifest.json" "$target/artifact-manifest.json"
+          cp "$incoming/metrics.json" "$target/metrics.json"
+          cp "$incoming/report.md" "$target/report.md"
+
+          REPORT_DIR="$target" node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { readFile, readdir, stat } from "node:fs/promises";
+          import path from "node:path";
+          const root = process.env.REPORT_DIR;
+          const expected = ["artifact-manifest.json", "metrics.json", "report.md"];
+          assert.deepEqual((await readdir(root)).sort(), expected);
+          const reportBytes = await readFile(path.join(root, "report.md"));
+          const metricsBytes = await readFile(path.join(root, "metrics.json"));
+          assert.ok(reportBytes.length <= 256 * 1024);
+          assert.ok(metricsBytes.length <= 1024 * 1024);
+          assert.ok(reportBytes.toString("utf8").includes(process.env.MOBILE_UI_GENERATION));
+          assert.ok(reportBytes.toString("utf8").includes(process.env.GITHUB_SHA));
+          const metrics = JSON.parse(metricsBytes);
+          assert.equal(metrics.schema, "pipelinenews.mobile-ui-comparison.v1");
+          assert.equal(metrics.generation, process.env.MOBILE_UI_GENERATION);
+          assert.equal(metrics.source_commit, process.env.GITHUB_SHA);
+          assert.deepEqual(metrics.project_posture, {
+            owner: "Ventus Ltd",
+            application: "non-commercial-open-source",
+            publisher_redistribution_rights: "source-specific-not-inferred",
+          });
+          const manifest = JSON.parse(await readFile(path.join(root, "artifact-manifest.json"), "utf8"));
+          assert.equal(manifest.schema, "pipelinenews.mobile-ui-comparator-artifacts.v1");
+          assert.deepEqual(manifest.project_posture, metrics.project_posture);
+          assert.equal(manifest.generation, process.env.MOBILE_UI_GENERATION);
+          assert.equal(manifest.source_commit, process.env.GITHUB_SHA);
+          assert.deepEqual(manifest.compact_files.map(({ path: relative }) => relative).sort(),
+            ["metrics.json", "report.md"]);
+          for (const record of manifest.compact_files) {
+            const bytes = await readFile(path.join(root, record.path));
+            assert.equal(bytes.length, record.bytes);
+            assert.equal(createHash("sha256").update(bytes).digest("hex"), record.sha256);
+          }
+          const compactBytes = (await Promise.all(expected.map(async (filename) =>
+            (await stat(path.join(root, filename))).size
+          ))).reduce((total, size) => total + size, 0);
+          assert.ok(compactBytes <= 1536 * 1024);
+          NODE
+
+      - name: Commit and push exactly three evidence files
+        shell: bash
+        run: |
+          set -euo pipefail
+          target="atman/reports/$MOBILE_UI_GENERATION"
+          expected=(
+            "$target/artifact-manifest.json"
+            "$target/metrics.json"
+            "$target/report.md"
+          )
+          mapfile -t expected_sorted < <(printf '%s\n' "${expected[@]}" | LC_ALL=C sort)
+
+          verify_evidence_commit() {
+            mapfile -t committed < <(git diff-tree --no-commit-id --name-only -r HEAD | LC_ALL=C sort)
+            test "${#committed[@]}" = "${#expected_sorted[@]}"
+            for index in "${!expected_sorted[@]}"; do
+              test "${committed[$index]}" = "${expected_sorted[$index]}"
+              git show "HEAD:${expected_sorted[$index]}" | cmp - "${expected_sorted[$index]}"
+            done
+            git diff --quiet
+            git diff --cached --quiet
+          }
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- "${expected[@]}"
+          mapfile -d '' -t staged < <(git diff --cached --name-only -z | LC_ALL=C sort -z)
+          test "${#staged[@]}" = "${#expected[@]}"
+          for index in "${!expected_sorted[@]}"; do
+            test "${staged[$index]}" = "${expected_sorted[$index]}"
+          done
+          test -z "$(git diff --cached --name-status | awk '$1 != "A" { print; exit }')"
+          git commit -m "Record $MOBILE_UI_GENERATION mobile UI audit evidence"
+          verify_evidence_commit
+
+          for attempt in 1 2 3; do
+            git fetch --no-tags origin refs/heads/main
+            remote_head="$(git rev-parse FETCH_HEAD)"
+            if [[ "$(git rev-parse HEAD^)" != "$remote_head" ]]; then
+              git diff --quiet "$GITHUB_SHA" "$remote_head" -- \
+                ".github/workflows/$MOBILE_UI_GENERATION-mobile-ui-comparator.yml" \
+                "atman/$MOBILE_UI_GENERATION-compare-mobile-ui.mjs" \
+                "atman/$MOBILE_UI_GENERATION-mobile-ui-invariants.mjs" \
+                "atman/$MOBILE_UI_GENERATION-verify-mobile-ui-browser.mjs" \
+                "manifests/$MOBILE_UI_GENERATION-mobile-ui-comparator.json"
+              test -z "$(git ls-tree -r --name-only "$remote_head" -- "$target")"
+              git rebase --onto "$remote_head" "$(git rev-parse HEAD^)" HEAD
+              verify_evidence_commit
+            fi
+            if git push origin "HEAD:refs/heads/main"; then
+              exit 0
+            fi
+          done
+          exit 1
