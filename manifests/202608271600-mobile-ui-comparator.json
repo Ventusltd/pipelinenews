@@ -1,0 +1,120 @@
+{
+  "schema": "pipelinenews.mobile-ui-comparator-manifest.v1",
+  "generation": "202608271600",
+  "name": "PipelineNews Mobile Browser Orientation Comparator",
+  "source_parent_commit": "3c47a2e2af215b687ad62c5e1211352cca6dd6fa",
+  "deployment": "not-authorised",
+  "scope": "audit-only-browser-evidence",
+  "candidate_generation": "202608271524",
+  "trusted_baseline_generation": "202608261927",
+  "original_context_url": "https://globalgrid2050.com/uk_renewables_pipeline/dashboard.html",
+  "browser": {
+    "playwright_version": "1.55.0",
+    "engine": "chromium",
+    "screenshot_encoder": "sharp@0.34.3"
+  },
+  "source_boundary": [
+    ".github/workflows/202608271600-mobile-ui-comparator.yml",
+    "atman/202608271600-compare-mobile-ui.mjs",
+    "atman/202608271600-mobile-ui-invariants.mjs",
+    "atman/202608271600-verify-mobile-ui-browser.mjs",
+    "manifests/202608271600-mobile-ui-comparator.json"
+  ],
+  "hashed_source_files": [
+    {
+      "path": ".github/workflows/202608271600-mobile-ui-comparator.yml",
+      "bytes": 34155,
+      "sha256": "b25b124098bb00472f8e156a26ef2d860d4fb21309ee647c3c6d13a9a60e64ed"
+    },
+    {
+      "path": "atman/202608271600-compare-mobile-ui.mjs",
+      "bytes": 39186,
+      "sha256": "ca5e8d7280478b878ef2e3d0abcf7ec0326c1f0647573353e7b0f6a9b1a80566"
+    },
+    {
+      "path": "atman/202608271600-mobile-ui-invariants.mjs",
+      "bytes": 7914,
+      "sha256": "457fb59c33d1f789a9e1b6eb70919a987bd676c94565e5751e2028b670a50c24"
+    },
+    {
+      "path": "atman/202608271600-verify-mobile-ui-browser.mjs",
+      "bytes": 66271,
+      "sha256": "affcf6e60e1d40b04e331a1a557bae2dcf1661994b2802675fe7d3637408cd5a"
+    }
+  ],
+  "targets": [
+    {
+      "id": "candidate",
+      "generation": "202608271524",
+      "path": "releases/202608271524-v8-fast-candidate.html",
+      "required": true,
+      "gated": true,
+      "serving": "hermetic-local-checkout"
+    },
+    {
+      "id": "baseline",
+      "generation": "202608261927",
+      "path": "releases/202608261927-index.html",
+      "required": true,
+      "gated": false,
+      "serving": "hermetic-local-checkout"
+    },
+    {
+      "id": "original",
+      "url": "https://globalgrid2050.com/uk_renewables_pipeline/dashboard.html",
+      "required": false,
+      "gated": false,
+      "serving": "read-only-live-context"
+    }
+  ],
+  "cells": [
+    { "id": "P1", "width": 390, "height": 844, "dpr": 3, "orientation": "portrait" },
+    { "id": "P2", "width": 375, "height": 667, "dpr": 2, "orientation": "portrait" },
+    { "id": "L1", "width": 844, "height": 390, "dpr": 3, "orientation": "landscape" },
+    { "id": "L2", "width": 932, "height": 430, "dpr": 3, "orientation": "landscape" },
+    { "id": "L3", "width": 667, "height": 375, "dpr": 2, "orientation": "landscape" },
+    { "id": "L4", "width": 852, "height": 393, "dpr": 3, "orientation": "landscape" },
+    { "id": "T1", "width": 768, "height": 1024, "dpr": 2, "orientation": "portrait" },
+    { "id": "R1", "sequence": "P1-L1-P1", "cycles": 3, "dpr": 3, "orientation": "dynamic" }
+  ],
+  "evidence": {
+    "raw_artifact_retention_days": 30,
+    "raw_artifact_max_bytes": 26214400,
+    "screenshot_max_bytes": 409600,
+    "compact_commit_files": [
+      "artifact-manifest.json",
+      "metrics.json",
+      "report.md"
+    ]
+  },
+  "execution": {
+    "job_timeout_minutes": 55,
+    "cell_record_max_bytes": 262144,
+    "browser_rasterizations_per_screenshot": 1,
+    "baseline_static_shards": [
+      ["P1", "P2", "L1"],
+      ["L2", "L3"],
+      ["L4", "T1"]
+    ],
+    "candidate_static_shards": [
+      ["P1", "P2", "L1", "L2", "L3", "L4", "T1"]
+    ],
+    "original_context_shards": [
+      ["P1", "P2", "L1", "L2", "L3", "L4", "T1"]
+    ],
+    "rotation_shards": [
+      ["candidate", "baseline"]
+    ],
+    "aggregate_record_count": 23
+  },
+  "discipline": {
+    "expected_ui_failures_fail_producer": false,
+    "instrument_or_schema_failures_fail_producer": true,
+    "candidate_gate_recorded": true,
+    "baseline_characterised_not_gated": true,
+    "original_context_tolerated_to_fail": true,
+    "pages_capability": false,
+    "stable_pointer_changed": false,
+    "release_files_changed": false
+  }
+}
