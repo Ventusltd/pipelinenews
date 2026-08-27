@@ -1,0 +1,67 @@
+{
+  "schema": "pipelinenews.mobile-css-repair-successor-manifest.v1",
+  "generation": "202608271934",
+  "name": "PipelineNews mobile CSS repair instrument successor",
+  "source_parent_commit": "a6d79906d00e121c9299df875acac234b5717409",
+  "corrects_generation": "202608271906",
+  "correction": "materialise-under-releases-to-preserve-relative-assets",
+  "failed_predecessor_run": 33102634868,
+  "deployment": "not-authorised",
+  "stable_route_changed": false,
+  "current_pointer_changed": false,
+  "pages_capability": false,
+  "scope": "quarantine-only-css-repair-and-parallel-browser-gate",
+  "project_posture": {
+    "owner": "Ventus Ltd",
+    "application": "non-commercial-open-source",
+    "publisher_redistribution_rights": "source-specific-not-inferred"
+  },
+  "companies_house_data": "forbidden",
+  "source_boundary": [
+    ".github/workflows/202608271934-mobile-css-repair.yml",
+    "manifests/202608271934-mobile-css-repair.json"
+  ],
+  "hashed_source_files": [
+    {
+      "path": ".github/workflows/202608271934-mobile-css-repair.yml",
+      "bytes": 14936,
+      "sha256": "fa2c15820054856026ed284f9e441e66ca50f15c622367056286fb8be57d4c6a"
+    }
+  ],
+  "frozen_dependencies": [
+    {
+      "path": "repairs/202608271906-mobile-css-repair.css",
+      "sha256": "119f410673ef51ab8db6fa21b4c0b828477fe61cf39f96e48cd4b832825db20f"
+    },
+    {
+      "path": "atman/202608271656-mobile-ui-invariants.mjs",
+      "sha256": "3dbee93a7de2cc01f9fece3e3318b1f151871231ae254bff9cc67fe4fd69aae2"
+    },
+    {
+      "path": "atman/202608271656-verify-mobile-ui-browser.mjs",
+      "sha256": "f0f383cfd1a6ad0cc12f46a8a1173831ac7fed506cf4eabb59ae2d3e0ca68ca7"
+    }
+  ],
+  "inherited_candidate": {
+    "generation": "202608271524",
+    "path": "releases/202608271524-v8-fast-candidate.html",
+    "relative_asset_root": "releases/",
+    "mutation": "viewport-fit-cover-and-additive-repair-stylesheet-only"
+  },
+  "browser_gate": {
+    "mode": "repair",
+    "playwright_version": "1.55.0",
+    "static_shard": ["P1", "P2", "L1", "L2", "L3", "L4", "T1"],
+    "rotation_shard": ["R1"],
+    "all_applicable_gated_invariants_must_pass": true,
+    "raw_artifact_retention_days": 30
+  },
+  "publish_on_pass_only": [
+    "releases/202608271934-v8-fast-css-candidate.html",
+    "releases/styles/202608271934-v8-fast-css-repair.css",
+    "atman/reports/202608271934/artifact-manifest.json",
+    "atman/reports/202608271934/repair-metrics.json",
+    "atman/reports/202608271934/repair-report.md"
+  ],
+  "bulk_analytical_data": "none"
+}
