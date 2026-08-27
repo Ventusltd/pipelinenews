@@ -1,0 +1,72 @@
+{
+  "schema": "pipelinenews.mobile-css-repair-manifest.v1",
+  "generation": "202608271906",
+  "name": "PipelineNews measured mobile CSS repair",
+  "source_parent_commit": "bce84eb32b7464e9b560c9e9aa9f110feed62df7",
+  "deployment": "not-authorised",
+  "stable_route_changed": false,
+  "current_pointer_changed": false,
+  "pages_capability": false,
+  "scope": "quarantine-only-css-repair-and-browser-gate",
+  "project_posture": {
+    "owner": "Ventus Ltd",
+    "application": "non-commercial-open-source",
+    "publisher_redistribution_rights": "source-specific-not-inferred"
+  },
+  "companies_house_data": "forbidden",
+  "inherited_candidate": {
+    "generation": "202608271524",
+    "path": "releases/202608271524-v8-fast-candidate.html",
+    "mutation": "viewport-fit-cover-and-additive-repair-stylesheet-only"
+  },
+  "measured_input": {
+    "generation": "202608271656",
+    "evidence_commit": "bce84eb32b7464e9b560c9e9aa9f110feed62df7",
+    "report_path": "atman/reports/202608271656/metrics.json",
+    "failed_invariants": ["I1", "I6", "I8", "I10", "I11"],
+    "repair_mode_additional_gate": "I7"
+  },
+  "source_boundary": [
+    ".github/workflows/202608271906-mobile-css-repair.yml",
+    "manifests/202608271906-mobile-css-repair.json",
+    "repairs/202608271906-mobile-css-repair.css"
+  ],
+  "hashed_source_files": [
+    {
+      "path": ".github/workflows/202608271906-mobile-css-repair.yml",
+      "bytes": 13861,
+      "sha256": "06948bfae694c045dd6f2020f705d613ee024b1a0d737640a1e0ed1ad19b1e97"
+    },
+    {
+      "path": "repairs/202608271906-mobile-css-repair.css",
+      "bytes": 2105,
+      "sha256": "119f410673ef51ab8db6fa21b4c0b828477fe61cf39f96e48cd4b832825db20f"
+    }
+  ],
+  "frozen_comparator_dependencies": [
+    {
+      "path": "atman/202608271656-mobile-ui-invariants.mjs",
+      "sha256": "3dbee93a7de2cc01f9fece3e3318b1f151871231ae254bff9cc67fe4fd69aae2"
+    },
+    {
+      "path": "atman/202608271656-verify-mobile-ui-browser.mjs",
+      "sha256": "f0f383cfd1a6ad0cc12f46a8a1173831ac7fed506cf4eabb59ae2d3e0ca68ca7"
+    }
+  ],
+  "browser_gate": {
+    "mode": "repair",
+    "playwright_version": "1.55.0",
+    "chromium": "playwright-pinned",
+    "cells": ["P1", "P2", "L1", "L2", "L3", "L4", "T1", "R1"],
+    "all_applicable_gated_invariants_must_pass": true,
+    "raw_artifact_retention_days": 30
+  },
+  "publish_on_pass_only": [
+    "releases/202608271906-v8-fast-css-candidate.html",
+    "releases/styles/202608271906-v8-fast-css-repair.css",
+    "atman/reports/202608271906/artifact-manifest.json",
+    "atman/reports/202608271906/repair-metrics.json",
+    "atman/reports/202608271906/repair-report.md"
+  ],
+  "bulk_analytical_data": "none"
+}
