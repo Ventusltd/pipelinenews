@@ -1,0 +1,329 @@
+name: Repair PipelineNews Mobile CSS 202608271957
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/202608271957-mobile-css-repair.yml"
+      - "manifests/202608271957-mobile-css-repair.json"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pipelinenews-mobile-css-repair-202608271957
+  cancel-in-progress: false
+
+env:
+  GENERATION: "202608271957"
+  SOURCE_PARENT: "83bbb22bd524f9618fe5e3c469ef5bc268abce3f"
+  INHERITED_CANDIDATE: "202608271524"
+  RAW_ROOT: "work/202608271957-mobile-css-repair"
+
+jobs:
+  measure:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - shard: static
+            cells: P1,P2,L1,L2,L3,L4,T1
+            rotate: "false"
+          - shard: rotation
+            cells: none
+            rotate: "true"
+    steps:
+      - name: Checkout exact successor source
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Prove bounded source and governance
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          expected="$(printf '%s\n' \
+            .github/workflows/202608271957-mobile-css-repair.yml \
+            manifests/202608271957-mobile-css-repair.json | sort)"
+          git merge-base --is-ancestor "$SOURCE_PARENT" "$GITHUB_SHA"
+          test "$(git diff --name-only "$SOURCE_PARENT" "$GITHUB_SHA" | sort)" = "$expected"
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { readFile } from "node:fs/promises";
+          const manifest = JSON.parse(await readFile(`manifests/${process.env.GENERATION}-mobile-css-repair.json`));
+          assert.equal(manifest.schema, "pipelinenews.mobile-css-repair-successor-manifest.v1");
+          assert.equal(manifest.generation, process.env.GENERATION);
+          assert.equal(manifest.source_parent_commit, process.env.SOURCE_PARENT);
+          assert.equal(manifest.corrects_generation, "202608271934");
+          assert.equal(manifest.correction, "rewrite-body-fast-generation-marker");
+          assert.equal(manifest.deployment, "not-authorised");
+          assert.equal(manifest.stable_route_changed, false);
+          assert.equal(manifest.current_pointer_changed, false);
+          assert.equal(manifest.pages_capability, false);
+          assert.equal(manifest.companies_house_data, "forbidden");
+          assert.deepEqual(manifest.project_posture, {
+            owner: "Ventus Ltd",
+            application: "non-commercial-open-source",
+            publisher_redistribution_rights: "source-specific-not-inferred",
+          });
+          for (const record of manifest.hashed_source_files) {
+            const bytes = await readFile(record.path);
+            assert.equal(bytes.length, record.bytes, `byte drift: ${record.path}`);
+            assert.equal(createHash("sha256").update(bytes).digest("hex"), record.sha256,
+              `hash drift: ${record.path}`);
+          }
+          for (const dependency of manifest.frozen_dependencies) {
+            const bytes = await readFile(dependency.path);
+            assert.equal(createHash("sha256").update(bytes).digest("hex"), dependency.sha256,
+              `dependency drift: ${dependency.path}`);
+          }
+          const workflow = await readFile(`.github/workflows/${process.env.GENERATION}-mobile-css-repair.yml`, "utf8");
+          for (const forbidden of [
+            ["deploy", "pages@"].join("-"),
+            ["upload", "pages-artifact@"].join("-"),
+            ["pages", "write"].join(": "),
+            ["id-token", "write"].join(": "),
+          ]) assert.ok(!workflow.includes(forbidden), `deployment capability entered: ${forbidden}`);
+          NODE
+
+      - name: Configure pinned browser
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Install pinned browser packages
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --no-package-lock playwright@1.55.0 sharp@0.34.3
+          npx playwright install --with-deps chromium
+
+      - name: Materialise candidate at release-relative path
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RAW_ROOT/${{ matrix.shard }}/raw" releases/styles
+          cp repairs/202608271906-mobile-css-repair.css "releases/styles/$GENERATION-v8-fast-css-repair.css"
+          python3 - <<'PY'
+          from pathlib import Path
+          import os
+          import re
+          generation = os.environ["GENERATION"]
+          source = Path("releases/202608271524-v8-fast-candidate.html").read_text()
+          source, count = re.subn(
+              r'(<meta[^>]+name=["\']viewport["\'][^>]+content=["\'])([^"\']*)(["\'])',
+              lambda match: match.group(1) + match.group(2).rstrip(",") + ",viewport-fit=cover" + match.group(3),
+              source,
+              count=1,
+              flags=re.I,
+          )
+          if count != 1:
+              raise SystemExit("exactly one viewport meta element was not found")
+          repair = f'<link rel="stylesheet" href="styles/{generation}-v8-fast-css-repair.css">'
+          if "</head>" not in source:
+              raise SystemExit("candidate head closure absent")
+          marker = 'data-fast-generation="202608271524"'
+          if source.count(marker) != 1:
+              raise SystemExit("exactly one inherited fast-generation marker was not found")
+          source = source.replace(marker, f'data-fast-generation="{generation}"', 1)
+          source = source.replace("</head>", repair + "\n</head>", 1)
+          Path(f"releases/{generation}-v8-fast-css-candidate.html").write_text(source)
+          PY
+          python3 -m http.server 4173 --bind 127.0.0.1 >"$RAW_ROOT/${{ matrix.shard }}/server.log" 2>&1 &
+          for attempt in $(seq 1 30); do
+            curl -fsS "http://127.0.0.1:4173/releases/$GENERATION-v8-fast-css-candidate.html" >/dev/null && break
+            sleep 1
+          done
+          curl -fsS "http://127.0.0.1:4173/releases/styles/202608270055-v8-fast.css" >/dev/null
+          curl -fsS "http://127.0.0.1:4173/releases/javascript/202608271524-v8-fast-runtime.js" >/dev/null
+
+      - name: Measure repair shard
+        shell: bash
+        env:
+          MOBILE_UI_MODE: repair
+          MOBILE_UI_SOURCE_COMMIT: ${{ github.sha }}
+          MOBILE_UI_CANDIDATE_GENERATION: "202608271957"
+          MOBILE_UI_CANDIDATE_URL: "http://127.0.0.1:4173/releases/202608271957-v8-fast-css-candidate.html"
+          MOBILE_UI_TARGET_IDS: candidate
+          MOBILE_UI_CELL_IDS: ${{ matrix.cells }}
+          MOBILE_UI_INCLUDE_ROTATE: ${{ matrix.rotate }}
+          MOBILE_UI_SHARD_ID: ${{ matrix.shard }}
+          MOBILE_UI_RAW_DIR: work/202608271957-mobile-css-repair/${{ matrix.shard }}/raw
+        run: node atman/202608271656-verify-mobile-ui-browser.mjs --out-root "$MOBILE_UI_RAW_DIR"
+
+      - name: Upload complete shard evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-mobile-css-repair-202608271957-${{ matrix.shard }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            work/202608271957-mobile-css-repair/${{ matrix.shard }}/raw
+            work/202608271957-mobile-css-repair/${{ matrix.shard }}/server.log
+          retention-days: 30
+          if-no-files-found: error
+
+  gate-and-publish:
+    needs: measure
+    if: always() && needs.measure.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact successor source
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Download and merge shard evidence
+        uses: actions/download-artifact@v5
+        with:
+          pattern: pipelinenews-mobile-css-repair-202608271957-*
+          path: work/merged
+          merge-multiple: true
+
+      - name: Compile and enforce bounded gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "atman/reports/$GENERATION" releases/styles
+          cp repairs/202608271906-mobile-css-repair.css "releases/styles/$GENERATION-v8-fast-css-repair.css"
+          python3 - <<'PY'
+          from pathlib import Path
+          import os
+          import re
+          generation = os.environ["GENERATION"]
+          source = Path("releases/202608271524-v8-fast-candidate.html").read_text()
+          source, count = re.subn(
+              r'(<meta[^>]+name=["\']viewport["\'][^>]+content=["\'])([^"\']*)(["\'])',
+              lambda match: match.group(1) + match.group(2).rstrip(",") + ",viewport-fit=cover" + match.group(3),
+              source,
+              count=1,
+              flags=re.I,
+          )
+          if count != 1:
+              raise SystemExit("viewport meta element absent")
+          marker = 'data-fast-generation="202608271524"'
+          if source.count(marker) != 1:
+              raise SystemExit("exactly one inherited fast-generation marker was not found")
+          source = source.replace(marker, f'data-fast-generation="{generation}"', 1)
+          source = source.replace("</head>", f'<link rel="stylesheet" href="styles/{generation}-v8-fast-css-repair.css">\n</head>', 1)
+          Path(f"releases/{generation}-v8-fast-css-candidate.html").write_text(source)
+          PY
+          node --input-type=module <<'NODE'
+          import { createHash } from "node:crypto";
+          import { readdir, readFile, writeFile } from "node:fs/promises";
+          import path from "node:path";
+          async function walk(root) {
+            const out = [];
+            for (const entry of await readdir(root, { withFileTypes: true })) {
+              const full = path.join(root, entry.name);
+              if (entry.isDirectory()) out.push(...await walk(full));
+              else out.push(full);
+            }
+            return out;
+          }
+          const files = await walk("work/merged");
+          const records = [];
+          for (const file of files.filter((file) => /candidate--(?:P1|P2|L1|L2|L3|L4|T1|R1)\.json$/u.test(file))) {
+            records.push(JSON.parse(await readFile(file, "utf8")));
+          }
+          if (records.length !== 8) throw new Error(`expected 8 candidate records, got ${records.length}`);
+          const failures = [];
+          const cells = {};
+          for (const record of records) {
+            const id = record.cell?.id || record.cell;
+            cells[id] = {};
+            for (const invariant of record.invariants) {
+              cells[id][invariant.id] = invariant.status;
+              if (invariant.applicable && invariant.mode === "gated" && invariant.pass !== true)
+                failures.push({ cell: id, invariant: invariant.id, name: invariant.name, status: invariant.status });
+            }
+          }
+          const metrics = {
+            schema: "pipelinenews.mobile-css-repair-evidence.v1",
+            generation: process.env.GENERATION,
+            corrects_generation: "202608271934",
+            inherited_candidate_generation: process.env.INHERITED_CANDIDATE,
+            source_commit: process.env.GITHUB_SHA,
+            project_posture: {
+              owner: "Ventus Ltd",
+              application: "non-commercial-open-source",
+              publisher_redistribution_rights: "source-specific-not-inferred",
+            },
+            deployment: "not-authorised",
+            stable_route_changed: false,
+            current_pointer_changed: false,
+            companies_house_data: "absent",
+            gate: failures.length ? "FAIL" : "PASS",
+            failures,
+            cells,
+          };
+          await writeFile(`atman/reports/${process.env.GENERATION}/repair-metrics.json`, `${JSON.stringify(metrics, null, 2)}\n`);
+          const report = [
+            "# PipelineNews mobile CSS repair", "",
+            `Generation: \`${process.env.GENERATION}\`  `,
+            `Corrects instrument generation: \`202608271934\`  `,
+            `Source commit: \`${process.env.GITHUB_SHA}\`  `,
+            "Deployment: `not-authorised`", "",
+            "Ventus Ltd application posture: **non-commercial open source**. Publisher redistribution rights remain source-specific and are not inferred.", "",
+            `Repair gate: **${metrics.gate}**`, "",
+            failures.length ? failures.map((x) => `- ${x.cell} ${x.invariant} ${x.name}`).join("\n")
+              : "All gated invariants passed across P1, P2, L1-L4, T1 and R1.", "",
+            "Stable/current, Pages and Companies House boundaries are unchanged.", "",
+          ].join("\n");
+          await writeFile(`atman/reports/${process.env.GENERATION}/repair-report.md`, report);
+          const outputPaths = [
+            `releases/${process.env.GENERATION}-v8-fast-css-candidate.html`,
+            `releases/styles/${process.env.GENERATION}-v8-fast-css-repair.css`,
+            `atman/reports/${process.env.GENERATION}/repair-metrics.json`,
+            `atman/reports/${process.env.GENERATION}/repair-report.md`,
+          ];
+          const indexed = [];
+          for (const file of outputPaths) {
+            const bytes = await readFile(file);
+            indexed.push({ path: file, bytes: bytes.length, sha256: createHash("sha256").update(bytes).digest("hex") });
+          }
+          await writeFile(`atman/reports/${process.env.GENERATION}/artifact-manifest.json`,
+            `${JSON.stringify({
+              schema: "pipelinenews.mobile-css-repair-artifacts.v1",
+              generation: process.env.GENERATION,
+              source_commit: process.env.GITHUB_SHA,
+              github_run_id: process.env.GITHUB_RUN_ID,
+              deployment: "not-authorised",
+              stable_route_changed: false,
+              current_pointer_changed: false,
+              companies_house_data: "absent",
+              files: indexed,
+            }, null, 2)}\n`);
+          if (failures.length) throw new Error(`repair gate failed: ${failures.map((x) => `${x.cell}/${x.invariant}`).join(", ")}`);
+          NODE
+
+      - name: Publish immutable quarantine candidate and compact proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          expected="$(printf '%s\n' \
+            "atman/reports/$GENERATION/artifact-manifest.json" \
+            "atman/reports/$GENERATION/repair-metrics.json" \
+            "atman/reports/$GENERATION/repair-report.md" \
+            "releases/$GENERATION-v8-fast-css-candidate.html" \
+            "releases/styles/$GENERATION-v8-fast-css-repair.css" | sort)"
+          git add -- \
+            "atman/reports/$GENERATION/artifact-manifest.json" \
+            "atman/reports/$GENERATION/repair-metrics.json" \
+            "atman/reports/$GENERATION/repair-report.md" \
+            "releases/$GENERATION-v8-fast-css-candidate.html" \
+            "releases/styles/$GENERATION-v8-fast-css-repair.css"
+          test "$(git diff --cached --name-only | sort)" = "$expected"
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git commit -m "Publish $GENERATION mobile CSS repair candidate"
+          git push origin HEAD:main
