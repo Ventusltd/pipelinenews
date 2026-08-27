@@ -15,21 +15,23 @@ permissions:
   actions: write
 
 concurrency:
-  group: authorise-pipelinenews-v8-fast-pages-202608271329
+  group: authorise-pipelinenews-v8-fast-pages-202608271524
   cancel-in-progress: false
 
 env:
-  FAST_GENERATION: "202608271329"
-  FAST_CANDIDATE_OUTPUT_COMMIT: "e269aa0d67f8d39304938dc42584f2b6dd3dee9e"
-  FAST_CANDIDATE_SOURCE_COMMIT: "799bb304d38765aa1f9b176dc46525c30acaf9cc"
-  FAST_CANDIDATE_BUILD_RUN: "33074121050"
-  FAST_CANDIDATE_MANIFEST: "build/202608271329-v8-fast-site-manifest.json"
-  FAST_CANDIDATE_MANIFEST_SHA256: "8026752e42872863f034d34dbfbbf8242edadfae6581574a5b8fc112b4b45268"
-  FAST_CACHE_IDENTITY: "b6d619bca4667020c9c8590753238b85601df74771e11041d6e9e0258f81c70c"
-  FAST_AUTHORISATION_SOURCE_PARENT: "150292d55f56361716200c15792a24239f60bf6f"
-  FAST_PREVIOUS_AUTHORISATION: "build/authorisations/202608270055-v8-fast-pages-authorisation.json"
-  FAST_AUTHORISATION: "build/authorisations/202608271329-v8-fast-pages-authorisation.json"
-  FAST_WORK_ROOT: "work/202608271329-v8-fast-pages-authorisation"
+  FAST_GENERATION: "202608271524"
+  FAST_CANDIDATE_OUTPUT_COMMIT: "cc4fa0fedc8de273bbf699e86bff81b2aa59270c"
+  FAST_CANDIDATE_SOURCE_COMMIT: "7b07b139f8e9764d948e512d9b18b854faea14c9"
+  FAST_CANDIDATE_BUILD_RUN: "33083335000"
+  FAST_CANDIDATE_MANIFEST: "build/202608271524-v8-fast-site-manifest.json"
+  FAST_CANDIDATE_MANIFEST_SHA256: "fef485accb1509297dbc64c5e30806c60d977bedb06591e8b324e7bbab06e818"
+  FAST_CACHE_IDENTITY: "fd2212a8c76d9fb97ec50cc97b1fefa104ae8cd7ac33cd4b4adcd57c8149e844"
+  FAST_AUTHORISATION_SOURCE_PARENT: "cc4fa0fedc8de273bbf699e86bff81b2aa59270c"
+  FAST_PREVIOUS_AUTHORISATION: "build/authorisations/202608271329-v8-fast-pages-authorisation.json"
+  FAST_AUTHORISATION: "build/authorisations/202608271524-v8-fast-pages-authorisation.json"
+  FAST_CONTRACT_VERIFIER: "build/javascript/202608271524-verify-v8-news-chronology-contract.mjs"
+  FAST_BROWSER_VERIFIER: "build/javascript/202608271524-verify-v8-fast-browser.mjs"
+  FAST_WORK_ROOT: "work/202608271524-v8-fast-pages-authorisation"
 
 jobs:
   authorise-and-dispatch:
@@ -63,6 +65,7 @@ jobs:
           esac
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           test -z "$(git status --porcelain=v1)"
+          [[ "$FAST_AUTHORISATION_SOURCE_PARENT" =~ ^[0-9a-f]{40}$ ]]
           mkdir -p "$FAST_WORK_ROOT/evidence"
           node --input-type=module <<'NODE'
           import { writeFile } from "node:fs/promises";
@@ -85,15 +88,15 @@ jobs:
           git cat-file -e "${FAST_CANDIDATE_OUTPUT_COMMIT}^{commit}"
           test "$(git rev-list --parents -n 1 "$GITHUB_SHA" | wc -w)" = "2"
           test "$(git rev-parse "${GITHUB_SHA}^")" = "$FAST_AUTHORISATION_SOURCE_PARENT"
-          test "$(git rev-parse "${FAST_AUTHORISATION_SOURCE_PARENT}^")" = "$FAST_CANDIDATE_OUTPUT_COMMIT"
+          test "$FAST_AUTHORISATION_SOURCE_PARENT" = "$FAST_CANDIDATE_OUTPUT_COMMIT"
           git merge-base --is-ancestor "$FAST_CANDIDATE_OUTPUT_COMMIT" "$GITHUB_SHA"
           git merge-base --is-ancestor "$FAST_CANDIDATE_SOURCE_COMMIT" "$FAST_CANDIDATE_OUTPUT_COMMIT"
           expected_source_paths=(
             ".github/DEPLOYMENT_POLICY.md"
             ".github/workflows/authorise-v8-fast-pages.yml"
             ".github/workflows/pages.yml"
-            "atman/202608262014-build-pages.py"
-            "build/authorisations/202608270055-v8-fast-pages-authorisation.json"
+            "build/authorisations/202608271329-v8-fast-pages-authorisation.json"
+            "build/javascript/202608271524-verify-v8-fast-browser.mjs"
           )
           mapfile -t actual_source_paths < <(
             git diff --name-only "$FAST_AUTHORISATION_SOURCE_PARENT" "$GITHUB_SHA" | LC_ALL=C sort
@@ -106,6 +109,15 @@ jobs:
           # public Pages trees during this one-off promotion.
           git diff --quiet "$FAST_CANDIDATE_OUTPUT_COMMIT" "$GITHUB_SHA" -- releases data archive
           test ! -e "$FAST_PREVIOUS_AUTHORISATION"
+          current_authorisations=()
+          test ! -L build/authorisations
+          if [[ -e build/authorisations ]]; then
+            test -d build/authorisations
+            mapfile -t current_authorisations < <(
+              find build/authorisations -maxdepth 1 -type f -name '*-v8-fast-pages-authorisation.json' -print | LC_ALL=C sort
+            )
+          fi
+          test "${#current_authorisations[@]}" = "0"
           if [[ -e "$FAST_AUTHORISATION" || -L "$FAST_AUTHORISATION" ]]; then
             echo "Immutable authorisation already exists: $FAST_AUTHORISATION" >&2
             exit 1
@@ -169,7 +181,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          node "build/javascript/${FAST_GENERATION}-verify-v8-fast-contract.mjs" \
+          node "$FAST_CONTRACT_VERIFIER" \
             --root . \
             --generation "$FAST_GENERATION" \
             --source-manifest "$FAST_CANDIDATE_MANIFEST" \
@@ -185,7 +197,7 @@ jobs:
       - name: Browser-proof desktop and mobile candidate
         shell: bash
         env:
-          FAST_SITE_URL: http://127.0.0.1:4173/releases/202608271329-v8-fast-candidate.html
+          FAST_SITE_URL: http://127.0.0.1:4173/releases/202608271524-v8-fast-candidate.html
         run: |
           set -euo pipefail
           python3 -m http.server 4173 --bind 127.0.0.1 --directory . > "$RUNNER_TEMP/v8-fast-authorise-http.log" 2>&1 &
@@ -198,7 +210,7 @@ jobs:
             sleep 1
           done
           curl --fail --silent --show-error "$FAST_SITE_URL" >/dev/null
-          node "build/javascript/${FAST_GENERATION}-verify-v8-fast-browser.mjs" \
+          node "$FAST_BROWSER_VERIFIER" \
             | tee "$FAST_WORK_ROOT/evidence/browser-proof.json"
 
       - name: Create one immutable Pages authorisation
@@ -350,14 +362,14 @@ jobs:
           spec.loader.exec_module(module)
           release = module.validate_release(root, "latest")
           excluded, authorised = module.candidate_publication_boundary(root, release)
-          chain = ["202608270055", "202608270844", "202608271329"]
+          chain = ["202608270055", "202608270844", "202608271329", "202608271524"]
           manifests = {
               generation: json.loads(
                   (root / "build" / f"{generation}-v8-fast-site-manifest.json").read_text(encoding="utf-8")
               )
               for generation in chain
           }
-          manifest = manifests["202608271329"]
+          manifest = manifests["202608271524"]
           expected = {
               record["path"]
               for generation in chain
@@ -370,11 +382,12 @@ jobs:
               "202608270055": [],
               "202608270844": ["202608270055"],
               "202608271329": ["202608270055", "202608270844"],
+              "202608271524": ["202608270055", "202608270844", "202608271329"],
           }, "progressive dependency graph changed")
           module.require(release["candidate_generation"] == manifest["generation"], "candidate generation not bound")
-          module.require(release["candidate_path"] == "releases/202608271329-v8-fast-candidate.html", "candidate route not bound")
+          module.require(release["candidate_path"] == "releases/202608271524-v8-fast-candidate.html", "candidate route not bound")
           module.require(release["candidate_sha256"] == manifest["outputs"][0]["sha256"], "candidate HTML hash not bound")
-          module.require(release["candidate_verifier"] == "build/javascript/202608271329-verify-v8-fast-browser.mjs", "browser verifier not bound")
+          module.require(release["candidate_verifier"] == "build/javascript/202608271524-verify-v8-fast-browser.mjs", "browser verifier not bound")
           print(json.dumps({
               "schema": "pipelinenews.v8.fast-pages-authorised-boundary-proof.v1",
               "generation": manifest["generation"],
@@ -458,7 +471,6 @@ jobs:
             push origin HEAD:main
 
       - name: Dispatch the governed Pages workflow
-        continue-on-error: true
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -495,12 +507,9 @@ jobs:
             fi
           done
 
+          set -e
           printf '{"schema":"pipelinenews.v8.fast-pages-dispatch.v1","generation":"%s","workflow":".github/workflows/pages.yml","ref":"main","expected_sha":"%s","attempts":%s,"http_status":"%s","curl_status":%s,"accepted":%s}\n' \
-            "$FAST_GENERATION" "$AUTHORISATION_COMMIT" "$attempts" "$last_http_status" "$last_curl_status" "$accepted"
-          if [[ "$accepted" = "true" ]]; then
-            echo "Pages dispatch accepted for ${AUTHORISATION_COMMIT}." >> "$GITHUB_STEP_SUMMARY" || true
-          else
-            echo "::warning title=Pages dispatch pending::The immutable authorisation is green at ${AUTHORISATION_COMMIT}, but Pages dispatch was not accepted after ${attempts} attempts. Re-run Pages with expected_sha=${AUTHORISATION_COMMIT}."
-            echo "Pages dispatch pending; manually run Pages with expected_sha=${AUTHORISATION_COMMIT}. accepted:false" >> "$GITHUB_STEP_SUMMARY" || true
-          fi
-          exit 0
+            "$FAST_GENERATION" "$AUTHORISATION_COMMIT" "$attempts" "$last_http_status" "$last_curl_status" "$accepted" \
+            | tee "$FAST_WORK_ROOT/evidence/pages-dispatch-proof.json"
+          test "$accepted" = "true"
+          echo "Pages dispatch accepted for ${AUTHORISATION_COMMIT}." >> "$GITHUB_STEP_SUMMARY"

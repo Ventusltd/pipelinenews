@@ -394,15 +394,15 @@ jobs:
                       progressive_generations.add(dependency_generation)
                       pending_generations.append(dependency_generation)
           candidate_chain = sorted(progressive_generations)
-          if candidate_chain != ["202608270055", "202608270844", "202608271329"]:
+          if candidate_chain != ["202608270055", "202608270844", "202608271329", "202608271524"]:
               raise AssertionError(f"unexpected progressive candidate chain: {candidate_chain}")
           progressive_outputs = [
               record
               for candidate_generation in candidate_chain
               for record in candidate_manifests[candidate_generation]["outputs"]
           ]
-          if len(progressive_outputs) != 15:
-              raise AssertionError(f"expected 15 progressive outputs, found {len(progressive_outputs)}")
+          if len(progressive_outputs) != 19:
+              raise AssertionError(f"expected 19 progressive outputs, found {len(progressive_outputs)}")
 
           registry_path = f"releases/data/{generation}-v8-fast-registry.json"
           registry_records = [record for record in outputs if record.get("path") == registry_path]
