@@ -1,0 +1,289 @@
+{
+  "schema": "pipelinenews.mobile-orientation-source-manifest.v1",
+  "generation": "202608272048",
+  "name": "PipelineNews Mobile Orientation Repair Candidate",
+  "source_parent_commit": "8c3d9443f175aacaf533b9148fe80106b207fd22",
+  "parent_generation": "202608271524",
+  "audit_generation": "202608271656",
+  "audit_source_commit": "6be8d21567e97a772d36d472a74e88a00d99a7c1",
+  "audit_evidence_commit": "bce84eb32b7464e9b560c9e9aa9f110feed62df7",
+  "rollback_generation": "202608270055",
+  "atlas_generation": "202608271329",
+  "protected_recovery_commit": "77bda8c3809d02550d06a1c4154315f56d1120fb",
+  "scope": "one-issue-mobile-short-viewport-repair",
+  "deployment": "not-authorised",
+  "project_posture": {
+    "owner": "Ventus Ltd",
+    "application": "non-commercial-open-source",
+    "publisher_redistribution_rights": "source-specific-not-inferred"
+  },
+  "source_boundary": [
+    ".github/workflows/202608272048-mobile-orientation-candidate.yml",
+    "build/javascript/202608272048-verify-v8-mobile-orientation-contract.mjs",
+    "index/202608272048-compile-v8-mobile-orientation.mjs",
+    "manifests/202608272048-mobile-orientation-candidate.json",
+    "ui/styles/202608272048-orientation.css"
+  ],
+  "source_files": [
+    {
+      "path": ".github/workflows/202608272048-mobile-orientation-candidate.yml",
+      "bytes": 66117,
+      "sha256": "ca246acd285f651e32ded86966c36b8bb376db245532b865b263709eebebcfe7"
+    },
+    {
+      "path": "build/javascript/202608272048-verify-v8-mobile-orientation-contract.mjs",
+      "bytes": 24970,
+      "sha256": "9ba5d4d06a7888bdce34d8e6dc0efd5f34061efb26a903d256209463e0241f1e"
+    },
+    {
+      "path": "index/202608272048-compile-v8-mobile-orientation.mjs",
+      "bytes": 25478,
+      "sha256": "3c447f4e2048927a08333acd4d5f18904ae97b6ed18382fc236be1ca0d091a29"
+    },
+    {
+      "path": "ui/styles/202608272048-orientation.css",
+      "bytes": 7131,
+      "sha256": "e9e1cbefd49f10d2d3b06f31274357a947672242159e9f1b50434ca175a870bc"
+    }
+  ],
+  "pinned_references": [
+    {
+      "path": "build/202608271524-v8-fast-site-manifest.json",
+      "bytes": 11125,
+      "sha256": "fef485accb1509297dbc64c5e30806c60d977bedb06591e8b324e7bbab06e818"
+    },
+    {
+      "path": "releases/202608271524-v8-fast-candidate.html",
+      "bytes": 9091,
+      "sha256": "fc457af07b26eafa19505f7daa160ce1e870146a056a0728fbb17e8dafd3e049"
+    },
+    {
+      "path": "releases/data/202608271524-fd2212a8c76d-v8-fast-news.json",
+      "bytes": 82460,
+      "sha256": "00cfbc6243e83cca274707a19b7848f776ce223d5e02808164e213dde887a8be"
+    },
+    {
+      "path": "releases/data/202608271524-v8-fast-registry.json",
+      "bytes": 17557,
+      "sha256": "db1a4899a47668f80b40b2ac3e4091ea5e244c7757b47a3ae2336a5c5aa264fb"
+    },
+    {
+      "path": "releases/javascript/202608271524-v8-fast-runtime.js",
+      "bytes": 42848,
+      "sha256": "95637eb69cedacb124f980dabd4881a652cf641eefd73bdf37e05900f84f0c92"
+    },
+    {
+      "path": "releases/javascript/202608271329-atlas-v8-deep-link-cartridge.js",
+      "bytes": 2945,
+      "sha256": "d8e997acea1ed6c628e4d69f27653a5fe9a21bb459ff95d4ee0a7d040b431ff7"
+    },
+    {
+      "path": "releases/styles/202608270055-v8-fast.css",
+      "bytes": 14397,
+      "sha256": "d6c8100dbf79dd02f65d78e4fc9cacae92f2e4b5a749ea0fd3ff481fe5bb4792"
+    },
+    {
+      "path": "atman/202608271656-mobile-ui-invariants.mjs",
+      "bytes": 8081,
+      "sha256": "3dbee93a7de2cc01f9fece3e3318b1f151871231ae254bff9cc67fe4fd69aae2"
+    },
+    {
+      "path": "atman/202608271656-verify-mobile-ui-browser.mjs",
+      "bytes": 78452,
+      "sha256": "f0f383cfd1a6ad0cc12f46a8a1173831ac7fed506cf4eabb59ae2d3e0ca68ca7"
+    },
+    {
+      "path": "atman/202608271656-compare-mobile-ui.mjs",
+      "bytes": 40196,
+      "sha256": "5fb162b9396db069dcd754c3deddc0bb0287522250265108426e7059ea342147"
+    },
+    {
+      "path": "manifests/202608271656-mobile-ui-comparator.json",
+      "bytes": 5181,
+      "sha256": "45e33fc5a14cbb73790bfa6d5cab6dcbc86d0f588b7244703adc623662c4dfe7"
+    },
+    {
+      "path": "atman/reports/202608271656/metrics.json",
+      "bytes": 139278,
+      "sha256": "c4bbf6697c0ad92a57f3b4696499bdaa81e979ff6118d1aee8ae46a12ea06894"
+    },
+    {
+      "path": "atman/reports/202608271656/report.md",
+      "bytes": 6176,
+      "sha256": "88a2915e0c62f10a4261a6e886379abab6c590376ef521ceaa3609860043c82c"
+    },
+    {
+      "path": "atman/reports/202608271656/artifact-manifest.json",
+      "bytes": 13480,
+      "sha256": "7c631ecae2ea793e5790886a1afa4f51ac19bb7586f03cb1d0bfa04a8cf1ebbe"
+    }
+  ],
+  "measured_audit": {
+    "source_commit": "6be8d21567e97a772d36d472a74e88a00d99a7c1",
+    "candidate_generation": "202608271524",
+    "mode": "audit",
+    "producer_status": "PASS",
+    "candidate_gate": "FAIL",
+    "failures": [
+      { "invariant": "I1", "cell": "L1" },
+      { "invariant": "I1", "cell": "L2" },
+      { "invariant": "I1", "cell": "L4" },
+      { "invariant": "I10", "cell": "L1" },
+      { "invariant": "I10", "cell": "L4" },
+      { "invariant": "I11", "cell": "L1" },
+      { "invariant": "I11", "cell": "L2" },
+      { "invariant": "I11", "cell": "L3" },
+      { "invariant": "I11", "cell": "L4" },
+      { "invariant": "I11", "cell": "P1" },
+      { "invariant": "I11", "cell": "P2" },
+      { "invariant": "I11", "cell": "T1" },
+      { "invariant": "I6", "cell": "L1" },
+      { "invariant": "I6", "cell": "L2" },
+      { "invariant": "I6", "cell": "L3" },
+      { "invariant": "I6", "cell": "L4" },
+      { "invariant": "I6", "cell": "P1" },
+      { "invariant": "I6", "cell": "P2" },
+      { "invariant": "I6", "cell": "T1" },
+      { "invariant": "I8", "cell": "L1" },
+      { "invariant": "I8", "cell": "L2" },
+      { "invariant": "I8", "cell": "L3" },
+      { "invariant": "I8", "cell": "L4" },
+      { "invariant": "I8", "cell": "P1" },
+      { "invariant": "I8", "cell": "P2" },
+      { "invariant": "I8", "cell": "T1" }
+    ],
+    "aggregate_records": 23,
+    "rotation_candidate": {
+      "viewport": "844x390",
+      "elements": 1745,
+      "cdp_nodes": 4250,
+      "listeners": 77,
+      "detached": 0,
+      "cycles": 3,
+      "status": "PASS"
+    }
+  },
+  "reconciliation": {
+    "proven_css_source": "local-202608271710-draft",
+    "excluded_timestamp": "202608272000",
+    "failed_attempts": [
+      {
+        "generation": "202608271906",
+        "run_id": "33102634868",
+        "failure": "release-relative-assets-not-staged"
+      },
+      {
+        "generation": "202608271934",
+        "run_id": "33104418233",
+        "failure": "runtime-identity-1524-expected-1934"
+      },
+      {
+        "generation": "202608271957",
+        "run_id": "33106228801",
+        "failure": "runtime-identity-1524-expected-1957"
+      },
+      {
+        "generation": "202608272001",
+        "run_id": "33106832748",
+        "failure": "candidate-invariant-gate",
+        "failed_cells": ["L1/I1", "L2/I1", "L3/I10", "L4/I1", "P1/I1", "P1/I7", "P2/I1"]
+      },
+      {
+        "generation": "202608272015",
+        "run_id": "33110044657",
+        "failure": "compatibility-esm-module-resolution",
+        "failed_job": "compatibility-browser",
+        "details": [
+          "rewritten-chronology-verifier-under-runner-temp-could-not-resolve-repo-local-playwright",
+          "commit-candidate-explicit-needs-omitted-compatibility-browser-but-aggregate-gate-transitively-blocked-publication"
+        ],
+        "successful_jobs": ["build", "candidate-static", "original-static", "rotations"],
+        "baseline_status_at_handover": "in-progress",
+        "publication": "skipped-fail-closed"
+      }
+    ]
+  },
+  "repair": {
+    "implementation": "additive-css-plus-deterministic-html-metadata",
+    "short_viewport_gates": {
+      "narrow_table_density": "(orientation: landscape) and (max-height: 500px) and (max-width: 768px)",
+      "cockpit": "(orientation: landscape) and (max-height: 500px) and (min-width: 769px)"
+    },
+    "narrow_mobile_path": "inherited-max-width-768-with-landscape-table-density-only",
+    "rotation_javascript_added": false,
+    "runtime_dom_identity_preserved_across_rotation": true,
+    "viewport_fit_cover": true,
+    "safe_area_insets": true,
+    "safe_area_hit_shield": "fixed-bottom-env-safe-area-inset-bottom",
+    "release_menu": "native-auto-popover-light-dismiss",
+    "desktop_navigation_preserved": true,
+    "tap_targets": "44px-primary-with-frozen-contract-exceptions-supported",
+    "text_size_adjust": "100%",
+    "signal_text_minimum_px": 10,
+    "table_max_height": "84dvh",
+    "generation_a_contract_reused_unchanged": true
+  },
+  "portrait_parity": {
+    "cells": ["P1", "P2"],
+    "method": "stable-landmark-pixel-identity-plus-declared-mask-delta",
+    "stable_components": [
+      ".masthead",
+      ".stories .story:first-child",
+      ".gauges .card:first-child"
+    ],
+    "declared_masks": [
+      ".sidebar",
+      ".header",
+      ".meta",
+      ".news-tools",
+      ".news-pager",
+      ".filters",
+      ".tablewrap",
+      ".project-window-controls",
+      ".gauges canvas",
+      "safe-area-padding-when-non-zero"
+    ],
+    "animated_canvas_mask_preserves_card_chrome_and_value": true,
+    "whole_page_pixel_identity_required": false
+  },
+  "successor_counts": {
+    "projects": 7680,
+    "capacity_mw": 356474.09,
+    "headlines": 136,
+    "canonical_uk_headlines": 47,
+    "international_headlines": 19
+  },
+  "bounded_runtime": {
+    "maximum_physical_project_rows": 50,
+    "maximum_physical_news_rows": 30,
+    "maximum_detail_fetch_concurrency": 4,
+    "maximum_initial_decoded_bytes": 2000000
+  },
+  "protected_routes": {
+    "stable_route_changed": false,
+    "current_pointer_changed": false,
+    "globalgrid_catalogue_changed": false,
+    "pages_workflow_changed": false,
+    "candidate_route_only": true,
+    "pages_fail_closed_behavior": "record-only-do-not-trigger-or-weaken"
+  },
+  "workflow": {
+    "browser_compute": "github-actions-only",
+    "independent_compiler_passes": 2,
+    "run_volatile_metadata_in_closure": true,
+    "deterministic_input_tuple": ["source_commit", "github_run_id"],
+    "cross_run_source_only_determinism_claimed": false,
+    "artifact_retry_strategy": "run-id-stable-names-with-producer-overwrite",
+    "mixed_attempt_binding": "source-commit-run-id-and-cell-envelope",
+    "unchanged_a_comparator_mode": "repair",
+    "comparator_shards": 6,
+    "aggregate_records": 23,
+    "candidate_gate_required": "PASS",
+    "rotation_node_stability_required": "PASS",
+    "desktop_navigation_regression_required": "PASS",
+    "immutable_output_commit": true,
+    "idempotent_output_replay": "accept-byte-identical-direct-child-only",
+    "advanced_main_behavior": "fail-closed",
+    "pages_capability": false
+  }
+}

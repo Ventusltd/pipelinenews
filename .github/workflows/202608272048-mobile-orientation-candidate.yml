@@ -1,0 +1,1252 @@
+name: Build PipelineNews Mobile Orientation Candidate 202608272048
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/202608272048-mobile-orientation-candidate.yml"
+      - "build/javascript/202608272048-verify-v8-mobile-orientation-contract.mjs"
+      - "index/202608272048-compile-v8-mobile-orientation.mjs"
+      - "manifests/202608272048-mobile-orientation-candidate.json"
+      - "ui/styles/202608272048-orientation.css"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pipelinenews-main-candidate-build
+  cancel-in-progress: false
+
+env:
+  ORIENTATION_GENERATION: "202608272048"
+  ORIENTATION_PARENT_GENERATION: "202608271524"
+  ORIENTATION_AUDIT_GENERATION: "202608271656"
+  ORIENTATION_ROLLBACK_GENERATION: "202608270055"
+  ORIENTATION_SOURCE_PARENT: "8c3d9443f175aacaf533b9148fe80106b207fd22"
+  ORIENTATION_WORK_ROOT: "work/202608272048-mobile-orientation"
+  ORIENTATION_SERVER_URL: "http://127.0.0.1:4173"
+  PLAYWRIGHT_VERSION: "1.55.0"
+  SHARP_VERSION: "0.34.3"
+
+jobs:
+  build:
+    name: Compile deterministic quarantine closure
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Configure Node
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: "22"
+
+      - name: Prove exact five-file progressive source boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse HEAD^)" = "$ORIENTATION_SOURCE_PARENT"
+          test "$GITHUB_SHA" != "$ORIENTATION_SOURCE_PARENT"
+          mkdir -p "$ORIENTATION_WORK_ROOT/evidence"
+          git diff --name-only "$ORIENTATION_SOURCE_PARENT" "$GITHUB_SHA" | LC_ALL=C sort \
+            > "$ORIENTATION_WORK_ROOT/evidence/source-paths.txt"
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { readFile, readdir, writeFile } from "node:fs/promises";
+          const generation = process.env.ORIENTATION_GENERATION;
+          const expected = [
+            `.github/workflows/${generation}-mobile-orientation-candidate.yml`,
+            `build/javascript/${generation}-verify-v8-mobile-orientation-contract.mjs`,
+            `index/${generation}-compile-v8-mobile-orientation.mjs`,
+            `manifests/${generation}-mobile-orientation-candidate.json`,
+            `ui/styles/${generation}-orientation.css`,
+          ].sort();
+          const actual = (await readFile(`${process.env.ORIENTATION_WORK_ROOT}/evidence/source-paths.txt`, "utf8"))
+            .trim().split("\n").filter(Boolean);
+          assert.deepEqual(actual, expected);
+          assert.ok(actual.every((relative) => relative.includes(generation)));
+          assert.ok(actual.every((relative) => !relative.startsWith("releases/") && !relative.startsWith("data/")));
+          assert.match(generation, /^\d{12}$/u);
+          assert.ok(BigInt(generation) > 202608272015n);
+          const fullCandidates = (await readdir("releases"))
+            .map((name) => /^(\d{12})-v8-fast-candidate\.html$/u.exec(name)?.[1])
+            .filter(Boolean);
+          assert.ok(fullCandidates.length > 0);
+          assert.ok(fullCandidates.every((value) => BigInt(value) < BigInt(generation)),
+            `generation ${generation} does not supersede every full candidate`);
+          const workflow = await readFile(expected[0], "utf8");
+          for (const forbidden of [
+            ["actions", "deploy-pages@"].join("/"),
+            ["actions", "upload-pages-artifact@"].join("/"),
+            ["pages", "write"].join(": "),
+            ["id-token", "write"].join(": "),
+            ["workflows", "pages.yml/dispatches"].join("/"),
+          ]) assert.ok(!workflow.includes(forbidden), `deployment capability entered workflow: ${forbidden}`);
+          const retryVolatileExpression = [["$", "{{"].join(""),
+            ["github", "run_attempt"].join("."), "}}"].join(" ");
+          assert.ok(!workflow.includes(retryVolatileExpression),
+            "retry-volatile run_attempt entered artifact transport identity");
+          const actionLines = workflow.split("\n")
+            .map((line) => line.trim())
+            .filter((line) => line.startsWith("uses: actions/"));
+          const actionPins = new Map([
+            ["actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09", 5],
+            ["actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444", 4],
+            ["actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02", 5],
+            ["actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0", 4],
+          ]);
+          assert.equal(actionLines.length, 18);
+          for (const [action, expectedCount] of actionPins) {
+            assert.equal(actionLines.filter((line) => line === `uses: ${action}`).length,
+              expectedCount, `action pin count changed for ${action}`);
+          }
+          assert.equal(workflow.split("\n")
+            .filter((line) => line.trim() === "overwrite: true").length, 5);
+          await writeFile(`${process.env.ORIENTATION_WORK_ROOT}/evidence/source-scope-proof.json`, `${JSON.stringify({
+            schema: "pipelinenews.mobile-orientation-source-scope-proof.v1",
+            generation,
+            source_commit: process.env.GITHUB_SHA,
+            source_parent_commit: process.env.ORIENTATION_SOURCE_PARENT,
+            changed_paths: actual,
+            prior_releases_changed: false,
+            stable_route_changed: false,
+            current_pointer_changed: false,
+            catalogue_changed: false,
+            deployment_authorised: false,
+            artifact_retry_strategy: "run-id-stable-names-with-producer-overwrite",
+          }, null, 2)}\n`);
+          NODE
+          git diff --quiet "$ORIENTATION_SOURCE_PARENT" "$GITHUB_SHA" -- \
+            .github/workflows/pages.yml \
+            .github/workflows/authorise-v8-fast-pages.yml \
+            archive/202608261547-pipelinenews/releases/current.json \
+            atman/202608262014-build-pages.py \
+            build/202608270055-v8-fast-site-manifest.json \
+            build/202608271524-v8-fast-site-manifest.json \
+            releases/202608270055-v8-fast-candidate.html \
+            releases/202608271524-v8-fast-candidate.html \
+            releases/current.json
+
+      - name: Verify source manifest and pinned references
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { lstat, readFile } from "node:fs/promises";
+          const generation = process.env.ORIENTATION_GENERATION;
+          const manifestPath = `manifests/${generation}-mobile-orientation-candidate.json`;
+          const manifest = JSON.parse(await readFile(manifestPath));
+          assert.equal(manifest.schema, "pipelinenews.mobile-orientation-source-manifest.v1");
+          assert.equal(manifest.generation, generation);
+          assert.equal(manifest.source_parent_commit, process.env.ORIENTATION_SOURCE_PARENT);
+          assert.equal(manifest.parent_generation, process.env.ORIENTATION_PARENT_GENERATION);
+          assert.equal(manifest.audit_generation, process.env.ORIENTATION_AUDIT_GENERATION);
+          assert.equal(manifest.rollback_generation, process.env.ORIENTATION_ROLLBACK_GENERATION);
+          assert.equal(manifest.scope, "one-issue-mobile-short-viewport-repair");
+          assert.equal(manifest.deployment, "not-authorised");
+          assert.deepEqual(manifest.project_posture, {
+            owner: "Ventus Ltd",
+            application: "non-commercial-open-source",
+            publisher_redistribution_rights: "source-specific-not-inferred",
+          });
+          const expectedBoundary = [
+            `.github/workflows/${generation}-mobile-orientation-candidate.yml`,
+            `build/javascript/${generation}-verify-v8-mobile-orientation-contract.mjs`,
+            `index/${generation}-compile-v8-mobile-orientation.mjs`,
+            manifestPath,
+            `ui/styles/${generation}-orientation.css`,
+          ].sort();
+          assert.deepEqual([...manifest.source_boundary].sort(), expectedBoundary);
+          assert.deepEqual(manifest.source_files.map(({ path }) => path), expectedBoundary.filter((path) => path !== manifestPath));
+          for (const record of [...manifest.source_files, ...manifest.pinned_references]) {
+            assert.deepEqual(Object.keys(record).sort(), ["bytes", "path", "sha256"]);
+            assert.equal(typeof record.bytes, "number");
+            assert.match(record.sha256, /^[a-f0-9]{64}$/u);
+            const metadata = await lstat(record.path);
+            assert.ok(metadata.isFile() && !metadata.isSymbolicLink());
+            const bytes = await readFile(record.path);
+            assert.equal(bytes.length, record.bytes, `byte count changed: ${record.path}`);
+            assert.equal(createHash("sha256").update(bytes).digest("hex"), record.sha256, `hash changed: ${record.path}`);
+          }
+          assert.equal(manifest.measured_audit.mode, "audit");
+          assert.equal(manifest.measured_audit.producer_status, "PASS");
+          assert.equal(manifest.measured_audit.candidate_gate, "FAIL");
+          assert.equal(manifest.measured_audit.aggregate_records, 23);
+          assert.equal(manifest.measured_audit.rotation_candidate.status, "PASS");
+          assert.equal(manifest.repair.rotation_javascript_added, false);
+          assert.equal(manifest.repair.runtime_dom_identity_preserved_across_rotation, true);
+          assert.equal(manifest.repair.desktop_navigation_preserved, true);
+          assert.equal(manifest.repair.table_max_height, "84dvh");
+          assert.deepEqual(manifest.successor_counts, {
+            projects: 7680,
+            capacity_mw: 356474.09,
+            headlines: 136,
+            canonical_uk_headlines: 47,
+            international_headlines: 19,
+          });
+          assert.equal(manifest.workflow.comparator_shards, 6);
+          assert.equal(manifest.workflow.aggregate_records, 23);
+          assert.equal(manifest.workflow.pages_capability, false);
+          NODE
+
+      - name: Reject existing immutable output and syntax-check source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "build/$ORIENTATION_GENERATION-v8-fast-site-manifest.json"
+          test ! -e "releases/$ORIENTATION_GENERATION-v8-fast-candidate.html"
+          test ! -e "releases/javascript/$ORIENTATION_GENERATION-v8-fast-runtime.js"
+          test ! -e "releases/data/$ORIENTATION_GENERATION-v8-fast-registry.json"
+          test ! -e "releases/styles/$ORIENTATION_GENERATION-orientation.css"
+          node --check "index/$ORIENTATION_GENERATION-compile-v8-mobile-orientation.mjs"
+          node --check "build/javascript/$ORIENTATION_GENERATION-verify-v8-mobile-orientation-contract.mjs"
+          test "$(sha256sum atman/202608271656-mobile-ui-invariants.mjs | cut -d' ' -f1)" = \
+            "3dbee93a7de2cc01f9fece3e3318b1f151871231ae254bff9cc67fe4fd69aae2"
+          test "$(sha256sum atman/202608271656-verify-mobile-ui-browser.mjs | cut -d' ' -f1)" = \
+            "f0f383cfd1a6ad0cc12f46a8a1173831ac7fed506cf4eabb59ae2d3e0ca68ca7"
+          test "$(sha256sum atman/202608271656-compare-mobile-ui.mjs | cut -d' ' -f1)" = \
+            "5fb162b9396db069dcd754c3deddc0bb0287522250265108426e7059ea342147"
+          test "$(sha256sum releases/javascript/202608271329-atlas-v8-deep-link-cartridge.js | cut -d' ' -f1)" = \
+            "d8e997acea1ed6c628e4d69f27653a5fe9a21bb459ff95d4ee0a7d040b431ff7"
+          ! grep -R "__[A-Z0-9_]*__\|SHA256_PENDING" \
+            "index/$ORIENTATION_GENERATION-compile-v8-mobile-orientation.mjs" \
+            "build/javascript/$ORIENTATION_GENERATION-verify-v8-mobile-orientation-contract.mjs" \
+            "ui/styles/$ORIENTATION_GENERATION-orientation.css" \
+            "manifests/$ORIENTATION_GENERATION-mobile-orientation-candidate.json"
+
+      - name: Compile two independent candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          SOURCE_COMMIT="$GITHUB_SHA" GITHUB_RUN_ID="$GITHUB_RUN_ID" node \
+            "index/$ORIENTATION_GENERATION-compile-v8-mobile-orientation.mjs" \
+            --out-root "$ORIENTATION_WORK_ROOT/pass-a" \
+            | tee "$ORIENTATION_WORK_ROOT/evidence/compiler-pass-a.json"
+          SOURCE_COMMIT="$GITHUB_SHA" GITHUB_RUN_ID="$GITHUB_RUN_ID" node \
+            "index/$ORIENTATION_GENERATION-compile-v8-mobile-orientation.mjs" \
+            --out-root "$ORIENTATION_WORK_ROOT/pass-b" \
+            | tee "$ORIENTATION_WORK_ROOT/evidence/compiler-pass-b.json"
+
+      - name: Prove byte determinism and materialise quarantine closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { constants } from "node:fs";
+          import { copyFile, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+          import path from "node:path";
+          const work = process.env.ORIENTATION_WORK_ROOT;
+          const generation = process.env.ORIENTATION_GENERATION;
+          const passA = path.resolve(work, "pass-a");
+          const passB = path.resolve(work, "pass-b");
+          const manifestRelative = `build/${generation}-v8-fast-site-manifest.json`;
+          const manifest = JSON.parse(await readFile(path.join(passA, manifestRelative)));
+          assert.equal(manifest.source_commit, process.env.GITHUB_SHA);
+          assert.equal(manifest.source_parent_commit, process.env.ORIENTATION_SOURCE_PARENT);
+          assert.equal(manifest.github_run_id, process.env.GITHUB_RUN_ID);
+          assert.deepEqual(manifest.deterministic_input_tuple, {
+            source_commit: process.env.GITHUB_SHA,
+            github_run_id: process.env.GITHUB_RUN_ID,
+          });
+          assert.equal(manifest.deployment, "not-authorised");
+          const expected = [manifestRelative, ...manifest.outputs.map(({ path: relative }) => relative)].sort();
+          assert.equal(expected.length, 5);
+          async function walk(directory, base = directory) {
+            const files = [];
+            for (const entry of await readdir(directory, { withFileTypes: true })) {
+              const filename = path.join(directory, entry.name);
+              if (entry.isDirectory()) files.push(...await walk(filename, base));
+              else files.push(path.relative(base, filename).split(path.sep).join("/"));
+            }
+            return files.sort();
+          }
+          assert.deepEqual(await walk(passA), expected);
+          assert.deepEqual(await walk(passB), expected);
+          const outputRecords = new Map(manifest.outputs.map((record) => [record.path, record]));
+          const files = [];
+          for (const relative of expected) {
+            const left = await readFile(path.join(passA, relative));
+            const right = await readFile(path.join(passB, relative));
+            assert.ok(left.equals(right), `independent compiler bytes differ: ${relative}`);
+            if (relative !== manifestRelative) {
+              const record = outputRecords.get(relative);
+              assert.equal(left.length, record.bytes);
+              assert.equal(createHash("sha256").update(left).digest("hex"), record.sha256);
+            }
+            const target = path.resolve(relative);
+            assert.ok(target.startsWith(`${process.cwd()}${path.sep}`));
+            await mkdir(path.dirname(target), { recursive: true });
+            await copyFile(path.join(passA, relative), target, constants.COPYFILE_EXCL);
+            files.push({ path: relative, bytes: left.length, sha256: createHash("sha256").update(left).digest("hex") });
+          }
+          await writeFile(`${work}/evidence/determinism-proof.json`, `${JSON.stringify({
+            schema: "pipelinenews.mobile-orientation-determinism-proof.v1",
+            generation,
+            source_commit: process.env.GITHUB_SHA,
+            byte_identical_passes: true,
+            files,
+          }, null, 2)}\n`);
+          NODE
+
+      - name: Verify identity chronology Atlas and bounded runtime contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          node "build/javascript/$ORIENTATION_GENERATION-verify-v8-mobile-orientation-contract.mjs" \
+            --root . \
+            --generation "$ORIENTATION_GENERATION" \
+            --source-manifest "build/$ORIENTATION_GENERATION-v8-fast-site-manifest.json" \
+            | tee "$ORIENTATION_WORK_ROOT/evidence/contract-proof.json"
+          test "$(find "$ORIENTATION_WORK_ROOT/pass-a" -type f | wc -l)" -eq 5
+          test "$(du -sb "$ORIENTATION_WORK_ROOT/pass-a" | cut -f1)" -lt 2000000
+
+      - name: Record fail-closed Pages boundary without staging or deployment
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { access, readFile, writeFile } from "node:fs/promises";
+          import path from "node:path";
+          const generation = process.env.ORIENTATION_GENERATION;
+          const authorisation = `build/authorisations/${generation}-v8-fast-pages-authorisation.json`;
+          const absent = await access(authorisation).then(() => false, () => true);
+          assert.equal(absent, true, "orientation candidate unexpectedly has Pages authorisation");
+          const workflow = await readFile(`.github/workflows/${generation}-mobile-orientation-candidate.yml`, "utf8");
+          for (const forbidden of [
+            ["actions", "deploy-pages@"].join("/"),
+            ["actions", "upload-pages-artifact@"].join("/"),
+            ["pages", "write"].join(": "),
+            ["id-token", "write"].join(": "),
+          ]) {
+            assert.ok(!workflow.includes(forbidden));
+          }
+          await writeFile(`${process.env.ORIENTATION_WORK_ROOT}/evidence/pages-boundary-proof.json`, `${JSON.stringify({
+            schema: "pipelinenews.mobile-orientation-pages-boundary-proof.v1",
+            generation,
+            deployment: "not-authorised",
+            authorisation_path: path.posix.normalize(authorisation),
+            authorisation_absent: true,
+            pages_workflow_invoked: false,
+            pages_capability_present: false,
+            stable_route_changed: false,
+            current_pointer_changed: false,
+            globalgrid_catalogue_changed: false,
+            quarantine_interlock: "recorded-fail-closed-not-triggered-or-weakened",
+            status: "PASS",
+          }, null, 2)}\n`);
+          NODE
+
+      - name: Upload immutable closure
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pipelinenews-mobile-orientation-closure-202608272048-${{ github.run_id }}
+          overwrite: true
+          path: ${{ env.ORIENTATION_WORK_ROOT }}/pass-a
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload build evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pipelinenews-mobile-orientation-build-evidence-202608272048-${{ github.run_id }}
+          overwrite: true
+          path: ${{ env.ORIENTATION_WORK_ROOT }}/evidence
+          if-no-files-found: error
+          retention-days: 30
+
+  compatibility-browser:
+    name: Chronology Atlas desktop and portrait parity
+    needs: build
+    if: needs.build.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Configure Node
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: "22"
+
+      - name: Download and materialise verified closure
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          name: pipelinenews-mobile-orientation-closure-202608272048-${{ github.run_id }}
+          path: ${{ env.ORIENTATION_WORK_ROOT }}/incoming
+
+      - name: Materialise exact five generated files
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { constants } from "node:fs";
+          import { copyFile, mkdir, readFile, readdir } from "node:fs/promises";
+          import path from "node:path";
+          const incoming = path.resolve(process.env.ORIENTATION_WORK_ROOT, "incoming");
+          const generation = process.env.ORIENTATION_GENERATION;
+          const manifestPath = `build/${generation}-v8-fast-site-manifest.json`;
+          const manifest = JSON.parse(await readFile(path.join(incoming, manifestPath)));
+          assert.equal(manifest.source_commit, process.env.GITHUB_SHA);
+          assert.equal(manifest.github_run_id, process.env.GITHUB_RUN_ID);
+          assert.equal(manifest.deployment, "not-authorised");
+          const expected = [manifestPath, ...manifest.outputs.map(({ path: relative }) => relative)].sort();
+          async function walk(directory, base = directory) {
+            const result = [];
+            for (const entry of await readdir(directory, { withFileTypes: true })) {
+              const filename = path.join(directory, entry.name);
+              if (entry.isDirectory()) result.push(...await walk(filename, base));
+              else result.push(path.relative(base, filename).split(path.sep).join("/"));
+            }
+            return result.sort();
+          }
+          assert.deepEqual(await walk(incoming), expected);
+          for (const relative of expected) {
+            const target = path.resolve(relative);
+            assert.ok(target.startsWith(`${process.cwd()}${path.sep}`));
+            await mkdir(path.dirname(target), { recursive: true });
+            await copyFile(path.join(incoming, relative), target, constants.COPYFILE_EXCL);
+          }
+          NODE
+
+      - name: Install pinned browser harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --no-package-lock \
+            "playwright@$PLAYWRIGHT_VERSION" "sharp@$SHARP_VERSION"
+          test "$(node -p "require('playwright/package.json').version")" = "$PLAYWRIGHT_VERSION"
+          test "$(node -p "require('sharp/package.json').version")" = "$SHARP_VERSION"
+          npx playwright install --with-deps chromium
+
+      - name: Start hermetic candidate server
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$ORIENTATION_WORK_ROOT/compatibility"
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory . \
+            > "$RUNNER_TEMP/$ORIENTATION_GENERATION-compatibility-http.log" 2>&1 &
+          echo "$!" > "$ORIENTATION_WORK_ROOT/compatibility/http-server.pid"
+          for attempt in {1..30}; do
+            if curl --fail --silent --show-error \
+              "$ORIENTATION_SERVER_URL/releases/$ORIENTATION_GENERATION-v8-fast-candidate.html" >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl --fail --silent --show-error \
+            "$ORIENTATION_SERVER_URL/releases/$ORIENTATION_GENERATION-v8-fast-candidate.html" >/dev/null
+
+      - name: Preserve chronology and Atlas on desktop and portrait
+        shell: bash
+        env:
+          FAST_SITE_URL: http://127.0.0.1:4173/releases/202608272048-v8-fast-candidate.html
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import { readFile, writeFile } from "node:fs/promises";
+          const source = await readFile("build/javascript/202608271524-verify-v8-news-chronology-browser.mjs", "utf8");
+          const rewritten = source.replace(
+            'const GENERATION = "202608271524";',
+            `const GENERATION = "${process.env.ORIENTATION_GENERATION}";`,
+          );
+          if (rewritten === source) throw new Error("chronology verifier generation replacement did not occur");
+          const target = `${process.env.ORIENTATION_WORK_ROOT}/compatibility/${process.env.ORIENTATION_GENERATION}-chronology-browser.mjs`;
+          await writeFile(target, rewritten);
+          NODE
+          node "$ORIENTATION_WORK_ROOT/compatibility/$ORIENTATION_GENERATION-chronology-browser.mjs" \
+            | tee "$ORIENTATION_WORK_ROOT/compatibility/chronology-atlas-browser-proof.json"
+
+      - name: Prove desktop nav landscape target size and masked portrait parity
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE' \
+            | tee "$ORIENTATION_WORK_ROOT/compatibility/ui-compatibility-proof.json"
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { chromium } from "playwright";
+          import sharp from "sharp";
+          const base = process.env.ORIENTATION_SERVER_URL;
+          const generation = process.env.ORIENTATION_GENERATION;
+          const parentUrl = `${base}/releases/202608271524-v8-fast-candidate.html`;
+          const candidateUrl = `${base}/releases/${generation}-v8-fast-candidate.html`;
+          const browser = await chromium.launch({ headless: true });
+          const proof = { desktop: null, landscape: [], portrait: [] };
+          const errors = [];
+          const ready = async (page) => {
+            page.on("console", (message) => { if (message.type() === "error") errors.push(message.text()); });
+            page.on("pageerror", (error) => errors.push(error.message));
+            await page.waitForFunction(() => (
+              document.body.dataset.fastReady === "true"
+              && globalThis.__PIPELINENEWS_FAST__?.newsReady === true
+              && globalThis.__PIPELINENEWS_FAST__?.chartsReady === true
+            ), null, { timeout: 60_000 });
+          };
+          try {
+            const desktopContext = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+            const desktop = await desktopContext.newPage();
+            await desktop.goto(candidateUrl, { waitUntil: "domcontentloaded", timeout: 60_000 });
+            await ready(desktop);
+            proof.desktop = await desktop.evaluate(() => {
+              const visible = (element) => {
+                const style = getComputedStyle(element);
+                const rect = element.getBoundingClientRect();
+                return style.display !== "none" && rect.width > 0 && rect.height > 0;
+              };
+              return {
+                desktop_nav_visible: visible(document.querySelector(".nav-desktop")),
+                desktop_links: document.querySelectorAll(".nav-desktop a").length,
+                desktop_export_visible: visible(document.querySelector(".nav-desktop #export")),
+                opener_visible: visible(document.querySelector(".release-menu-opener")),
+                mobile_nav_visible: visible(document.querySelector(".nav-mobile")),
+              };
+            });
+            assert.deepEqual(proof.desktop, {
+              desktop_nav_visible: true,
+              desktop_links: 21,
+              desktop_export_visible: true,
+              opener_visible: false,
+              mobile_nav_visible: false,
+            });
+            await desktopContext.close();
+
+            for (const profile of [
+              { id: "L1", width: 844, height: 390, dpr: 3, repd: "17494", project: "East Pye Solar Farm" },
+              { id: "L2", width: 932, height: 430, dpr: 3, repd: "13599", project: "Beacon Fen Energy Park" },
+              { id: "L3", width: 667, height: 375, dpr: 2, repd: "17494", project: "East Pye Solar Farm" },
+              { id: "L4", width: 852, height: 393, dpr: 3, repd: "13599", project: "Beacon Fen Energy Park" },
+            ]) {
+              const context = await browser.newContext({
+                viewport: { width: profile.width, height: profile.height },
+                deviceScaleFactor: profile.dpr,
+                isMobile: true,
+                hasTouch: true,
+              });
+              await context.route("https://globalgrid2050.com/repd_grid_atlasv8/**", async (route) => {
+                const query = new URL(route.request().url()).searchParams;
+                const selected = query.get("repd_ref") === profile.repd;
+                await route.fulfill({
+                  status: 200,
+                  contentType: "text/html; charset=utf-8",
+                  body: `<!doctype html><main id="atlas" data-selected="${selected}" data-ref="${query.get("repd_ref") || ""}"></main>`,
+                });
+              });
+              const page = await context.newPage();
+              await page.goto(candidateUrl, { waitUntil: "domcontentloaded", timeout: 60_000 });
+              await ready(page);
+              await page.locator("#search").fill(profile.repd);
+              const link = page.locator(`#repd-${profile.repd} a.atlaslink`);
+              await link.waitFor({ state: "visible" });
+              await link.scrollIntoViewIfNeeded();
+              const rect = await link.boundingBox();
+              assert.ok(rect && rect.width >= 43.5 && rect.height >= 43.5);
+              const hit = await link.evaluate((element) => {
+                const box = element.getBoundingClientRect();
+                const x = Math.max(0, Math.min(innerWidth - 1, box.left + box.width / 2));
+                const y = Math.max(0, Math.min(innerHeight - 1, box.top + box.height / 2));
+                const owner = document.elementFromPoint(x, y);
+                return Boolean(owner && (owner === element || element.contains(owner)));
+              });
+              assert.equal(hit, true);
+              const href = new URL(await link.getAttribute("href"));
+              assert.equal(href.protocol, "https:");
+              assert.equal(href.hostname, "globalgrid2050.com");
+              assert.equal(href.pathname, "/repd_grid_atlasv8/");
+              assert.equal(href.searchParams.get("repd_ref"), profile.repd);
+              assert.equal(href.searchParams.get("project"), profile.project);
+              const [atlas] = await Promise.all([context.waitForEvent("page"), link.click()]);
+              await atlas.waitForLoadState("domcontentloaded");
+              assert.equal(await atlas.locator("#atlas").getAttribute("data-selected"), "true");
+              assert.equal(await atlas.locator("#atlas").getAttribute("data-ref"), profile.repd);
+              await atlas.close();
+              proof.landscape.push({
+                id: profile.id,
+                viewport: [profile.width, profile.height],
+                repd_ref: profile.repd,
+                project: profile.project,
+                href: href.href,
+                rect,
+                hit,
+                selected: true,
+              });
+              await context.close();
+            }
+
+            const selectors = [".masthead", ".stories .story:first-child", ".gauges .card:first-child"];
+            const normalise = `
+              .sidebar,.header,.meta,.news-tools,.news-pager,.filters,.tablewrap,.project-window-controls{display:none!important}
+              .gauges canvas{visibility:hidden!important}
+              html,body{padding:0!important;scroll-padding:0!important;scroll-behavior:auto!important}
+            `;
+            for (const cell of [
+              { id: "P1", width: 390, height: 844, dpr: 3 },
+              { id: "P2", width: 375, height: 667, dpr: 2 },
+            ]) {
+              const captures = {};
+              for (const [target, url] of Object.entries({ parent: parentUrl, candidate: candidateUrl })) {
+                const context = await browser.newContext({
+                  viewport: { width: cell.width, height: cell.height },
+                  deviceScaleFactor: cell.dpr,
+                  isMobile: true,
+                  hasTouch: true,
+                });
+                const page = await context.newPage();
+                await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60_000 });
+                await ready(page);
+                const components = {};
+                for (const selector of selectors) {
+                  const component = page.locator(selector).first();
+                  const screenshotOptions = { type: "png", animations: "disabled" };
+                  if (selector === ".gauges .card:first-child") {
+                    screenshotOptions.style = ".gauges canvas{visibility:hidden!important}";
+                  }
+                  const bytes = await component.screenshot(screenshotOptions);
+                  components[selector] = { bytes, sha256: createHash("sha256").update(bytes).digest("hex") };
+                }
+                await page.addStyleTag({ content: normalise });
+                await page.evaluate(() => {
+                  scrollTo(0, 0);
+                  document.querySelector(".main")?.scrollTo(0, 0);
+                });
+                await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => resolve())));
+                const viewport = await page.screenshot({ type: "png", animations: "disabled", scale: "css" });
+                const raw = await sharp(viewport).removeAlpha().raw().toBuffer({ resolveWithObject: true });
+                captures[target] = { components, viewport, raw };
+                await context.close();
+              }
+              const stable = selectors.map((selector) => ({
+                selector,
+                parent_sha256: captures.parent.components[selector].sha256,
+                candidate_sha256: captures.candidate.components[selector].sha256,
+                byte_identical: captures.parent.components[selector].bytes.equals(captures.candidate.components[selector].bytes),
+              }));
+              assert.ok(stable.every(({ byte_identical }) => byte_identical), `${cell.id} stable landmark changed`);
+              assert.deepEqual(captures.parent.raw.info, captures.candidate.raw.info);
+              let changed = 0;
+              const left = captures.parent.raw.data;
+              const right = captures.candidate.raw.data;
+              for (let index = 0; index < left.length; index += 3) {
+                if (left[index] !== right[index] || left[index + 1] !== right[index + 1] || left[index + 2] !== right[index + 2]) changed += 1;
+              }
+              const total = captures.parent.raw.info.width * captures.parent.raw.info.height;
+              const ratio = changed / total;
+              assert.ok(ratio <= 0.001, `${cell.id} declared-mask-normalised diff ${ratio}`);
+              proof.portrait.push({
+                cell: cell.id,
+                viewport: [cell.width, cell.height],
+                stable_landmarks: stable,
+                normalised_pixel_diff: { changed_pixels: changed, total_pixels: total, ratio, tolerance: 0.001 },
+                declared_masks: [
+                  ".sidebar",
+                  ".header",
+                  ".meta",
+                  ".news-tools",
+                  ".news-pager",
+                  ".filters",
+                  ".tablewrap",
+                  ".project-window-controls",
+                  ".gauges canvas",
+                  "safe-area-padding-when-non-zero",
+                ],
+              });
+            }
+          } finally {
+            await browser.close();
+          }
+          assert.deepEqual(errors, []);
+          process.stdout.write(`${JSON.stringify({
+            schema: "pipelinenews.mobile-orientation-ui-compatibility-proof.v1",
+            generation,
+            atlas_cartridge_sha256: "d8e997acea1ed6c628e4d69f27653a5fe9a21bb459ff95d4ee0a7d040b431ff7",
+            ...proof,
+            errors,
+            status: "PASS",
+          }, null, 2)}\n`);
+          NODE
+          kill "$(cat "$ORIENTATION_WORK_ROOT/compatibility/http-server.pid")" 2>/dev/null || true
+
+      - name: Upload compatibility proof
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pipelinenews-mobile-orientation-compatibility-202608272048-${{ github.run_id }}
+          overwrite: true
+          path: ${{ env.ORIENTATION_WORK_ROOT }}/compatibility
+          if-no-files-found: error
+          retention-days: 30
+
+  mobile-ui-shards:
+    name: Repair gate ${{ matrix.id }}
+    needs: build
+    if: needs.build.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix:
+        include:
+          - id: candidate-static
+            target_ids: candidate
+            cell_ids: P1,P2,L1,L2,L3,L4,T1
+            include_rotate: "false"
+          - id: original-static
+            target_ids: original
+            cell_ids: P1,P2,L1,L2,L3,L4,T1
+            include_rotate: "false"
+          - id: baseline-a
+            target_ids: baseline
+            cell_ids: P1,P2,L1
+            include_rotate: "false"
+          - id: baseline-b
+            target_ids: baseline
+            cell_ids: L2,L3
+            include_rotate: "false"
+          - id: baseline-c
+            target_ids: baseline
+            cell_ids: L4,T1
+            include_rotate: "false"
+          - id: rotations
+            target_ids: candidate,baseline
+            cell_ids: none
+            include_rotate: "true"
+    env:
+      MOBILE_UI_MODE: repair
+      MOBILE_UI_TARGET_IDS: ${{ matrix.target_ids }}
+      MOBILE_UI_CELL_IDS: ${{ matrix.cell_ids }}
+      MOBILE_UI_INCLUDE_ROTATE: ${{ matrix.include_rotate }}
+      MOBILE_UI_SHARD_ID: ${{ matrix.id }}
+      MOBILE_UI_SOURCE_COMMIT: ${{ github.sha }}
+      MOBILE_UI_CANDIDATE_GENERATION: "202608272048"
+      MOBILE_UI_CANDIDATE_URL: http://127.0.0.1:4173/releases/202608272048-v8-fast-candidate.html
+      SHARD_RAW_DIR: work/202608272048-mobile-orientation/shards/${{ matrix.id }}/raw
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Configure Node
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: "22"
+
+      - name: Download verified closure
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          name: pipelinenews-mobile-orientation-closure-202608272048-${{ github.run_id }}
+          path: ${{ env.ORIENTATION_WORK_ROOT }}/incoming
+
+      - name: Materialise closure and prove unchanged comparator
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$SHARD_RAW_DIR"
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { constants } from "node:fs";
+          import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
+          import path from "node:path";
+          const incoming = path.resolve(process.env.ORIENTATION_WORK_ROOT, "incoming");
+          const generation = process.env.ORIENTATION_GENERATION;
+          const manifestPath = `build/${generation}-v8-fast-site-manifest.json`;
+          const manifest = JSON.parse(await readFile(path.join(incoming, manifestPath)));
+          assert.equal(manifest.source_commit, process.env.GITHUB_SHA);
+          assert.equal(manifest.github_run_id, process.env.GITHUB_RUN_ID);
+          assert.equal(manifest.deployment, "not-authorised");
+          const expected = [manifestPath, ...manifest.outputs.map(({ path: relative }) => relative)].sort();
+          assert.equal(expected.length, 5);
+          for (const relative of expected) {
+            const target = path.resolve(relative);
+            assert.ok(target.startsWith(`${process.cwd()}${path.sep}`));
+            await mkdir(path.dirname(target), { recursive: true });
+            await copyFile(path.join(incoming, relative), target, constants.COPYFILE_EXCL);
+          }
+          await writeFile(`${process.env.SHARD_RAW_DIR}/source-envelope.json`, `${JSON.stringify({
+            schema: "pipelinenews.mobile-orientation-repair-source-envelope.v1",
+            generation: process.env.ORIENTATION_AUDIT_GENERATION,
+            source_commit: process.env.GITHUB_SHA,
+            github_run_id: process.env.GITHUB_RUN_ID,
+            candidate_generation: generation,
+            candidate_source_parent: process.env.ORIENTATION_SOURCE_PARENT,
+            comparator_mode: "repair",
+            comparator_files: {
+              contract: "3dbee93a7de2cc01f9fece3e3318b1f151871231ae254bff9cc67fe4fd69aae2",
+              verifier: "f0f383cfd1a6ad0cc12f46a8a1173831ac7fed506cf4eabb59ae2d3e0ca68ca7",
+              comparator: "5fb162b9396db069dcd754c3deddc0bb0287522250265108426e7059ea342147",
+            },
+            project_posture: {
+              owner: "Ventus Ltd",
+              application: "non-commercial-open-source",
+              publisher_redistribution_rights: "source-specific-not-inferred",
+            },
+            deployment: "not-authorised",
+          }, null, 2)}\n`);
+          NODE
+          test "$(sha256sum atman/202608271656-mobile-ui-invariants.mjs | cut -d' ' -f1)" = \
+            "3dbee93a7de2cc01f9fece3e3318b1f151871231ae254bff9cc67fe4fd69aae2"
+          test "$(sha256sum atman/202608271656-verify-mobile-ui-browser.mjs | cut -d' ' -f1)" = \
+            "f0f383cfd1a6ad0cc12f46a8a1173831ac7fed506cf4eabb59ae2d3e0ca68ca7"
+          test "$(sha256sum atman/202608271656-compare-mobile-ui.mjs | cut -d' ' -f1)" = \
+            "5fb162b9396db069dcd754c3deddc0bb0287522250265108426e7059ea342147"
+
+      - name: Install pinned browser and screenshot encoder
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --no-package-lock \
+            "playwright@$PLAYWRIGHT_VERSION" "sharp@$SHARP_VERSION"
+          test "$(node -p "require('playwright/package.json').version")" = "$PLAYWRIGHT_VERSION"
+          test "$(node -p "require('sharp/package.json').version")" = "$SHARP_VERSION"
+          npx playwright install --with-deps chromium
+
+      - name: Run unchanged 1656 verifier in repair mode
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory . \
+            > "$RUNNER_TEMP/$ORIENTATION_GENERATION-${MOBILE_UI_SHARD_ID}-http.log" 2>&1 &
+          server_pid="$!"
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent --show-error "$MOBILE_UI_CANDIDATE_URL" >/dev/null; then break; fi
+            sleep 1
+          done
+          curl --fail --silent --show-error "$MOBILE_UI_CANDIDATE_URL" >/dev/null
+          curl --fail --silent --show-error \
+            "$ORIENTATION_SERVER_URL/releases/202608261927-index.html" >/dev/null
+          MOBILE_UI_RAW_DIR="$SHARD_RAW_DIR" \
+            node "atman/$ORIENTATION_AUDIT_GENERATION-verify-mobile-ui-browser.mjs" \
+            | tee "$RUNNER_TEMP/$ORIENTATION_GENERATION-${MOBILE_UI_SHARD_ID}-stdout.json"
+          test -s "$SHARD_RAW_DIR/run.json"
+
+      - name: Upload raw repair shard
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pipelinenews-mobile-orientation-shard-202608272048-${{ matrix.id }}-${{ github.run_id }}
+          overwrite: true
+          path: ${{ env.SHARD_RAW_DIR }}
+          if-no-files-found: error
+          retention-days: 30
+
+  aggregate-repair-gate:
+    name: Aggregate 23 records and gate repair
+    needs: [mobile-ui-shards, compatibility-browser]
+    if: needs.mobile-ui-shards.result == 'success' && needs.compatibility-browser.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      MOBILE_UI_MODE: repair
+      MOBILE_UI_SOURCE_COMMIT: ${{ github.sha }}
+      MOBILE_UI_RAW_DIR: work/202608272048-mobile-orientation/mobile-ui/raw
+      REPORT_DIR: work/202608272048-mobile-orientation/mobile-ui/report
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Configure Node
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: "22"
+
+      - name: Download all six repair shards
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          pattern: pipelinenews-mobile-orientation-shard-202608272048-*-${{ github.run_id }}
+          path: ${{ env.ORIENTATION_WORK_ROOT }}/incoming-shards
+
+      - name: Reconstruct exact 23-record raw closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "$MOBILE_UI_RAW_DIR"
+          test ! -e "$REPORT_DIR"
+          mkdir -p "$MOBILE_UI_RAW_DIR/screenshots" "$REPORT_DIR"
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { copyFile, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+          import path from "node:path";
+          const incomingRoot = path.resolve(process.env.ORIENTATION_WORK_ROOT, "incoming-shards");
+          const finalRoot = path.resolve(process.env.MOBILE_UI_RAW_DIR);
+          const auditGeneration = process.env.ORIENTATION_AUDIT_GENERATION;
+          const candidateGeneration = process.env.ORIENTATION_GENERATION;
+          const sourceCommit = process.env.GITHUB_SHA;
+          const planned = new Map([
+            ["candidate-static", { targets: ["candidate"], cells: ["P1", "P2", "L1", "L2", "L3", "L4", "T1"], rotate: false }],
+            ["original-static", { targets: ["original"], cells: ["P1", "P2", "L1", "L2", "L3", "L4", "T1"], rotate: false }],
+            ["baseline-a", { targets: ["baseline"], cells: ["P1", "P2", "L1"], rotate: false }],
+            ["baseline-b", { targets: ["baseline"], cells: ["L2", "L3"], rotate: false }],
+            ["baseline-c", { targets: ["baseline"], cells: ["L4", "T1"], rotate: false }],
+            ["rotations", { targets: ["candidate", "baseline"], cells: [], rotate: true }],
+          ]);
+          async function walk(directory) {
+            const files = [];
+            for (const entry of await readdir(directory, { withFileTypes: true })) {
+              const filename = path.join(directory, entry.name);
+              if (entry.isDirectory()) files.push(...await walk(filename));
+              else if (entry.isFile()) files.push(filename);
+              else throw new Error(`non-file artifact entry: ${filename}`);
+            }
+            return files;
+          }
+          const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
+          const inside = (root, candidate) => {
+            const relative = path.relative(root, candidate);
+            return relative !== "" && relative !== ".." && !relative.startsWith(`..${path.sep}`)
+              && !path.isAbsolute(relative);
+          };
+          const screenshotReferences = (record) => {
+            const references = [];
+            const visit = (value) => {
+              if (!value || typeof value !== "object") return;
+              if (typeof value.path === "string") {
+                references.push(value);
+                return;
+              }
+              for (const child of Object.values(value)) visit(child);
+            };
+            visit(record.screenshots);
+            return references;
+          };
+          const allFiles = await walk(incomingRoot);
+          const runPaths = allFiles.filter((filename) => path.basename(filename) === "run.json");
+          assert.equal(runPaths.length, planned.size, "exactly six shard run records are required");
+          const records = new Map();
+          const copiedScreenshots = new Map();
+          const sourceEnvelopes = [];
+          const shardSummaries = [];
+          let commonBrowser = null;
+          for (const runPath of runPaths) {
+            const shardRoot = path.dirname(runPath);
+            const run = JSON.parse(await readFile(runPath, "utf8"));
+            assert.equal(run.schema, "pipelinenews.mobile-ui-browser-run.v1");
+            assert.equal(run.generation, auditGeneration);
+            assert.equal(run.source_commit, sourceCommit);
+            assert.equal(run.candidate_generation, candidateGeneration);
+            assert.equal(run.mode, "repair");
+            assert.equal(run.deployment, "not-authorised");
+            assert.equal(run.status, "CAPTURED");
+            assert.deepEqual(run.required_failures, []);
+            assert.ok(run.shard && planned.has(run.shard.id));
+            const plan = planned.get(run.shard.id);
+            assert.deepEqual(run.shard.target_ids, plan.targets);
+            assert.deepEqual(run.shard.static_cell_ids, plan.cells);
+            assert.equal(run.shard.include_rotate, plan.rotate);
+            const expectedCount = plan.targets.length * plan.cells.length + (plan.rotate ? 2 : 0);
+            assert.equal(run.expected_record_count, expectedCount);
+            assert.equal(run.records.length, expectedCount);
+            if (commonBrowser === null) commonBrowser = run.browser;
+            else assert.deepEqual(run.browser, commonBrowser);
+            const envelopeBytes = await readFile(path.join(shardRoot, "source-envelope.json"));
+            const envelope = JSON.parse(envelopeBytes);
+            assert.equal(envelope.generation, auditGeneration);
+            assert.equal(envelope.source_commit, sourceCommit);
+            assert.equal(envelope.github_run_id, process.env.GITHUB_RUN_ID);
+            assert.equal(envelope.candidate_generation, candidateGeneration);
+            assert.equal(envelope.comparator_mode, "repair");
+            sourceEnvelopes.push({ bytes: envelopeBytes, hash: sha256(envelopeBytes) });
+            for (const filename of run.records) {
+              assert.equal(filename, path.basename(filename));
+              const sourcePath = path.resolve(shardRoot, filename);
+              assert.ok(inside(shardRoot, sourcePath));
+              const bytes = await readFile(sourcePath);
+              assert.ok(bytes.length <= 262144);
+              const record = JSON.parse(bytes);
+              assert.equal(record.schema, "pipelinenews.mobile-ui-cell-evidence.v1");
+              assert.equal(record.generation, auditGeneration);
+              assert.equal(record.source_commit, sourceCommit);
+              assert.equal(record.mode, "repair");
+              const key = `${record.target.id}::${record.cell.id}`;
+              assert.ok(!records.has(key), `duplicate record ${key}`);
+              records.set(key, filename);
+              await copyFile(sourcePath, path.join(finalRoot, filename));
+              for (const reference of screenshotReferences(record)) {
+                assert.match(reference.path, /^screenshots\/[a-zA-Z0-9._-]+\.jpeg$/u);
+                const screenshotSource = path.resolve(shardRoot, reference.path);
+                assert.ok(inside(shardRoot, screenshotSource));
+                const screenshotBytes = await readFile(screenshotSource);
+                assert.ok(screenshotBytes.length <= 409600);
+                assert.equal(screenshotBytes.length, reference.bytes);
+                assert.equal(sha256(screenshotBytes), reference.sha256);
+                if (copiedScreenshots.has(reference.path)) {
+                  assert.equal(copiedScreenshots.get(reference.path), reference.sha256);
+                } else {
+                  copiedScreenshots.set(reference.path, reference.sha256);
+                  const destination = path.join(finalRoot, reference.path);
+                  await mkdir(path.dirname(destination), { recursive: true });
+                  await copyFile(screenshotSource, destination);
+                }
+              }
+            }
+            shardSummaries.push({
+              id: run.shard.id,
+              started_at: run.started_at,
+              completed_at: run.completed_at,
+              record_count: run.records.length,
+              optional_original_unavailable: run.optional_original_unavailable,
+            });
+            planned.delete(run.shard.id);
+          }
+          assert.equal(planned.size, 0);
+          assert.ok(sourceEnvelopes.every(({ hash }) => hash === sourceEnvelopes[0].hash));
+          await writeFile(path.join(finalRoot, "source-envelope.json"), sourceEnvelopes[0].bytes);
+          const expectedKeys = new Set();
+          for (const target of ["candidate", "baseline", "original"]) {
+            for (const cell of ["P1", "P2", "L1", "L2", "L3", "L4", "T1"]) {
+              expectedKeys.add(`${target}::${cell}`);
+            }
+          }
+          expectedKeys.add("candidate::R1");
+          expectedKeys.add("baseline::R1");
+          assert.equal(records.size, 23);
+          assert.deepEqual([...records.keys()].sort(), [...expectedKeys].sort());
+          shardSummaries.sort((left, right) => left.id.localeCompare(right.id));
+          await writeFile(path.join(finalRoot, "run.json"), `${JSON.stringify({
+            schema: "pipelinenews.mobile-ui-browser-run.v1",
+            generation: auditGeneration,
+            project_posture: {
+              owner: "Ventus Ltd",
+              application: "non-commercial-open-source",
+              publisher_redistribution_rights: "source-specific-not-inferred",
+            },
+            source_commit: sourceCommit,
+            candidate_generation: candidateGeneration,
+            contract_schema: "pipelinenews.mobile-ui-invariants.v1",
+            mode: "repair",
+            deployment: "not-authorised",
+            started_at: shardSummaries.map(({ started_at }) => started_at).sort()[0],
+            completed_at: shardSummaries.map(({ completed_at }) => completed_at).sort().at(-1),
+            browser: commonBrowser,
+            records: [...records.values()].sort(),
+            expected_record_count: 23,
+            shards: shardSummaries,
+            required_failures: [],
+            optional_original_unavailable: shardSummaries.some(({ optional_original_unavailable }) => optional_original_unavailable),
+            status: "CAPTURED",
+          }, null, 2)}\n`);
+          NODE
+
+      - name: Run unchanged 1656 comparator in repair mode
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(sha256sum atman/202608271656-mobile-ui-invariants.mjs | cut -d' ' -f1)" = \
+            "3dbee93a7de2cc01f9fece3e3318b1f151871231ae254bff9cc67fe4fd69aae2"
+          test "$(sha256sum atman/202608271656-compare-mobile-ui.mjs | cut -d' ' -f1)" = \
+            "5fb162b9396db069dcd754c3deddc0bb0287522250265108426e7059ea342147"
+          node "atman/$ORIENTATION_AUDIT_GENERATION-compare-mobile-ui.mjs" \
+            | tee "$ORIENTATION_WORK_ROOT/mobile-ui/comparator-stdout.json"
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { readFile, writeFile } from "node:fs/promises";
+          const metrics = JSON.parse(await readFile(`${process.env.REPORT_DIR}/metrics.json`));
+          assert.equal(metrics.schema, "pipelinenews.mobile-ui-comparison.v1");
+          assert.equal(metrics.generation, process.env.ORIENTATION_AUDIT_GENERATION);
+          assert.equal(metrics.candidate_generation, process.env.ORIENTATION_GENERATION);
+          assert.equal(metrics.source_commit, process.env.GITHUB_SHA);
+          assert.equal(metrics.mode, "repair");
+          assert.equal(metrics.contract.sha256, "3dbee93a7de2cc01f9fece3e3318b1f151871231ae254bff9cc67fe4fd69aae2");
+          assert.equal(metrics.records.length, 23);
+          assert.equal(metrics.verdict.producer_status, "PASS");
+          assert.equal(metrics.verdict.candidate_gate.status, "PASS", JSON.stringify(metrics.verdict.candidate_gate.failures));
+          assert.deepEqual(metrics.verdict.candidate_gate.failures, []);
+          assert.equal(metrics.observed.I9.R1.candidate, "PASS");
+          for (const cell of ["P1", "P2", "L1", "L2", "L3", "L4", "T1"]) {
+            assert.equal(metrics.observed.I7[cell].candidate, "PASS", `safe-area repair failed in ${cell}`);
+          }
+          await writeFile(`${process.env.ORIENTATION_WORK_ROOT}/mobile-ui/repair-gate.json`, `${JSON.stringify({
+            schema: "pipelinenews.mobile-orientation-repair-gate.v1",
+            generation: process.env.ORIENTATION_GENERATION,
+            comparator_generation: process.env.ORIENTATION_AUDIT_GENERATION,
+            comparator_contract_sha256: metrics.contract.sha256,
+            aggregate_records: metrics.records.length,
+            candidate_checks: metrics.verdict.candidate_gate.checks,
+            candidate_gate: metrics.verdict.candidate_gate.status,
+            rotation_node_stability: metrics.observed.I9.R1.candidate,
+            safe_area_cells: ["P1", "P2", "L1", "L2", "L3", "L4", "T1"],
+            deployment: "not-authorised",
+            status: "PASS",
+          }, null, 2)}\n`);
+          NODE
+
+      - name: Enforce bounded repair evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(du -sb "$MOBILE_UI_RAW_DIR" | cut -f1)" -lt 26214400
+          test "$(du -sb "$REPORT_DIR" | cut -f1)" -lt 1572864
+          test "$(find "$MOBILE_UI_RAW_DIR" -maxdepth 1 -name '*--*.json' | wc -l)" -eq 23
+
+      - name: Upload complete repair gate
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pipelinenews-mobile-orientation-repair-gate-202608272048-${{ github.run_id }}
+          overwrite: true
+          path: ${{ env.ORIENTATION_WORK_ROOT }}/mobile-ui
+          if-no-files-found: error
+          retention-days: 30
+
+  commit-candidate:
+    name: Commit immutable quarantine candidate
+    needs: [build, compatibility-browser, aggregate-repair-gate]
+    if: needs.build.result == 'success' && needs.compatibility-browser.result == 'success' && needs.aggregate-repair-gate.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout exact verified source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Download verified immutable closure
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          name: pipelinenews-mobile-orientation-closure-202608272048-${{ github.run_id }}
+          path: ${{ env.ORIENTATION_WORK_ROOT }}/verified
+
+      - name: Prepare idempotent five-file publication
+        id: prepare-publication
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_commit="$GITHUB_SHA"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          remote_main="$(git rev-parse origin/main)"
+          git checkout -B main "$source_commit"
+          test ! -e "build/$ORIENTATION_GENERATION-v8-fast-site-manifest.json"
+          test ! -e "releases/$ORIENTATION_GENERATION-v8-fast-candidate.html"
+          test ! -e "releases/javascript/$ORIENTATION_GENERATION-v8-fast-runtime.js"
+          test ! -e "releases/data/$ORIENTATION_GENERATION-v8-fast-registry.json"
+          test ! -e "releases/styles/$ORIENTATION_GENERATION-orientation.css"
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { constants } from "node:fs";
+          import { copyFile, lstat, mkdir, readFile, readdir } from "node:fs/promises";
+          import path from "node:path";
+          const incoming = path.resolve(process.env.ORIENTATION_WORK_ROOT, "verified");
+          const generation = process.env.ORIENTATION_GENERATION;
+          const manifestPath = `build/${generation}-v8-fast-site-manifest.json`;
+          const manifest = JSON.parse(await readFile(path.join(incoming, manifestPath)));
+          assert.equal(manifest.generation, generation);
+          assert.equal(manifest.source_commit, process.env.GITHUB_SHA);
+          assert.equal(manifest.github_run_id, process.env.GITHUB_RUN_ID);
+          assert.equal(manifest.deployment, "not-authorised");
+          const inputPaths = new Set();
+          for (const record of manifest.inputs) {
+            assert.deepEqual(Object.keys(record).sort(), ["bytes", "path", "sha256"]);
+            assert.ok(!inputPaths.has(record.path), `duplicate manifest input ${record.path}`);
+            inputPaths.add(record.path);
+            const filename = path.resolve(record.path);
+            assert.ok(filename.startsWith(`${process.cwd()}${path.sep}`), `manifest input escapes repository: ${record.path}`);
+            const stat = await lstat(filename);
+            assert.ok(stat.isFile() && !stat.isSymbolicLink(), `manifest input is not a regular file: ${record.path}`);
+            const bytes = await readFile(filename);
+            assert.equal(bytes.length, record.bytes, `manifest input byte drift: ${record.path}`);
+            assert.equal(
+              createHash("sha256").update(bytes).digest("hex"),
+              record.sha256,
+              `manifest input hash drift: ${record.path}`,
+            );
+          }
+          const expected = [manifestPath, ...manifest.outputs.map(({ path: relative }) => relative)].sort();
+          assert.equal(expected.length, 5);
+          async function walk(directory, base = directory) {
+            const result = [];
+            for (const entry of await readdir(directory, { withFileTypes: true })) {
+              const filename = path.join(directory, entry.name);
+              if (entry.isDirectory()) result.push(...await walk(filename, base));
+              else result.push(path.relative(base, filename).split(path.sep).join("/"));
+            }
+            return result.sort();
+          }
+          assert.deepEqual(await walk(incoming), expected);
+          for (const relative of expected) {
+            const target = path.resolve(relative);
+            assert.ok(target.startsWith(`${process.cwd()}${path.sep}`));
+            await mkdir(path.dirname(target), { recursive: true });
+            await copyFile(path.join(incoming, relative), target, constants.COPYFILE_EXCL);
+          }
+          NODE
+          git add \
+            "build/$ORIENTATION_GENERATION-v8-fast-site-manifest.json" \
+            "releases/$ORIENTATION_GENERATION-v8-fast-candidate.html" \
+            "releases/javascript/$ORIENTATION_GENERATION-v8-fast-runtime.js" \
+            "releases/data/$ORIENTATION_GENERATION-v8-fast-registry.json" \
+            "releases/styles/$ORIENTATION_GENERATION-orientation.css"
+          test "$(git diff --cached --name-only | wc -l)" -eq 5
+          diff -u <(printf '%s\n' \
+            "build/$ORIENTATION_GENERATION-v8-fast-site-manifest.json" \
+            "releases/$ORIENTATION_GENERATION-v8-fast-candidate.html" \
+            "releases/data/$ORIENTATION_GENERATION-v8-fast-registry.json" \
+            "releases/javascript/$ORIENTATION_GENERATION-v8-fast-runtime.js" \
+            "releases/styles/$ORIENTATION_GENERATION-orientation.css" | LC_ALL=C sort) \
+            <(git diff --cached --name-only | LC_ALL=C sort)
+          if test "$remote_main" != "$source_commit"; then
+            test "$(git rev-list --parents -n 1 "$remote_main" | wc -w)" -eq 2
+            test "$(git rev-parse "$remote_main^")" = "$source_commit"
+            diff -u <(git diff --name-only "$source_commit" "$remote_main" | LC_ALL=C sort) \
+              <(git diff --cached --name-only | LC_ALL=C sort)
+            while IFS= read -r relative; do
+              test "$(git hash-object "$ORIENTATION_WORK_ROOT/verified/$relative")" = \
+                "$(git rev-parse "$remote_main:$relative")"
+            done < <(git diff --cached --name-only | LC_ALL=C sort)
+            test "$(git write-tree)" = "$(git rev-parse "$remote_main^{tree}")"
+            echo "mode=existing" >> "$GITHUB_OUTPUT"
+            echo "commit_sha=$remote_main" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit -m "v8: build mobile orientation candidate $ORIENTATION_GENERATION"
+          test "$(git rev-parse HEAD^)" = "$source_commit"
+          echo "mode=new" >> "$GITHUB_OUTPUT"
+          echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: CAS push new immutable candidate
+        if: steps.prepare-publication.outputs.mode == 'new'
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          source_commit="$GITHUB_SHA"
+          output_commit="${{ steps.prepare-publication.outputs.commit_sha }}"
+          git fetch origin main
+          test "$(git rev-parse origin/main)" = "$source_commit"
+          test "$(git rev-parse "$output_commit^")" = "$source_commit"
+          auth_header="$(printf 'x-access-token:%s' "$GITHUB_TOKEN" | base64 -w0)"
+          git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $auth_header" \
+            push "https://github.com/$GITHUB_REPOSITORY.git" \
+            "$output_commit:refs/heads/main"
