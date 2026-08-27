@@ -1,0 +1,323 @@
+{
+  "schema": "pipelinenews.v8.fast-site-candidate.v1",
+  "generation": "202608271524",
+  "name": "Live News Discovery + Chronology + Atlas V8 Deep-Link",
+  "source_commit": "7b07b139f8e9764d948e512d9b18b854faea14c9",
+  "source_parent_commit": "b6a2b441799307ca55751d770a6083d05cdf15b5",
+  "github_run_id": "33083335000",
+  "compiler": {
+    "path": "index/202608271524-compile-v8-news-chronology.mjs",
+    "method": "pipelinenews-v8-news-chronology-stable-sort-v1",
+    "sha256": "926d175261fb64f6a948d1b16fbeb1f04d515c144cca154c0940a24719d270a3"
+  },
+  "cache_identity": "fd2212a8c76d9fb97ec50cc97b1fefa104ae8cd7ac33cd4b4adcd57c8149e844",
+  "cache_contract": {
+    "schema": "pipelinenews.v8.news-chronology-cache-contract.v1",
+    "compiler_method": "pipelinenews-v8-news-chronology-stable-sort-v1",
+    "compiler": {
+      "path": "index/202608271524-compile-v8-news-chronology.mjs",
+      "sha256": "926d175261fb64f6a948d1b16fbeb1f04d515c144cca154c0940a24719d270a3"
+    },
+    "source_parent_commit": "b6a2b441799307ca55751d770a6083d05cdf15b5",
+    "protected_recovery_commit": "77bda8c3809d02550d06a1c4154315f56d1120fb",
+    "parent_generation": "202608271329",
+    "news_source_generation": "202608270844",
+    "rollback_generation": "202608270055",
+    "sources": {
+      "parentManifest_sha256": "8026752e42872863f034d34dbfbbf8242edadfae6581574a5b8fc112b4b45268",
+      "parentHtml_sha256": "97e847e485749c6198c4df920a314e3fef9f3caa3db5eefe2279578abbdb1493",
+      "parentRuntime_sha256": "61e961322a9dea45dd180d27a1d60657b00f87728ee5b2b138840f34564e1a19",
+      "atlasCartridge_sha256": "d8e997acea1ed6c628e4d69f27653a5fe9a21bb459ff95d4ee0a7d040b431ff7",
+      "parentRegistry_sha256": "895755d85cf7916ea41f46f15bfce7f1d96ef7ddb6a5157ddc2b931c97452424",
+      "parentNews_sha256": "f90caae31bd4339367558e05a4f9c1564f4cbd502aaac186fea56fc20787c693",
+      "projects_sha256": "c06aedef176d2d38fd135806306a8ef81b4af9994c7be31e8bd760304149f862",
+      "search_sha256": "a1cbfc5202b717889a471409e850ea5cae13626f91c60f08cda0b06da5102b65",
+      "style_sha256": "d6c8100dbf79dd02f65d78e4fc9cacae92f2e4b5a749ea0fd3ff481fe5bb4792"
+    },
+    "project_index": {
+      "schema": "pipelinenews.v8.fast-project-index.v1",
+      "fields": [
+        "repd_ref",
+        "gg_project_id",
+        "name",
+        "technology",
+        "status",
+        "capacity_mw",
+        "county",
+        "region",
+        "operator",
+        "repd_record_updated",
+        "geometry_status",
+        "latitude",
+        "longitude"
+      ],
+      "dictionary_fields": [
+        "technology",
+        "status",
+        "county",
+        "region",
+        "operator",
+        "geometry_status"
+      ],
+      "stable_key": "repd_ref",
+      "detail_locator": "floor(global_row_index/500)"
+    },
+    "search_index": {
+      "schema": "pipelinenews.v8.fast-search-index.v1",
+      "row_alignment": "global_project_row_index",
+      "activation": "first-nonempty-search"
+    },
+    "news_index": {
+      "schema": "pipelinenews.v8.live-news-index.v1",
+      "fields": [
+        "gg_article_id",
+        "repd_ref",
+        "gg_project_id",
+        "project",
+        "technology",
+        "capacity_mw",
+        "operator",
+        "county",
+        "country",
+        "event",
+        "headline",
+        "published",
+        "source",
+        "url",
+        "confidence",
+        "canonical_relevant",
+        "role",
+        "eligible_for_news_signal",
+        "regional_classification",
+        "regional_technology",
+        "regional_evidence",
+        "event_detail",
+        "relationship",
+        "related_context_repd_ref",
+        "related_context_project",
+        "binding_label",
+        "related_components",
+        "evidence_snippet"
+      ],
+      "stable_key": "gg_article_id",
+      "activation": "idle-after-core-ready"
+    },
+    "runtime": {
+      "physical_project_rows": 50,
+      "physical_news_rows": 30,
+      "detail_fetch_concurrency": 4,
+      "immutable_cache_mode": "force-cache"
+    },
+    "reuse": {
+      "project_generation": "202608270055",
+      "search_generation": "202608270055",
+      "style_generation": "202608270055",
+      "detail_generation": "202608261927",
+      "atlas_deep_link_generation": "202608271329",
+      "news_source_generation": "202608270844"
+    },
+    "news_ordering": {
+      "key": "published",
+      "parsing": "strict-YYYY-MM-DD-at-UTC-midnight",
+      "direction": "descending",
+      "tie_breaks": [
+        "parent_row_index_ascending",
+        "gg_article_id_ascending_if_parent_index_equal"
+      ],
+      "invariant": "published timestamps are non-increasing",
+      "physical_first_window": 30
+    },
+    "atlas_deep_link": {
+      "schema": "pipelinenews.atlas-v8-deep-link-cartridge.v1",
+      "generation": "202608271329",
+      "source": {
+        "path": "ui/cartridges/202608271329-atlas-v8-deep-link.mjs",
+        "sha256": "d8e997acea1ed6c628e4d69f27653a5fe9a21bb459ff95d4ee0a7d040b431ff7"
+      },
+      "runtime": {
+        "path": "javascript/202608271329-atlas-v8-deep-link-cartridge.js",
+        "sha256": "d8e997acea1ed6c628e4d69f27653a5fe9a21bb459ff95d4ee0a7d040b431ff7",
+        "bytes": 2945,
+        "activation": "module-import-before-project-render"
+      },
+      "target": {
+        "protocol": "https:",
+        "hostname": "globalgrid2050.com",
+        "pathname": "/repd_grid_atlasv8/",
+        "base_url": "https://globalgrid2050.com/repd_grid_atlasv8/"
+      },
+      "eligibility": {
+        "field": "geometry_status",
+        "equals": "valid",
+        "ineligible_result": "",
+        "presentation": "NO MAP"
+      },
+      "identity_anchor": "repd_ref",
+      "query_parameter_order": [
+        "repd_ref",
+        "project",
+        "technology",
+        "capacity_mw",
+        "latitude",
+        "longitude",
+        "zoom"
+      ],
+      "project_field_by_parameter": {
+        "repd_ref": "repd_ref",
+        "project": "name",
+        "technology": "technology",
+        "capacity_mw": "capacity_mw",
+        "latitude": "latitude",
+        "longitude": "longitude"
+      },
+      "fixed_parameters": {
+        "zoom": "12"
+      },
+      "receiver_contract": {
+        "canonical_identity": [
+          "repd_ref",
+          "technology"
+        ],
+        "display_context": [
+          "project",
+          "capacity_mw"
+        ],
+        "coordinate_fallback": [
+          "longitude",
+          "latitude",
+          "zoom"
+        ],
+        "query_context_never_establishes_identity": true
+      }
+    }
+  },
+  "protected_parent": "77bda8c3809d02550d06a1c4154315f56d1120fb",
+  "parent_generation": "202608271329",
+  "news_source_generation": "202608270844",
+  "rollback_generation": "202608270055",
+  "parity": {
+    "project_count": 7680,
+    "capacity_mw": 356474.09,
+    "largest_mw": 4100,
+    "solar_count": 3563,
+    "bess_count": 1609,
+    "wind_onshore_count": 2399,
+    "wind_offshore_count": 109,
+    "geometry_count": 7652,
+    "missing_geometry_count": 28,
+    "headlines": 136,
+    "canonical_headlines": 47,
+    "international_headlines": 19,
+    "added_bbc_records": 3,
+    "primary_matches": 2,
+    "related_editorial_mentions": 1
+  },
+  "performance_contract": {
+    "maximum_physical_project_rows": 50,
+    "maximum_physical_news_rows": 30,
+    "maximum_dom_elements": 5000,
+    "maximum_initial_decoded_bytes": 2000000,
+    "maximum_mobile_interaction_ms": 200,
+    "maximum_desktop_interaction_ms": 100,
+    "maximum_ordinary_long_task_ms": 200,
+    "maximum_detail_fetch_concurrency": 4,
+    "initial_decoded_bytes": 1066176,
+    "project_index_bytes": 979338,
+    "reused_project_index": "releases/data/202608270055-8ab1807551bc-v8-fast-projects.json",
+    "reused_search_index": "releases/data/202608270055-8ab1807551bc-v8-fast-search.json",
+    "deep_link_cartridge_bytes": 2945,
+    "news_index_bytes": 82460,
+    "news_index_activation": "idle-after-core-ready"
+  },
+  "discipline": {
+    "source_mutation": false,
+    "immutable_outputs": true,
+    "bounded_dom": true,
+    "bounded_detail_fetches": true,
+    "full_data_copied": false,
+    "deployment_separate": true,
+    "stable_route_changed": false,
+    "current_pointer_changed": false,
+    "globalgrid_catalogue_changed": false,
+    "deep_link_intelligence_separate": true,
+    "deep_link_cartridge_write_once": true,
+    "atman_runtime_dependency": false,
+    "data_tree_source_added": false,
+    "chronology_compile_time_only": true,
+    "chronology_stable_sort": true,
+    "runtime_date_sort": false,
+    "news_records_changed": false,
+    "atlas_deep_link_cartridge_reused": true
+  },
+  "inputs": [
+    {
+      "path": "build/202608271329-v8-fast-site-manifest.json",
+      "bytes": 10062,
+      "sha256": "8026752e42872863f034d34dbfbbf8242edadfae6581574a5b8fc112b4b45268"
+    },
+    {
+      "path": "releases/202608271329-v8-fast-candidate.html",
+      "bytes": 9026,
+      "sha256": "97e847e485749c6198c4df920a314e3fef9f3caa3db5eefe2279578abbdb1493"
+    },
+    {
+      "path": "releases/data/202608270055-8ab1807551bc-v8-fast-projects.json",
+      "bytes": 979338,
+      "sha256": "c06aedef176d2d38fd135806306a8ef81b4af9994c7be31e8bd760304149f862"
+    },
+    {
+      "path": "releases/data/202608270055-8ab1807551bc-v8-fast-search.json",
+      "bytes": 1912681,
+      "sha256": "a1cbfc5202b717889a471409e850ea5cae13626f91c60f08cda0b06da5102b65"
+    },
+    {
+      "path": "releases/data/202608270844-9ab451f4bf19-v8-fast-news.json",
+      "bytes": 82460,
+      "sha256": "f90caae31bd4339367558e05a4f9c1564f4cbd502aaac186fea56fc20787c693"
+    },
+    {
+      "path": "releases/data/202608271329-v8-fast-registry.json",
+      "bytes": 16377,
+      "sha256": "895755d85cf7916ea41f46f15bfce7f1d96ef7ddb6a5157ddc2b931c97452424"
+    },
+    {
+      "path": "releases/javascript/202608271329-atlas-v8-deep-link-cartridge.js",
+      "bytes": 2945,
+      "sha256": "d8e997acea1ed6c628e4d69f27653a5fe9a21bb459ff95d4ee0a7d040b431ff7"
+    },
+    {
+      "path": "releases/javascript/202608271329-v8-fast-runtime.js",
+      "bytes": 42833,
+      "sha256": "61e961322a9dea45dd180d27a1d60657b00f87728ee5b2b138840f34564e1a19"
+    },
+    {
+      "path": "releases/styles/202608270055-v8-fast.css",
+      "bytes": 14397,
+      "sha256": "d6c8100dbf79dd02f65d78e4fc9cacae92f2e4b5a749ea0fd3ff481fe5bb4792"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "releases/202608271524-v8-fast-candidate.html",
+      "bytes": 9091,
+      "sha256": "fc457af07b26eafa19505f7daa160ce1e870146a056a0728fbb17e8dafd3e049"
+    },
+    {
+      "path": "releases/data/202608271524-fd2212a8c76d-v8-fast-news.json",
+      "bytes": 82460,
+      "sha256": "00cfbc6243e83cca274707a19b7848f776ce223d5e02808164e213dde887a8be"
+    },
+    {
+      "path": "releases/data/202608271524-v8-fast-registry.json",
+      "bytes": 17557,
+      "sha256": "db1a4899a47668f80b40b2ac3e4091ea5e244c7757b47a3ae2336a5c5aa264fb"
+    },
+    {
+      "path": "releases/javascript/202608271524-v8-fast-runtime.js",
+      "bytes": 42848,
+      "sha256": "95637eb69cedacb124f980dabd4881a652cf641eefd73bdf37e05900f84f0c92"
+    }
+  ],
+  "evidence": "workflow-artifact-only",
+  "deployment": "not-authorised"
+}
