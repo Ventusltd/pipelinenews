@@ -1,0 +1,52 @@
+{
+  "schema": "pipelinenews.v8.fast-pages-authorisation.v1",
+  "generation": "202608271329",
+  "scope": "github-pages-immutable-candidate",
+  "deployment": "authorised",
+  "candidate_manifest": {
+    "path": "build/202608271329-v8-fast-site-manifest.json",
+    "sha256": "8026752e42872863f034d34dbfbbf8242edadfae6581574a5b8fc112b4b45268"
+  },
+  "candidate": {
+    "source_commit": "799bb304d38765aa1f9b176dc46525c30acaf9cc",
+    "build_run": "33074121050",
+    "cache_identity": "b6d619bca4667020c9c8590753238b85601df74771e11041d6e9e0258f81c70c"
+  },
+  "outputs": [
+    {
+      "path": "releases/202608271329-v8-fast-candidate.html",
+      "bytes": 9026,
+      "sha256": "97e847e485749c6198c4df920a314e3fef9f3caa3db5eefe2279578abbdb1493"
+    },
+    {
+      "path": "releases/data/202608271329-v8-fast-registry.json",
+      "bytes": 16377,
+      "sha256": "895755d85cf7916ea41f46f15bfce7f1d96ef7ddb6a5157ddc2b931c97452424"
+    },
+    {
+      "path": "releases/javascript/202608271329-atlas-v8-deep-link-cartridge.js",
+      "bytes": 2945,
+      "sha256": "d8e997acea1ed6c628e4d69f27653a5fe9a21bb459ff95d4ee0a7d040b431ff7"
+    },
+    {
+      "path": "releases/javascript/202608271329-v8-fast-runtime.js",
+      "bytes": 42833,
+      "sha256": "61e961322a9dea45dd180d27a1d60657b00f87728ee5b2b138840f34564e1a19"
+    }
+  ],
+  "outputs_sha256": "3cafd664ec0789162c92a4ab705c7dcd3e1dd3b2e287e9a9237896e7b5f1f490",
+  "output_closure_sha256": "3cafd664ec0789162c92a4ab705c7dcd3e1dd3b2e287e9a9237896e7b5f1f490",
+  "candidate_output_commit": "e269aa0d67f8d39304938dc42584f2b6dd3dee9e",
+  "authorisation_source_commit": "a56a7e55768cbd254067ef463c1b16209f343b21",
+  "github_run_id": "33076712531",
+  "authorised_by": "Ventusltd",
+  "authorised_at_source_commit": "2026-08-27T14:25:01+01:00",
+  "evidence": {
+    "actor": "Ventusltd",
+    "run_id": "33076712531",
+    "source": "a56a7e55768cbd254067ef463c1b16209f343b21",
+    "authorised_at_utc": "2026-08-27T14:25:01+01:00"
+  },
+  "stable_route_promoted": false,
+  "globalgrid_catalogue_changed": false
+}
