@@ -1,0 +1,175 @@
+{
+  "schema": "pipelinenews.bbc-live-news-evidence.v1",
+  "generation": "202608270844",
+  "name": "Live News Discovery",
+  "decision_recorded_at": "2026-08-27T08:44:00+01:00",
+  "publisher": "BBC News",
+  "retention": {
+    "raw_html": false,
+    "article_bodies": false,
+    "maximum_snippet_characters": 300
+  },
+  "records": [
+    {
+      "gg_article_id": "GG2050-NEWS-B4B91FD3DA8F596C",
+      "url": "https://www.bbc.co.uk/news/articles/clyelee255do",
+      "headline": "Huge Norfolk solar farm near Long Stratton set to cost £1bn",
+      "published_at": "2026-08-25T13:34:22.892Z",
+      "source": "BBC News",
+      "compact_metadata": {
+        "country": "England",
+        "county": "Norfolk",
+        "technology": "solar"
+      },
+      "exact_project_mentions": [
+        {
+          "text": "East Pye",
+          "canonical_name": "East Pye Solar Farm",
+          "paragraph_index": 1
+        }
+      ],
+      "internal_article_urls": [
+        "https://www.bbc.co.uk/news/articles/cn8emvpn4r9o"
+      ],
+      "bounded_evidence_snippets": [
+        "Developer Island Green Power (IGP) has said the East Pye scheme on land near Long Stratton in Norfolk will generate enough power for 115,000 homes."
+      ],
+      "binding": {
+        "role": "PRIMARY_MATCH",
+        "repd_ref": "17494",
+        "gg_project_id": "GG2050-REPD-17494",
+        "project": "East Pye Solar Farm",
+        "technology": "solar",
+        "official_capacity_mw": 500,
+        "operator": "Island Green Power",
+        "county": "Norfolk",
+        "country": "England",
+        "planning_reference": "EN0110014",
+        "event": "PROJECT UPDATE",
+        "event_detail": "",
+        "confidence": 100,
+        "canonical_relevant": true,
+        "eligible_for_news_signal": true,
+        "related_components": [
+          {
+            "role": "RELATED_DEVELOPMENT",
+            "repd_ref": "20670",
+            "gg_project_id": "GG2050-REPD-20670",
+            "project": "East Pye Solar Farm",
+            "technology": "bess",
+            "official_capacity_mw": null,
+            "eligible_for_news_signal": false
+          }
+        ]
+      }
+    },
+    {
+      "gg_article_id": "GG2050-NEWS-C3D0A5910F32E821",
+      "url": "https://www.bbc.co.uk/news/articles/c93e5lndl9vo",
+      "headline": "Heckington solar farm approval may face legal challenge",
+      "published_at": "2026-08-24T10:50:48.138Z",
+      "source": "BBC News",
+      "compact_metadata": {
+        "country": "England",
+        "county": "Lincolnshire",
+        "technology": "solar"
+      },
+      "exact_project_mentions": [
+        {
+          "text": "Beacon Fen Energy Park",
+          "canonical_name": "Beacon Fen Energy Park",
+          "paragraph_index": 1
+        }
+      ],
+      "internal_article_urls": [],
+      "bounded_evidence_snippets": [
+        "A council is considering taking legal action after plans for a large-scale solar farm were approved.",
+        "Plans for the Beacon Fen Energy Park, near Sleaford, which developers claim could power up to 130,000 homes, were approved by the government last week."
+      ],
+      "binding": {
+        "role": "PRIMARY_MATCH",
+        "repd_ref": "13599",
+        "gg_project_id": "GG2050-REPD-13599",
+        "project": "Beacon Fen Energy Park",
+        "technology": "solar",
+        "official_capacity_mw": 400,
+        "operator": "Low Carbon Limited",
+        "county": "Lincolnshire",
+        "country": "England",
+        "planning_reference": "EN010151",
+        "event": "PROJECT UPDATE",
+        "event_detail": "POTENTIAL_LEGAL_CHALLENGE_TO_CONSENT",
+        "confidence": 100,
+        "canonical_relevant": true,
+        "eligible_for_news_signal": true,
+        "related_components": [
+          {
+            "role": "RELATED_DEVELOPMENT",
+            "repd_ref": "13600",
+            "gg_project_id": "GG2050-REPD-13600",
+            "project": "Beacon Fen Energy Park",
+            "technology": "bess",
+            "official_capacity_mw": 600,
+            "eligible_for_news_signal": false
+          }
+        ]
+      }
+    },
+    {
+      "gg_article_id": "GG2050-NEWS-0E813A86D54E39FC",
+      "url": "https://www.bbc.co.uk/news/articles/cz64qyy59g4o",
+      "headline": "Lincolnshire farmer says turning to solar is only way to survive",
+      "published_at": "2026-08-27T04:56:46.518Z",
+      "source": "BBC News",
+      "compact_metadata": {
+        "country": "England",
+        "county": "Lincolnshire",
+        "technology": "solar",
+        "primary_subject": "Windsock Solar Farm",
+        "primary_operator": "BLC Energy"
+      },
+      "exact_project_mentions": [
+        {
+          "text": "Windsock Solar Farm",
+          "canonical_name": null,
+          "paragraph_index": 1
+        },
+        {
+          "text": "Beacon Fen Energy Park",
+          "canonical_name": "Beacon Fen Energy Park",
+          "paragraph_index": 3
+        }
+      ],
+      "internal_article_urls": [
+        "https://www.bbc.co.uk/news/articles/c93e5lndl9vo"
+      ],
+      "bounded_evidence_snippets": [
+        "Windsock Solar Farm",
+        "The Beacon Fen Energy Park in nearby Heckington was the latest to be approved.",
+        "Developers BLC Energy, which is behind the plans, says the impact on local residents is overinflated."
+      ],
+      "binding": {
+        "role": "RELATED_MENTION",
+        "relationship": "EDITORIAL_CONTEXT",
+        "repd_ref": "",
+        "gg_project_id": "",
+        "project": "Windsock Solar Farm",
+        "technology": "solar",
+        "official_capacity_mw": null,
+        "operator": "BLC Energy",
+        "county": "Lincolnshire",
+        "country": "England",
+        "planning_reference": "",
+        "event": "PROJECT UPDATE",
+        "event_detail": "",
+        "confidence": 100,
+        "canonical_relevant": false,
+        "eligible_for_news_signal": false,
+        "related_context_repd_ref": "13599",
+        "related_context_project": "Beacon Fen Energy Park",
+        "binding_label": "RELATED CONTEXT ONLY — NOT A PROJECT BINDING",
+        "related_components": []
+      }
+    }
+  ]
+}

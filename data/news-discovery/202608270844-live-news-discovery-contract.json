@@ -1,0 +1,142 @@
+{
+  "schema": "pipelinenews.live-news-discovery.contract.v1",
+  "generation": "202608270844",
+  "name": "Live News Discovery",
+  "incepted_at": "2026-08-27T08:44:00+01:00",
+  "repository": "Ventusltd/pipelinenews",
+  "protected_parent": "77bda8c3809d02550d06a1c4154315f56d1120fb",
+  "rollback_generation": "202608270055",
+  "deployment": "not-authorised",
+  "expected": {
+    "project_count": 7680,
+    "capacity_mw": 356474.09,
+    "headline_count": 136,
+    "canonical_uk_headline_count": 47,
+    "international_headline_count": 19,
+    "added_bbc_records": 3,
+    "primary_matches": 2,
+    "related_editorial_mentions": 1
+  },
+  "acquisition": {
+    "default_provider": "bing_news_rss",
+    "optional_providers": [
+      "brave",
+      "google_cse",
+      "serper"
+    ],
+    "maximum_selected_projects": 25,
+    "queries_per_project": 2,
+    "maximum_queries_per_run": 50,
+    "maximum_results_per_query": 10,
+    "request_timeout_ms": 5000,
+    "maximum_response_bytes": 1048576,
+    "maximum_retained_snippet_characters": 300,
+    "secrets_must_not_be_retained": true
+  },
+  "eligibility": {
+    "solar_minimum_capacity_mw": 49,
+    "bess_minimum_capacity_mw": 99,
+    "excluded_technologies": [
+      "wind_onshore",
+      "wind_offshore"
+    ]
+  },
+  "identity_policy": {
+    "query_context_establishes_identity": false,
+    "primary_match_requires_returned_evidence": true,
+    "primary_match_requires_closed_gazetteer": true,
+    "ambiguous_result": "ABSTAIN",
+    "foreign_conflict": "REJECT",
+    "wind_result": "REJECT",
+    "related_mentions_drive_project_signal": false
+  },
+  "bbc_enrichment": {
+    "allowed_origin": "https://www.bbc.co.uk",
+    "allowed_path_pattern": "^/news/articles/[a-z0-9]+$",
+    "redirects": "reject",
+    "maximum_link_depth": 1,
+    "retain_raw_html": false,
+    "retain_article_body": false,
+    "retained_fields": [
+      "compact_metadata",
+      "exact_project_mentions",
+      "internal_article_urls",
+      "bounded_evidence_snippets"
+    ]
+  },
+  "closed_gazetteer": [
+    {
+      "repd_ref": "17494",
+      "gg_project_id": "GG2050-REPD-17494",
+      "name": "East Pye Solar Farm",
+      "aliases": [
+        "East Pye Solar Farm",
+        "East Pye Solar",
+        "East Pye"
+      ],
+      "technology": "solar",
+      "official_capacity_mw": 500,
+      "operator": "Island Green Power",
+      "county": "Norfolk",
+      "country": "England",
+      "planning_reference": "EN0110014",
+      "catalogue_eligible": true
+    },
+    {
+      "repd_ref": "20670",
+      "gg_project_id": "GG2050-REPD-20670",
+      "name": "East Pye Solar Farm",
+      "aliases": [
+        "East Pye Solar Farm"
+      ],
+      "technology": "bess",
+      "official_capacity_mw": null,
+      "operator": "Island Green Power",
+      "county": "Norfolk",
+      "country": "England",
+      "planning_reference": "EN0110014",
+      "catalogue_eligible": false,
+      "relationship_only": true
+    },
+    {
+      "repd_ref": "13599",
+      "gg_project_id": "GG2050-REPD-13599",
+      "name": "Beacon Fen Energy Park",
+      "aliases": [
+        "Beacon Fen Energy Park",
+        "Beacon Fen"
+      ],
+      "technology": "solar",
+      "official_capacity_mw": 400,
+      "operator": "Low Carbon Limited",
+      "county": "Lincolnshire",
+      "country": "England",
+      "planning_reference": "EN010151",
+      "catalogue_eligible": true
+    },
+    {
+      "repd_ref": "13600",
+      "gg_project_id": "GG2050-REPD-13600",
+      "name": "Beacon Fen Energy Park",
+      "aliases": [
+        "Beacon Fen Energy Park",
+        "Beacon Fen"
+      ],
+      "technology": "bess",
+      "official_capacity_mw": 600,
+      "operator": "Low Carbon Limited",
+      "county": "Lincolnshire",
+      "country": "England",
+      "planning_reference": "EN010151",
+      "catalogue_eligible": true,
+      "relationship_only": true
+    }
+  ],
+  "excluded_primary_subjects": [
+    {
+      "name": "Windsock Solar Farm",
+      "operator": "BLC Energy",
+      "reason": "absent-from-frozen-7680-project-repd-spine"
+    }
+  ]
+}
