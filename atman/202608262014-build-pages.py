@@ -10,6 +10,7 @@ closed site tree to GitHub Pages.
 from __future__ import annotations
 
 import argparse
+from datetime import datetime
 import hashlib
 from html.parser import HTMLParser
 import json
@@ -37,7 +38,12 @@ EXPECTED_ATLAS_PARTITIONS = 18
 GENERATION_RE = re.compile(r"^\d{12}$")
 FAST_CANDIDATE_SCHEMA = "pipelinenews.v8.fast-site-candidate.v1"
 FAST_CANDIDATE_MANIFEST_RE = re.compile(r"^(\d{12})-v8-fast-site-manifest\.json$")
+FAST_AUTHORISATION_SCHEMA = "pipelinenews.v8.fast-pages-authorisation.v1"
+FAST_AUTHORISATION_RE = re.compile(r"^(\d{12})-v8-fast-pages-authorisation\.json$")
 SAFE_RELEASE_OUTPUT_RE = re.compile(r"^releases/[A-Za-z0-9._/-]+$")
+SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
+ISO_8601_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$")
 IMPORT_RE = re.compile(r"\bfrom\s+[\"']([^\"']+)[\"']|\bimport\s+[\"']([^\"']+)[\"']")
 RUNTIME_JSON_RE = re.compile(
     r"[\"']((?:\.{1,2}/)*(?:data|manifests)/[^\"']+\.(?:json|geojson))[\"']"
@@ -320,57 +326,286 @@ def normalise_candidate_output_path(value: object, label: str) -> str:
     return value
 
 
-def non_deploying_candidate_outputs(root: Path, release: dict) -> set[str]:
-    """Validate fast-candidate manifests and return paths barred from Pages."""
+def compact_json_sha256(value: object) -> str:
+    encoded = json.dumps(
+        value,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def iso8601_instant(value: str) -> datetime:
+    require(bool(ISO_8601_RE.fullmatch(value)), f"invalid ISO-8601 timestamp: {value!r}")
+    return datetime.fromisoformat(value.replace("Z", "+00:00"))
+
+
+def git_text(root: Path, *arguments: str) -> str:
+    completed = subprocess.run(
+        ["git", *arguments],
+        cwd=root,
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return completed.stdout.strip()
+
+
+def require_git_commit(root: Path, commit: object, label: str) -> str:
+    require(isinstance(commit, str) and bool(COMMIT_RE.fullmatch(commit)), f"invalid {label}: {commit!r}")
+    subprocess.run(
+        ["git", "cat-file", "-e", f"{commit}^{{commit}}"],
+        cwd=root,
+        check=True,
+        capture_output=True,
+    )
+    return commit
+
+
+def require_commit_file(root: Path, commit: str, relative: str, expected_sha256: str, label: str) -> None:
+    completed = subprocess.run(
+        ["git", "show", f"{commit}:{relative}"],
+        cwd=root,
+        check=True,
+        capture_output=True,
+    )
+    actual = hashlib.sha256(completed.stdout).hexdigest()
+    require(actual == expected_sha256, f"{label} changed at {commit}: {relative}")
+
+
+def candidate_publication_boundary(root: Path, release: dict) -> tuple[set[str], set[str]]:
+    """Return excluded and owner-authorised immutable fast-candidate outputs."""
     build = root / "build"
-    if not build.is_dir():
-        return set()
+    if not build.exists():
+        return set(), set()
+    require(build.is_dir() and not build.is_symlink(), f"invalid candidate build directory: {build}")
+
     manifests = sorted(build.glob("*-v8-fast-site-manifest.json"))
-    excluded: set[str] = set()
+    candidates: dict[str, dict] = {}
     owners: dict[str, str] = {}
     protected = {"releases/current.json", "releases/candidate.json", release["release_path"]}
     protected.update(record["path"] for record in release["manifest"]["outputs"])
+    protected.update(
+        record["path"] for record in release["manifest"]["inputs"]
+        if record["path"].startswith("releases/")
+    )
 
     for manifest_path in manifests:
         match = FAST_CANDIDATE_MANIFEST_RE.fullmatch(manifest_path.name)
         require(match is not None, f"invalid fast candidate manifest name: {manifest_path.name}")
-        relative_manifest = manifest_path.relative_to(root).as_posix()
+        generation = match.group(1)
+        relative_manifest = f"build/{generation}-v8-fast-site-manifest.json"
+        require(manifest_path.relative_to(root).as_posix() == relative_manifest, f"misplaced fast candidate manifest: {manifest_path}")
         require_no_symlink_components(root, relative_manifest, "fast candidate manifest path")
         require(manifest_path.is_file(), f"fast candidate manifest is not a file: {relative_manifest}")
         manifest = read_json(manifest_path)
         require(isinstance(manifest, dict), f"fast candidate manifest is not an object: {relative_manifest}")
         require(manifest.get("schema") == FAST_CANDIDATE_SCHEMA, f"fast candidate schema changed: {relative_manifest}")
-        generation = match.group(1)
         require(manifest.get("generation") == generation, f"fast candidate generation mismatch: {relative_manifest}")
-        deployment = manifest.get("deployment")
         require(
-            deployment in ("not-authorised", "authorised"),
-            f"unsupported fast candidate deployment state in {relative_manifest}: {deployment!r}",
+            manifest.get("deployment") == "not-authorised",
+            f"immutable fast candidate deployment state changed: {relative_manifest}",
         )
+        source_commit = manifest.get("source_commit")
+        require(isinstance(source_commit, str) and bool(COMMIT_RE.fullmatch(source_commit)), f"invalid candidate source commit: {relative_manifest}")
+        build_run = manifest.get("github_run_id")
+        require(isinstance(build_run, str) and build_run.isdigit(), f"invalid candidate build run: {relative_manifest}")
+        cache_identity = manifest.get("cache_identity")
+        require(isinstance(cache_identity, str) and bool(SHA256_RE.fullmatch(cache_identity)), f"invalid candidate cache identity: {relative_manifest}")
+
         outputs = manifest.get("outputs")
         require(isinstance(outputs, list) and outputs, f"fast candidate has no outputs: {relative_manifest}")
         manifest_paths: set[str] = set()
+        output_records: dict[str, dict] = {}
         for index, record in enumerate(outputs):
             label = f"fast candidate output {index} in {relative_manifest}"
             require(isinstance(record, dict), f"{label} is not an object")
+            require(set(record) == {"path", "bytes", "sha256"}, f"unexpected fields in {label}")
             relative = normalise_candidate_output_path(record.get("path"), label)
             require(relative not in manifest_paths, f"duplicate path in {relative_manifest}: {relative}")
             manifest_paths.add(relative)
-            require(relative not in ("releases/current.json", "releases/candidate.json"), f"candidate may not declare a public pointer: {relative}")
+            output_records[relative] = record
+            require(relative not in protected, f"candidate overlaps the governed release: {relative}")
             require(Path(relative).name.startswith(generation), f"candidate output generation mismatch: {relative}")
             require(isinstance(record.get("bytes"), int) and record["bytes"] >= 0, f"invalid byte count for {relative}")
-            require(bool(re.fullmatch(r"[0-9a-f]{64}", str(record.get("sha256", "")))), f"invalid SHA-256 for {relative}")
+            require(isinstance(record.get("sha256"), str) and bool(SHA256_RE.fullmatch(record["sha256"])), f"invalid SHA-256 for {relative}")
             require_no_symlink_components(root, relative, "fast candidate output path")
             verify_record(root, record, "fast candidate output")
             previous = owners.get(relative)
             require(previous is None, f"candidate output declared by both {previous} and {relative_manifest}: {relative}")
             owners[relative] = relative_manifest
-            if deployment == "not-authorised":
-                require(relative not in protected, f"non-deploying candidate overlaps the governed release: {relative}")
-                archived = root / ARCHIVE / relative
-                require(not archived.exists() and not archived.is_symlink(), f"non-deploying candidate overlaps historical public path: {relative}")
-                excluded.add(relative)
-    return excluded
+            archived = root / ARCHIVE / relative
+            require(not archived.exists() and not archived.is_symlink(), f"candidate overlaps historical public path: {relative}")
+
+        candidate_path = f"releases/{generation}-v8-fast-candidate.html"
+        require(candidate_path in output_records, f"candidate HTML is missing: {candidate_path}")
+        require(generation not in candidates, f"duplicate fast candidate generation: {generation}")
+        candidates[generation] = {
+            "manifest": manifest,
+            "manifest_path": relative_manifest,
+            "manifest_sha256": sha256(manifest_path),
+            "outputs": outputs,
+            "output_records": output_records,
+            "output_paths": manifest_paths,
+            "candidate_path": candidate_path,
+        }
+
+    owned_paths = sorted(owners)
+    for index, relative in enumerate(owned_paths):
+        require(
+            not any(other.startswith(f"{relative}/") for other in owned_paths[index + 1:]),
+            f"candidate path collision: {relative}",
+        )
+
+    authorisations_dir = build / "authorisations"
+    authorisations: dict[str, tuple[Path, dict]] = {}
+    if authorisations_dir.exists():
+        require(authorisations_dir.is_dir() and not authorisations_dir.is_symlink(), "invalid fast authorisations directory")
+        for authorisation_path in sorted(authorisations_dir.iterdir()):
+            relative_authorisation = authorisation_path.relative_to(root).as_posix()
+            require_no_symlink_components(root, relative_authorisation, "fast authorisation path")
+            require(authorisation_path.is_file(), f"fast authorisation is not a file: {relative_authorisation}")
+            match = FAST_AUTHORISATION_RE.fullmatch(authorisation_path.name)
+            require(match is not None, f"invalid fast authorisation filename: {relative_authorisation}")
+            generation = match.group(1)
+            expected_relative = f"build/authorisations/{generation}-v8-fast-pages-authorisation.json"
+            require(relative_authorisation == expected_relative, f"misplaced fast authorisation: {relative_authorisation}")
+            require(generation not in authorisations, f"duplicate fast authorisation: {generation}")
+            authorisation = read_json(authorisation_path)
+            require(isinstance(authorisation, dict), f"fast authorisation is not an object: {relative_authorisation}")
+            authorisations[generation] = (authorisation_path, authorisation)
+
+    require(set(authorisations).issubset(candidates), "fast authorisation has no matching immutable candidate")
+    require(len(authorisations) <= 1, "at most one fast candidate may be authorised")
+    excluded: set[str] = set()
+    authorised: set[str] = set()
+
+    for generation, candidate in candidates.items():
+        if generation not in authorisations:
+            excluded.update(candidate["output_paths"])
+            continue
+
+        authorisation_path, authorisation = authorisations[generation]
+        relative_authorisation = authorisation_path.relative_to(root).as_posix()
+        expected_fields = {
+            "schema", "generation", "scope", "deployment", "candidate_manifest", "candidate",
+            "outputs", "outputs_sha256", "output_closure_sha256", "candidate_output_commit",
+            "authorisation_source_commit", "github_run_id", "authorised_by",
+            "authorised_at_source_commit", "evidence", "stable_route_promoted",
+            "globalgrid_catalogue_changed",
+        }
+        require(set(authorisation) == expected_fields, f"fast authorisation fields changed: {relative_authorisation}")
+        require(authorisation.get("schema") == FAST_AUTHORISATION_SCHEMA, f"fast authorisation schema changed: {relative_authorisation}")
+        require(authorisation.get("generation") == generation, f"fast authorisation generation mismatch: {relative_authorisation}")
+        require(authorisation.get("scope") == "github-pages-immutable-candidate", f"fast authorisation scope changed: {relative_authorisation}")
+        require(authorisation.get("deployment") == "authorised", f"fast authorisation deployment state changed: {relative_authorisation}")
+        require(authorisation.get("stable_route_promoted") is False, "fast authorisation may not promote the stable route")
+        require(authorisation.get("globalgrid_catalogue_changed") is False, "fast authorisation may not change GlobalGrid")
+
+        candidate_manifest = authorisation.get("candidate_manifest")
+        require(isinstance(candidate_manifest, dict) and set(candidate_manifest) == {"path", "sha256"}, "invalid candidate manifest binding")
+        require(candidate_manifest.get("path") == candidate["manifest_path"], "authorisation names the wrong candidate manifest")
+        require(candidate_manifest.get("sha256") == candidate["manifest_sha256"], "candidate manifest SHA-256 changed")
+
+        candidate_binding = authorisation.get("candidate")
+        require(isinstance(candidate_binding, dict) and set(candidate_binding) == {"source_commit", "build_run", "cache_identity"}, "invalid candidate identity binding")
+        manifest = candidate["manifest"]
+        require(candidate_binding.get("source_commit") == manifest.get("source_commit"), "candidate source commit binding changed")
+        require(candidate_binding.get("build_run") == manifest.get("github_run_id"), "candidate build run binding changed")
+        require(candidate_binding.get("cache_identity") == manifest.get("cache_identity"), "candidate cache identity binding changed")
+        require(authorisation.get("outputs") == candidate["outputs"], "authorised output closure differs from candidate manifest")
+        closure_sha256 = compact_json_sha256(candidate["outputs"])
+        require(authorisation.get("outputs_sha256") == closure_sha256, "authorised output closure SHA-256 changed")
+        require(authorisation.get("output_closure_sha256") == closure_sha256, "authorised output closure alias changed")
+
+        candidate_output_commit = require_git_commit(root, authorisation.get("candidate_output_commit"), "candidate output commit")
+        authorisation_source_commit = require_git_commit(root, authorisation.get("authorisation_source_commit"), "authorisation source commit")
+        authorisation_commit = git_text(root, "log", "-1", "--format=%H", "--", relative_authorisation)
+        require(bool(COMMIT_RE.fullmatch(authorisation_commit)), "authorisation record is not committed")
+        authorisation_parents = git_text(root, "show", "-s", "--format=%P", authorisation_commit).split()
+        require(len(authorisation_parents) == 1, "authorisation commit must have exactly one parent")
+        require(authorisation_parents[0] == authorisation_source_commit, "authorisation commit parent differs from authorised source")
+        changed_paths = {
+            line for line in git_text(
+                root,
+                "diff-tree",
+                "--no-commit-id",
+                "--name-only",
+                "-r",
+                authorisation_commit,
+            ).splitlines() if line
+        }
+        require(changed_paths == {relative_authorisation}, "authorisation commit changes paths outside its immutable record")
+        require_commit_file(
+            root,
+            authorisation_commit,
+            relative_authorisation,
+            sha256(authorisation_path),
+            "authorisation record",
+        )
+        require(
+            git_text(root, "log", "-1", "--format=%H", "--", candidate["manifest_path"]) == candidate_output_commit,
+            "candidate output commit does not own the immutable manifest",
+        )
+        require_commit_file(root, candidate_output_commit, candidate["manifest_path"], candidate["manifest_sha256"], "candidate manifest")
+        for record in candidate["outputs"]:
+            require_commit_file(root, candidate_output_commit, record["path"], record["sha256"], "candidate output")
+        public_tree_diff = subprocess.run(
+            ["git", "diff", "--quiet", candidate_output_commit, "HEAD", "--", "releases", "data", "archive"],
+            cwd=root,
+            check=False,
+            capture_output=True,
+        )
+        require(public_tree_diff.returncode == 0, "public releases/data/archive tree changed after the green candidate commit")
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", manifest["source_commit"], candidate_output_commit],
+            cwd=root,
+            check=True,
+            capture_output=True,
+        )
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", authorisation_source_commit, "HEAD"],
+            cwd=root,
+            check=True,
+            capture_output=True,
+        )
+        expected_timestamp = git_text(root, "show", "-s", "--format=%cI", authorisation_source_commit)
+        timestamp = authorisation.get("authorised_at_source_commit")
+        require(isinstance(timestamp, str), "invalid authorisation source timestamp")
+        require(iso8601_instant(timestamp) == iso8601_instant(expected_timestamp), "authorisation timestamp differs from source commit")
+        require(isinstance(authorisation.get("github_run_id"), str) and authorisation["github_run_id"].isdigit(), "invalid authorisation run ID")
+        require(isinstance(authorisation.get("authorised_by"), str) and authorisation["authorised_by"].strip(), "missing authorising actor")
+        evidence = authorisation.get("evidence")
+        expected_evidence = {
+            "actor": authorisation["authorised_by"],
+            "run_id": authorisation["github_run_id"],
+            "source": authorisation_source_commit,
+            "authorised_at_utc": timestamp,
+        }
+        require(evidence == expected_evidence, "authorisation workflow evidence changed")
+
+        candidate_verifier = f"build/javascript/{generation}-verify-v8-fast-browser.mjs"
+        require_no_symlink_components(root, candidate_verifier, "fast candidate browser verifier")
+        verifier_path = repository_path(root, candidate_verifier)
+        require(verifier_path.is_file(), f"missing fast candidate browser verifier: {candidate_verifier}")
+        subprocess.run(
+            ["node", "--check", str(verifier_path)],
+            cwd=root,
+            check=True,
+            capture_output=True,
+        )
+
+        authorised.update(candidate["output_paths"])
+        release["candidate_generation"] = generation
+        release["candidate_path"] = candidate["candidate_path"]
+        release["candidate_sha256"] = candidate["output_records"][candidate["candidate_path"]]["sha256"]
+        release["candidate_verifier"] = candidate_verifier
+        release["candidate_authorisation"] = relative_authorisation
+        release["candidate_outputs"] = candidate["outputs"]
+
+    require(excluded.isdisjoint(authorised), "candidate output is both excluded and authorised")
+    return excluded, authorised
 
 
 def copy_release_tree(source: Path, target: Path, excluded: set[str]) -> None:
@@ -461,13 +696,19 @@ def stage_site(root: Path, site: Path, release: dict) -> None:
         if relative.startswith("reports/"):
             copy_file(archive, site, relative)
 
-    excluded_candidates = non_deploying_candidate_outputs(root, release)
+    excluded_candidates, authorised_candidates = candidate_publication_boundary(root, release)
     copy_release_tree(root / "releases", site / "releases", excluded_candidates)
     copy_tree(root / "data", site / "data")
     (site / ".nojekyll").touch()
 
     for relative in excluded_candidates:
         require(not (site / relative).exists(), f"non-deploying candidate entered Pages artifact: {relative}")
+    authorised_records = {
+        record["path"]: record for record in release.get("candidate_outputs", [])
+    }
+    require(set(authorised_records) == authorised_candidates, "authorised candidate record set changed")
+    for relative in authorised_candidates:
+        verify_record(site, authorised_records[relative], "staged authorised candidate output")
 
     required = [
         "newsv1/index.html", "newsv7/index.html", "202608260159-pipelinenews/index.html",
@@ -504,6 +745,9 @@ def emit_github_outputs(release: dict, site: Path | None) -> None:
         "project_count": EXPECTED_PROJECTS,
         "headline_count": EXPECTED_HEADLINES,
     }
+    for key in ("candidate_generation", "candidate_path", "candidate_sha256", "candidate_verifier"):
+        if key in release:
+            values[key] = release[key]
     if site is not None:
         files = [path for path in site.rglob("*") if path.is_file()]
         values["staged_files"] = len(files)
@@ -535,6 +779,9 @@ def main() -> int:
         "headline_count": EXPECTED_HEADLINES,
         "site": str(site) if site else None,
     }
+    for key in ("candidate_generation", "candidate_path", "candidate_sha256", "candidate_verifier"):
+        if key in release:
+            summary[key] = release[key]
     print(json.dumps(summary, indent=2))
     return 0
 

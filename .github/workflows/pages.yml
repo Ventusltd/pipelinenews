@@ -2,11 +2,15 @@ name: Deploy PipelineNews Pages
 
 on:
   workflow_dispatch:
+    inputs:
+      expected_sha:
+        description: Exact main commit authorised for this deployment
+        required: true
+        type: string
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
+  actions: read
 
 concurrency:
   group: pages
@@ -16,32 +20,113 @@ jobs:
   build:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     outputs:
       deployed_sha: ${{ steps.source.outputs.sha }}
       generation: ${{ steps.release.outputs.generation }}
       release_path: ${{ steps.release.outputs.release_path }}
       release_sha256: ${{ steps.release.outputs.release_sha256 }}
+      candidate_generation: ${{ steps.release.outputs.candidate_generation }}
+      candidate_path: ${{ steps.release.outputs.candidate_path }}
+      candidate_sha256: ${{ steps.release.outputs.candidate_sha256 }}
+      candidate_verifier: ${{ steps.release.outputs.candidate_verifier }}
     steps:
       - name: Checkout exact dispatch commit
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.sha }}
-          fetch-depth: 1
+          # The staging gate proves the immutable candidate and authorisation
+          # against their historical commits, so a shallow checkout is unsafe.
+          fetch-depth: 0
           persist-credentials: false
 
       - name: Record exact deployment source
         id: source
         shell: bash
-        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+        run: |
+          set -euo pipefail
+          [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$GITHUB_SHA" = "$EXPECTED_SHA"
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          git fetch --no-tags origin refs/heads/main
+          test "$(git rev-parse FETCH_HEAD)" = "$EXPECTED_SHA"
+          echo "sha=$EXPECTED_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Verify owner-authorisation workflow provenance
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import time
+          from urllib.request import Request, urlopen
+
+          records = sorted(Path("build/authorisations").glob("*-v8-fast-pages-authorisation.json"))
+          if not records:
+              print("No fast candidate authorisation is present; the staging gate will quarantine candidates.")
+              raise SystemExit(0)
+          if len(records) != 1:
+              raise AssertionError(f"expected at most one fast candidate authorisation, found {len(records)}")
+
+          authorisation = json.loads(records[0].read_text(encoding="utf-8"))
+          run_id = authorisation.get("github_run_id")
+          if not isinstance(run_id, str) or not run_id.isdigit():
+              raise AssertionError("authorisation has no valid GitHub Actions run ID")
+          repository = os.environ["GITHUB_REPOSITORY"]
+          request = Request(
+              f"https://api.github.com/repos/{repository}/actions/runs/{run_id}",
+              headers={
+                  "Accept": "application/vnd.github+json",
+                  "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
+                  "User-Agent": "PipelineNews-Pages-Gate/1",
+                  "X-GitHub-Api-Version": "2022-11-28",
+              },
+          )
+          run = None
+          for attempt in range(30):
+              with urlopen(request, timeout=20) as response:
+                  run = json.load(response)
+              if run.get("status") == "completed":
+                  break
+              if attempt == 29:
+                  raise AssertionError(f"authorisation run {run_id} did not complete")
+              time.sleep(2)
+
+          expected_actor = os.environ["GITHUB_REPOSITORY_OWNER"]
+          checks = {
+              "conclusion": (run.get("conclusion"), "success"),
+              "workflow path": (run.get("path"), ".github/workflows/authorise-v8-fast-pages.yml"),
+              "source commit": (run.get("head_sha"), authorisation.get("authorisation_source_commit")),
+              "repository": (run.get("repository", {}).get("full_name"), repository),
+              "recorded actor": (authorisation.get("authorised_by", "").casefold(), expected_actor.casefold()),
+              "run actor": (run.get("actor", {}).get("login", "").casefold(), expected_actor.casefold()),
+          }
+          for label, (actual, expected) in checks.items():
+              if actual != expected:
+                  raise AssertionError(f"authorisation {label}: expected {expected!r}, got {actual!r}")
+          if run.get("event") not in {"push", "workflow_dispatch"}:
+              raise AssertionError(f"unsupported owner-authorisation event: {run.get('event')!r}")
+          print(json.dumps({
+              "schema": "pipelinenews.v8.fast-pages-authorisation-run-proof.v1",
+              "run_id": run_id,
+              "workflow": run["path"],
+              "event": run["event"],
+              "actor": run["actor"]["login"],
+              "source_commit": run["head_sha"],
+              "conclusion": run["conclusion"],
+          }, indent=2))
+          PY
 
       - name: Configure Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "22"
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
 
       - name: Validate committed release and stage public closure
         id: release
@@ -76,21 +161,59 @@ jobs:
           curl --fail --silent --show-error "$PIPELINENEWS_PAGE_URL" >/dev/null
           node atman/202608262014-browser-proof.mjs
 
+      - name: Browser-proof staged authorised fast candidate
+        if: ${{ steps.release.outputs.candidate_path != '' }}
+        shell: bash
+        env:
+          FAST_SITE_URL: http://127.0.0.1:4173/${{ steps.release.outputs.candidate_path }}?deployment=preview-${{ steps.source.outputs.sha }}
+          FAST_SITE_VERIFIER: ${{ steps.release.outputs.candidate_verifier }}
+          FAST_SITE_EVIDENCE: reports/browser-${{ steps.release.outputs.candidate_generation }}-fast-preview.json
+        run: |
+          set -euo pipefail
+          test -n "$FAST_SITE_VERIFIER"
+          test -f "$FAST_SITE_VERIFIER"
+          mkdir -p reports
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory _site >"$RUNNER_TEMP/pipelinenews-fast-preview.log" 2>&1 &
+          server_pid="$!"
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..20}; do
+            if curl --fail --silent --show-error "$FAST_SITE_URL" >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl --fail --silent --show-error "$FAST_SITE_URL" >/dev/null
+          node "$FAST_SITE_VERIFIER" | tee "$FAST_SITE_EVIDENCE"
+
       - name: Upload predeployment browser evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pipelinenews-${{ steps.release.outputs.generation || 'unknown' }}-preview-${{ steps.source.outputs.sha || github.sha }}
-          path: reports/browser-*-preview
+          path: |
+            reports/browser-*-preview
+            reports/browser-*-fast-preview.json
           if-no-files-found: warn
           retention-days: 30
 
-      - name: Upload checked Pages artifact
+      - name: Recheck exact main before packaging
+        env:
+          EXPECTED_SHA: ${{ steps.source.outputs.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin refs/heads/main
+          test "$(git rev-parse FETCH_HEAD)" = "$EXPECTED_SHA"
+
+      - name: Package checked Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
 
   deploy:
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}${{ needs.build.outputs.release_path }}
@@ -107,17 +230,17 @@ jobs:
   verify-live:
     runs-on: ubuntu-latest
     needs: [build, deploy]
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - name: Checkout exact deployed commit
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ needs.build.outputs.deployed_sha }}
           fetch-depth: 1
           persist-credentials: false
 
       - name: Configure Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "22"
 
@@ -150,6 +273,208 @@ jobs:
           echo "Exact modular release HTML did not become observable at $live" >&2
           exit 1
 
+      - name: Verify every deployed fast-candidate and shared-runtime byte
+        if: ${{ needs.build.outputs.candidate_path != '' }}
+        shell: bash
+        env:
+          PAGE_ROOT: ${{ needs.deploy.outputs.page_url }}
+          CANDIDATE_GENERATION: ${{ needs.build.outputs.candidate_generation }}
+          CANDIDATE_PATH: ${{ needs.build.outputs.candidate_path }}
+          CANDIDATE_SHA256: ${{ needs.build.outputs.candidate_sha256 }}
+          DEPLOYED_SHA: ${{ needs.build.outputs.deployed_sha }}
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path, PurePosixPath
+          import re
+          import time
+          from urllib.parse import quote
+          from urllib.request import Request, urlopen
+
+          generation = os.environ["CANDIDATE_GENERATION"]
+          candidate_path = os.environ["CANDIDATE_PATH"]
+          expected_candidate_sha = os.environ["CANDIDATE_SHA256"]
+          deployed_sha = os.environ["DEPLOYED_SHA"]
+          page_root = os.environ["PAGE_ROOT"].rstrip("/")
+          if not re.fullmatch(r"\d{12}", generation):
+              raise AssertionError(f"invalid candidate generation: {generation!r}")
+          if not re.fullmatch(r"[0-9a-f]{64}", expected_candidate_sha):
+              raise AssertionError("invalid candidate SHA-256 output")
+
+          manifest_path = Path("build") / f"{generation}-v8-fast-site-manifest.json"
+          manifest_bytes = manifest_path.read_bytes()
+          manifest_sha = hashlib.sha256(manifest_bytes).hexdigest()
+          manifest = json.loads(manifest_bytes)
+          if (
+              manifest.get("schema") != "pipelinenews.v8.fast-site-candidate.v1"
+              or manifest.get("generation") != generation
+              or manifest.get("deployment") != "not-authorised"
+          ):
+              raise AssertionError("immutable fast-candidate manifest boundary changed")
+          outputs = manifest.get("outputs")
+          if not isinstance(outputs, list) or not outputs:
+              raise AssertionError("authorised fast candidate has no declared outputs")
+
+          authorisation_path = Path("build/authorisations") / f"{generation}-v8-fast-pages-authorisation.json"
+          authorisation = json.loads(authorisation_path.read_text(encoding="utf-8"))
+          if (
+              authorisation.get("schema") != "pipelinenews.v8.fast-pages-authorisation.v1"
+              or authorisation.get("generation") != generation
+              or authorisation.get("scope") != "github-pages-immutable-candidate"
+              or authorisation.get("deployment") != "authorised"
+              or authorisation.get("stable_route_promoted") is not False
+              or authorisation.get("globalgrid_catalogue_changed") is not False
+          ):
+              raise AssertionError("fast-candidate Pages authorisation boundary changed")
+          expected_manifest_binding = {
+              "path": manifest_path.as_posix(),
+              "sha256": manifest_sha,
+          }
+          if authorisation.get("candidate_manifest") != expected_manifest_binding:
+              raise AssertionError("authorisation does not bind the exact immutable candidate manifest")
+          if authorisation.get("outputs") != outputs:
+              raise AssertionError("authorisation output closure differs from the candidate manifest")
+          candidate_binding = authorisation.get("candidate")
+          if not isinstance(candidate_binding, dict) or candidate_binding != {
+              "source_commit": manifest.get("source_commit"),
+              "build_run": str(manifest.get("github_run_id")),
+              "cache_identity": manifest.get("cache_identity"),
+          }:
+              raise AssertionError("authorisation candidate identity differs from the immutable manifest")
+          canonical_outputs = json.dumps(outputs, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+          outputs_sha = hashlib.sha256(canonical_outputs).hexdigest()
+          if (
+              authorisation.get("outputs_sha256") != outputs_sha
+              or authorisation.get("output_closure_sha256") != outputs_sha
+          ):
+              raise AssertionError("authorisation output-closure hash changed")
+
+          records = []
+          seen = set()
+          runtime_dependencies = [
+              record for record in manifest.get("inputs", [])
+              if (
+                  re.fullmatch(r"data/projects/202608261927-project-partition-v9-1-\d{2}\.json", str(record.get("path")))
+                  or record.get("path") == "releases/vendor/202608261927-chart-umd.min.js"
+              )
+          ]
+          if len(runtime_dependencies) != 17:
+              raise AssertionError(
+                  f"expected 16 detail partitions and pinned Chart.js, found {len(runtime_dependencies)} runtime dependencies"
+              )
+          declared_live_records = [*outputs, *runtime_dependencies]
+          for record in declared_live_records:
+              relative = record.get("path")
+              expected_bytes = record.get("bytes")
+              expected_sha = record.get("sha256")
+              if not isinstance(relative, str):
+                  raise AssertionError(f"unsafe deployed path: {relative!r}")
+              safe_release = re.fullmatch(r"releases/[A-Za-z0-9._/-]+", relative)
+              pinned_detail = re.fullmatch(
+                  r"data/projects/202608261927-project-partition-v9-1-\d{2}\.json",
+                  relative,
+              )
+              if safe_release is None and pinned_detail is None:
+                  raise AssertionError(f"unsafe deployed path: {relative!r}")
+              path = PurePosixPath(relative)
+              if path.is_absolute() or ".." in path.parts or path.as_posix() != relative:
+                  raise AssertionError(f"unsafe deployed path: {relative!r}")
+              if relative in seen:
+                  raise AssertionError(f"duplicate candidate output path: {relative}")
+              seen.add(relative)
+              if not isinstance(expected_bytes, int) or expected_bytes < 0:
+                  raise AssertionError(f"invalid byte count for {relative}")
+              if not isinstance(expected_sha, str) or not re.fullmatch(r"[0-9a-f]{64}", expected_sha):
+                  raise AssertionError(f"invalid SHA-256 for {relative}")
+              records.append((relative, expected_bytes, expected_sha))
+
+          # Candidate publication must not alter the existing stable pointer.
+          stable_pointer = Path("archive/202608261547-pipelinenews/releases/current.json").read_bytes()
+          records.append((
+              "releases/current.json",
+              len(stable_pointer),
+              hashlib.sha256(stable_pointer).hexdigest(),
+          ))
+
+          candidate_records = [record for record in records if record[0] == candidate_path]
+          if len(candidate_records) != 1 or candidate_records[0][2] != expected_candidate_sha:
+              raise AssertionError("candidate path/SHA outputs disagree with the manifest")
+
+          last_errors = []
+          verified = []
+          for attempt in range(1, 31):
+              last_errors = []
+              verified = []
+              for relative, expected_bytes, expected_sha in records:
+                  url = f"{page_root}/{quote(relative, safe='/')}?deployment={quote(deployed_sha, safe='')}"
+                  try:
+                      request = Request(url, headers={"Cache-Control": "no-cache", "User-Agent": "PipelineNews-Pages-Gate/1"})
+                      with urlopen(request, timeout=20) as response:
+                          payload = response.read()
+                      actual_sha = hashlib.sha256(payload).hexdigest()
+                      if len(payload) != expected_bytes or actual_sha != expected_sha:
+                          raise AssertionError(
+                              f"expected {expected_bytes}/{expected_sha}, got {len(payload)}/{actual_sha}"
+                          )
+                      verified.append({
+                          "path": relative,
+                          "bytes": len(payload),
+                          "sha256": actual_sha,
+                          "url": url,
+                      })
+                  except Exception as error:
+                      last_errors.append(f"{relative}: {error}")
+              if not last_errors:
+                  break
+              if attempt < 30:
+                  time.sleep(2)
+          else:
+              raise AssertionError("deployed fast-candidate closure did not converge: " + "; ".join(last_errors))
+
+          evidence = {
+              "schema": "pipelinenews.v8.fast-pages-closure-proof.v1",
+              "generation": generation,
+              "deployed_sha": deployed_sha,
+              "candidate_manifest": {
+                  "path": manifest_path.as_posix(),
+                  "sha256": manifest_sha,
+                  "deployment": manifest["deployment"],
+              },
+              "authorisation": {
+                  "path": authorisation_path.as_posix(),
+                  "scope": authorisation["scope"],
+                  "deployment": authorisation["deployment"],
+              },
+              "candidate_output_count": len(outputs),
+              "shared_runtime_dependency_count": len(runtime_dependencies),
+              "stable_pointer_unchanged": True,
+              "verified_file_count": len(records),
+              "outputs": verified,
+              "status": "PASS",
+          }
+          evidence_path = Path("reports") / f"fast-live-closure-{generation}.json"
+          evidence_path.write_text(json.dumps(evidence, indent=2) + "\n", encoding="utf-8")
+          print(json.dumps(evidence, indent=2))
+          PY
+
+      - name: Browser-proof deployed authorised fast candidate
+        if: ${{ needs.build.outputs.candidate_path != '' }}
+        shell: bash
+        env:
+          FAST_SITE_URL: ${{ needs.deploy.outputs.page_url }}${{ needs.build.outputs.candidate_path }}?deployment=${{ needs.build.outputs.deployed_sha }}
+          FAST_SITE_VERIFIER: ${{ needs.build.outputs.candidate_verifier }}
+          FAST_SITE_EVIDENCE: reports/browser-${{ needs.build.outputs.candidate_generation }}-fast-live.json
+        run: |
+          set -euo pipefail
+          test -n "$FAST_SITE_VERIFIER"
+          test -f "$FAST_SITE_VERIFIER"
+          mkdir -p reports
+          node "$FAST_SITE_VERIFIER" | tee "$FAST_SITE_EVIDENCE"
+
       - name: Browser-proof deployed modular release
         env:
           PIPELINENEWS_GENERATION: ${{ needs.build.outputs.generation }}
@@ -163,6 +488,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pipelinenews-${{ needs.build.outputs.generation }}-live-${{ needs.build.outputs.deployed_sha }}
-          path: reports/browser-*-live
+          path: |
+            reports/browser-*-live
+            reports/browser-*-fast-live.json
+            reports/fast-live-closure-*.json
           if-no-files-found: warn
           retention-days: 30

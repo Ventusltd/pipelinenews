@@ -1,0 +1,478 @@
+name: Authorise PipelineNews V8 Fast Pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/authorise-v8-fast-pages.yml"
+      - ".github/DEPLOYMENT_POLICY.md"
+      - "atman/202608262014-build-pages.py"
+      - ".github/workflows/pages.yml"
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: authorise-pipelinenews-v8-fast-pages-202608270055
+  cancel-in-progress: false
+
+env:
+  FAST_GENERATION: "202608270055"
+  FAST_CANDIDATE_OUTPUT_COMMIT: "05ad62ead902f4da83653bcc92271253955e74cc"
+  FAST_CANDIDATE_SOURCE_COMMIT: "6c403c2f4719c104798fa2268c6bf50f3594d140"
+  FAST_CANDIDATE_BUILD_RUN: "33029856342"
+  FAST_CANDIDATE_MANIFEST: "build/202608270055-v8-fast-site-manifest.json"
+  FAST_CANDIDATE_MANIFEST_SHA256: "48483afade72813649d9168bb27723a9bca3ba4f81a8d8e5983946a381999601"
+  FAST_CACHE_IDENTITY: "8ab1807551bc77066e46e01cb0690dfaa41d473d8433644046f56b6984579b06"
+  FAST_AUTHORISATION: "build/authorisations/202608270055-v8-fast-pages-authorisation.json"
+  FAST_WORK_ROOT: "work/v8-fast-pages-authorisation"
+
+jobs:
+  authorise-and-dispatch:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact authorisation source
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          # Candidate validation executes repository code. Do not expose a
+          # write-capable credential until the final, bounded commit step.
+          persist-credentials: false
+
+      - name: Configure Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Validate exact main source and immutable boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$GITHUB_ACTOR" = "$GITHUB_REPOSITORY_OWNER"
+          case "$GITHUB_EVENT_NAME" in
+            push|workflow_dispatch) ;;
+            *) echo "Unsupported owner-authorisation event: $GITHUB_EVENT_NAME" >&2; exit 1 ;;
+          esac
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test -z "$(git status --porcelain=v1)"
+          mkdir -p "$FAST_WORK_ROOT/evidence"
+          node --input-type=module <<'NODE'
+          import { writeFile } from "node:fs/promises";
+          const record = {
+            schema: "pipelinenews.v8.fast-pages-authorisation-source.v1",
+            generation: process.env.FAST_GENERATION,
+            source_commit: process.env.GITHUB_SHA,
+            ref: process.env.GITHUB_REF,
+            event: process.env.GITHUB_EVENT_NAME,
+            run_id: process.env.GITHUB_RUN_ID,
+          };
+          await writeFile(
+            `${process.env.FAST_WORK_ROOT}/evidence/source-record.json`,
+            `${JSON.stringify(record, null, 2)}\n`,
+          );
+          NODE
+
+          git fetch --no-tags origin refs/heads/main
+          test "$(git rev-parse FETCH_HEAD)" = "$GITHUB_SHA"
+          git cat-file -e "${FAST_CANDIDATE_OUTPUT_COMMIT}^{commit}"
+          test "$(git rev-parse "${GITHUB_SHA}^")" = "$FAST_CANDIDATE_OUTPUT_COMMIT"
+          git merge-base --is-ancestor "$FAST_CANDIDATE_OUTPUT_COMMIT" "$GITHUB_SHA"
+          git merge-base --is-ancestor "$FAST_CANDIDATE_SOURCE_COMMIT" "$FAST_CANDIDATE_OUTPUT_COMMIT"
+          expected_source_paths=(
+            ".github/DEPLOYMENT_POLICY.md"
+            ".github/workflows/authorise-v8-fast-pages.yml"
+            ".github/workflows/pages.yml"
+            "atman/202608262014-build-pages.py"
+          )
+          mapfile -t actual_source_paths < <(
+            git diff --name-only "$FAST_CANDIDATE_OUTPUT_COMMIT" "$GITHUB_SHA" | LC_ALL=C sort
+          )
+          test "${#actual_source_paths[@]}" = "${#expected_source_paths[@]}"
+          for index in "${!expected_source_paths[@]}"; do
+            test "${actual_source_paths[$index]}" = "${expected_source_paths[$index]}"
+          done
+          # Nothing outside the already-green candidate commit may alter the
+          # public Pages trees during this one-off promotion.
+          git diff --quiet "$FAST_CANDIDATE_OUTPUT_COMMIT" "$GITHUB_SHA" -- releases data archive
+          if [[ -e "$FAST_AUTHORISATION" || -L "$FAST_AUTHORISATION" ]]; then
+            echo "Immutable authorisation already exists: $FAST_AUTHORISATION" >&2
+            exit 1
+          fi
+
+      - name: Prove candidate bytes are unchanged from the green build
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE' | tee "$FAST_WORK_ROOT/evidence/candidate-immutability-proof.json"
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { readFile } from "node:fs/promises";
+          import { spawnSync } from "node:child_process";
+
+          const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
+          const manifestPath = process.env.FAST_CANDIDATE_MANIFEST;
+          const candidateCommit = process.env.FAST_CANDIDATE_OUTPUT_COMMIT;
+          const manifestBytes = await readFile(manifestPath);
+          assert.equal(sha256(manifestBytes), process.env.FAST_CANDIDATE_MANIFEST_SHA256, "candidate manifest hash changed");
+          const manifest = JSON.parse(manifestBytes);
+          assert.equal(manifest.schema, "pipelinenews.v8.fast-site-candidate.v1");
+          assert.equal(manifest.generation, process.env.FAST_GENERATION);
+          assert.equal(manifest.deployment, "not-authorised", "candidate manifest must remain immutable and not-authorised");
+          assert.equal(manifest.source_commit, process.env.FAST_CANDIDATE_SOURCE_COMMIT);
+          assert.equal(String(manifest.github_run_id), process.env.FAST_CANDIDATE_BUILD_RUN);
+          assert.equal(manifest.cache_identity, process.env.FAST_CACHE_IDENTITY);
+          assert.ok(Array.isArray(manifest.outputs) && manifest.outputs.length === 7, "candidate must declare seven outputs");
+
+          const paths = [manifestPath, ...manifest.outputs.map(({ path }) => path)];
+          assert.equal(new Set(paths).size, paths.length, "candidate closure has duplicate paths");
+          for (const relative of paths) {
+            assert.match(relative, /^(?:build\/202608270055-v8-fast-site-manifest\.json|releases\/[A-Za-z0-9._/-]+)$/u, `unsafe candidate path: ${relative}`);
+            const current = await readFile(relative);
+            const built = spawnSync("git", ["show", `${candidateCommit}:${relative}`], {
+              encoding: "buffer",
+              maxBuffer: 32 * 1024 * 1024,
+            });
+            assert.equal(built.status, 0, built.stderr.toString());
+            assert.ok(current.equals(built.stdout), `candidate bytes changed after ${candidateCommit}: ${relative}`);
+          }
+          for (const record of manifest.outputs) {
+            const bytes = await readFile(record.path);
+            assert.equal(bytes.length, record.bytes, `candidate byte count changed: ${record.path}`);
+            assert.equal(sha256(bytes), record.sha256, `candidate hash changed: ${record.path}`);
+          }
+          console.log(JSON.stringify({
+            schema: "pipelinenews.v8.fast-candidate-immutability-proof.v1",
+            generation: manifest.generation,
+            candidate_output_commit: candidateCommit,
+            manifest: { path: manifestPath, sha256: sha256(manifestBytes) },
+            outputs: manifest.outputs,
+            current_bytes_equal_candidate_commit: true,
+          }, null, 2));
+          NODE
+
+      - name: Verify the compiled data and cache contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          node "build/javascript/${FAST_GENERATION}-verify-v8-fast-contract.mjs" \
+            --root . \
+            --generation "$FAST_GENERATION" \
+            --source-manifest "$FAST_CANDIDATE_MANIFEST" \
+            | tee "$FAST_WORK_ROOT/evidence/contract-proof.json"
+
+      - name: Install pinned browser verifier
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Browser-proof desktop and mobile candidate
+        shell: bash
+        env:
+          FAST_SITE_URL: http://127.0.0.1:4173/releases/202608270055-v8-fast-candidate.html
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory . > "$RUNNER_TEMP/v8-fast-authorise-http.log" 2>&1 &
+          server_pid="$!"
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..20}; do
+            if curl --fail --silent --show-error "$FAST_SITE_URL" >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl --fail --silent --show-error "$FAST_SITE_URL" >/dev/null
+          node "build/javascript/${FAST_GENERATION}-verify-v8-fast-browser.mjs" \
+            | tee "$FAST_WORK_ROOT/evidence/browser-proof.json"
+
+      - name: Create one immutable Pages authorisation
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { mkdir, readFile, writeFile } from "node:fs/promises";
+          import { spawnSync } from "node:child_process";
+          import path from "node:path";
+
+          function canonicalJson(value) {
+            if (value === null || typeof value !== "object") return JSON.stringify(value);
+            if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
+            return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(",")}}`;
+          }
+          const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
+          const manifestBytes = await readFile(process.env.FAST_CANDIDATE_MANIFEST);
+          assert.equal(sha256(manifestBytes), process.env.FAST_CANDIDATE_MANIFEST_SHA256);
+          const manifest = JSON.parse(manifestBytes);
+          assert.equal(manifest.deployment, "not-authorised");
+          const compactOutputs = canonicalJson(manifest.outputs);
+          const outputsSha256 = sha256(Buffer.from(compactOutputs, "utf8"));
+          const timestamp = spawnSync("git", ["show", "-s", "--format=%cI", process.env.GITHUB_SHA], { encoding: "utf8" });
+          assert.equal(timestamp.status, 0, timestamp.stderr);
+          const authorisedAtSourceCommit = timestamp.stdout.trim();
+          assert.equal(Number.isNaN(Date.parse(authorisedAtSourceCommit)), false, "invalid source commit timestamp");
+
+          const authorisation = {
+            schema: "pipelinenews.v8.fast-pages-authorisation.v1",
+            generation: process.env.FAST_GENERATION,
+            scope: "github-pages-immutable-candidate",
+            deployment: "authorised",
+            candidate_manifest: {
+              path: process.env.FAST_CANDIDATE_MANIFEST,
+              sha256: process.env.FAST_CANDIDATE_MANIFEST_SHA256,
+            },
+            candidate: {
+              source_commit: manifest.source_commit,
+              build_run: String(manifest.github_run_id),
+              cache_identity: manifest.cache_identity,
+            },
+            outputs: manifest.outputs,
+            outputs_sha256: outputsSha256,
+            output_closure_sha256: outputsSha256,
+            candidate_output_commit: process.env.FAST_CANDIDATE_OUTPUT_COMMIT,
+            authorisation_source_commit: process.env.GITHUB_SHA,
+            github_run_id: process.env.GITHUB_RUN_ID,
+            authorised_by: process.env.GITHUB_ACTOR,
+            authorised_at_source_commit: authorisedAtSourceCommit,
+            evidence: {
+              actor: process.env.GITHUB_ACTOR,
+              run_id: process.env.GITHUB_RUN_ID,
+              source: process.env.GITHUB_SHA,
+              authorised_at_utc: authorisedAtSourceCommit,
+            },
+            stable_route_promoted: false,
+            globalgrid_catalogue_changed: false,
+          };
+          assert.equal(authorisation.candidate.source_commit, process.env.FAST_CANDIDATE_SOURCE_COMMIT);
+          assert.equal(authorisation.candidate.build_run, process.env.FAST_CANDIDATE_BUILD_RUN);
+          assert.equal(authorisation.candidate.cache_identity, process.env.FAST_CACHE_IDENTITY);
+
+          const target = path.resolve(process.env.FAST_AUTHORISATION);
+          assert.ok(target.startsWith(`${process.cwd()}${path.sep}`), "authorisation path escapes repository");
+          await mkdir(path.dirname(target), { recursive: true });
+          await writeFile(target, `${JSON.stringify(authorisation, null, 2)}\n`, { flag: "wx" });
+          await writeFile(
+            `${process.env.FAST_WORK_ROOT}/evidence/authorisation-record.json`,
+            `${JSON.stringify(authorisation, null, 2)}\n`,
+            { flag: "wx" },
+          );
+          NODE
+
+      - name: Stage only the immutable authorisation
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE' | tee "$FAST_WORK_ROOT/evidence/staged-authorisation-proof.json"
+          import assert from "node:assert/strict";
+          import { readFile } from "node:fs/promises";
+          import { spawnSync } from "node:child_process";
+
+          const relative = process.env.FAST_AUTHORISATION;
+          const add = spawnSync("git", ["add", "--", relative], { encoding: "utf8" });
+          assert.equal(add.status, 0, add.stderr || add.stdout);
+          const names = spawnSync("git", ["diff", "--cached", "--name-only", "-z"], { encoding: "buffer" });
+          assert.equal(names.status, 0, names.stderr.toString());
+          const staged = names.stdout.toString("utf8").split("\0").filter(Boolean);
+          assert.deepEqual(staged, [relative], "only the immutable authorisation may be staged");
+          const status = spawnSync("git", ["diff", "--cached", "--name-status"], { encoding: "utf8" });
+          assert.equal(status.status, 0, status.stderr);
+          assert.equal(status.stdout.trim(), `A\t${relative}`, "authorisation must be a new immutable file");
+          const stagedBytes = spawnSync("git", ["show", `:${relative}`], { encoding: "buffer" });
+          assert.equal(stagedBytes.status, 0, stagedBytes.stderr.toString());
+          assert.ok(stagedBytes.stdout.equals(await readFile(relative)), "staged authorisation bytes changed");
+          console.log(JSON.stringify({
+            schema: "pipelinenews.v8.fast-pages-authorisation-stage-proof.v1",
+            generation: process.env.FAST_GENERATION,
+            staged_paths: staged,
+            change: "added",
+          }, null, 2));
+          NODE
+
+      - name: Commit the green authorisation locally
+        id: commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "v8: authorise fast Pages candidate ${FAST_GENERATION}"
+          authorisation_commit="$(git rev-parse HEAD)"
+          test "$(git rev-parse HEAD^)" = "$GITHUB_SHA"
+          test "$(git rev-list --parents -n 1 HEAD | wc -w)" = "2"
+          test "$(git diff-tree --no-commit-id --name-only -r HEAD)" = "$FAST_AUTHORISATION"
+          echo "sha=$authorisation_commit" >> "$GITHUB_OUTPUT"
+          AUTHORISATION_COMMIT="$authorisation_commit" node --input-type=module <<'NODE'
+          import { writeFile } from "node:fs/promises";
+          await writeFile(
+            `${process.env.FAST_WORK_ROOT}/evidence/authorisation-commit.json`,
+            `${JSON.stringify({
+              schema: "pipelinenews.v8.fast-pages-authorisation-commit.v1",
+              generation: process.env.FAST_GENERATION,
+              source_commit: process.env.GITHUB_SHA,
+              authorisation_commit: process.env.AUTHORISATION_COMMIT,
+              exact_parent_verified: true,
+              committed_paths: [process.env.FAST_AUTHORISATION],
+            }, null, 2)}\n`,
+          );
+          NODE
+
+      - name: Prove the committed authorised Pages boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY' | tee "$FAST_WORK_ROOT/evidence/pages-boundary-proof.json"
+          import importlib.util
+          import json
+          from pathlib import Path
+
+          root = Path.cwd().resolve()
+          module_path = root / "atman/202608262014-build-pages.py"
+          spec = importlib.util.spec_from_file_location("pipelinenews_pages_gate", module_path)
+          module = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(module)
+          release = module.validate_release(root, "latest")
+          excluded, authorised = module.candidate_publication_boundary(root, release)
+          manifest = json.loads((root / "build/202608270055-v8-fast-site-manifest.json").read_text(encoding="utf-8"))
+          expected = {record["path"] for record in manifest["outputs"]}
+          module.require(authorised == expected, "authorised Pages output set differs from candidate manifest")
+          module.require(excluded == set(), "authorised candidate still has excluded outputs")
+          module.require(release["candidate_generation"] == manifest["generation"], "candidate generation not bound")
+          module.require(release["candidate_path"] == "releases/202608270055-v8-fast-candidate.html", "candidate route not bound")
+          module.require(release["candidate_sha256"] == manifest["outputs"][0]["sha256"], "candidate HTML hash not bound")
+          module.require(release["candidate_verifier"] == "build/javascript/202608270055-verify-v8-fast-browser.mjs", "browser verifier not bound")
+          print(json.dumps({
+              "schema": "pipelinenews.v8.fast-pages-authorised-boundary-proof.v1",
+              "generation": manifest["generation"],
+              "candidate_authorisation": release["candidate_authorisation"],
+              "authorised_outputs": sorted(authorised),
+              "excluded_outputs": sorted(excluded),
+              "candidate_path": release["candidate_path"],
+              "candidate_sha256": release["candidate_sha256"],
+              "stable_route_promoted": False,
+              "pages_artifact_created": False,
+          }, indent=2))
+          PY
+
+      - name: Prepare the complete pre-push evidence
+        shell: bash
+        env:
+          AUTHORISATION_COMMIT: ${{ steps.commit.outputs.sha }}
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { readFile, writeFile } from "node:fs/promises";
+
+          const root = `${process.env.FAST_WORK_ROOT}/evidence`;
+          const required = [
+            "source-record.json",
+            "candidate-immutability-proof.json",
+            "contract-proof.json",
+            "browser-proof.json",
+            "authorisation-record.json",
+            "staged-authorisation-proof.json",
+            "authorisation-commit.json",
+            "pages-boundary-proof.json",
+          ];
+          const files = [];
+          for (const name of required) {
+            const bytes = await readFile(`${root}/${name}`);
+            assert.ok(bytes.length > 0, `empty required evidence: ${name}`);
+            files.push({
+              path: name,
+              bytes: bytes.length,
+              sha256: createHash("sha256").update(bytes).digest("hex"),
+            });
+          }
+          const record = {
+            schema: "pipelinenews.v8.fast-pages-pre-push-evidence.v1",
+            generation: process.env.FAST_GENERATION,
+            source_commit: process.env.GITHUB_SHA,
+            authorisation_commit: process.env.AUTHORISATION_COMMIT,
+            candidate_output_commit: process.env.FAST_CANDIDATE_OUTPUT_COMMIT,
+            evidence_files: files,
+            remote_mutation_performed: false,
+          };
+          await writeFile(`${root}/pre-push-evidence.json`, `${JSON.stringify(record, null, 2)}\n`, { flag: "wx" });
+          NODE
+
+      - name: Upload complete authorisation evidence before mutation
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-v8-fast-pages-authorisation-${{ env.FAST_GENERATION }}-${{ github.run_id }}
+          path: ${{ env.FAST_WORK_ROOT }}/evidence
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish the proved authorisation
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AUTHORISATION_COMMIT: ${{ steps.commit.outputs.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$AUTHORISATION_COMMIT"
+          test "$(git rev-parse HEAD^)" = "$GITHUB_SHA"
+          git fetch --no-tags origin refs/heads/main
+          test "$(git rev-parse FETCH_HEAD)" = "$GITHUB_SHA"
+          basic_authorisation="$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic ${basic_authorisation}" \
+            push origin HEAD:main
+
+      - name: Dispatch the governed Pages workflow
+        continue-on-error: true
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AUTHORISATION_COMMIT: ${{ steps.commit.outputs.sha }}
+        run: |
+          set +e
+          accepted=false
+          last_http_status="000"
+          last_curl_status=0
+          attempts=0
+          for attempt in 1 2 3 4 5; do
+            attempts="$attempt"
+            response_file="$RUNNER_TEMP/pages-dispatch-response-${attempt}.txt"
+            http_status="$(
+              curl --silent --show-error \
+                --max-time 20 \
+                --output "$response_file" \
+                --write-out '%{http_code}' \
+                --request POST \
+                --header "Accept: application/vnd.github+json" \
+                --header "Authorization: Bearer ${GH_TOKEN}" \
+                --header "X-GitHub-Api-Version: 2022-11-28" \
+                "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/pages.yml/dispatches" \
+                --data "{\"ref\":\"main\",\"inputs\":{\"expected_sha\":\"${AUTHORISATION_COMMIT}\"}}"
+            )"
+            last_curl_status="$?"
+            last_http_status="${http_status:-000}"
+            if [[ "$last_curl_status" = "0" && "$last_http_status" = "204" ]]; then
+              accepted=true
+              break
+            fi
+            if [[ "$attempt" != "5" ]]; then
+              sleep 2
+            fi
+          done
+
+          printf '{"schema":"pipelinenews.v8.fast-pages-dispatch.v1","generation":"%s","workflow":".github/workflows/pages.yml","ref":"main","expected_sha":"%s","attempts":%s,"http_status":"%s","curl_status":%s,"accepted":%s}\n' \
+            "$FAST_GENERATION" "$AUTHORISATION_COMMIT" "$attempts" "$last_http_status" "$last_curl_status" "$accepted"
+          if [[ "$accepted" = "true" ]]; then
+            echo "Pages dispatch accepted for ${AUTHORISATION_COMMIT}." >> "$GITHUB_STEP_SUMMARY" || true
+          else
+            echo "::warning title=Pages dispatch pending::The immutable authorisation is green at ${AUTHORISATION_COMMIT}, but Pages dispatch was not accepted after ${attempts} attempts. Re-run Pages with expected_sha=${AUTHORISATION_COMMIT}."
+            echo "Pages dispatch pending; manually run Pages with expected_sha=${AUTHORISATION_COMMIT}. accepted:false" >> "$GITHUB_STEP_SUMMARY" || true
+          fi
+          exit 0
