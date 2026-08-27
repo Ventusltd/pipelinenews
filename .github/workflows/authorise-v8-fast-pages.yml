@@ -15,19 +15,21 @@ permissions:
   actions: write
 
 concurrency:
-  group: authorise-pipelinenews-v8-fast-pages-202608270055
+  group: authorise-pipelinenews-v8-fast-pages-202608271329
   cancel-in-progress: false
 
 env:
-  FAST_GENERATION: "202608270055"
-  FAST_CANDIDATE_OUTPUT_COMMIT: "05ad62ead902f4da83653bcc92271253955e74cc"
-  FAST_CANDIDATE_SOURCE_COMMIT: "6c403c2f4719c104798fa2268c6bf50f3594d140"
-  FAST_CANDIDATE_BUILD_RUN: "33029856342"
-  FAST_CANDIDATE_MANIFEST: "build/202608270055-v8-fast-site-manifest.json"
-  FAST_CANDIDATE_MANIFEST_SHA256: "48483afade72813649d9168bb27723a9bca3ba4f81a8d8e5983946a381999601"
-  FAST_CACHE_IDENTITY: "8ab1807551bc77066e46e01cb0690dfaa41d473d8433644046f56b6984579b06"
-  FAST_AUTHORISATION: "build/authorisations/202608270055-v8-fast-pages-authorisation.json"
-  FAST_WORK_ROOT: "work/v8-fast-pages-authorisation"
+  FAST_GENERATION: "202608271329"
+  FAST_CANDIDATE_OUTPUT_COMMIT: "e269aa0d67f8d39304938dc42584f2b6dd3dee9e"
+  FAST_CANDIDATE_SOURCE_COMMIT: "799bb304d38765aa1f9b176dc46525c30acaf9cc"
+  FAST_CANDIDATE_BUILD_RUN: "33074121050"
+  FAST_CANDIDATE_MANIFEST: "build/202608271329-v8-fast-site-manifest.json"
+  FAST_CANDIDATE_MANIFEST_SHA256: "8026752e42872863f034d34dbfbbf8242edadfae6581574a5b8fc112b4b45268"
+  FAST_CACHE_IDENTITY: "b6d619bca4667020c9c8590753238b85601df74771e11041d6e9e0258f81c70c"
+  FAST_AUTHORISATION_SOURCE_PARENT: "150292d55f56361716200c15792a24239f60bf6f"
+  FAST_PREVIOUS_AUTHORISATION: "build/authorisations/202608270055-v8-fast-pages-authorisation.json"
+  FAST_AUTHORISATION: "build/authorisations/202608271329-v8-fast-pages-authorisation.json"
+  FAST_WORK_ROOT: "work/202608271329-v8-fast-pages-authorisation"
 
 jobs:
   authorise-and-dispatch:
@@ -81,7 +83,9 @@ jobs:
           git fetch --no-tags origin refs/heads/main
           test "$(git rev-parse FETCH_HEAD)" = "$GITHUB_SHA"
           git cat-file -e "${FAST_CANDIDATE_OUTPUT_COMMIT}^{commit}"
-          test "$(git rev-parse "${GITHUB_SHA}^")" = "$FAST_CANDIDATE_OUTPUT_COMMIT"
+          test "$(git rev-list --parents -n 1 "$GITHUB_SHA" | wc -w)" = "2"
+          test "$(git rev-parse "${GITHUB_SHA}^")" = "$FAST_AUTHORISATION_SOURCE_PARENT"
+          test "$(git rev-parse "${FAST_AUTHORISATION_SOURCE_PARENT}^")" = "$FAST_CANDIDATE_OUTPUT_COMMIT"
           git merge-base --is-ancestor "$FAST_CANDIDATE_OUTPUT_COMMIT" "$GITHUB_SHA"
           git merge-base --is-ancestor "$FAST_CANDIDATE_SOURCE_COMMIT" "$FAST_CANDIDATE_OUTPUT_COMMIT"
           expected_source_paths=(
@@ -89,9 +93,10 @@ jobs:
             ".github/workflows/authorise-v8-fast-pages.yml"
             ".github/workflows/pages.yml"
             "atman/202608262014-build-pages.py"
+            "build/authorisations/202608270055-v8-fast-pages-authorisation.json"
           )
           mapfile -t actual_source_paths < <(
-            git diff --name-only "$FAST_CANDIDATE_OUTPUT_COMMIT" "$GITHUB_SHA" | LC_ALL=C sort
+            git diff --name-only "$FAST_AUTHORISATION_SOURCE_PARENT" "$GITHUB_SHA" | LC_ALL=C sort
           )
           test "${#actual_source_paths[@]}" = "${#expected_source_paths[@]}"
           for index in "${!expected_source_paths[@]}"; do
@@ -100,6 +105,7 @@ jobs:
           # Nothing outside the already-green candidate commit may alter the
           # public Pages trees during this one-off promotion.
           git diff --quiet "$FAST_CANDIDATE_OUTPUT_COMMIT" "$GITHUB_SHA" -- releases data archive
+          test ! -e "$FAST_PREVIOUS_AUTHORISATION"
           if [[ -e "$FAST_AUTHORISATION" || -L "$FAST_AUTHORISATION" ]]; then
             echo "Immutable authorisation already exists: $FAST_AUTHORISATION" >&2
             exit 1
@@ -127,12 +133,15 @@ jobs:
           assert.equal(manifest.source_commit, process.env.FAST_CANDIDATE_SOURCE_COMMIT);
           assert.equal(String(manifest.github_run_id), process.env.FAST_CANDIDATE_BUILD_RUN);
           assert.equal(manifest.cache_identity, process.env.FAST_CACHE_IDENTITY);
-          assert.ok(Array.isArray(manifest.outputs) && manifest.outputs.length === 7, "candidate must declare seven outputs");
+          assert.ok(Array.isArray(manifest.outputs) && manifest.outputs.length === 4, "candidate must declare four direct outputs");
 
           const paths = [manifestPath, ...manifest.outputs.map(({ path }) => path)];
           assert.equal(new Set(paths).size, paths.length, "candidate closure has duplicate paths");
           for (const relative of paths) {
-            assert.match(relative, /^(?:build\/202608270055-v8-fast-site-manifest\.json|releases\/[A-Za-z0-9._/-]+)$/u, `unsafe candidate path: ${relative}`);
+            assert.ok(
+              relative === manifestPath || /^releases\/[A-Za-z0-9._/-]+$/u.test(relative),
+              `unsafe candidate path: ${relative}`,
+            );
             const current = await readFile(relative);
             const built = spawnSync("git", ["show", `${candidateCommit}:${relative}`], {
               encoding: "buffer",
@@ -176,7 +185,7 @@ jobs:
       - name: Browser-proof desktop and mobile candidate
         shell: bash
         env:
-          FAST_SITE_URL: http://127.0.0.1:4173/releases/202608270055-v8-fast-candidate.html
+          FAST_SITE_URL: http://127.0.0.1:4173/releases/202608271329-v8-fast-candidate.html
         run: |
           set -euo pipefail
           python3 -m http.server 4173 --bind 127.0.0.1 --directory . > "$RUNNER_TEMP/v8-fast-authorise-http.log" 2>&1 &
@@ -341,18 +350,37 @@ jobs:
           spec.loader.exec_module(module)
           release = module.validate_release(root, "latest")
           excluded, authorised = module.candidate_publication_boundary(root, release)
-          manifest = json.loads((root / "build/202608270055-v8-fast-site-manifest.json").read_text(encoding="utf-8"))
-          expected = {record["path"] for record in manifest["outputs"]}
-          module.require(authorised == expected, "authorised Pages output set differs from candidate manifest")
-          module.require(excluded == set(), "authorised candidate still has excluded outputs")
+          chain = ["202608270055", "202608270844", "202608271329"]
+          manifests = {
+              generation: json.loads(
+                  (root / "build" / f"{generation}-v8-fast-site-manifest.json").read_text(encoding="utf-8")
+              )
+              for generation in chain
+          }
+          manifest = manifests["202608271329"]
+          expected = {
+              record["path"]
+              for generation in chain
+              for record in manifests[generation]["outputs"]
+          }
+          module.require(authorised == expected, "authorised Pages output set differs from progressive closure")
+          module.require(excluded == set(), "progressive candidate chain still has excluded outputs")
+          module.require(release["candidate_chain"] == chain, "progressive candidate chain changed")
+          module.require(release["candidate_dependencies"] == {
+              "202608270055": [],
+              "202608270844": ["202608270055"],
+              "202608271329": ["202608270055", "202608270844"],
+          }, "progressive dependency graph changed")
           module.require(release["candidate_generation"] == manifest["generation"], "candidate generation not bound")
-          module.require(release["candidate_path"] == "releases/202608270055-v8-fast-candidate.html", "candidate route not bound")
+          module.require(release["candidate_path"] == "releases/202608271329-v8-fast-candidate.html", "candidate route not bound")
           module.require(release["candidate_sha256"] == manifest["outputs"][0]["sha256"], "candidate HTML hash not bound")
-          module.require(release["candidate_verifier"] == "build/javascript/202608270055-verify-v8-fast-browser.mjs", "browser verifier not bound")
+          module.require(release["candidate_verifier"] == "build/javascript/202608271329-verify-v8-fast-browser.mjs", "browser verifier not bound")
           print(json.dumps({
               "schema": "pipelinenews.v8.fast-pages-authorised-boundary-proof.v1",
               "generation": manifest["generation"],
               "candidate_authorisation": release["candidate_authorisation"],
+              "candidate_chain": release["candidate_chain"],
+              "candidate_dependencies": release["candidate_dependencies"],
               "authorised_outputs": sorted(authorised),
               "excluded_outputs": sorted(excluded),
               "candidate_path": release["candidate_path"],

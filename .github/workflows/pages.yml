@@ -290,6 +290,7 @@ jobs:
           import json
           import os
           from pathlib import Path, PurePosixPath
+          import posixpath
           import re
           import time
           from urllib.parse import quote
@@ -353,20 +354,91 @@ jobs:
           ):
               raise AssertionError("authorisation output-closure hash changed")
 
-          records = []
-          seen = set()
-          runtime_dependencies = [
-              record for record in manifest.get("inputs", [])
+          candidate_manifests = {}
+          candidate_owners = {}
+          for path in sorted(Path("build").glob("*-v8-fast-site-manifest.json")):
+              candidate_manifest = json.loads(path.read_text(encoding="utf-8"))
+              candidate_generation = candidate_manifest.get("generation")
               if (
-                  re.fullmatch(r"data/projects/202608261927-project-partition-v9-1-\d{2}\.json", str(record.get("path")))
-                  or record.get("path") == "releases/vendor/202608261927-chart-umd.min.js"
-              )
+                  candidate_manifest.get("schema") != "pipelinenews.v8.fast-site-candidate.v1"
+                  or not isinstance(candidate_generation, str)
+                  or not re.fullmatch(r"\d{12}", candidate_generation)
+                  or candidate_manifest.get("deployment") != "not-authorised"
+              ):
+                  raise AssertionError(f"invalid progressive candidate manifest: {path}")
+              candidate_manifests[candidate_generation] = candidate_manifest
+              for record in candidate_manifest.get("outputs", []):
+                  relative = record.get("path")
+                  if relative in candidate_owners:
+                      raise AssertionError(f"candidate output has multiple owners: {relative}")
+                  candidate_owners[relative] = (candidate_generation, record)
+          if candidate_manifests.get(generation) != manifest:
+              raise AssertionError("deployed candidate differs from the progressive manifest catalogue")
+
+          progressive_generations = {generation}
+          pending_generations = [generation]
+          while pending_generations:
+              current_generation = pending_generations.pop()
+              for input_record in candidate_manifests[current_generation].get("inputs", []):
+                  owned = candidate_owners.get(input_record.get("path"))
+                  if owned is None:
+                      continue
+                  dependency_generation, dependency_record = owned
+                  if dependency_generation >= current_generation:
+                      raise AssertionError(
+                          f"progressive dependency is not older: {current_generation} -> {dependency_generation}"
+                      )
+                  if input_record != dependency_record:
+                      raise AssertionError(f"progressive dependency hash changed: {input_record.get('path')}")
+                  if dependency_generation not in progressive_generations:
+                      progressive_generations.add(dependency_generation)
+                      pending_generations.append(dependency_generation)
+          candidate_chain = sorted(progressive_generations)
+          if candidate_chain != ["202608270055", "202608270844", "202608271329"]:
+              raise AssertionError(f"unexpected progressive candidate chain: {candidate_chain}")
+          progressive_outputs = [
+              record
+              for candidate_generation in candidate_chain
+              for record in candidate_manifests[candidate_generation]["outputs"]
           ]
-          if len(runtime_dependencies) != 17:
-              raise AssertionError(
-                  f"expected 16 detail partitions and pinned Chart.js, found {len(runtime_dependencies)} runtime dependencies"
-              )
-          declared_live_records = [*outputs, *runtime_dependencies]
+          if len(progressive_outputs) != 15:
+              raise AssertionError(f"expected 15 progressive outputs, found {len(progressive_outputs)}")
+
+          registry_path = f"releases/data/{generation}-v8-fast-registry.json"
+          registry_records = [record for record in outputs if record.get("path") == registry_path]
+          if len(registry_records) != 1:
+              raise AssertionError("latest candidate has no unique registry output")
+          registry = json.loads(Path(registry_path).read_text(encoding="utf-8"))
+          if registry.get("generation") != generation:
+              raise AssertionError("latest runtime registry generation changed")
+          assets = registry.get("assets")
+          if not isinstance(assets, dict) or set(assets) != {"projects", "search", "news", "chart", "style"}:
+              raise AssertionError("latest runtime asset catalogue changed")
+          candidate_base = posixpath.dirname(candidate_path)
+          runtime_dependencies = []
+          for name in ["projects", "search", "news", "chart", "style"]:
+              asset = assets[name]
+              relative = posixpath.normpath(posixpath.join(candidate_base, asset.get("path", "")))
+              runtime_dependencies.append({
+                  "path": relative,
+                  "bytes": asset.get("bytes"),
+                  "sha256": asset.get("sha256"),
+              })
+          details = registry.get("detail_partitions")
+          if not isinstance(details, list) or len(details) != 16:
+              raise AssertionError("latest registry must declare sixteen detail partitions")
+          for detail in details:
+              relative = posixpath.normpath(posixpath.join(candidate_base, detail.get("path", "")))
+              runtime_dependencies.append({
+                  "path": relative,
+                  "bytes": detail.get("bytes"),
+                  "sha256": detail.get("sha256"),
+              })
+          if len(runtime_dependencies) != 21:
+              raise AssertionError("expected five runtime assets and sixteen detail partitions")
+
+          records_by_path = {}
+          declared_live_records = [*progressive_outputs, *runtime_dependencies]
           for record in declared_live_records:
               relative = record.get("path")
               expected_bytes = record.get("bytes")
@@ -383,22 +455,24 @@ jobs:
               path = PurePosixPath(relative)
               if path.is_absolute() or ".." in path.parts or path.as_posix() != relative:
                   raise AssertionError(f"unsafe deployed path: {relative!r}")
-              if relative in seen:
-                  raise AssertionError(f"duplicate candidate output path: {relative}")
-              seen.add(relative)
               if not isinstance(expected_bytes, int) or expected_bytes < 0:
                   raise AssertionError(f"invalid byte count for {relative}")
               if not isinstance(expected_sha, str) or not re.fullmatch(r"[0-9a-f]{64}", expected_sha):
                   raise AssertionError(f"invalid SHA-256 for {relative}")
-              records.append((relative, expected_bytes, expected_sha))
+              bound = (relative, expected_bytes, expected_sha)
+              previous = records_by_path.get(relative)
+              if previous is not None and previous != bound:
+                  raise AssertionError(f"inherited runtime binding changed: {relative}")
+              records_by_path[relative] = bound
 
           # Candidate publication must not alter the existing stable pointer.
           stable_pointer = Path("archive/202608261547-pipelinenews/releases/current.json").read_bytes()
-          records.append((
+          records_by_path["releases/current.json"] = (
               "releases/current.json",
               len(stable_pointer),
               hashlib.sha256(stable_pointer).hexdigest(),
-          ))
+          )
+          records = [records_by_path[relative] for relative in sorted(records_by_path)]
 
           candidate_records = [record for record in records if record[0] == candidate_path]
           if len(candidate_records) != 1 or candidate_records[0][2] != expected_candidate_sha:
@@ -449,7 +523,9 @@ jobs:
                   "scope": authorisation["scope"],
                   "deployment": authorisation["deployment"],
               },
+              "candidate_chain": candidate_chain,
               "candidate_output_count": len(outputs),
+              "progressive_candidate_output_count": len(progressive_outputs),
               "shared_runtime_dependency_count": len(runtime_dependencies),
               "stable_pointer_unchanged": True,
               "verified_file_count": len(records),

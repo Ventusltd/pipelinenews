@@ -478,12 +478,54 @@ def candidate_publication_boundary(root: Path, release: dict) -> tuple[set[str],
 
     require(set(authorisations).issubset(candidates), "fast authorisation has no matching immutable candidate")
     require(len(authorisations) <= 1, "at most one fast candidate may be authorised")
+
+    # A newer immutable candidate may deliberately reuse outputs from older
+    # candidates. Authorising the newest timestamp must therefore carry the
+    # complete, hash-bound predecessor chain into Pages; otherwise the newest
+    # route would be published with its inherited runtime files quarantined.
+    progressive_generations: set[str] = set(authorisations)
+    progressive_dependencies: dict[str, set[str]] = {}
+    pending_generations = list(progressive_generations)
+    while pending_generations:
+        generation = pending_generations.pop()
+        candidate = candidates[generation]
+        inputs = candidate["manifest"].get("inputs")
+        require(isinstance(inputs, list), f"fast candidate inputs changed: {candidate['manifest_path']}")
+        dependencies: set[str] = set()
+        for index, record in enumerate(inputs):
+            require(isinstance(record, dict), f"fast candidate input {index} is not an object: {candidate['manifest_path']}")
+            relative = record.get("path")
+            owner_manifest = owners.get(relative) if isinstance(relative, str) else None
+            if owner_manifest is None:
+                continue
+            owner_match = FAST_CANDIDATE_MANIFEST_RE.fullmatch(Path(owner_manifest).name)
+            require(owner_match is not None, f"candidate dependency owner is invalid: {owner_manifest}")
+            dependency_generation = owner_match.group(1)
+            require(
+                dependency_generation < generation,
+                f"candidate dependency is not an older timestamp: {generation} -> {dependency_generation}",
+            )
+            dependency_record = candidates[dependency_generation]["output_records"][relative]
+            require(
+                record == dependency_record,
+                f"candidate dependency binding differs from its immutable output: {relative}",
+            )
+            dependencies.add(dependency_generation)
+            if dependency_generation not in progressive_generations:
+                progressive_generations.add(dependency_generation)
+                pending_generations.append(dependency_generation)
+        progressive_dependencies[generation] = dependencies
+
     excluded: set[str] = set()
     authorised: set[str] = set()
 
     for generation, candidate in candidates.items():
-        if generation not in authorisations:
+        if generation not in progressive_generations:
             excluded.update(candidate["output_paths"])
+            continue
+
+        authorised.update(candidate["output_paths"])
+        if generation not in authorisations:
             continue
 
         authorisation_path, authorisation = authorisations[generation]
@@ -596,13 +638,23 @@ def candidate_publication_boundary(root: Path, release: dict) -> tuple[set[str],
             capture_output=True,
         )
 
-        authorised.update(candidate["output_paths"])
         release["candidate_generation"] = generation
         release["candidate_path"] = candidate["candidate_path"]
         release["candidate_sha256"] = candidate["output_records"][candidate["candidate_path"]]["sha256"]
         release["candidate_verifier"] = candidate_verifier
         release["candidate_authorisation"] = relative_authorisation
-        release["candidate_outputs"] = candidate["outputs"]
+
+    if authorisations:
+        release["candidate_chain"] = sorted(progressive_generations)
+        release["candidate_dependencies"] = {
+            generation: sorted(progressive_dependencies.get(generation, set()))
+            for generation in sorted(progressive_generations)
+        }
+        release["candidate_outputs"] = [
+            record
+            for generation in sorted(progressive_generations)
+            for record in candidates[generation]["outputs"]
+        ]
 
     require(excluded.isdisjoint(authorised), "candidate output is both excluded and authorised")
     return excluded, authorised
