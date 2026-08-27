@@ -1,0 +1,136 @@
+{
+  "schema": "pipelinenews.news-chronology-source-manifest.v1",
+  "generation": "202608271524",
+  "name": "Live News Discovery + Chronology + Atlas V8 Deep-Link",
+  "source_parent_commit": "b6a2b441799307ca55751d770a6083d05cdf15b5",
+  "protected_recovery_commit": "77bda8c3809d02550d06a1c4154315f56d1120fb",
+  "parent_generation": "202608271329",
+  "news_source_generation": "202608270844",
+  "rollback_generation": "202608270055",
+  "scope": "one-issue-compile-time-news-chronology",
+  "compiler_method": "pipelinenews-v8-news-chronology-stable-sort-v1",
+  "chronology_contract": {
+    "field": "published",
+    "parse": "strict-YYYY-MM-DD-at-UTC-midnight",
+    "direction": "descending",
+    "tie_breaks": [
+      "parent_row_index_ascending",
+      "gg_article_id_ascending_if_parent_index_equal"
+    ],
+    "predecessor_violation_indexes": [
+      133,
+      135
+    ],
+    "successor_violation_indexes": [],
+    "runtime_sort": false,
+    "source_record_mutation": false
+  },
+  "successor_counts": {
+    "projects": 7680,
+    "capacity_mw": 356474.09,
+    "headlines": 136,
+    "canonical_uk_headlines": 47,
+    "international_headlines": 19
+  },
+  "first_window_bbc_article_ids": [
+    "GG2050-NEWS-0E813A86D54E39FC",
+    "GG2050-NEWS-B4B91FD3DA8F596C",
+    "GG2050-NEWS-C3D0A5910F32E821"
+  ],
+  "atlas_deep_link_cartridge": {
+    "generation": "202608271329",
+    "path": "releases/javascript/202608271329-atlas-v8-deep-link-cartridge.js",
+    "sha256": "d8e997acea1ed6c628e4d69f27653a5fe9a21bb459ff95d4ee0a7d040b431ff7",
+    "reused_byte_exact": true
+  },
+  "source_files": [
+    {
+      "path": ".github/workflows/202608271524-news-chronology-candidate.yml",
+      "bytes": 24974,
+      "sha256": "fd578dccebf71aee1f73c9d4acb25b06e24f6d7782f23550772224198e63e79e"
+    },
+    {
+      "path": "build/javascript/202608271524-verify-v8-news-chronology-browser.mjs",
+      "bytes": 10453,
+      "sha256": "71162f3e5576d05ffe27b2c6173158572ee93dadfbec1ab0ff21b44dde4e166c"
+    },
+    {
+      "path": "build/javascript/202608271524-verify-v8-news-chronology-contract.mjs",
+      "bytes": 20155,
+      "sha256": "f6121906b752067cd1cc2abff4621c2f317968c326f89bef74fe1c051b038071"
+    },
+    {
+      "path": "index/202608271524-compile-v8-news-chronology.mjs",
+      "bytes": 20991,
+      "sha256": "926d175261fb64f6a948d1b16fbeb1f04d515c144cca154c0940a24719d270a3"
+    }
+  ],
+  "pinned_references": [
+    {
+      "path": "build/202608271329-v8-fast-site-manifest.json",
+      "bytes": 10062,
+      "sha256": "8026752e42872863f034d34dbfbbf8242edadfae6581574a5b8fc112b4b45268"
+    },
+    {
+      "path": "releases/202608271329-v8-fast-candidate.html",
+      "bytes": 9026,
+      "sha256": "97e847e485749c6198c4df920a314e3fef9f3caa3db5eefe2279578abbdb1493"
+    },
+    {
+      "path": "releases/data/202608270055-8ab1807551bc-v8-fast-projects.json",
+      "bytes": 979338,
+      "sha256": "c06aedef176d2d38fd135806306a8ef81b4af9994c7be31e8bd760304149f862"
+    },
+    {
+      "path": "releases/data/202608270055-8ab1807551bc-v8-fast-search.json",
+      "bytes": 1912681,
+      "sha256": "a1cbfc5202b717889a471409e850ea5cae13626f91c60f08cda0b06da5102b65"
+    },
+    {
+      "path": "releases/data/202608270844-9ab451f4bf19-v8-fast-news.json",
+      "bytes": 82460,
+      "sha256": "f90caae31bd4339367558e05a4f9c1564f4cbd502aaac186fea56fc20787c693"
+    },
+    {
+      "path": "releases/data/202608271329-v8-fast-registry.json",
+      "bytes": 16377,
+      "sha256": "895755d85cf7916ea41f46f15bfce7f1d96ef7ddb6a5157ddc2b931c97452424"
+    },
+    {
+      "path": "releases/javascript/202608271329-atlas-v8-deep-link-cartridge.js",
+      "bytes": 2945,
+      "sha256": "d8e997acea1ed6c628e4d69f27653a5fe9a21bb459ff95d4ee0a7d040b431ff7"
+    },
+    {
+      "path": "releases/javascript/202608271329-v8-fast-runtime.js",
+      "bytes": 42833,
+      "sha256": "61e961322a9dea45dd180d27a1d60657b00f87728ee5b2b138840f34564e1a19"
+    },
+    {
+      "path": "releases/styles/202608270055-v8-fast.css",
+      "bytes": 14397,
+      "sha256": "d6c8100dbf79dd02f65d78e4fc9cacae92f2e4b5a749ea0fd3ff481fe5bb4792"
+    }
+  ],
+  "generated_output_contract": {
+    "compiler_passes": 2,
+    "byte_identical": true,
+    "output_files": 5,
+    "output_types": [
+      "build-manifest",
+      "candidate-html",
+      "runtime",
+      "registry",
+      "compact-news-index"
+    ],
+    "actions_commit_only_after_contract_and_browser_green": true
+  },
+  "protected_routes": {
+    "stable_route_changed": false,
+    "current_pointer_changed": false,
+    "pages_workflow_changed": false,
+    "globalgrid_catalogue_changed": false,
+    "rollback_generation_changed": false
+  },
+  "deployment": "not-authorised"
+}
