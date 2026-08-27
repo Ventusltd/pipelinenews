@@ -23,6 +23,7 @@ env:
   ATLAS_GENERATION: "202608271329"
   ATLAS_PARENT_GENERATION: "202608270844"
   ATLAS_SOURCE_PARENT: "270f069182d272f85575fda1a3906764a8603080"
+  ATLAS_SOURCE: "799bb304d38765aa1f9b176dc46525c30acaf9cc"
   ATLAS_ROLLBACK_GENERATION: "202608270055"
   ATLAS_WORK_ROOT: "work/202608271329-atlas-v8-deep-link"
 
@@ -35,7 +36,7 @@ jobs:
       - name: Checkout exact source commit
         uses: actions/checkout@v5
         with:
-          ref: ${{ github.sha }}
+          ref: ${{ env.ATLAS_SOURCE }}
           fetch-depth: 0
           persist-credentials: false
 
@@ -48,12 +49,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse HEAD)" = "$ATLAS_SOURCE"
           test "$GITHUB_REF" = "refs/heads/main"
-          test "$(git rev-parse HEAD^)" = "$ATLAS_SOURCE_PARENT"
+          test "$(git rev-parse "$ATLAS_SOURCE^")" = "$ATLAS_SOURCE_PARENT"
+          git cat-file -e "$GITHUB_SHA^{commit}" 2>/dev/null || git fetch --no-tags origin "$GITHUB_SHA"
+          test "$(git rev-parse "$GITHUB_SHA^")" = "$ATLAS_SOURCE"
+          test "$(git diff --name-only "$ATLAS_SOURCE" "$GITHUB_SHA")" = ".github/workflows/202608271329-atlas-v8-deep-link.yml"
           mkdir -p "$ATLAS_WORK_ROOT/evidence"
-          git show -s --format='%H%n%P%n%T%n%ct' HEAD > "$ATLAS_WORK_ROOT/evidence/source-record.txt"
-          git diff --name-only "$ATLAS_SOURCE_PARENT" HEAD | LC_ALL=C sort > "$ATLAS_WORK_ROOT/evidence/source-paths.txt"
+          git show -s --format='%H%n%P%n%T%n%ct' "$ATLAS_SOURCE" > "$ATLAS_WORK_ROOT/evidence/source-record.txt"
+          git show -s --format='%H%n%P%n%T%n%ct' "$GITHUB_SHA" > "$ATLAS_WORK_ROOT/evidence/workflow-recovery-record.txt"
+          git diff --name-only "$ATLAS_SOURCE_PARENT" "$ATLAS_SOURCE" | LC_ALL=C sort > "$ATLAS_WORK_ROOT/evidence/source-paths.txt"
           node --input-type=module <<'NODE'
           import assert from "node:assert/strict";
           import { readFile, writeFile } from "node:fs/promises";
@@ -82,8 +87,9 @@ jobs:
             `${JSON.stringify({
               schema: "pipelinenews.atlas-v8-deep-link-source-scope-proof.v1",
               generation,
-              source_commit: process.env.GITHUB_SHA,
+              source_commit: process.env.ATLAS_SOURCE,
               source_parent: process.env.ATLAS_SOURCE_PARENT,
+              workflow_recovery_commit: process.env.GITHUB_SHA,
               changed_paths: actual,
               data_tree_changed: false,
               pages_workflow_changed: false,
@@ -124,8 +130,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          SOURCE_COMMIT="$GITHUB_SHA" GITHUB_RUN_ID="$GITHUB_RUN_ID" node "index/$ATLAS_GENERATION-compile-v8-atlas-deep-link.mjs" --out-root "$ATLAS_WORK_ROOT/pass-a" | tee "$ATLAS_WORK_ROOT/evidence/compiler-pass-a.json"
-          SOURCE_COMMIT="$GITHUB_SHA" GITHUB_RUN_ID="$GITHUB_RUN_ID" node "index/$ATLAS_GENERATION-compile-v8-atlas-deep-link.mjs" --out-root "$ATLAS_WORK_ROOT/pass-b" | tee "$ATLAS_WORK_ROOT/evidence/compiler-pass-b.json"
+          SOURCE_COMMIT="$ATLAS_SOURCE" GITHUB_RUN_ID="$GITHUB_RUN_ID" node "index/$ATLAS_GENERATION-compile-v8-atlas-deep-link.mjs" --out-root "$ATLAS_WORK_ROOT/pass-a" | tee "$ATLAS_WORK_ROOT/evidence/compiler-pass-a.json"
+          SOURCE_COMMIT="$ATLAS_SOURCE" GITHUB_RUN_ID="$GITHUB_RUN_ID" node "index/$ATLAS_GENERATION-compile-v8-atlas-deep-link.mjs" --out-root "$ATLAS_WORK_ROOT/pass-b" | tee "$ATLAS_WORK_ROOT/evidence/compiler-pass-b.json"
 
       - name: Prove deterministic bytes and materialise the candidate
         shell: bash
@@ -151,7 +157,7 @@ jobs:
           const passA = path.resolve(work, "pass-a");
           const manifestRelative = `build/${generation}-v8-fast-site-manifest.json`;
           const manifest = JSON.parse(await readFile(path.join(passA, manifestRelative)));
-          assert.equal(manifest.source_commit, process.env.GITHUB_SHA);
+          assert.equal(manifest.source_commit, process.env.ATLAS_SOURCE);
           assert.equal(manifest.source_parent_commit, process.env.ATLAS_SOURCE_PARENT);
           assert.equal(String(manifest.github_run_id), process.env.GITHUB_RUN_ID);
           assert.equal(manifest.deployment, "not-authorised");
@@ -178,7 +184,7 @@ jobs:
             `${JSON.stringify({
               schema: "pipelinenews.atlas-v8-deep-link-determinism-proof.v1",
               generation,
-              source_commit: process.env.GITHUB_SHA,
+              source_commit: process.env.ATLAS_SOURCE,
               byte_identical_passes: true,
               files: expected,
             }, null, 2)}\n`,
@@ -200,6 +206,7 @@ jobs:
           import importlib.util
           import json
           import os
+          import subprocess
           import tempfile
           from pathlib import Path
           root = Path.cwd().resolve()
@@ -208,26 +215,60 @@ jobs:
           spec = importlib.util.spec_from_file_location("pipelinenews_pages_gate", module_path)
           module = importlib.util.module_from_spec(spec)
           spec.loader.exec_module(module)
-          governed_generation, _, release_manifest = module.select_release(root, "latest")
-          release = {
-              "release_path": f"releases/{governed_generation}-index.html",
-              "manifest": release_manifest,
-          }
-          excluded, authorised = module.candidate_publication_boundary(root, release)
           manifest_path = root / "build" / f"{generation}-v8-fast-site-manifest.json"
           candidate = json.loads(manifest_path.read_text())
           expected = {record["path"] for record in candidate["outputs"]}
-          module.require(expected.issubset(excluded), "13:29 output closure is not fully excluded")
-          module.require(expected.isdisjoint(authorised), "13:29 output was authorised")
+          module.require(candidate["schema"] == module.FAST_CANDIDATE_SCHEMA, "candidate schema changed")
+          module.require(candidate["generation"] == generation, "candidate generation changed")
+          module.require(candidate["source_commit"] == os.environ["ATLAS_SOURCE"], "candidate source binding changed")
+          module.require(candidate["deployment"] == "not-authorised", "candidate deployment state changed")
+          module.require(len(expected) == 4, "candidate output closure changed")
+          for record in candidate["outputs"]:
+              relative = module.normalise_candidate_output_path(record["path"], "13:29 candidate output")
+              module.require(Path(relative).name.startswith(generation), f"output generation changed: {relative}")
+              module.require_no_symlink_components(root, relative, "13:29 candidate output path")
+              module.verify_record(root, record, "13:29 candidate output")
+          authorisation_path = root / "build/authorisations" / f"{generation}-v8-fast-pages-authorisation.json"
+          module.require(not authorisation_path.exists() and not authorisation_path.is_symlink(), "Pages authorisation already exists")
+          governed_generation, _, release_manifest = module.select_release(root, "latest")
+          governed = {
+              "releases/current.json",
+              "releases/candidate.json",
+              f"releases/{governed_generation}-index.html",
+          }
+          governed.update(record["path"] for record in release_manifest["outputs"])
+          governed.update(record["path"] for record in release_manifest["inputs"] if record["path"].startswith("releases/"))
+          module.require(expected.isdisjoint(governed), "candidate overlaps the governed release")
+          committed = set(subprocess.run(
+              ["git", "ls-tree", "-r", "--name-only", os.environ["GITHUB_SHA"]],
+              cwd=root, check=True, capture_output=True, text=True,
+          ).stdout.splitlines())
+          module.require(({manifest_path.relative_to(root).as_posix()} | expected).isdisjoint(committed), "generated closure already exists in workflow recovery commit")
+          workflow_source = subprocess.run(
+              ["git", "show", f"{os.environ['GITHUB_SHA']}:.github/workflows/{generation}-atlas-v8-deep-link.yml"],
+              cwd=root, check=True, capture_output=True, text=True,
+          ).stdout
+          for forbidden in (
+              "actions/" + "upload-pages-artifact@",
+              "actions/" + "deploy-pages@",
+              "pages" + ": write",
+              "id-token" + ": write",
+              "/actions/workflows/" + "pages.yml/dispatches",
+          ):
+              module.require(forbidden not in workflow_source, f"deployment capability entered workflow: {forbidden}")
+          pages_source = module_path.read_text()
+          module.require('copy_tree(root / "data", site / "data")' in pages_source, "Pages data boundary changed")
+          module.require('forbidden_roots = ["ui", "index", "atman", "archive"]' in pages_source, "Pages source exclusion changed")
+          module.require(not any(path.name.startswith(generation) for path in (root / "data").rglob("*")), "13:29 source entered published data tree")
           with tempfile.TemporaryDirectory(prefix="atlas-v8-deep-link-pages-") as temporary:
-              site = Path(temporary) / "site"
-              module.stage_site(root, site, release)
+              probe = Path(temporary)
+              staged_releases = probe / "releases"
+              module.copy_tree(root / module.ARCHIVE / "releases", staged_releases)
+              module.copy_release_tree(root / "releases", staged_releases, expected)
               for relative in expected:
-                  module.require(not (site / relative).exists(), f"candidate leaked into Pages: {relative}")
-              module.require(not (site / "ui").exists(), "UI source tree leaked into Pages")
-              module.require(not (site / "atman").exists(), "Atman source tree leaked into Pages")
+                  module.require(not (probe / relative).exists(), f"candidate leaked into quarantine probe: {relative}")
               module.require(
-                  (site / "releases/current.json").read_bytes()
+                  (probe / "releases/current.json").read_bytes()
                   == (root / module.ARCHIVE / "releases/current.json").read_bytes(),
                   "stable pointer changed",
               )
@@ -237,7 +278,10 @@ jobs:
               "deployment": candidate["deployment"],
               "excluded_outputs": sorted(expected),
               "authorised_outputs": [],
+              "authorisation_path_absent": True,
+              "governed_release_disjoint": True,
               "source_cartridge_published": False,
+              "data_tree_changed": False,
               "pages_artifact_created": False,
               "stable_route_changed": False,
               "globalgrid_catalogue_changed": False,
@@ -316,7 +360,8 @@ jobs:
           set -euo pipefail
           git fetch --no-tags origin refs/heads/main
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
-          test "$(git rev-parse HEAD^)" = "$ATLAS_SOURCE_PARENT"
+          test "$(git rev-parse HEAD^)" = "$ATLAS_SOURCE"
+          test "$(git rev-parse "$ATLAS_SOURCE^")" = "$ATLAS_SOURCE_PARENT"
           test "$(git rev-parse FETCH_HEAD)" = "$GITHUB_SHA"
           node --input-type=module <<'NODE'
           import assert from "node:assert/strict";
@@ -330,7 +375,7 @@ jobs:
           const manifestRelative = `build/${generation}-v8-fast-site-manifest.json`;
           const manifest = JSON.parse(await readFile(path.join(closure, manifestRelative)));
           assert.equal(manifest.generation, generation);
-          assert.equal(manifest.source_commit, process.env.GITHUB_SHA);
+          assert.equal(manifest.source_commit, process.env.ATLAS_SOURCE);
           assert.equal(manifest.source_parent_commit, process.env.ATLAS_SOURCE_PARENT);
           assert.equal(String(manifest.github_run_id), process.env.GITHUB_RUN_ID);
           assert.equal(manifest.deployment, "not-authorised");
