@@ -1,0 +1,478 @@
+{
+  "schema": "pipelinenews.v8.live-news-registry.v1",
+  "generation": "202608270844",
+  "name": "Live News Discovery",
+  "compiler_method": "pipelinenews-v8-live-news-discovery-reuse-fast-spine-v1",
+  "cache_identity": "9ab451f4bf19ff70fa78b3bd4b4d7cf0097827b880a9344e6c4dd3922e6febfc",
+  "cache_contract": {
+    "schema": "pipelinenews.v8.live-news-cache-contract.v1",
+    "compiler_method": "pipelinenews-v8-live-news-discovery-reuse-fast-spine-v1",
+    "compiler": {
+      "path": "index/202608270844-compile-v8-live-news.mjs",
+      "sha256": "e4a3cab67b7997966e0ab263ce3e2452a571657a78b19f1849da5133e5345127"
+    },
+    "protected_parent": "77bda8c3809d02550d06a1c4154315f56d1120fb",
+    "rollback_generation": "202608270055",
+    "sources": {
+      "parent_manifest_sha256": "48483afade72813649d9168bb27723a9bca3ba4f81a8d8e5983946a381999601",
+      "parent_registry_sha256": "cc69f0261acaf5fdb59ab1566a20c5b54eef12a0df6eec387bd05607889c5955",
+      "parent_news_sha256": "cfca3ab92012022f752de887a47d5eb2b3632ebad0f89d28ba5df2fcb454d194",
+      "discovery_contract_sha256": "e53585a7d0a516c71e5861d5feb08dccdedcae0e59bf06c7e4e342aaed7fb60e",
+      "bbc_evidence_sha256": "f1587147a7988d0d4c9d49f78607a1a255dde45baa49afefd997aa3c46eb4634",
+      "discovery_runner_sha256": "774577c441c72c41bf90cbf1a70f7c9d8ae2c8e767204dc154354a02caaeaa92",
+      "bbc_enrichment_sha256": "c3254d78d346c4aa4179083f87bc67ed5733b929a3c80e22535d9706a9071787",
+      "project_source_manifest_sha256": "67976a1bbcaf383ed7121b13060db3b864db9ce33dfc721a88b59c8ca8b8e06c"
+    },
+    "project_index": {
+      "schema": "pipelinenews.v8.fast-project-index.v1",
+      "fields": [
+        "repd_ref",
+        "gg_project_id",
+        "name",
+        "technology",
+        "status",
+        "capacity_mw",
+        "county",
+        "region",
+        "operator",
+        "repd_record_updated",
+        "geometry_status",
+        "latitude",
+        "longitude"
+      ],
+      "dictionary_fields": [
+        "technology",
+        "status",
+        "county",
+        "region",
+        "operator",
+        "geometry_status"
+      ],
+      "stable_key": "repd_ref",
+      "detail_locator": "floor(global_row_index/500)"
+    },
+    "search_index": {
+      "schema": "pipelinenews.v8.fast-search-index.v1",
+      "row_alignment": "global_project_row_index",
+      "activation": "first-nonempty-search"
+    },
+    "news_index": {
+      "schema": "pipelinenews.v8.live-news-index.v1",
+      "fields": [
+        "gg_article_id",
+        "repd_ref",
+        "gg_project_id",
+        "project",
+        "technology",
+        "capacity_mw",
+        "operator",
+        "county",
+        "country",
+        "event",
+        "headline",
+        "published",
+        "source",
+        "url",
+        "confidence",
+        "canonical_relevant",
+        "role",
+        "eligible_for_news_signal",
+        "regional_classification",
+        "regional_technology",
+        "regional_evidence",
+        "event_detail",
+        "relationship",
+        "related_context_repd_ref",
+        "related_context_project",
+        "binding_label",
+        "related_components",
+        "evidence_snippet"
+      ],
+      "stable_key": "gg_article_id",
+      "activation": "idle-after-core-ready"
+    },
+    "runtime": {
+      "physical_project_rows": 50,
+      "physical_news_rows": 30,
+      "detail_fetch_concurrency": 4,
+      "immutable_cache_mode": "force-cache"
+    },
+    "reuse": {
+      "project_generation": "202608270055",
+      "search_generation": "202608270055",
+      "style_generation": "202608270055",
+      "detail_generation": "202608261927"
+    }
+  },
+  "lifecycle": [
+    "WAIT",
+    "QUEUED",
+    "LOAD",
+    "INDEX",
+    "OK",
+    "EMPTY",
+    "FAIL"
+  ],
+  "totals": {
+    "project_count": 7680,
+    "capacity_mw": 356474.09,
+    "largest_mw": 4100,
+    "solar_count": 3563,
+    "bess_count": 1609,
+    "wind_onshore_count": 2399,
+    "wind_offshore_count": 109,
+    "geometry_count": 7652,
+    "missing_geometry_count": 28
+  },
+  "news_counts": {
+    "all": 136,
+    "uk": 47,
+    "international": 19,
+    "us": 4,
+    "europe": 9,
+    "other": 6
+  },
+  "signals": {
+    "1044": [
+      "PROJECT UPDATE",
+      81,
+      "2026-08-21"
+    ],
+    "2377": [
+      "PROJECT UPDATE",
+      72,
+      "2026-05-15"
+    ],
+    "5452": [
+      "PROJECT UPDATE",
+      72,
+      "2026-03-27"
+    ],
+    "5533": [
+      "PROJECT UPDATE",
+      69,
+      "2026-05-12"
+    ],
+    "5967": [
+      "PROJECT UPDATE",
+      69,
+      "2026-04-03"
+    ],
+    "6502": [
+      "PROJECT UPDATE",
+      69,
+      "2025-09-26"
+    ],
+    "8100": [
+      "PROJECT UPDATE",
+      69,
+      "2025-12-04"
+    ],
+    "8162": [
+      "PROJECT UPDATE",
+      82,
+      "2025-12-19"
+    ],
+    "8393": [
+      "PROJECT UPDATE",
+      64,
+      "2026-04-04"
+    ],
+    "9427": [
+      "PROJECT UPDATE",
+      75,
+      "2026-04-28"
+    ],
+    "9610": [
+      "PROJECT UPDATE",
+      73,
+      "2026-02-05"
+    ],
+    "10085": [
+      "CONSENT",
+      83,
+      "2025-10-23"
+    ],
+    "10087": [
+      "FINANCIAL CLOSE",
+      77,
+      "2026-06-10"
+    ],
+    "11034": [
+      "PROJECT UPDATE",
+      85,
+      "2026-08-13"
+    ],
+    "11063": [
+      "ACQUISITION",
+      72,
+      "2026-06-24"
+    ],
+    "11460": [
+      "CONSENT",
+      74,
+      "2025-12-19"
+    ],
+    "11476": [
+      "CONSENT",
+      83,
+      "2025-12-03"
+    ],
+    "11678": [
+      "ACQUISITION",
+      81,
+      "2026-02-22"
+    ],
+    "11974": [
+      "ACQUISITION",
+      78,
+      "2026-08-18"
+    ],
+    "12017": [
+      "FINANCIAL CLOSE",
+      84,
+      "2026-06-12"
+    ],
+    "12206": [
+      "ACQUISITION",
+      80,
+      "2026-06-23"
+    ],
+    "12926": [
+      "PROJECT UPDATE",
+      73,
+      "2025-10-20"
+    ],
+    "13599": [
+      "PROJECT UPDATE",
+      100,
+      "2026-08-24"
+    ],
+    "13763": [
+      "PROJECT UPDATE",
+      65,
+      "2025-12-11"
+    ],
+    "14098": [
+      "CONSENT",
+      83,
+      "2026-02-18"
+    ],
+    "14550": [
+      "PROJECT UPDATE",
+      90,
+      "2026-07-03"
+    ],
+    "14763": [
+      "ACQUISITION",
+      70,
+      "2026-05-08"
+    ],
+    "14806": [
+      "PROJECT UPDATE",
+      72,
+      "2026-07-08"
+    ],
+    "15000": [
+      "CONSENT",
+      90,
+      "2026-07-02"
+    ],
+    "17494": [
+      "PROJECT UPDATE",
+      100,
+      "2026-08-25"
+    ]
+  },
+  "assets": {
+    "projects": {
+      "path": "data/202608270055-8ab1807551bc-v8-fast-projects.json",
+      "schema": "pipelinenews.v8.fast-project-index.v1",
+      "sha256": "c06aedef176d2d38fd135806306a8ef81b4af9994c7be31e8bd760304149f862",
+      "bytes": 979338,
+      "activation": "boot",
+      "generation": "202608270055",
+      "cache_identity": "8ab1807551bc77066e46e01cb0690dfaa41d473d8433644046f56b6984579b06"
+    },
+    "search": {
+      "path": "data/202608270055-8ab1807551bc-v8-fast-search.json",
+      "schema": "pipelinenews.v8.fast-search-index.v1",
+      "sha256": "a1cbfc5202b717889a471409e850ea5cae13626f91c60f08cda0b06da5102b65",
+      "bytes": 1912681,
+      "activation": "first-nonempty-search",
+      "generation": "202608270055",
+      "cache_identity": "8ab1807551bc77066e46e01cb0690dfaa41d473d8433644046f56b6984579b06"
+    },
+    "news": {
+      "path": "data/202608270844-9ab451f4bf19-v8-fast-news.json",
+      "schema": "pipelinenews.v8.live-news-index.v1",
+      "sha256": "f90caae31bd4339367558e05a4f9c1564f4cbd502aaac186fea56fc20787c693",
+      "bytes": 82460,
+      "activation": "idle-after-core-ready",
+      "generation": "202608270844",
+      "cache_identity": "9ab451f4bf19ff70fa78b3bd4b4d7cf0097827b880a9344e6c4dd3922e6febfc"
+    },
+    "chart": {
+      "path": "vendor/202608261927-chart-umd.min.js",
+      "sha256": "48444a82d4edcb5bec0f1965faacdde18d9c17db3063d042abada2f705c9f54a",
+      "bytes": 208522,
+      "activation": "idle-after-core-ready"
+    },
+    "style": {
+      "path": "styles/202608270055-v8-fast.css",
+      "sha256": "d6c8100dbf79dd02f65d78e4fc9cacae92f2e4b5a749ea0fd3ff481fe5bb4792",
+      "bytes": 14397,
+      "activation": "boot",
+      "generation": "202608270055"
+    }
+  },
+  "detail_schema": "globalgrid2050.v9.project-partition.v9.1",
+  "detail_partition_size": 500,
+  "detail_partitions": [
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-01.json",
+      "sha256": "6e72d36a8f880bfc39274221edf58d1b895202f01f2e56aae001ad25cb3b337d",
+      "bytes": 624542,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-02.json",
+      "sha256": "a2ba3598af8ff45726587b3a498c0f6a433ae007ec9eadbd5bfc682b7dca4b2e",
+      "bytes": 629501,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-03.json",
+      "sha256": "6f012e9251433e0d32095b2df75ae1c988a813a14647debe16c057dee550d23b",
+      "bytes": 628898,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-04.json",
+      "sha256": "1cdc7405098c85a477dd156930c4503ef7850ff005d1ec85a69928f10db6b7f5",
+      "bytes": 625997,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-05.json",
+      "sha256": "43988789140bf2211263ffe49b756bc8f7f4cd69531b2e91c56b2e7c2a90bcae",
+      "bytes": 631815,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-06.json",
+      "sha256": "e2c4d0c29e622270260e8fa71c1efae260e84fd3c9ebfa31b7dbf7bfe3da2d69",
+      "bytes": 630303,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-07.json",
+      "sha256": "8f2b2d2d74a031f459b94e626e288c11c148629e955f97ef688a27eb1a5e2c59",
+      "bytes": 628660,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-08.json",
+      "sha256": "f3c0dff755bc657c41b3e04305403bbcfbf94be5d893e85309faf9dd7cb1fa92",
+      "bytes": 631189,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-09.json",
+      "sha256": "a9427f109b7ad5ee881628fcbde3602daab62896e8517922ff68d2efe6a23b15",
+      "bytes": 630867,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-10.json",
+      "sha256": "57145897a6a457f3bfb58f431d7bfa6a75dd63bfd2708eb56c3802391847c6b3",
+      "bytes": 628464,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-11.json",
+      "sha256": "e79c4eb42d1d366f01f8f2a941d92ff231b8ea14c2e40a2677a89601926938d1",
+      "bytes": 620261,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-12.json",
+      "sha256": "ad077a3172f6813f2a641e2f51ab693bf038cae03b5cbbdaa4167973ce7a7388",
+      "bytes": 615891,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-13.json",
+      "sha256": "4545362b1355e256dc3025019f971ffa208cc8828059152a26b99ac66fb47817",
+      "bytes": 620861,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-14.json",
+      "sha256": "9cf8da7fcbf3c1d08830c613c69d0447c490d6126be3ebe8c2d9021a4ddcd004",
+      "bytes": 619833,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-15.json",
+      "sha256": "109f20651ce1234d8933bb5efab78cbf45081ae7b4966e63ec0fca560a76cf03",
+      "bytes": 616440,
+      "record_count": 500,
+      "activation": "project-detail-or-export"
+    },
+    {
+      "path": "../data/projects/202608261927-project-partition-v9-1-16.json",
+      "sha256": "ed4c672a6cb684a5fd29e17e436d4ee632de358de5e0a2cee9801c7ffa5ecc4b",
+      "bytes": 221745,
+      "record_count": 180,
+      "activation": "project-detail-or-export"
+    }
+  ],
+  "source": {
+    "dataset": "DESNZ Renewable Energy Planning Database Q2 2026",
+    "source_record_count": 14657,
+    "projects_sha256": "24484ca837ac56520ba971fb2c2c1d29620e16a3c71bbaa5764e94c9b515ad52",
+    "identity_sha256": "d614084c05c0380862cf2d9da58309c43cdb128d6917458db4dc53717062ea95",
+    "coordinate_fixture_sha256": "8ca7a99a9f3a95b4de6f1dff79af64ead3aaa14627356eb198ae7be21539741f",
+    "workbook_sha256": "99ec4d0509a9fdfb999116e33c459084ce9ab59b44e3fafba5fc9b280ae2d5a6",
+    "admitted_project_count": 7680,
+    "candidate_delta": {
+      "count": 23,
+      "status": "held-fail-closed"
+    }
+  },
+  "performance": {
+    "maximum_physical_project_rows": 50,
+    "maximum_physical_news_rows": 30,
+    "maximum_dom_elements": 5000,
+    "maximum_initial_decoded_bytes": 2000000,
+    "maximum_mobile_interaction_ms": 200,
+    "maximum_desktop_interaction_ms": 100,
+    "maximum_ordinary_long_task_ms": 200,
+    "maximum_detail_fetch_concurrency": 4
+  },
+  "discovery": {
+    "added_records": 3,
+    "primary_matches": 2,
+    "related_editorial_mentions": 1,
+    "enrichment": "strict-bbc-one-link-layer",
+    "evidence": "data/news-discovery/202608270844-bbc-live-news-evidence.json",
+    "raw_html_retained": false,
+    "article_bodies_retained": false
+  },
+  "deployment": "not-authorised"
+}
