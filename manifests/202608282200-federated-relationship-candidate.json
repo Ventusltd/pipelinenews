@@ -1,0 +1,155 @@
+{
+  "schema": "pipelinenews.federated-relationship-source-manifest.v1",
+  "generation": "202608282200",
+  "incepted_at": "2026-08-28T22:00:00+01:00",
+  "source_parent_commit": "678a99033106d9837aa8c63b8fb3a56074d1bbd6",
+  "parent_generation": "202608272130",
+  "parent_output_commit": "58ca361c921264c1218d4a3f6d1f87da33f8473e",
+  "protected_recovery_commit": "77bda8c3809d02550d06a1c4154315f56d1120fb",
+  "deployment": "not-authorised",
+  "source_boundary": [
+    ".github/workflows/202608282200-federated-relationship-candidate.yml",
+    "build/python/202608282200-build-relationship-status-parquet.py",
+    "index/202608282200-compile-v8-federated-relationships.mjs",
+    "manifests/202608282200-federated-relationship-candidate.json",
+    "ui/cartridges/202608282200-federated-relationships.mjs"
+  ],
+  "source_files": [
+    {
+      "path": ".github/workflows/202608282200-federated-relationship-candidate.yml",
+      "bytes": 18675,
+      "sha256": "925ca949333c04433bc89b92b92e1652e1d5a4335564c500daacc349f46d1b8b"
+    },
+    {
+      "path": "build/python/202608282200-build-relationship-status-parquet.py",
+      "bytes": 11103,
+      "sha256": "0e7e2b52ecc6cc99ae00fffbde3ad771ac842eab56e8a08dfc375bf70eab2b81"
+    },
+    {
+      "path": "index/202608282200-compile-v8-federated-relationships.mjs",
+      "bytes": 18797,
+      "sha256": "f2e409bc484f63ff79c5460c4898c7e093bd7444c42f2da4d6afe7f966cb928d"
+    },
+    {
+      "path": "ui/cartridges/202608282200-federated-relationships.mjs",
+      "bytes": 4370,
+      "sha256": "8d6d46c0b1ca86ad4d4dc54d6ffdce483991dcdfd8c7dad3cbd206165cbcecc2"
+    }
+  ],
+  "pinned_inputs": [
+    {
+      "path": "data/federation/202608282041-relationship-intelligence-contract.json",
+      "bytes": 8291,
+      "sha256": "f53b453fe5a9a0ee7b646672a6994fbb377193f99f13f9dbb11d641d1a6dfc91"
+    }
+  ],
+  "upstream_contracts": [
+    {
+      "repository": "Ventusltd/companies",
+      "commit": "148335a6eb1fdf8c488fc1608ef29b6add0da269",
+      "path": "contracts/202608281846-federated-company-repd-relationship-contract-v1.json",
+      "bytes": 7896,
+      "sha256": "43905c977b990ff5f1bbe4a8fc8eafee94cd5e474730adcd6b7112e166fcc358",
+      "candidate_commit": "407ff7f0a4d3f29a022845153364c9966075dbe7",
+      "decision": "ABSTAIN",
+      "eligible_for_join": false
+    },
+    {
+      "repository": "Ventusltd/data-centres-gb",
+      "commit": "c5dfdee3ba5dbe94c1e29ec8cfa9d47431da9506",
+      "path": "contracts/202608281944-data-centre-company-federation-v1.json",
+      "bytes": 7024,
+      "sha256": "894234caa44a898b17f2bebcf10e24538ecd39854c09368c57dd8948c1c720a1",
+      "candidate_commit": "b2be24b3673a2532b3deab87f90861ca59e730fd",
+      "decision": "ABSTAIN",
+      "eligible_for_join": false
+    }
+  ],
+  "last_known_green_predecessor": {
+    "generation": "202608272130",
+    "source_commit": "314164ba7a1cb3fe9db81754c1331def21ae2961",
+    "output_commit": "58ca361c921264c1218d4a3f6d1f87da33f8473e",
+    "workflow_run_id": 33119945502,
+    "manifest_path": "build/202608272130-v8-fast-site-manifest.json",
+    "source_manifest_path": "manifests/202608272130-sector-intelligence-candidate.json",
+    "source_manifest_bytes": 10414,
+    "source_manifest_sha256": "05977a4e619dea77b00d78cd1279a9b7067468d076c6c6da89f32fd6f5a5539f"
+  },
+  "repair_evidence": {
+    "rejected_generation": "202608282044",
+    "failed_audit_generation": "202608282150",
+    "failed_workflow_run_id": 33210310983,
+    "failed_evidence_artifact_id": 9701355644,
+    "failed_evidence_sha256": "60561f138fec3962f3aa28a2f4cae0185898244645868379ef4330964d1d362e",
+    "proven_defects": [
+      "CANDIDATE_RENDERED_50_PROJECT_ROWS_REQUIRED_100",
+      "RELATIONSHIP_PAYLOAD_DOUBLE_RELEASES_PATH_404"
+    ],
+    "audit_expectation_defect_preserved_for_LATER_AUDIT_SUCCESSOR": "V9.6.2 gauge rounds 356474.09 to 356474 for display",
+    "repair_scope": [
+      "SET_RUNTIME_PROJECT_WINDOW_TO_100",
+      "STRIP_RELEASES_PREFIX_BEFORE_PAGE_RELATIVE_PAYLOAD_FETCH"
+    ]
+  },
+  "canonical_product": {
+    "projects": 7680,
+    "capacity_mw": 356474.09,
+    "headlines": 136,
+    "rows_per_page": 100,
+    "table_columns": 11,
+    "largest_mw": 4100,
+    "geometry_projects": 7652,
+    "missing_geometry_projects": 28
+  },
+  "data_law": {
+    "dataset": "relationship_governance_status",
+    "grain": "one governed status summary for one upstream relationship family and segment",
+    "declared_key": ["relationship_family", "segment"],
+    "rows": 3,
+    "format": "PARQUET",
+    "compression": "ZSTD",
+    "duckdb_version": "1.3.2",
+    "landed_duckdb_readback_required": true,
+    "rows_equal_distinct_declared_keys": true,
+    "duplicate_key_groups": 0,
+    "null_declared_keys": 0
+  },
+  "browser": {
+    "activation": "dynamic-import-on-user-open; projection-fetch-after-explicit-open",
+    "startup_module_requests": 0,
+    "startup_payload_requests": 0,
+    "maximum_payload_requests": 1,
+    "maximum_rows": 3,
+    "physical_project_rows": 100,
+    "payload_route": "data/202608282200-relationship-governance-status.json",
+    "must_not_mutate_generic_news": true,
+    "must_not_mutate_project_table": true,
+    "failure_mode": "FAIL_CLOSED_WITH_CORE_PRODUCT_UNCHANGED"
+  },
+  "identity_and_privacy": {
+    "all_decisions": "ABSTAIN",
+    "eligible_for_join_rows": 0,
+    "project_bindings": 0,
+    "confirmed_ownership_rows": 0,
+    "confirmed_operator_rows": 0,
+    "llm_may_establish_binding": false,
+    "name_equality_may_establish_binding": false,
+    "private_individual_names": false,
+    "directors": false,
+    "individual_psc": false,
+    "residential_addresses": false,
+    "raw_companies_house_archives": 0,
+    "raw_overpass_responses": 0,
+    "datacentermap_requests": 0
+  },
+  "publication": {
+    "candidate_only": true,
+    "candidate_state": "ACTIONS_ARTIFACT_ONLY",
+    "current_pointer_may_change": false,
+    "pages_may_change": false,
+    "globalgrid_catalogue_may_change": false,
+    "promotion_eligible": false,
+    "next_gate": "Reconcile the resulting workflow and independently verify the artifact closure, manifest, hashes, canonical counts and unchanged current, Pages and catalogue states."
+  },
+  "lifecycle": "write-once"
+}
