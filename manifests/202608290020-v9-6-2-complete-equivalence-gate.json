@@ -1,0 +1,79 @@
+{
+  "schema": "pipelinenews.v9-6-2-complete-equivalence-source-manifest.v1",
+  "generation": "202608290020",
+  "incepted_at": "2026-08-29T00:20:00+01:00",
+  "source_parent_commit": "00737ad782baf84492fc6e8eb43de796198f7a37",
+  "candidate": {
+    "generation": "202608282200",
+    "source_commit": "1cbe1a9b205af3a2cf62bc7f8130f033423dfe1f",
+    "workflow_run_id": 33211041996,
+    "artifact_id": 9701586944,
+    "artifact_zip_bytes": 37659,
+    "artifact_zip_sha256": "8ec24ba18c70b661ddfc6ff9ca4bb728db5929d5700c147c91449f5e93e9b497",
+    "closure_files": 8,
+    "output_files": 7,
+    "relationship_rows": 3,
+    "relationship_project_bindings": 0
+  },
+  "prior_equivalence_evidence": {
+    "generation": "202608282348",
+    "workflow_run_id": 33218336294,
+    "job_id": 99006862375,
+    "artifact_id": 9704252432,
+    "artifact_zip_bytes": 2814,
+    "artifact_zip_sha256": "18c9ee17c96b9330496306c2a33110c8b820c29e1c913b1287e0d3ce8690d61c",
+    "recorded_checks": 54,
+    "disposition": "GREEN_INCOMPLETE_NOT_PROMOTION_ELIGIBLE",
+    "missing_gates": [
+      "every technology filter",
+      "every official-status filter",
+      "every county filter",
+      "every newspaper filter",
+      "project next-and-previous pagination",
+      "newspaper next-and-previous pagination"
+    ]
+  },
+  "trusted_baseline": {
+    "generation": "202608261927",
+    "release": "V9.6.2",
+    "html": "releases/202608261927-index.html",
+    "capacity_display_mw": 356474,
+    "headlines": 133
+  },
+  "required_product": {
+    "projects": 7680,
+    "candidate_capacity_mw": 356474.09,
+    "baseline_capacity_display_mw": 356474,
+    "candidate_headlines": 136,
+    "rows_per_page": 100,
+    "table_columns": 11,
+    "sentinel": "GG2050-REPD-17494"
+  },
+  "complete_interaction_matrix": {
+    "technology": ["all", "solar", "bess", "wind_onshore", "wind_offshore"],
+    "official_status": ["All", "Operational", "Under Construction", "Awaiting Construction", "Application Submitted"],
+    "county": "EVERY_RENDERED_OPTION",
+    "newspaper": ["ALL", "UK", "INTERNATIONAL", "US", "EUROPE", "SOLAR", "BESS", "CONSENT", "CONSTRUCTION", "OPERATIONAL", "FINANCE"],
+    "project_pagination": ["first", "next", "previous"],
+    "newspaper_pagination": ["first", "next", "previous"],
+    "sort": ["updated_desc", "updated_asc"],
+    "search": ["East Pye", "Beacon Fen"],
+    "export": "CSV",
+    "viewports": [1440, 390]
+  },
+  "privacy_and_authority": {
+    "individual_person_names": false,
+    "relationship_authoritative_writer": false,
+    "verified_relationships": 0,
+    "project_bindings": 0,
+    "governance_summaries": 3,
+    "governance_decision": "ABSTAIN"
+  },
+  "publication": {
+    "candidate_only": true,
+    "current_pointer_may_change": false,
+    "pages_may_change": false,
+    "catalogue_may_change": false
+  },
+  "lifecycle": "write-once"
+}
