@@ -1,0 +1,71 @@
+{
+  "schema": "pipelinenews.v9-6-2-equivalence-source-manifest.v2",
+  "generation": "202608282348",
+  "incepted_at": "2026-08-28T23:48:00+01:00",
+  "source_parent_commit": "1cbe1a9b205af3a2cf62bc7f8130f033423dfe1f",
+  "candidate": {
+    "generation": "202608282200",
+    "source_commit": "1cbe1a9b205af3a2cf62bc7f8130f033423dfe1f",
+    "workflow_run_id": 33211041996,
+    "artifact_id": 9701586944,
+    "artifact_zip_bytes": 37659,
+    "artifact_zip_sha256": "8ec24ba18c70b661ddfc6ff9ca4bb728db5929d5700c147c91449f5e93e9b497",
+    "closure_files": 8,
+    "output_files": 7,
+    "relationship_rows": 3,
+    "relationship_project_bindings": 0
+  },
+  "trusted_baseline": {
+    "generation": "202608261927",
+    "release": "V9.6.2",
+    "html": "releases/202608261927-index.html",
+    "capacity_display_mw": 356474
+  },
+  "supersedes_rejected_audit": {
+    "generation": "202608282150",
+    "workflow_run_id": 33210310983,
+    "passed_checks_before_candidate_abort": 20,
+    "failed_checks_before_candidate_abort": 3,
+    "proven_candidate_repairs": [
+      "physical project window restored from 50 to 100 rows",
+      "lazy relationship payload route no longer duplicates releases/releases"
+    ],
+    "audit_repair": "compare each immutable product to its own display contract: rounded trusted V9.6.2 gauge and precise successor capacity"
+  },
+  "required_product": {
+    "projects": 7680,
+    "candidate_capacity_mw": 356474.09,
+    "baseline_capacity_display_mw": 356474,
+    "headlines": 136,
+    "rows_per_page": 100,
+    "table_columns": 11,
+    "sentinel": "GG2050-REPD-17494"
+  },
+  "viewports": [
+    {"width": 1440, "height": 1000},
+    {"width": 390, "height": 844, "device_scale_factor": 3}
+  ],
+  "gates": [
+    "canonical-counts-and-version-specific-capacity-display",
+    "11-columns",
+    "100-rows-per-page",
+    "search",
+    "filter",
+    "sort-both-directions",
+    "csv-export",
+    "atlas-links",
+    "contained-mobile-scroll",
+    "zero-relationship-startup-requests",
+    "relationship-lazy-load-once",
+    "relationship-abstention",
+    "no-console-cors-failures",
+    "core-ready-within-5000ms"
+  ],
+  "publication": {
+    "candidate_only": true,
+    "current_pointer_may_change": false,
+    "pages_may_change": false,
+    "catalogue_may_change": false
+  },
+  "lifecycle": "write-once"
+}

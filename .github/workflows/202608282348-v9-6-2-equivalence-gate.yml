@@ -1,0 +1,183 @@
+name: Audit PipelineNews V9.6.2 Equivalence 202608282348
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/202608282348-v9-6-2-equivalence-gate.yml"
+      - "atman/202608282348-verify-v9-6-2-equivalence.mjs"
+      - "manifests/202608282348-v9-6-2-equivalence-gate.json"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: pipelinenews-main-candidate-build
+  cancel-in-progress: false
+
+env:
+  GENERATION: "202608282348"
+  SOURCE_PARENT: "1cbe1a9b205af3a2cf62bc7f8130f033423dfe1f"
+  CANDIDATE_GENERATION: "202608282200"
+  CANDIDATE_RUN: "33211041996"
+  CANDIDATE_ARTIFACT: "9701586944"
+  CANDIDATE_SOURCE: "1cbe1a9b205af3a2cf62bc7f8130f033423dfe1f"
+  PLAYWRIGHT_VERSION: "1.55.0"
+
+jobs:
+  equivalence:
+    name: Compare repaired candidate with trusted V9.6.2 at desktop and 390px
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout exact audit source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: "${{ github.sha }}"
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Prove exact three-file source-only boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse HEAD^)" = "$SOURCE_PARENT"
+          test "$(git rev-list --count "$SOURCE_PARENT..HEAD")" = 1
+          git diff --name-only "$SOURCE_PARENT" HEAD | LC_ALL=C sort > /tmp/actual
+          printf '%s\n' \
+            ".github/workflows/$GENERATION-v9-6-2-equivalence-gate.yml" \
+            "atman/$GENERATION-verify-v9-6-2-equivalence.mjs" \
+            "manifests/$GENERATION-v9-6-2-equivalence-gate.json" \
+            | LC_ALL=C sort > /tmp/expected
+          diff -u /tmp/expected /tmp/actual
+          git diff --quiet "$SOURCE_PARENT" HEAD -- releases/ releases/current.json .github/workflows/pages.yml
+          ! grep -Eq 'deploy[-]pages|upload[-]pages-artifact|pages: [w]rite|id-token: [w]rite|git[ ]push' \
+            ".github/workflows/$GENERATION-v9-6-2-equivalence-gate.yml"
+          node --check "atman/$GENERATION-verify-v9-6-2-equivalence.mjs"
+
+      - name: Verify pinned repaired candidate artifact identity
+        shell: bash
+        env:
+          GITHUB_TOKEN: "${{ github.token }}"
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location \
+            --header "Authorization: Bearer $GITHUB_TOKEN" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/artifacts/$CANDIDATE_ARTIFACT" \
+            > /tmp/artifact.json
+          jq -e \
+            '.id==9701586944
+             and .size_in_bytes==37659
+             and .digest=="sha256:8ec24ba18c70b661ddfc6ff9ca4bb728db5929d5700c147c91449f5e93e9b497"
+             and .workflow_run.id==33211041996
+             and .workflow_run.head_sha=="1cbe1a9b205af3a2cf62bc7f8130f033423dfe1f"
+             and .expired==false' \
+            /tmp/artifact.json
+
+      - name: Download exact immutable repaired candidate
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          artifact-ids: 9701586944
+          path: candidate
+          repository: Ventusltd/pipelinenews
+          run-id: 33211041996
+          github-token: "${{ github.token }}"
+
+      - name: Independently verify closure and build local overlay
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          root = Path("candidate")
+          manifest_path = root / "build/202608282200-v8-fast-site-manifest.json"
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          assert manifest["generation"] == "202608282200"
+          assert manifest["source_commit"] == "1cbe1a9b205af3a2cf62bc7f8130f033423dfe1f"
+          assert manifest["github_run_id"] == "33211041996"
+          assert manifest["canonical_product"] == {
+              "projects": 7680,
+              "capacity_mw": 356474.09,
+              "headlines": 136,
+              "rows_per_page": 100,
+              "table_columns": 11,
+          }
+          expected = sorted(
+              [item["path"] for item in manifest["outputs"]]
+              + ["build/202608282200-v8-fast-site-manifest.json"]
+          )
+          actual = sorted(str(path.relative_to(root)) for path in root.rglob("*") if path.is_file())
+          assert actual == expected
+          assert len(actual) == 8 and len(manifest["outputs"]) == 7
+          for item in manifest["outputs"]:
+              raw = (root / item["path"]).read_bytes()
+              assert len(raw) == item["bytes"]
+              assert hashlib.sha256(raw).hexdigest() == item["sha256"]
+          assert manifest["relationship_governance_status"]["rows"] == 3
+          assert manifest["relationship_governance_status"]["project_bindings"] == 0
+          assert manifest["state"] == {
+              "candidate": "ARTIFACT_ONLY",
+              "current_pointer_changed": False,
+              "pages_changed": False,
+              "globalgrid_catalogue_changed": False,
+              "promotion_eligible": False,
+          }
+          PY
+          mkdir -p "$RUNNER_TEMP/site" "$RUNNER_TEMP/evidence"
+          rsync -a --exclude .git ./ "$RUNNER_TEMP/site/"
+          rsync -a candidate/ "$RUNNER_TEMP/site/"
+
+      - name: Install pinned browser engine
+        run: |
+          npm install --no-save --ignore-scripts "playwright@$PLAYWRIGHT_VERSION"
+          test "$(node -p "require('playwright/package.json').version")" = "$PLAYWRIGHT_VERSION"
+          npx playwright install --with-deps chromium
+
+      - name: Run complete repaired equivalence gate
+        id: browser
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory "$RUNNER_TEMP/site" \
+            > "$RUNNER_TEMP/evidence/http.log" 2>&1 &
+          server=$!
+          trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 30); do
+            curl --fail --silent \
+              http://127.0.0.1:4173/releases/202608282200-v8-fast-candidate.html \
+              >/dev/null && break
+            sleep 1
+          done
+          node "atman/$GENERATION-verify-v9-6-2-equivalence.mjs" \
+            --candidate http://127.0.0.1:4173/releases/202608282200-v8-fast-candidate.html \
+            --baseline http://127.0.0.1:4173/releases/202608261927-index.html \
+            --report "$RUNNER_TEMP/evidence/$GENERATION-equivalence.json"
+
+      - name: Upload structured equivalence evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pipelinenews-v9-6-2-equivalence-${{ github.run_id }}
+          path: ${{ runner.temp }}/evidence
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Enforce promotion gate
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "$RUNNER_TEMP/evidence/$GENERATION-equivalence.json"
+          jq -e \
+            '.promotion_eligible==true and .summary.failed==0 and .state.candidate=="ARTIFACT_ONLY" and .state.current_pointer_changed==false and .state.pages_changed==false and .state.catalogue_changed==false' \
+            "$RUNNER_TEMP/evidence/$GENERATION-equivalence.json"
