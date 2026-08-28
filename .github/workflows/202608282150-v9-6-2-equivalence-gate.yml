@@ -1,0 +1,107 @@
+name: Audit PipelineNews V9.6.2 Equivalence 202608282150
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/202608282150-v9-6-2-equivalence-gate.yml"
+      - "atman/202608282150-verify-v9-6-2-equivalence.mjs"
+      - "manifests/202608282150-v9-6-2-equivalence-gate.json"
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: pipelinenews-main-candidate-build
+  cancel-in-progress: false
+env:
+  GENERATION: "202608282150"
+  SOURCE_PARENT: "a913869efd364da5ac8d0e21cee4909522cdafaa"
+  CANDIDATE_RUN: "33206118237"
+  CANDIDATE_ARTIFACT: "9699717756"
+  PLAYWRIGHT_VERSION: "1.55.0"
+jobs:
+  equivalence:
+    name: Compare candidate with trusted V9.6.2 desktop and 390px mobile
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with: {ref: "${{ github.sha }}", fetch-depth: 0, persist-credentials: false}
+      - name: Prove exact three-file source-only boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD^)" = "$SOURCE_PARENT"
+          test "$(git rev-list --count "$SOURCE_PARENT..HEAD")" = 1
+          git diff --name-only "$SOURCE_PARENT" HEAD | LC_ALL=C sort > /tmp/actual
+          printf '%s\n' ".github/workflows/$GENERATION-v9-6-2-equivalence-gate.yml" "atman/$GENERATION-verify-v9-6-2-equivalence.mjs" "manifests/$GENERATION-v9-6-2-equivalence-gate.json" | LC_ALL=C sort > /tmp/expected
+          diff -u /tmp/expected /tmp/actual
+          git diff --quiet "$SOURCE_PARENT" HEAD -- releases/ releases/current.json .github/workflows/pages.yml
+          ! grep -Eq 'deploy-pages|upload-pages-artifact|pages: write|id-token: write|git push' ".github/workflows/$GENERATION-v9-6-2-equivalence-gate.yml"
+          node --check "atman/$GENERATION-verify-v9-6-2-equivalence.mjs"
+      - name: Verify pinned candidate artifact identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location --header "Authorization: Bearer $GITHUB_TOKEN" --header "X-GitHub-Api-Version: 2022-11-28" "$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/actions/artifacts/$CANDIDATE_ARTIFACT" > /tmp/artifact.json
+          jq -e '.id==9699717756 and .size_in_bytes==37633 and .digest=="sha256:66523ed9821f38602d072894a1955c3efccd43914261fec04838821f044bcdf4" and .workflow_run.id==33206118237 and .workflow_run.head_sha=="a913869efd364da5ac8d0e21cee4909522cdafaa" and .expired==false' /tmp/artifact.json
+        env: {GITHUB_TOKEN: "${{ github.token }}"}
+      - name: Download exact immutable candidate
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          artifact-ids: 9699717756
+          path: candidate
+          repository: Ventusltd/pipelinenews
+          run-id: 33206118237
+          github-token: "${{ github.token }}"
+      - name: Independently verify candidate closure and build local overlay
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          root=Path('candidate'); m=json.loads((root/'build/202608282044-v8-fast-site-manifest.json').read_text())
+          assert m['source_commit']=='a913869efd364da5ac8d0e21cee4909522cdafaa' and m['github_run_id']=='33206118237'
+          assert m['canonical_product']=={'projects':7680,'capacity_mw':356474.09,'headlines':136,'rows_per_page':100,'table_columns':11}
+          expected=sorted([x['path'] for x in m['outputs']]+['build/202608282044-v8-fast-site-manifest.json'])
+          actual=sorted(str(x.relative_to(root)) for x in root.rglob('*') if x.is_file()); assert actual==expected
+          for f in m['outputs']:
+            b=(root/f['path']).read_bytes(); assert len(b)==f['bytes'] and hashlib.sha256(b).hexdigest()==f['sha256']
+          assert m['state']=={'candidate':'ARTIFACT_ONLY','current_pointer_changed':False,'pages_changed':False,'globalgrid_catalogue_changed':False,'promotion_eligible':False}
+          PY
+          mkdir -p "$RUNNER_TEMP/site" "$RUNNER_TEMP/evidence"
+          rsync -a --exclude .git ./ "$RUNNER_TEMP/site/"
+          rsync -a candidate/ "$RUNNER_TEMP/site/"
+      - name: Install pinned browser engine
+        run: |
+          npm install --no-save --ignore-scripts "playwright@$PLAYWRIGHT_VERSION"
+          test "$(node -p "require('playwright/package.json').version")" = "$PLAYWRIGHT_VERSION"
+          npx playwright install --with-deps chromium
+      - name: Run complete equivalence gate
+        id: browser
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory "$RUNNER_TEMP/site" > "$RUNNER_TEMP/evidence/http.log" 2>&1 &
+          server=$!; trap 'kill "$server" 2>/dev/null || true' EXIT
+          for n in $(seq 1 30); do curl --fail --silent http://127.0.0.1:4173/releases/202608282044-v8-fast-candidate.html >/dev/null && break; sleep 1; done
+          node "atman/$GENERATION-verify-v9-6-2-equivalence.mjs" --candidate http://127.0.0.1:4173/releases/202608282044-v8-fast-candidate.html --baseline http://127.0.0.1:4173/releases/202608261927-index.html --report "$RUNNER_TEMP/evidence/$GENERATION-equivalence.json"
+      - name: Upload structured equivalence evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pipelinenews-v9-6-2-equivalence-${{ github.run_id }}
+          path: ${{ runner.temp }}/evidence
+          if-no-files-found: error
+          retention-days: 30
+      - name: Enforce promotion gate
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f "$RUNNER_TEMP/evidence/$GENERATION-equivalence.json"
+          jq -e '.promotion_eligible==true and .summary.failed==0' "$RUNNER_TEMP/evidence/$GENERATION-equivalence.json"
