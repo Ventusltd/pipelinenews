@@ -1,0 +1,196 @@
+{
+  "schema": "pipelinenews.federated-relationship-intelligence-contract.v1",
+  "generation": "202608282041",
+  "incepted_at": "2026-08-28T20:41:00+01:00",
+  "owner": "Ventusltd/pipelinenews",
+  "purpose": "Define one compact, abstention-first browser projection over verified upstream relationship contracts without copying either upstream Parquet corpus or blocking first paint.",
+  "deployment": "not-authorised",
+  "promotion_eligible": false,
+  "lineage": {
+    "source_parent_commit": "58ca361c921264c1218d4a3f6d1f87da33f8473e",
+    "parent_generation": "202608272130",
+    "parent_output_commit": "58ca361c921264c1218d4a3f6d1f87da33f8473e",
+    "rollback_generation": "202608270055",
+    "protected_recovery_commit": "77bda8c3809d02550d06a1c4154315f56d1120fb",
+    "last_known_green_predecessor": {
+      "manifest_path": "manifests/202608272130-sector-intelligence-candidate.json",
+      "manifest_bytes": 10414,
+      "manifest_sha256": "05977a4e619dea77b00d78cd1279a9b7067468d076c6c6da89f32fd6f5a5539f",
+      "workflow_run_id": 33119945502
+    },
+    "recovery_rule": "Any source, schema, identity, UI or rights change requires a later Europe/London-timestamped successor; never overwrite this contract or its parent release."
+  },
+  "parent_release": {
+    "html": {
+      "path": "releases/202608272130-v8-fast-candidate.html",
+      "bytes": 12734,
+      "sha256": "14469b887c877494cae1d528d15cd6caeb988c08d3d94dedbf49dc866a91bee2"
+    },
+    "registry": {
+      "path": "releases/data/202608272130-v8-fast-registry.json",
+      "bytes": 30297,
+      "sha256": "f25e68406965149db7b2210e3890e3c736a9ff8246e93ebb1b9855c0ea9ae1d8"
+    },
+    "sector_projection": {
+      "path": "releases/data/202608272130-sector-intelligence.json",
+      "bytes": 46724,
+      "sha256": "846e10a00377509a3196972cdf3eb99ab127ca5864e63332f323e446d4bc95c1"
+    },
+    "canonical_product": {
+      "projects": 7680,
+      "capacity_mw": 356474.09,
+      "headlines": 136,
+      "rows_per_page": 100,
+      "table_columns": 11
+    }
+  },
+  "upstream_contracts": [
+    {
+      "id": "COMPANY_REPD_CANDIDATES",
+      "repository": "Ventusltd/companies",
+      "commit": "148335a6eb1fdf8c488fc1608ef29b6add0da269",
+      "path": "contracts/202608281846-federated-company-repd-relationship-contract-v1.json",
+      "url": "https://raw.githubusercontent.com/Ventusltd/companies/148335a6eb1fdf8c488fc1608ef29b6add0da269/contracts/202608281846-federated-company-repd-relationship-contract-v1.json",
+      "bytes": 7896,
+      "sha256": "43905c977b990ff5f1bbe4a8fc8eafee94cd5e474730adcd6b7112e166fcc358",
+      "candidate_commit": "407ff7f0a4d3f29a022845153364c9966075dbe7",
+      "relationship_rows": 482030,
+      "solar_subset_rows": 346233,
+      "role": "UNKNOWN",
+      "consumer_decision": "ABSTAIN",
+      "identity_posture": "CANDIDATE_ONLY_NOT_CONFIRMED_OWNERSHIP",
+      "eligible_for_join": false
+    },
+    {
+      "id": "DATA_CENTRE_COMPANY_SLOTS",
+      "repository": "Ventusltd/data-centres-gb",
+      "commit": "c5dfdee3ba5dbe94c1e29ec8cfa9d47431da9506",
+      "path": "contracts/202608281944-data-centre-company-federation-v1.json",
+      "url": "https://raw.githubusercontent.com/Ventusltd/data-centres-gb/c5dfdee3ba5dbe94c1e29ec8cfa9d47431da9506/contracts/202608281944-data-centre-company-federation-v1.json",
+      "bytes": 7024,
+      "sha256": "894234caa44a898b17f2bebcf10e24538ecd39854c09368c57dd8948c1c720a1",
+      "candidate_commit": "b2be24b3673a2532b3deab87f90861ca59e730fd",
+      "source_elements": 306,
+      "relationship_slots": 612,
+      "requested_role_slots": [
+        "OWNER",
+        "OPERATOR"
+      ],
+      "facility_identity_status": "SOURCE_ELEMENT_ONLY",
+      "consumer_decision": "ABSTAIN",
+      "abstention_reason": "VERIFIED_COMPANY_NUMBER_REQUIRED",
+      "eligible_for_join": false
+    }
+  ],
+  "acquisition": {
+    "mode": "PINNED_CONTRACTS_ONLY",
+    "maximum_network_requests": 2,
+    "parallel_requests": 0,
+    "redirects": 0,
+    "request_timeout_ms": 10000,
+    "maximum_bytes_per_contract": 16384,
+    "raw_companies_house_archives": 0,
+    "raw_overpass_responses": 0,
+    "upstream_parquet_files_copied": 0,
+    "upstream_person_names_copied": 0,
+    "datacentermap_requests": 0,
+    "hash_and_byte_verification_required_before_decode": true
+  },
+  "analytical_projection": {
+    "dataset": "relationship_governance_status",
+    "format": "PARQUET",
+    "compression": "ZSTD",
+    "duckdb_version": "1.3.2",
+    "grain": "one governed status summary for one upstream relationship family and segment",
+    "declared_key": [
+      "relationship_family",
+      "segment"
+    ],
+    "schema": [
+      {"name": "relationship_family", "duckdb_type": "VARCHAR", "nullable": false},
+      {"name": "segment", "duckdb_type": "VARCHAR", "nullable": false},
+      {"name": "generation", "duckdb_type": "VARCHAR", "nullable": false},
+      {"name": "source_repository", "duckdb_type": "VARCHAR", "nullable": false},
+      {"name": "source_commit", "duckdb_type": "VARCHAR", "nullable": false},
+      {"name": "source_contract_sha256", "duckdb_type": "VARCHAR", "nullable": false},
+      {"name": "candidate_commit", "duckdb_type": "VARCHAR", "nullable": false},
+      {"name": "candidate_rows", "duckdb_type": "BIGINT", "nullable": false},
+      {"name": "requested_role", "duckdb_type": "VARCHAR", "nullable": false},
+      {"name": "decision", "duckdb_type": "VARCHAR", "nullable": false},
+      {"name": "identity_posture", "duckdb_type": "VARCHAR", "nullable": false},
+      {"name": "eligible_for_join", "duckdb_type": "BOOLEAN", "nullable": false},
+      {"name": "caveat", "duckdb_type": "VARCHAR", "nullable": false}
+    ],
+    "expected_rows": [
+      {
+        "relationship_family": "COMPANY_REPD",
+        "segment": "ALL_CANDIDATES",
+        "candidate_rows": 482030,
+        "requested_role": "UNKNOWN",
+        "decision": "ABSTAIN",
+        "eligible_for_join": false
+      },
+      {
+        "relationship_family": "COMPANY_REPD",
+        "segment": "SOLAR_SUBSET",
+        "candidate_rows": 346233,
+        "requested_role": "UNKNOWN",
+        "decision": "ABSTAIN",
+        "eligible_for_join": false
+      },
+      {
+        "relationship_family": "DATA_CENTRE_COMPANY",
+        "segment": "OWNER_OPERATOR_SLOTS",
+        "candidate_rows": 612,
+        "requested_role": "UNASSERTED_OWNER_OR_OPERATOR_SLOT",
+        "decision": "ABSTAIN",
+        "eligible_for_join": false
+      }
+    ],
+    "hard_gates": {
+      "rows": 3,
+      "rows_equal_distinct_declared_keys": true,
+      "null_declared_keys": 0,
+      "duplicate_key_groups": 0,
+      "all_decisions": "ABSTAIN",
+      "all_eligible_for_join": false,
+      "project_bindings": 0,
+      "confirmed_ownership_rows": 0,
+      "confirmed_operator_rows": 0,
+      "landed_duckdb_readback_required": true
+    }
+  },
+  "browser_projection": {
+    "schema": "pipelinenews.federated-relationship-status-browser.v1",
+    "maximum_rows": 3,
+    "activation": "dynamic-import-on-user-open; projection-fetch-after-explicit-open",
+    "startup_module_requests": 0,
+    "startup_payload_requests": 0,
+    "maximum_payload_requests": 1,
+    "must_render_after_core_ready": true,
+    "must_not_mutate_generic_news": true,
+    "must_not_mutate_project_table": true,
+    "safe_heading": "RELATIONSHIP EVIDENCE — CANDIDATES AND ABSTENTIONS",
+    "failure_mode": "FAIL_CLOSED_WITH_CORE_PRODUCT_UNCHANGED"
+  },
+  "identity_and_privacy": {
+    "llm_may_establish_binding": false,
+    "name_equality_may_establish_binding": false,
+    "requested_role_slot_is_asserted_role": false,
+    "company_number_required_before_data_centre_join": true,
+    "private_individual_names": false,
+    "directors": false,
+    "individual_psc": false,
+    "residential_addresses": false,
+    "credit_or_bankability_scores": false
+  },
+  "publication": {
+    "candidate_only": true,
+    "current_pointer_may_change": false,
+    "pages_may_change": false,
+    "globalgrid_catalogue_may_change": false,
+    "build_workflow_present": false,
+    "next_gate": "Create one bounded timestamped compiler/workflow successor that fetches and verifies only these two contracts, emits the three-row ZSTD projection, compiles from the pinned parent and uploads a candidate without deployment."
+  },
+  "lifecycle": "write-once"
+}
