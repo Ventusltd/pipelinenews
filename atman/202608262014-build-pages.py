@@ -516,7 +516,24 @@ def validate_live_pointer(root: Path, timestamp_folder: dict | None) -> dict | N
     require(bool(SHA256_RE.fullmatch(proof.get("equivalence_report_sha256", ""))), "live pointer equivalence hash changed")
     require(proof.get("synthetic_receiver") is False, "live pointer permits synthetic receiver")
     require(proof.get("route_interceptions") == 0, "live pointer proof was intercepted")
-    require("REPD 17494 selected" in proof.get("receiver_text", ""), "live pointer receiver selection changed")
+    receiver_contract = timestamp_folder["manifest"].get("atlas_v9_deep_link", {})
+    receiver_base = receiver_contract.get("base_url", "")
+    contractual_golden = str(receiver_contract.get("golden_repd_ref", ""))
+    require(bool(re.fullmatch(r"https://ventusltd\.github\.io/gridatlas/\d{12}-atlas-v9/", receiver_base)), "timestamp receiver URL changed")
+    require(bool(re.fullmatch(r"\d+", contractual_golden)), "timestamp contractual golden changed")
+    require(
+        pointer.get("atlas_v9_receiver", {}).get("pointer") == receiver_contract.get("pointer")
+        and pointer.get("atlas_v9_receiver", {}).get("pointer_commit") == receiver_contract.get("pointer_commit")
+        and pointer.get("atlas_v9_receiver", {}).get("golden_repd_ref") == contractual_golden,
+        "live pointer GridAtlas binding changed",
+    )
+    require(proof.get("receiver_url") == f"{receiver_base}?repd_ref={contractual_golden}", "live pointer receiver URL changed")
+    receiver_cards = proof.get("receiver_evidence", {}).get("cards", [])
+    require(
+        isinstance(receiver_cards, list)
+        and any(f"REPD {contractual_golden}" in str(card) for card in receiver_cards),
+        "live pointer has no durable contractual-golden receiver card",
+    )
     release_binding = pointer.get("release_manifest", {})
     build_binding = pointer.get("build_manifest", {})
     require(release_binding.get("path") == timestamp_folder["manifest_path"], "live pointer release binding path changed")

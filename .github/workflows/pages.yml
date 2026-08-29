@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - releases/202608291310-pipelinenews/**
+      - releases/202608291504-pipelinenews/**
       - releases/current-v3.json
       - state/live-set.json
   workflow_dispatch:
@@ -52,7 +52,7 @@ jobs:
       live_pointer_bytes: ${{ steps.release.outputs.live_pointer_bytes }}
     steps:
       - name: Checkout exact dispatch commit
-        uses: actions/checkout@v5
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         with:
           ref: ${{ github.sha }}
           # The staging gate proves the immutable candidate and authorisation
@@ -144,7 +144,7 @@ jobs:
           PY
 
       - name: Configure Node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         with:
           node-version: "22"
 
@@ -152,7 +152,7 @@ jobs:
         id: release
         shell: bash
         env:
-          TIMESTAMP_FOLDER_RELEASE: ${{ github.event_name == 'push' && '202608291310-pipelinenews' || inputs.timestamp_folder_release }}
+          TIMESTAMP_FOLDER_RELEASE: ${{ github.event_name == 'push' && '202608291504-pipelinenews' || inputs.timestamp_folder_release }}
         run: |
           set -euo pipefail
           arguments=(--generation latest --stage _site)
@@ -234,13 +234,13 @@ jobs:
             sleep 1
           done
           curl --fail --silent --show-error "$TIMESTAMP_FOLDER_URL" >/dev/null
-          node atman/202608291310-public-browser-readback.mjs \
+          node atman/202608291504-public-browser-readback.mjs \
             --candidate "$TIMESTAMP_FOLDER_URL" \
             --output "$TIMESTAMP_FOLDER_PROOF"
 
       - name: Upload predeployment browser evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: pipelinenews-${{ steps.release.outputs.generation || 'unknown' }}-preview-${{ steps.source.outputs.sha || github.sha }}
           path: |
@@ -260,7 +260,7 @@ jobs:
           test "$(git rev-parse FETCH_HEAD)" = "$EXPECTED_SHA"
 
       - name: Package checked Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
         with:
           path: _site
 
@@ -279,7 +279,7 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
 
   verify-live:
     runs-on: ubuntu-latest
@@ -290,14 +290,14 @@ jobs:
       actions: write
     steps:
       - name: Checkout exact deployed commit
-        uses: actions/checkout@v5
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         with:
           ref: ${{ needs.build.outputs.deployed_sha }}
           fetch-depth: 1
           persist-credentials: false
 
       - name: Configure Node
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         with:
           node-version: "22"
 
@@ -793,7 +793,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p reports
-          node atman/202608291310-public-browser-readback.mjs \
+          node atman/202608291504-public-browser-readback.mjs \
             --candidate "$TIMESTAMP_FOLDER_URL" \
             --output "$TIMESTAMP_FOLDER_PROOF"
 
@@ -807,7 +807,7 @@ jobs:
 
       - name: Upload deployed browser evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: pipelinenews-${{ needs.build.outputs.generation }}-live-${{ needs.build.outputs.deployed_sha }}
           path: |
@@ -846,6 +846,6 @@ jobs:
             --header "Accept: application/vnd.github+json" \
             --header "Authorization: Bearer $GH_TOKEN" \
             --header "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/workflows/202608291310-atlas-v9-deep-link-successor.yml/dispatches" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/workflows/202608291504-atlas-pointer-deep-link-successor.yml/dispatches" \
             --data "$payload")"
           test "$status" = 204
