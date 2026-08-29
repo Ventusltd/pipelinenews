@@ -18,7 +18,7 @@ Direct publication, manual copying into a Pages branch, local deployment and byp
 
 ChatGPT may design and commit source modules, compilers, tests and non-deploying candidate workflows. It must not perform deployment work outside `.github/workflows/pages.yml`.
 
-Deployment remains owner-triggered through `workflow_dispatch` until the owner explicitly authorises a different trigger.
+Deployment remains owner-triggered through `workflow_dispatch` except for the explicitly authorised PipelineNews Atlas V9 successor. For that successor only, `.github/workflows/pages.yml` may also run on a `main` push whose changed public paths are confined to `releases/202608291310-pipelinenews/**`, `releases/current-v3.json` and `state/live-set.json`. The source-only commit does not match this trigger. The first bounded push publishes and proves the immutable folder without changing a pointer; only a later proof-bound commit may add byte-identical `releases/current-v3.json` and `state/live-set.json`, which triggers the second deployment. Any other public path change remains prohibited and must fail the staging gate.
 
 Every deployment must:
 

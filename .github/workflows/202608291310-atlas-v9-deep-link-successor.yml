@@ -1,0 +1,741 @@
+name: PipelineNews Atlas V9 timestamp-folder successor
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/DEPLOYMENT_POLICY.md
+      - .github/workflows/202608291310-atlas-v9-deep-link-successor.yml
+      - .github/workflows/pages.yml
+      - atman/202608262014-build-pages.py
+      - atman/202608291310-build-live-pointer.mjs
+      - atman/202608291310-compare-incumbent-successor.mjs
+      - atman/202608291310-public-browser-readback.mjs
+      - atman/202608291310-verify-complete-equivalence.mjs
+      - index/202608291310-compile-atlas-v9-deep-link.mjs
+      - manifests/202608291310-atlas-v9-deep-link-successor.json
+      - ui/cartridges/202608291310-atlas-v9-deep-link.mjs
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Build/stage release or stage proof-bound live pointers
+        required: true
+        default: build-release
+        type: choice
+        options:
+          - build-release
+          - stage-pointer
+      pages_run_id:
+        description: Successful first Pages run ID, required for stage-pointer
+        required: false
+        type: string
+      deployed_commit:
+        description: Exact first Pages deployment commit, required for stage-pointer
+        required: false
+        type: string
+  schedule:
+    - cron: "17 3 * * *"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: pipelinenews-202608291310-atlas-v9-${{ github.event_name }}
+  cancel-in-progress: false
+
+env:
+  GENERATION: "202608291310"
+  RELEASE_ID: 202608291310-pipelinenews
+  SOURCE_PARENT: 693ccda8e6288d449763ce2b3a4ba16ed7b93fee
+  PARENT_RUN_ID: "33211041996"
+  PARENT_ARTIFACT_ID: "9701586944"
+  PARENT_ARTIFACT_BYTES: "37659"
+  PARENT_ARTIFACT_SHA256: 8ec24ba18c70b661ddfc6ff9ca4bb728db5929d5700c147c91449f5e93e9b497
+  PLAYWRIGHT_VERSION: "1.55.0"
+
+jobs:
+  classify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      pointer_live: ${{ steps.mode.outputs.pointer_live }}
+    steps:
+      - name: Checkout current main without credentials
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Classify build or pointer-gated daily drift mode
+        id: mode
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          release_id = os.environ["RELEASE_ID"]
+          pointer_paths = [Path("releases/current-v3.json"), Path("state/live-set.json")]
+          live = all(path.is_file() for path in pointer_paths)
+          if live:
+              for path in pointer_paths:
+                  value = json.loads(path.read_text(encoding="utf-8"))
+                  if release_id not in json.dumps(value, sort_keys=True):
+                      live = False
+                      break
+          output = Path(os.environ["GITHUB_OUTPUT"])
+          with output.open("a", encoding="utf-8") as handle:
+              handle.write(f"pointer_live={'true' if live else 'false'}\n")
+          print(json.dumps({
+              "event": os.environ["GITHUB_EVENT_NAME"],
+              "release_id": release_id,
+              "pointer_live": live,
+              "schedule_behavior": "read-only drift" if live else "clean pointer-gated no-op",
+          }))
+          PY
+
+  build:
+    if: github.event_name != 'schedule' && (github.event_name != 'workflow_dispatch' || inputs.mode == 'build-release')
+    needs: classify
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      source_sha: ${{ steps.source.outputs.source_sha }}
+      release_manifest_sha256: ${{ steps.release.outputs.manifest_sha256 }}
+    steps:
+      - name: Checkout exact immutable source commit
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Verify exact source phase and hash boundary
+        id: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD^)" = "$SOURCE_PARENT"
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import subprocess
+
+          expected = {
+              ".github/DEPLOYMENT_POLICY.md",
+              ".github/workflows/202608291310-atlas-v9-deep-link-successor.yml",
+              ".github/workflows/pages.yml",
+              "atman/202608262014-build-pages.py",
+              "atman/202608291310-build-live-pointer.mjs",
+              "atman/202608291310-compare-incumbent-successor.mjs",
+              "atman/202608291310-public-browser-readback.mjs",
+              "atman/202608291310-verify-complete-equivalence.mjs",
+              "index/202608291310-compile-atlas-v9-deep-link.mjs",
+              "manifests/202608291310-atlas-v9-deep-link-successor.json",
+              "ui/cartridges/202608291310-atlas-v9-deep-link.mjs",
+          }
+          changed = set(subprocess.check_output([
+              "git", "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD"
+          ], text=True).splitlines())
+          if changed != expected:
+              raise AssertionError(f"source commit boundary changed: {sorted(changed ^ expected)}")
+
+          manifest = json.loads(Path("manifests/202608291310-atlas-v9-deep-link-successor.json").read_text())
+          if manifest.get("source_parent_commit") != os.environ["SOURCE_PARENT"]:
+              raise AssertionError("source parent changed")
+          if set(manifest.get("source_boundary", [])) != expected:
+              raise AssertionError("manifest source boundary changed")
+          pins = manifest.get("source_files", [])
+          if len(pins) != 10:
+              raise AssertionError("source manifest must hash all boundary files except itself")
+          if {record.get("path") for record in pins} != expected - {"manifests/202608291310-atlas-v9-deep-link-successor.json"}:
+              raise AssertionError("source hash set changed")
+          for record in pins:
+              raw = Path(record["path"]).read_bytes()
+              actual = {"path": record["path"], "bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest()}
+              if actual != record:
+                  raise AssertionError(f"source hash drift: {record['path']}")
+          PY
+          echo "source_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Configure Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Fetch and authenticate exact green parent artifact
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p work/202608291310-ci/parent
+          python3 - <<'PY'
+          import json
+          import os
+          import time
+          from urllib.request import Request, urlopen
+
+          repository = os.environ["GITHUB_REPOSITORY"]
+          artifact_id = os.environ["PARENT_ARTIFACT_ID"]
+          request = Request(
+              f"https://api.github.com/repos/{repository}/actions/artifacts/{artifact_id}",
+              headers={
+                  "Accept": "application/vnd.github+json",
+                  "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
+                  "User-Agent": "PipelineNews-Atlas-V9-Successor/1",
+                  "X-GitHub-Api-Version": "2022-11-28",
+              },
+          )
+          with urlopen(request, timeout=30) as response:
+              artifact = json.load(response)
+          checks = {
+              "id": (str(artifact.get("id")), artifact_id),
+              "expired": (artifact.get("expired"), False),
+              "size": (str(artifact.get("size_in_bytes")), os.environ["PARENT_ARTIFACT_BYTES"]),
+              "run": (str(artifact.get("workflow_run", {}).get("id")), os.environ["PARENT_RUN_ID"]),
+          }
+          for label, (actual, expected) in checks.items():
+              if actual != expected:
+                  raise AssertionError(f"parent artifact {label}: expected {expected!r}, got {actual!r}")
+          digest = artifact.get("digest")
+          if digest is not None and digest != f"sha256:{os.environ['PARENT_ARTIFACT_SHA256']}":
+              raise AssertionError(f"parent artifact API digest changed: {digest}")
+          print(json.dumps({"artifact_id": artifact_id, "run_id": os.environ["PARENT_RUN_ID"], "expired": False}))
+          PY
+          curl --fail --silent --show-error --location \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer $GH_TOKEN" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/artifacts/$PARENT_ARTIFACT_ID/zip" \
+            --output work/202608291310-ci/parent.zip
+          test "$(stat -c %s work/202608291310-ci/parent.zip)" = "$PARENT_ARTIFACT_BYTES"
+          test "$(sha256sum work/202608291310-ci/parent.zip | cut -d' ' -f1)" = "$PARENT_ARTIFACT_SHA256"
+          unzip -q work/202608291310-ci/parent.zip -d work/202608291310-ci/parent
+
+      - name: Verify exact parent output closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+
+          root = Path("work/202608291310-ci/parent")
+          manifest_path = root / "build/202608282200-v8-fast-site-manifest.json"
+          raw = manifest_path.read_bytes()
+          if len(raw) != 25073 or hashlib.sha256(raw).hexdigest() != "025daf70f1c4b9c9a7c84a70d41ceb50e96232771f736faa309ca92c2c9c134d":
+              raise AssertionError("parent manifest drift")
+          manifest = json.loads(raw)
+          compact = json.dumps(manifest["outputs"], sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()
+          if hashlib.sha256(compact).hexdigest() != "bc25c04b0fd24ed418a86a3bc7157678c3bbd4371a3117854b56e4c0520855c5":
+              raise AssertionError("parent output-record closure drift")
+          expected = {"build/202608282200-v8-fast-site-manifest.json"}
+          for record in manifest["outputs"]:
+              path = root / record["path"]
+              payload = path.read_bytes()
+              if len(payload) != record["bytes"] or hashlib.sha256(payload).hexdigest() != record["sha256"]:
+                  raise AssertionError(f"parent output drift: {record['path']}")
+              expected.add(record["path"])
+          actual = {path.relative_to(root).as_posix() for path in root.rglob("*") if path.is_file()}
+          if actual != expected:
+              raise AssertionError(f"parent artifact closure changed: {sorted(actual ^ expected)}")
+          PY
+
+      - name: Compile deterministic A/B timestamp folders
+        shell: bash
+        env:
+          SOURCE_SHA: ${{ steps.source.outputs.source_sha }}
+        run: |
+          set -euo pipefail
+          committed_at="$(git show -s --format=%cI "$SOURCE_SHA")"
+          for output in release-a release-b; do
+            node index/202608291310-compile-atlas-v9-deep-link.mjs \
+              --parent-root work/202608291310-ci/parent \
+              --out-root "work/202608291310-ci/$output" \
+              --source-commit "$SOURCE_SHA" \
+              --source-committed-at "$committed_at"
+          done
+          diff --no-dereference --recursive --brief \
+            work/202608291310-ci/release-a \
+            work/202608291310-ci/release-b
+          test "$(find work/202608291310-ci/release-a/releases/$RELEASE_ID -type f | wc -l)" = 40
+          find work/202608291310-ci/release-a/releases/$RELEASE_ID -type f \( -name '*.mjs' -o -name '*.js' \) -print0 \
+            | xargs -0 -n1 node --check
+
+      - name: Install pinned real-browser harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --no-package-lock "playwright@$PLAYWRIGHT_VERSION"
+          npx playwright install --with-deps chromium
+
+      - name: Prove inbound PipelineNews and outbound real Atlas V9 readback
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory work/202608291310-ci/release-a >"$RUNNER_TEMP/pipelinenews-atlas-v9.log" 2>&1 &
+          server_pid="$!"
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          candidate="http://127.0.0.1:4173/releases/$RELEASE_ID/"
+          for attempt in {1..20}; do
+            if curl --fail --silent --show-error "$candidate" >/dev/null; then break; fi
+            sleep 1
+          done
+          curl --fail --silent --show-error "$candidate" >/dev/null
+          node atman/202608291310-public-browser-readback.mjs \
+            --candidate "$candidate" \
+            --output reports/202608291310-real-atlas-v9-browser-proof.json
+
+      - name: Compare against exact incumbent and reject regression or unknown
+        shell: bash
+        run: |
+          set -euo pipefail
+          node atman/202608291310-compare-incumbent-successor.mjs \
+            --parent-root work/202608291310-ci/parent \
+            --release-a work/202608291310-ci/release-a/releases/$RELEASE_ID \
+            --release-b work/202608291310-ci/release-b/releases/$RELEASE_ID \
+            --browser-proof reports/202608291310-real-atlas-v9-browser-proof.json \
+            --output reports/202608291310-incumbent-successor-comparator.json
+
+      - name: Re-run inherited 420-check complete interaction matrix
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory . >"$RUNNER_TEMP/pipelinenews-complete-matrix.log" 2>&1 &
+          server_pid="$!"
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          baseline="http://127.0.0.1:4173/releases/202608261927-index.html"
+          candidate="http://127.0.0.1:4173/work/202608291310-ci/release-a/releases/$RELEASE_ID/"
+          for url in "$baseline" "$candidate"; do
+            for attempt in {1..20}; do
+              if curl --fail --silent --show-error "$url" >/dev/null; then break; fi
+              sleep 1
+            done
+            curl --fail --silent --show-error "$url" >/dev/null
+          done
+          node atman/202608291310-verify-complete-equivalence.mjs \
+            --baseline "$baseline" \
+            --candidate "$candidate" \
+            --phase source-build \
+            --report reports/202608291310-complete-equivalence.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path("reports/202608291310-complete-equivalence.json").read_text())
+          if report.get("summary") != {"checks": 420, "passed": 420, "failed": 0}:
+              raise AssertionError(f"complete interaction matrix changed: {report.get('summary')}")
+          PY
+
+      - name: Record accepted immutable release manifest
+        id: release
+        shell: bash
+        run: |
+          set -euo pipefail
+          manifest="work/202608291310-ci/release-a/releases/$RELEASE_ID/release-manifest.json"
+          echo "manifest_sha256=$(sha256sum "$manifest" | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+
+      - name: Upload accepted release and evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-${{ env.RELEASE_ID }}-${{ steps.source.outputs.source_sha }}
+          path: |
+            work/202608291310-ci/release-a/releases/202608291310-pipelinenews
+            reports/202608291310-real-atlas-v9-browser-proof.json
+            reports/202608291310-incumbent-successor-comparator.json
+            reports/202608291310-complete-equivalence.json
+          if-no-files-found: error
+          retention-days: 30
+
+  stage-ci-branch:
+    if: github.event_name != 'schedule' && (github.event_name != 'workflow_dispatch' || inputs.mode == 'build-release')
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - name: Checkout exact accepted source without credentials
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ needs.build.outputs.source_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Download accepted immutable release
+        uses: actions/download-artifact@v5
+        with:
+          name: pipelinenews-${{ env.RELEASE_ID }}-${{ needs.build.outputs.source_sha }}
+          path: work/202608291310-stage
+
+      - name: Commit only immutable folder and CAS-push only ci namespace
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_SHA: ${{ needs.build.outputs.source_sha }}
+          EXPECTED_MANIFEST_SHA256: ${{ needs.build.outputs.release_manifest_sha256 }}
+          STAGE_BRANCH: ci/202608291310-atlas-v9-release
+        run: |
+          set -euo pipefail
+          release_source="work/202608291310-stage/work/202608291310-ci/release-a/releases/$RELEASE_ID"
+          if [[ ! -d "$release_source" ]]; then
+            release_source="work/202608291310-stage/$RELEASE_ID"
+          fi
+          test -d "$release_source"
+          test "$(find "$release_source" -type f | wc -l)" = 40
+          test "$(sha256sum "$release_source/release-manifest.json" | cut -d' ' -f1)" = "$EXPECTED_MANIFEST_SHA256"
+
+          remote_url="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if git ls-remote --exit-code --heads "$remote_url" "refs/heads/$STAGE_BRANCH" >"$RUNNER_TEMP/stage-ref"; then
+            echo "Immutable CI stage branch already exists; refusing to rewrite it." >&2
+            exit 1
+          fi
+          git switch --create "$STAGE_BRANCH" "$SOURCE_SHA"
+          mkdir -p "releases/$RELEASE_ID"
+          cp -a "$release_source/." "releases/$RELEASE_ID/"
+          git add -- "releases/$RELEASE_ID"
+          test "$(git diff --cached --name-only | wc -l)" = 40
+          test -z "$(git diff --cached --name-only | grep -v "^releases/$RELEASE_ID/" || true)"
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git commit -m "stage: immutable PipelineNews Atlas V9 release $RELEASE_ID"
+          git push "$remote_url" "HEAD:refs/heads/$STAGE_BRANCH"
+
+  stage-pointer-ci-branch:
+    if: github.event_name == 'workflow_dispatch' && inputs.mode == 'stage-pointer'
+    needs: classify
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - name: Checkout exact release-owning main without persisted credentials
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Verify successful first Pages run and exact deployed main
+        id: pages-run
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PAGES_RUN_ID: ${{ inputs.pages_run_id }}
+          DEPLOYED_COMMIT: ${{ inputs.deployed_commit }}
+        run: |
+          set -euo pipefail
+          [[ "$PAGES_RUN_ID" =~ ^[0-9]+$ ]]
+          [[ "$DEPLOYED_COMMIT" =~ ^[0-9a-f]{40}$ ]]
+          test "$(git rev-parse HEAD)" = "$DEPLOYED_COMMIT"
+          git fetch --no-tags origin refs/heads/main
+          test "$(git rev-parse FETCH_HEAD)" = "$DEPLOYED_COMMIT"
+          test -f "releases/$RELEASE_ID/release-manifest.json"
+          python3 - <<'PY'
+          import json
+          import os
+          import time
+          from urllib.request import Request, urlopen
+
+          request = Request(
+              f"https://api.github.com/repos/{os.environ['GITHUB_REPOSITORY']}/actions/runs/{os.environ['PAGES_RUN_ID']}",
+              headers={
+                  "Accept": "application/vnd.github+json",
+                  "Authorization": f"Bearer {os.environ['GH_TOKEN']}",
+                  "User-Agent": "PipelineNews-Live-Pointer-Gate/1",
+                  "X-GitHub-Api-Version": "2022-11-28",
+              },
+          )
+          run = None
+          for attempt in range(60):
+              with urlopen(request, timeout=30) as response:
+                  run = json.load(response)
+              if run.get("status") == "completed":
+                  break
+              if attempt == 59:
+                  raise AssertionError("first Pages run did not complete before pointer staging deadline")
+              time.sleep(5)
+          checks = {
+              "path": (run.get("path"), ".github/workflows/pages.yml"),
+              "event": (run.get("event"), "push"),
+              "status": (run.get("status"), "completed"),
+              "conclusion": (run.get("conclusion"), "success"),
+              "head_sha": (run.get("head_sha"), os.environ["DEPLOYED_COMMIT"]),
+              "repository": (run.get("repository", {}).get("full_name"), os.environ["GITHUB_REPOSITORY"]),
+          }
+          for label, (actual, expected) in checks.items():
+              if actual != expected:
+                  raise AssertionError(f"Pages run {label}: expected {expected!r}, got {actual!r}")
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"verified_at_utc={run['updated_at']}\n")
+          print(json.dumps({"pages_run_id": os.environ["PAGES_RUN_ID"], "deployed_commit": run["head_sha"], "conclusion": "success"}))
+          PY
+
+      - name: Download exact first Pages live evidence artifact
+        uses: actions/download-artifact@v5
+        with:
+          pattern: pipelinenews-*-live-${{ inputs.deployed_commit }}
+          path: work/202608291310-pages-proof
+          merge-multiple: true
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.pages_run_id }}
+
+      - name: Validate exact first Pages evidence boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          pages_proof="$(find work/202608291310-pages-proof -type f -name "browser-$RELEASE_ID-atlas-v9-live.json" -print -quit)"
+          closure_proof="$(find work/202608291310-pages-proof -type f -name "timestamp-folder-live-closure-$RELEASE_ID.json" -print -quit)"
+          test -n "$pages_proof"
+          test -n "$closure_proof"
+          python3 - "$pages_proof" "$closure_proof" <<'PY'
+          import json
+          import sys
+          browser = json.load(open(sys.argv[1], encoding="utf-8"))
+          closure = json.load(open(sys.argv[2], encoding="utf-8"))
+          if browser.get("classification") != "VERIFIED_REAL_ATLAS_V9_RECEIVER":
+              raise AssertionError("first Pages browser proof is not green")
+          if browser.get("beacon_fen", {}).get("receiver_text", "").find("REPD 13599 selected") < 0:
+              raise AssertionError("first Pages proof has no Beacon Fen readback")
+          if closure.get("status") != "PASS" or closure.get("verified_file_count") != 40:
+              raise AssertionError("first Pages closure proof is incomplete")
+          PY
+
+      - name: Configure Node and install pinned real-browser harness
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Install browser
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --no-package-lock "playwright@$PLAYWRIGHT_VERSION"
+          npx playwright install --with-deps chromium
+
+      - name: Re-prove public folder to both real Atlas V9 sentinels
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          node atman/202608291310-public-browser-readback.mjs \
+            --candidate "https://ventusltd.github.io/pipelinenews/releases/$RELEASE_ID/" \
+            --output reports/202608291310-pointer-public-browser-proof.json
+
+      - name: Re-run comparator and inherited 420 checks before pointer construction
+        shell: bash
+        run: |
+          set -euo pipefail
+          pages_proof="$(find work/202608291310-pages-proof -type f -name "browser-$RELEASE_ID-atlas-v9-live.json" -print -quit)"
+          node atman/202608291310-compare-incumbent-successor.mjs \
+            --release-a "releases/$RELEASE_ID" \
+            --release-b "releases/$RELEASE_ID" \
+            --browser-proof "$pages_proof" \
+            --output reports/202608291310-pointer-comparator.json
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory . >"$RUNNER_TEMP/pipelinenews-pointer-matrix.log" 2>&1 &
+          server_pid="$!"
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for url in \
+            http://127.0.0.1:4173/releases/202608261927-index.html \
+            "http://127.0.0.1:4173/releases/$RELEASE_ID/"; do
+            for attempt in {1..20}; do
+              if curl --fail --silent --show-error "$url" >/dev/null; then break; fi
+              sleep 1
+            done
+            curl --fail --silent --show-error "$url" >/dev/null
+          done
+          node atman/202608291310-verify-complete-equivalence.mjs \
+            --baseline http://127.0.0.1:4173/releases/202608261927-index.html \
+            --candidate "http://127.0.0.1:4173/releases/$RELEASE_ID/" \
+            --phase pointer-stage \
+            --report reports/202608291310-pointer-complete-equivalence.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path("reports/202608291310-pointer-complete-equivalence.json").read_text())
+          if report.get("summary") != {"checks": 420, "passed": 420, "failed": 0}:
+              raise AssertionError(f"pointer complete interaction matrix changed: {report.get('summary')}")
+          PY
+
+      - name: Build deterministic byte-identical pointer A/B
+        shell: bash
+        env:
+          PAGES_RUN_ID: ${{ inputs.pages_run_id }}
+          DEPLOYED_COMMIT: ${{ inputs.deployed_commit }}
+          VERIFIED_AT_UTC: ${{ steps.pages-run.outputs.verified_at_utc }}
+        run: |
+          set -euo pipefail
+          pages_proof="$(find work/202608291310-pages-proof -type f -name "browser-$RELEASE_ID-atlas-v9-live.json" -print -quit)"
+          for output in pointer-a pointer-b; do
+            node atman/202608291310-build-live-pointer.mjs \
+              --root . \
+              --browser-proof "$pages_proof" \
+              --comparator-report reports/202608291310-pointer-comparator.json \
+              --equivalence-report reports/202608291310-pointer-complete-equivalence.json \
+              --pages-run-id "$PAGES_RUN_ID" \
+              --deployed-commit "$DEPLOYED_COMMIT" \
+              --verified-at-utc "$VERIFIED_AT_UTC" \
+              --out-root "work/202608291310-pointer/$output"
+          done
+          diff --no-dereference --recursive --brief \
+            work/202608291310-pointer/pointer-a \
+            work/202608291310-pointer/pointer-b
+          cmp work/202608291310-pointer/pointer-a/releases/current-v3.json \
+              work/202608291310-pointer/pointer-a/state/live-set.json
+
+      - name: Commit only two live pointers and CAS-push only ci namespace
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STAGE_BRANCH: ci/202608291310-atlas-v9-pointer
+        run: |
+          set -euo pipefail
+          remote_url="https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if git ls-remote --exit-code --heads "$remote_url" "refs/heads/$STAGE_BRANCH" >"$RUNNER_TEMP/pointer-stage-ref"; then
+            echo "Immutable pointer stage branch already exists; refusing to rewrite it." >&2
+            exit 1
+          fi
+          git switch --create "$STAGE_BRANCH"
+          mkdir -p releases state
+          cp work/202608291310-pointer/pointer-a/releases/current-v3.json releases/current-v3.json
+          cp work/202608291310-pointer/pointer-a/state/live-set.json state/live-set.json
+          cmp releases/current-v3.json state/live-set.json
+          git add -- releases/current-v3.json state/live-set.json
+          test "$(git diff --cached --name-only | sort)" = $'releases/current-v3.json\nstate/live-set.json'
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git commit -m "stage: proof-bound PipelineNews Atlas V9 live pointers"
+          git push "$remote_url" "HEAD:refs/heads/$STAGE_BRANCH"
+
+  daily-drift:
+    if: github.event_name == 'schedule' && needs.classify.outputs.pointer_live == 'true'
+    needs: classify
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout current pointer-owning main without credentials
+        uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Configure Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: Verify committed immutable closure and permanent incumbent evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+
+          release_id = os.environ["RELEASE_ID"]
+          folder = Path("releases") / release_id
+          manifest_path = folder / "release-manifest.json"
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          records = list(manifest.get("outputs", []))
+          actual = {path.as_posix() for path in folder.rglob("*") if path.is_file()}
+          expected = {record["path"] for record in records} | {manifest_path.as_posix()}
+          if len(actual) != 40 or actual != expected:
+              raise AssertionError("daily immutable folder closure changed")
+          for record in records:
+              raw = Path(record["path"]).read_bytes()
+              if len(raw) != record["bytes"] or hashlib.sha256(raw).hexdigest() != record["sha256"]:
+                  raise AssertionError(f"daily release drift: {record['path']}")
+          build = json.loads((folder / "build-manifest.json").read_text(encoding="utf-8"))
+          if build.get("parent_evidence", {}).get("exact_manifest", {}).get("sha256") != "025daf70f1c4b9c9a7c84a70d41ceb50e96232771f736faa309ca92c2c9c134d":
+              raise AssertionError("permanent incumbent evidence drift")
+          current = Path("releases/current-v3.json").read_bytes()
+          live_set = Path("state/live-set.json").read_bytes()
+          if current != live_set:
+              raise AssertionError("daily live pointer copies differ")
+          pointer = json.loads(current)
+          if (
+              pointer.get("schema") != "pipelinenews.live-pointer.v3"
+              or pointer.get("classification") != "VERIFIED_LIVE_TIMESTAMPED_RELEASE"
+              or pointer.get("release_id") != release_id
+              or pointer.get("release_manifest", {}).get("sha256") != hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+          ):
+              raise AssertionError("daily live pointer contract drift")
+          PY
+
+      - name: Install pinned real-browser harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --no-package-lock "playwright@$PLAYWRIGHT_VERSION"
+          npx playwright install --with-deps chromium
+
+      - name: Read back public PipelineNews to real Atlas V9 without interception
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          node atman/202608291310-public-browser-readback.mjs \
+            --candidate "https://ventusltd.github.io/pipelinenews/releases/$RELEASE_ID/" \
+            --output reports/202608291310-daily-real-atlas-v9-browser-proof.json
+
+      - name: Re-run permanent incumbent comparator and fail drift
+        shell: bash
+        run: |
+          set -euo pipefail
+          node atman/202608291310-compare-incumbent-successor.mjs \
+            --release-a "releases/$RELEASE_ID" \
+            --release-b "releases/$RELEASE_ID" \
+            --browser-proof reports/202608291310-daily-real-atlas-v9-browser-proof.json \
+            --output reports/202608291310-daily-incumbent-successor-comparator.json
+
+      - name: Re-run inherited 420-check matrix in read-only daily mode
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory . >"$RUNNER_TEMP/pipelinenews-daily-matrix.log" 2>&1 &
+          server_pid="$!"
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          baseline="http://127.0.0.1:4173/releases/202608261927-index.html"
+          candidate="http://127.0.0.1:4173/releases/$RELEASE_ID/"
+          for url in "$baseline" "$candidate"; do
+            for attempt in {1..20}; do
+              if curl --fail --silent --show-error "$url" >/dev/null; then break; fi
+              sleep 1
+            done
+            curl --fail --silent --show-error "$url" >/dev/null
+          done
+          node atman/202608291310-verify-complete-equivalence.mjs \
+            --baseline "$baseline" \
+            --candidate "$candidate" \
+            --phase daily-drift \
+            --report reports/202608291310-daily-complete-equivalence.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path("reports/202608291310-daily-complete-equivalence.json").read_text())
+          if report.get("summary") != {"checks": 420, "passed": 420, "failed": 0}:
+              raise AssertionError(f"daily complete interaction matrix changed: {report.get('summary')}")
+          PY
+
+      - name: Upload read-only daily drift evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipelinenews-${{ env.RELEASE_ID }}-daily-drift-${{ github.run_id }}
+          path: reports/202608291310-daily-*.json
+          if-no-files-found: warn
+          retention-days: 30

@@ -48,6 +48,18 @@ IMPORT_RE = re.compile(r"\bfrom\s+[\"']([^\"']+)[\"']|\bimport\s+[\"']([^\"']+)[
 RUNTIME_JSON_RE = re.compile(
     r"[\"']((?:\.{1,2}/)*(?:data|manifests)/[^\"']+\.(?:json|geojson))[\"']"
 )
+TIMESTAMP_FOLDER_RE = re.compile(r"^(\d{12})-pipelinenews$")
+TIMESTAMP_FOLDER_RELEASE_SCHEMA = "pipelinenews.timestamp-folder-successor.v1"
+TIMESTAMP_FOLDER_BUILD_SCHEMA = "pipelinenews.timestamp-folder-build-manifest.v1"
+TIMESTAMP_FOLDER_REGISTRY_SCHEMA = "pipelinenews.v9.timestamp-folder-registry.v1"
+TIMESTAMP_FOLDER_FUNCTIONAL_FILES = 37
+TIMESTAMP_FOLDER_TOTAL_FILES = 40
+TIMESTAMP_FOLDER_INHERITED_FILES = 33
+TIMESTAMP_FOLDER_SHARED_FILES = 29
+TIMESTAMP_FOLDER_PARENT_FILES = 4
+TIMESTAMP_FOLDER_PROVENANCE_FILES = 1
+FORBIDDEN_ATLAS_V8_RECEIVER = "globalgrid2050.com/repd_grid_atlasv8"
+ATLAS_V9_SOURCE_PARENT = "693ccda8e6288d449763ce2b3a4ba16ed7b93fee"
 
 
 class RuntimeAssets(HTMLParser):
@@ -291,6 +303,248 @@ def validate_release(root: Path, requested: str) -> dict:
         "release_path": f"releases/{generation}-index.html",
         "release_sha256": html_record["sha256"],
         "public_url": manifest["public_url"],
+    }
+
+
+def validate_timestamp_folder_release(root: Path, release_id: str) -> dict:
+    """Validate one immutable, folder-local successor without promoting a pointer."""
+    match = TIMESTAMP_FOLDER_RE.fullmatch(release_id)
+    require(match is not None, "timestamp folder release must be YYYYMMDDHHMM-pipelinenews")
+    generation = match.group(1)
+    folder_relative = f"releases/{release_id}"
+    folder = repository_path(root, folder_relative)
+    require(folder.is_dir() and not folder.is_symlink(), f"missing timestamp release folder: {folder_relative}")
+    require_no_symlink_components(root, folder_relative, "timestamp release folder")
+
+    release_manifest_relative = f"{folder_relative}/release-manifest.json"
+    build_manifest_relative = f"{folder_relative}/build-manifest.json"
+    release_manifest_path = repository_path(root, release_manifest_relative)
+    build_manifest_path = repository_path(root, build_manifest_relative)
+    require(release_manifest_path.is_file(), "timestamp release manifest is missing")
+    require(build_manifest_path.is_file(), "timestamp build manifest is missing")
+    release_manifest = read_json(release_manifest_path)
+    build_manifest = read_json(build_manifest_path)
+
+    require(release_manifest.get("schema") == TIMESTAMP_FOLDER_RELEASE_SCHEMA, "timestamp release schema changed")
+    require(build_manifest.get("schema") == TIMESTAMP_FOLDER_BUILD_SCHEMA, "timestamp build schema changed")
+    for manifest in (release_manifest, build_manifest):
+        require(manifest.get("generation") == generation, "timestamp manifest generation mismatch")
+        require(manifest.get("release_id") == release_id, "timestamp manifest release ID mismatch")
+    require(release_manifest.get("immutable") is True, "timestamp release is not immutable")
+    require(
+        release_manifest.get("classification") == "IMMUTABLE_TIMESTAMPED_RELEASE",
+        "timestamp release classification changed",
+    )
+    require(
+        release_manifest.get("entrypoint") == f"{folder_relative}/index.html",
+        "timestamp entrypoint is not folder-local index.html",
+    )
+    require(
+        release_manifest.get("public_url")
+        == f"https://ventusltd.github.io/pipelinenews/{folder_relative}/",
+        "timestamp public URL changed",
+    )
+    require(
+        release_manifest.get("publication_control", {}).get("pointer_and_attestation_live_outside_release_folder") is True,
+        "pointer state entered immutable release bytes",
+    )
+    require(
+        release_manifest.get("folder_contract", {}).get("pointer_state_encoded_in_release") is False,
+        "immutable release encodes transient pointer state",
+    )
+
+    functional = build_manifest.get("functional_files")
+    outputs = release_manifest.get("outputs")
+    require(isinstance(functional, list), "timestamp functional output list missing")
+    require(isinstance(outputs, list), "timestamp release output list missing")
+    require(len(functional) == TIMESTAMP_FOLDER_FUNCTIONAL_FILES, "timestamp functional file count changed")
+    require(len(outputs) == TIMESTAMP_FOLDER_TOTAL_FILES - 1, "timestamp declared output count changed")
+    require(
+        build_manifest.get("functional_file_count") == TIMESTAMP_FOLDER_FUNCTIONAL_FILES,
+        "timestamp functional count field changed",
+    )
+    require(
+        build_manifest.get("inherited_functional_files") == TIMESTAMP_FOLDER_INHERITED_FILES,
+        "timestamp inherited functional count changed",
+    )
+    require(
+        build_manifest.get("shared_dependency_files") == TIMESTAMP_FOLDER_SHARED_FILES,
+        "timestamp shared dependency count changed",
+    )
+    require(
+        build_manifest.get("inherited_parent_output_files") == TIMESTAMP_FOLDER_PARENT_FILES,
+        "timestamp inherited parent output count changed",
+    )
+    require(
+        build_manifest.get("parent_evidence", {}).get("exact_manifest", {}).get("sha256")
+        == "025daf70f1c4b9c9a7c84a70d41ceb50e96232771f736faa309ca92c2c9c134d",
+        "permanent parent evidence changed",
+    )
+    require(
+        build_manifest.get("parent_evidence", {}).get("exact_manifest", {}).get("bytes") == 25073,
+        "permanent parent evidence byte count changed",
+    )
+    require(
+        build_manifest.get("provenance_files") == TIMESTAMP_FOLDER_PROVENANCE_FILES,
+        "timestamp provenance file count changed",
+    )
+
+    declared: set[str] = set()
+    for label, records in (("timestamp functional file", functional), ("timestamp output", outputs)):
+        local_seen: set[str] = set()
+        for index, record in enumerate(records):
+            require(isinstance(record, dict), f"{label} {index} is not an object")
+            require(set(record) == {"path", "bytes", "sha256"}, f"unexpected fields in {label} {index}")
+            relative = normalise_candidate_output_path(record.get("path"), f"{label} {index}")
+            require(relative.startswith(f"{folder_relative}/"), f"{label} escapes timestamp folder: {relative}")
+            require(relative not in local_seen, f"duplicate {label}: {relative}")
+            local_seen.add(relative)
+            verify_record(root, record, label)
+        if label == "timestamp output":
+            declared = local_seen
+    require(
+        {record["path"] for record in functional}.issubset(declared),
+        "functional closure is not contained in timestamp outputs",
+    )
+    require(build_manifest_relative in declared, "build manifest is not a declared output")
+    require(release_manifest_relative not in declared, "release manifest must not self-hash")
+    require(
+        release_manifest.get("build_manifest")
+        == next(record for record in outputs if record["path"] == build_manifest_relative),
+        "release/build manifest binding changed",
+    )
+
+    actual = {
+        path.relative_to(root).as_posix()
+        for path in folder.rglob("*")
+        if path.is_file()
+    }
+    require(not any(path.is_symlink() for path in folder.rglob("*")), "symlink in timestamp release")
+    require(actual == declared | {release_manifest_relative}, "timestamp folder closure differs from manifest")
+    require(len(actual) == TIMESTAMP_FOLDER_TOTAL_FILES, "timestamp total file count changed")
+
+    source_commit = require_git_commit(root, release_manifest.get("source_commit"), "timestamp source commit")
+    release_commit = git_text(root, "log", "-1", "--format=%H", "--", release_manifest_relative)
+    require(bool(COMMIT_RE.fullmatch(release_commit)), "timestamp release manifest is not committed")
+    release_parents = git_text(root, "show", "-s", "--format=%P", release_commit).split()
+    require(release_parents == [source_commit], "timestamp release commit is not a one-parent child of source commit")
+    release_changes = {
+        line for line in git_text(
+            root, "diff-tree", "--no-commit-id", "--name-only", "-r", release_commit
+        ).splitlines() if line
+    }
+    require(release_changes == actual, "timestamp release commit differs from exact 40-file folder closure")
+    for record in outputs:
+        require_commit_file(root, release_commit, record["path"], record["sha256"], "timestamp committed output")
+    require_commit_file(
+        root,
+        release_commit,
+        release_manifest_relative,
+        sha256(release_manifest_path),
+        "timestamp committed release manifest",
+    )
+    pointers_present = any((root / relative).is_file() for relative in ("releases/current-v3.json", "state/live-set.json"))
+    if not pointers_present:
+        require(git_text(root, "rev-parse", "HEAD") == release_commit, "unpromoted timestamp release is not deployment HEAD")
+
+    registry_path = folder / f"data/{generation}-registry.json"
+    registry = read_json(registry_path)
+    require(registry.get("schema") == TIMESTAMP_FOLDER_REGISTRY_SCHEMA, "timestamp registry schema changed")
+    require(registry.get("generation") == generation, "timestamp registry generation changed")
+    require(registry.get("classification") == "IMMUTABLE_TIMESTAMPED_RELEASE", "registry classification changed")
+    require("deployment" not in registry, "transient deployment state entered registry")
+
+    # Provenance is an exact historical manifest and therefore records the old
+    # receiver. Leakage policy applies to executable/functional release bytes.
+    functional_paths = [repository_path(root, record["path"]) for record in functional]
+    text = "\n".join(
+        path.read_text(encoding="utf-8")
+        for path in functional_paths
+        if path.suffix in {".html", ".mjs", ".js", ".json", ".css"}
+    )
+    require(FORBIDDEN_ATLAS_V8_RECEIVER not in text, "old Atlas V8 receiver leaked into timestamp release")
+    require("NOT DEPLOYED" not in text and "NOT CURRENT" not in text, "transient release wording leaked")
+    require("DEEP-LINK CANDIDATE" not in text and "fast candidate" not in text, "candidate product-state wording leaked")
+
+    index_record = next(record for record in outputs if record["path"] == f"{folder_relative}/index.html")
+    return {
+        "release_id": release_id,
+        "generation": generation,
+        "folder_path": f"{folder_relative}/",
+        "index_path": index_record["path"],
+        "index_sha256": index_record["sha256"],
+        "manifest_path": release_manifest_relative,
+        "manifest_sha256": sha256(release_manifest_path),
+        "manifest": release_manifest,
+    }
+
+
+def validate_live_pointer(root: Path, timestamp_folder: dict | None) -> dict | None:
+    pointer_paths = [Path("releases/current-v3.json"), Path("state/live-set.json")]
+    existing = [(root / relative).is_file() for relative in pointer_paths]
+    require(existing in ([False, False], [True, True]), "live pointer copies must be absent or both present")
+    if not all(existing):
+        return None
+    require(timestamp_folder is not None, "live pointer exists without validated timestamp release")
+    for relative in pointer_paths:
+        require_no_symlink_components(root, relative.as_posix(), "live pointer")
+    first = (root / pointer_paths[0]).read_bytes()
+    second = (root / pointer_paths[1]).read_bytes()
+    require(first == second, "current-v3 and live-set pointer bytes differ")
+    pointer = json.loads(first)
+    release_id = timestamp_folder["release_id"]
+    expected = {
+        "schema": "pipelinenews.live-pointer.v3",
+        "generation": timestamp_folder["generation"],
+        "release_id": release_id,
+        "classification": "VERIFIED_LIVE_TIMESTAMPED_RELEASE",
+        "route": f"/pipelinenews/releases/{release_id}/",
+        "entrypoint": f"releases/{release_id}/index.html",
+    }
+    for key, value in expected.items():
+        require(pointer.get(key) == value, f"live pointer {key} changed")
+    require(bool(COMMIT_RE.fullmatch(pointer.get("release_source_commit", ""))), "invalid live pointer release source")
+    require(bool(COMMIT_RE.fullmatch(pointer.get("deployed_commit", ""))), "invalid live pointer deployed commit")
+    require(
+        isinstance(pointer.get("verified_at_utc"), str) and bool(ISO_8601_RE.fullmatch(pointer["verified_at_utc"])),
+        "invalid live pointer verification timestamp",
+    )
+    proof = pointer.get("public_proof", {})
+    require(str(proof.get("pages_run_id", "")).isdigit(), "live pointer has no Pages run")
+    require(bool(SHA256_RE.fullmatch(proof.get("browser_proof_sha256", ""))), "live pointer browser proof hash changed")
+    require(bool(SHA256_RE.fullmatch(proof.get("comparator_report_sha256", ""))), "live pointer comparator hash changed")
+    require(bool(SHA256_RE.fullmatch(proof.get("equivalence_report_sha256", ""))), "live pointer equivalence hash changed")
+    require(proof.get("synthetic_receiver") is False, "live pointer permits synthetic receiver")
+    require(proof.get("route_interceptions") == 0, "live pointer proof was intercepted")
+    require("REPD 17494 selected" in proof.get("receiver_text", ""), "live pointer receiver selection changed")
+    release_binding = pointer.get("release_manifest", {})
+    build_binding = pointer.get("build_manifest", {})
+    require(release_binding.get("path") == timestamp_folder["manifest_path"], "live pointer release binding path changed")
+    require(release_binding.get("sha256") == timestamp_folder["manifest_sha256"], "live pointer release binding hash changed")
+    verify_record(root, release_binding, "live pointer release manifest")
+    verify_record(root, build_binding, "live pointer build manifest")
+    release_commit = git_text(root, "log", "-1", "--format=%H", "--", timestamp_folder["manifest_path"])
+    require(release_commit == pointer["deployed_commit"], "live pointer deployed commit does not own immutable release")
+    pointer_commits = {
+        git_text(root, "log", "-1", "--format=%H", "--", relative.as_posix())
+        for relative in pointer_paths
+    }
+    require(len(pointer_commits) == 1, "live pointer copies were not committed together")
+    pointer_commit = next(iter(pointer_commits))
+    require(pointer_commit == git_text(root, "rev-parse", "HEAD"), "live pointer commit is not deployment HEAD")
+    parents = git_text(root, "show", "-s", "--format=%P", pointer_commit).split()
+    require(parents == [release_commit], "live pointer commit is not a one-parent child of deployed release")
+    pointer_changes = {
+        line for line in git_text(
+            root, "diff-tree", "--no-commit-id", "--name-only", "-r", pointer_commit
+        ).splitlines() if line
+    }
+    require(pointer_changes == {path.as_posix() for path in pointer_paths}, "live pointer commit changed paths outside two pointers")
+    return {
+        "paths": [relative.as_posix() for relative in pointer_paths],
+        "bytes": len(first),
+        "sha256": hashlib.sha256(first).hexdigest(),
+        "pointer": pointer,
     }
 
 
@@ -593,13 +847,38 @@ def candidate_publication_boundary(root: Path, release: dict) -> tuple[set[str],
         require_commit_file(root, candidate_output_commit, candidate["manifest_path"], candidate["manifest_sha256"], "candidate manifest")
         for record in candidate["outputs"]:
             require_commit_file(root, candidate_output_commit, record["path"], record["sha256"], "candidate output")
-        public_tree_diff = subprocess.run(
-            ["git", "diff", "--quiet", candidate_output_commit, "HEAD", "--", "releases", "data", "archive"],
+        changed_public_paths = {
+            line for line in git_text(
+                root,
+                "diff",
+                "--name-only",
+                ATLAS_V9_SOURCE_PARENT,
+                "HEAD",
+                "--",
+                "releases",
+                "data",
+                "archive",
+                "state",
+            ).splitlines() if line
+        }
+        allowed_public_changes: set[str] = set()
+        timestamp_folder = release.get("timestamp_folder")
+        if timestamp_folder is not None:
+            allowed_public_changes.update(record["path"] for record in timestamp_folder["manifest"]["outputs"])
+            allowed_public_changes.add(timestamp_folder["manifest_path"])
+        live_pointer = release.get("live_pointer")
+        if live_pointer is not None:
+            allowed_public_changes.update(live_pointer["paths"])
+        require(
+            changed_public_paths.issubset(allowed_public_changes),
+            f"legacy public tree changed outside exact Atlas V9 release/pointers: {sorted(changed_public_paths - allowed_public_changes)}",
+        )
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", ATLAS_V9_SOURCE_PARENT, "HEAD"],
             cwd=root,
-            check=False,
+            check=True,
             capture_output=True,
         )
-        require(public_tree_diff.returncode == 0, "public releases/data/archive tree changed after the green candidate commit")
         subprocess.run(
             ["git", "merge-base", "--is-ancestor", manifest["source_commit"], candidate_output_commit],
             cwd=root,
@@ -751,6 +1030,9 @@ def stage_site(root: Path, site: Path, release: dict) -> None:
     excluded_candidates, authorised_candidates = candidate_publication_boundary(root, release)
     copy_release_tree(root / "releases", site / "releases", excluded_candidates)
     copy_tree(root / "data", site / "data")
+    live_pointer = release.get("live_pointer")
+    if live_pointer is not None:
+        copy_file(root, site, "state/live-set.json")
     (site / ".nojekyll").touch()
 
     for relative in excluded_candidates:
@@ -761,12 +1043,26 @@ def stage_site(root: Path, site: Path, release: dict) -> None:
     require(set(authorised_records) == authorised_candidates, "authorised candidate record set changed")
     for relative in authorised_candidates:
         verify_record(site, authorised_records[relative], "staged authorised candidate output")
+    timestamp_folder = release.get("timestamp_folder")
+    if timestamp_folder is not None:
+        for record in timestamp_folder["manifest"]["outputs"]:
+            verify_record(site, record, "staged timestamp-folder output")
+        timestamp_manifest = timestamp_folder["manifest_path"]
+        require((site / timestamp_manifest).is_file(), "staged timestamp release manifest is missing")
+        require(
+            sha256(site / timestamp_manifest) == timestamp_folder["manifest_sha256"],
+            "staged timestamp release manifest changed",
+        )
 
     required = [
         "newsv1/index.html", "newsv7/index.html", "202608260159-pipelinenews/index.html",
         "objects/data/sha256/3d2cd9cba8581bbc8c4e7434deb0c584d3969639a00926393cf011e2c3f8a00b.json",
         "releases/current.json", release["release_path"],
     ]
+    if timestamp_folder is not None:
+        required.extend([timestamp_folder["index_path"], timestamp_folder["manifest_path"]])
+    if live_pointer is not None:
+        required.extend(live_pointer["paths"])
     for relative in required:
         require((site / relative).is_file(), f"staged public path missing: {relative}")
     forbidden_roots = ["ui", "index", "atman", "archive"]
@@ -800,6 +1096,24 @@ def emit_github_outputs(release: dict, site: Path | None) -> None:
     for key in ("candidate_generation", "candidate_path", "candidate_sha256", "candidate_verifier"):
         if key in release:
             values[key] = release[key]
+    timestamp_folder = release.get("timestamp_folder")
+    if timestamp_folder is not None:
+        values.update({
+            "timestamp_folder_release": timestamp_folder["release_id"],
+            "timestamp_folder_generation": timestamp_folder["generation"],
+            "timestamp_folder_path": timestamp_folder["folder_path"],
+            "timestamp_folder_index_path": timestamp_folder["index_path"],
+            "timestamp_folder_index_sha256": timestamp_folder["index_sha256"],
+            "timestamp_folder_manifest_path": timestamp_folder["manifest_path"],
+            "timestamp_folder_manifest_sha256": timestamp_folder["manifest_sha256"],
+        })
+    live_pointer = release.get("live_pointer")
+    if live_pointer is not None:
+        values.update({
+            "live_pointer": "true",
+            "live_pointer_sha256": live_pointer["sha256"],
+            "live_pointer_bytes": live_pointer["bytes"],
+        })
     if site is not None:
         files = [path for path in site.rglob("*") if path.is_file()]
         values["staged_files"] = len(files)
@@ -814,10 +1128,16 @@ def main() -> int:
     parser.add_argument("--root", default=".", help="repository root")
     parser.add_argument("--generation", default="latest", help="latest or YYYYMMDDHHMM")
     parser.add_argument("--stage", help="fresh Pages staging directory")
+    parser.add_argument("--timestamp-folder-release", help="optional immutable YYYYMMDDHHMM-pipelinenews folder")
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
     release = validate_release(root, args.generation)
+    if args.timestamp_folder_release:
+        release["timestamp_folder"] = validate_timestamp_folder_release(root, args.timestamp_folder_release)
+    live_pointer = validate_live_pointer(root, release.get("timestamp_folder"))
+    if live_pointer is not None:
+        release["live_pointer"] = live_pointer
     site = Path(args.stage).resolve() if args.stage else None
     if site is not None:
         stage_site(root, site, release)
@@ -834,6 +1154,17 @@ def main() -> int:
     for key in ("candidate_generation", "candidate_path", "candidate_sha256", "candidate_verifier"):
         if key in release:
             summary[key] = release[key]
+    if "timestamp_folder" in release:
+        summary["timestamp_folder"] = {
+            key: value for key, value in release["timestamp_folder"].items()
+            if key != "manifest"
+        }
+    if "live_pointer" in release:
+        summary["live_pointer"] = {
+            "paths": release["live_pointer"]["paths"],
+            "bytes": release["live_pointer"]["bytes"],
+            "sha256": release["live_pointer"]["sha256"],
+        }
     print(json.dumps(summary, indent=2))
     return 0
 

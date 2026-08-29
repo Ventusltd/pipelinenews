@@ -1,11 +1,22 @@
 name: Deploy PipelineNews Pages
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - releases/202608291310-pipelinenews/**
+      - releases/current-v3.json
+      - state/live-set.json
   workflow_dispatch:
     inputs:
       expected_sha:
         description: Exact main commit authorised for this deployment
         required: true
+        type: string
+      timestamp_folder_release:
+        description: Optional immutable YYYYMMDDHHMM-pipelinenews folder to validate and publish without pointer promotion
+        required: false
+        default: ""
         type: string
 
 permissions:
@@ -30,6 +41,15 @@ jobs:
       candidate_path: ${{ steps.release.outputs.candidate_path }}
       candidate_sha256: ${{ steps.release.outputs.candidate_sha256 }}
       candidate_verifier: ${{ steps.release.outputs.candidate_verifier }}
+      timestamp_folder_release: ${{ steps.release.outputs.timestamp_folder_release }}
+      timestamp_folder_path: ${{ steps.release.outputs.timestamp_folder_path }}
+      timestamp_folder_index_path: ${{ steps.release.outputs.timestamp_folder_index_path }}
+      timestamp_folder_index_sha256: ${{ steps.release.outputs.timestamp_folder_index_sha256 }}
+      timestamp_folder_manifest_path: ${{ steps.release.outputs.timestamp_folder_manifest_path }}
+      timestamp_folder_manifest_sha256: ${{ steps.release.outputs.timestamp_folder_manifest_sha256 }}
+      live_pointer: ${{ steps.release.outputs.live_pointer }}
+      live_pointer_sha256: ${{ steps.release.outputs.live_pointer_sha256 }}
+      live_pointer_bytes: ${{ steps.release.outputs.live_pointer_bytes }}
     steps:
       - name: Checkout exact dispatch commit
         uses: actions/checkout@v5
@@ -44,7 +64,7 @@ jobs:
         id: source
         shell: bash
         env:
-          EXPECTED_SHA: ${{ inputs.expected_sha }}
+          EXPECTED_SHA: ${{ inputs.expected_sha || github.sha }}
         run: |
           set -euo pipefail
           [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]]
@@ -131,7 +151,16 @@ jobs:
       - name: Validate committed release and stage public closure
         id: release
         shell: bash
-        run: python3 atman/202608262014-build-pages.py --generation latest --stage _site
+        env:
+          TIMESTAMP_FOLDER_RELEASE: ${{ github.event_name == 'push' && '202608291310-pipelinenews' || inputs.timestamp_folder_release }}
+        run: |
+          set -euo pipefail
+          arguments=(--generation latest --stage _site)
+          if [[ -n "$TIMESTAMP_FOLDER_RELEASE" ]]; then
+            [[ "$TIMESTAMP_FOLDER_RELEASE" =~ ^[0-9]{12}-pipelinenews$ ]]
+            arguments+=(--timestamp-folder-release "$TIMESTAMP_FOLDER_RELEASE")
+          fi
+          python3 atman/202608262014-build-pages.py "${arguments[@]}"
 
       - name: Install pinned browser harness
         shell: bash
@@ -185,6 +214,30 @@ jobs:
           curl --fail --silent --show-error "$FAST_SITE_URL" >/dev/null
           node "$FAST_SITE_VERIFIER" | tee "$FAST_SITE_EVIDENCE"
 
+      - name: Browser-proof staged Atlas V9 timestamp-folder release against real receiver
+        if: ${{ steps.release.outputs.timestamp_folder_path != '' }}
+        shell: bash
+        env:
+          TIMESTAMP_FOLDER_URL: http://127.0.0.1:4173/${{ steps.release.outputs.timestamp_folder_path }}
+          TIMESTAMP_FOLDER_PROOF: reports/browser-${{ steps.release.outputs.timestamp_folder_release }}-atlas-v9-preview.json
+          PLAYWRIGHT_VERSION: "1.55.0"
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory _site >"$RUNNER_TEMP/pipelinenews-atlas-v9-preview.log" 2>&1 &
+          server_pid="$!"
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..20}; do
+            if curl --fail --silent --show-error "$TIMESTAMP_FOLDER_URL" >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl --fail --silent --show-error "$TIMESTAMP_FOLDER_URL" >/dev/null
+          node atman/202608291310-public-browser-readback.mjs \
+            --candidate "$TIMESTAMP_FOLDER_URL" \
+            --output "$TIMESTAMP_FOLDER_PROOF"
+
       - name: Upload predeployment browser evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -193,6 +246,7 @@ jobs:
           path: |
             reports/browser-*-preview
             reports/browser-*-fast-preview.json
+            reports/browser-*-atlas-v9-preview.json
           if-no-files-found: warn
           retention-days: 30
 
@@ -231,6 +285,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build, deploy]
     timeout-minutes: 30
+    permissions:
+      contents: read
+      actions: write
     steps:
       - name: Checkout exact deployed commit
         uses: actions/checkout@v5
@@ -537,6 +594,181 @@ jobs:
           print(json.dumps(evidence, indent=2))
           PY
 
+      - name: Verify every deployed Atlas V9 timestamp-folder byte
+        if: ${{ needs.build.outputs.timestamp_folder_path != '' }}
+        shell: bash
+        env:
+          PAGE_ROOT: ${{ needs.deploy.outputs.page_url }}
+          TIMESTAMP_FOLDER_RELEASE: ${{ needs.build.outputs.timestamp_folder_release }}
+          TIMESTAMP_FOLDER_PATH: ${{ needs.build.outputs.timestamp_folder_path }}
+          TIMESTAMP_FOLDER_MANIFEST_PATH: ${{ needs.build.outputs.timestamp_folder_manifest_path }}
+          TIMESTAMP_FOLDER_MANIFEST_SHA256: ${{ needs.build.outputs.timestamp_folder_manifest_sha256 }}
+          DEPLOYED_SHA: ${{ needs.build.outputs.deployed_sha }}
+          LIVE_POINTER: ${{ needs.build.outputs.live_pointer }}
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path, PurePosixPath
+          import re
+          import time
+          from urllib.parse import quote
+          from urllib.request import Request, urlopen
+
+          release_id = os.environ["TIMESTAMP_FOLDER_RELEASE"]
+          folder_path = os.environ["TIMESTAMP_FOLDER_PATH"]
+          manifest_relative = os.environ["TIMESTAMP_FOLDER_MANIFEST_PATH"]
+          manifest_sha = os.environ["TIMESTAMP_FOLDER_MANIFEST_SHA256"]
+          deployed_sha = os.environ["DEPLOYED_SHA"]
+          page_root = os.environ["PAGE_ROOT"].rstrip("/")
+          if not re.fullmatch(r"\d{12}-pipelinenews", release_id):
+              raise AssertionError(f"invalid timestamp folder release: {release_id!r}")
+          if folder_path != f"releases/{release_id}/":
+              raise AssertionError("timestamp folder path changed")
+          if manifest_relative != f"releases/{release_id}/release-manifest.json":
+              raise AssertionError("timestamp manifest path changed")
+          if not re.fullmatch(r"[0-9a-f]{64}", manifest_sha):
+              raise AssertionError("timestamp manifest SHA-256 is invalid")
+
+          manifest_bytes = Path(manifest_relative).read_bytes()
+          if hashlib.sha256(manifest_bytes).hexdigest() != manifest_sha:
+              raise AssertionError("committed timestamp manifest differs from Pages build output")
+          manifest = json.loads(manifest_bytes)
+          if (
+              manifest.get("schema") != "pipelinenews.timestamp-folder-successor.v1"
+              or manifest.get("release_id") != release_id
+              or manifest.get("classification") != "IMMUTABLE_TIMESTAMPED_RELEASE"
+          ):
+              raise AssertionError("timestamp release boundary changed")
+          records = list(manifest.get("outputs", [])) + [{
+              "path": manifest_relative,
+              "bytes": len(manifest_bytes),
+              "sha256": manifest_sha,
+          }]
+          if len(records) != 40:
+              raise AssertionError(f"expected 40 timestamp folder files, found {len(records)}")
+
+          verified = []
+          for record in records:
+              relative = record.get("path")
+              expected_bytes = record.get("bytes")
+              expected_sha = record.get("sha256")
+              path = PurePosixPath(relative) if isinstance(relative, str) else PurePosixPath("/")
+              if path.is_absolute() or ".." in path.parts or path.as_posix() != relative:
+                  raise AssertionError(f"unsafe timestamp output: {relative!r}")
+              if not relative.startswith(folder_path):
+                  raise AssertionError(f"timestamp output escaped folder: {relative}")
+              last_error = None
+              for attempt in range(1, 11):
+                  url = f"{page_root}/{quote(relative, safe='/')}?deployment={quote(deployed_sha, safe='')}&attempt={attempt}"
+                  try:
+                      request = Request(url, headers={"Cache-Control": "no-cache", "User-Agent": "PipelineNews-Pages-Gate/1"})
+                      with urlopen(request, timeout=20) as response:
+                          payload = response.read()
+                      actual_sha = hashlib.sha256(payload).hexdigest()
+                      if len(payload) != expected_bytes or actual_sha != expected_sha:
+                          raise AssertionError(f"expected {expected_bytes}/{expected_sha}, got {len(payload)}/{actual_sha}")
+                      verified.append({"path": relative, "bytes": len(payload), "sha256": actual_sha, "url": url})
+                      break
+                  except Exception as error:
+                      last_error = error
+                      if attempt < 10:
+                          time.sleep(2)
+              else:
+                  raise AssertionError(f"deployed timestamp byte did not converge: {relative}: {last_error}")
+
+          evidence = {
+              "schema": "pipelinenews.timestamp-folder-pages-closure-proof.v1",
+              "release_id": release_id,
+              "deployed_sha": deployed_sha,
+              "verified_file_count": len(verified),
+              "pointer_promoted": os.environ.get("LIVE_POINTER") == "true",
+              "outputs": verified,
+              "status": "PASS",
+          }
+          evidence_path = Path("reports") / f"timestamp-folder-live-closure-{release_id}.json"
+          evidence_path.write_text(json.dumps(evidence, indent=2) + "\n", encoding="utf-8")
+          print(json.dumps({"status": evidence["status"], "verified_file_count": len(verified)}))
+          PY
+
+      - name: Verify both public live pointer bytes and release binding
+        if: ${{ needs.build.outputs.live_pointer == 'true' }}
+        shell: bash
+        env:
+          PAGE_ROOT: ${{ needs.deploy.outputs.page_url }}
+          POINTER_SHA256: ${{ needs.build.outputs.live_pointer_sha256 }}
+          POINTER_BYTES: ${{ needs.build.outputs.live_pointer_bytes }}
+          DEPLOYED_SHA: ${{ needs.build.outputs.deployed_sha }}
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import time
+          from urllib.request import Request, urlopen
+
+          expected_sha = os.environ["POINTER_SHA256"]
+          expected_bytes = int(os.environ["POINTER_BYTES"])
+          page_root = os.environ["PAGE_ROOT"].rstrip("/")
+          deployed_sha = os.environ["DEPLOYED_SHA"]
+          local_current = Path("releases/current-v3.json").read_bytes()
+          local_live_set = Path("state/live-set.json").read_bytes()
+          if local_current != local_live_set:
+              raise AssertionError("committed live pointer copies differ")
+          if len(local_current) != expected_bytes or hashlib.sha256(local_current).hexdigest() != expected_sha:
+              raise AssertionError("Pages pointer outputs differ from committed bytes")
+
+          verified = []
+          payloads = []
+          for relative in ["releases/current-v3.json", "state/live-set.json"]:
+              last_error = None
+              for attempt in range(1, 11):
+                  url = f"{page_root}/{relative}?deployment={deployed_sha}&attempt={attempt}"
+                  try:
+                      request = Request(url, headers={"Cache-Control": "no-cache", "User-Agent": "PipelineNews-Pages-Gate/1"})
+                      with urlopen(request, timeout=20) as response:
+                          payload = response.read()
+                      if len(payload) != expected_bytes or hashlib.sha256(payload).hexdigest() != expected_sha:
+                          raise AssertionError("public pointer bytes differ")
+                      payloads.append(payload)
+                      verified.append({"path": relative, "url": url, "bytes": len(payload), "sha256": expected_sha})
+                      break
+                  except Exception as error:
+                      last_error = error
+                      if attempt < 10:
+                          time.sleep(2)
+              else:
+                  raise AssertionError(f"public pointer did not converge: {relative}: {last_error}")
+          if payloads[0] != payloads[1]:
+              raise AssertionError("public live pointer copies differ")
+          pointer = json.loads(payloads[0])
+          if pointer.get("schema") != "pipelinenews.live-pointer.v3" or pointer.get("classification") != "VERIFIED_LIVE_TIMESTAMPED_RELEASE":
+              raise AssertionError("public live pointer contract changed")
+          manifest_binding = pointer.get("release_manifest", {})
+          manifest_url = f"{page_root}/{manifest_binding.get('path')}?deployment={deployed_sha}"
+          with urlopen(Request(manifest_url, headers={"Cache-Control": "no-cache", "User-Agent": "PipelineNews-Pages-Gate/1"}), timeout=20) as response:
+              manifest_raw = response.read()
+          if len(manifest_raw) != manifest_binding.get("bytes") or hashlib.sha256(manifest_raw).hexdigest() != manifest_binding.get("sha256"):
+              raise AssertionError("public live pointer release-manifest binding failed")
+          report = {
+              "schema": "pipelinenews.public-live-pointer-readback.v1",
+              "deployed_sha": deployed_sha,
+              "pointer_sha256": expected_sha,
+              "byte_identical": True,
+              "release_manifest_bound": True,
+              "verified": verified,
+              "status": "PASS",
+          }
+          Path("reports/public-live-pointer-readback.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+          print(json.dumps({"status": "PASS", "pointer_sha256": expected_sha}))
+          PY
+
       - name: Browser-proof deployed authorised fast candidate
         if: ${{ needs.build.outputs.candidate_path != '' }}
         shell: bash
@@ -550,6 +782,20 @@ jobs:
           test -f "$FAST_SITE_VERIFIER"
           mkdir -p reports
           node "$FAST_SITE_VERIFIER" | tee "$FAST_SITE_EVIDENCE"
+
+      - name: Browser-proof deployed Atlas V9 timestamp-folder release against real receiver
+        if: ${{ needs.build.outputs.timestamp_folder_path != '' }}
+        shell: bash
+        env:
+          TIMESTAMP_FOLDER_URL: ${{ needs.deploy.outputs.page_url }}${{ needs.build.outputs.timestamp_folder_path }}
+          TIMESTAMP_FOLDER_PROOF: reports/browser-${{ needs.build.outputs.timestamp_folder_release }}-atlas-v9-live.json
+          PLAYWRIGHT_VERSION: "1.55.0"
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          node atman/202608291310-public-browser-readback.mjs \
+            --candidate "$TIMESTAMP_FOLDER_URL" \
+            --output "$TIMESTAMP_FOLDER_PROOF"
 
       - name: Browser-proof deployed modular release
         env:
@@ -567,6 +813,39 @@ jobs:
           path: |
             reports/browser-*-live
             reports/browser-*-fast-live.json
+            reports/browser-*-atlas-v9-live.json
             reports/fast-live-closure-*.json
+            reports/timestamp-folder-live-closure-*.json
+            reports/public-live-pointer-readback.json
           if-no-files-found: warn
           retention-days: 30
+
+      - name: Start proof-bound pointer staging after first public folder proof
+        if: ${{ success() && needs.build.outputs.timestamp_folder_path != '' && needs.build.outputs.live_pointer != 'true' }}
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEPLOYED_SHA: ${{ needs.build.outputs.deployed_sha }}
+        run: |
+          set -euo pipefail
+          payload="$(python3 - <<'PY'
+          import json
+          import os
+          print(json.dumps({
+              "ref": "main",
+              "inputs": {
+                  "mode": "stage-pointer",
+                  "pages_run_id": os.environ["GITHUB_RUN_ID"],
+                  "deployed_commit": os.environ["DEPLOYED_SHA"],
+              },
+          }))
+          PY
+          )"
+          status="$(curl --silent --show-error --output "$RUNNER_TEMP/pointer-dispatch-response" --write-out '%{http_code}' \
+            --request POST \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer $GH_TOKEN" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/workflows/202608291310-atlas-v9-deep-link-successor.yml/dispatches" \
+            --data "$payload")"
+          test "$status" = 204
