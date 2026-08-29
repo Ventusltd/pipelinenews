@@ -1,0 +1,108 @@
+name: Verify PipelineNews Merged Adaptive Controller Contract 202608290146
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/202608290146-adaptive-controller-contract-gate.yml"
+      - "atman/202608290146-verify-adaptive-build-controller.mjs"
+      - "manifests/202608290146-adaptive-build-controller-prompt.md"
+      - "manifests/202608290146-adaptive-build-controller.json"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: pipelinenews-adaptive-controller-contract
+  cancel-in-progress: false
+
+env:
+  GENERATION: "202608290146"
+  SOURCE_PARENT: "541f41d970d0a361b4ce58b4c17356f4b0649770"
+  MANIFEST: "manifests/202608290146-adaptive-build-controller.json"
+  SCRIPT: "atman/202608290146-verify-adaptive-build-controller.mjs"
+
+jobs:
+  verify-contract:
+    name: Prove exact mission, timer, milestone and recovery contract
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact controller source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: "${{ github.sha }}"
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Configure pinned Node runtime
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: "22"
+
+      - name: Prove exact four-file timestamped source boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse HEAD^)" = "$SOURCE_PARENT"
+          test "$(git rev-list --count "$SOURCE_PARENT..HEAD")" = "1"
+          git diff --name-only "$SOURCE_PARENT" HEAD | LC_ALL=C sort > /tmp/actual-controller-source
+          printf '%s\n' \
+            ".github/workflows/$GENERATION-adaptive-controller-contract-gate.yml" \
+            "$SCRIPT" \
+            "manifests/$GENERATION-adaptive-build-controller-prompt.md" \
+            "$MANIFEST" \
+            | LC_ALL=C sort > /tmp/expected-controller-source
+          diff -u /tmp/expected-controller-source /tmp/actual-controller-source
+          git diff --quiet "$SOURCE_PARENT" HEAD -- \
+            releases/ state/ archive/ build/ data/ index/ ui/ \
+            .github/workflows/pages.yml .github/DEPLOYMENT_POLICY.md README.md
+          node --check "$SCRIPT"
+          ! grep -Eq 'schedule:|cron:|workflow_run:|deploy[-]pages|upload[-]pages-artifact|pages: [w]rite|id-token: [w]rite|contents: [w]rite|actions: [w]rite|git[ ]push|update[-]ref' \
+            ".github/workflows/$GENERATION-adaptive-controller-contract-gate.yml" "$SCRIPT"
+
+      - name: Verify exact contract, prompts, heads, runs and artifacts
+        env:
+          GITHUB_TOKEN: "${{ github.token }}"
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/controller-evidence"
+          node "$SCRIPT" \
+            --manifest "$MANIFEST" \
+            --report "$RUNNER_TEMP/controller-evidence/$GENERATION-controller-deployment.json"
+
+      - name: Upload immutable deployment evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pipelinenews-adaptive-controller-contract-${{ github.run_id }}
+          path: ${{ runner.temp }}/controller-evidence/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Enforce deployed merged-controller source
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          report="$RUNNER_TEMP/controller-evidence/$GENERATION-controller-deployment.json"
+          test -f "$report"
+          jq -e \
+            '.controller_deployed==true
+             and .contract_valid==true
+             and .remote.baton.candidate.verdict=="MATCH"
+             and .remote.baton.equivalence.verdict=="MATCH"
+             and .legacy_pointer.verdict=="UNCHANGED"
+             and .publication_state.candidate=="ACTIONS_ARTIFACT_ONLY"
+             and .publication_state.state_live_set_present==false
+             and .publication_state.pages_changed==false
+             and .publication_state.globalgrid_catalogue_changed==false
+             and .verified_through=="M00"
+             and .earliest_unmet_milestone=="M01"
+             and .github_workflow_role=="IMMUTABLE_CONTRACT_GATE_NOT_A_SECOND_TIMER"' \
+            "$report"

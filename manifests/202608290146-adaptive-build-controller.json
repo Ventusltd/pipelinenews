@@ -1,0 +1,378 @@
+{
+  "schema": "pipelinenews.adaptive-build-controller.v1",
+  "generation": "202608290146",
+  "incepted_at": "2026-08-29T01:46:00+01:00",
+  "lifecycle": "write-once",
+  "source_parent_commit": "541f41d970d0a361b4ce58b4c17356f4b0649770",
+  "last_known_green_predecessor": {
+    "commit": "541f41d970d0a361b4ce58b4c17356f4b0649770",
+    "run_id": 33220426609,
+    "job_id": 99013111468,
+    "artifact_id": 9704996902,
+    "artifact_bytes": 12322,
+    "artifact_sha256": "1018096424a5742699415ab244cb9acc1caa72e9fe2a44d1dbeb07ca80ae7d09",
+    "checks": 420,
+    "failed": 0
+  },
+  "controller": {
+    "repository": "Ventusltd/pipelinenews",
+    "default_branch": "main",
+    "workflow": ".github/workflows/202608290146-adaptive-controller-contract-gate.yml",
+    "script": "atman/202608290146-verify-adaptive-build-controller.mjs",
+    "prompt": "manifests/202608290146-adaptive-build-controller-prompt.md",
+    "authoritative_task_id": "6a921120ec248191a3551a6e618ea000",
+    "superseded_watchdog_id": "6a92242b34b88191ac51b68ccf595bf9",
+    "failed_predecessor_id": "6a919a1495f08191949507e6b817cbeb",
+    "single_chatgpt_controller_required": true,
+    "separate_chatgpt_watchdog_required_paused": true,
+    "failed_predecessor_required_paused": true,
+    "scheduler_boundary": "The merged ChatGPT task can audit and repair only after an invocation starts. The GitHub contract gate cannot observe ChatGPT last_run_time or re-arm a ChatGPT task that never fires.",
+    "github_workflow_role": "IMMUTABLE_CONTRACT_GATE_NOT_A_SECOND_TIMER",
+    "github_mutation_authority": "none",
+    "automation_transition_order": "After this GitHub contract gate is green, update and enable the authoritative task with the exact controller commit and source hashes; verify its saved prompt, timezone schedule and enabled state; only then pause the superseded watchdog. A green GitHub gate alone never authorises pausing the watchdog.",
+    "future_successor_law": "Keep this timestamped workflow, verifier, prompt and manifest immutable. Every material change adds a complete new timestamped four-file successor. Never add repository cron."
+  },
+  "timer": {
+    "timezone": "Europe/London",
+    "chatgpt_schedule": "BEGIN:VEVENT\nDTSTART;TZID=Europe/London:20260829T020500\nRRULE:FREQ=HOURLY;COUNT=8\nEND:VEVENT",
+    "maximum_chatgpt_frequency": "hourly",
+    "github_schedule": null,
+    "chatgpt_schedule_role": "single merged timer, watchdog logic and authorised executor",
+    "null_next_run_time_alone_is_failure": false
+  },
+  "current_state": {
+    "recorded_at_inception_only": true,
+    "verified_through": "M00",
+    "earliest_unmet_milestone": "M01",
+    "completion_rule": "Never infer completion from filenames. Each future run must independently prove the milestone's exact remote heads, manifests, hashes, run/job/artifact evidence, public bytes and browser evidence."
+  },
+  "prompt_required_literals": [
+    "Article 2(1)(a) of the Paris Agreement",
+    "well below 2°C",
+    "1.5°C",
+    "planning delay, grid constraint, connection uncertainty, ownership ambiguity, supply-chain risk and infrastructure demand",
+    "Never fabricate avoided-emissions figures",
+    "START-OF-RUN TIMER AUDIT",
+    "START-OF-RUN SCOPE COMPARATOR",
+    "ORDERED CHECKPOINT QUEUE",
+    "1. PROMOTION CONTROL-PLANE SOURCE",
+    "2. MATERIALISE EXACT ARTIFACT",
+    "3. PUBLISH IMMUTABLE ROUTE",
+    "4. PROVE PUBLIC IMMUTABLE BYTES",
+    "5. CREATE CANONICAL SOURCE POINTER",
+    "6. PUBLISH AND VERIFY CURRENT-V3",
+    "7. GLOBALGRID CATALOGUE TRANSITION",
+    "8. RECONCILE GLOBALGRID",
+    "9. DASHBOARD CONTROL CARTRIDGE PACK",
+    "10. COMPILE AND AUDIT CARTRIDGE SUCCESSOR",
+    "0 VERIFIED RELATIONSHIPS · 3 ABSTAINED GOVERNANCE SUMMARIES",
+    "no more than 10% slower",
+    "16 KiB",
+    "20 KiB",
+    "No Data Center Map scraping, Companies House bulk archives, Overpass dumps, raw monoliths",
+    "Use only controller 6a921120ec248191a3551a6e618ea000"
+  ],
+  "mission": {
+    "paris_agreement_article_2_1_a": "Hold the increase in global average temperature to well below 2°C above pre-industrial levels and pursue efforts to limit the increase to 1.5°C.",
+    "directive": "Advance lawful, open, Paris-aligned intelligence that accelerates renewable deployment, storage, grid connections, infrastructure electrification, low-greenhouse-gas development and evidence-based capital allocation.",
+    "product": "Build a fast, truthful PipelineNews dashboard and reusable deterministic cartridges without weakening provenance, privacy, abstention, determinism, first paint, accessibility or rollback.",
+    "method": "Observe exact remote state, compare mission and required scope with as-built evidence, complete exactly the earliest safe causal checkpoint, prove it, then stop."
+  },
+  "execution_laws": {
+    "one_bounded_capability_per_action": true,
+    "one_causal_mutation_or_dispatch_per_pass": true,
+    "commit_or_dispatch_ends_pass": true,
+    "two_idleness_reads_seconds_apart": 30,
+    "unknown_is_not_idle": true,
+    "cas_refetch_before_write": true,
+    "no_new_action_after_seconds": 360,
+    "wrap_at_seconds": 420,
+    "hard_stop_before_seconds": 500,
+    "timestamped_successors_only": true,
+    "work_on_main": true,
+    "force_push": false,
+    "delete_or_overwrite_immutable_evidence": false,
+    "busy_ci_requires_path_dependency_output_disjointness": true
+  },
+  "product_contract": {
+    "projects": 7680,
+    "capacity_mw": 356474.09,
+    "baseline_capacity_display_mw": 356474,
+    "headlines": 136,
+    "rows_per_page": 100,
+    "table_columns": 11,
+    "largest_project_mw": 4100,
+    "sentinels": ["GG2050-REPD-17494", "REPD-13599"],
+    "desktop_width": 1440,
+    "mobile_width": 390,
+    "core_ready_maximum_ms": 5000,
+    "required_interactions": [
+      "search",
+      "every technology filter",
+      "every official-status filter",
+      "every county filter",
+      "every newspaper filter",
+      "both sort directions",
+      "project pagination",
+      "newspaper pagination",
+      "CSV export",
+      "Atlas and map links"
+    ]
+  },
+  "relationship_law": {
+    "authoritative_writer": false,
+    "individual_person_names": false,
+    "governance_summaries": 3,
+    "project_bindings": 0,
+    "verified_relationships": 0,
+    "decision": "ABSTAIN",
+    "invented_owner_operator_or_developer": false
+  },
+  "verified_baton": {
+    "candidate": {
+      "generation": "202608282200",
+      "source_commit": "1cbe1a9b205af3a2cf62bc7f8130f033423dfe1f",
+      "run_id": 33211041996,
+      "artifact_id": 9701586944,
+      "artifact_bytes": 37659,
+      "artifact_sha256": "8ec24ba18c70b661ddfc6ff9ca4bb728db5929d5700c147c91449f5e93e9b497",
+      "closure_files": 8,
+      "output_files": 7,
+      "state": "ACTIONS_ARTIFACT_ONLY"
+    },
+    "equivalence": {
+      "generation": "202608290020",
+      "source_commit": "541f41d970d0a361b4ce58b4c17356f4b0649770",
+      "run_id": 33220426609,
+      "job_id": 99013111468,
+      "artifact_id": 9704996902,
+      "artifact_bytes": 12322,
+      "artifact_sha256": "1018096424a5742699415ab244cb9acc1caa72e9fe2a44d1dbeb07ca80ae7d09",
+      "checks": 420,
+      "failed": 0,
+      "promotion_eligible": true
+    }
+  },
+  "pinned_dependencies": {
+    "companies_commit": "148335a6eb1fdf8c488fc1608ef29b6add0da269",
+    "data_centres_commit": "c5dfdee3ba5dbe94c1e29ec8cfa9d47431da9506",
+    "globalgrid_commit": "c36e41a689a62bdfa13b4258f3cbc48301854108"
+  },
+  "publication_hazard": {
+    "candidate_materialised_on_main": false,
+    "state_live_set_present": false,
+    "current_v3_present": false,
+    "legacy_current_must_remain_byte_identical": true,
+    "legacy_current_path": "archive/202608261547-pipelinenews/releases/current.json",
+    "legacy_current_bytes": 431,
+    "legacy_current_sha256": "2c3b66e2daf81b704851986f202aa3f06ea25a422b157d6c6d77fe7f88e6f299",
+    "globalgrid_current_generation": "202608260159-pipelinenews",
+    "only_pages_workflow_may_deploy": ".github/workflows/pages.yml",
+    "existing_202608271524_authorisation_and_staging_chain_is_not_valid_for_candidate": true,
+    "required_repair": "M01 creates a new timestamped hash-bound authorisation, staging and verification control plane that feeds the sole pages.yml deployer; it must not dispatch the legacy 202608271524 chain.",
+    "controller_may_deploy_pages": false,
+    "controller_may_move_pointer": false,
+    "controller_may_edit_globalgrid": false
+  },
+  "milestones": [
+    {
+      "id": "M01",
+      "title": "Create and verify the timestamped promotion control-plane source",
+      "depends_on": [],
+      "acceptance": [
+        "Exact artifact materialisation workflow",
+        "New timestamped hash-bound authorisation and staging workflow feeding the sole pages.yml deployer",
+        "Public immutable byte and browser proof workflow",
+        "Canonical source-pointer transition verifier",
+        "Current-v3 publication and readback workflow",
+        "No candidate materialisation, Pages deployment, pointer or catalogue mutation"
+      ],
+      "evidence": {
+        "required_groups": [
+          [".github/workflows/*materialis*exact*artifact*.yml"],
+          [".github/workflows/*publish*immutable*.yml", ".github/workflows/*immutable*pages*.yml"],
+          [".github/workflows/*public*immutable*.yml", ".github/workflows/*live*proof*.yml"],
+          [".github/workflows/*current*v3*.yml"],
+          ["manifests/*promotion*control*plane*.json"]
+        ]
+      }
+    },
+    {
+      "id": "M02",
+      "title": "Materialise the exact pinned artifact and immutable rollback attestation",
+      "depends_on": ["M01"],
+      "acceptance": [
+        "Reverify candidate and equivalence artifacts by run, source, bytes and SHA-256",
+        "Add exactly eight candidate files byte-for-byte plus one attestation",
+        "Keep Pages, pointers, legacy current and GlobalGrid unchanged"
+      ],
+      "evidence": {
+        "required_groups": [
+          ["build/202608282200-v8-fast-site-manifest.json"],
+          ["releases/202608282200-v8-fast-candidate.html"],
+          ["build/attestations/*202608282200*material*.json", "manifests/*202608282200*material*.json"]
+        ]
+      }
+    },
+    {
+      "id": "M03",
+      "title": "Publish the immutable candidate route while preserving legacy current",
+      "depends_on": ["M02"],
+      "acceptance": [
+        "Stage trusted site plus exact transitive candidate closure",
+        "Deploy immutable route through the sole authorised Pages workflow",
+        "Do not create live-set, current-v3 or catalogue state"
+      ],
+      "evidence": {
+        "required_groups": [
+          ["build/attestations/*202608282200*immutable*pages*.json", "manifests/*202608282200*immutable*publish*.json"]
+        ]
+      }
+    },
+    {
+      "id": "M04",
+      "title": "Prove public immutable bytes and complete browser equivalence",
+      "depends_on": ["M03"],
+      "acceptance": [
+        "Cache-busted readback of every exact object",
+        "420-check desktop and 390px browser comparator passes",
+        "Legacy pointer unchanged and core ready within five seconds"
+      ],
+      "evidence": {
+        "required_groups": [
+          ["build/attestations/*202608282200*live*proof*.json", "manifests/*202608282200*public*proof*.json"]
+        ]
+      }
+    },
+    {
+      "id": "M05",
+      "title": "Create canonical source live-set and rollback manifest",
+      "depends_on": ["M04"],
+      "acceptance": [
+        "Create state/live-set.json schema pipelinenews.live-set.v1 revision 1",
+        "Pin exact candidate, audit, live proof and predecessor closure",
+        "Preserve legacy releases/current.json"
+      ],
+      "evidence": {
+        "required_groups": [
+          ["state/live-set.json"],
+          ["build/attestations/*rollback*.json", "manifests/*rollback*.json"]
+        ]
+      }
+    },
+    {
+      "id": "M06",
+      "title": "Publish and verify byte-identical releases/current-v3.json",
+      "depends_on": ["M05"],
+      "acceptance": [
+        "current-v3 equals canonical source pointer byte-for-byte",
+        "Legacy current remains unchanged",
+        "Candidate route and browser proof remain green"
+      ],
+      "evidence": {
+        "required_groups": [
+          ["build/attestations/*current*v3*.json", "manifests/*current*v3*readback*.json"]
+        ]
+      }
+    },
+    {
+      "id": "M07",
+      "title": "Transition the GlobalGrid catalogue to the proven immutable generation",
+      "depends_on": ["M06"],
+      "acceptance": [
+        "CAS-guarded index-only change in Ventusltd/globalgrid2050",
+        "Exactly one CURRENT label targets 202608282200",
+        "No PipelineNews GITHUB_TOKEN is used across repositories"
+      ],
+      "evidence": {
+        "required_groups": [
+          ["build/attestations/*globalgrid*catalogue*.json", "manifests/*globalgrid*catalogue*.json"]
+        ]
+      }
+    },
+    {
+      "id": "M08",
+      "title": "Reconcile GlobalGrid Actions and public homepage bytes",
+      "depends_on": ["M07"],
+      "acceptance": [
+        "Exact catalogue commit workflows green",
+        "Public ordering and one CURRENT label verified",
+        "External PipelineNews target resolves with exact evidence"
+      ],
+      "evidence": {
+        "required_groups": [
+          ["build/attestations/*globalgrid*live*.json", "manifests/*globalgrid*live*.json"]
+        ]
+      }
+    },
+    {
+      "id": "M09",
+      "title": "Build the four-cartridge dashboard control pack as artifact-only",
+      "depends_on": ["M08"],
+      "acceptance": [
+        "Provenance and freshness cartridge",
+        "Compact upstream contract-health cartridge",
+        "Relationship decision-status cartridge",
+        "Next evidence-gates cartridge",
+        "Zero startup requests, zero project mutation and zero invented bindings"
+      ],
+      "evidence": {
+        "required_groups": [
+          ["ui/cartridges/*dashboard*provenance*.mjs"],
+          ["ui/cartridges/*upstream*health*.mjs"],
+          ["ui/cartridges/*relationship*status*.mjs"],
+          ["ui/cartridges/*next*gates*.mjs"],
+          ["manifests/*dashboard*control*cartridge*pack*.json"]
+        ]
+      }
+    },
+    {
+      "id": "M10",
+      "title": "Deterministically compile and audit the cartridge successor",
+      "depends_on": ["M09"],
+      "acceptance": [
+        "Clean-root double build has exact closure and hashes",
+        "Lazy imports occur only on explicit open and cache after first open",
+        "Desktop and mobile performance, accessibility and negative missing-cartridge test pass",
+        "Upload artifact-only candidate and structured evidence without promotion"
+      ],
+      "evidence": {
+        "required_groups": [
+          ["build/attestations/*dashboard*cartridge*complete*audit*.json", "manifests/*dashboard*cartridge*complete*audit*.json"]
+        ]
+      }
+    }
+  ],
+  "source_boundary": [
+    ".github/workflows/202608290146-adaptive-controller-contract-gate.yml",
+    "atman/202608290146-verify-adaptive-build-controller.mjs",
+    "manifests/202608290146-adaptive-build-controller-prompt.md",
+    "manifests/202608290146-adaptive-build-controller.json"
+  ],
+  "source_files": [
+    {
+      "path": ".github/workflows/202608290146-adaptive-controller-contract-gate.yml",
+      "bytes": 4475,
+      "sha256": "9ff23b7dd33ea8a617d8130960f97d7a009449a93f8d3464108ffa39f883691b"
+    },
+    {
+      "path": "atman/202608290146-verify-adaptive-build-controller.mjs",
+      "bytes": 10238,
+      "sha256": "168cda1b833a95e279302804b8f6774f3b53f842b7a7b49cbd5e35dd13c7ea7e"
+    },
+    {
+      "path": "manifests/202608290146-adaptive-build-controller-prompt.md",
+      "bytes": 25886,
+      "sha256": "36d44d835c67e3b1547fdac6db42fa6fad4b53f5e90becf3b372a39858d7e43d"
+    }
+  ],
+  "deployment": {
+    "controller_workflow_on_default_branch": true,
+    "push_self_test_required": true,
+    "github_schedule_present": false,
+    "read_only": true,
+    "dashboard_deployment_authorised_by_this_contract": false,
+    "pointer_transition_authorised_by_this_contract": false,
+    "globalgrid_transition_authorised_by_this_contract": false
+  }
+}
