@@ -352,6 +352,14 @@ def validate_timestamp_folder_release(root: Path, release_id: str) -> dict:
         release_manifest.get("folder_contract", {}).get("pointer_state_encoded_in_release") is False,
         "immutable release encodes transient pointer state",
     )
+    identity_routing = release_manifest.get("atlas_v9_deep_link", {})
+    require(
+        identity_routing.get("inbound_match_semantics") == "EXACT_PROJECT_REPD_REF"
+        and identity_routing.get("general_search_parameter") == "q"
+        and identity_routing.get("relationship_context_allowed_for_q") is True
+        and identity_routing.get("relationship_context_allowed_for_repd_ref") is False,
+        "timestamp release exact identity-routing contract changed",
+    )
 
     functional = build_manifest.get("functional_files")
     outputs = release_manifest.get("outputs")
@@ -453,6 +461,14 @@ def validate_timestamp_folder_release(root: Path, release_id: str) -> dict:
     require(registry.get("generation") == generation, "timestamp registry generation changed")
     require(registry.get("classification") == "IMMUTABLE_TIMESTAMPED_RELEASE", "registry classification changed")
     require("deployment" not in registry, "transient deployment state entered registry")
+    registry_routing = registry.get("cache_contract", {}).get("atlas_deep_link", {})
+    require(
+        registry_routing.get("inbound_match_semantics") == "EXACT_PROJECT_REPD_REF"
+        and registry_routing.get("general_search_parameter") == "q"
+        and registry_routing.get("relationship_context_allowed_for_q") is True
+        and registry_routing.get("relationship_context_allowed_for_repd_ref") is False,
+        "timestamp registry exact identity-routing contract changed",
+    )
 
     # Provenance is an exact historical manifest and therefore records the old
     # receiver. Leakage policy applies to executable/functional release bytes.

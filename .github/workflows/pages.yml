@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - releases/202608291504-pipelinenews/**
+      - releases/*-pipelinenews/**
       - releases/current-v3.json
       - state/live-set.json
   workflow_dispatch:
@@ -152,13 +152,35 @@ jobs:
         id: release
         shell: bash
         env:
-          TIMESTAMP_FOLDER_RELEASE: ${{ github.event_name == 'push' && '202608291504-pipelinenews' || inputs.timestamp_folder_release }}
+          INPUT_TIMESTAMP_FOLDER_RELEASE: ${{ inputs.timestamp_folder_release || '' }}
         run: |
           set -euo pipefail
+          timestamp_folder_release="$INPUT_TIMESTAMP_FOLDER_RELEASE"
+          if [[ "$GITHUB_EVENT_NAME" == "push" ]]; then
+            mapfile -t changed_release_ids < <(
+              git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" \
+                | sed -nE 's#^releases/([0-9]{12}-pipelinenews)/.*#\1#p' \
+                | LC_ALL=C sort -u
+            )
+            if [[ "${#changed_release_ids[@]}" == "1" ]]; then
+              timestamp_folder_release="${changed_release_ids[0]}"
+            elif [[ "${#changed_release_ids[@]}" == "0" && -f releases/current-v3.json && -f state/live-set.json ]]; then
+              cmp releases/current-v3.json state/live-set.json
+              timestamp_folder_release="$(python3 - <<'PY'
+          import json
+          from pathlib import Path
+          print(json.loads(Path("releases/current-v3.json").read_text(encoding="utf-8"))["release_id"])
+          PY
+              )"
+            else
+              echo "Push must change exactly one timestamp folder or the two live pointers" >&2
+              exit 1
+            fi
+          fi
           arguments=(--generation latest --stage _site)
-          if [[ -n "$TIMESTAMP_FOLDER_RELEASE" ]]; then
-            [[ "$TIMESTAMP_FOLDER_RELEASE" =~ ^[0-9]{12}-pipelinenews$ ]]
-            arguments+=(--timestamp-folder-release "$TIMESTAMP_FOLDER_RELEASE")
+          if [[ -n "$timestamp_folder_release" ]]; then
+            [[ "$timestamp_folder_release" =~ ^[0-9]{12}-pipelinenews$ ]]
+            arguments+=(--timestamp-folder-release "$timestamp_folder_release")
           fi
           python3 atman/202608262014-build-pages.py "${arguments[@]}"
 
@@ -224,6 +246,11 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p reports
+          generation="${{ steps.release.outputs.timestamp_folder_release }}"
+          generation="${generation%%-*}"
+          [[ "$generation" =~ ^[0-9]{12}$ ]]
+          verifier="atman/${generation}-public-browser-readback.mjs"
+          test -f "$verifier"
           python3 -m http.server 4173 --bind 127.0.0.1 --directory _site >"$RUNNER_TEMP/pipelinenews-atlas-v9-preview.log" 2>&1 &
           server_pid="$!"
           trap 'kill "$server_pid" 2>/dev/null || true' EXIT
@@ -234,7 +261,7 @@ jobs:
             sleep 1
           done
           curl --fail --silent --show-error "$TIMESTAMP_FOLDER_URL" >/dev/null
-          node atman/202608291504-public-browser-readback.mjs \
+          node "$verifier" \
             --candidate "$TIMESTAMP_FOLDER_URL" \
             --output "$TIMESTAMP_FOLDER_PROOF"
 
@@ -793,7 +820,12 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p reports
-          node atman/202608291504-public-browser-readback.mjs \
+          generation="${{ needs.build.outputs.timestamp_folder_release }}"
+          generation="${generation%%-*}"
+          [[ "$generation" =~ ^[0-9]{12}$ ]]
+          verifier="atman/${generation}-public-browser-readback.mjs"
+          test -f "$verifier"
+          node "$verifier" \
             --candidate "$TIMESTAMP_FOLDER_URL" \
             --output "$TIMESTAMP_FOLDER_PROOF"
 
@@ -828,6 +860,10 @@ jobs:
           DEPLOYED_SHA: ${{ needs.build.outputs.deployed_sha }}
         run: |
           set -euo pipefail
+          release_id="${{ needs.build.outputs.timestamp_folder_release }}"
+          generation="${release_id%%-*}"
+          [[ "$generation" =~ ^[0-9]{12}$ ]]
+          workflow="${generation}-atlas-pointer-deep-link-successor.yml"
           payload="$(python3 - <<'PY'
           import json
           import os
@@ -846,6 +882,6 @@ jobs:
             --header "Accept: application/vnd.github+json" \
             --header "Authorization: Bearer $GH_TOKEN" \
             --header "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/workflows/202608291504-atlas-pointer-deep-link-successor.yml/dispatches" \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/workflows/$workflow/dispatches" \
             --data "$payload")"
           test "$status" = 204

@@ -1,0 +1,431 @@
+{
+  "schema": "pipelinenews.atlas-pointer-deep-link-successor-source.v2",
+  "generation": "202608291447",
+  "incepted_at": "2026-08-29T14:47:00Z",
+  "lifecycle": "write-once",
+  "source_parent_commit": "fabd905977410c10be3008e2ab5ceacccfce7930",
+  "source_boundary": [
+    ".github/workflows/pages.yml",
+    ".github/workflows/202608291447-atlas-pointer-deep-link-successor.yml",
+    "atman/202608262014-build-pages.py",
+    "atman/202608291447-build-live-pointer.mjs",
+    "atman/202608291447-compare-incumbent-successor.mjs",
+    "atman/202608291447-public-browser-readback.mjs",
+    "atman/202608291447-resolve-gridatlas-pointer.mjs",
+    "atman/202608291447-wake-up-ledger.mjs",
+    "index/202608291447-compile-atlas-pointer-deep-link.mjs",
+    "manifests/202608291447-atlas-pointer-deep-link-successor.json",
+    "ui/cartridges/202608291447-atlas-pointer-deep-link.mjs"
+  ],
+  "source_files": [
+    {
+      "path": ".github/workflows/pages.yml",
+      "bytes": 43749,
+      "sha256": "8db0b5ee88f8717e68e9ac37e17617a736dc1974abe9b9b9f038cea0b14a55c8"
+    },
+    {
+      "path": ".github/workflows/202608291447-atlas-pointer-deep-link-successor.yml",
+      "bytes": 40673,
+      "sha256": "903ae028fa12ac3c2bfde8d1bae0a08615af256afac6a790ffee07b9d6b44da7"
+    },
+    {
+      "path": "atman/202608262014-build-pages.py",
+      "bytes": 65017,
+      "sha256": "7216815db02faf298fe8a1e2c4d197dab05ec9ee3254cf28892a763f8329d0c9"
+    },
+    {
+      "path": "atman/202608291447-build-live-pointer.mjs",
+      "bytes": 9203,
+      "sha256": "cf8d4660743d6878849d98ac59c91cf45c455353ffc61a54799343a5ff4423b3"
+    },
+    {
+      "path": "atman/202608291447-compare-incumbent-successor.mjs",
+      "bytes": 21987,
+      "sha256": "562517c5ca7962b397b39f0958a08ecc0af1c4b0fa63bd34ce3ce20fe9fa5235"
+    },
+    {
+      "path": "atman/202608291447-public-browser-readback.mjs",
+      "bytes": 13423,
+      "sha256": "59a25035611f616676c4e5438c36a4dc853e185278c4c09c62ae23d7e9dae046"
+    },
+    {
+      "path": "atman/202608291447-resolve-gridatlas-pointer.mjs",
+      "bytes": 9229,
+      "sha256": "ffded9f7515a2bb158ee33a6582d34b3c10416e6682b6e0f9f7a780b123f1eb8"
+    },
+    {
+      "path": "atman/202608291447-wake-up-ledger.mjs",
+      "bytes": 5617,
+      "sha256": "dc3f4b4f00fa373def46edc6552c59eda8a77fd45245dfee59b661e460b3e580"
+    },
+    {
+      "path": "index/202608291447-compile-atlas-pointer-deep-link.mjs",
+      "bytes": 30527,
+      "sha256": "7993b91fac84e34eebba45a41ade3a8cfe621d0359afe6d4fcc3e795ee2652d6"
+    },
+    {
+      "path": "ui/cartridges/202608291447-atlas-pointer-deep-link.mjs",
+      "bytes": 4460,
+      "sha256": "a1b0fd0fdf9b65e0ab1d05a4dc9f28178a705908194269735cbf52400a2782c7"
+    }
+  ],
+  "inherited_tooling": [],
+  "parent_candidate": {
+    "generation": "202608282200",
+    "source_commit": "1cbe1a9b205af3a2cf62bc7f8130f033423dfe1f",
+    "run_id": 33211041996,
+    "artifact_id": 9701586944,
+    "artifact_bytes": 37659,
+    "artifact_sha256": "8ec24ba18c70b661ddfc6ff9ca4bb728db5929d5700c147c91449f5e93e9b497",
+    "manifest_bytes": 25073,
+    "manifest_sha256": "025daf70f1c4b9c9a7c84a70d41ceb50e96232771f736faa309ca92c2c9c134d",
+    "outputs_json_sha256": "bc25c04b0fd24ed418a86a3bc7157678c3bbd4371a3117854b56e4c0520855c5",
+    "complete_equivalence_run_id": 33220426609,
+    "complete_equivalence_checks": 420,
+    "complete_equivalence_failed": 0
+  },
+  "predecessor_evidence": {
+    "generation": "202608291310",
+    "source_commit": "db9f7583b203d374781e2b38e7c7a8b86e32d8b3",
+    "workflow_run_id": 33256059159,
+    "job_id": 99109869815,
+    "classification": "FAILED_BEFORE_STAGING",
+    "failed_step": "Prove inbound PipelineNews and outbound real Atlas V9 readback",
+    "failure": "transient selected-status text race against non-contractual REPD 17494",
+    "preservation": "immutable 202608291310 source retained unchanged as negative evidence"
+  },
+  "immediate_predecessor_evidence": {
+    "generation": "202608291504",
+    "source_commit": "fabd905977410c10be3008e2ab5ceacccfce7930",
+    "workflow_run_id": 33258161348,
+    "job_id": 99115386946,
+    "classification": "FAILED_BEFORE_STAGING",
+    "failed_step": "Prove inbound PipelineNews and outbound real Atlas V9 readback",
+    "failure": "RELATED_REPD_REF_LEAKED_INTO_IDENTITY_FILTER",
+    "evidence": "repd_ref 13599 rendered canonical project 13599 plus related sibling 13600 because identity routing reused relationship-aware q search",
+    "preservation": "immutable 202608291504 source and failed run retained unchanged as negative evidence"
+  },
+  "gridatlas_pointer": {
+    "repository": "Ventusltd/gridatlas",
+    "path": "releases/current-v3.json",
+    "mirror": "state/live-set.json",
+    "expected_commit": "f882d427662838b255693ddcf89c67f90e420f9c",
+    "expected_bytes": 3024,
+    "expected_sha256": "3b281938c96173d83437805895cab38461c7e8f24e2dfe76cd36a4ecbd6b0a1e",
+    "required_schema": "gridatlas.live-set.v3",
+    "required_classification": "VERIFIED_LIVE_ATLAS_V9",
+    "query_parameter": "repd_ref",
+    "identity_rule": "EXACT_REPD_REF_ONLY",
+    "contractual_golden_repd_ref": "16135",
+    "immutable_release_manifest": {
+      "path": "202608291430-atlas-v9/release-manifest.json",
+      "bytes": 6037,
+      "sha256": "d0b26eb4d773108bcf39417130ebf0441da78881dbf0f9bfe3e8bd0809552026"
+    },
+    "authentication": "pointer and live-set bytes identical; exact main commit, pointer digest and immutable release-manifest digest bound",
+    "hardcoded_route_forbidden": true
+  },
+  "atlas_v9_receiver": {
+    "resolution": "AUTHENTICATED_FROM_GRIDATLAS_CURRENT_V3",
+    "generation": "202608291430",
+    "release_id": "202608291430-atlas-v9",
+    "source_commit": "5c97f34eef0d426de5c3534676317d0fa51f4ccc",
+    "publication_commit": "2524e3d81cc084e2e6cd1aed62ed9516dd8d4b28",
+    "identity_rule": "EXACT_REPD_REF_ONLY",
+    "ui_parity": "NOT_ASSERTED",
+    "query_parameter_order": [
+      "repd_ref"
+    ],
+    "contractual_golden_repd_ref": "16135",
+    "optional_sentinels_when_present": [
+      "17494",
+      "13599"
+    ],
+    "selection_evidence": [
+      "exact receiver URL",
+      "authenticated receiver result card"
+    ],
+    "transient_status_text_required": false,
+    "synthetic_receiver_allowed": false
+  },
+  "product_contract": {
+    "projects": 7680,
+    "capacity_mw": 356474.09,
+    "headlines": 136,
+    "rows_per_page": 100,
+    "table_columns": 11,
+    "map_links": 7652,
+    "no_map": 28,
+    "relationship_governance_rows": 3,
+    "relationship_project_bindings": 0
+  },
+  "routing_contract": {
+    "inbound_compatibility_alias": "repd_ref",
+    "outbound_canonical_query": [
+      "repd_ref"
+    ],
+    "identity_matching": {
+      "inbound_match_semantics": "EXACT_PROJECT_REPD_REF",
+      "general_search_parameter": "q",
+      "relationship_context_allowed_for_q": true,
+      "relationship_context_allowed_for_repd_ref": false
+    },
+    "old_receiver_forbidden": "globalgrid2050.com/repd_grid_atlasv8"
+  },
+  "folder_contract": {
+    "release_id": "202608291447-pipelinenews",
+    "entrypoint": "releases/202608291447-pipelinenews/index.html",
+    "public_build_manifest": "releases/202608291447-pipelinenews/build-manifest.json",
+    "public_release_manifest": "releases/202608291447-pipelinenews/release-manifest.json",
+    "functional_files": 37,
+    "total_files": 40,
+    "inherited_functional_files": 33,
+    "shared_dependency_files": 29,
+    "inherited_parent_output_files": 4,
+    "provenance_files": 1
+  },
+  "comparator": {
+    "statuses": [
+      "EXPECTED_CHANGE",
+      "MATCH",
+      "REGRESSION",
+      "UNKNOWN"
+    ],
+    "fail_statuses": [
+      "REGRESSION",
+      "UNKNOWN"
+    ],
+    "daily_schedule": "17 3 * * *",
+    "daily_mode_after_pointer": "read-only incumbent comparator plus inherited 420-check matrix plus PipelineNews-to-real-Atlas-V9 browser readback"
+  },
+  "complete_equivalence": {
+    "parent_green_run_id": 33220426609,
+    "inherited_checks": 420,
+    "required_passed": 420,
+    "required_failed": 0,
+    "rerun_in_source_build": true,
+    "rerun_before_pointer": true,
+    "rerun_daily_after_pointer": true
+  },
+  "live_pointer": {
+    "paths": [
+      "releases/current-v3.json",
+      "state/live-set.json"
+    ],
+    "byte_identical": true,
+    "phase": "after first public folder proof",
+    "ci_branch": "ci/202608291447-atlas-pointer-live-pointer",
+    "public_browser_proof_bound": true,
+    "comparator_report_bound": true,
+    "equivalence_report_bound": true
+  },
+  "fallback": {
+    "classification": "LAST_KNOWN_GREEN_V8_PUBLIC_CANDIDATE",
+    "generation": "202608271524",
+    "route": "/pipelinenews/releases/202608271524-v8-fast-candidate.html",
+    "public_url": "https://ventusltd.github.io/pipelinenews/releases/202608271524-v8-fast-candidate.html",
+    "pages_run_id": 33085685060,
+    "manifest_path": "build/202608271524-v8-fast-site-manifest.json",
+    "manifest_sha256": "fef485accb1509297dbc64c5e30806c60d977bedb06591e8b324e7bbab06e818",
+    "retention_rule": "PRESERVE_ON_ANY_GRIDATLAS_POINTER_OR_RECEIVER_FAILURE"
+  },
+  "wake_up_ledger": {
+    "schedule": "17 3 * * *",
+    "read_only": true,
+    "repository_mutation_allowed": false,
+    "dispatch_allowed": false,
+    "artifact": "reports/202608291447-wake-up-ledger.json",
+    "states": [
+      "BUILD_IMMUTABLE_POINTER_SUCCESSOR",
+      "WAIT_PUBLIC_FOLDER_PROOF_OR_STAGE_POINTER",
+      "LIVE_READ_ONLY_DRIFT_AUDIT",
+      "PRESERVE_LAST_KNOWN_GREEN_V8"
+    ]
+  },
+  "pages_deployment": {
+    "single_writer_workflow": ".github/workflows/pages.yml",
+    "concurrency_group": "pages",
+    "trigger_paths": [
+      "releases/*-pipelinenews/**",
+      "releases/current-v3.json",
+      "state/live-set.json"
+    ],
+    "timestamp_folder_release": "202608291447-pipelinenews",
+    "validator": "atman/202608262014-build-pages.py",
+    "browser_proof": "atman/202608291447-public-browser-readback.mjs",
+    "post_deploy_action": "automatically dispatch proof-bound CI pointer staging",
+    "pointer_stage_workflow": ".github/workflows/202608291447-atlas-pointer-deep-link-successor.yml",
+    "pointer_stage_branch": "ci/202608291447-atlas-pointer-live-pointer",
+    "main_auto_promotion": false,
+    "pointer_auto_promotion": false,
+    "cas_only_ci_staging": true,
+    "action_pins": {
+      "actions/checkout": "fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09",
+      "actions/setup-node": "a0853c24544627f65ddf259abe73b1d18a591444",
+      "actions/download-artifact": "634f93cb2916e3fdff6788551b99b062d0335ce0",
+      "actions/upload-artifact": "ea165f8d65b6e75b540449e92b4886f43607fa02",
+      "actions/upload-pages-artifact": "56afc609e74202658d3ffba0e8f6dda462b719fa",
+      "actions/deploy-pages": "d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e"
+    }
+  },
+  "shared_inputs": [
+    {
+      "path": "releases/javascript/202608272130-sector-intelligence.js",
+      "bytes": 13131,
+      "sha256": "7a091c6bbe58a30976e8f5e9eb8b04ad9543a32a18cd90bea76f85fc0e10f41c"
+    },
+    {
+      "path": "releases/data/202608272130-sector-intelligence.json",
+      "bytes": 46724,
+      "sha256": "846e10a00377509a3196972cdf3eb99ab127ca5864e63332f323e446d4bc95c1"
+    },
+    {
+      "path": "releases/data/intelligence/202608272130/202608272130-parquet-audit.json",
+      "bytes": 21174,
+      "sha256": "0bb848720a14c2cc799608e3f6976701be191823edc13093620bbe4ee76c1f65"
+    },
+    {
+      "path": "releases/data/intelligence/202608272130/202608272130-source-ledger-receipt.json",
+      "bytes": 6178,
+      "sha256": "1286c52f7882d518cd8d94f7a3a267993edde1af782d9de39f25aae0c795ead1"
+    },
+    {
+      "path": "releases/data/intelligence/202608272130/sector-items/202608272130-part-000.parquet",
+      "bytes": 16314,
+      "sha256": "8f8d02c57d9f4591ba38b2ad7f3ff408e0b5a89bba5f431d4044b115dcc261f8"
+    },
+    {
+      "path": "releases/data/intelligence/202608272130/sector-item-topics/202608272130-part-000.parquet",
+      "bytes": 2661,
+      "sha256": "c1c63a9ffe0f275611474fc438a91bbd70c209faebf1d863fdbf3e476f659ea3"
+    },
+    {
+      "path": "releases/data/intelligence/202608272130/sector-project-bindings/202608272130-part-000.parquet",
+      "bytes": 234,
+      "sha256": "b268d0b5656a02a379633692b8c7950a1b53cb0031884f67c757cf8679e16e23"
+    },
+    {
+      "path": "releases/styles/202608270055-v8-fast.css",
+      "bytes": 14397,
+      "sha256": "d6c8100dbf79dd02f65d78e4fc9cacae92f2e4b5a749ea0fd3ff481fe5bb4792"
+    },
+    {
+      "path": "releases/styles/202608272048-orientation.css",
+      "bytes": 7131,
+      "sha256": "e9e1cbefd49f10d2d3b06f31274357a947672242159e9f1b50434ca175a870bc"
+    },
+    {
+      "path": "releases/vendor/202608261927-chart-umd.min.js",
+      "bytes": 208522,
+      "sha256": "48444a82d4edcb5bec0f1965faacdde18d9c17db3063d042abada2f705c9f54a"
+    },
+    {
+      "path": "releases/data/202608270055-8ab1807551bc-v8-fast-projects.json",
+      "bytes": 979338,
+      "sha256": "c06aedef176d2d38fd135806306a8ef81b4af9994c7be31e8bd760304149f862"
+    },
+    {
+      "path": "releases/data/202608270055-8ab1807551bc-v8-fast-search.json",
+      "bytes": 1912681,
+      "sha256": "a1cbfc5202b717889a471409e850ea5cae13626f91c60f08cda0b06da5102b65"
+    },
+    {
+      "path": "releases/data/202608271524-fd2212a8c76d-v8-fast-news.json",
+      "bytes": 82460,
+      "sha256": "00cfbc6243e83cca274707a19b7848f776ce223d5e02808164e213dde887a8be"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-01.json",
+      "bytes": 624542,
+      "sha256": "6e72d36a8f880bfc39274221edf58d1b895202f01f2e56aae001ad25cb3b337d"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-02.json",
+      "bytes": 629501,
+      "sha256": "a2ba3598af8ff45726587b3a498c0f6a433ae007ec9eadbd5bfc682b7dca4b2e"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-03.json",
+      "bytes": 628898,
+      "sha256": "6f012e9251433e0d32095b2df75ae1c988a813a14647debe16c057dee550d23b"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-04.json",
+      "bytes": 625997,
+      "sha256": "1cdc7405098c85a477dd156930c4503ef7850ff005d1ec85a69928f10db6b7f5"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-05.json",
+      "bytes": 631815,
+      "sha256": "43988789140bf2211263ffe49b756bc8f7f4cd69531b2e91c56b2e7c2a90bcae"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-06.json",
+      "bytes": 630303,
+      "sha256": "e2c4d0c29e622270260e8fa71c1efae260e84fd3c9ebfa31b7dbf7bfe3da2d69"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-07.json",
+      "bytes": 628660,
+      "sha256": "8f2b2d2d74a031f459b94e626e288c11c148629e955f97ef688a27eb1a5e2c59"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-08.json",
+      "bytes": 631189,
+      "sha256": "f3c0dff755bc657c41b3e04305403bbcfbf94be5d893e85309faf9dd7cb1fa92"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-09.json",
+      "bytes": 630867,
+      "sha256": "a9427f109b7ad5ee881628fcbde3602daab62896e8517922ff68d2efe6a23b15"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-10.json",
+      "bytes": 628464,
+      "sha256": "57145897a6a457f3bfb58f431d7bfa6a75dd63bfd2708eb56c3802391847c6b3"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-11.json",
+      "bytes": 620261,
+      "sha256": "e79c4eb42d1d366f01f8f2a941d92ff231b8ea14c2e40a2677a89601926938d1"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-12.json",
+      "bytes": 615891,
+      "sha256": "ad077a3172f6813f2a641e2f51ab693bf038cae03b5cbbdaa4167973ce7a7388"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-13.json",
+      "bytes": 620861,
+      "sha256": "4545362b1355e256dc3025019f971ffa208cc8828059152a26b99ac66fb47817"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-14.json",
+      "bytes": 619833,
+      "sha256": "9cf8da7fcbf3c1d08830c613c69d0447c490d6126be3ebe8c2d9021a4ddcd004"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-15.json",
+      "bytes": 616440,
+      "sha256": "109f20651ce1234d8933bb5efab78cbf45081ae7b4966e63ec0fca560a76cf03"
+    },
+    {
+      "path": "data/projects/202608261927-project-partition-v9-1-16.json",
+      "bytes": 221745,
+      "sha256": "ed4c672a6cb684a5fd29e17e436d4ee632de358de5e0a2cee9801c7ffa5ecc4b"
+    }
+  ],
+  "deployment": {
+    "candidate": "CI_BRANCH_ONLY",
+    "ci_branch": "ci/202608291447-atlas-pointer-release",
+    "pages": "SOLE_AUTHORISED_PAGES_WORKFLOW_BOUNDED_PUSH",
+    "pages_push_paths": [
+      "releases/*-pipelinenews/**",
+      "releases/current-v3.json",
+      "state/live-set.json"
+    ],
+    "pointer": "DEFERRED_UNTIL_PUBLIC_PROOF",
+    "main_push": false,
+    "force_push": false
+  }
+}
