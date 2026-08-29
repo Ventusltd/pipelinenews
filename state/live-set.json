@@ -1,0 +1,72 @@
+{
+  "schema": "pipelinenews.live-pointer.v3",
+  "generation": "202608291447",
+  "release_id": "202608291447-pipelinenews",
+  "classification": "VERIFIED_LIVE_TIMESTAMPED_RELEASE",
+  "route": "/pipelinenews/releases/202608291447-pipelinenews/",
+  "entrypoint": "releases/202608291447-pipelinenews/index.html",
+  "release_manifest": {
+    "path": "releases/202608291447-pipelinenews/release-manifest.json",
+    "bytes": 18278,
+    "sha256": "b315374e52ed06239bebbbd9f0184ace7b7b383936b1aba248a036dee6eb3971"
+  },
+  "build_manifest": {
+    "path": "releases/202608291447-pipelinenews/build-manifest.json",
+    "bytes": 13681,
+    "sha256": "3e0d98624087589329fe3ae4ae969be46a8ae05f8f2ade955b8666615f64d994"
+  },
+  "release_source_commit": "fa4d73cbc9e78126d5f3b69c1d3df7f2f3f6265f",
+  "deployed_commit": "190985426da76819bca04c4a077df333a4705edb",
+  "verified_at_utc": "2026-08-29T15:19:07Z",
+  "atlas_v9_receiver": {
+    "base_url": "https://ventusltd.github.io/gridatlas/202608291430-atlas-v9/",
+    "pointer": {
+      "path": "releases/current-v3.json",
+      "bytes": 3024,
+      "sha256": "3b281938c96173d83437805895cab38461c7e8f24e2dfe76cd36a4ecbd6b0a1e"
+    },
+    "pointer_commit": "f882d427662838b255693ddcf89c67f90e420f9c",
+    "release_manifest": {
+      "path": "202608291430-atlas-v9/release-manifest.json",
+      "bytes": 6037,
+      "sha256": "d0b26eb4d773108bcf39417130ebf0441da78881dbf0f9bfe3e8bd0809552026"
+    },
+    "golden_repd_ref": "16135",
+    "selection_evidence": {
+      "registry": "11,033 official viable REPD projects ready",
+      "cards": [
+        "DIRECT PROJECT MATCH · REPD 16135Prologis DC4 Marston Gate, Brockley Way - Solar PanelsPrologis Marston Gate DC4, Unit 1 Brockley Way, BrogboroughMK43 0ZY · Bedfordshire · Central BedfordshireSolar Photovoltaics · 0.35 MW · awaiting constructionREPD operator or applicant (as published): Prologis UK LimitedMatched: REPD IDFLY TO PROJECT",
+        "DIRECT PROJECT MATCH · REPD 13546Premier Park Road, Units 10-11 - Solar PanelsUnits 10-11, 7 Premier Park Road, WillesdenNW10 7NZ · London · BrentSolar Photovoltaics · 0.28 MW · awaiting constructionREPD operator or applicant (as published): Segro PlcMatched: FLY TO PROJECT",
+        "Prologis DC4 Marston Gate, Brockley Way - Solar PanelsPrologis Marston Gate DC4, Unit 1 Brockley Way, BrogboroughMK43 0ZY · Bedfordshire0.35 MW · awaiting constructionREPD operator or applicant: Prologis UK LimitedREPD 16135×"
+      ]
+    }
+  },
+  "rollback": {
+    "classification": "LAST_KNOWN_GREEN_V8_PUBLIC_CANDIDATE",
+    "generation": "202608271524",
+    "route": "/pipelinenews/releases/202608271524-v8-fast-candidate.html",
+    "public_url": "https://ventusltd.github.io/pipelinenews/releases/202608271524-v8-fast-candidate.html",
+    "pages_run_id": 33085685060,
+    "manifest_path": "build/202608271524-v8-fast-site-manifest.json",
+    "manifest_sha256": "fef485accb1509297dbc64c5e30806c60d977bedb06591e8b324e7bbab06e818",
+    "retention_rule": "PRESERVE_ON_ANY_GRIDATLAS_POINTER_OR_RECEIVER_FAILURE",
+    "reason": "LAST_KNOWN_GREEN_V8_RETAINED_AS_EXPLICIT_RECOVERY_ROUTE"
+  },
+  "public_proof": {
+    "pages_run_id": "33259747002",
+    "browser_proof_sha256": "fe1f0d252764e60554d8b86fc544507b93ce33804d71ced4bcaf1fcef7064b22",
+    "comparator_report_sha256": "0fc9d1fdf288fe16eb04ad26bbf8d442cf1f7a710d31d8bb644e985034295dd4",
+    "equivalence_report_sha256": "bda69eb39287116bc94527bb4f0d53b82ae7174f3e1bb0963d9a626d7689cd2d",
+    "receiver_url": "https://ventusltd.github.io/gridatlas/202608291430-atlas-v9/?repd_ref=16135",
+    "receiver_evidence": {
+      "registry": "11,033 official viable REPD projects ready",
+      "cards": [
+        "DIRECT PROJECT MATCH · REPD 16135Prologis DC4 Marston Gate, Brockley Way - Solar PanelsPrologis Marston Gate DC4, Unit 1 Brockley Way, BrogboroughMK43 0ZY · Bedfordshire · Central BedfordshireSolar Photovoltaics · 0.35 MW · awaiting constructionREPD operator or applicant (as published): Prologis UK LimitedMatched: REPD IDFLY TO PROJECT",
+        "DIRECT PROJECT MATCH · REPD 13546Premier Park Road, Units 10-11 - Solar PanelsUnits 10-11, 7 Premier Park Road, WillesdenNW10 7NZ · London · BrentSolar Photovoltaics · 0.28 MW · awaiting constructionREPD operator or applicant (as published): Segro PlcMatched: FLY TO PROJECT",
+        "Prologis DC4 Marston Gate, Brockley Way - Solar PanelsPrologis Marston Gate DC4, Unit 1 Brockley Way, BrogboroughMK43 0ZY · Bedfordshire0.35 MW · awaiting constructionREPD operator or applicant: Prologis UK LimitedREPD 16135×"
+      ]
+    },
+    "synthetic_receiver": false,
+    "route_interceptions": 0
+  }
+}
