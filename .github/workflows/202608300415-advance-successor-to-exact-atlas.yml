@@ -1,0 +1,78 @@
+name: 202608300415 Advance PipelineNews successor to exact Atlas receiver
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/202608300415-advance-successor-to-exact-atlas.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pipelinenews-exact-atlas-successor-advance
+  cancel-in-progress: false
+
+env:
+  TARGET: .github/workflows/202608300309-current-gridatlas-v9-deep-link-successor.yml
+
+jobs:
+  advance:
+    name: Pin successor to verified exact-REPD Atlas and trigger it
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact PipelineNews boundary
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 120
+          persist-credentials: true
+
+      - name: Apply bounded workflow-only advance
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('.github/workflows/202608300309-current-gridatlas-v9-deep-link-successor.yml')
+          text = path.read_text(encoding='utf-8')
+          text = text.replace(
+              "  MINIMUM_ATLAS_GENERATION: '202608292311'",
+              "  MINIMUM_ATLAS_GENERATION: '202608300453'",
+              1,
+          )
+          anchor = "          test \"$(jq -r '.verification.commit_lineage_attested // false' /tmp/atlas-state.json)\" = true\n"
+          addition = (
+              anchor
+              + "          test \"$(jq -r '.verification.exact_repd_deep_link_resolved // false' /tmp/atlas-state.json)\" = true\n"
+              + "          test \"$(jq -r '.verification.exact_repd_fly_to // false' /tmp/atlas-state.json)\" = true\n"
+              + "          test \"$(jq -r '.current.deep_link_receiver.identity_rule // empty' /tmp/atlas-state.json)\" = EXACT_REPD_REF_ONLY\n"
+              + "          test \"$(jq -r '.current.deep_link_receiver.synthetic_receiver' /tmp/atlas-state.json)\" = false\n"
+          )
+          if "exact_repd_deep_link_resolved" not in text:
+              if text.count(anchor) != 1:
+                  raise SystemExit('unexpected Atlas lineage anchor')
+              text = text.replace(anchor, addition, 1)
+          path.write_text(text, encoding='utf-8', newline='\n')
+          PY
+          grep -q "MINIMUM_ATLAS_GENERATION: '202608300453'" "$TARGET"
+          grep -q 'exact_repd_deep_link_resolved' "$TARGET"
+          grep -q 'EXACT_REPD_REF_ONLY' "$TARGET"
+          git diff --check
+
+      - name: Compare-and-swap advanced successor onto main
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          if git diff --quiet -- "$TARGET"; then
+            echo 'PipelineNews successor already targets exact-REPD Atlas.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git add "$TARGET"
+          git config user.name pipelinenews-exact-atlas-advance-bot
+          git config user.email actions@users.noreply.github.com
+          git commit -m '202608300415: require exact-REPD Atlas for PipelineNews successor'
+          git push origin HEAD:main
