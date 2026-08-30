@@ -33,13 +33,14 @@ jobs:
           fetch-depth: 1
           persist-credentials: false
 
-      - name: Audit core, search and partition identities
+      - name: Audit compact core, aligned search and partitions
         run: |
           set -euo pipefail
           python3 - <<'PY'
           from __future__ import annotations
           import json
           import os
+          import re
           from collections import Counter
           from pathlib import Path
 
@@ -62,13 +63,24 @@ jobs:
                       return value
               return []
 
+          def normalise_ref(value):
+              text = str(value or '').strip()
+              if text.isdigit():
+                  return text
+              match = re.search(r'(?:GG2050-REPD-|REPD-)(\d+)$', text, re.I)
+              return match.group(1) if match else ''
+
           def ref_of(row):
+              # Compact V8-fast rows are positional arrays; field zero is repd_ref.
+              if isinstance(row, (list, tuple)):
+                  return normalise_ref(row[0] if row else '')
               if not isinstance(row, dict):
                   return ''
-              for key in ('repd_ref', 'ref', 'ref_id', 'reference'):
+              for key in ('repd_ref', 'REPD_REF', 'ref', 'ref_id', 'reference', 'gg_project_id', 'id'):
                   value = row.get(key)
-                  if value not in (None, ''):
-                      return str(value).strip()
+                  ref = normalise_ref(value)
+                  if ref:
+                      return ref
               return ''
 
           core_payload = load(core_path)
@@ -76,54 +88,51 @@ jobs:
           core_rows = rows(core_payload)
           search_rows = rows(search_payload)
           core_refs = [ref_of(row) for row in core_rows if ref_of(row)]
-          search_refs = [ref_of(row) for row in search_rows if ref_of(row)]
 
           partition_files = sorted(root.glob('data/projects/*.json'))
           partition_refs = []
           requested_locations = []
+          requested_partition_rows = []
           for path in partition_files:
               payload = load(path)
               file_rows = rows(payload)
               refs = [ref_of(row) for row in file_rows if ref_of(row)]
               partition_refs.extend(refs)
-              if requested in refs or requested in path.read_text(encoding='utf-8'):
-                  requested_locations.append(str(path))
+              for row in file_rows:
+                  if ref_of(row) == requested:
+                      requested_locations.append(str(path))
+                      requested_partition_rows.append(row)
 
           core_set = set(core_refs)
-          search_set = set(search_refs)
           partition_set = set(partition_refs)
-          browser_served = sorted(core_set | search_set, key=lambda value: (not value.isdigit(), int(value) if value.isdigit() else value))
-          shared = sorted(core_set & search_set, key=lambda value: (not value.isdigit(), int(value) if value.isdigit() else value))
-          candidate = requested if requested in (core_set | search_set) else (shared[0] if shared else browser_served[0] if browser_served else '')
+          candidate = requested if requested in core_set else (core_refs[0] if core_refs else '')
+          candidate_index = core_refs.index(candidate) if candidate in core_set else -1
+          aligned_search_text = search_rows[candidate_index] if 0 <= candidate_index < len(search_rows) else None
 
           report = {
-              'schema': 'pipelinenews.atlas-deep-link-identity-diagnosis.v1',
+              'schema': 'pipelinenews.atlas-deep-link-identity-diagnosis.v2',
               'requested_repd_ref': requested,
               'requested_in_core': requested in core_set,
-              'requested_in_search': requested in search_set,
               'requested_in_partitions': requested in partition_set,
-              'requested_locations': requested_locations,
+              'requested_locations': sorted(set(requested_locations)),
+              'requested_partition_rows': requested_partition_rows[:2],
               'core_rows': len(core_rows),
               'core_unique_refs': len(core_set),
               'search_rows': len(search_rows),
-              'search_unique_refs': len(search_set),
+              'search_aligned_to_core': len(search_rows) == len(core_rows),
               'partition_files': len(partition_files),
               'partition_refs': len(partition_refs),
               'partition_unique_refs': len(partition_set),
-              'browser_served_unique_refs': len(core_set | search_set),
-              'core_search_shared_refs': len(core_set & search_set),
+              'core_partition_identity_match': core_set == partition_set,
               'recommended_golden_repd_ref': candidate,
-              'recommended_source': (
-                  'requested' if candidate == requested else
-                  'core_and_search' if candidate in core_set and candidate in search_set else
-                  'core' if candidate in core_set else
-                  'search' if candidate in search_set else
-                  'none'
-              ),
+              'recommended_core_index': candidate_index,
+              'recommended_search_text': aligned_search_text,
               'first_core_refs': core_refs[:10],
-              'first_search_refs': search_refs[:10],
+              'first_core_row': core_rows[0] if core_rows else None,
+              'first_search_row': search_rows[0] if search_rows else None,
+              'first_partition_row': rows(load(partition_files[0]))[0] if partition_files and rows(load(partition_files[0])) else None,
               'duplicate_core_refs': [key for key, count in Counter(core_refs).items() if count > 1][:10],
-              'duplicate_search_refs': [key for key, count in Counter(search_refs).items() if count > 1][:10],
+              'duplicate_partition_refs': [key for key, count in Counter(partition_refs).items() if count > 1][:10],
           }
           Path('/tmp/atlas-deep-link-identity-diagnosis.json').write_text(
               json.dumps(report, indent=2, sort_keys=True) + '\n', encoding='utf-8'
@@ -131,6 +140,10 @@ jobs:
           print(json.dumps(report, indent=2, sort_keys=True))
           if not candidate:
               raise SystemExit('No browser-served REPD identity exists')
+          if len(search_rows) != len(core_rows):
+              raise SystemExit('Search index is not row-aligned to core data')
+          if core_set != partition_set:
+              raise SystemExit('Core and partition REPD identities diverge')
           PY
 
       - name: Publish exact diagnosis
