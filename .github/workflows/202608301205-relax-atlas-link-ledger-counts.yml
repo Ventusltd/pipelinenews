@@ -1,0 +1,83 @@
+name: 202608301205 Derive Atlas-link closure counts
+run-name: Remove stale Atlas-link hardcoded file counts from ${{ github.sha }}
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/202608301205-relax-atlas-link-ledger-counts.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pipelinenews-202608301205-atlas-link-ledger-counts
+  cancel-in-progress: false
+
+env:
+  TARGET: automation/202608301200-extend-pages-atlas-link-v2.py
+
+jobs:
+  repair:
+    name: Replace stale counts with exact ledger-to-build closure proof
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Checkout exact repair boundary
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 20
+          persist-credentials: true
+
+      - name: Apply bounded derived-count repair
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          test -f "$TARGET"
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('automation/202608301200-extend-pages-atlas-link-v2.py')
+          text = path.read_text(encoding='utf-8')
+          replacements = {
+              '    require(len(records) == 40, f"Atlas-link ledger file count changed: {len(records)}")\n':
+                  '    require(records, "Atlas-link SHA ledger is empty")\n',
+              '    require(isinstance(files, list) and len(files) == 38, "Atlas-link build file count changed")\n':
+                  '    require(isinstance(files, list) and files, "Atlas-link build file list missing")\n',
+              '''    require(
+        declared - build_declared == {release_manifest_relative, build_manifest_relative},
+        "Atlas-link build and SHA ledgers differ",
+    )
+''': '''    residual = declared - build_declared
+    require(
+        residual == {release_manifest_relative, build_manifest_relative},
+        f"Atlas-link build and SHA ledgers differ: {sorted(residual)}",
+    )
+''',
+              '    require(len(actual) == 41, "Atlas-link total file count changed")\n': '',
+          }
+          for before, after in replacements.items():
+              count = text.count(before)
+              assert count == 1, f'expected one repair anchor, found {count}: {before[:70]!r}'
+              text = text.replace(before, after)
+          path.write_text(text, encoding='utf-8', newline='\n')
+          PY
+          python3 -m py_compile "$TARGET"
+          git diff --check
+          test "$(git diff --name-only)" = "$TARGET"
+
+      - name: Compare-and-swap source-only repair onto main
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          git add "$TARGET"
+          test "$(git diff --cached --name-only)" = "$TARGET"
+          git config user.name pipelinenews-ledger-count-repair-bot
+          git config user.email actions@users.noreply.github.com
+          git commit -m '202608301205: derive Atlas-link closure from immutable ledgers'
+          git push origin HEAD:main
