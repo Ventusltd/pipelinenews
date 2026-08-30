@@ -7,6 +7,7 @@ on:
     paths:
       - '.github/workflows/202608301153-repair-pages-historical-source-attestation-v2.yml'
       - 'automation/202608301152-repair-pages-historical-source-attestation.py'
+      - 'automation/202608301200-extend-pages-atlas-link-v2.py'
   workflow_dispatch:
 
 permissions:
@@ -18,11 +19,12 @@ concurrency:
 
 env:
   PATCHER: automation/202608301152-repair-pages-historical-source-attestation.py
+  EXTENSION: automation/202608301200-extend-pages-atlas-link-v2.py
   TARGET: atman/202608262014-build-pages.py
 
 jobs:
   repair:
-    name: Prove historical source attestation and publish one source repair
+    name: Prove historical source attestation and Atlas-link v2 release
     runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
@@ -40,17 +42,25 @@ jobs:
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
           test -f "$PATCHER"
+          test -f "$EXTENSION"
           test -f "$TARGET"
-          python3 -m py_compile "$PATCHER"
+          python3 -m py_compile "$PATCHER" "$EXTENSION"
           python3 "$PATCHER"
+          python3 "$EXTENSION"
           python3 -m py_compile "$TARGET"
           git diff --check
           test "$(git diff --name-only)" = "$TARGET"
           rm -rf "$RUNNER_TEMP/pages-proof"
-          python3 "$TARGET" --generation latest --timestamp-folder-release 202608300309-pipelinenews --stage "$RUNNER_TEMP/pages-proof" > "$RUNNER_TEMP/pages-proof-result.json"
+          python3 "$TARGET" \
+            --generation latest \
+            --timestamp-folder-release 202608300309-pipelinenews \
+            --stage "$RUNNER_TEMP/pages-proof" \
+            > "$RUNNER_TEMP/pages-proof-result.json"
           test "$(jq -r .status "$RUNNER_TEMP/pages-proof-result.json")" = CHECKED_AND_STAGED
           test "$(jq -r .timestamp_folder.release_id "$RUNNER_TEMP/pages-proof-result.json")" = 202608300309-pipelinenews
+          test "$(jq -r .timestamp_folder.kind "$RUNNER_TEMP/pages-proof-result.json")" = current-atlas-link-v2
           test -f "$RUNNER_TEMP/pages-proof/releases/202608300309-pipelinenews/index.html"
+          test -f "$RUNNER_TEMP/pages-proof/state/atlas-v9-current.json"
 
       - name: Compare-and-swap source-only repair onto main
         run: |
@@ -61,5 +71,5 @@ jobs:
           test "$(git diff --cached --name-only)" = "$TARGET"
           git config user.name pipelinenews-pages-gate-repair-bot
           git config user.email actions@users.noreply.github.com
-          git commit -m '202608301155: attest historical inputs for immutable timestamp Pages releases'
+          git commit -m '202608301201: validate Atlas-link v2 release and current-or-predecessor pointers'
           git push origin HEAD:main
