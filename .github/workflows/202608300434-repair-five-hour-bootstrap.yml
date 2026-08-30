@@ -1,0 +1,49 @@
+name: 202608300434 Repair PipelineNews five-hour bootstrap
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/202608300434-repair-five-hour-bootstrap.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 20
+          persist-credentials: true
+
+      - name: Preserve relative Python indentation in bootstrap replacements
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('.github/workflows/202608300430-bootstrap-five-hour-atlas-integration.yml')
+          text = path.read_text(encoding='utf-8')
+          anchor = "'''.replace('          ', '')"
+          count = text.count(anchor)
+          if count != 4:
+              raise SystemExit(f'expected four indentation anchors, found {count}')
+          path.write_text(text.replace(anchor, "'''"), encoding='utf-8', newline='\n')
+          PY
+          git diff --check
+
+      - name: Compare-and-swap bootstrap repair
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          git add .github/workflows/202608300430-bootstrap-five-hour-atlas-integration.yml
+          test "$(git diff --cached --name-only)" = .github/workflows/202608300430-bootstrap-five-hour-atlas-integration.yml
+          git config user.name pipelinenews-bootstrap-repair-bot
+          git config user.email actions@users.noreply.github.com
+          git commit -m '202608300434: preserve PipelineNews patch indentation'
+          git push origin HEAD:main
