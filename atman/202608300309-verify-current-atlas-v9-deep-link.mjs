@@ -9,7 +9,11 @@ const output = process.env.OUTPUT || `work/202608300309-${mode}-atlas-deep-link-
 
 if (!pipelineUrl || !atlasUrl) throw new Error('PIPELINE_URL and ATLAS_URL are required');
 if (!/^\d+$/u.test(goldenRepdRef)) throw new Error('GOLDEN_REPD_REF is invalid');
+
 const expected = `${atlasUrl}?repd_ref=${goldenRepdRef}`;
+const pipelineProbe = new URL(pipelineUrl);
+pipelineProbe.searchParams.set('repd_ref', goldenRepdRef);
+const goldenRowId = `repd-${goldenRepdRef}`;
 
 const browser = await chromium.launch();
 const page = await browser.newPage({
@@ -23,29 +27,36 @@ page.on('console', message => {
 });
 
 try {
-  await page.goto(pipelineUrl, { waitUntil: 'domcontentloaded', timeout: 90000 });
+  await page.goto(pipelineProbe.href, { waitUntil: 'domcontentloaded', timeout: 90000 });
   await page.waitForSelector('#search', { timeout: 90000 });
-  await page.waitForSelector('#tbody tr', { timeout: 90000 });
-  await page.locator('#search').fill(goldenRepdRef);
+  await page.waitForSelector(`#${goldenRowId}`, { timeout: 90000 });
   await page.waitForFunction(
-    value => [...document.querySelectorAll('a[href]')].some(anchor => anchor.href === value),
-    expected,
+    ({ expectedUrl, rowId }) => {
+      const row = document.getElementById(rowId);
+      const anchor = row?.querySelector('a.atlaslink[href]');
+      return anchor?.href === expectedUrl;
+    },
+    { expectedUrl: expected, rowId: goldenRowId },
     { timeout: 90000 }
   );
 
-  const evidence = await page.evaluate(expectedUrl => {
+  const evidence = await page.evaluate(({ expectedUrl, rowId }) => {
     const anchors = [...document.querySelectorAll('a[href*="repd_ref="]')];
-    const golden = anchors.find(anchor => anchor.href === expectedUrl) || null;
-    const row = golden?.closest('tr') || null;
+    const row = document.getElementById(rowId);
+    const golden = row?.querySelector('a.atlaslink[href]') || null;
     return {
+      probe_url: location.href,
       generated_links: anchors.map(anchor => anchor.href),
       golden_href: golden?.href || null,
       golden_text: golden?.textContent?.trim() || null,
       row_text: row?.textContent?.replace(/\s+/gu, ' ').trim() || null,
       release_id: document.body?.dataset?.releaseId || null,
       generation: document.body?.dataset?.fastGeneration || null,
+      search_value: document.querySelector('#search')?.value || null,
+      filtered_count: document.querySelector('#resultsMeta')?.dataset?.filteredCount || null,
+      expected_url: expectedUrl,
     };
-  }, expected);
+  }, { expectedUrl: expected, rowId: goldenRowId });
 
   if (evidence.golden_href !== expected) throw new Error(`golden link mismatch: ${evidence.golden_href}`);
   if (!evidence.generated_links.length) throw new Error('no PipelineNews Atlas links were rendered');
@@ -54,6 +65,9 @@ try {
   }
   if (!evidence.row_text?.includes(goldenRepdRef)) {
     throw new Error('golden project row does not preserve its REPD identity');
+  }
+  if (evidence.search_value !== goldenRepdRef || evidence.filtered_count !== '1') {
+    throw new Error(`exact REPD filter did not resolve one row: ${JSON.stringify(evidence)}`);
   }
   if (errors.length) throw new Error(`PipelineNews browser errors: ${JSON.stringify(errors)}`);
 
@@ -81,12 +95,13 @@ try {
   if (receiverErrors.length) throw new Error(`Atlas receiver errors: ${JSON.stringify(receiverErrors)}`);
 
   const proof = {
-    schema: 'pipelinenews.current-atlas-v9-browser-proof.v1',
+    schema: 'pipelinenews.current-atlas-v9-browser-proof.v2',
     classification: mode === 'public'
       ? 'VERIFIED_PUBLIC_PIPELINENEWS_ATLAS_V9_DEEP_LINK'
       : 'VERIFIED_LOCAL_PIPELINENEWS_ATLAS_V9_DEEP_LINK',
     mode,
     pipeline_url: pipelineUrl,
+    pipeline_probe_url: pipelineProbe.href,
     atlas_base_url: atlasUrl,
     golden_repd_ref: goldenRepdRef,
     expected_url: expected,
