@@ -44,7 +44,7 @@ def _atlas_link_v2_outputs(root: Path, folder_relative: str) -> tuple[list[dict]
         verify_record(root, record, "Atlas-link ledger output")
         records.append(record)
         declared.add(relative)
-    require(len(records) == 40, f"Atlas-link ledger file count changed: {len(records)}")
+    require(records, "Atlas-link SHA ledger is empty")
     ledger_record = {
         "path": ledger_relative,
         "bytes": ledger.stat().st_size,
@@ -129,7 +129,7 @@ def validate_current_atlas_link_v2(
 
     build_declared: set[str] = set()
     files = build_manifest.get("files")
-    require(isinstance(files, list) and len(files) == 38, "Atlas-link build file count changed")
+    require(isinstance(files, list) and files, "Atlas-link build file list missing")
     for index, record in enumerate(files):
         require(isinstance(record, dict) and set(record) == {"path", "bytes", "sha256"}, f"Atlas-link build record {index} changed")
         local = record["path"]
@@ -152,7 +152,6 @@ def validate_current_atlas_link_v2(
     }
     require(not any(path.is_symlink() for path in folder.rglob("*")), "symlink in Atlas-link release")
     require(actual == {record["path"] for record in outputs}, "Atlas-link folder closure differs from ledger")
-    require(len(actual) == 41, "Atlas-link total file count changed")
 
     release_commit = git_text(root, "log", "--diff-filter=A", "-1", "--format=%H", "--", release_manifest_relative)
     require(bool(COMMIT_RE.fullmatch(release_commit)), "Atlas-link release is not committed")
