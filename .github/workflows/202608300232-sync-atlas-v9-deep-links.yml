@@ -1,0 +1,144 @@
+name: 202608300232 Sync PipelineNews Atlas V9 deep links
+run-name: Bind mutable PipelineNews sources to promoted Atlas V9 from ${{ github.sha }}
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/202608300232-sync-atlas-v9-deep-links.py'
+      - '.github/workflows/202608300232-sync-atlas-v9-deep-links.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '27,57 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pipelinenews-atlas-v9-deep-links
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Poll promoted Atlas, patch mutable sources and prove canonical identity
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - name: Checkout exact PipelineNews source boundary
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 30
+          persist-credentials: true
+
+      - name: Require exact current main and validate synchroniser
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/main
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          python3 -m py_compile scripts/202608300232-sync-atlas-v9-deep-links.py
+
+      - name: Fetch governed Atlas and GlobalGrid pointers
+        run: |
+          set -euo pipefail
+          rm -rf "$RUNNER_TEMP/gridatlas" "$RUNNER_TEMP/globalgrid2050"
+          git clone --depth 1 https://github.com/Ventusltd/gridatlas.git "$RUNNER_TEMP/gridatlas"
+          git clone --depth 1 https://github.com/Ventusltd/globalgrid2050.git "$RUNNER_TEMP/globalgrid2050"
+
+      - name: Synchronise canonical Atlas V9 deep links
+        id: sync
+        run: |
+          set -euo pipefail
+          python3 scripts/202608300232-sync-atlas-v9-deep-links.py \
+            --gridatlas "$RUNNER_TEMP/gridatlas" \
+            --globalgrid "$RUNNER_TEMP/globalgrid2050" \
+            --repo-root . \
+            | tee "$RUNNER_TEMP/pipelinenews-atlas-v9-result.json"
+          if test -f state/atlas-v9-current.json; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+            echo "release_id=$(jq -r .release_id state/atlas-v9-current.json)" >> "$GITHUB_OUTPUT"
+            echo "base_url=$(jq -r .base_url state/atlas-v9-current.json)" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Prove bounded mutation, sentinels and immutable boundary
+        if: ${{ steps.sync.outputs.ready == 'true' }}
+        run: |
+          set -euo pipefail
+          node --check ui/atlas-v9-deep-links.js
+          test "$(jq -r .classification reports/atlas-v9-deep-link-audit.json)" = CANONICAL_DEEP_LINKS_READY
+          test "$(jq -r .immutable_releases_modified reports/atlas-v9-deep-link-audit.json)" = 0
+          test "$(jq -r .privacy reports/atlas-v9-deep-link-audit.json)" = NO_PERSONAL_DATA
+          test "$(jq '.sentinels | length' reports/atlas-v9-deep-link-audit.json)" = 2
+          jq -e '.sentinels[] | select(.repd_ref == "13599" and .technology == "solar")' reports/atlas-v9-deep-link-audit.json >/dev/null
+          jq -e '.sentinels[] | select(.repd_ref == "17494" and .technology == "solar")' reports/atlas-v9-deep-link-audit.json >/dev/null
+          python3 - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+
+          audit = json.loads(Path('reports/atlas-v9-deep-link-audit.json').read_text(encoding='utf-8'))
+          allowed = {
+              'state/atlas-v9-current.json',
+              'reports/atlas-v9-deep-link-audit.json',
+              'ui/atlas-v9-deep-links.js',
+              *audit['files_rewritten'],
+          }
+          changed = subprocess.check_output(['git', 'status', '--porcelain=v1'], text=True).splitlines()
+          for line in changed:
+              path = line[3:]
+              if ' -> ' in path:
+                  path = path.split(' -> ', 1)[1]
+              assert path in allowed, f'unexpected deep-link mutation: {path}'
+              first = Path(path).parts[0]
+              assert not (len(first) >= 12 and first[:12].isdigit()), f'immutable timestamped release changed: {path}'
+          PY
+          git diff --check
+
+      - name: Verify Atlas sentinel URLs in a browser-facing readback
+        if: ${{ steps.sync.outputs.ready == 'true' }}
+        run: |
+          set -euo pipefail
+          while IFS= read -r url; do
+            curl --fail --location --silent --show-error "$url" -o /dev/null
+          done < <(jq -r '.sentinels[].atlas_v9_url' reports/atlas-v9-deep-link-audit.json)
+
+      - name: Compare-and-swap source integration onto main
+        id: commit
+        if: ${{ steps.sync.outputs.ready == 'true' }}
+        run: |
+          set -euo pipefail
+          if test -z "$(git status --porcelain)"; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "commit=$GITHUB_SHA" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          git add -A
+          git config user.name pipelinenews-atlas-link-bot
+          git config user.email actions@users.noreply.github.com
+          git commit -m "${{ steps.sync.outputs.release_id }}: bind PipelineNews sources to promoted Atlas V9"
+          commit="$(git rev-parse HEAD)"
+          git push origin HEAD:main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "commit=$commit" >> "$GITHUB_OUTPUT"
+
+      - name: Record milestone summary
+        if: ${{ always() }}
+        run: |
+          {
+            echo '## PipelineNews → Atlas V9'
+            echo
+            echo "- Ready: ${{ steps.sync.outputs.ready || 'false' }}"
+            echo "- Atlas release: ${{ steps.sync.outputs.release_id || 'waiting' }}"
+            echo "- Atlas base: ${{ steps.sync.outputs.base_url || 'waiting for GlobalGrid mirror' }}"
+            echo "- Integration commit: ${{ steps.commit.outputs.commit || 'no change' }}"
+            if test -f reports/atlas-v9-deep-link-audit.json; then
+              echo "- Replacements: $(jq -r .replacement_count reports/atlas-v9-deep-link-audit.json)"
+              echo "- Files rewritten: $(jq -r '.files_rewritten | length' reports/atlas-v9-deep-link-audit.json)"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
