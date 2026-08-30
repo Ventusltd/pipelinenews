@@ -1,0 +1,126 @@
+name: 202608300327 Bound hourly PipelineNews Atlas V9 mission
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/202608300327-bound-hourly-atlas-v9-mission.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pipelinenews-bound-hourly-atlas-v9-bootstrap
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+  TARGET: .github/workflows/202608300309-current-gridatlas-v9-deep-link-successor.yml
+  MISSION_EXPIRES_AT: '2026-08-30T05:28:00Z'
+
+jobs:
+  delegate:
+    name: Make the existing deep-link conductor hourly, bounded and idempotent
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact PipelineNews source boundary
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 20
+          persist-credentials: true
+
+      - name: Patch the conductor without touching product code or data
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('.github/workflows/202608300309-current-gridatlas-v9-deep-link-successor.yml')
+          text = path.read_text(encoding='utf-8')
+
+          replacements = [
+              (
+                  "    - cron: '12,42 * * * *'",
+                  "    - cron: '20 3-5 30 8 *'",
+                  'bounded hourly cron',
+              ),
+              (
+                  "  PUBLIC_URL: https://ventusltd.github.io/pipelinenews/releases/202608300309-pipelinenews/\n",
+                  "  PUBLIC_URL: https://ventusltd.github.io/pipelinenews/releases/202608300309-pipelinenews/\n"
+                  "  MISSION_EXPIRES_AT: '2026-08-30T05:28:00Z'\n",
+                  'mission expiry',
+              ),
+              (
+                  "      - name: Resolve promotion-eligible Atlas receiver\n"
+                  "        id: atlas\n"
+                  "        run: |\n"
+                  "          set -euo pipefail\n"
+                  "          curl --fail --location --silent --show-error --retry 3 --retry-delay 2 \\\n",
+                  "      - name: Resolve promotion-eligible Atlas receiver\n"
+                  "        id: atlas\n"
+                  "        run: |\n"
+                  "          set -euo pipefail\n"
+                  "          now=\"$(date -u +%s)\"\n"
+                  "          expires=\"$(date -u -d \"$MISSION_EXPIRES_AT\" +%s)\"\n"
+                  "          if (( now > expires )); then\n"
+                  "            echo 'ready=false' >> \"$GITHUB_OUTPUT\"\n"
+                  "            echo \"PipelineNews three-hour Atlas mission retired at $MISSION_EXPIRES_AT; no mutation.\" >> \"$GITHUB_STEP_SUMMARY\"\n"
+                  "            exit 0\n"
+                  "          fi\n"
+                  "          curl --fail --location --silent --show-error --retry 3 --retry-delay 2 \\\n",
+                  'mission window guard',
+              ),
+              (
+                  "          grep -q 'ventus-corev8engine.js' /tmp/atlas-golden.html\n"
+                  "          echo 'ready=true' >> \"$GITHUB_OUTPUT\"\n",
+                  "          grep -q 'ventus-corev8engine.js' /tmp/atlas-golden.html\n"
+                  "          if test -e \"releases/$RELEASE_ID\"; then\n"
+                  "            if test \"$(jq -r '.release_id // empty' state/live-set.json)\" = \"$RELEASE_ID\" && \\\n"
+                  "               test \"$(jq -r '.atlas_v9_receiver.release_id // empty' state/live-set.json)\" = \"$release_id\"; then\n"
+                  "              echo 'ready=false' >> \"$GITHUB_OUTPUT\"\n"
+                  "              echo \"PipelineNews already promotes $RELEASE_ID to Atlas $release_id; verification-only no-op.\" >> \"$GITHUB_STEP_SUMMARY\"\n"
+                  "              exit 0\n"
+                  "            fi\n"
+                  "            echo \"Immutable successor releases/$RELEASE_ID exists without the matching live pointer.\" >&2\n"
+                  "            exit 1\n"
+                  "          fi\n"
+                  "          echo 'ready=true' >> \"$GITHUB_OUTPUT\"\n",
+                  'idempotent successor guard',
+              ),
+          ]
+
+          for before, after, label in replacements:
+              count = text.count(before)
+              if count != 1:
+                  raise SystemExit(f'{label}: expected one anchor, found {count}')
+              text = text.replace(before, after, 1)
+
+          path.write_text(text, encoding='utf-8', newline='\n')
+          PY
+          git diff --check
+          grep -q "cron: '20 3-5 30 8 \*'" "$TARGET"
+          grep -q "MISSION_EXPIRES_AT: '2026-08-30T05:28:00Z'" "$TARGET"
+          test "$(grep -c 'PipelineNews already promotes' "$TARGET")" = 1
+
+      - name: Compare-and-swap the bounded conductor onto main
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          git add "$TARGET"
+          test "$(git diff --cached --name-only)" = "$TARGET"
+          git config user.name pipelinenews-mission-conductor-bot
+          git config user.email actions@users.noreply.github.com
+          git commit -m '202608300327: run Atlas V9 deep-link closure hourly for three hours'
+          git push origin HEAD:main
+          {
+            echo '## PipelineNews mission delegated'
+            echo
+            echo '- Immediate deep-link successor run: triggered by this conductor update'
+            echo '- Hourly follow-ups: 03:20, 04:20 and 05:20 UTC'
+            echo '- Hard retirement: 05:28 UTC'
+            echo '- Product/data mutation in bootstrap: none'
+          } >> "$GITHUB_STEP_SUMMARY"
