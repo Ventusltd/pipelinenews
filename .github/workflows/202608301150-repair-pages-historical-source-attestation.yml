@@ -1,0 +1,156 @@
+name: 202608301150 Repair timestamp Pages historical source attestation
+run-name: Repair immutable timestamp Pages gate from ${{ github.sha }}
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/202608301150-repair-pages-historical-source-attestation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pipelinenews-202608301150-pages-source-attestation-repair
+  cancel-in-progress: false
+
+env:
+  TARGET: atman/202608262014-build-pages.py
+
+jobs:
+  repair:
+    name: Attest historical compiler inputs while validating current immutable outputs
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact source boundary
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Apply one bounded Pages-gate repair
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          test -f "$TARGET"
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('atman/202608262014-build-pages.py')
+          text = path.read_text(encoding='utf-8')
+
+          verify_anchor = '''def verify_record(root: Path, record: dict, label: str) -> Path:
+    relative = record.get("path")
+    require(isinstance(relative, str) and relative, f"{label} has no path")
+    target = repository_path(root, relative)
+    require(target.is_file(), f"missing {label}: {relative}")
+    require(target.stat().st_size == record.get("bytes"), f"byte mismatch for {relative}")
+    require(sha256(target) == record.get("sha256"), f"SHA-256 mismatch for {relative}")
+    return target
+'''
+          helper = verify_anchor + '''
+
+def verify_record_at_commit(root: Path, commit: str, record: dict, label: str) -> None:
+    relative = record.get("path")
+    require(isinstance(relative, str) and relative, f"{label} has no path")
+    completed = subprocess.run(
+        ["git", "show", f"{commit}:{relative}"],
+        cwd=root,
+        check=True,
+        capture_output=True,
+    )
+    payload = completed.stdout
+    require(len(payload) == record.get("bytes"), f"historical byte mismatch for {relative}")
+    require(
+        hashlib.sha256(payload).hexdigest() == record.get("sha256"),
+        f"historical SHA-256 mismatch for {relative}",
+    )
+'''
+          assert text.count(verify_anchor) == 1, 'verify_record anchor changed'
+          text = text.replace(verify_anchor, helper)
+
+          signature = 'def validate_release(root: Path, requested: str) -> dict:\n'
+          replacement_signature = 'def validate_release(root: Path, requested: str, *, replay_sources: bool = True) -> dict:\n'
+          assert text.count(signature) == 1, 'validate_release signature changed'
+          text = text.replace(signature, replacement_signature)
+
+          old_validation = '''    seen: set[str] = set()
+    for record in manifest["inputs"]:
+        require(record["path"] not in seen, f"duplicate manifest path: {record['path']}")
+        seen.add(record["path"])
+        verify_record(root, record, "input")
+    for record in manifest["outputs"]:
+        require(record["path"] not in seen, f"duplicate manifest path: {record['path']}")
+        seen.add(record["path"])
+        verify_record(root, record, "output")
+    require(manifest_path.is_file(), "release manifest disappeared")
+
+    compiler_result = run_compiler(root, manifest, generation)
+'''
+          new_validation = '''    manifest_commit = git_text(root, "log", "-1", "--format=%H", "--", manifest_path.relative_to(root).as_posix())
+    require(bool(COMMIT_RE.fullmatch(manifest_commit)), "compiled release manifest is not committed")
+
+    seen: set[str] = set()
+    for record in manifest["inputs"]:
+        require(record["path"] not in seen, f"duplicate manifest path: {record['path']}")
+        seen.add(record["path"])
+        if replay_sources or record["path"].startswith("data/"):
+            verify_record(root, record, "input")
+        else:
+            verify_record_at_commit(root, manifest_commit, record, "historical input")
+    for record in manifest["outputs"]:
+        require(record["path"] not in seen, f"duplicate manifest path: {record['path']}")
+        seen.add(record["path"])
+        verify_record(root, record, "output")
+    require(manifest_path.is_file(), "release manifest disappeared")
+
+    if replay_sources:
+        compiler_result = run_compiler(root, manifest, generation)
+    else:
+        verify_record_at_commit(root, manifest_commit, manifest["compiler"], "historical compiler")
+        compiler_result = {
+            "generation": f"{generation}-index",
+            "status": "HISTORICAL_SOURCE_ATTESTED",
+            "manifest_commit": manifest_commit,
+        }
+'''
+          assert text.count(old_validation) == 1, 'compiled validation block changed'
+          text = text.replace(old_validation, new_validation)
+
+          main_line = '    release = validate_release(root, args.generation)\n'
+          main_replacement = '    release = validate_release(root, args.generation, replay_sources=not bool(args.timestamp_folder_release))\n'
+          assert text.count(main_line) == 1, 'main validation call changed'
+          text = text.replace(main_line, main_replacement)
+
+          path.write_text(text, encoding='utf-8', newline='\n')
+          PY
+          python3 -m py_compile "$TARGET"
+          git diff --check
+          test "$(git diff --name-only)" = "$TARGET"
+
+          rm -rf "$RUNNER_TEMP/pages-proof"
+          python3 "$TARGET" \
+            --generation latest \
+            --timestamp-folder-release 202608300309-pipelinenews \
+            --stage "$RUNNER_TEMP/pages-proof" \
+            > "$RUNNER_TEMP/pages-proof-result.json"
+          test "$(jq -r .status "$RUNNER_TEMP/pages-proof-result.json")" = CHECKED_AND_STAGED
+          test "$(jq -r .timestamp_folder.release_id "$RUNNER_TEMP/pages-proof-result.json")" = 202608300309-pipelinenews
+          test -f "$RUNNER_TEMP/pages-proof/releases/202608300309-pipelinenews/index.html"
+
+      - name: Compare-and-swap source-only repair onto main
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          git add "$TARGET"
+          test "$(git diff --cached --name-only)" = "$TARGET"
+          git config user.name pipelinenews-pages-gate-repair-bot
+          git config user.email actions@users.noreply.github.com
+          git commit -m '202608301150: attest historical source inputs for immutable timestamp Pages releases'
+          git push origin HEAD:main
