@@ -1,0 +1,408 @@
+name: 202608301214 PipelineNews Pages V2
+
+on:
+  workflow_call:
+    inputs:
+      expected_sha:
+        required: true
+        type: string
+      timestamp_folder_release:
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  build:
+    name: Validate, browser-prove and package exact public closure
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    outputs:
+      deployed_sha: ${{ steps.source.outputs.sha }}
+      generation: ${{ steps.release.outputs.generation }}
+      release_path: ${{ steps.release.outputs.release_path }}
+      release_sha256: ${{ steps.release.outputs.release_sha256 }}
+      candidate_generation: ${{ steps.release.outputs.candidate_generation }}
+      candidate_path: ${{ steps.release.outputs.candidate_path }}
+      candidate_sha256: ${{ steps.release.outputs.candidate_sha256 }}
+      candidate_verifier: ${{ steps.release.outputs.candidate_verifier }}
+      timestamp_folder_release: ${{ steps.release.outputs.timestamp_folder_release }}
+      timestamp_folder_path: ${{ steps.release.outputs.timestamp_folder_path }}
+      timestamp_folder_manifest_path: ${{ steps.release.outputs.timestamp_folder_manifest_path }}
+      timestamp_folder_manifest_sha256: ${{ steps.release.outputs.timestamp_folder_manifest_sha256 }}
+      live_pointer: ${{ steps.release.outputs.live_pointer }}
+      live_pointer_sha256: ${{ steps.release.outputs.live_pointer_sha256 }}
+      live_pointer_bytes: ${{ steps.release.outputs.live_pointer_bytes }}
+    steps:
+      - name: Checkout exact authorised commit
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ inputs.expected_sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Require exact current main
+        id: source
+        shell: bash
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha }}
+        run: |
+          set -euo pipefail
+          [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$GITHUB_SHA" = "$EXPECTED_SHA"
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          git fetch --no-tags origin refs/heads/main
+          test "$(git rev-parse FETCH_HEAD)" = "$EXPECTED_SHA"
+          echo "sha=$EXPECTED_SHA" >> "$GITHUB_OUTPUT"
+
+      - name: Configure pinned Node
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: '22'
+
+      - name: Validate committed products and stage public closure
+        id: release
+        shell: bash
+        env:
+          REQUESTED_RELEASE: ${{ inputs.timestamp_folder_release }}
+        run: |
+          set -euo pipefail
+          release="$REQUESTED_RELEASE"
+          if test -z "$release"; then
+            mapfile -t changed < <(
+              git diff-tree --no-commit-id --name-only -r "$GITHUB_SHA" \
+                | sed -nE 's#^releases/([0-9]{12}-pipelinenews)/.*#\1#p' \
+                | LC_ALL=C sort -u
+            )
+            if test "${#changed[@]}" = 1; then
+              release="${changed[0]}"
+            elif test -f releases/current-v4.json && test -f state/live-set.json && cmp -s releases/current-v4.json state/live-set.json; then
+              release="$(jq -r .release_id releases/current-v4.json)"
+            elif test -f releases/current-v3.json && test -f state/live-set.json && cmp -s releases/current-v3.json state/live-set.json; then
+              release="$(jq -r .release_id releases/current-v3.json)"
+            fi
+          fi
+          args=(--generation latest --stage _site)
+          if test -n "$release"; then
+            [[ "$release" =~ ^[0-9]{12}-pipelinenews$ ]]
+            args+=(--timestamp-folder-release "$release")
+          fi
+          python3 atman/202608262014-build-pages.py "${args[@]}"
+
+      - name: Install pinned browser harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Browser-proof staged modular release
+        shell: bash
+        env:
+          PIPELINENEWS_GENERATION: ${{ steps.release.outputs.generation }}
+          PIPELINENEWS_PAGE_URL: http://127.0.0.1:4173/${{ steps.release.outputs.release_path }}
+          PIPELINENEWS_DEPLOY_SHA: preview-${{ steps.source.outputs.sha }}
+          PIPELINENEWS_EVIDENCE_DIR: reports/browser-${{ steps.release.outputs.generation }}-preview
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory _site >"$RUNNER_TEMP/modular-preview.log" 2>&1 &
+          pid=$!
+          trap 'kill "$pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do curl --fail --silent "$PIPELINENEWS_PAGE_URL" >/dev/null && break; sleep 1; done
+          curl --fail --silent "$PIPELINENEWS_PAGE_URL" >/dev/null
+          node atman/202608262014-browser-proof.mjs
+
+      - name: Browser-proof staged authorised fast candidate
+        if: ${{ steps.release.outputs.candidate_path != '' }}
+        shell: bash
+        env:
+          FAST_SITE_URL: http://127.0.0.1:4174/${{ steps.release.outputs.candidate_path }}?deployment=preview-${{ steps.source.outputs.sha }}
+          FAST_SITE_VERIFIER: ${{ steps.release.outputs.candidate_verifier }}
+          FAST_SITE_EVIDENCE: reports/browser-${{ steps.release.outputs.candidate_generation }}-fast-preview.json
+        run: |
+          set -euo pipefail
+          test -f "$FAST_SITE_VERIFIER"
+          mkdir -p reports
+          python3 -m http.server 4174 --bind 127.0.0.1 --directory _site >"$RUNNER_TEMP/fast-preview.log" 2>&1 &
+          pid=$!
+          trap 'kill "$pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do curl --fail --silent "$FAST_SITE_URL" >/dev/null && break; sleep 1; done
+          node "$FAST_SITE_VERIFIER" | tee "$FAST_SITE_EVIDENCE"
+
+      - name: Browser-proof staged Atlas-link release against real receiver
+        if: ${{ steps.release.outputs.timestamp_folder_path != '' }}
+        shell: bash
+        env:
+          TIMESTAMP_FOLDER_URL: http://127.0.0.1:4175/${{ steps.release.outputs.timestamp_folder_path }}
+          TIMESTAMP_FOLDER_PROOF: reports/browser-${{ steps.release.outputs.timestamp_folder_release }}-atlas-v9-preview.json
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          generation="${{ steps.release.outputs.timestamp_folder_release }}"
+          generation="${generation%%-*}"
+          [[ "$generation" =~ ^[0-9]{12}$ ]]
+          verifier="atman/${generation}-public-browser-readback.mjs"
+          test -f "$verifier"
+          python3 -m http.server 4175 --bind 127.0.0.1 --directory _site >"$RUNNER_TEMP/atlas-preview.log" 2>&1 &
+          pid=$!
+          trap 'kill "$pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do curl --fail --silent "$TIMESTAMP_FOLDER_URL" >/dev/null && break; sleep 1; done
+          node "$verifier" --candidate "$TIMESTAMP_FOLDER_URL" --output "$TIMESTAMP_FOLDER_PROOF"
+
+      - name: Retain predeployment evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pipelinenews-v2-preview-${{ steps.source.outputs.sha || github.sha }}
+          path: |
+            reports/browser-*-preview
+            reports/browser-*-fast-preview.json
+            reports/browser-*-atlas-v9-preview.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Recheck exact main and package Pages artifact
+        shell: bash
+        env:
+          EXPECTED_SHA: ${{ steps.source.outputs.sha }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin refs/heads/main
+          test "$(git rev-parse FETCH_HEAD)" = "$EXPECTED_SHA"
+
+      - name: Upload checked Pages artifact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
+        with:
+          path: _site
+
+  deploy:
+    name: Deploy exact checked artifact
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}${{ needs.build.outputs.release_path }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+
+  verify:
+    name: Verify public bytes, pointers and browser behaviour
+    needs: [build, deploy]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout exact deployed commit
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ needs.build.outputs.deployed_sha }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Configure pinned Node
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: '22'
+
+      - name: Install pinned browser harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --no-package-lock playwright@1.55.0
+          npx playwright install --with-deps chromium
+
+      - name: Wait for exact modular release HTML
+        shell: bash
+        env:
+          PAGE_ROOT: ${{ needs.deploy.outputs.page_url }}
+          RELEASE_PATH: ${{ needs.build.outputs.release_path }}
+          EXPECTED_SHA256: ${{ needs.build.outputs.release_sha256 }}
+          DEPLOYED_SHA: ${{ needs.build.outputs.deployed_sha }}
+        run: |
+          set -euo pipefail
+          url="${PAGE_ROOT%/}/${RELEASE_PATH}?deployment=${DEPLOYED_SHA}"
+          for attempt in $(seq 1 60); do
+            curl --fail --silent --location "$url" -o "$RUNNER_TEMP/modular.html" || true
+            test -f "$RUNNER_TEMP/modular.html" && test "$(sha256sum "$RUNNER_TEMP/modular.html" | cut -d' ' -f1)" = "$EXPECTED_SHA256" && exit 0
+            sleep 2
+          done
+          exit 1
+
+      - name: Verify every public Atlas-link release byte from its SHA ledger
+        if: ${{ needs.build.outputs.timestamp_folder_path != '' }}
+        shell: bash
+        env:
+          PAGE_ROOT: ${{ needs.deploy.outputs.page_url }}
+          RELEASE_ID: ${{ needs.build.outputs.timestamp_folder_release }}
+          FOLDER_PATH: ${{ needs.build.outputs.timestamp_folder_path }}
+          MANIFEST_PATH: ${{ needs.build.outputs.timestamp_folder_manifest_path }}
+          MANIFEST_SHA256: ${{ needs.build.outputs.timestamp_folder_manifest_sha256 }}
+          DEPLOYED_SHA: ${{ needs.build.outputs.deployed_sha }}
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          python3 - <<'PY'
+          import hashlib, json, os, re, time
+          from pathlib import Path, PurePosixPath
+          from urllib.parse import quote
+          from urllib.request import Request, urlopen
+
+          root = os.environ['PAGE_ROOT'].rstrip('/')
+          release_id = os.environ['RELEASE_ID']
+          folder = os.environ['FOLDER_PATH']
+          manifest_path = os.environ['MANIFEST_PATH']
+          deployed = os.environ['DEPLOYED_SHA']
+          if not re.fullmatch(r'\d{12}-pipelinenews', release_id): raise AssertionError('unsafe release id')
+          if folder != f'releases/{release_id}/': raise AssertionError('folder mismatch')
+          manifest_raw = Path(manifest_path).read_bytes()
+          if hashlib.sha256(manifest_raw).hexdigest() != os.environ['MANIFEST_SHA256']: raise AssertionError('manifest output mismatch')
+          manifest = json.loads(manifest_raw)
+          if manifest.get('release_id') != release_id: raise AssertionError('release identity mismatch')
+          allowed = {
+              ('pipelinenews.timestamp-folder-successor.v1', 'IMMUTABLE_TIMESTAMPED_RELEASE'),
+              ('pipelinenews.current-atlas-link-release.v2', 'CURRENT_ATLAS_LINK_CANDIDATE'),
+          }
+          if (manifest.get('schema'), manifest.get('classification')) not in allowed: raise AssertionError('unsupported release boundary')
+
+          ledger_path = Path(folder) / 'sha256sums.txt'
+          ledger_raw = ledger_path.read_bytes()
+          records = []
+          seen = set()
+          for number, line in enumerate(ledger_raw.decode('utf-8').splitlines(), 1):
+              if not line.strip(): continue
+              digest, sep, local = line.partition('  ')
+              if sep != '  ' or not re.fullmatch(r'[0-9a-f]{64}', digest): raise AssertionError(f'bad ledger line {number}')
+              path = PurePosixPath(local)
+              if path.is_absolute() or '..' in path.parts or path.as_posix() != local or local in seen: raise AssertionError(f'unsafe ledger path {number}')
+              seen.add(local)
+              relative = folder + local
+              payload = Path(relative).read_bytes()
+              if hashlib.sha256(payload).hexdigest() != digest: raise AssertionError(f'local ledger mismatch: {relative}')
+              records.append((relative, len(payload), digest))
+          records.append((folder + 'sha256sums.txt', len(ledger_raw), hashlib.sha256(ledger_raw).hexdigest()))
+          if manifest_path not in {item[0] for item in records}: raise AssertionError('release manifest absent from ledger')
+
+          verified = []
+          for relative, expected_bytes, expected_sha in records:
+              last = None
+              for attempt in range(1, 21):
+                  url = f"{root}/{quote(relative, safe='/')}?deployment={quote(deployed)}&attempt={attempt}"
+                  try:
+                      with urlopen(Request(url, headers={'Cache-Control':'no-cache','User-Agent':'PipelineNews-Pages-V2/1'}), timeout=20) as response:
+                          payload = response.read()
+                      if len(payload) != expected_bytes or hashlib.sha256(payload).hexdigest() != expected_sha: raise AssertionError('byte mismatch')
+                      verified.append({'path':relative,'bytes':expected_bytes,'sha256':expected_sha,'url':url})
+                      break
+                  except Exception as error:
+                      last = error
+                      if attempt < 20: time.sleep(2)
+              else: raise AssertionError(f'public byte did not converge: {relative}: {last}')
+          report = {'schema':'pipelinenews.pages-v2-release-closure.v1','release_id':release_id,'deployed_sha':deployed,'verified_file_count':len(verified),'outputs':verified,'status':'PASS'}
+          Path(f'reports/pages-v2-{release_id}-closure.json').write_text(json.dumps(report, indent=2)+'\n', encoding='utf-8')
+          PY
+
+      - name: Verify public live pointer and bound evidence
+        if: ${{ needs.build.outputs.live_pointer == 'true' }}
+        shell: bash
+        env:
+          PAGE_ROOT: ${{ needs.deploy.outputs.page_url }}
+          POINTER_SHA256: ${{ needs.build.outputs.live_pointer_sha256 }}
+          POINTER_BYTES: ${{ needs.build.outputs.live_pointer_bytes }}
+          DEPLOYED_SHA: ${{ needs.build.outputs.deployed_sha }}
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          python3 - <<'PY'
+          import hashlib, json, os, time
+          from pathlib import Path
+          from urllib.request import Request, urlopen
+
+          root = os.environ['PAGE_ROOT'].rstrip('/')
+          expected_sha = os.environ['POINTER_SHA256']
+          expected_bytes = int(os.environ['POINTER_BYTES'])
+          deployed = os.environ['DEPLOYED_SHA']
+          state_raw = Path('state/live-set.json').read_bytes()
+          pointer = json.loads(state_raw)
+          schema = pointer.get('schema')
+          current_path = 'releases/current-v4.json' if schema == 'pipelinenews.live-pointer.v4' else 'releases/current-v3.json'
+          if schema not in {'pipelinenews.live-pointer.v3','pipelinenews.live-pointer.v4'}: raise AssertionError('unsupported pointer schema')
+          current_raw = Path(current_path).read_bytes()
+          if state_raw != current_raw: raise AssertionError('local pointer copies differ')
+          if len(state_raw) != expected_bytes or hashlib.sha256(state_raw).hexdigest() != expected_sha: raise AssertionError('pointer output mismatch')
+          public = []
+          payloads = []
+          for relative in [current_path, 'state/live-set.json']:
+              last = None
+              for attempt in range(1, 21):
+                  url = f"{root}/{relative}?deployment={deployed}&attempt={attempt}"
+                  try:
+                      with urlopen(Request(url, headers={'Cache-Control':'no-cache','User-Agent':'PipelineNews-Pages-V2/1'}), timeout=20) as response:
+                          payload = response.read()
+                      if len(payload) != expected_bytes or hashlib.sha256(payload).hexdigest() != expected_sha: raise AssertionError('pointer byte mismatch')
+                      payloads.append(payload); public.append({'path':relative,'url':url,'bytes':len(payload),'sha256':expected_sha}); break
+                  except Exception as error:
+                      last = error
+                      if attempt < 20: time.sleep(2)
+              else: raise AssertionError(f'pointer did not converge: {relative}: {last}')
+          if payloads[0] != payloads[1]: raise AssertionError('public pointer copies differ')
+          public_pointer = json.loads(payloads[0])
+          if public_pointer.get('classification') != 'VERIFIED_LIVE_TIMESTAMPED_RELEASE': raise AssertionError('pointer classification changed')
+          bindings = [public_pointer.get('release_manifest')]
+          if schema.endswith('.v4'): bindings.append(public_pointer.get('atlas_link_manifest'))
+          for binding in bindings:
+              if not isinstance(binding, dict): raise AssertionError('pointer binding missing')
+              url = f"{root}/{binding['path']}?deployment={deployed}"
+              with urlopen(Request(url, headers={'Cache-Control':'no-cache','User-Agent':'PipelineNews-Pages-V2/1'}), timeout=20) as response: payload = response.read()
+              if len(payload) != binding['bytes'] or hashlib.sha256(payload).hexdigest() != binding['sha256']: raise AssertionError(f"pointer binding failed: {binding['path']}")
+          report={'schema':'pipelinenews.pages-v2-pointer-readback.v1','pointer_schema':schema,'release_id':public_pointer.get('release_id'),'deployed_sha':deployed,'byte_identical':True,'verified':public,'status':'PASS'}
+          Path('reports/pages-v2-pointer-readback.json').write_text(json.dumps(report, indent=2)+'\n', encoding='utf-8')
+          PY
+
+      - name: Browser-proof public Atlas-link release
+        if: ${{ needs.build.outputs.timestamp_folder_path != '' }}
+        shell: bash
+        env:
+          TIMESTAMP_FOLDER_URL: ${{ needs.deploy.outputs.page_url }}${{ needs.build.outputs.timestamp_folder_path }}
+          TIMESTAMP_FOLDER_PROOF: reports/browser-${{ needs.build.outputs.timestamp_folder_release }}-atlas-v9-live.json
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          generation="${{ needs.build.outputs.timestamp_folder_release }}"
+          generation="${generation%%-*}"
+          verifier="atman/${generation}-public-browser-readback.mjs"
+          test -f "$verifier"
+          node "$verifier" --candidate "$TIMESTAMP_FOLDER_URL" --output "$TIMESTAMP_FOLDER_PROOF"
+
+      - name: Browser-proof public modular release
+        shell: bash
+        env:
+          PIPELINENEWS_GENERATION: ${{ needs.build.outputs.generation }}
+          PIPELINENEWS_PAGE_URL: ${{ needs.deploy.outputs.page_url }}${{ needs.build.outputs.release_path }}
+          PIPELINENEWS_DEPLOY_SHA: ${{ needs.build.outputs.deployed_sha }}
+          PIPELINENEWS_EVIDENCE_DIR: reports/browser-${{ needs.build.outputs.generation }}-live
+        run: node atman/202608262014-browser-proof.mjs
+
+      - name: Retain public proof
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pipelinenews-v2-live-${{ needs.build.outputs.deployed_sha }}
+          path: |
+            reports/pages-v2-*.json
+            reports/browser-*-atlas-v9-live.json
+            reports/browser-*-live
+          if-no-files-found: error
+          retention-days: 90
