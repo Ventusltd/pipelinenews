@@ -9,7 +9,7 @@ import re
 import sys
 from pathlib import Path
 from typing import Any, Iterable
-from urllib.parse import urlencode, urlparse, parse_qs
+from urllib.parse import parse_qs, urlencode, urlparse
 
 MIN_RENDER_READY_GENERATION = "202608292311"
 VALID_TECHNOLOGIES = {"solar", "bess", "wind_onshore", "wind_offshore"}
@@ -40,11 +40,17 @@ def load(path: Path) -> dict[str, Any]:
     return value
 
 
-def normalise_base(value: str) -> str:
+def normalise_base(value: str, release_id: str) -> str:
     parsed = urlparse(value)
     require(parsed.scheme == "https", "Atlas base must use HTTPS")
-    require(parsed.netloc in {"globalgrid2050.com", "www.globalgrid2050.com"}, "Atlas base must use GlobalGrid2050")
-    require(re.fullmatch(r"/\d{12}-atlas-v9/", parsed.path) is not None, "Atlas base is not an immutable V9 route")
+    require(not parsed.query and not parsed.fragment, "Atlas base must not contain query or fragment data")
+    if parsed.netloc == "ventusltd.github.io":
+        expected_path = f"/gridatlas/{release_id}/"
+    elif parsed.netloc in {"globalgrid2050.com", "www.globalgrid2050.com"}:
+        expected_path = f"/{release_id}/"
+    else:
+        raise RuntimeError("Atlas base must use governed GridAtlas or GlobalGrid2050 hosting")
+    require(parsed.path == expected_path, "Atlas base is not the exact immutable V9 route")
     return value.rstrip("/") + "/"
 
 
@@ -127,7 +133,7 @@ def javascript_module(release_id: str, base_url: str) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--gridatlas", required=True, type=Path)
-    parser.add_argument("--globalgrid", required=True, type=Path)
+    parser.add_argument("--globalgrid", type=Path)
     parser.add_argument("--repo-root", default=".", type=Path)
     args = parser.parse_args()
 
@@ -141,13 +147,22 @@ def main() -> int:
     current = atlas_state.get("current") or {}
     require(verification.get("promotion_eligible") is True, "Atlas current release is not promotion eligible")
     require(int(verification.get("failed_gates", -1)) == 0, "Atlas current release has failed gates")
+    require(verification.get("commit_lineage_attested") is True, "Atlas current release lineage is not attested")
     release_id = str(current.get("release_id") or "")
     require(re.fullmatch(r"\d{12}-atlas-v9", release_id) is not None, "invalid Atlas release id")
+    base_url = normalise_base(str(current.get("live_url") or ""), release_id)
 
-    global_pointer = load(args.globalgrid / "state/gridatlas-v9-current.json")
-    require(global_pointer.get("classification") == "MIRRORED_PROMOTED_GRIDATLAS_V9", "GlobalGrid mirror is not promoted")
-    require(global_pointer.get("release_id") == release_id, "GlobalGrid mirror and Atlas pointer disagree")
-    base_url = normalise_base(str(global_pointer.get("globalgrid_live_url") or ""))
+    globalgrid_mirror_verified = False
+    if args.globalgrid:
+        pointer_path = args.globalgrid / "state/gridatlas-v9-current.json"
+        if pointer_path.is_file():
+            global_pointer = load(pointer_path)
+            if (
+                global_pointer.get("classification") == "MIRRORED_PROMOTED_GRIDATLAS_V9"
+                and global_pointer.get("release_id") == release_id
+            ):
+                normalise_base(str(global_pointer.get("globalgrid_live_url") or ""), release_id)
+                globalgrid_mirror_verified = True
 
     root = args.repo_root.resolve()
     changed_files: list[str] = []
@@ -185,7 +200,8 @@ def main() -> int:
         "optional_evidence": ["name", "longitude", "latitude"],
         "name_or_coordinate_identity_permitted": False,
         "source_pointer": "Ventusltd/gridatlas:state/live-set.json",
-        "globalgrid_pointer": "Ventusltd/globalgrid2050:state/gridatlas-v9-current.json",
+        "globalgrid_pointer": "Ventusltd/globalgrid2050:state/gridatlas-v9-current.json" if args.globalgrid else None,
+        "globalgrid_mirror_verified": globalgrid_mirror_verified,
     }
     pointer_path = root / "state/atlas-v9-current.json"
     pointer_path.parent.mkdir(parents=True, exist_ok=True)
@@ -200,6 +216,7 @@ def main() -> int:
         "replacement_count": replacement_count,
         "sentinels": sentinels,
         "immutable_releases_modified": 0,
+        "globalgrid_mirror_verified": globalgrid_mirror_verified,
         "privacy": "NO_PERSONAL_DATA",
     }
     audit_path = root / "reports/atlas-v9-deep-link-audit.json"
