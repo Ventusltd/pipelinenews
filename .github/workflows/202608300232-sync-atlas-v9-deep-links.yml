@@ -83,7 +83,7 @@ jobs:
           test "$(jq -r '.verification.exact_repd_deep_link_resolved // false' "$state")" = true
           test "$(jq -r '.verification.exact_repd_fly_to // false' "$state")" = true
           test "$(jq -r '.current.deep_link_receiver.identity_rule // empty' "$state")" = EXACT_REPD_REF_ONLY
-          test "$(jq -r '.current.deep_link_receiver.synthetic_receiver // true' "$state")" = false
+          test "$(jq -r '.current.deep_link_receiver.synthetic_receiver' "$state")" = false
 
       - name: Synchronise canonical Atlas V9 deep links
         if: steps.window.outputs.active == 'true'
