@@ -1,5 +1,5 @@
 name: 202608301208 Dispatch repaired Atlas-link Pages gate
-run-name: Dispatch runtime-scoped Pages-gate proof from ${{ github.sha }}
+run-name: Dispatch pointer-bound Pages-gate proof from ${{ github.sha }}
 
 on:
   push:
