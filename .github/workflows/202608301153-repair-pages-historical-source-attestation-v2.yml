@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/202608301153-repair-pages-historical-source-attestation-v2.yml'
+      - 'automation/202608301152-repair-pages-historical-source-attestation.py'
   workflow_dispatch:
 
 permissions:
@@ -60,5 +61,5 @@ jobs:
           test "$(git diff --cached --name-only)" = "$TARGET"
           git config user.name pipelinenews-pages-gate-repair-bot
           git config user.email actions@users.noreply.github.com
-          git commit -m '202608301153: attest historical inputs for immutable timestamp Pages releases'
+          git commit -m '202608301155: attest historical inputs for immutable timestamp Pages releases'
           git push origin HEAD:main
