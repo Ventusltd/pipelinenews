@@ -1,0 +1,66 @@
+name: 202608301209 Scope Atlas receiver runtime check
+run-name: Exclude immutable historical registry metadata from runtime receiver gate at ${{ github.sha }}
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/202608301209-scope-atlas-runtime-receiver-check.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pipelinenews-202608301209-atlas-runtime-receiver-check
+  cancel-in-progress: false
+
+env:
+  TARGET: automation/202608301200-extend-pages-atlas-link-v2.py
+
+jobs:
+  repair:
+    name: Scope receiver leakage proof to executable surface
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Checkout exact repair boundary
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 20
+          persist-credentials: true
+
+      - name: Apply bounded runtime-surface repair
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          test -f "$TARGET"
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('automation/202608301200-extend-pages-atlas-link-v2.py')
+          text = path.read_text(encoding='utf-8')
+          before = '        and path.suffix in {".html", ".mjs", ".js", ".json", ".css"}\n'
+          after = '        and (path.suffix in {".html", ".mjs", ".js"} or path.name == "atlas-link-manifest.json")\n'
+          count = text.count(before)
+          assert count == 1, f'expected one executable-surface anchor, found {count}'
+          path.write_text(text.replace(before, after), encoding='utf-8', newline='\n')
+          PY
+          python3 -m py_compile "$TARGET"
+          git diff --check
+          test "$(git diff --name-only)" = "$TARGET"
+
+      - name: Compare-and-swap source-only repair onto main
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          git add "$TARGET"
+          test "$(git diff --cached --name-only)" = "$TARGET"
+          git config user.name pipelinenews-runtime-receiver-gate-bot
+          git config user.email actions@users.noreply.github.com
+          git commit -m '202608301209: scope Atlas receiver gate to executable runtime'
+          git push origin HEAD:main
