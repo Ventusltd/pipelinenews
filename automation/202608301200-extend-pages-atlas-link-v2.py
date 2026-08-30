@@ -168,7 +168,7 @@ def validate_current_atlas_link_v2(
         path.read_text(encoding="utf-8")
         for path in folder.rglob("*")
         if path.is_file()
-        and path.suffix in {".html", ".mjs", ".js", ".json", ".css"}
+        and (path.suffix in {".html", ".mjs", ".js"} or path.name == "atlas-link-manifest.json")
         and path.name not in {"build-manifest.json", "release-manifest.json"}
         and "provenance" not in path.parts
     )
