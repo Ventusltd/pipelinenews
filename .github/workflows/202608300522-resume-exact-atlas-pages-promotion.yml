@@ -1,0 +1,366 @@
+name: 202608300522 Resume exact Atlas Pages promotion
+run-name: Resume PipelineNews exact-Atlas promotion ${{ github.run_number }} from ${{ github.sha }}
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/202608300522-resume-exact-atlas-pages-promotion.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '35 4-8 30 8 *'
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: pipelinenews-resume-exact-atlas-pages-promotion
+  cancel-in-progress: false
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+  PYTHONDONTWRITEBYTECODE: '1'
+  MISSION_EXPIRES_AT: '2026-08-30T08:35:00Z'
+  RELEASE_ID: 202608300309-pipelinenews
+  GENERATION: '202608300309'
+  SOURCE_RELEASE_ID: 202608291447-pipelinenews
+  GOLDEN_REPD_REF: '13599'
+  PUBLIC_URL: https://ventusltd.github.io/pipelinenews/releases/202608300309-pipelinenews/
+  ATLAS_STATE_URL: https://ventusltd.github.io/gridatlas/state/live-set.json
+  MINIMUM_ATLAS_GENERATION: '202608300453'
+  VERIFIER: atman/202608300309-verify-current-atlas-v9-deep-link.mjs
+  PROMOTER: orchestration/202608300309-promote-current-atlas-link.py
+
+jobs:
+  resume:
+    name: Explicitly deploy candidate, prove public receiver and promote pointer
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - name: Enforce bounded five-hour mission window
+        id: window
+        run: |
+          set -euo pipefail
+          now="$(date -u +%s)"
+          expires="$(date -u -d "$MISSION_EXPIRES_AT" +%s)"
+          if (( now > expires )); then
+            echo 'active=false' >> "$GITHUB_OUTPUT"
+            echo "PipelineNews promotion mission retired at $MISSION_EXPIRES_AT; no mutation." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          echo 'active=true' >> "$GITHUB_OUTPUT"
+
+      - name: Checkout exact resumable source boundary
+        if: steps.window.outputs.active == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 160
+          persist-credentials: true
+
+      - name: Prove immutable candidate, predecessor and exact Atlas receiver
+        if: steps.window.outputs.active == 'true'
+        id: preflight
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/main
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          test -d "releases/$RELEASE_ID"
+          test -f "$VERIFIER"
+          test -f "atman/202608300309-public-browser-readback.mjs"
+          test -f "$PROMOTER"
+          test "$(jq -r '.release_id' "releases/$RELEASE_ID/release-manifest.json")" = "$RELEASE_ID"
+          test "$(jq -r '.atlas_release_id' "releases/$RELEASE_ID/release-manifest.json")" = 202608300453-atlas-v9
+          test "$(jq -r '.data_changes' "releases/$RELEASE_ID/release-manifest.json")" = 0
+          test "$(jq -r '.news_changes' "releases/$RELEASE_ID/release-manifest.json")" = 0
+          test "$(jq -r '.project_changes' "releases/$RELEASE_ID/release-manifest.json")" = 0
+          test "$(jq -r '.classification' "releases/$RELEASE_ID/build-manifest.json")" = DETERMINISTIC_RECEIVER_ONLY_BUILD
+          test "$(jq -r '.source_commit' "releases/$RELEASE_ID/build-manifest.json")" = 609b841e95929f3f263fa0be541a5d647a799806
+          (
+            cd "releases/$RELEASE_ID"
+            sha256sum --check sha256sums.txt
+          )
+
+          if test "$(jq -r '.release_id' state/live-set.json)" = "$RELEASE_ID"; then
+            test "$(jq -r '.classification' state/live-set.json)" = VERIFIED_LIVE_TIMESTAMPED_RELEASE
+            test "$(jq -r '.atlas_v9_receiver.release_id' state/live-set.json)" = 202608300453-atlas-v9
+            echo 'ready=false' >> "$GITHUB_OUTPUT"
+            echo 'PipelineNews exact-Atlas successor is already governed live.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          test "$(jq -r '.release_id' state/live-set.json)" = "$SOURCE_RELEASE_ID"
+          test "$(jq -r '.classification' state/live-set.json)" = VERIFIED_LIVE_TIMESTAMPED_RELEASE
+
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 2 \
+            "$ATLAS_STATE_URL" -o /tmp/atlas-state.json
+          generation="$(jq -r '.generation' /tmp/atlas-state.json)"
+          [[ "$generation" =~ ^[0-9]{12}$ ]]
+          (( 10#$generation >= 10#$MINIMUM_ATLAS_GENERATION ))
+          test "$(jq -r '.current.release_id' /tmp/atlas-state.json)" = 202608300453-atlas-v9
+          test "$(jq -r '.verification.promotion_eligible' /tmp/atlas-state.json)" = true
+          test "$(jq -r '.verification.failed_gates' /tmp/atlas-state.json)" = 0
+          test "$(jq -r '.verification.commit_lineage_attested' /tmp/atlas-state.json)" = true
+          test "$(jq -r '.verification.exact_repd_deep_link_resolved' /tmp/atlas-state.json)" = true
+          test "$(jq -r '.verification.exact_repd_fly_to' /tmp/atlas-state.json)" = true
+          atlas_url="$(jq -r '.current.live_url' /tmp/atlas-state.json)"
+          test "$atlas_url" = https://ventusltd.github.io/gridatlas/202608300453-atlas-v9/
+          source_commit="$(jq -r '.source_commit' "releases/$RELEASE_ID/build-manifest.json")"
+          publication_commit="$(git log --diff-filter=A -1 --format=%H -- "releases/$RELEASE_ID/release-manifest.json")"
+          [[ "$source_commit" =~ ^[a-f0-9]{40}$ ]]
+          [[ "$publication_commit" =~ ^[a-f0-9]{40}$ ]]
+          git merge-base --is-ancestor "$source_commit" "$publication_commit"
+          echo 'ready=true' >> "$GITHUB_OUTPUT"
+          echo "atlas_url=$atlas_url" >> "$GITHUB_OUTPUT"
+          echo "source_commit=$source_commit" >> "$GITHUB_OUTPUT"
+          echo "candidate_publication_commit=$publication_commit" >> "$GITHUB_OUTPUT"
+
+      - name: Configure pinned Python
+        if: steps.preflight.outputs.ready == 'true'
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+
+      - name: Configure pinned Node
+        if: steps.preflight.outputs.ready == 'true'
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '22.18.0'
+
+      - name: Install pinned browser runtime
+        if: steps.preflight.outputs.ready == 'true'
+        run: |
+          set -euo pipefail
+          npm install --no-save --package-lock=false --ignore-scripts playwright@1.62.1
+          npx playwright install --with-deps chromium
+
+      - name: Prove local candidate against real Atlas receiver
+        if: steps.preflight.outputs.ready == 'true'
+        env:
+          PIPELINE_URL: http://127.0.0.1:4173/202608300309-pipelinenews/
+          ATLAS_URL: ${{ steps.preflight.outputs.atlas_url }}
+          GOLDEN_REPD_REF: ${{ env.GOLDEN_REPD_REF }}
+          MODE: local
+          OUTPUT: work/202608300309-local-atlas-v9-deep-link-proof.json
+        run: |
+          set -euo pipefail
+          mkdir -p work
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory releases >work/http.log 2>&1 &
+          echo $! > work/http.pid
+          for attempt in $(seq 1 60); do
+            if curl --fail --silent --show-error "$PIPELINE_URL" >/dev/null; then break; fi
+            sleep 1
+          done
+          node "$VERIFIER"
+          test "$(jq -r '.classification' "$OUTPUT")" = VERIFIED_LOCAL_PIPELINENEWS_ATLAS_V9_DEEP_LINK
+          test "$(jq -r '.data_boundary.record.repd_ref' "$OUTPUT")" = "$GOLDEN_REPD_REF"
+          test "$(jq -r '.broad_search_supplement_requests' "$OUTPUT")" = 0
+          test "$(jq -r '.synthetic_receiver' "$OUTPUT")" = false
+          test "$(jq -r '.route_interceptions' "$OUTPUT")" = 0
+          kill "$(cat work/http.pid)" 2>/dev/null || true
+
+      - name: Explicitly dispatch exact candidate Pages deployment
+        if: steps.preflight.outputs.ready == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh workflow run pages.yml \
+            --ref main \
+            -f expected_sha="$GITHUB_SHA" \
+            -f timestamp_folder_release="$RELEASE_ID"
+          echo "CANDIDATE_DEPLOY_SHA=$GITHUB_SHA" >> "$GITHUB_ENV"
+
+      - name: Wait for exact candidate Pages workflow
+        if: steps.preflight.outputs.ready == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          run_id=''; status=''; conclusion=''
+          for attempt in $(seq 1 180); do
+            payload="$(gh run list --workflow pages.yml --event workflow_dispatch --limit 30 --json databaseId,status,conclusion,headSha,createdAt)"
+            run_id="$(printf '%s' "$payload" | jq -r --arg sha "$CANDIDATE_DEPLOY_SHA" '[.[] | select(.headSha == $sha)][0].databaseId // empty')"
+            status="$(printf '%s' "$payload" | jq -r --arg sha "$CANDIDATE_DEPLOY_SHA" '[.[] | select(.headSha == $sha)][0].status // empty')"
+            conclusion="$(printf '%s' "$payload" | jq -r --arg sha "$CANDIDATE_DEPLOY_SHA" '[.[] | select(.headSha == $sha)][0].conclusion // empty')"
+            if test "$status" = completed; then test "$conclusion" = success; break; fi
+            sleep 5
+          done
+          test -n "$run_id"
+          test "$status" = completed
+          test "$conclusion" = success
+          echo "CANDIDATE_PAGES_RUN_ID=$run_id" >> "$GITHUB_ENV"
+          for attempt in $(seq 1 60); do
+            if curl --fail --location --silent --show-error "$PUBLIC_URL" >/dev/null; then break; fi
+            sleep 3
+          done
+
+      - name: Prove public PipelineNews to exact Atlas receiver
+        if: steps.preflight.outputs.ready == 'true'
+        env:
+          PIPELINE_URL: ${{ env.PUBLIC_URL }}
+          ATLAS_URL: ${{ steps.preflight.outputs.atlas_url }}
+          GOLDEN_REPD_REF: ${{ env.GOLDEN_REPD_REF }}
+          MODE: public
+          OUTPUT: work/202608300309-public-atlas-v9-deep-link-proof.json
+        run: |
+          set -euo pipefail
+          node "$VERIFIER"
+          test "$(jq -r '.classification' "$OUTPUT")" = VERIFIED_PUBLIC_PIPELINENEWS_ATLAS_V9_DEEP_LINK
+          test "$(jq -r '.data_boundary.record.repd_ref' "$OUTPUT")" = "$GOLDEN_REPD_REF"
+          test "$(jq -r '.broad_search_supplement_requests' "$OUTPUT")" = 0
+          test "$(jq -r '.synthetic_receiver' "$OUTPUT")" = false
+          test "$(jq -r '.route_interceptions' "$OUTPUT")" = 0
+
+      - name: Build governed pointer from exact public evidence
+        if: steps.preflight.outputs.ready == 'true'
+        env:
+          RELEASE_SOURCE_COMMIT: ${{ steps.preflight.outputs.source_commit }}
+          DEPLOYED_COMMIT: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          mkdir -p machine-learning/proofs releases state
+          cp work/202608300309-local-atlas-v9-deep-link-proof.json \
+            machine-learning/proofs/202608300309-local-atlas-v9-deep-link-proof.json
+          cp work/202608300309-public-atlas-v9-deep-link-proof.json \
+            machine-learning/proofs/202608300309-public-atlas-v9-deep-link-proof.json
+          python3 "$PROMOTER" \
+            --release-dir "releases/$RELEASE_ID" \
+            --release-id "$RELEASE_ID" \
+            --generation "$GENERATION" \
+            --source-release-id "$SOURCE_RELEASE_ID" \
+            --release-source-commit "$RELEASE_SOURCE_COMMIT" \
+            --publication-commit "$DEPLOYED_COMMIT" \
+            --public-url "$PUBLIC_URL" \
+            --public-proof machine-learning/proofs/202608300309-public-atlas-v9-deep-link-proof.json \
+            --atlas-state /tmp/atlas-state.json \
+            --atlas-state-url "$ATLAS_STATE_URL" \
+            --minimum-atlas-generation "$MINIMUM_ATLAS_GENERATION" \
+            --golden-repd-ref "$GOLDEN_REPD_REF" \
+            --previous-state state/live-set.json \
+            --output-state state/live-set.json \
+            --output-current releases/current-v4.json \
+            --output-link-contract state/atlas-v9-link-contract.json \
+            | tee work/promotion-result.json
+          test "$(jq -r '.classification' work/promotion-result.json)" = VERIFIED_PIPELINENEWS_ATLAS_LINK_POINTER_BUILT
+          cmp state/live-set.json releases/current-v4.json
+          test "$(jq -r '.release_id' state/live-set.json)" = "$RELEASE_ID"
+          test "$(jq -r '.atlas_v9_receiver.release_id' state/live-set.json)" = 202608300453-atlas-v9
+          test "$(jq -r '.atlas_v9_receiver.golden_repd_ref' state/live-set.json)" = "$GOLDEN_REPD_REF"
+          test "$(jq -r '.public_proof.synthetic_receiver' state/live-set.json)" = false
+          test "$(jq -r '.public_proof.route_interceptions' state/live-set.json)" = 0
+
+      - name: Compare-and-swap public promotion pointer onto main
+        if: steps.preflight.outputs.ready == 'true'
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          git add \
+            machine-learning/proofs/202608300309-local-atlas-v9-deep-link-proof.json \
+            machine-learning/proofs/202608300309-public-atlas-v9-deep-link-proof.json \
+            releases/current-v4.json \
+            state/atlas-v9-link-contract.json \
+            state/live-set.json
+          mapfile -t staged < <(git diff --cached --name-only | sort)
+          expected=(
+            machine-learning/proofs/202608300309-local-atlas-v9-deep-link-proof.json
+            machine-learning/proofs/202608300309-public-atlas-v9-deep-link-proof.json
+            releases/current-v4.json
+            state/atlas-v9-link-contract.json
+            state/live-set.json
+          )
+          test "${staged[*]}" = "${expected[*]}"
+          git config user.name pipelinenews-atlas-pages-promotion-bot
+          git config user.email actions@users.noreply.github.com
+          git commit -m '202608300309: promote exact Atlas receiver after explicit Pages proof'
+          promotion_commit="$(git rev-parse HEAD)"
+          git push origin HEAD:main
+          echo "PROMOTION_COMMIT=$promotion_commit" >> "$GITHUB_ENV"
+
+      - name: Explicitly deploy governed pointer commit
+        if: steps.preflight.outputs.ready == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh workflow run pages.yml \
+            --ref main \
+            -f expected_sha="$PROMOTION_COMMIT" \
+            -f timestamp_folder_release="$RELEASE_ID"
+
+      - name: Wait for governed pointer Pages workflow
+        if: steps.preflight.outputs.ready == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          run_id=''; status=''; conclusion=''
+          for attempt in $(seq 1 180); do
+            payload="$(gh run list --workflow pages.yml --event workflow_dispatch --limit 30 --json databaseId,status,conclusion,headSha,createdAt)"
+            run_id="$(printf '%s' "$payload" | jq -r --arg sha "$PROMOTION_COMMIT" '[.[] | select(.headSha == $sha)][0].databaseId // empty')"
+            status="$(printf '%s' "$payload" | jq -r --arg sha "$PROMOTION_COMMIT" '[.[] | select(.headSha == $sha)][0].status // empty')"
+            conclusion="$(printf '%s' "$payload" | jq -r --arg sha "$PROMOTION_COMMIT" '[.[] | select(.headSha == $sha)][0].conclusion // empty')"
+            if test "$status" = completed; then test "$conclusion" = success; break; fi
+            sleep 5
+          done
+          test -n "$run_id"
+          test "$status" = completed
+          test "$conclusion" = success
+          echo "FINAL_PAGES_RUN_ID=$run_id" >> "$GITHUB_ENV"
+
+      - name: Verify final public pointer and milestone
+        if: steps.preflight.outputs.ready == 'true'
+        env:
+          ATLAS_URL: ${{ steps.preflight.outputs.atlas_url }}
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 90); do
+            if curl --fail --location --silent --show-error \
+              https://ventusltd.github.io/pipelinenews/state/live-set.json \
+              -o work/public-live-set.json \
+              && test "$(jq -r '.release_id' work/public-live-set.json)" = "$RELEASE_ID"; then
+              break
+            fi
+            sleep 3
+          done
+          test "$(jq -r '.classification' work/public-live-set.json)" = VERIFIED_LIVE_TIMESTAMPED_RELEASE
+          test "$(jq -r '.atlas_v9_receiver.release_id' work/public-live-set.json)" = 202608300453-atlas-v9
+          test "$(jq -r '.atlas_v9_receiver.golden_repd_ref' work/public-live-set.json)" = "$GOLDEN_REPD_REF"
+          test "$(jq -r '.public_proof.receiver_url' work/public-live-set.json)" = "${ATLAS_URL}?repd_ref=${GOLDEN_REPD_REF}"
+          test "$(jq -r '.public_proof.synthetic_receiver' work/public-live-set.json)" = false
+          test "$(jq -r '.public_proof.route_interceptions' work/public-live-set.json)" = 0
+          curl --fail --location --silent --show-error "$PUBLIC_URL?repd_ref=$GOLDEN_REPD_REF" >/dev/null
+          {
+            echo '## PipelineNews exact Atlas Pages promotion complete'
+            echo
+            echo "- Release: $RELEASE_ID"
+            echo '- Projects changed: 0'
+            echo '- News changed: 0'
+            echo '- Product data changed: 0'
+            echo "- Atlas receiver: 202608300453-atlas-v9"
+            echo "- Beacon Fen: REPD $GOLDEN_REPD_REF"
+            echo "- Candidate Pages run: $CANDIDATE_PAGES_RUN_ID"
+            echo "- Final Pages run: $FINAL_PAGES_RUN_ID"
+            echo "- Promotion commit: $PROMOTION_COMMIT"
+            echo '- Broad-search supplement requests: 0'
+            echo '- Synthetic receiver: false'
+            echo '- Route interceptions: 0'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Retain resume evidence
+        if: always() && steps.preflight.outputs.ready == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: pipelinenews-202608300309-resume-${{ github.sha }}
+          path: |
+            work/202608300309-local-atlas-v9-deep-link-proof.json
+            work/202608300309-public-atlas-v9-deep-link-proof.json
+            work/public-live-set.json
+            work/promotion-result.json
+            work/http.log
+          if-no-files-found: warn
+          retention-days: 90
+          compression-level: 0
