@@ -1,0 +1,150 @@
+name: 202608300416 Diagnose Atlas deep-link identity
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/202608300416-diagnose-atlas-deep-link-identity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pipelinenews-atlas-deep-link-identity-diagnosis
+  cancel-in-progress: true
+
+env:
+  RELEASE_ROOT: releases/202608291447-pipelinenews
+  CORE_DATA: releases/202608291447-pipelinenews/data/202608270055-8ab1807551bc-v8-fast-projects.json
+  SEARCH_DATA: releases/202608291447-pipelinenews/data/202608270055-8ab1807551bc-v8-fast-search.json
+  REQUESTED_REPD_REF: '16135'
+
+jobs:
+  diagnose:
+    name: Find one browser-served exact REPD identity
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Checkout exact PipelineNews source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Audit core, search and partition identities
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from __future__ import annotations
+          import json
+          import os
+          from collections import Counter
+          from pathlib import Path
+
+          root = Path(os.environ['RELEASE_ROOT'])
+          core_path = Path(os.environ['CORE_DATA'])
+          search_path = Path(os.environ['SEARCH_DATA'])
+          requested = os.environ['REQUESTED_REPD_REF']
+
+          def load(path: Path):
+              return json.loads(path.read_text(encoding='utf-8'))
+
+          def rows(payload):
+              if isinstance(payload, list):
+                  return payload
+              if not isinstance(payload, dict):
+                  return []
+              for key in ('projects', 'records', 'rows', 'items', 'data'):
+                  value = payload.get(key)
+                  if isinstance(value, list):
+                      return value
+              return []
+
+          def ref_of(row):
+              if not isinstance(row, dict):
+                  return ''
+              for key in ('repd_ref', 'ref', 'ref_id', 'reference'):
+                  value = row.get(key)
+                  if value not in (None, ''):
+                      return str(value).strip()
+              return ''
+
+          core_payload = load(core_path)
+          search_payload = load(search_path)
+          core_rows = rows(core_payload)
+          search_rows = rows(search_payload)
+          core_refs = [ref_of(row) for row in core_rows if ref_of(row)]
+          search_refs = [ref_of(row) for row in search_rows if ref_of(row)]
+
+          partition_files = sorted(root.glob('data/projects/*.json'))
+          partition_refs = []
+          requested_locations = []
+          for path in partition_files:
+              payload = load(path)
+              file_rows = rows(payload)
+              refs = [ref_of(row) for row in file_rows if ref_of(row)]
+              partition_refs.extend(refs)
+              if requested in refs or requested in path.read_text(encoding='utf-8'):
+                  requested_locations.append(str(path))
+
+          core_set = set(core_refs)
+          search_set = set(search_refs)
+          partition_set = set(partition_refs)
+          browser_served = sorted(core_set | search_set, key=lambda value: (not value.isdigit(), int(value) if value.isdigit() else value))
+          shared = sorted(core_set & search_set, key=lambda value: (not value.isdigit(), int(value) if value.isdigit() else value))
+          candidate = requested if requested in (core_set | search_set) else (shared[0] if shared else browser_served[0] if browser_served else '')
+
+          report = {
+              'schema': 'pipelinenews.atlas-deep-link-identity-diagnosis.v1',
+              'requested_repd_ref': requested,
+              'requested_in_core': requested in core_set,
+              'requested_in_search': requested in search_set,
+              'requested_in_partitions': requested in partition_set,
+              'requested_locations': requested_locations,
+              'core_rows': len(core_rows),
+              'core_unique_refs': len(core_set),
+              'search_rows': len(search_rows),
+              'search_unique_refs': len(search_set),
+              'partition_files': len(partition_files),
+              'partition_refs': len(partition_refs),
+              'partition_unique_refs': len(partition_set),
+              'browser_served_unique_refs': len(core_set | search_set),
+              'core_search_shared_refs': len(core_set & search_set),
+              'recommended_golden_repd_ref': candidate,
+              'recommended_source': (
+                  'requested' if candidate == requested else
+                  'core_and_search' if candidate in core_set and candidate in search_set else
+                  'core' if candidate in core_set else
+                  'search' if candidate in search_set else
+                  'none'
+              ),
+              'first_core_refs': core_refs[:10],
+              'first_search_refs': search_refs[:10],
+              'duplicate_core_refs': [key for key, count in Counter(core_refs).items() if count > 1][:10],
+              'duplicate_search_refs': [key for key, count in Counter(search_refs).items() if count > 1][:10],
+          }
+          Path('/tmp/atlas-deep-link-identity-diagnosis.json').write_text(
+              json.dumps(report, indent=2, sort_keys=True) + '\n', encoding='utf-8'
+          )
+          print(json.dumps(report, indent=2, sort_keys=True))
+          if not candidate:
+              raise SystemExit('No browser-served REPD identity exists')
+          PY
+
+      - name: Publish exact diagnosis
+        if: always()
+        run: |
+          set -euo pipefail
+          {
+            echo '## PipelineNews Atlas deep-link identity diagnosis'
+            echo
+            if test -f /tmp/atlas-deep-link-identity-diagnosis.json; then
+              echo '```json'
+              cat /tmp/atlas-deep-link-identity-diagnosis.json
+              echo '```'
+            else
+              echo 'Diagnosis report was not produced.'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
