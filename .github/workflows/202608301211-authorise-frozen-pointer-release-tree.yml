@@ -1,0 +1,70 @@
+name: 202608301211 Authorise frozen pointer release tree
+run-name: Bind predecessor release closure into Atlas-link Pages boundary at ${{ github.sha }}
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/202608301211-authorise-frozen-pointer-release-tree.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pipelinenews-202608301211-frozen-pointer-release-tree
+  cancel-in-progress: false
+
+env:
+  TARGET: automation/202608301200-extend-pages-atlas-link-v2.py
+
+jobs:
+  repair:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Checkout exact repair boundary
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 20
+          persist-credentials: true
+
+      - name: Add pointer-bound predecessor closure to publication boundary
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          test -f "$TARGET"
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('automation/202608301200-extend-pages-atlas-link-v2.py')
+          text = path.read_text(encoding='utf-8')
+          anchor = "    stage_pointer = '''    live_pointer = release.get(\"live_pointer\")\n"
+          addition = "\n".join([
+              "    boundary_pointer = '        if live_pointer is not None:\\n            allowed_public_changes.update(live_pointer[\"paths\"])\\n'",
+              "    boundary_replacement = '        if live_pointer is not None:\\n            allowed_public_changes.update(live_pointer[\"paths\"])\\n            pointer_release_id = (live_pointer.get(\"pointer\") or {}).get(\"release_id\")\\n            if isinstance(pointer_release_id, str) and TIMESTAMP_FOLDER_RE.fullmatch(pointer_release_id):\\n                pointer_release_root = root / \"releases\" / pointer_release_id\\n                require(pointer_release_root.is_dir(), \"pointer-bound release folder missing\")\\n                allowed_public_changes.update(\\n                    path.relative_to(root).as_posix()\\n                    for path in pointer_release_root.rglob(\"*\")\\n                    if path.is_file()\\n                )\\n'",
+              "    text = replace_once(text, boundary_pointer, boundary_replacement, \"pointer-bound release closure\")",
+              "",
+          ])
+          count = text.count(anchor)
+          assert count == 1, f'expected one extension insertion anchor, found {count}'
+          path.write_text(text.replace(anchor, addition + anchor), encoding='utf-8', newline='\n')
+          PY
+          python3 -m py_compile "$TARGET"
+          git diff --check
+          test "$(git diff --name-only)" = "$TARGET"
+
+      - name: Compare-and-swap source-only repair onto main
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          git add "$TARGET"
+          test "$(git diff --cached --name-only)" = "$TARGET"
+          git config user.name pipelinenews-pointer-release-boundary-bot
+          git config user.email actions@users.noreply.github.com
+          git commit -m '202608301211: authorise immutable pointer-bound release closure'
+          git push origin HEAD:main
