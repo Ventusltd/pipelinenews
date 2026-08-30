@@ -1,4 +1,5 @@
-name: 202608300309 Current verified Atlas V9 deep-link successor
+name: 202608300309 Five-hour verified Atlas V9 deep-link successor
+run-name: PipelineNews exact Atlas successor ${{ github.run_number }} from ${{ github.sha }}
 
 on:
   push:
@@ -11,7 +12,7 @@ on:
       - 'atman/202608300309-verify-current-atlas-v9-deep-link.mjs'
   workflow_dispatch:
   schedule:
-    - cron: '17 * * * *'
+    - cron: '30 4-8 30 8 *'
 
 permissions:
   contents: write
@@ -23,12 +24,16 @@ concurrency:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONPYCACHEPREFIX: /tmp/pipelinenews-pycache
+  MISSION_INCEPTED_AT: '2026-08-30T03:47:00Z'
+  MISSION_EXPIRES_AT: '2026-08-30T08:35:00Z'
   SOURCE_RELEASE_ID: 202608291447-pipelinenews
   RELEASE_ID: 202608300309-pipelinenews
   GENERATION: '202608300309'
   ATLAS_STATE_URL: https://ventusltd.github.io/gridatlas/state/live-set.json
   MINIMUM_ATLAS_GENERATION: '202608292311'
-  GOLDEN_REPD_REF: '9873'
+  GOLDEN_REPD_REF: '13599'
   BUILDER: orchestration/202608300309-build-current-atlas-link-successor.py
   PROMOTER: orchestration/202608300309-promote-current-atlas-link.py
   REPAIRER: orchestration/202608300358-repair-exact-repd-route.py
@@ -42,7 +47,22 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
+      - name: Enforce bounded five-hour mission window
+        id: window
+        run: |
+          set -euo pipefail
+          now="$(date -u +%s)"
+          starts="$(date -u -d "$MISSION_INCEPTED_AT" +%s)"
+          expires="$(date -u -d "$MISSION_EXPIRES_AT" +%s)"
+          if (( now < starts || now > expires )); then
+            echo 'active=false' >> "$GITHUB_OUTPUT"
+            echo "PipelineNews successor mission inactive outside $MISSION_INCEPTED_AT to $MISSION_EXPIRES_AT." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          echo 'active=true' >> "$GITHUB_OUTPUT"
+
       - name: Checkout exact PipelineNews source boundary
+        if: steps.window.outputs.active == 'true'
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           ref: ${{ github.sha }}
@@ -51,6 +71,7 @@ jobs:
 
       - name: Resolve promotion-eligible Atlas receiver
         id: atlas
+        if: steps.window.outputs.active == 'true'
         run: |
           set -euo pipefail
           curl --fail --location --silent --show-error --retry 3 --retry-delay 2 \
@@ -121,6 +142,7 @@ jobs:
           test -f "$VERIFIER"
           python3 -m py_compile "$BUILDER" "$PROMOTER" "$REPAIRER"
           node --check "$VERIFIER"
+          test -z "$(find . -type d -name __pycache__ -print -quit)"
           git diff --exit-code
 
       - name: Configure pinned Python
@@ -442,5 +464,5 @@ jobs:
             echo "- Promotion commit: $PROMOTION_COMMIT"
             echo '- Product data, news and project bytes changed: 0'
             echo '- Exact-ID route broad-search requests: 0'
-            echo '- Cadence: hourly at minute 17.'
+            echo '- Cadence: hourly through 09:35 BST; hard expiry enforced.'
           } >> "$GITHUB_STEP_SUMMARY"
