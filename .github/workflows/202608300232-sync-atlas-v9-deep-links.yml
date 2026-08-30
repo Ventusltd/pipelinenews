@@ -113,7 +113,9 @@ jobs:
               'ui/atlas-v9-deep-links.js',
               *audit['files_rewritten'],
           }
-          changed = subprocess.check_output(['git', 'status', '--porcelain=v1'], text=True).splitlines()
+          changed = subprocess.check_output(
+              ['git', 'status', '--porcelain=v1', '--untracked-files=all'], text=True
+          ).splitlines()
           for line in changed:
               path = line[3:]
               if ' -> ' in path:
