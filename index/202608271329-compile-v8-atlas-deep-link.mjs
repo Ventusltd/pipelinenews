@@ -110,7 +110,7 @@ function rewriteRuntime(parentSource, cacheIdentity) {
     source,
     `function atlasUrl(item) {
   if (item.geometry_status !== "valid") return "";
-  const url = new URL("https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/");
+  const url = new URL("https://ventusltd.github.io/gridatlas/202608300453-atlas-v9/");
   url.searchParams.set("repd_ref", item.repd_ref);
   url.searchParams.set("technology", item.technology);
   url.searchParams.set("longitude", item.longitude);
@@ -123,7 +123,7 @@ function rewriteRuntime(parentSource, cacheIdentity) {
   );
   assert.equal(source.match(/function atlasUrl\(/gu)?.length, 1);
   assert.equal(source.match(/buildAtlasV8DeepLink\(item\)/gu)?.length, 1);
-  assert.ok(!source.includes('new URL("https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/")'));
+  assert.ok(!source.includes('new URL("https://ventusltd.github.io/gridatlas/202608300453-atlas-v9/")'));
   return `${source.trimEnd()}\n`;
 }
 

@@ -15,7 +15,7 @@ const PARENT_ARTIFACT = "9701586944";
 const PARENT_ARTIFACT_DIGEST = "8ec24ba18c70b661ddfc6ff9ca4bb728db5929d5700c147c91449f5e93e9b497";
 const PARENT_MANIFEST_SHA256 = "025daf70f1c4b9c9a7c84a70d41ceb50e96232771f736faa309ca92c2c9c134d";
 const COMPILER_METHOD = "pipelinenews-atlas-v9-folder-deep-link-successor-v1";
-const ATLAS_BASE = "https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/";
+const ATLAS_BASE = "https://ventusltd.github.io/gridatlas/202608300453-atlas-v9/";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 const PARENT = Object.freeze({
@@ -119,7 +119,7 @@ function compileHtml(parentBytes) {
   html = replaceExactly(html, '<body data-fast-generation="202608272130">', `<body data-fast-generation="${GENERATION}" data-release-id="${RELEASE_ID}">`);
   html = replaceExactly(html, "ATLAS V8 DEEP-LINK", "ATLAS V9 DEEP-LINK", 5);
   html = replaceExactly(html, "ATLAS V9 DEEP-LINK CANDIDATE", "ATLAS V9 DEEP-LINK SUCCESSOR", 5);
-  html = replaceExactly(html, "https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/", ATLAS_BASE, 2);
+  html = replaceExactly(html, "https://ventusltd.github.io/gridatlas/202608300453-atlas-v9/", ATLAS_BASE, 2);
   html = replaceExactly(html, " · NOT DEPLOYED", " · TIMESTAMPED RELEASE · POINTER-CONTROLLED", 3);
   html = replaceExactly(html, '<script type="module" src="javascript/202608282200-v8-fast-runtime.js"></script>', `<script type="module" src="assets/${GENERATION}-app.mjs"></script>`);
   return Buffer.from(html);

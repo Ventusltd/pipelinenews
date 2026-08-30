@@ -408,7 +408,7 @@ function rewriteHtml(template) {
     ["../dashboard_v2_2026-08-22.html", "https://globalgrid2050.com/uk_renewables_pipeline/dashboard_v2_2026-08-22.html"],
     ["../dashboard.html", "https://globalgrid2050.com/uk_renewables_pipeline/dashboard.html"],
     ["../../index.html", "https://globalgrid2050.com/"],
-    ["../../repd_grid_atlasv8/", "https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/"],
+    ["../../repd_grid_atlasv8/", "https://ventusltd.github.io/gridatlas/202608300453-atlas-v9/"],
   ];
   for (const [from, to] of navigation) source = replaceExactly(source, from, to);
   source = replaceExactly(source, "<body>", `<body data-fast-generation="${GENERATION}">`);

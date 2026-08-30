@@ -1,7 +1,7 @@
 (() => {
   'use strict';
-  const RELEASE_ID = "202608292311-atlas-v9";
-  const BASE_URL = "https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/";
+  const RELEASE_ID = "202608300453-atlas-v9";
+  const BASE_URL = "https://ventusltd.github.io/gridatlas/202608300453-atlas-v9/";
   const TECHNOLOGIES = new Set(['solar', 'bess', 'wind_onshore', 'wind_offshore']);
   const REPD_REF = /^[A-Za-z0-9-]{1,40}$/;
 
