@@ -1,0 +1,169 @@
+name: 202608300430 Bootstrap five-hour PipelineNews Atlas integration
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/202608300430-bootstrap-five-hour-atlas-integration.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pipelinenews-five-hour-atlas-bootstrap
+  cancel-in-progress: false
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+
+jobs:
+  bootstrap:
+    name: Repair Atlas source-of-truth dependency and bound five-hour retries
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Checkout exact PipelineNews source boundary
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 120
+          persist-credentials: true
+
+      - name: Repair direct GridAtlas contract and five-hour conductors
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          script_path = Path('scripts/202608300232-sync-atlas-v9-deep-links.py')
+          script = script_path.read_text(encoding='utf-8')
+
+          old_normalise = '''def normalise_base(value: str) -> str:
+              parsed = urlparse(value)
+              require(parsed.scheme == "https", "Atlas base must use HTTPS")
+              require(parsed.netloc in {"globalgrid2050.com", "www.globalgrid2050.com"}, "Atlas base must use GlobalGrid2050")
+              require(re.fullmatch(r"/\\d{12}-atlas-v9/", parsed.path) is not None, "Atlas base is not an immutable V9 route")
+              return value.rstrip("/") + "/"
+          '''.replace('          ', '')
+          new_normalise = '''def normalise_base(value: str, release_id: str) -> str:
+              parsed = urlparse(value)
+              require(parsed.scheme == "https", "Atlas base must use HTTPS")
+              if parsed.netloc == "ventusltd.github.io":
+                  expected_path = f"/gridatlas/{release_id}/"
+              elif parsed.netloc in {"globalgrid2050.com", "www.globalgrid2050.com"}:
+                  expected_path = f"/{release_id}/"
+              else:
+                  raise RuntimeError("Atlas base must use governed GridAtlas or GlobalGrid2050 hosting")
+              require(parsed.path == expected_path, "Atlas base is not the exact immutable V9 route")
+              require(not parsed.query and not parsed.fragment, "Atlas base must not contain query or fragment data")
+              return value.rstrip("/") + "/"
+          '''.replace('          ', '')
+          if script.count(old_normalise) != 1:
+              raise SystemExit('PipelineNews normalise_base anchor mismatch')
+          script = script.replace(old_normalise, new_normalise, 1)
+          script = script.replace(
+              '    parser.add_argument("--globalgrid", required=True, type=Path)\n',
+              '    parser.add_argument("--globalgrid", type=Path)\n',
+              1,
+          )
+          old_pointer = '''    global_pointer = load(args.globalgrid / "state/gridatlas-v9-current.json")
+              require(global_pointer.get("classification") == "MIRRORED_PROMOTED_GRIDATLAS_V9", "GlobalGrid mirror is not promoted")
+              require(global_pointer.get("release_id") == release_id, "GlobalGrid mirror and Atlas pointer disagree")
+              base_url = normalise_base(str(global_pointer.get("globalgrid_live_url") or ""))
+          '''.replace('          ', '')
+          new_pointer = '''    base_url = normalise_base(str(current.get("live_url") or ""), release_id)
+              globalgrid_mirror_verified = False
+              if args.globalgrid:
+                  global_pointer_path = args.globalgrid / "state/gridatlas-v9-current.json"
+                  if global_pointer_path.is_file():
+                      global_pointer = load(global_pointer_path)
+                      if (
+                          global_pointer.get("classification") == "MIRRORED_PROMOTED_GRIDATLAS_V9"
+                          and global_pointer.get("release_id") == release_id
+                      ):
+                          normalise_base(str(global_pointer.get("globalgrid_live_url") or ""), release_id)
+                          globalgrid_mirror_verified = True
+          '''.replace('          ', '')
+          if script.count(old_pointer) != 1:
+              raise SystemExit('PipelineNews GlobalGrid dependency anchor mismatch')
+          script = script.replace(old_pointer, new_pointer, 1)
+          old_field = '        "globalgrid_pointer": "Ventusltd/globalgrid2050:state/gridatlas-v9-current.json",\n'
+          new_field = (
+              '        "globalgrid_pointer": "Ventusltd/globalgrid2050:state/gridatlas-v9-current.json" if args.globalgrid else None,\n'
+              '        "globalgrid_mirror_verified": globalgrid_mirror_verified,\n'
+          )
+          if script.count(old_field) != 1:
+              raise SystemExit('PipelineNews pointer evidence anchor mismatch')
+          script = script.replace(old_field, new_field, 1)
+          script_path.write_text(script, encoding='utf-8', newline='\n')
+
+          sync_path = Path('.github/workflows/202608300232-sync-atlas-v9-deep-links.yml')
+          sync = sync_path.read_text(encoding='utf-8')
+          replacements = [
+              ("    - cron: '27,57 * * * *'", "    - cron: '20 4-8 30 8 *'"),
+              ('  cancel-in-progress: false\n\njobs:',
+               "  cancel-in-progress: false\n\nenv:\n  PYTHONDONTWRITEBYTECODE: '1'\n  MISSION_INCEPTED_AT: '2026-08-30T03:30:00Z'\n  MISSION_EXPIRES_AT: '2026-08-30T08:35:00Z'\n\njobs:"),
+              ('      - name: Checkout exact PipelineNews source boundary\n        uses:',
+               "      - name: Enforce bounded five-hour mission window\n        id: window\n        run: |\n          set -euo pipefail\n          now=\"$(date -u +%s)\"\n          expires=\"$(date -u -d \"$MISSION_EXPIRES_AT\" +%s)\"\n          if (( now > expires )); then\n            echo 'active=false' >> \"$GITHUB_OUTPUT\"\n            echo \"PipelineNews five-hour source-sync mission retired at $MISSION_EXPIRES_AT; no mutation.\" >> \"$GITHUB_STEP_SUMMARY\"\n            exit 0\n          fi\n          echo 'active=true' >> \"$GITHUB_OUTPUT\"\n\n      - name: Checkout exact PipelineNews source boundary\n        if: steps.window.outputs.active == 'true'\n        uses:"),
+              ('      - name: Require exact current main and validate synchroniser\n        run:',
+               "      - name: Require exact current main and validate synchroniser\n        if: steps.window.outputs.active == 'true'\n        run:"),
+              ('      - name: Fetch governed Atlas and GlobalGrid pointers\n        run: |\n          set -euo pipefail\n          rm -rf "$RUNNER_TEMP/gridatlas" "$RUNNER_TEMP/globalgrid2050"\n          git clone --depth 1 https://github.com/Ventusltd/gridatlas.git "$RUNNER_TEMP/gridatlas"\n          git clone --depth 1 https://github.com/Ventusltd/globalgrid2050.git "$RUNNER_TEMP/globalgrid2050"',
+               "      - name: Fetch governed GridAtlas pointer\n        if: steps.window.outputs.active == 'true'\n        run: |\n          set -euo pipefail\n          rm -rf \"$RUNNER_TEMP/gridatlas\"\n          git clone --depth 1 https://github.com/Ventusltd/gridatlas.git \"$RUNNER_TEMP/gridatlas\""),
+              ('      - name: Synchronise canonical Atlas V9 deep links\n        id: sync\n        run:',
+               "      - name: Synchronise canonical Atlas V9 deep links\n        id: sync\n        if: steps.window.outputs.active == 'true'\n        run:"),
+              ('            --globalgrid "$RUNNER_TEMP/globalgrid2050" \\\n', ''),
+              ("${{ steps.sync.outputs.base_url || 'waiting for GlobalGrid mirror' }}",
+               "${{ steps.sync.outputs.base_url || 'waiting for verified GridAtlas' }}"),
+          ]
+          for before, after in replacements:
+              if sync.count(before) != 1:
+                  raise SystemExit(f'PipelineNews sync workflow anchor mismatch: {before[:80]}')
+              sync = sync.replace(before, after, 1)
+          sync_path.write_text(sync, encoding='utf-8', newline='\n')
+
+          successor_path = Path('.github/workflows/202608300309-current-gridatlas-v9-deep-link-successor.yml')
+          successor = successor_path.read_text(encoding='utf-8')
+          successor_replacements = [
+              ("      - '.github/workflows/202608300309-current-gridatlas-v9-deep-link-successor.yml'\n", ''),
+              ("    - cron: '17 * * * *'", "    - cron: '30 4-8 30 8 *'"),
+              ("  GOLDEN_REPD_REF: '9873'", "  GOLDEN_REPD_REF: '13599'"),
+              ('  PUBLIC_URL: https://ventusltd.github.io/pipelinenews/releases/202608300309-pipelinenews/\n',
+               "  PUBLIC_URL: https://ventusltd.github.io/pipelinenews/releases/202608300309-pipelinenews/\n  PYTHONDONTWRITEBYTECODE: '1'\n  MISSION_INCEPTED_AT: '2026-08-30T03:30:00Z'\n  MISSION_EXPIRES_AT: '2026-08-30T08:35:00Z'\n"),
+              ('      - name: Resolve promotion-eligible Atlas receiver\n        id: atlas\n        run: |\n          set -euo pipefail\n          curl --fail',
+               "      - name: Resolve promotion-eligible Atlas receiver\n        id: atlas\n        run: |\n          set -euo pipefail\n          now=\"$(date -u +%s)\"\n          expires=\"$(date -u -d \"$MISSION_EXPIRES_AT\" +%s)\"\n          if (( now > expires )); then\n            echo 'ready=false' >> \"$GITHUB_OUTPUT\"\n            echo \"PipelineNews five-hour exact-link mission retired at $MISSION_EXPIRES_AT; no mutation.\" >> \"$GITHUB_STEP_SUMMARY\"\n            exit 0\n          fi\n          curl --fail"),
+          ]
+          for before, after in successor_replacements:
+              if successor.count(before) != 1:
+                  raise SystemExit(f'PipelineNews successor workflow anchor mismatch: {before[:80]}')
+              successor = successor.replace(before, after, 1)
+          successor_path.write_text(successor, encoding='utf-8', newline='\n')
+          PY
+
+          python3 -m py_compile scripts/202608300232-sync-atlas-v9-deep-links.py
+          git diff --check
+          grep -q "cron: '20 4-8 30 8 \*'" .github/workflows/202608300232-sync-atlas-v9-deep-links.yml
+          grep -q "cron: '30 4-8 30 8 \*'" .github/workflows/202608300309-current-gridatlas-v9-deep-link-successor.yml
+          grep -q "GOLDEN_REPD_REF: '13599'" .github/workflows/202608300309-current-gridatlas-v9-deep-link-successor.yml
+          grep -q 'globalgrid_mirror_verified' scripts/202608300232-sync-atlas-v9-deep-links.py
+
+      - name: Compare-and-swap repaired five-hour mission onto main
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          git add \
+            scripts/202608300232-sync-atlas-v9-deep-links.py \
+            .github/workflows/202608300232-sync-atlas-v9-deep-links.yml \
+            .github/workflows/202608300309-current-gridatlas-v9-deep-link-successor.yml
+          mapfile -t staged < <(git diff --cached --name-only | sort)
+          expected=(
+            '.github/workflows/202608300232-sync-atlas-v9-deep-links.yml'
+            '.github/workflows/202608300309-current-gridatlas-v9-deep-link-successor.yml'
+            'scripts/202608300232-sync-atlas-v9-deep-links.py'
+          )
+          test "${staged[*]}" = "${expected[*]}"
+          git config user.name pipelinenews-five-hour-mission-bot
+          git config user.email actions@users.noreply.github.com
+          git commit -m '202608300430: repair and run Atlas integration for five hours'
+          git push origin HEAD:main
