@@ -338,6 +338,9 @@ def validate_current_or_predecessor_pointer(root: Path, timestamp_folder: dict) 
         "live pointer dispatch",
     )
 
+    boundary_pointer = '        if live_pointer is not None:\n            allowed_public_changes.update(live_pointer["paths"])\n'
+    boundary_replacement = '        if live_pointer is not None:\n            allowed_public_changes.update(live_pointer["paths"])\n            pointer_release_id = (live_pointer.get("pointer") or {}).get("release_id")\n            if isinstance(pointer_release_id, str) and TIMESTAMP_FOLDER_RE.fullmatch(pointer_release_id):\n                pointer_release_root = root / "releases" / pointer_release_id\n                require(pointer_release_root.is_dir(), "pointer-bound release folder missing")\n                allowed_public_changes.update(\n                    path.relative_to(root).as_posix()\n                    for path in pointer_release_root.rglob("*")\n                    if path.is_file()\n                )\n'
+    text = replace_once(text, boundary_pointer, boundary_replacement, "pointer-bound release closure")
     stage_pointer = '''    live_pointer = release.get("live_pointer")
     if live_pointer is not None:
         copy_file(root, site, "state/live-set.json")
