@@ -41,7 +41,7 @@ let controlsBound = false;
 
 export function atlasUrlV9_5_1(project) {
   if (project.geometry_status !== "valid") return "";
-  const url = new URL("https://globalgrid2050.com/repd_grid_atlasv8/");
+  const url = new URL("https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/");
   url.searchParams.set("repd_ref", project.repd_ref);
   url.searchParams.set("project", project.name);
   url.searchParams.set("technology", project.technology);

@@ -158,7 +158,7 @@ function rewriteHtml(source) {
     ["../dashboard_v2_2026-08-22.html", "https://globalgrid2050.com/uk_renewables_pipeline/dashboard_v2_2026-08-22.html"],
     ["../dashboard.html", "https://globalgrid2050.com/uk_renewables_pipeline/dashboard.html"],
     ["../../index.html", "https://globalgrid2050.com/"],
-    ["../../repd_grid_atlasv8/", "https://globalgrid2050.com/repd_grid_atlasv8/"],
+    ["../../repd_grid_atlasv8/", "https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/"],
   ];
   for (const [from, to] of replacements) source = replaceExactly(source, from, to);
   return { source, replacements: replacements.length };

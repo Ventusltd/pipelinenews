@@ -15,7 +15,7 @@ export const ATLAS_V9_DEEP_LINK_CONTRACT = Object.freeze({
     protocol: "https:",
     hostname: "ventusltd.github.io",
     pathname: "/gridatlas/202608291239-atlas-v9/",
-    base_url: "https://ventusltd.github.io/gridatlas/202608291239-atlas-v9/",
+    base_url: "https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/",
   }),
   eligibility: Object.freeze({
     field: "geometry_status",
@@ -34,12 +34,12 @@ export const ATLAS_V9_DEEP_LINK_CONTRACT = Object.freeze({
   sentinels: Object.freeze({
     east_pye: Object.freeze({
       repd_ref: "17494",
-      expected_url: "https://ventusltd.github.io/gridatlas/202608291239-atlas-v9/?repd_ref=17494",
+      expected_url: "https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/?repd_ref=17494",
       expected_selection: "REPD 17494 selected",
     }),
     beacon_fen: Object.freeze({
       repd_ref: "13599",
-      expected_url: "https://ventusltd.github.io/gridatlas/202608291239-atlas-v9/?repd_ref=13599",
+      expected_url: "https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/?repd_ref=13599",
       expected_selection: "REPD 13599 selected",
     }),
     invalid_geometry: Object.freeze({

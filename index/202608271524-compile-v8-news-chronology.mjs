@@ -220,7 +220,7 @@ function rewriteRuntime(parentSource, cacheIdentity) {
   assert.ok(source.startsWith('import { buildAtlasV8DeepLink } from "./202608271329-atlas-v8-deep-link-cartridge.js";'));
   assert.equal(source.match(/function atlasUrl\(/gu)?.length, 1);
   assert.match(source, /function atlasUrl\(item\) \{\s+return buildAtlasV8DeepLink\(item\);\s+\}/u);
-  assert.ok(!source.includes('new URL("https://globalgrid2050.com/repd_grid_atlasv8/")'));
+  assert.ok(!source.includes('new URL("https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/")'));
   return `${source.trimEnd()}\n`;
 }
 

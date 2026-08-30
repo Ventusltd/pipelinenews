@@ -1,0 +1,38 @@
+{
+  "base_url": "https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/",
+  "classification": "CANONICAL_DEEP_LINKS_READY",
+  "files_rewritten": [
+    "index/202608261927-compile-index.mjs",
+    "index/202608270055-compile-v8-fast.mjs",
+    "index/202608271329-compile-v8-atlas-deep-link.mjs",
+    "index/202608271524-compile-v8-news-chronology.mjs",
+    "index/202608291310-compile-atlas-v9-deep-link.mjs",
+    "index/202608291447-compile-atlas-pointer-deep-link.mjs",
+    "index/202608291504-compile-atlas-pointer-deep-link.mjs",
+    "ui/cartridges/202608271329-atlas-v8-deep-link.mjs",
+    "ui/cartridges/202608291310-atlas-v9-deep-link.mjs",
+    "ui/javascript/202608261804-projects-v9-5-1.js",
+    "ui/javascript/202608270055-v8-fast-runtime.js",
+    "ui/javascript/202608270844-v8-live-news-runtime.js"
+  ],
+  "globalgrid_mirror_verified": false,
+  "immutable_releases_modified": 0,
+  "privacy": "NO_PERSONAL_DATA",
+  "release_id": "202608292311-atlas-v9",
+  "replacement_count": 32,
+  "schema": "pipelinenews.atlas-v9-deep-link-audit.v1",
+  "sentinels": [
+    {
+      "atlas_v9_url": "https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/?repd_ref=13599&technology=solar&name=Beacon+Fen",
+      "name": "Beacon Fen",
+      "repd_ref": "13599",
+      "technology": "solar"
+    },
+    {
+      "atlas_v9_url": "https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/?repd_ref=17494&technology=solar&name=East+Pye",
+      "name": "East Pye",
+      "repd_ref": "17494",
+      "technology": "solar"
+    }
+  ]
+}

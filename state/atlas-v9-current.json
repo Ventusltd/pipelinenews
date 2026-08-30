@@ -1,0 +1,20 @@
+{
+  "base_url": "https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/",
+  "classification": "PROMOTED_ATLAS_V9_DEEP_LINK_SOURCE",
+  "generation": "202608292311",
+  "globalgrid_mirror_verified": false,
+  "globalgrid_pointer": null,
+  "identity": [
+    "repd_ref",
+    "technology"
+  ],
+  "name_or_coordinate_identity_permitted": false,
+  "optional_evidence": [
+    "name",
+    "longitude",
+    "latitude"
+  ],
+  "release_id": "202608292311-atlas-v9",
+  "schema": "pipelinenews.atlas-v9-pointer.v1",
+  "source_pointer": "Ventusltd/gridatlas:state/live-set.json"
+}

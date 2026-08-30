@@ -11,7 +11,7 @@ export const ATLAS_V8_DEEP_LINK_CONTRACT = Object.freeze({
     protocol: "https:",
     hostname: "globalgrid2050.com",
     pathname: "/repd_grid_atlasv8/",
-    base_url: "https://globalgrid2050.com/repd_grid_atlasv8/",
+    base_url: "https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/",
   }),
   eligibility: Object.freeze({
     field: "geometry_status",
@@ -47,11 +47,11 @@ export const ATLAS_V8_DEEP_LINK_CONTRACT = Object.freeze({
   sentinels: Object.freeze({
     east_pye: Object.freeze({
       repd_ref: "17494",
-      expected_url: "https://globalgrid2050.com/repd_grid_atlasv8/?repd_ref=17494&project=East+Pye+Solar+Farm&technology=solar&capacity_mw=500&latitude=52.4733298&longitude=1.2432764&zoom=12",
+      expected_url: "https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/?repd_ref=17494&project=East+Pye+Solar+Farm&technology=solar&capacity_mw=500&latitude=52.4733298&longitude=1.2432764&zoom=12",
     }),
     beacon_fen: Object.freeze({
       repd_ref: "13599",
-      expected_url: "https://globalgrid2050.com/repd_grid_atlasv8/?repd_ref=13599&project=Beacon+Fen+Energy+Park&technology=solar&capacity_mw=400&latitude=52.9989987&longitude=-0.4092339&zoom=12",
+      expected_url: "https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/?repd_ref=13599&project=Beacon+Fen+Energy+Park&technology=solar&capacity_mw=400&latitude=52.9989987&longitude=-0.4092339&zoom=12",
     }),
     invalid_geometry: Object.freeze({
       repd_ref: "12780",

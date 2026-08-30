@@ -119,7 +119,7 @@ function compileHtml(parentBytes) {
   html = replaceExactly(html, '<body data-fast-generation="202608272130">', `<body data-fast-generation="${GENERATION}" data-release-id="${RELEASE_ID}">`);
   html = replaceExactly(html, "ATLAS V8 DEEP-LINK", "ATLAS V9 DEEP-LINK", 5);
   html = replaceExactly(html, "ATLAS V9 DEEP-LINK CANDIDATE", "ATLAS V9 DEEP-LINK SUCCESSOR", 5);
-  html = replaceExactly(html, "https://globalgrid2050.com/repd_grid_atlasv8/", ATLAS_BASE, 2);
+  html = replaceExactly(html, "https://ventusltd.github.io/gridatlas/202608292311-atlas-v9/", ATLAS_BASE, 2);
   html = replaceExactly(html, " · NOT DEPLOYED", " · TIMESTAMPED RELEASE · POINTER-CONTROLLED", 3);
   html = replaceExactly(html, '<script type="module" src="javascript/202608282200-v8-fast-runtime.js"></script>', `<script type="module" src="assets/${GENERATION}-app.mjs"></script>`);
   return Buffer.from(html);
