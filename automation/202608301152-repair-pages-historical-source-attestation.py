@@ -37,7 +37,9 @@ def verify_record_at_commit(root: Path, commit: str, record: dict, label: str) -
         capture_output=True,
     )
     payload = completed.stdout
-    require(len(payload) == record.get("bytes"), f"historical byte mismatch for {relative}")
+    expected_bytes = record.get("bytes")
+    if expected_bytes is not None:
+        require(len(payload) == expected_bytes, f"historical byte mismatch for {relative}")
     require(
         hashlib.sha256(payload).hexdigest() == record.get("sha256"),
         f"historical SHA-256 mismatch for {relative}",
