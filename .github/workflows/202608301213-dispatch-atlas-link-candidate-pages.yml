@@ -1,0 +1,49 @@
+name: 202608301213 Dispatch Atlas-link candidate Pages
+run-name: Deploy verified Atlas-link candidate from ${{ github.sha }}
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/202608301213-dispatch-atlas-link-candidate-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: pipelinenews-202608301213-atlas-link-candidate-pages-dispatch
+  cancel-in-progress: false
+
+jobs:
+  dispatch:
+    name: Dispatch exact current main to governed Pages workflow
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Require exact current main and dispatch candidate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_ID: 202608300309-pipelinenews
+        run: |
+          set -euo pipefail
+          current="$(curl --fail --silent --show-error \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H 'Accept: application/vnd.github+json' \
+            -H 'X-GitHub-Api-Version: 2022-11-28' \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/commits/main" \
+            | jq -r .sha)"
+          test "$current" = "$GITHUB_SHA"
+          payload="$(jq -n \
+            --arg ref main \
+            --arg sha "$GITHUB_SHA" \
+            --arg release "$RELEASE_ID" \
+            '{ref:$ref,inputs:{expected_sha:$sha,timestamp_folder_release:$release}}')"
+          curl --fail --silent --show-error \
+            -X POST \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H 'Accept: application/vnd.github+json' \
+            -H 'X-GitHub-Api-Version: 2022-11-28' \
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/actions/workflows/pages.yml/dispatches" \
+            -d "$payload"
