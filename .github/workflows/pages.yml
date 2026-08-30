@@ -1,5 +1,8 @@
 name: Deploy PipelineNews Pages
 
+# Automatic deployment is intentionally limited to immutable release and
+# pointer outputs. Workflow-source edits require an explicit manual dispatch,
+# preventing one source commit from launching obsolete promotion workflows.
 on:
   push:
     branches: [main]
@@ -10,9 +13,6 @@ on:
       - 'state/live-set.json'
       - 'state/atlas-v9-link-contract.json'
       - 'machine-learning/proofs/202608300309-*-atlas-v9-deep-link-proof.json'
-      - '.github/workflows/pages.yml'
-      - '.github/workflows/202608301214-pages-v2.yml'
-      - 'atman/202608262014-build-pages.py'
   workflow_dispatch:
     inputs:
       expected_sha:
