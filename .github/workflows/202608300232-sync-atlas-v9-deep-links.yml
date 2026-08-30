@@ -22,6 +22,7 @@ env:
   PYTHONDONTWRITEBYTECODE: '1'
   MISSION_INCEPTED_AT: '2026-08-30T03:40:00Z'
   MISSION_EXPIRES_AT: '2026-08-30T08:35:00Z'
+  MINIMUM_ATLAS_GENERATION: '202608300453'
 
 jobs:
   sync:
@@ -71,6 +72,18 @@ jobs:
           set -euo pipefail
           rm -rf "$RUNNER_TEMP/gridatlas"
           git clone --depth 1 https://github.com/Ventusltd/gridatlas.git "$RUNNER_TEMP/gridatlas"
+          state="$RUNNER_TEMP/gridatlas/state/live-set.json"
+          python3 -m json.tool "$state" >/dev/null
+          generation="$(jq -r '.generation // empty' "$state")"
+          [[ "$generation" =~ ^[0-9]{12}$ ]]
+          (( 10#$generation >= 10#$MINIMUM_ATLAS_GENERATION ))
+          test "$(jq -r '.verification.promotion_eligible // false' "$state")" = true
+          test "$(jq -r '.verification.failed_gates // 999' "$state")" = 0
+          test "$(jq -r '.verification.commit_lineage_attested // false' "$state")" = true
+          test "$(jq -r '.verification.exact_repd_deep_link_resolved // false' "$state")" = true
+          test "$(jq -r '.verification.exact_repd_fly_to // false' "$state")" = true
+          test "$(jq -r '.current.deep_link_receiver.identity_rule // empty' "$state")" = EXACT_REPD_REF_ONLY
+          test "$(jq -r '.current.deep_link_receiver.synthetic_receiver // true' "$state")" = false
 
       - name: Synchronise canonical Atlas V9 deep links
         if: steps.window.outputs.active == 'true'
@@ -165,6 +178,7 @@ jobs:
             echo
             echo "- Mission active: ${{ steps.window.outputs.active || 'false' }}"
             echo "- Ready: ${{ steps.sync.outputs.ready || 'false' }}"
+            echo "- Minimum Atlas generation: $MINIMUM_ATLAS_GENERATION"
             echo "- Atlas release: ${{ steps.sync.outputs.release_id || 'waiting' }}"
             echo "- Atlas base: ${{ steps.sync.outputs.base_url || 'waiting for verified GridAtlas' }}"
             echo "- Integration commit: ${{ steps.commit.outputs.commit || 'no change' }}"
