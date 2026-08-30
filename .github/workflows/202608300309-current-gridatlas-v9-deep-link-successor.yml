@@ -1,0 +1,495 @@
+name: 202608300309 Current verified Atlas V9 deep-link successor
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/202608300309-current-gridatlas-v9-deep-link-successor.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '12,42 * * * *'
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: pipelinenews-current-gridatlas-v9-successor
+  cancel-in-progress: false
+
+env:
+  SOURCE_RELEASE_ID: 202608291447-pipelinenews
+  RELEASE_ID: 202608300309-pipelinenews
+  GENERATION: '202608300309'
+  ATLAS_STATE_URL: https://ventusltd.github.io/gridatlas/state/live-set.json
+  MINIMUM_ATLAS_GENERATION: '202608292311'
+  GOLDEN_REPD_REF: '16135'
+  LOCAL_URL: http://127.0.0.1:4173/releases/202608300309-pipelinenews/
+  PUBLIC_URL: https://ventusltd.github.io/pipelinenews/releases/202608300309-pipelinenews/
+
+jobs:
+  successor:
+    name: Change only the authenticated Atlas receiver, prove and promote
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Checkout exact PipelineNews source boundary
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 50
+          persist-credentials: true
+
+      - name: Resolve promotion-eligible Atlas receiver
+        id: atlas
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 2 \
+            "$ATLAS_STATE_URL" -o /tmp/atlas-state.json
+          python3 -m json.tool /tmp/atlas-state.json >/dev/null
+
+          generation="$(jq -r '.generation // empty' /tmp/atlas-state.json)"
+          if [[ ! "$generation" =~ ^[0-9]{12}$ ]] || (( 10#$generation < 10#$MINIMUM_ATLAS_GENERATION )); then
+            echo 'ready=false' >> "$GITHUB_OUTPUT"
+            echo "Atlas generation $generation is below required $MINIMUM_ATLAS_GENERATION; no PipelineNews mutation." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          release_id="$(jq -r '.current.release_id // empty' /tmp/atlas-state.json)"
+          live_url="$(jq -r '.current.live_url // empty' /tmp/atlas-state.json)"
+          source_commit="$(jq -r '.current.source_commit // empty' /tmp/atlas-state.json)"
+          publication_commit="$(jq -r '.current.publication_commit // empty' /tmp/atlas-state.json)"
+          promotion="$(jq -r '.verification.promotion_eligible // false' /tmp/atlas-state.json)"
+          failed="$(jq -r '.verification.failed_gates // 999' /tmp/atlas-state.json)"
+
+          test "$promotion" = true
+          test "$failed" = 0
+          [[ "$release_id" =~ ^[0-9]{12}-atlas-v9$ ]]
+          [[ "$live_url" == "https://ventusltd.github.io/gridatlas/$release_id/" ]]
+          [[ "$source_commit" =~ ^[a-f0-9]{40}$ ]]
+          [[ "$publication_commit" =~ ^[a-f0-9]{40}$ ]]
+
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 2 \
+            "${live_url}release-manifest.json" -o /tmp/atlas-release-manifest.json
+          test "$(jq -r '.release_id' /tmp/atlas-release-manifest.json)" = "$release_id"
+          curl --fail --location --silent --show-error --retry 3 --retry-delay 2 \
+            "${live_url}?repd_ref=${GOLDEN_REPD_REF}" -o /tmp/atlas-golden.html
+          grep -q 'ventus-corev8engine.js' /tmp/atlas-golden.html
+
+          echo 'ready=true' >> "$GITHUB_OUTPUT"
+          echo "generation=$generation" >> "$GITHUB_OUTPUT"
+          echo "release_id=$release_id" >> "$GITHUB_OUTPUT"
+          echo "live_url=$live_url" >> "$GITHUB_OUTPUT"
+          echo "source_commit=$source_commit" >> "$GITHUB_OUTPUT"
+          echo "publication_commit=$publication_commit" >> "$GITHUB_OUTPUT"
+
+      - name: Require immutable source and unbuilt successor
+        if: steps.atlas.outputs.ready == 'true'
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = refs/heads/main
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          test -d "releases/$SOURCE_RELEASE_ID"
+          test ! -e "releases/$RELEASE_ID"
+          test "$(jq -r '.release_id' state/live-set.json)" = "$SOURCE_RELEASE_ID"
+          test "$(jq -r '.classification' state/live-set.json)" = VERIFIED_LIVE_TIMESTAMPED_RELEASE
+          git diff --exit-code
+
+      - name: Configure pinned Node
+        if: steps.atlas.outputs.ready == 'true'
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '22.18.0'
+
+      - name: Install pinned browser runtime
+        if: steps.atlas.outputs.ready == 'true'
+        run: |
+          set -euo pipefail
+          npm install --no-save --package-lock=false --ignore-scripts playwright@1.62.1
+          npx playwright install --with-deps chromium
+
+      - name: Build exact-data receiver-only successor
+        if: steps.atlas.outputs.ready == 'true'
+        env:
+          ATLAS_GENERATION: ${{ steps.atlas.outputs.generation }}
+          ATLAS_RELEASE_ID: ${{ steps.atlas.outputs.release_id }}
+          ATLAS_LIVE_URL: ${{ steps.atlas.outputs.live_url }}
+          ATLAS_SOURCE_COMMIT: ${{ steps.atlas.outputs.source_commit }}
+          ATLAS_PUBLICATION_COMMIT: ${{ steps.atlas.outputs.publication_commit }}
+        run: |
+          set -euo pipefail
+          rm -rf work
+          mkdir -p "work/release/$RELEASE_ID"
+          cp -R "releases/$SOURCE_RELEASE_ID/." "work/release/$RELEASE_ID/"
+
+          python3 - <<'PY'
+          from __future__ import annotations
+          import hashlib
+          import json
+          import os
+          import re
+          from pathlib import Path
+
+          source = Path('releases') / os.environ['SOURCE_RELEASE_ID']
+          target = Path('work/release') / os.environ['RELEASE_ID']
+          atlas_url = os.environ['ATLAS_LIVE_URL']
+          atlas_release = os.environ['ATLAS_RELEASE_ID']
+          golden = os.environ['GOLDEN_REPD_REF']
+
+          for stale in ['build-manifest.json', 'release-manifest.json', 'sha256sums.txt']:
+              (target / stale).unlink(missing_ok=True)
+
+          pointer_path = target / 'assets/202608291447-atlas-pointer-deep-link.mjs'
+          pointer = f'''const GRIDATLAS_RECEIVER = Object.freeze({{
+            schema: "pipelinenews.gridatlas-live-pointer-receipt.v3",
+            classification: "VERIFIED_PROMOTION_ELIGIBLE_GRIDATLAS_V9",
+            generation: {json.dumps(os.environ['ATLAS_GENERATION'])},
+            release_id: {json.dumps(atlas_release)},
+            base_url: {json.dumps(atlas_url)},
+            source_commit: {json.dumps(os.environ['ATLAS_SOURCE_COMMIT'])},
+            publication_commit: {json.dumps(os.environ['ATLAS_PUBLICATION_COMMIT'])},
+            query_parameter: "repd_ref",
+            identity_rule: "EXACT_REPD_REF_ONLY",
+            golden_repd_ref: {json.dumps(golden)},
+            state_url: {json.dumps(os.environ['ATLAS_STATE_URL'])}
+          }});
+
+          function invariant(condition, message) {{
+            if (!condition) throw new Error(`Atlas receiver contract: ${{message}}`);
+          }}
+
+          const receiverUrl = new URL(GRIDATLAS_RECEIVER.base_url);
+          invariant(GRIDATLAS_RECEIVER.classification === "VERIFIED_PROMOTION_ELIGIBLE_GRIDATLAS_V9", "receiver not verified");
+          invariant(receiverUrl.protocol === "https:", "receiver is not HTTPS");
+          invariant(receiverUrl.hostname === "ventusltd.github.io", "receiver hostname changed");
+          invariant(receiverUrl.pathname === `/gridatlas/${{GRIDATLAS_RECEIVER.release_id}}/`, "receiver route mismatch");
+          invariant(GRIDATLAS_RECEIVER.identity_rule === "EXACT_REPD_REF_ONLY", "identity rule changed");
+
+          export const ATLAS_V9_DEEP_LINK_CONTRACT = Object.freeze({{
+            schema: "pipelinenews.atlas-current-deep-link-cartridge.v1",
+            generation: {json.dumps(os.environ['GENERATION'])},
+            receiver: GRIDATLAS_RECEIVER,
+            eligibility: Object.freeze({{
+              field: "geometry_status",
+              equals: "valid",
+              ineligible_result: "",
+              presentation: "NO MAP"
+            }}),
+            identity_anchor: "repd_ref",
+            query_parameter_order: Object.freeze(["repd_ref"]),
+            inbound_match_semantics: "EXACT_PROJECT_REPD_REF",
+            lifecycle: "timestamped PipelineNews release; receiver authenticated at build and public readback"
+          }});
+
+          export function buildAtlasV9DeepLink(project) {{
+            if (project?.[ATLAS_V9_DEEP_LINK_CONTRACT.eligibility.field]
+                !== ATLAS_V9_DEEP_LINK_CONTRACT.eligibility.equals) return "";
+            const repdRef = String(project?.repd_ref ?? "").trim();
+            if (!/^\\d+$/u.test(repdRef)) return "";
+            const url = new URL(GRIDATLAS_RECEIVER.base_url);
+            url.searchParams.set("repd_ref", repdRef);
+            return url.href;
+          }}
+          '''
+          pointer_path.write_text(pointer, encoding='utf-8', newline='\n')
+
+          index_path = target / 'index.html'
+          index = index_path.read_text(encoding='utf-8')
+          index, count = re.subn(
+              r'https://ventusltd\.github\.io/gridatlas/[0-9]{12}-atlas-v9/',
+              atlas_url,
+              index,
+          )
+          if count < 2:
+              raise SystemExit(f'expected at least two direct Atlas navigation links, found {count}')
+          index = index.replace(
+              'data-fast-generation="202608291447" data-release-id="202608291447-pipelinenews"',
+              f'data-fast-generation="{os.environ["GENERATION"]}" data-release-id="{os.environ["RELEASE_ID"]}"',
+          )
+          index = index.replace(
+              '<title>PipelineNews | Atlas V9 deep-link successor 202608291447</title>',
+              f'<title>PipelineNews | Current verified Atlas V9 deep-link successor {os.environ["GENERATION"]}</title>',
+          )
+          index_path.write_text(index, encoding='utf-8', newline='\n')
+
+          # The product, news ledger, project registry and all data bytes must remain exact.
+          allowed_changed = {
+              'index.html',
+              'assets/202608291447-atlas-pointer-deep-link.mjs',
+              'build-manifest.json',
+              'release-manifest.json',
+              'atlas-link-manifest.json',
+              'sha256sums.txt',
+          }
+          for path in sorted(p for p in source.rglob('*') if p.is_file()):
+              rel = path.relative_to(source).as_posix()
+              if rel in allowed_changed or rel in {'build-manifest.json', 'release-manifest.json'}:
+                  continue
+              peer = target / rel
+              if not peer.is_file() or peer.read_bytes() != path.read_bytes():
+                  raise SystemExit(f'unapproved source-release byte change: {rel}')
+
+          def sha(path: Path) -> str:
+              return hashlib.sha256(path.read_bytes()).hexdigest()
+
+          atlas_manifest = {
+              'schema': 'pipelinenews.atlas-current-link-manifest.v1',
+              'classification': 'VERIFIED_GRIDATLAS_V9_RECEIVER_BOUND',
+              'generation': os.environ['GENERATION'],
+              'pipeline_release_id': os.environ['RELEASE_ID'],
+              'source_pipeline_release_id': os.environ['SOURCE_RELEASE_ID'],
+              'atlas': {
+                  'generation': os.environ['ATLAS_GENERATION'],
+                  'release_id': atlas_release,
+                  'live_url': atlas_url,
+                  'source_commit': os.environ['ATLAS_SOURCE_COMMIT'],
+                  'publication_commit': os.environ['ATLAS_PUBLICATION_COMMIT'],
+                  'state_url': os.environ['ATLAS_STATE_URL'],
+              },
+              'identity': {
+                  'parameter': 'repd_ref',
+                  'rule': 'EXACT_REPD_REF_ONLY',
+                  'golden_repd_ref': golden,
+                  'golden_url': f'{atlas_url}?repd_ref={golden}',
+              },
+              'data_changes': 0,
+              'news_changes': 0,
+              'project_changes': 0,
+          }
+          (target / 'atlas-link-manifest.json').write_text(
+              json.dumps(atlas_manifest, indent=2, sort_keys=True) + '\n', encoding='utf-8', newline='\n'
+          )
+
+          files = []
+          for path in sorted(p for p in target.rglob('*') if p.is_file() and p.name not in {'sha256sums.txt', 'build-manifest.json', 'release-manifest.json'}):
+              files.append({'path': path.relative_to(target).as_posix(), 'bytes': path.stat().st_size, 'sha256': sha(path)})
+          build = {
+              'schema': 'pipelinenews.current-atlas-link-build-manifest.v1',
+              'classification': 'DETERMINISTIC_RECEIVER_ONLY_BUILD',
+              'generation': os.environ['GENERATION'],
+              'release_id': os.environ['RELEASE_ID'],
+              'source_release_id': os.environ['SOURCE_RELEASE_ID'],
+              'source_commit': os.environ['GITHUB_SHA'],
+              'atlas_release_id': atlas_release,
+              'allowed_changed_paths': sorted(allowed_changed),
+              'files': files,
+          }
+          (target / 'build-manifest.json').write_text(json.dumps(build, indent=2, sort_keys=True) + '\n', encoding='utf-8', newline='\n')
+          release = {
+              'schema': 'pipelinenews.current-atlas-link-release.v1',
+              'classification': 'CURRENT_ATLAS_LINK_CANDIDATE',
+              'generation': os.environ['GENERATION'],
+              'release_id': os.environ['RELEASE_ID'],
+              'parent_release_id': os.environ['SOURCE_RELEASE_ID'],
+              'immutable_after_publication': True,
+              'atlas_release_id': atlas_release,
+              'atlas_live_url': atlas_url,
+              'golden_repd_ref': golden,
+              'promotion_policy': 'LOCAL_AND_PUBLIC_BROWSER_DEEP_LINK_PROOF',
+          }
+          (target / 'release-manifest.json').write_text(json.dumps(release, indent=2, sort_keys=True) + '\n', encoding='utf-8', newline='\n')
+
+          sums = []
+          for path in sorted(p for p in target.rglob('*') if p.is_file() and p.name != 'sha256sums.txt'):
+              sums.append(f'{sha(path)}  {path.relative_to(target).as_posix()}\n')
+          (target / 'sha256sums.txt').write_text(''.join(sums), encoding='utf-8', newline='\n')
+          PY
+
+          node --check "work/release/$RELEASE_ID/assets/202608291447-atlas-pointer-deep-link.mjs"
+          python3 -m json.tool "work/release/$RELEASE_ID/atlas-link-manifest.json" >/dev/null
+          python3 -m json.tool "work/release/$RELEASE_ID/build-manifest.json" >/dev/null
+          python3 -m json.tool "work/release/$RELEASE_ID/release-manifest.json" >/dev/null
+          diff -qr "releases/$SOURCE_RELEASE_ID/data" "work/release/$RELEASE_ID/data"
+          (
+            cd "work/release/$RELEASE_ID"
+            sha256sum --check sha256sums.txt
+          )
+
+      - name: Serve and prove local PipelineNews deep link
+        if: steps.atlas.outputs.ready == 'true'
+        env:
+          ATLAS_LIVE_URL: ${{ steps.atlas.outputs.live_url }}
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory work/release >work/http.log 2>&1 &
+          echo $! > work/http.pid
+          for attempt in $(seq 1 60); do
+            curl --fail --silent "$LOCAL_URL" >/dev/null && break
+            sleep 1
+          done
+          node --input-type=module <<'JS'
+          import { chromium } from 'playwright';
+          const pageUrl = process.env.LOCAL_URL;
+          const atlas = process.env.ATLAS_LIVE_URL;
+          const golden = process.env.GOLDEN_REPD_REF;
+          const browser = await chromium.launch();
+          const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+          const errors = [];
+          page.on('pageerror', e => errors.push(String(e?.message || e)));
+          page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+          await page.goto(pageUrl, { waitUntil: 'domcontentloaded', timeout: 90000 });
+          await page.waitForSelector('#tbody tr', { timeout: 90000 });
+          const expected = `${atlas}?repd_ref=${golden}`;
+          await page.waitForFunction(value => [...document.querySelectorAll('a[href]')].some(a => a.href === value), expected, { timeout: 90000 });
+          const links = await page.locator('a[href*="repd_ref="]').evaluateAll(nodes => nodes.map(node => node.href));
+          if (!links.includes(expected)) throw new Error(`golden Atlas link absent: ${expected}`);
+          if (links.some(link => !link.startsWith(atlas))) throw new Error('stale Atlas receiver remains in generated project links');
+          if (errors.length) throw new Error(`PipelineNews browser errors: ${JSON.stringify(errors)}`);
+          const receiver = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+          await receiver.goto(expected, { waitUntil: 'domcontentloaded', timeout: 90000 });
+          await receiver.waitForSelector('.dashboard', { timeout: 90000 });
+          await receiver.waitForSelector('#map canvas', { timeout: 90000 });
+          await browser.close();
+          console.log(JSON.stringify({ classification: 'VERIFIED_LOCAL_PIPELINENEWS_ATLAS_V9_DEEP_LINK', expected, links: links.length }));
+          JS
+
+      - name: Stop local server
+        if: always()
+        run: |
+          test -f work/http.pid && kill "$(cat work/http.pid)" 2>/dev/null || true
+
+      - name: Compare-and-swap immutable successor onto main
+        if: steps.atlas.outputs.ready == 'true'
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          test ! -e "releases/$RELEASE_ID"
+          cp -R "work/release/$RELEASE_ID" "releases/$RELEASE_ID"
+          git add "releases/$RELEASE_ID"
+          mapfile -t staged < <(git diff --cached --name-only)
+          test "${#staged[@]}" -gt 10
+          for path in "${staged[@]}"; do case "$path" in "releases/$RELEASE_ID"/*) ;; *) exit 1 ;; esac; done
+          git config user.name pipelinenews-atlas-link-release-bot
+          git config user.email actions@users.noreply.github.com
+          git commit -m "202608300309: publish current verified Atlas V9 deep-link candidate"
+          publication_commit="$(git rev-parse HEAD)"
+          git push origin HEAD:main
+          echo "PUBLICATION_COMMIT=$publication_commit" >> "$GITHUB_ENV"
+
+      - name: Wait for exact Pages deployment
+        if: steps.atlas.outputs.ready == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          api="https://api.github.com/repos/$GITHUB_REPOSITORY/actions/runs?head_sha=$PUBLICATION_COMMIT&per_page=50"
+          for attempt in $(seq 1 120); do
+            payload="$(curl --fail --silent -H "Authorization: Bearer $GH_TOKEN" -H 'Accept: application/vnd.github+json' "$api")"
+            status="$(printf '%s' "$payload" | jq -r '[.workflow_runs[] | select(.name == "pages build and deployment")][0].status // empty')"
+            conclusion="$(printf '%s' "$payload" | jq -r '[.workflow_runs[] | select(.name == "pages build and deployment")][0].conclusion // empty')"
+            if test "$status" = completed; then test "$conclusion" = success; break; fi
+            sleep 5
+          done
+          test "$status" = completed
+          test "$conclusion" = success
+          for attempt in $(seq 1 60); do
+            curl --fail --location --silent "$PUBLIC_URL" >/dev/null && break
+            sleep 3
+          done
+
+      - name: Prove public PipelineNews deep link
+        if: steps.atlas.outputs.ready == 'true'
+        env:
+          ATLAS_LIVE_URL: ${{ steps.atlas.outputs.live_url }}
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'JS'
+          import { chromium } from 'playwright';
+          const pageUrl = process.env.PUBLIC_URL;
+          const expected = `${process.env.ATLAS_LIVE_URL}?repd_ref=${process.env.GOLDEN_REPD_REF}`;
+          const browser = await chromium.launch();
+          const page = await browser.newPage({ viewport: { width: 390, height: 844 } });
+          await page.goto(pageUrl, { waitUntil: 'domcontentloaded', timeout: 90000 });
+          await page.waitForSelector('#tbody tr', { timeout: 90000 });
+          await page.waitForFunction(value => [...document.querySelectorAll('a[href]')].some(a => a.href === value), expected, { timeout: 90000 });
+          const receiver = await browser.newPage({ viewport: { width: 390, height: 844 } });
+          await receiver.goto(expected, { waitUntil: 'domcontentloaded', timeout: 90000 });
+          await receiver.waitForSelector('.dashboard', { timeout: 90000 });
+          await receiver.waitForSelector('#map canvas', { timeout: 90000 });
+          await browser.close();
+          console.log(JSON.stringify({ classification: 'VERIFIED_PUBLIC_PIPELINENEWS_ATLAS_V9_DEEP_LINK', pageUrl, expected }));
+          JS
+
+      - name: Promote PipelineNews pointer after public proof
+        if: steps.atlas.outputs.ready == 'true'
+        env:
+          ATLAS_GENERATION: ${{ steps.atlas.outputs.generation }}
+          ATLAS_RELEASE_ID: ${{ steps.atlas.outputs.release_id }}
+          ATLAS_LIVE_URL: ${{ steps.atlas.outputs.live_url }}
+          ATLAS_SOURCE_COMMIT: ${{ steps.atlas.outputs.source_commit }}
+          ATLAS_PUBLICATION_COMMIT: ${{ steps.atlas.outputs.publication_commit }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          test "$(git rev-parse origin/main)" = "$PUBLICATION_COMMIT"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          state = {
+              'schema': 'pipelinenews.live-pointer.v4',
+              'generation': os.environ['GENERATION'],
+              'release_id': os.environ['RELEASE_ID'],
+              'classification': 'VERIFIED_LIVE_TIMESTAMPED_RELEASE',
+              'route': f'/pipelinenews/releases/{os.environ["RELEASE_ID"]}/',
+              'entrypoint': f'releases/{os.environ["RELEASE_ID"]}/index.html',
+              'release_source_commit': os.environ['GITHUB_SHA'],
+              'deployed_commit': os.environ['PUBLICATION_COMMIT'],
+              'atlas_v9_receiver': {
+                  'generation': os.environ['ATLAS_GENERATION'],
+                  'release_id': os.environ['ATLAS_RELEASE_ID'],
+                  'base_url': os.environ['ATLAS_LIVE_URL'],
+                  'source_commit': os.environ['ATLAS_SOURCE_COMMIT'],
+                  'publication_commit': os.environ['ATLAS_PUBLICATION_COMMIT'],
+                  'identity_rule': 'EXACT_REPD_REF_ONLY',
+                  'query_parameter': 'repd_ref',
+                  'golden_repd_ref': os.environ['GOLDEN_REPD_REF'],
+              },
+              'rollback': {
+                  'release_id': os.environ['SOURCE_RELEASE_ID'],
+                  'public_url': f'https://ventusltd.github.io/pipelinenews/releases/{os.environ["SOURCE_RELEASE_ID"]}/',
+                  'retention_rule': 'PRESERVE_ON_ANY_ATLAS_POINTER_OR_DEEP_LINK_FAILURE',
+              },
+              'public_proof': {
+                  'classification': 'VERIFIED_PUBLIC_PIPELINENEWS_ATLAS_V9_DEEP_LINK',
+                  'pipeline_url': os.environ['PUBLIC_URL'],
+                  'receiver_url': f'{os.environ["ATLAS_LIVE_URL"]}?repd_ref={os.environ["GOLDEN_REPD_REF"]}',
+                  'synthetic_receiver': False,
+                  'route_interceptions': 0,
+              },
+          }
+          payload = json.dumps(state, indent=2, sort_keys=True) + '\n'
+          Path('state/live-set.json').write_text(payload, encoding='utf-8', newline='\n')
+          Path('releases/current-v4.json').write_text(payload, encoding='utf-8', newline='\n')
+          Path('state/atlas-v9-link-contract.json').write_text(
+              json.dumps(state['atlas_v9_receiver'], indent=2, sort_keys=True) + '\n', encoding='utf-8', newline='\n'
+          )
+          PY
+          python3 -m json.tool state/live-set.json >/dev/null
+          test "$(jq -r '.release_id' state/live-set.json)" = "$RELEASE_ID"
+          test "$(jq -r '.atlas_v9_receiver.release_id' state/live-set.json)" = "$ATLAS_RELEASE_ID"
+          git add state/live-set.json state/atlas-v9-link-contract.json releases/current-v4.json
+          mapfile -t staged < <(git diff --cached --name-only | sort)
+          expected=(releases/current-v4.json state/atlas-v9-link-contract.json state/live-set.json)
+          test "${staged[*]}" = "${expected[*]}"
+          git config user.name pipelinenews-atlas-link-promotion-bot
+          git config user.email actions@users.noreply.github.com
+          git commit -m "202608300309: promote verified current Atlas V9 deep links"
+          git push origin HEAD:main
+
+      - name: Record milestone result
+        if: steps.atlas.outputs.ready == 'true'
+        env:
+          ATLAS_RELEASE_ID: ${{ steps.atlas.outputs.release_id }}
+        run: |
+          {
+            echo '## PipelineNews Atlas V9 deep-link milestone'
+            echo
+            echo "- PipelineNews release: $PUBLIC_URL"
+            echo "- Atlas receiver: $ATLAS_RELEASE_ID"
+            echo "- Golden identity: repd_ref=$GOLDEN_REPD_REF"
+            echo '- Product/news/project/data bytes inherited unchanged from 202608291447.'
+            echo '- Previous PipelineNews release retained as rollback.'
+          } >> "$GITHUB_STEP_SUMMARY"
