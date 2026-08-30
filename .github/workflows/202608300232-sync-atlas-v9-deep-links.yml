@@ -1,5 +1,5 @@
-name: 202608300232 Sync PipelineNews Atlas V9 deep links
-run-name: Bind mutable PipelineNews sources to promoted Atlas V9 from ${{ github.sha }}
+name: 202608300440 Five-hour PipelineNews Atlas V9 source sync
+run-name: Bind PipelineNews sources to verified Atlas V9 ${{ github.run_number }}
 
 on:
   push:
@@ -9,29 +9,49 @@ on:
       - '.github/workflows/202608300232-sync-atlas-v9-deep-links.yml'
   workflow_dispatch:
   schedule:
-    - cron: '27,57 * * * *'
+    - cron: '20 4-8 30 8 *'
 
 permissions:
   contents: write
 
 concurrency:
-  group: pipelinenews-atlas-v9-deep-links
+  group: pipelinenews-five-hour-atlas-v9-source-sync
   cancel-in-progress: false
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  MISSION_INCEPTED_AT: '2026-08-30T03:40:00Z'
+  MISSION_EXPIRES_AT: '2026-08-30T08:35:00Z'
 
 jobs:
   sync:
-    name: Poll promoted Atlas, patch mutable sources and prove canonical identity
+    name: Patch mutable sources from verified GridAtlas and prove canonical identity
     runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
+      - name: Enforce bounded five-hour mission window
+        id: window
+        run: |
+          set -euo pipefail
+          now="$(date -u +%s)"
+          expires="$(date -u -d "$MISSION_EXPIRES_AT" +%s)"
+          if (( now > expires )); then
+            echo 'active=false' >> "$GITHUB_OUTPUT"
+            echo "PipelineNews five-hour source-sync mission retired at $MISSION_EXPIRES_AT; no mutation." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          echo 'active=true' >> "$GITHUB_OUTPUT"
+
       - name: Checkout exact PipelineNews source boundary
+        if: steps.window.outputs.active == 'true'
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           ref: ${{ github.sha }}
-          fetch-depth: 30
+          fetch-depth: 40
           persist-credentials: true
 
       - name: Require exact current main and validate synchroniser
+        if: steps.window.outputs.active == 'true'
         run: |
           set -euo pipefail
           test "$GITHUB_REF" = refs/heads/main
@@ -39,21 +59,22 @@ jobs:
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
           python3 -m py_compile scripts/202608300232-sync-atlas-v9-deep-links.py
+          test -z "$(find scripts -type d -name __pycache__ -print -quit)"
 
-      - name: Fetch governed Atlas and GlobalGrid pointers
+      - name: Fetch governed GridAtlas source of truth
+        if: steps.window.outputs.active == 'true'
         run: |
           set -euo pipefail
-          rm -rf "$RUNNER_TEMP/gridatlas" "$RUNNER_TEMP/globalgrid2050"
+          rm -rf "$RUNNER_TEMP/gridatlas"
           git clone --depth 1 https://github.com/Ventusltd/gridatlas.git "$RUNNER_TEMP/gridatlas"
-          git clone --depth 1 https://github.com/Ventusltd/globalgrid2050.git "$RUNNER_TEMP/globalgrid2050"
 
       - name: Synchronise canonical Atlas V9 deep links
+        if: steps.window.outputs.active == 'true'
         id: sync
         run: |
           set -euo pipefail
           python3 scripts/202608300232-sync-atlas-v9-deep-links.py \
             --gridatlas "$RUNNER_TEMP/gridatlas" \
-            --globalgrid "$RUNNER_TEMP/globalgrid2050" \
             --repo-root . \
             | tee "$RUNNER_TEMP/pipelinenews-atlas-v9-result.json"
           if test -f state/atlas-v9-current.json; then
@@ -65,13 +86,14 @@ jobs:
           fi
 
       - name: Prove bounded mutation, sentinels and immutable boundary
-        if: ${{ steps.sync.outputs.ready == 'true' }}
+        if: steps.sync.outputs.ready == 'true'
         run: |
           set -euo pipefail
           node --check ui/atlas-v9-deep-links.js
           test "$(jq -r .classification reports/atlas-v9-deep-link-audit.json)" = CANONICAL_DEEP_LINKS_READY
           test "$(jq -r .immutable_releases_modified reports/atlas-v9-deep-link-audit.json)" = 0
           test "$(jq -r .privacy reports/atlas-v9-deep-link-audit.json)" = NO_PERSONAL_DATA
+          test "$(jq -r .globalgrid_mirror_verified reports/atlas-v9-deep-link-audit.json)" = false
           test "$(jq '.sentinels | length' reports/atlas-v9-deep-link-audit.json)" = 2
           jq -e '.sentinels[] | select(.repd_ref == "13599" and .technology == "solar")' reports/atlas-v9-deep-link-audit.json >/dev/null
           jq -e '.sentinels[] | select(.repd_ref == "17494" and .technology == "solar")' reports/atlas-v9-deep-link-audit.json >/dev/null
@@ -96,19 +118,21 @@ jobs:
               first = Path(path).parts[0]
               assert not (len(first) >= 12 and first[:12].isdigit()), f'immutable timestamped release changed: {path}'
           PY
+          test -z "$(find . -type d -name __pycache__ -print -quit)"
           git diff --check
 
-      - name: Verify Atlas sentinel URLs in a browser-facing readback
-        if: ${{ steps.sync.outputs.ready == 'true' }}
+      - name: Verify Atlas sentinel URLs by public readback
+        if: steps.sync.outputs.ready == 'true'
         run: |
           set -euo pipefail
           while IFS= read -r url; do
-            curl --fail --location --silent --show-error "$url" -o /dev/null
+            effective="$(curl --fail --location --silent --show-error --output /dev/null --write-out '%{url_effective}' "$url")"
+            test "$effective" = "$url"
           done < <(jq -r '.sentinels[].atlas_v9_url' reports/atlas-v9-deep-link-audit.json)
 
       - name: Compare-and-swap source integration onto main
+        if: steps.sync.outputs.ready == 'true'
         id: commit
-        if: ${{ steps.sync.outputs.ready == 'true' }}
         run: |
           set -euo pipefail
           if test -z "$(git status --porcelain)"; then
@@ -121,24 +145,26 @@ jobs:
           git add -A
           git config user.name pipelinenews-atlas-link-bot
           git config user.email actions@users.noreply.github.com
-          git commit -m "${{ steps.sync.outputs.release_id }}: bind PipelineNews sources to promoted Atlas V9"
+          git commit -m "${{ steps.sync.outputs.release_id }}: bind PipelineNews sources to verified Atlas V9"
           commit="$(git rev-parse HEAD)"
           git push origin HEAD:main
           echo "changed=true" >> "$GITHUB_OUTPUT"
           echo "commit=$commit" >> "$GITHUB_OUTPUT"
 
       - name: Record milestone summary
-        if: ${{ always() }}
+        if: always()
         run: |
           {
             echo '## PipelineNews → Atlas V9'
             echo
+            echo "- Mission active: ${{ steps.window.outputs.active || 'false' }}"
             echo "- Ready: ${{ steps.sync.outputs.ready || 'false' }}"
             echo "- Atlas release: ${{ steps.sync.outputs.release_id || 'waiting' }}"
-            echo "- Atlas base: ${{ steps.sync.outputs.base_url || 'waiting for GlobalGrid mirror' }}"
+            echo "- Atlas base: ${{ steps.sync.outputs.base_url || 'waiting for verified GridAtlas' }}"
             echo "- Integration commit: ${{ steps.commit.outputs.commit || 'no change' }}"
             if test -f reports/atlas-v9-deep-link-audit.json; then
               echo "- Replacements: $(jq -r .replacement_count reports/atlas-v9-deep-link-audit.json)"
               echo "- Files rewritten: $(jq -r '.files_rewritten | length' reports/atlas-v9-deep-link-audit.json)"
+              echo "- Immutable releases modified: $(jq -r .immutable_releases_modified reports/atlas-v9-deep-link-audit.json)"
             fi
           } >> "$GITHUB_STEP_SUMMARY"
