@@ -395,21 +395,48 @@ def cmd_build(parent_id, cartridge_name, gen, atlas_target):
                          "bind call in boot()")
     write(os.path.join(target, APP), app)
 
+    # ---- 3b. any other shipped asset -------------------------------------
+    # index.html and app.mjs were the only files a cartridge could repair, so a
+    # fault living in a supplemental module -- the grid proximity dashboard,
+    # say -- could not be corrected by a cartridge at all. It is the same
+    # operation on a different path, and the path is declared and checked
+    # rather than free: it must stay inside the release directory.
+    for rep in man.get("repairs", {}).get("assets", []):
+        rel = rep["path"]
+        full = os.path.normpath(os.path.join(target, rel))
+        if not full.startswith(os.path.normpath(target) + os.sep):
+            raise SystemExit("asset repair escaped the release: %s" % rel)
+        if not os.path.exists(full):
+            raise SystemExit("asset repair target missing: %s" % rel)
+        print("\n  %s" % rel)
+        text = read(full)
+        for one in rep["edits"]:
+            text = apply_once(text, sub(one["from"]), sub(one["to"]),
+                              one["label"], one.get("expect", 1))
+        write(full, text)
+
     # ---- 4. registry -----------------------------------------------------
     print("\n  %s" % REGISTRY)
     reg_path = os.path.join(target, REGISTRY)
     reg = json.loads(read(reg_path))
-    entry = json.loads(sub(json.dumps(man["registry_entry"])))
-    for ref in man.get("hash_fields", []):
-        node, rel_path = entry, sub(ref["path"])
-        for step in ref["at"][:-1]:
-            node = node[step]
-        abs_path = os.path.join(target, rel_path)
-        node[ref["at"][-1]] = sha256_file(abs_path)
-        node["bytes"] = os.path.getsize(abs_path)
-    if key in reg.get("supplemental_assets", {}):
-        raise SystemExit("registry already carries %s" % key)
-    reg.setdefault("supplemental_assets", {})[key] = entry
+    # A cartridge that only repairs shipped files registers nothing: there is no
+    # new asset to attest. Requiring an entry forced such a cartridge to invent
+    # one, which would put a fictitious asset in the registry to satisfy the
+    # builder. The repairs are recorded in the build manifest either way.
+    if "registry_entry" in man:
+        entry = json.loads(sub(json.dumps(man["registry_entry"])))
+        for ref in man.get("hash_fields", []):
+            node, rel_path = entry, sub(ref["path"])
+            for step in ref["at"][:-1]:
+                node = node[step]
+            abs_path = os.path.join(target, rel_path)
+            node[ref["at"][-1]] = sha256_file(abs_path)
+            node["bytes"] = os.path.getsize(abs_path)
+        if key in reg.get("supplemental_assets", {}):
+            raise SystemExit("registry already carries %s" % key)
+        reg.setdefault("supplemental_assets", {})[key] = entry
+    else:
+        print("    no registry entry: this cartridge only repairs shipped files")
     # Every INHERITED cartridge entry still carries the parent's digest, and
     # the parent's digest was taken from a Windows working copy holding CRLF.
     # normalise_to_lf has since rewritten those files to the LF bytes that

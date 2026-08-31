@@ -1,0 +1,64 @@
+{
+  "key": "no_grading",
+  "summary": "Grid proximity reports distances and no longer grades them. The green-to-red bands, the data-band attribute, the GRID column's verdict and the targeting language are gone.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Replaces the four band colours with one neutral colour; stops emitting data-band; makes the GRID column and its sort the nearest circuit distance; removes the band from the readout heading and the project drawer; replaces \"Target acquired\" with \"In range\"; and deletes BAND_RANK, which no longer has a reader.",
+  "repairs": {
+    "index.html": [
+      {
+        "label": "one neutral colour for every distance, no green-to-red grade",
+        "from": "    .action-metric[data-band=\"STRONG\"] b { color: #6fd18a; }\n    .action-metric[data-band=\"MODERATE\"] b { color: #d8c96a; }\n    .action-metric[data-band=\"DISTANT\"] b { color: #d89a6a; }\n    .action-metric[data-band=\"REMOTE\"] b { color: #b06a6a; }",
+        "to": "    /* One colour for every distance. A green-to-red scale grades a named\n       project's grid position, and a developer may build their own\n       substation: proximity to a mapped asset is not a verdict on the\n       scheme. Report the measurement, let the tools do the talking. */\n    .action-metric b { color: #5fbdc2; }"
+      },
+      {
+        "label": "remove the second, unused green-to-red scale on .grid-cell",
+        "from": "    .grid-cell[data-band=\"STRONG\"] .km { color: #6fd18a; }\n    .grid-cell[data-band=\"MODERATE\"] .km { color: #d8c96a; }\n    .grid-cell[data-band=\"DISTANT\"] .km { color: #d89a6a; }\n    .grid-cell[data-band=\"REMOTE\"] .km { color: #b06a6a; }",
+        "to": "    /* A second green-to-red scale lived here for .grid-cell, which\n       nothing emits any more. Removed rather than left: a dead grading\n       rule is one edit away from being a live one. */"
+      }
+    ],
+    "app": [
+      {
+        "label": "stop emitting the band attribute",
+        "from": "  const band = hit.b ? ` data-band=\"${escapeHtml(hit.b)}\"` : \"\";",
+        "to": "  // No band attribute is emitted, so nothing downstream can style or read\n  // a verdict back out of the DOM. The distance is the whole claim.\n  const band = \"\";"
+      }
+    ],
+    "assets": [
+      {
+        "path": "assets/202608311610-grid-proximity.mjs",
+        "edits": [
+          {
+            "label": "GRID reports the nearest circuit, not a verdict on it",
+            "from": "      [\"_gp\", \"GRID\", (r) => `<button class=\"gp-lock\" type=\"button\" data-why=\"${esc(r.ref)}\"\n        title=\"show the working\">${esc(r.grid_probable.band.toLowerCase())}</button>`],",
+            "to": "      // Was the band -- \"strong\", \"remote\" -- as the whole cell. A distance is\n      // a measurement and a band is a verdict on somebody's scheme, so the\n      // cell now shows the measurement and the working stays one click away.\n      [\"_gp\", \"GRID\", (r) => `<button class=\"gp-lock\" type=\"button\" data-why=\"${esc(r.ref)}\"\n        title=\"show the working\">${r.circuit ? km(r.circuit.km) : \"n/a\"}</button>`],"
+          },
+          {
+            "label": "sorting by GRID sorts by distance, not by verdict",
+            "from": "        : k === \"_gp\" ? BAND_RANK[r.grid_probable.band]",
+            "to": "        : k === \"_gp\" ? (r.circuit ? r.circuit.km : Infinity)"
+          },
+          {
+            "label": "the readout is headed by the project, not by a grade",
+            "from": "          box.innerHTML = `<div class=\"gp-readout\"><h4>${esc(r.grid_probable.band)} · ${esc(r.name)}</h4>",
+            "to": "          box.innerHTML = `<div class=\"gp-readout\"><h4>${esc(r.name)}</h4>"
+          },
+          {
+            "label": "the drawer states a distance where it stated a grade",
+            "from": "            <dt>GRID</dt><dd>${esc((row.grid_probable && row.grid_probable.band || \"\").toLowerCase())}</dd>",
+            "to": "            <dt>NEAREST CIRCUIT</dt><dd>${row.circuit ? km(row.circuit.km) + \" · \" + row.circuit.kv + \" kV\" : \"n/a\"}</dd>"
+          },
+          {
+            "label": "no targeting language over somebody's site",
+            "from": "          <h4>${t >= 1 ? \"Target acquired\" : \"Acquiring…\"}</h4>",
+            "to": "          <h4>${t >= 1 ? \"In range\" : \"Measuring…\"}</h4>"
+          },
+          {
+            "label": "remove the rank table the verdict was sorted by",
+            "from": "const BAND_RANK = { STRONG: 0, MODERATE: 1, DISTANT: 2, REMOTE: 3, UNKNOWN: 4 };",
+            "to": "/* BAND_RANK is gone with the grading it ordered. Nothing sorts by verdict. */"
+          }
+        ]
+      }
+    ]
+  }
+}
