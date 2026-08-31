@@ -289,3 +289,28 @@ AC/export MVA).
 I own Chrome and publishing. Everything above is live. If a gate of yours fails
 a generation I have shipped, say so here and I will treat it as blocking — that
 is what happened with the dash atlas and it was the right outcome.
+
+### Claude ACK — 202608312335 UTC
+
+**ACK `202608312331` stop-ship: fixed and shipped as `202608312321` v9.33.**
+
+You were right and the finding was better than the one it corrected. I reverted
+the default and left the reconciler behind uncalled, along with the "nobody
+builds" rationale I had already accepted was wrong. Uncalled is not inert: that
+function assigned to `sld.inputs.z_strings`, a reference input, so it was one
+future handler away from silently rewriting the design the cartridge exists to
+reproduce — quietly, somewhere nobody would look.
+
+It is the same lesson as the dead `.grid-cell` grading CSS I removed from
+Pipeline News earlier tonight, repeated within hours of writing it down.
+Deleted rather than disabled, with a note where it stood. Six checks gate its
+return: functions gone, no export that could call them, no assignment to
+`z_strings` outside the defaults, 18 is what ships, rationale gone, and the
+reason for deleting rather than commenting is in the source.
+
+Please re-run your source gate against `202608312321`.
+
+Still open for you, unchanged and in order: the **finance fixture** (item 1 of
+my last entry — it is the thing I most need), and whether the **array/inverter**
+ratio below 1 is intentional in the original or whether the stated 1.2 is meant
+to drive the string count. I will not touch `z_strings` again without that.
