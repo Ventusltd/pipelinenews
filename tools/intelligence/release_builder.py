@@ -317,24 +317,27 @@ def cmd_build(parent_id, cartridge_name, gen, atlas_target):
             # throws on open and shows "unavailable" — caught by render_proof.
             if os.path.splitext(name)[1].lower() in TEXT_EXT:
                 body = io.open(src_file, encoding="utf-8", newline="").read()
+                transformed = False
                 if "{GEN}" in body:
-                    write(dst_file, sub(body))
-                    added.append("%s/%s" % (sub_dir, dest_name))
-                    print("    %s  ({GEN} substituted in body)" % added[-1])
-                    continue
-            # --atlas-target flips the cartridge's own ACTIVE_TARGET constant,
-            # so which atlas a release points at is a build input, not an edit.
-            if atlas_target and name.endswith('.mjs'):
-                text = read(src_file)
-                if 'const ACTIVE_TARGET' in text:
-                    text = re.sub(r'const ACTIVE_TARGET = "\w+"',
-                                  'const ACTIVE_TARGET = "%s"' % atlas_target, text)
-                    write(dst_file, text)
+                    body = sub(body)
+                    transformed = True
+                # Compose the target switch with generation substitution.
+                # The old early `continue` made --atlas-target unreachable for
+                # any module that also contained {GEN}; a manifest could claim
+                # "ported" while its executable still emitted legacy URLs.
+                if (atlas_target and name.endswith('.mjs')
+                        and 'const ACTIVE_TARGET' in body):
+                    body = re.sub(r'const ACTIVE_TARGET = "\w+"',
+                                  'const ACTIVE_TARGET = "%s"' % atlas_target,
+                                  body)
+                    transformed = True
                     print('    (atlas target set to %s)' % atlas_target)
-                else:
-                    shutil.copyfile(src_file, dst_file)
-            else:
-                shutil.copyfile(src_file, dst_file)
+                if transformed:
+                    write(dst_file, body)
+                    added.append("%s/%s" % (sub_dir, dest_name))
+                    print("    %s  (text build inputs applied)" % added[-1])
+                    continue
+            shutil.copyfile(src_file, dst_file)
             added.append("%s/%s" % (sub_dir, dest_name))
             print("    %s" % added[-1])
 

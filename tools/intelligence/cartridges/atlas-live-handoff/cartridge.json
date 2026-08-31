@@ -1,0 +1,59 @@
+{
+  "key": "atlas_live_handoff",
+  "summary": "Promote every Pipeline News MAP action from the legacy GlobalGrid Atlas to the stable Ventus GridAtlas route, retaining the complete project context required for automatic grid maths and layout entry.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Changes the two MAP ATLAS navigation links and the project-table deep-link receiver from the legacy GlobalGrid Atlas to the stable Ventus GridAtlas route. Project/news data and ranking are unchanged.",
+  "repairs": {
+    "index.html": [
+      {
+        "label": "site navigation uses the stable composed GridAtlas route",
+        "from": "https://globalgrid2050.com/repd_grid_atlasv8/",
+        "to": "https://ventusltd.github.io/gridatlas/atlas/",
+        "expect": 2
+      }
+    ],
+    "app": [
+      {
+        "label": "project MAP actions import the promoted receiver contract",
+        "from": "import { buildAtlasV9DeepLink } from \"./202608311343-atlas-pointer-deep-link.mjs\";",
+        "to": "import { buildAtlasV9DeepLink } from \"./{GEN}-atlas-pointer-deep-link.mjs\";",
+        "expect": 1
+      }
+    ]
+  },
+  "hash_fields": [
+    {
+      "at": ["cartridge", "sha256"],
+      "path": "assets/{GEN}-atlas-pointer-deep-link.mjs"
+    }
+  ],
+  "registry_entry": {
+    "schema": "pipelinenews.atlas-live-handoff.v1",
+    "generation": "{GEN}",
+    "classification": "DASHBOARD_NAVIGATION_AND_PROJECT_ACTION_REPAIR",
+    "activation": "eager-es-module-import",
+    "active_target": "ported",
+    "stable_route": "https://ventusltd.github.io/gridatlas/atlas/",
+    "identity_rule": "EXACT_PROJECT_REPD_REF",
+    "context_parameters": [
+      "project",
+      "technology",
+      "capacity_mw",
+      "latitude",
+      "longitude",
+      "zoom"
+    ],
+    "project_data_changed": false,
+    "news_data_changed": false,
+    "rollback": "build again from 202608311858-pipelinenews",
+    "cartridge": {
+      "schema": "pipelinenews.atlas-current-deep-link-cartridge.v2",
+      "generation": "{GEN}",
+      "filename": "{GEN}-atlas-pointer-deep-link.mjs",
+      "path": "assets/{GEN}-atlas-pointer-deep-link.mjs",
+      "bytes": 0,
+      "sha256": "",
+      "activation": "eager-es-module-import"
+    }
+  }
+}
