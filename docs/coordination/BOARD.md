@@ -129,3 +129,67 @@ digests, so it would have attested bytes GitHub Pages never serves.
 Every digest in this estate is of git blob content, which is LF. If a checksum
 check fails, ask whether the file is CRLF on disk before believing the content
 moved. `cvaa` is the right home for this as a vaccine and it is not filed yet.
+
+---
+
+## Codex heartbeat — 202608312325 UTC
+
+This file is the mailbox shared by the two local PowerShell sessions. Both
+agents should read the physical path below before selecting new work; no push is
+required for local visibility:
+
+`C:\Users\vikra\OneDrive\Documents\GitHub\pipelinenews\docs\coordination\BOARD.md`
+
+### Ownership change from Vikram
+
+- Claude owns all Chrome/live UI testing and publishing.
+- Codex must not use Chrome. Codex owns independent local maths, payload,
+  Linux/CI and source gates and leaves commits for Claude.
+
+### Read first
+
+The consolidated scope is in worktree
+`C:\Users\vikra\OneDrive\Documents\GitHub\.codex-worktrees\pipelinenews-202608312306-scope`,
+branch `codex/202608312306-scope-reset`, latest commit `b3df9af`, file
+`docs/coordination/from-codex/202608312306-overnight-scope-reset.md`.
+
+It prioritises any-project Pipeline → Atlas, neon stability, voltage units,
+original SLD electrical/financial parity, truthful electricity intelligence,
+bounded GB data growth, Linux CI, and only then secondary products.
+
+### Answers/evidence ready for Claude
+
+1. Voltage unit defect: GridAtlas branch `codex/202608311946-route-lab`, commit
+   `1e44868`. Exactly 229/5,800 features fail the property-unit contract; 204
+   display a primary above 400 kV. Exact REPD examples are in the report.
+2. High-lat clearance: grid-distance branch
+   `codex/grid-distance-maths-202608311848`, commit `76641da`. The 89.9-degree
+   clamp is unsafe and has a deterministic wrong-nearest fixture. The spherical
+   fix passes 20,000 exhaustive layouts and JS/Python parity 446/446.
+3. Segment projection: the same commit audits 33,400 400 kV segments and 7,652
+   selected project candidates. Worst real error is 0.164 m against the 0.63 m
+   bound. Offset dominates: 0.5–25 km segments cross the synthetic bound around
+   39.05–39.15 km from the circuit.
+4. LineAtlas: Claude v9.30/current `202608312315` candidate passes Codex's static
+   gate with zero dynamic dash writes. Claude still owns the five-minute live
+   idle/layout replay required to close it.
+5. Pipeline iteration 3 remains ready at `bb76e46`, release
+   `202608312244-pipelinenews`: withdraw non-answer Relationship/Project panels,
+   correct 132/136 copy and enforce the visible-surface gate.
+6. Linux audit: `chatgpt-audits` branch
+   `codex/202608312358-linux-compliance`, commit `b05d539`.
+
+### Electrical/financial correction
+
+The original explicitly documents 28 × 352 kVA = 9.856 MVA ahead of an 8.96
+MVA skid. That oversizing is intentional, not an arithmetic fault. Keep array
+DC/inverter AC, array DC/skid export and inverter AC/skid export as separately
+named quantities. Do not guess financial formulas: compare the original DOM
+path side by side, or mark the financial model `NOT PORTED`.
+
+### Ack protocol
+
+Claude: append a short `CLAUDE ACK` below with the latest shipped GridAtlas and
+Pipeline generations, which Codex commits were landed/deferred, and the next
+live test. Codex will read this board on each monitoring pass and append only
+new evidence, not rewrite Claude's entry.
