@@ -1,0 +1,74 @@
+{
+  "key": "project_intelligence",
+  "summary": "Five-tab derived panel: lead-time band, grid and data-centre proximity, name-match reachability. Also repairs the map deep link.",
+  "section": "    <section class=\"meta sector-intelligence-launch\" aria-labelledby=\"projectIntelHeading\">\n      <strong id=\"projectIntelHeading\">PROJECT INTELLIGENCE — WHERE TO LOOK FIRST</strong>\n      <span>3,054 live solar and battery projects, placed in the window between consent and construction, with grid proximity, nearby data centres and operator footprint.</span>\n      <span>Studies, cable and LV design are specified before a project freezes. This shows which consented projects are still inside that window.</span>\n      <span>Built from the DESNZ planning register under the Open Government Licence v3.0, and mapped network and OpenStreetMap data.</span>\n      <button class=\"btn\" id=\"projectIntelOpen\" type=\"button\" aria-controls=\"projectIntelHost\" aria-expanded=\"false\">OPEN PROJECT INTELLIGENCE</button>\n      <span id=\"projectIntelMeta\">WAIT · dynamic cartridge not requested at startup</span>\n      <div id=\"projectIntelHost\" hidden></div>\n    </section>\n\n",
+  "bind_call": "bindProjectIntelligence();",
+  "loader": "async function openProjectIntelligence() {\n  const button = document.getElementById(\"projectIntelOpen\");\n  const host = document.getElementById(\"projectIntelHost\");\n  const meta = document.getElementById(\"projectIntelMeta\");\n  invariant(button && host && meta, \"project-intelligence controls are missing\");\n  if (host.dataset.projectIntelligenceState === \"ready\") {\n    host.hidden = !host.hidden;\n    button.setAttribute(\"aria-expanded\", String(!host.hidden));\n    return;\n  }\n  if (host.dataset.projectIntelligenceState === \"loading\") return;\n  const entry = registry.supplemental_assets?.project_intelligence;\n  invariant(entry?.activation === \"dynamic-import-on-user-open; payload-fetch-on-first-tab-selection\", \"project intelligence activation changed\");\n  invariant(entry.project_bindings === 0 && entry.eligible_for_news_signal === false, \"project intelligence binding boundary changed\");\n  host.hidden = false;\n  host.dataset.projectIntelligenceState = \"loading\";\n  button.setAttribute(\"aria-expanded\", \"true\");\n  meta.textContent = \"LOAD \\u00b7 importing derived controls; no payload requested\";\n  runtimeEvidence.projectIntelligenceImports += 1;\n  invariant(runtimeEvidence.projectIntelligenceImports === 1, \"project intelligence cartridge imported more than once\");\n  const cartridge = await import(`./${entry.cartridge.filename}`);\n  invariant(cartridge.PROJECT_INTELLIGENCE_CARTRIDGE_CONTRACT.generation === entry.generation, \"project intelligence cartridge identity changed\");\n  invariant(cartridge.PROJECT_INTELLIGENCE_CARTRIDGE_CONTRACT.additive_only === true, \"project intelligence cartridge is no longer additive-only\");\n  const result = cartridge.mountProjectIntelligence({\n    host,\n    payloadAsset: { ...entry.payload, url: entry.payload.path },\n  });\n  runtimeEvidence.projectIntelligencePayloadRequests = result.payloadRequests;\n  invariant(runtimeEvidence.projectIntelligencePayloadRequests === 0 && result.projectBindings === 0, \"project intelligence payload requested at mount, or a binding appeared\");\n  host.dataset.projectIntelligenceState = \"ready\";\n  meta.textContent = \"WAIT \\u00b7 five tabs \\u00b7 choose one to request the compact derived index\";\n}\n\nfunction bindProjectIntelligence() {\n  const button = document.getElementById(\"projectIntelOpen\");\n  invariant(button, \"project-intelligence opener is missing\");\n  button.addEventListener(\"click\", () => openProjectIntelligence().catch((error) => {\n    console.error(\"project intelligence\", error);\n    document.getElementById(\"projectIntelMeta\").textContent = \"FAIL \\u00b7 project intelligence unavailable; core product unchanged\";\n    document.getElementById(\"projectIntelHost\").dataset.projectIntelligenceState = \"failed\";\n  }));\n}\n\n",
+  "repairs": {
+    "index.html": [
+      {
+        "label": "MAP ATLAS href — repair the 404 path",
+        "from": "https://ventusltd.github.io/gridatlas/202608300453-atlas-v9/",
+        "to": "https://globalgrid2050.com/repd_grid_atlasv8/",
+        "expect": 2
+      }
+    ],
+    "app": [
+      {
+        "label": "deep-link import — repair path and payload",
+        "from": "import { buildAtlasV9DeepLink } from \"./202608291447-atlas-pointer-deep-link.mjs\";",
+        "to": "import { buildAtlasV9DeepLink } from \"./{GEN}-atlas-pointer-deep-link.mjs\";"
+      },
+      {
+        "label": "runtime evidence counters",
+        "from": "  federatedRelationshipPayloadRequests: 0,",
+        "to": "  federatedRelationshipPayloadRequests: 0,\n  projectIntelligenceImports: 0,\n  projectIntelligencePayloadRequests: 0,"
+      }
+    ]
+  },
+  "hash_fields": [
+    { "at": ["cartridge", "sha256"], "path": "assets/{GEN}-project-intelligence.mjs" },
+    { "at": ["payload", "sha256"], "path": "data/{GEN}-project-intelligence.json" }
+  ],
+  "registry_entry": {
+    "schema": "pipelinenews.project-intelligence-supplemental-asset.v1",
+    "generation": "{GEN}",
+    "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+    "usage_context_establishes_upstream_rights": false,
+    "activation": "dynamic-import-on-user-open; payload-fetch-on-first-tab-selection",
+    "additive_only": true,
+    "mutates_existing_dom": false,
+    "project_bindings": 0,
+    "eligible_for_news_signal": false,
+    "derived_values_are_inferred": true,
+    "corroboration_adapters_built": false,
+    "one_signal_policy": "WITHHOLD",
+    "no_personal_data": true,
+    "host_id": "projectIntelHost",
+    "bind_call": "bindProjectIntelligence();",
+    "cartridge": {
+      "schema": "pipelinenews.project-intelligence-cartridge.v1",
+      "generation": "{GEN}",
+      "filename": "{GEN}-project-intelligence.mjs",
+      "path": "assets/{GEN}-project-intelligence.mjs",
+      "bytes": 0,
+      "sha256": "",
+      "activation": "dynamic-import-on-user-open"
+    },
+    "payload": {
+      "path": "data/{GEN}-project-intelligence.json",
+      "schema": "pipelinenews.v9.project-intelligence.v1",
+      "record_count": 3054,
+      "bytes": 0,
+      "sha256": ""
+    },
+    "tabs": [
+      { "code": "OVERVIEW", "label": "OVERVIEW", "display_rank": 1 },
+      { "code": "LEAD_TIME", "label": "LEAD TIME", "display_rank": 2 },
+      { "code": "GRID", "label": "GRID", "display_rank": 3 },
+      { "code": "DATA_CENTRES", "label": "DATA CENTRES", "display_rank": 4 },
+      { "code": "METHOD", "label": "METHOD", "display_rank": 5 }
+    ],
+    "scope": "live solar and battery-storage projects in the DESNZ REPD Q2 2026 spine (not operational, refused, withdrawn or abandoned)"
+  }
+}

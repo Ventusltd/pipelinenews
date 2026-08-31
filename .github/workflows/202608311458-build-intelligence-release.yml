@@ -1,0 +1,235 @@
+# Build the next timestamped PipelineNews release in CI.
+#
+#   1. scan this repo with cvaa (Coding Vaccines Against Amnesia) and record it
+#   2. stamp a generation from `date -u` at the moment of creation
+#   3. build a new immutable release from the chosen parent, adding one
+#      discovery cartridge to the UI
+#   4. prove it: deep-link selfTest, five-tab render proof, cartridge verifiers
+#   5. commit and push the release, and nothing else
+#
+# Nothing is edited in place. The parent release is asserted byte-for-byte
+# unchanged before the run is allowed to commit. If the result is wrong, run
+# this again with an earlier `parent` — that is the rollback.
+#
+# Manual dispatch only. No cron: a schedule pinned to a calendar day is what
+# cvaa's no-time-based-gates vaccine exists to catch, and an unattended job that
+# pushes to main is not something this repository should grow by accident.
+
+name: Build intelligence release
+
+on:
+  workflow_dispatch:
+    inputs:
+      parent:
+        description: Parent release to build from (blank = newest)
+        required: false
+        default: ''
+        type: string
+      cartridge:
+        description: Cartridge package under tools/intelligence/cartridges
+        required: false
+        default: 'project-intelligence'
+        type: string
+      atlas_target:
+        description: >-
+          Which atlas the MAP links point at. legacy = repd_grid_atlasv8, the
+          v8 app whose deep link works today. ported = /gridatlas/atlas/, the
+          v9 app, whose deep link is NOT confirmed working.
+        required: false
+        default: 'legacy'
+        type: choice
+        options: [legacy, ported]
+      cvaa_blocking:
+        description: Fail the build if cvaa reports findings
+        required: false
+        default: false
+        type: boolean
+      push:
+        description: Commit and push the release (off = build and prove only)
+        required: false
+        default: true
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pipelinenews-intelligence-release
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout pipelinenews
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+
+      - name: Checkout cvaa
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: Ventusltd/cvaa
+          path: .cvaa
+          fetch-depth: 0
+        continue-on-error: true
+
+      # cvaa's antibody runner passes --experimental-permission, which Node 23
+      # renamed to --permission and Node 24 rejects outright as a bad option.
+      # Every antibody then exits before printing, and cvaa reports "antibody
+      # produced no result" for all 24 while exiting 1. Pin 22 until the runner
+      # is updated; this is a workaround, not a fix.
+      - name: Node 22 for cvaa
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a
+        with:
+          node-version: '22'
+
+      - name: Scan this repository with cvaa
+        id: cvaa
+        continue-on-error: true
+        run: |
+          set -uo pipefail
+          if [ ! -f .cvaa/inoculate.mjs ]; then
+            echo "cvaa unavailable; skipping scan" | tee cvaa-report.txt
+            echo "status=unavailable" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          node .cvaa/inoculate.mjs . 2>&1 | tee cvaa-report.txt
+          code=${PIPESTATUS[0]}
+          echo "status=$code" >> "$GITHUB_OUTPUT"
+          {
+            echo "## cvaa scan"
+            echo '```'
+            tail -n 60 cvaa-report.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit 0
+
+      - name: Enforce cvaa result
+        if: ${{ inputs.cvaa_blocking && steps.cvaa.outputs.status != '0' }}
+        run: |
+          echo "cvaa reported findings and cvaa_blocking is on."
+          exit 1
+
+      - name: Node 24 for the release proofs
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a
+        with:
+          node-version: '24'
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      # No pip install. The builder and every verifier are pure stdlib, so this
+      # job cannot fail for a reason unrelated to the release it is building.
+
+      - name: Stamp the generation from the clock
+        id: gen
+        run: |
+          set -euo pipefail
+          GEN="$(date -u +%Y%m%d%H%M)"
+          PARENT="${{ inputs.parent }}"
+          if [ -z "$PARENT" ]; then
+            PARENT="$(ls -1 releases | grep -E '^[0-9]{12}-pipelinenews$' | sort | tail -1)"
+          fi
+          test -d "releases/$PARENT"
+          echo "gen=$GEN"          >> "$GITHUB_OUTPUT"
+          echo "parent=$PARENT"    >> "$GITHUB_OUTPUT"
+          echo "release=$GEN-pipelinenews" >> "$GITHUB_OUTPUT"
+          echo "Generation $GEN from parent $PARENT"
+
+      - name: Build the release
+        run: |
+          set -euo pipefail
+          python tools/intelligence/release_builder.py \
+            --from "${{ steps.gen.outputs.parent }}" \
+            --cartridge "${{ inputs.cartridge }}" \
+            --atlas-target "${{ inputs.atlas_target }}" \
+            --gen "${{ steps.gen.outputs.gen }}"
+
+      - name: Verify release integrity
+        run: python tools/intelligence/release_builder.py --check "${{ steps.gen.outputs.release }}"
+
+      - name: Parent release must be untouched
+        run: |
+          set -euo pipefail
+          if ! git diff --quiet -- "releases/${{ steps.gen.outputs.parent }}"; then
+            echo "the parent release changed; that must never happen"
+            git --no-pager diff --stat -- "releases/${{ steps.gen.outputs.parent }}"
+            exit 1
+          fi
+          echo "parent ${{ steps.gen.outputs.parent }} unchanged"
+
+      - name: Deep-link selfTest
+        run: |
+          set -euo pipefail
+          GEN="${{ steps.gen.outputs.gen }}"
+          node -e "
+            import('./releases/${GEN}-pipelinenews/assets/${GEN}-atlas-pointer-deep-link.mjs')
+              .then(m => { const r = m.selfTest();
+                for (const c of r.checks) if (!c.ok) console.log('FAIL', c.name, c.detail || '');
+                console.log(r.checks.length + ' checks, ' + r.checks.filter(c => !c.ok).length +
+                            ' failed, target ' + r.target);
+                process.exit(r.ok ? 0 : 1); })"
+
+      - name: Render proof — every tab must render
+        run: node tools/intelligence/render_proof.mjs "${{ steps.gen.outputs.release }}"
+
+      - name: Cartridge verifiers
+        env:
+          CARTRIDGE_MJS: releases/${{ steps.gen.outputs.release }}/assets/${{ steps.gen.outputs.gen }}-atlas-pointer-deep-link.mjs
+          PANEL_MJS: releases/${{ steps.gen.outputs.release }}/assets/${{ steps.gen.outputs.gen }}-project-intelligence.mjs
+        run: |
+          set -euo pipefail
+          cd tools/intelligence
+          python v6_deep_link_cartridge.py
+          python v8_neutral_surface.py "../../releases/${{ steps.gen.outputs.release }}"
+
+      - name: Publish the release
+        if: ${{ inputs.push }}
+        env:
+          GEN: ${{ steps.gen.outputs.gen }}
+          PARENT: ${{ steps.gen.outputs.parent }}
+          RELEASE: ${{ steps.gen.outputs.release }}
+          TARGET: ${{ inputs.atlas_target }}
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Exactly one release folder per commit: the Pages workflow stages a
+          # release only when precisely one changed, and falls back to the
+          # pointer otherwise.
+          git add "releases/${RELEASE}"
+          git commit -m "${GEN}: intelligence release from ${PARENT}
+
+          Additive panel plus repaired map deep link. Atlas target: ${TARGET}.
+          Parent asserted byte-for-byte unchanged.
+
+          Proofs: deep-link selfTest, five-tab render proof, release integrity,
+          cartridge verifiers, neutral-surface check."
+          git push origin HEAD:main
+
+      - name: Summary
+        if: always()
+        run: |
+          {
+            echo "## ${{ steps.gen.outputs.release }}"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| parent | \`${{ steps.gen.outputs.parent }}\` |"
+            echo "| cartridge | \`${{ inputs.cartridge }}\` |"
+            echo "| atlas target | \`${{ inputs.atlas_target }}\` |"
+            echo "| cvaa exit | \`${{ steps.cvaa.outputs.status }}\` |"
+            echo "| pushed | \`${{ inputs.push }}\` |"
+            echo ""
+            echo "Rollback is a rebuild: run this again with an earlier \`parent\`."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the built release
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ${{ steps.gen.outputs.release }}
+          path: releases/${{ steps.gen.outputs.release }}
+          retention-days: 30
