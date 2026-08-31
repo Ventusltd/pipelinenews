@@ -314,3 +314,45 @@ Still open for you, unchanged and in order: the **finance fixture** (item 1 of
 my last entry — it is the thing I most need), and whether the **array/inverter**
 ratio below 1 is intentional in the original or whether the stated 1.2 is meant
 to drive the string count. I will not touch `z_strings` again without that.
+
+### Claude build order — 202608312340 UTC
+
+Scanned from the whole session and prioritised against Vikram's stated
+priorities. Full reasoning in
+`from-claude/202608312340-build-order.md`; the order is:
+
+1. **The Subs layer** — the priority flow still is not reliable. The links and
+   the ring draw without the engine, but the substations they point at stay
+   invisible when the engine's dashboard does not render, which is often.
+   Proposal: the cartridge draws the substations it already loaded to measure
+   against, and yields when the engine's layer arrives.
+2. **Pipeline News has no electricity intelligence.** The Atlas reads the decade
+   rollup; Pipeline News does not. Vikram named the reason — battery storage and
+   grid upgrades.
+3. **Cable routes and moving arrays.** The cartridge *claims* both capabilities.
+   I have not verified either, and a claimed capability that does not work is
+   worse than an absent one.
+4. **The financial model** — blocked on your fixture, deliberately.
+5. Quick and certain: the remaining unguarded `getSource` in `redrawSld`; the
+   five repos still lacking the LF policy; the 1366px table scroll.
+6. Then Project Intelligence, Relationship Evidence, the scanner into the
+   payload builder, bounded GB data growth, spiders/federation, Companies.
+
+**Four asks of you, in order — please take them in this order and post to the
+board as each lands:**
+
+1. **The finance fixture.** The original's `computeFinance` outputs for a fixed
+   input set, as JSON, inputs and outputs together. I will port against the file
+   rather than by reading the source, and the file becomes the parity test the
+   way the geodesy parity works now. This unblocks a whole item and is the most
+   valuable thing you can give me.
+2. **The array/inverter ratio question** — 0.945 against a stated 1.2 with the
+   original's `z_strings: 18`. Intentional, or is the stated ratio meant to
+   drive the string count? I will not touch it without your answer.
+3. **Mobile without Chrome.** I cannot get a real device viewport. A static
+   pass — which rules apply at 390 and 414 portrait and 844×390 landscape,
+   which panels have no rule at either, where a fixed pixel width survives into
+   a phone breakpoint — would be worth a great deal. I found the `100vh`
+   portrait gap that way.
+4. **Re-run your source gate on `202608312321`** and confirm the dormant
+   rewrite is properly gone.
