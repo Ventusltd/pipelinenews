@@ -110,8 +110,41 @@ def town_from(node):
     return None, None
 
 
+# What a town name is NOT. REPD's Address is free text, and its last segment is
+# frequently a whole site description rather than a place: "Lands east of
+# Feystown Road Glenarm; extending between an area situated approximately 750m
+# east of 54 Feystown Road ..." was being served as a TOWN, 237 characters
+# wide, which is what forced the column open and left a gap on every other row.
+#
+# Scanning EARLIER segments instead was measured and is worse: it turns
+# offshore sites into "Offshore" and "Greater Wash region", and it demotes
+# Brettabister to Shetland. So the rule stays "last segment", and a last
+# segment that does not look like a place name yields null.
+NOT_A_TOWN = re.compile(
+    r"""(
+        \d                              # house number, road number, postcode fragment
+      | \b(land|lands|site|sites|field|fields|farmland|adjacent|approximately
+           |north|south|east|west|northeast|northwest|southeast|southwest
+           |junction|extending|between|situated|proposed|windfarm
+           |townlands?|nr|near|off|opposite|rear|former)\b
+    )""",
+    re.I | re.X)
+
+TOWN_MAX = 32   # longest genuine value the rule keeps; the median town is 13
+
+
+def looks_like_a_town(value):
+    return bool(value) and len(value) <= TOWN_MAX and not NOT_A_TOWN.search(value)
+
+
 def town_from_address(address, county):
-    """Last address segment that is not a postcode and not the county."""
+    """Last address segment, but only if it reads as a place name.
+
+    Measured over the 2,750 rows with no postcode to resolve: 1,587 yield a
+    town-shaped value and 1,163 yield null. A null is the honest answer for a
+    site whose address is a description -- offshore wind especially, where
+    there is no town to name.
+    """
     county = (county or "").strip().lower()
     parts = [p.strip() for p in (address or "").split(",") if p.strip()]
     for part in reversed(parts):
@@ -121,7 +154,8 @@ def town_from_address(address, county):
             continue
         if len(part) < 3 or part.isdigit():
             continue
-        return one_line(part)
+        candidate = one_line(part)
+        return candidate if looks_like_a_town(candidate) else None
     return None
 
 
@@ -228,9 +262,11 @@ def main():
             "town": "Resolved at build time from the postcode via the ONS "
                     "Postcode Directory (api.postcodes.io): ONS Built-Up Area "
                     "where one exists, otherwise civil parish. Where the "
-                    "register carries no postcode, the last usable segment of "
-                    "the REPD Address is used and marked town_source="
-                    "'derived'. Never guessed; null where unsourceable.",
+                    "register carries no postcode, the last segment of the "
+                    "REPD Address is used, but only when it reads as a place "
+                    "name rather than a site description -- marked "
+                    "town_source='derived'. Never guessed; null where "
+                    "unsourceable, which includes most offshore wind.",
         },
         "town_source_values": ["bua", "parish", "ward", "derived", None],
         "counts": stats,

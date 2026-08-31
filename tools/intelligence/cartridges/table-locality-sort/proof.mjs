@@ -297,6 +297,144 @@ check("every sort option is a recognised mode",
     return rowsOf().length > 0;
   }), options.join(","));
 
+
+// ------------------------------------------- the column that was too wide --
+// A single 237-character address line was being served as a TOWN. With the
+// column set to nowrap that one value sized the column for all 7,510 rows,
+// which is the gap between TOWN and POSTCODE.
+// Two different rules, deliberately. An address-derived town is capped at 32
+// because past that it stops being a place name and starts being a site
+// description. An ONS value is an official name and is never truncated --
+// "Chafford Hundred, West Thurrock and Purfleet-on-Thames" is a real ward.
+// The column is kept narrow by the CSS cap, not by editing ONS.
+const derivedTowns = Object.values(locality.locality)
+  .filter((p) => p.town_source === "derived").map((p) => p.town);
+const onsTowns = Object.values(locality.locality)
+  .filter((p) => p.town && p.town_source !== "derived").map((p) => p.town);
+check("no address-derived town exceeds the 32-character rule",
+  Math.max(...derivedTowns.map((t) => t.length)) <= 32,
+  `longest ${JSON.stringify(derivedTowns.sort((a, b) => b.length - a.length)[0])}`);
+check("ONS names are kept whole, and none is absurd",
+  Math.max(...onsTowns.map((t) => t.length)) <= 60,
+  `longest ${JSON.stringify(onsTowns.sort((a, b) => b.length - a.length)[0])}`);
+check("the 237-character address description is gone",
+  Math.max(...Object.values(locality.locality).map((p) => (p.town || "").length)) < 100);
+check("no town spans more than one line",
+  Object.values(locality.locality).every((p) => !/[\r\n]/.test(p.town || "")));
+check("address-derived towns read as place names, not site descriptions",
+  Object.values(locality.locality)
+    .filter((p) => p.town_source === "derived")
+    .every((p) => p.town.length <= 32 && !/\d/.test(p.town)),
+  JSON.stringify(Object.values(locality.locality)
+    .filter((p) => p.town_source === "derived" && (p.town.length > 32 || /\d/.test(p.town)))
+    .slice(0, 3).map((p) => p.town)));
+
+const css = await readFile(join(root, "index.html"), "utf8");
+check("the TOWN cell is capped and ellipsised rather than nowrapped open",
+  css.includes(".town-cell > span") && css.includes("text-overflow: ellipsis"));
+check("every rendered TOWN value carries its full text on hover",
+  rowsOf().every((tr) => {
+    const span = cellsOf(tr)[COL.TOWN].querySelector("span");
+    return !span || span.getAttribute("title");
+  }));
+
+// ------------------------------------------------- the horizontal scrollbar --
+check("the table area is bounded on desktop so its scrollbar is reachable",
+  css.includes(".tablewrap { max-height: calc(100vh - 270px)"), "no desktop max-height");
+check("the table declares a min-width wide enough for 13 columns",
+  /\.tablewrap table \{ min-width: 16\d\dpx/.test(css), "min-width not raised past 1500px");
+check("the scrollbar is given a visible track and thumb",
+  css.includes("::-webkit-scrollbar-thumb") && css.includes("scrollbar-color"));
+
+// ---------------------------------------------------------- the search bar --
+// One bar, covering everything. County was always searchable through the
+// prebuilt index; town, postcode and authority are the new terms.
+//
+// The handler debounces 120ms and then awaits the 1.9 MB search supplement, so
+// reading the rows straight after dispatching the event reads the PREVIOUS
+// result. Every search below waits for the app to settle first.
+const searchBox = $("#search");
+const settle = () => new Promise((resolve) => {
+  const started = Date.now();
+  const poll = setInterval(() => {
+    const meta = $("#resultsMeta").textContent || "";
+    if (!meta.includes("loading") || Date.now() - started > 30000) {
+      clearInterval(poll);
+      setTimeout(resolve, 30);
+    }
+  }, 25);
+});
+const runSearch = async (text) => {
+  searchBox.value = text;
+  searchBox.dispatchEvent(new window.Event("input", { bubbles: true }));
+  await settle();
+  return rowsOf();
+};
+const townsOfRows = (trs) => trs.map((tr) =>
+  locality.locality[tr.id.replace(/^repd-/, "")]?.town || "");
+
+check("the placeholder names what the bar covers",
+  /TOWN/.test(searchBox.placeholder) && /POSTCODE/.test(searchBox.placeholder)
+  && /COUNTY/.test(searchBox.placeholder), searchBox.placeholder);
+
+// A term that finds nothing must find nothing. If this passes trivially then
+// every assertion below it is meaningless, so it goes first.
+check("a term in none of the fields finds nothing",
+  (await runSearch("zzzznotaplacezzzz")).length === 0,
+  `${(await runSearch("zzzznotaplacezzzz")).length} rows`);
+check("clearing the box restores the full table",
+  (await runSearch("")).length === WINDOW);
+
+// Choose a town held by only a handful of projects, so the whole answer fits
+// inside one 100-row window and the assertion can be exact.
+const byTown = new Map();
+for (const [ref, place] of Object.entries(locality.locality)) {
+  if (!place.town || place.town_source === "derived") continue;
+  if (!/^[A-Za-z][A-Za-z' -]{5,19}$/.test(place.town)) continue;
+  byTown.set(place.town, [...(byTown.get(place.town) || []), ref]);
+}
+const [sampleTown, sampleRefs] = [...byTown.entries()]
+  .find(([, refs]) => refs.length >= 2 && refs.length <= 6);
+const townHits = await runSearch(sampleTown);
+check(`town search finds rows ("${sampleTown}")`, townHits.length > 0, `${townHits.length} rows`);
+check("town search returns every project in that town",
+  sampleRefs.every((ref) => townHits.some((tr) => tr.id === `repd-${ref}`)),
+  `wanted ${sampleRefs.join(",")} got ${townHits.map((tr) => tr.id.replace(/^repd-/, "")).join(",")}`);
+// The bar is one bar: a hit may match on name or operator rather than town.
+// What must never happen is a hit that matches nothing at all.
+check("every town-search hit matches the term somewhere",
+  townHits.every((tr) => {
+    const ref = tr.id.replace(/^repd-/, "");
+    const place = locality.locality[ref] || {};
+    const row = projects.rows.find((r) => refOf(r) === ref) || [];
+    const haystack = [place.town, place.postcode, place.authority,
+                      row[F.name], row[F.operator],
+                      projects.dictionaries.county[row[F.county]],
+                      projects.dictionaries.operator[row[F.operator]]]
+      .filter(Boolean).join(" ").toLowerCase();
+    return haystack.includes(sampleTown.toLowerCase());
+  }), townsOfRows(townHits).slice(0, 4).join(" | "));
+
+const samplePostcode = Object.values(locality.locality)
+  .find((p) => p.postcode && p.postcode.includes(" ")).postcode;
+const pcHits = await runSearch(samplePostcode);
+check(`postcode search finds the row ("${samplePostcode}")`, pcHits.length > 0, `${pcHits.length} rows`);
+check("every postcode hit really carries that postcode",
+  pcHits.every((tr) =>
+    (locality.locality[tr.id.replace(/^repd-/, "")]?.postcode || "") === samplePostcode));
+check("postcode search works without the space too",
+  (await runSearch(samplePostcode.replace(/\s+/g, ""))).length === pcHits.length,
+  samplePostcode.replace(/\s+/g, ""));
+const outcode = samplePostcode.split(" ")[0];
+const outHits = await runSearch(outcode);
+check(`outcode search widens the answer ("${outcode}")`,
+  outHits.length >= pcHits.length, `${outHits.length} vs ${pcHits.length}`);
+
+const sampleCounty = projects.dictionaries.county.find((c) => /^[A-Za-z ]{6,20}$/.test(c));
+const countyHits = await runSearch(sampleCounty);
+check(`county search finds rows ("${sampleCounty}")`, countyHits.length > 0, `${countyHits.length} rows`);
+await runSearch("");
+
 // ------------------------------------------------------------------ report --
 console.log(`\n${passed}/${passed + failures.length} checks passed`);
 if (failures.length) {
