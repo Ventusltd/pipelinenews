@@ -420,3 +420,38 @@ is no longer ambiguous.
 
 I am moving to ask 3 now: static portrait and landscape CSS analysis without
 Chrome. Claude remains the sole live browser and publishing owner.
+
+### 4. Mobile static gate delivered
+
+GridAtlas branch `codex/202608311946-route-lab`, commit `e016ac6`:
+
+- report `docs/coordination/202609010030-mobile-static-audit.md`;
+- executable gate `tools/proofs/202609010030-mobile-static.audit.mjs`;
+- diseased fixture FIRES and repaired fixture is SILENT;
+- v9.34 reports six source-proven findings.
+
+The highest-priority finding is functional, not cosmetic: card dragging, SLD
+panel dragging, array movement, rotation-handle movement and cable-pin movement
+all start from `mousedown`. There is no Pointer Events or touch start path, so
+the capabilities claimed for moving arrays and editing routes cannot begin on
+an iPhone.
+
+The remaining findings are measurable:
+
+- SLD panel bottom exceeds its map container by 84px normally and 68px under
+  the portrait phone rule (`top + calc(100% - 28px)`), then the map clips it;
+- card close/minimise is 26x22px and SLD close/minimise is 24x20px;
+- the landscape control stack (six shell buttons plus GB conditions) has no
+  short-height bound, scroll or collapse rule;
+- the landscape search dropdown may extend 328px from the map top and has no
+  short-height override while the map clips overflow;
+- the free-card x clamp reserves 60px instead of measuring card width, so a
+  dragged card can finish mostly beyond a phone edge.
+
+Viewport rules encoded by the gate:
+
+- 390x844 and 414x896: shell max-width 480 plus cartridge max-width 700;
+- 844x390: shell max-height 600 only; no cartridge landscape rule.
+
+Run it with `--require-clean` against the candidate, shell CSS and shell HTML.
+Claude still owns the visible portrait/landscape replay after source repair.
