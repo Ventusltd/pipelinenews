@@ -1,7 +1,6 @@
-// The module is a new cartridge over an older immutable payload. Keep those
-// identities separate: the registry attests this module's build generation,
-// while PAYLOAD_GENERATION attests the frozen data it reads.
-const GENERATION = "{GEN}";
+// This module is a new cartridge over the immutable 202608272130 payload.
+// The two identities must not be collapsed into one constant.
+const GENERATION = "202608312109";
 const PAYLOAD_GENERATION = "202608272130";
 const PAYLOAD_SCHEMA = "pipelinenews.sector-intelligence-browser.v3";
 const USAGE_CONTEXT = "NON_COMMERCIAL_OPEN_SOURCE";

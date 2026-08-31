@@ -187,6 +187,9 @@ jobs:
       - name: Sector Intelligence render proof — evidenced topic must open
         run: node tools/intelligence/sector_render_proof.mjs "${{ steps.gen.outputs.release }}"
 
+      - name: Visible-surface truth proof
+        run: node tools/intelligence/surface_truth_proof.mjs "${{ steps.gen.outputs.release }}"
+
       - name: Cartridge verifiers
         run: |
           set -euo pipefail

@@ -437,6 +437,25 @@ def cmd_build(parent_id, cartridge_name, gen, atlas_target):
         reg.setdefault("supplemental_assets", {})[key] = entry
     else:
         print("    no registry entry: this cartridge only repairs shipped files")
+    # A registered asset may be retained for provenance while its launcher is
+    # withdrawn from a later release. Record that state explicitly; otherwise
+    # the verifier cannot distinguish a deliberate withdrawal from a broken
+    # host or missing boot binding. Registry repairs are restricted to this
+    # small UI-state vocabulary and cannot rewrite asset identity or digests.
+    allowed_registry_repairs = {"ui_state", "ui_withdrawal_reason"}
+    for repair in man.get("registry_repairs", []):
+        other_key = repair.get("key")
+        other = (reg.get("supplemental_assets") or {}).get(other_key)
+        if not isinstance(other, dict):
+            raise SystemExit("registry repair target missing: %s" % other_key)
+        updates = repair.get("set") or {}
+        forbidden = sorted(set(updates) - allowed_registry_repairs)
+        if forbidden:
+            raise SystemExit("registry repair fields forbidden for %s: %s"
+                             % (other_key, forbidden))
+        for field, value in updates.items():
+            other[field] = value
+        print("    %s UI state -> %s" % (other_key, other.get("ui_state", "unchanged")))
     # Every INHERITED cartridge entry still carries the parent's digest, and
     # the parent's digest was taken from a Windows working copy holding CRLF.
     # normalise_to_lf has since rewritten those files to the LF bytes that
@@ -548,16 +567,21 @@ def cmd_check(release_id):
             good = os.path.exists(p) and sha256_published(p) == node.get("sha256")
             print("  [%s] %s.%s digest" % ("PASS" if good else "FAIL", key, kind))
             ok &= good
+        withdrawn = entry.get("ui_state") == "WITHDRAWN"
         host = entry.get("host_id")
         if host:
             present = ('id="%s"' % host) in idx
-            print("  [%s] %s host present in UI" % ("PASS" if present else "FAIL", key))
-            ok &= present
+            good = (not present) if withdrawn else present
+            expectation = "absent after withdrawal" if withdrawn else "present in UI"
+            print("  [%s] %s host %s" % ("PASS" if good else "FAIL", key, expectation))
+            ok &= good
         bind = entry.get("bind_call")
         if bind:
             wired = bind in app
-            print("  [%s] %s loader wired in boot()" % ("PASS" if wired else "FAIL", key))
-            ok &= wired
+            good = (not wired) if withdrawn else wired
+            expectation = "absent after withdrawal" if withdrawn else "wired in boot()"
+            print("  [%s] %s loader %s" % ("PASS" if good else "FAIL", key, expectation))
+            ok &= good
     print()
     return 0 if ok else 1
 
