@@ -116,6 +116,40 @@ def normalise_to_lf(root):
     return fixed
 
 
+def refresh_sha256_sidecars(target):
+    """Rewrite every `<file>.sha256` to attest the file as it now stands.
+
+    A cartridge ships its payload as `{GEN}-thing.json` plus a sidecar digest,
+    and the build substitutes {GEN} in BOTH -- which changes the payload's
+    bytes after the sidecar was written. The sidecar then attests a file that
+    no longer exists, and nothing catches it: app.mjs verifies against the
+    registry digest, and sha256sums.txt is regenerated from scratch.
+
+    Measured on 202608311610: the shipped grid-proximity sidecar said
+    c6ef7879..., the file hashed 49aaf5c3.... A file whose only job is to
+    attest its neighbour, getting its neighbour wrong, is worse than no file.
+    Published releases are immutable, so that one stays as it is; this repairs
+    it going forward, for inherited sidecars as well as new ones.
+    """
+    fixed = 0
+    for rel in walk(target):
+        if not rel.endswith(".sha256"):
+            continue
+        subject = rel[:-len(".sha256")]
+        subject_abs = os.path.join(target, subject)
+        if not os.path.exists(subject_abs):
+            continue
+        path = os.path.join(target, rel)
+        want = sha256_file(subject_abs)
+        line = "%s  %s\n" % (want, os.path.basename(subject))
+        if read(path) != line:
+            write(path, line)
+            fixed += 1
+            print("    %s now attests %s" % (rel, want[:12]))
+    print("  %d sha256 sidecar(s) rewritten" % fixed)
+    return fixed
+
+
 def refresh_build_manifest(target, release_id):
     """Recompute every byte count and digest the build manifest records.
 
@@ -346,6 +380,28 @@ def cmd_build(parent_id, cartridge_name, gen, atlas_target):
     if key in reg.get("supplemental_assets", {}):
         raise SystemExit("registry already carries %s" % key)
     reg.setdefault("supplemental_assets", {})[key] = entry
+    # Every INHERITED cartridge entry still carries the parent's digest, and
+    # the parent's digest was taken from a Windows working copy holding CRLF.
+    # normalise_to_lf has since rewritten those files to the LF bytes that
+    # actually ship, so the inherited digests now describe bytes no one will
+    # ever receive. Measured on 202608311610: the registry claims
+    # grid-proximity.mjs is 34,239 bytes (3265e118...), the file on the server
+    # is 33,541 (8703fce7...). The build manifest is already re-derived after
+    # normalisation for exactly this reason; the registry never was.
+    print("    re-deriving inherited digests after LF normalisation")
+    for other_key, other in sorted((reg.get("supplemental_assets") or {}).items()):
+        for kind in ("cartridge", "payload"):
+            node = other.get(kind)
+            if not isinstance(node, dict) or "path" not in node:
+                continue
+            abs_path = os.path.join(target, node["path"])
+            if not os.path.exists(abs_path):
+                continue
+            digest, size = sha256_file(abs_path), os.path.getsize(abs_path)
+            if node.get("sha256") != digest or node.get("bytes") != size:
+                print("      %s.%s  %s -> %s" % (other_key, kind,
+                                                 str(node.get("sha256"))[:12], digest[:12]))
+                node["sha256"], node["bytes"] = digest, size
     write(reg_path, json.dumps(reg, indent=2, ensure_ascii=False) + "\n")
     print("    supplemental_assets.%s" % key)
 
@@ -357,10 +413,17 @@ def cmd_build(parent_id, cartridge_name, gen, atlas_target):
         "generation": gen,
         "release_id": release_id,
         "parent_release_id": parent_id,
-        "classification": "ADDITIVE_DISCOVERY_CARTRIDGE",
+        "classification": ("DASHBOARD_MODIFYING_CARTRIDGE"
+                           if man.get("modifies_existing_dashboard")
+                           else "ADDITIVE_DISCOVERY_CARTRIDGE"),
         "cartridge_added": key,
         "cartridges_present": sorted(reg["supplemental_assets"].keys()),
-        "existing_dashboard_modified": False,
+        # Hard-coding False was true while every cartridge was a self-contained
+        # panel. A cartridge that patches the table renderer is not additive,
+        # and a manifest that says it is would be the one place a reader goes
+        # to find out. The cartridge declares it; the manifest records it.
+        "existing_dashboard_modified": bool(man.get("modifies_existing_dashboard")),
+        "existing_dashboard_modification": man.get("modification_note") or None,
         "generation_source": "read from UTC clock at build time, never chosen",
         "rollback": "build again with --from an earlier release; nothing is edited in place",
         "immutable_after_publication": True,
@@ -373,6 +436,7 @@ def cmd_build(parent_id, cartridge_name, gen, atlas_target):
           json.dumps(rel, indent=2, sort_keys=True, ensure_ascii=False) + "\n")
     print("    release-manifest.json")
 
+    refresh_sha256_sidecars(target)
     refresh_build_manifest(target, release_id)
 
     files = [f for f in walk(target) if f != "sha256sums.txt"]

@@ -1,0 +1,116 @@
+{
+  "key": "table_locality_sort",
+  "summary": "Town and postcode columns in the main table, and click-to-sort headings on CAPACITY, COUNTY, TOWN, POSTCODE and REPD UPDATED. Town is resolved from the postcode through the ONS Postcode Directory at build time; the table makes no network call.",
+
+  "modifies_existing_dashboard": true,
+  "modification_note": "This cartridge is NOT panel-only. It adds two columns to the project table and makes four headings sortable, so it patches the table renderer and the sort model in app.mjs. Every patch is a declared, counted replacement; rollback is --from an earlier release, as always.",
+
+  "repairs": {
+    "index.html": [
+      {
+        "label": "sortable COUNTY heading + TOWN and POSTCODE columns",
+        "from": "            <th class=\"hide-mobile\">COUNTY</th>\n            <th class=\"hide-mobile\">OPERATOR</th>",
+        "to": "            <th class=\"hide-mobile sortable-heading\" id=\"countyHeader\" aria-sort=\"none\">\n              <button id=\"sortCounty\" type=\"button\" aria-label=\"Sort by county\">\n                COUNTY <span id=\"countySortIndicator\" aria-hidden=\"true\">↕</span>\n              </button>\n            </th>\n            <th class=\"hide-mobile sortable-heading\" id=\"townHeader\" aria-sort=\"none\">\n              <button id=\"sortTown\" type=\"button\" aria-label=\"Sort by town\">\n                TOWN <span id=\"townSortIndicator\" aria-hidden=\"true\">↕</span>\n              </button>\n            </th>\n            <th class=\"hide-mobile sortable-heading\" id=\"postcodeHeader\" aria-sort=\"none\">\n              <button id=\"sortPostcode\" type=\"button\" aria-label=\"Sort by postcode\">\n                POSTCODE <span id=\"postcodeSortIndicator\" aria-hidden=\"true\">↕</span>\n              </button>\n            </th>\n            <th class=\"hide-mobile\">OPERATOR</th>"
+      },
+      {
+        "label": "sortable OFFICIAL CAPACITY heading",
+        "from": "            <th>OFFICIAL CAPACITY</th>",
+        "to": "            <th class=\"sortable-heading\" id=\"capacityHeader\" aria-sort=\"descending\">\n              <button id=\"sortCapacity\" type=\"button\" aria-label=\"Sort by installed capacity\">\n                OFFICIAL CAPACITY <span id=\"capacitySortIndicator\" aria-hidden=\"true\">▼</span>\n              </button>\n            </th>"
+      },
+      {
+        "label": "sort options for the new columns",
+        "from": "        <option value=\"capacity_desc\">SORT: CAPACITY (DEFAULT)</option>",
+        "to": "        <option value=\"capacity_desc\">SORT: CAPACITY — LARGEST (DEFAULT)</option>\n        <option value=\"capacity_asc\">SORT: CAPACITY — SMALLEST</option>\n        <option value=\"county_asc\">SORT: COUNTY — A–Z</option>\n        <option value=\"county_desc\">SORT: COUNTY — Z–A</option>\n        <option value=\"town_asc\">SORT: TOWN — A–Z</option>\n        <option value=\"town_desc\">SORT: TOWN — Z–A</option>\n        <option value=\"postcode_asc\">SORT: POSTCODE — A–Z</option>\n        <option value=\"postcode_desc\">SORT: POSTCODE — Z–A</option>"
+      },
+      {
+        "label": "styling for the sortable headings + locality provenance note",
+        "from": "  <link rel=\"stylesheet\" href=\"assets/202608272048-orientation.css\">",
+        "to": "  <link rel=\"stylesheet\" href=\"assets/202608272048-orientation.css\">\n  <style>\n    /* Matches .repd-updated-heading, which was the only sortable heading\n       before this generation. Same affordance, so the table reads as one\n       control surface rather than one special column plus four new ones. */\n    .sortable-heading button {\n      background: transparent; border: 0; color: inherit; cursor: pointer;\n      font: inherit; font-weight: bold; padding: 0; text-align: left;\n      white-space: nowrap;\n    }\n    .sortable-heading button:hover,\n    .sortable-heading button:focus-visible { color: #fff; outline: 1px solid #00ffff; outline-offset: 4px; }\n    .sortable-heading span { color: #ffcc00; }\n    .locality-cell { white-space: nowrap; }\n    .locality-cell .derived { color: #8d98a5; }\n    .locality-note { color: #8d98a5; font-size: 9px; }\n  </style>"
+      },
+      {
+        "label": "locality provenance stated next to the table controls",
+        "from": "      <select id=\"sortProjects\" aria-label=\"Sort projects\">",
+        "to": "      <span class=\"locality-note\" id=\"localityNote\">TOWN + POSTCODE · loading…</span>\n      <select id=\"sortProjects\" aria-label=\"Sort projects\">"
+      }
+    ],
+
+    "app": [
+      {
+        "label": "sort modes for capacity, county, town and postcode",
+        "from": "const SORTS = new Set([\"capacity_desc\", \"updated_desc\", \"updated_asc\"]);",
+        "to": "const SORTS = new Set([\"capacity_desc\", \"capacity_asc\", \"updated_desc\", \"updated_asc\",\n  \"county_asc\", \"county_desc\", \"town_asc\", \"town_desc\", \"postcode_asc\", \"postcode_desc\"]);\n\n// Which heading each sort mode belongs to, so one function can drive every\n// aria-sort and every indicator instead of five near-identical ones.\nconst SORT_HEADINGS = {\n  capacity: { header: \"capacityHeader\", indicator: \"capacitySortIndicator\", asc: \"capacity_asc\", desc: \"capacity_desc\", first: \"capacity_desc\" },\n  updated: { header: \"repdUpdatedHeader\", indicator: \"updatedSortIndicator\", asc: \"updated_asc\", desc: \"updated_desc\", first: \"updated_desc\" },\n  county: { header: \"countyHeader\", indicator: \"countySortIndicator\", asc: \"county_asc\", desc: \"county_desc\", first: \"county_asc\" },\n  town: { header: \"townHeader\", indicator: \"townSortIndicator\", asc: \"town_asc\", desc: \"town_desc\", first: \"town_asc\" },\n  postcode: { header: \"postcodeHeader\", indicator: \"postcodeSortIndicator\", asc: \"postcode_asc\", desc: \"postcode_desc\", first: \"postcode_asc\" },\n};\n\n// The locality payload: town, postcode and planning authority, keyed by REPD\n// ref. Resolved at BUILD time (see the cartridge's build_payload.py) so the\n// table never touches the network. Null until it lands, and null forever if\n// the fetch fails -- the table renders either way.\nlet locality = null;\n\nfunction localityFor(item) {\n  return (locality && locality[String(item.repd_ref)]) || null;\n}\n\n// Blanks sort last in BOTH directions. A project with no postcode has not got\n// a small postcode; pushing it to the bottom either way keeps the populated\n// rows contiguous, which is the whole point of clustering by locality.\nfunction compareText(leftText, rightText, direction) {\n  const left = leftText || \"\";\n  const right = rightText || \"\";\n  if (!left && !right) return 0;\n  if (!left) return 1;\n  if (!right) return -1;\n  return direction * left.localeCompare(right, \"en-GB\");\n}"
+      },
+      {
+        "label": "town and postcode cells in the table row",
+        "from": "<td class=\"hide-mobile\">${escapeHtml(locationText || \"-\")}</td><td class=\"hide-mobile\">${escapeHtml(item.operator || \"-\")}</td>",
+        "to": "<td class=\"hide-mobile\">${escapeHtml(locationText || \"-\")}</td><td class=\"hide-mobile locality-cell\">${townCell}</td><td class=\"hide-mobile locality-cell reference-cell\">${escapeHtml(place?.postcode || \"-\")}</td><td class=\"hide-mobile\">${escapeHtml(item.operator || \"-\")}</td>"
+      },
+      {
+        "label": "resolve the locality for the row being rendered",
+        "from": "  const locationText = [item.county, item.region].filter(Boolean).join(\" · \");",
+        "to": "  const locationText = [item.county, item.region].filter(Boolean).join(\" · \");\n  const place = localityFor(item);\n  // A town the register cannot source is a dash, never a guess. One taken from\n  // the address rather than from ONS is shown dimmed and says so on hover.\n  const townCell = !locality\n    ? \"…\"\n    : place?.town\n      ? (place.town_source === \"derived\"\n        ? `<span class=\"derived\" title=\"Derived from the REPD address line; no postcode in the register to resolve against ONS\">${escapeHtml(place.town)}</span>`\n        : `<span title=\"ONS Postcode Directory (${escapeHtml(place.town_source)})\">${escapeHtml(place.town)}</span>`)\n      : \"-\";"
+      },
+      {
+        "label": "sort comparators for capacity, county, town and postcode",
+        "from": "  if (sortMode === \"updated_desc\" || sortMode === \"updated_asc\") {",
+        "to": "  if (sortMode === \"capacity_asc\") {\n    // capacity_desc is the payload's own row order, so only ascending sorts.\n    next.sort((left, right) => project(left).capacity_mw - project(right).capacity_mw || left - right);\n  } else if (sortMode === \"county_asc\" || sortMode === \"county_desc\") {\n    const direction = sortMode === \"county_asc\" ? 1 : -1;\n    next.sort((left, right) =>\n      compareText(project(left).county, project(right).county, direction) || left - right);\n  } else if (sortMode === \"town_asc\" || sortMode === \"town_desc\") {\n    const direction = sortMode === \"town_asc\" ? 1 : -1;\n    next.sort((left, right) =>\n      compareText(localityFor(project(left))?.town, localityFor(project(right))?.town, direction) || left - right);\n  } else if (sortMode === \"postcode_asc\" || sortMode === \"postcode_desc\") {\n    const direction = sortMode === \"postcode_asc\" ? 1 : -1;\n    next.sort((left, right) =>\n      compareText(localityFor(project(left))?.postcode, localityFor(project(right))?.postcode, direction) || left - right);\n  } else if (sortMode === \"updated_desc\" || sortMode === \"updated_asc\") {"
+      },
+      {
+        "label": "one indicator routine for every sortable heading",
+        "from": "function updateSortHeader() {\n  const header = document.getElementById(\"repdUpdatedHeader\");\n  const indicator = document.getElementById(\"updatedSortIndicator\");\n  const button = document.getElementById(\"sortUpdated\");\n  if (sortMode === \"updated_desc\") {\n    header.setAttribute(\"aria-sort\", \"descending\");\n    indicator.textContent = \"▼\";\n    button.title = \"Newest first — click for oldest first\";\n  } else if (sortMode === \"updated_asc\") {\n    header.setAttribute(\"aria-sort\", \"ascending\");\n    indicator.textContent = \"▲\";\n    button.title = \"Oldest first — click for newest first\";\n  } else {\n    header.setAttribute(\"aria-sort\", \"none\");\n    indicator.textContent = \"↕\";\n    button.title = \"Click for newest first\";\n  }\n}",
+        "to": "function updateSortHeader() {\n  for (const spec of Object.values(SORT_HEADINGS)) {\n    const header = document.getElementById(spec.header);\n    const indicator = document.getElementById(spec.indicator);\n    if (!header || !indicator) continue;\n    if (sortMode === spec.desc) {\n      header.setAttribute(\"aria-sort\", \"descending\");\n      indicator.textContent = \"▼\";\n    } else if (sortMode === spec.asc) {\n      header.setAttribute(\"aria-sort\", \"ascending\");\n      indicator.textContent = \"▲\";\n    } else {\n      header.setAttribute(\"aria-sort\", \"none\");\n      indicator.textContent = \"↕\";\n    }\n  }\n}"
+      },
+      {
+        "label": "every sortable heading toggles its own column",
+        "from": "  document.getElementById(\"sortUpdated\").addEventListener(\"click\", () => {\n    sortMode = sortMode === \"updated_desc\" ? \"updated_asc\" : \"updated_desc\";\n    document.getElementById(\"sortProjects\").value = sortMode;\n    apply();\n  });",
+        "to": "  for (const [column, spec] of Object.entries(SORT_HEADINGS)) {\n    const heading = document.getElementById(\"sort\" + column.charAt(0).toUpperCase() + column.slice(1));\n    if (!heading) continue;\n    heading.addEventListener(\"click\", () => {\n      // First click takes the column's natural direction; clicking the column\n      // you are already on flips it.\n      sortMode = sortMode === spec.first\n        ? (spec.first === spec.desc ? spec.asc : spec.desc)\n        : spec.first;\n      document.getElementById(\"sortProjects\").value = sortMode;\n      apply();\n    });\n  }"
+      },
+      {
+        "label": "fail-closed row spans the two new columns",
+        "from": "<tr><td colspan=\"11\" class=\"fast-fail\">",
+        "to": "<tr><td colspan=\"13\" class=\"fast-fail\">"
+      },
+      {
+        "label": "runtime evidence counter",
+        "from": "  gridProximityImports: 0,",
+        "to": "  localityRequests: 0,\n  localityReady: false,\n  gridProximityImports: 0,"
+      },
+      {
+        "label": "load the locality payload alongside the project index",
+        "from": "  bindProjectControls();\n  bindNewsControls();",
+        "to": "  // Fetched in parallel with nothing else pending, and awaited before the\n  // first apply() so the table paints once, with the columns populated. It is\n  // allowed to fail: town and postcode fall back to \"-\", every other column\n  // and every sort except town/postcode is unaffected.\n  await loadLocality();\n  bindProjectControls();\n  bindNewsControls();"
+      },
+      {
+        "label": "the locality loader",
+        "from": "async function boot() {",
+        "to": "async function loadLocality() {\n  const entry = registry.supplemental_assets?.table_locality_sort;\n  const note = document.getElementById(\"localityNote\");\n  if (!entry) {\n    if (note) note.textContent = \"TOWN + POSTCODE · not in this release\";\n    return;\n  }\n  try {\n    runtimeEvidence.localityRequests += 1;\n    const payload = await fetchImmutable(entry.payload.path);\n    invariant(payload.schema === entry.payload.schema, \"locality schema mismatch\");\n    invariant(payload.generation === entry.generation, \"locality generation mismatch\");\n    invariant(payload.locality && typeof payload.locality === \"object\", \"locality index missing\");\n    locality = payload.locality;\n    runtimeEvidence.localityReady = true;\n    const counts = payload.counts || {};\n    const sourced = (counts.bua || 0) + (counts.parish || 0) + (counts.ward || 0);\n    if (note) {\n      note.textContent = `TOWN · ${sourced.toLocaleString(\"en-GB\")} from ONS postcode lookup, `\n        + `${(counts.derived || 0).toLocaleString(\"en-GB\")} from the REPD address line (dimmed), `\n        + `${(counts.none || 0).toLocaleString(\"en-GB\")} unsourceable · `\n        + `POSTCODE · ${(counts.postcode || 0).toLocaleString(\"en-GB\")} official REPD values, `\n        + `blank offshore`;\n      note.title = payload.sources?.town || \"\";\n    }\n  } catch (error) {\n    // A locality payload that will not load must not take the table with it.\n    locality = null;\n    if (note) note.textContent = \"TOWN + POSTCODE · unavailable in this session\";\n  }\n}\n\nasync function boot() {"
+      }
+    ]
+  },
+
+  "hash_fields": [
+    { "at": ["payload", "sha256"], "path": "data/{GEN}-locality.json" }
+  ],
+
+  "registry_entry": {
+    "schema": "pipelinenews.table-locality-supplemental-asset.v1",
+    "generation": "{GEN}",
+    "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+    "usage_context_establishes_upstream_rights": false,
+    "activation": "fetched once during boot, before the first table paint; fails soft",
+    "additive_only": false,
+    "mutates_existing_dashboard": "adds TOWN and POSTCODE columns and makes CAPACITY, COUNTY, TOWN and POSTCODE headings sortable",
+    "network_at_runtime": false,
+    "payload": {
+      "schema": "pipelinenews.locality.v1",
+      "path": "data/{GEN}-locality.json",
+      "sha256": "",
+      "bytes": 0
+    },
+    "provenance": {
+      "postcode": "DESNZ Renewable Energy Planning Database, column 'Post Code', Open Government Licence v3.0. Copied, never derived.",
+      "town": "Resolved at build time from the REPD postcode via the ONS Postcode Directory (api.postcodes.io), preferring ONS Built-Up Area, then civil parish, then electoral ward. Where the register carries no postcode, the last usable segment of the REPD Address line is used and marked town_source='derived'. Null where unsourceable; never guessed.",
+      "authority": "DESNZ REPD, column 'Planning Authority', OGL v3.0. Carried in the payload. NOTE: the gridatlas study spine (master.tsv) carries this same planning-authority value in a column it calls 'town'. It is the local planning authority, not a settlement -- 'Scottish Government (S36)' is one of its values. This cartridge keeps the two apart."
+    }
+  }
+}
