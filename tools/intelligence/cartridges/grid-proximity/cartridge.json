@@ -1,0 +1,74 @@
+{
+  "key": "grid_proximity",
+  "summary": "Geodesic radius search, sortable project table, and auto-drawn indicative connections to the nearest circuit and substation. Recomputes network proximity on the original line geometry across 400/275/220/132/66 kV.",
+  "section": "    <section class=\"meta grid-proximity-launch\" aria-labelledby=\"gridProximityHeading\">\n      <strong id=\"gridProximityHeading\">GRID PROXIMITY — RADIUS, SORT AND CONNECTIONS</strong>\n      <span>Search every project inside a radius of any point, sort the register by capacity, town, county or grid distance, and read the indicative connection to the nearest circuit and substation.</span>\n      <span>Distances use the same haversine and the same Earth radius as the GridAtlas radius tool and the GIS SLD sandbox, so a distance read here equals the distance read there.</span>\n      <span>Measured to the circuit itself across 149,340 mapped segments at 400, 275, 220, 132 and 66 kV, not to a sampled point.</span>\n      <button class=\"btn\" id=\"gridProximityOpen\" type=\"button\" aria-controls=\"gridProximityHost\" aria-expanded=\"false\">OPEN GRID PROXIMITY</button>\n      <span id=\"gridProximityMeta\">WAIT · dynamic cartridge not requested at startup</span>\n      <div id=\"gridProximityHost\" hidden></div>\n    </section>\n\n",
+  "bind_call": "bindGridProximity();",
+  "loader": "async function openGridProximity() {\n  const button = document.getElementById(\"gridProximityOpen\");\n  const host = document.getElementById(\"gridProximityHost\");\n  const meta = document.getElementById(\"gridProximityMeta\");\n  invariant(button && host && meta, \"grid-proximity controls are missing\");\n  if (host.dataset.gridProximityState === \"ready\") {\n    host.hidden = !host.hidden;\n    button.setAttribute(\"aria-expanded\", String(!host.hidden));\n    return;\n  }\n  if (host.dataset.gridProximityState === \"loading\") return;\n  const entry = registry.supplemental_assets?.grid_proximity;\n  invariant(entry?.activation === \"dynamic-import-on-user-open; payload-fetch-on-first-tab-selection\", \"grid proximity activation changed\");\n  invariant(entry.project_bindings === 0 && entry.eligible_for_news_signal === false, \"grid proximity binding boundary changed\");\n  host.hidden = false;\n  host.dataset.gridProximityState = \"loading\";\n  button.setAttribute(\"aria-expanded\", \"true\");\n  meta.textContent = \"LOAD \\u00b7 importing derived controls; no payload requested\";\n  runtimeEvidence.gridProximityImports += 1;\n  invariant(runtimeEvidence.gridProximityImports === 1, \"grid proximity cartridge imported more than once\");\n  const cartridge = await import(`./${entry.cartridge.filename}`);\n  invariant(cartridge.GRID_PROXIMITY_CARTRIDGE_CONTRACT.generation === entry.generation, \"grid proximity cartridge identity changed\");\n  invariant(cartridge.GRID_PROXIMITY_CARTRIDGE_CONTRACT.additive_only === true, \"grid proximity cartridge is no longer additive-only\");\n  const result = cartridge.mountGridProximity({\n    host,\n    payloadAsset: { ...entry.payload, url: entry.payload.path },\n  });\n  runtimeEvidence.gridProximityPayloadRequests = result.payloadRequests;\n  invariant(runtimeEvidence.gridProximityPayloadRequests === 0 && result.projectBindings === 0, \"grid proximity payload requested at mount, or a binding appeared\");\n  host.dataset.gridProximityState = \"ready\";\n  meta.textContent = \"WAIT \\u00b7 four tabs \\u00b7 choose one to request the derived proximity index\";\n}\n\nfunction bindGridProximity() {\n  const button = document.getElementById(\"gridProximityOpen\");\n  invariant(button, \"grid-proximity opener is missing\");\n  button.addEventListener(\"click\", () => openGridProximity().catch((error) => {\n    console.error(\"grid proximity\", error);\n    document.getElementById(\"gridProximityMeta\").textContent = \"FAIL \\u00b7 grid proximity unavailable; core product unchanged\";\n    document.getElementById(\"gridProximityHost\").dataset.gridProximityState = \"failed\";\n  }));\n}\n\n",
+  "repairs": {
+    "app": [
+      {
+        "label": "runtime evidence counters",
+        "from": "  projectIntelligencePayloadRequests: 0,",
+        "to": "  projectIntelligencePayloadRequests: 0,\n  gridProximityImports: 0,\n  gridProximityPayloadRequests: 0,"
+      }
+    ]
+  },
+  "hash_fields": [
+    { "at": ["cartridge", "sha256"], "path": "assets/{GEN}-grid-proximity.mjs" },
+    { "at": ["payload", "sha256"], "path": "data/{GEN}-grid-proximity.json" }
+  ],
+  "registry_entry": {
+    "schema": "pipelinenews.grid-proximity-supplemental-asset.v1",
+    "generation": "{GEN}",
+    "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+    "usage_context_establishes_upstream_rights": false,
+    "activation": "dynamic-import-on-user-open; payload-fetch-on-first-tab-selection",
+    "additive_only": true,
+    "mutates_existing_dom": false,
+    "project_bindings": 0,
+    "eligible_for_news_signal": false,
+    "derived_values_are_inferred": true,
+    "corroboration_adapters_built": false,
+    "one_signal_policy": "WITHHOLD",
+    "no_personal_data": true,
+    "host_id": "gridProximityHost",
+    "bind_call": "bindGridProximity();",
+    "cartridge": {
+      "schema": "pipelinenews.grid-proximity-cartridge.v1",
+      "generation": "{GEN}",
+      "filename": "{GEN}-grid-proximity.mjs",
+      "path": "assets/{GEN}-grid-proximity.mjs",
+      "bytes": 0,
+      "sha256": "",
+      "activation": "dynamic-import-on-user-open"
+    },
+    "payload": {
+      "path": "data/{GEN}-grid-proximity.json",
+      "schema": "pipelinenews.v9.grid-proximity.v1",
+      "record_count": 3047,
+      "bytes": 0,
+      "sha256": ""
+    },
+    "tabs": [
+      { "code": "RADIUS", "label": "RADIUS", "display_rank": 1 },
+      { "code": "SORT", "label": "SORT", "display_rank": 2 },
+      { "code": "CONNECT", "label": "CONNECT", "display_rank": 3 },
+      { "code": "METHOD", "label": "METHOD", "display_rank": 4 }
+    ],
+    "earth_model": {
+      "formula": "haversine",
+      "radius_km": 6378.137,
+      "shared_with": [
+        "gridatlas ventus-corev8engine.js haversine()",
+        "gis-sld-financial-sandbox atlasHaversineKm()"
+      ]
+    },
+    "network": {
+      "voltages_kv": [400, 275, 220, 132, 66],
+      "segments": 149340,
+      "substations": 5800,
+      "measure": "perpendicular distance to the circuit, not to a sampled vertex"
+    },
+    "scope": "live solar and battery-storage projects in the DESNZ REPD Q2 2026 spine (not operational, refused, withdrawn or abandoned)"
+  }
+}
