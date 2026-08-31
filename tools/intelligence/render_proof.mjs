@@ -26,7 +26,12 @@ if (!releaseId) {
   process.exit(2);
 }
 const root = join(RELEASES, releaseId);
-const gen = releaseId.slice(0, 12);
+const registry = JSON.parse(await readFile(join(root, "data", "202608291447-registry.json"), "utf8"));
+const entry = registry.supplemental_assets?.project_intelligence;
+if (!entry?.cartridge?.path || !entry?.payload?.path) {
+  throw new Error("project-intelligence registry entry is missing");
+}
+const gen = entry.generation;
 
 // ---- minimal DOM ---------------------------------------------------------
 class El {
@@ -67,7 +72,7 @@ globalThis.HTMLElement = El;
 globalThis.document = { createElement: (t) => new El(t) };
 
 // ---- the real payload, served through the cartridge's own fetch path ------
-const payloadPath = join(root, "data", `${gen}-project-intelligence.json`);
+const payloadPath = join(root, entry.payload.path);
 const payloadText = await readFile(payloadPath, "utf8");
 let fetchCalls = 0;
 globalThis.fetch = async (url) => {
@@ -77,20 +82,20 @@ globalThis.fetch = async (url) => {
 };
 
 // ---- mount ---------------------------------------------------------------
-const mod = await import("file://" + join(root, "assets", `${gen}-project-intelligence.mjs`).replace(/\\/g, "/"));
+const mod = await import("file://" + join(root, entry.cartridge.path).replace(/\\/g, "/"));
 const contract = mod.PROJECT_INTELLIGENCE_CARTRIDGE_CONTRACT;
 const host = new El("div");
 
 const checks = [];
 const ok = (name, pass, detail) => checks.push({ name, pass: Boolean(pass), detail });
 
-ok("contract generation matches release", contract.generation === gen, `${contract.generation} vs ${gen}`);
+ok("contract generation matches registry", contract.generation === gen, `${contract.generation} vs ${gen}`);
 ok("contract declares additive_only", contract.additive_only === true);
 ok("contract declares mutates_existing_dom false", contract.mutates_existing_dom === false);
 
 const result = mod.mountProjectIntelligence({
   host,
-  payloadAsset: { url: `data/${gen}-project-intelligence.json` },
+  payloadAsset: { url: entry.payload.path },
 });
 
 ok("mount requests NO payload", result.payloadRequests === 0, `payloadRequests=${result.payloadRequests}`);

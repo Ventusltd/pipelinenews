@@ -4,7 +4,8 @@
 #   2. stamp a generation from `date -u` at the moment of creation
 #   3. build a new immutable release from the chosen parent, adding one
 #      discovery cartridge to the UI
-#   4. prove it: deep-link selfTest, five-tab render proof, cartridge verifiers
+#   4. prove it: registered deep-link selfTest, project and sector render
+#      proofs, release integrity, and cartridge verifiers
 #   5. commit and push the release, and nothing else
 #
 # Nothing is edited in place. The parent release is asserted byte-for-byte
@@ -160,27 +161,46 @@ jobs:
           fi
           echo "parent ${{ steps.gen.outputs.parent }} unchanged"
 
-      - name: Deep-link selfTest
+      - name: Registered deep-link selfTest
         run: |
           set -euo pipefail
-          GEN="${{ steps.gen.outputs.gen }}"
-          node -e "
-            import('./releases/${GEN}-pipelinenews/assets/${GEN}-atlas-pointer-deep-link.mjs')
-              .then(m => { const r = m.selfTest();
-                for (const c of r.checks) if (!c.ok) console.log('FAIL', c.name, c.detail || '');
-                console.log(r.checks.length + ' checks, ' + r.checks.filter(c => !c.ok).length +
-                            ' failed, target ' + r.target);
-                process.exit(r.ok ? 0 : 1); })"
+          RELEASE="${{ steps.gen.outputs.release }}" node --input-type=module <<'NODE'
+          import { readFile } from 'node:fs/promises';
+          import { pathToFileURL } from 'node:url';
+          import { resolve } from 'node:path';
+          const root = resolve('releases', process.env.RELEASE);
+          const registry = JSON.parse(await readFile(resolve(root, 'data/202608291447-registry.json')));
+          const entry = registry.supplemental_assets?.atlas_live_handoff;
+          if (!entry?.cartridge?.path) throw new Error('registered Atlas handoff is missing');
+          const module = await import(pathToFileURL(resolve(root, entry.cartridge.path)));
+          const result = module.selfTest();
+          for (const check of result.checks) {
+            if (!check.ok) console.log('FAIL', check.name, check.detail || '');
+          }
+          console.log(`${result.checks.length} checks, ${result.checks.filter((check) => !check.ok).length} failed, target ${result.target}`);
+          process.exit(result.ok ? 0 : 1);
+          NODE
 
-      - name: Render proof — every tab must render
+      - name: Project Intelligence render proof — every tab must render
         run: node tools/intelligence/render_proof.mjs "${{ steps.gen.outputs.release }}"
 
+      - name: Sector Intelligence render proof — evidenced topic must open
+        run: node tools/intelligence/sector_render_proof.mjs "${{ steps.gen.outputs.release }}"
+
       - name: Cartridge verifiers
-        env:
-          CARTRIDGE_MJS: releases/${{ steps.gen.outputs.release }}/assets/${{ steps.gen.outputs.gen }}-atlas-pointer-deep-link.mjs
-          PANEL_MJS: releases/${{ steps.gen.outputs.release }}/assets/${{ steps.gen.outputs.gen }}-project-intelligence.mjs
         run: |
           set -euo pipefail
+          export RELEASE="${{ steps.gen.outputs.release }}"
+          CARTRIDGE_MJS="$(node --input-type=module <<'NODE'
+          import { readFile } from 'node:fs/promises';
+          const root = `releases/${process.env.RELEASE}`;
+          const registry = JSON.parse(await readFile(`${root}/data/202608291447-registry.json`));
+          const path = registry.supplemental_assets?.atlas_live_handoff?.cartridge?.path;
+          if (!path) throw new Error('registered Atlas handoff is missing');
+          console.log(`${root}/${path}`);
+          NODE
+          )"
+          export CARTRIDGE_MJS
           cd tools/intelligence
           python v6_deep_link_cartridge.py
           python v8_neutral_surface.py "../../releases/${{ steps.gen.outputs.release }}"
@@ -205,8 +225,8 @@ jobs:
           Additive panel plus repaired map deep link. Atlas target: ${TARGET}.
           Parent asserted byte-for-byte unchanged.
 
-          Proofs: deep-link selfTest, five-tab render proof, release integrity,
-          cartridge verifiers, neutral-surface check."
+          Proofs: registered deep-link selfTest, project and sector render
+          proofs, release integrity, cartridge verifiers, neutral-surface check."
           git push origin HEAD:main
 
       - name: Summary

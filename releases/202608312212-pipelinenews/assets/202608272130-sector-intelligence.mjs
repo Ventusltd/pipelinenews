@@ -1,8 +1,4 @@
-// The module is a new cartridge over an older immutable payload. Keep those
-// identities separate: the registry attests this module's build generation,
-// while PAYLOAD_GENERATION attests the frozen data it reads.
-const GENERATION = "{GEN}";
-const PAYLOAD_GENERATION = "202608272130";
+const GENERATION = "202608272130";
 const PAYLOAD_SCHEMA = "pipelinenews.sector-intelligence-browser.v3";
 const USAGE_CONTEXT = "NON_COMMERCIAL_OPEN_SOURCE";
 const TOPICS = Object.freeze([
@@ -14,44 +10,6 @@ const TOPICS = Object.freeze([
   Object.freeze({ code: "WORLDWIDE_PV", label: "WORLDWIDE PV", rank: 6 }),
   Object.freeze({ code: "MV_HV_COMPONENTS", label: "MV/HV COMPONENTS", rank: 7 }),
 ]);
-// Which topics may be shown.
-//
-// The collector was asked for seven subjects and returned a generic GOV.UK feed
-// for six of them. Counted on the shipped payload, 51 items:
-//
-//   DATA_CENTRES              9 of 9 on topic
-//   GREAT_GRID_UPGRADE        1 of 6   (five are retail sales, waste sites, FOI)
-//   INVERTER_SECURITY_POLICY  2 of 12  (a cleared fly-tip, firing times, Syria)
-//   MV_HV_COMPONENTS          0 of 6
-//   WORLDWIDE_PV              0 of 6
-//   ENERGY_SECURITY_HORMUZ    0 of 6
-//   ENERGY_SECURITY_UKRAINE   0 of 6
-//
-// "Biometrics and Surveillance Camera Commissioner FOI responses 2026" and
-// "The economic benefits of touring and impact of EU exit" each appear under
-// FIVE different topics, which is the collector falling back to the same feed
-// every time it found nothing.
-//
-// That is not a filter problem. Six of these topics have no intelligence in
-// them, and an item-level filter would leave six near-empty sections still
-// claiming to cover a subject. Only the topic that works is shown, and the page
-// says the others are withheld and why. The rows stay in the payload so the
-// collector can be fixed and the topics restored without another release here.
-//
-// The two geopolitical topics would not return even if they were populated.
-// This page is for engineering and business; a named flashpoint is neither, it
-// dates badly, and it carries a keyword profile that has nothing to do with
-// whether a substation has headroom.
-const SHOWN_TOPICS = Object.freeze(new Set(["DATA_CENTRES"]));
-const NEVER_SHOWN_TOPICS = Object.freeze(new Set([
-  "ENERGY_SECURITY_HORMUZ",
-  "ENERGY_SECURITY_UKRAINE",
-]));
-
-function topicIsShown(code) {
-  return SHOWN_TOPICS.has(code) && !NEVER_SHOWN_TOPICS.has(code);
-}
-
 const EXPECTED_FIELDS = Object.freeze([
   "topic_code", "topic_display_rank", "intelligence_item_id", "item_kind", "title", "summary", "canonical_url",
   "source_published_at", "observed_at", "staleness_state", "status", "evidence_class", "source_id",
@@ -133,7 +91,7 @@ function validateAsset(asset) {
 }
 
 function decodePayload(payload) {
-  if (payload.schema !== PAYLOAD_SCHEMA || payload.generation !== PAYLOAD_GENERATION) throw new Error("sector payload identity mismatch");
+  if (payload.schema !== PAYLOAD_SCHEMA || payload.generation !== GENERATION) throw new Error("sector payload identity mismatch");
   if (payload.usage_context !== USAGE_CONTEXT || payload.usage_context_establishes_upstream_rights !== false) {
     throw new Error("sector usage/right separation mismatch");
   }
@@ -162,7 +120,7 @@ function decodePayload(payload) {
   if (new Set(rows.map(({ intelligence_item_id, topic_code }) => `${intelligence_item_id}\u001f${topic_code}`)).size !== rows.length) {
     throw new Error("sector browser key collision");
   }
-  for (const topic of TOPICS.filter(({ code }) => topicIsShown(code))) {
+  for (const topic of TOPICS) {
     if (rows.filter(({ topic_code }) => topic_code === topic.code).length > payload.maximum_rows_per_topic) {
       throw new Error("sector browser topic row limit exceeded");
     }
@@ -240,7 +198,7 @@ export function mountSectorIntelligence({ host, payloadAsset }) {
         payloadPromise = loadPayload(payloadAsset);
       }
       const allRows = await payloadPromise;
-      const rows = allRows.filter((row) => row.topic_code === topic);
+      const rows = allRows.filter(({ topic_code }) => topic_code === topic);
       renderRows(list, rows);
       status.dataset.sectorStatus = rows.length ? "OK" : "EMPTY";
       status.textContent = `${rows.length ? "OK" : "EMPTY"} · ${rows.length} rows · landed ZSTD Parquet readback`;
@@ -251,20 +209,11 @@ export function mountSectorIntelligence({ host, payloadAsset }) {
       throw error;
     }
   }
-  // Only the topics that carry real content get a tab. The rest stay in the
-  // payload and out of the interface.
-  for (const topic of TOPICS.filter(({ code }) => topicIsShown(code))) {
+  for (const topic of TOPICS) {
     const button = element("button", { type: "button", role: "tab", "aria-selected": "false", "data-sector-topic": topic.code }, topic.label);
     button.addEventListener("click", () => select(topic.code).catch((error) => console.error("sector intelligence", error)));
     buttons.set(topic.code, button);
     tabs.appendChild(button);
-  }
-  const withheld = TOPICS.filter(({ code }) => !topicIsShown(code));
-  if (withheld.length) {
-    shell.append(element("div", { class: "sector-message" },
-      `${withheld.length} topics withheld: the upstream collector returned a generic `
-      + `government feed rather than results on those subjects, so they carried no `
-      + `sector intelligence. Their rows remain in the payload.`));
   }
   shell.append(header, tabs, list);
   host.replaceChildren(shell);

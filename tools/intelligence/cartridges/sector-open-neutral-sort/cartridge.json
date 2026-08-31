@@ -1,0 +1,35 @@
+{
+  "key": "sector_open_neutral_sort",
+  "summary": "Sector Intelligence opens with separate module/payload identity; grid distance sorting makes no connection-quality claim.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Separates the 202608312109 clean module contract from its immutable 202608272130 payload identity and replaces best-connected with a literal shortest-distance ordering description.",
+  "repairs": {
+    "assets": [
+      {
+        "path": "assets/202608312109-sector-intelligence.mjs",
+        "edits": [
+          {
+            "label": "separate module identity from payload identity",
+            "from": "const GENERATION = \"202608272130\";",
+            "to": "// This module is a new cartridge over the immutable 202608272130 payload.\n// The two identities must not be collapsed into one constant.\nconst GENERATION = \"202608312109\";\nconst PAYLOAD_GENERATION = \"202608272130\";"
+          },
+          {
+            "label": "validate the immutable payload against its own generation",
+            "from": "payload.generation !== GENERATION",
+            "to": "payload.generation !== PAYLOAD_GENERATION"
+          }
+        ]
+      },
+      {
+        "path": "assets/202608311610-grid-proximity.mjs",
+        "edits": [
+          {
+            "label": "describe the distance ordering without judging connection quality",
+            "from": "sorting by circuit distance puts the best-connected first.",
+            "to": "sorting by mapped circuit distance orders the measurements shortest first."
+          }
+        ]
+      }
+    ]
+  }
+}
