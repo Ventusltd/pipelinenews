@@ -1,0 +1,34 @@
+{
+  "key": "unbound_carries_nothing",
+  "summary": "An unbound story carries no project name, capacity, operator or county. The sector strip names only the topic it shows.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Rewrites the newspaper caption and the sector strip text.",
+  "repairs": {
+    "index.html": [
+      {
+        "label": "the strip names only the topic that is shown",
+        "from": "Data centres · inverter security/policy · Strait of Hormuz · Ukraine · Great Grid Upgrade · worldwide PV · MV/HV components.",
+        "to": "Data centres. Six further topics are withheld: the collector returned a generic government feed rather than results on those subjects."
+      }
+    ],
+    "app": [
+      {
+        "label": "an unbound story carries no capacity, operator or county either",
+        "from": "<p><span class=\"project\">${escapeHtml(projectName)}${capacity ? ` · ${capacity.toLocaleString(\"en-GB\")} MW` : \"\"}</span>${row[NEWS_FIELD.operator] ? ` · ${escapeHtml(row[NEWS_FIELD.operator])}` : \"\"}${row[NEWS_FIELD.county] ? ` · ${escapeHtml(row[NEWS_FIELD.county])}` : \"\"}</p>",
+        "to": "<p>${projectName ? `<span class=\"project\">${escapeHtml(projectName)}${capacity ? ` · ${capacity.toLocaleString(\"en-GB\")} MW` : \"\"}</span>${row[NEWS_FIELD.operator] ? ` · ${escapeHtml(row[NEWS_FIELD.operator])}` : \"\"}${row[NEWS_FIELD.county] ? ` · ${escapeHtml(row[NEWS_FIELD.county])}` : \"\"}` : `<span class=\"news-unbound\">sector headline · no project binding</span>`}</p>"
+      }
+    ]
+  },
+  "registry_entry": {
+    "schema": "pipelinenews.unbound-carries-nothing.v1",
+    "generation": "{GEN}",
+    "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+    "usage_context_establishes_upstream_rights": false,
+    "activation": "render-time; no payload",
+    "additive_only": false,
+    "mutates_existing_dashboard": "removes project detail from unbound stories",
+    "network_at_runtime": false,
+    "rule": "With no repd_ref there is no project, so no capacity, operator or county is reported. Bind or say nothing.",
+    "found_by": "Looking at the rendered page. A DOM read of the caption element showed the name was blank and passed; the operator and county sat in sibling text and still read 'Kent' under an Australian story."
+  }
+}
