@@ -1,0 +1,109 @@
+{
+  "key": "grid_actions_inline",
+  "summary": "GRID and a new nearest 33 kV+ substation distance move into the ACTIONS column beside MAP, where they are reachable at any window width. The GRID column and its sortable heading are removed; grid_asc and grid_desc remain in the sort control.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "This cartridge is NOT panel-only. It removes a column, adds two metric chips to the ACTIONS cell, narrows the fail-closed row back to 13, and adds a second payload fetched during boot.",
+  "repairs": {
+    "index.html": [
+      {
+        "label": "GRID heading removed; the metrics move into ACTIONS",
+        "from": "            <th class=\"hide-mobile sortable-heading\" id=\"gridHeader\" aria-sort=\"none\">\n              <button id=\"sortGrid\" type=\"button\" aria-label=\"Sort by straight-line distance to the nearest mapped grid circuit\">\n                GRID <span class=\"beta-chip\">BETA</span> <span id=\"gridSortIndicator\" aria-hidden=\"true\">↕</span>\n              </button>\n            </th>\n            <th class=\"hide-mobile\">OPERATOR</th>",
+        "to": "            <th class=\"hide-mobile\">OPERATOR</th>"
+      },
+      {
+        "label": "inline metric chip styles",
+        "from": "    .grid-note { color: #8d98a5; font-size: 9px; }",
+        "to": "    .grid-note { color: #8d98a5; font-size: 9px; }\n\n    /* GRID and SUB inside ACTIONS. Chips rather than links: they are facts\n       about the row, not things to click, so they must not read as buttons. */\n    .action-metric {\n      display: inline-block; white-space: nowrap; font-size: 9px;\n      font-variant-numeric: tabular-nums; padding: 3px 6px; border-radius: 3px;\n      border: 1px solid #2b3138; background: #0a0d12; color: #8d98a5;\n      cursor: help;\n    }\n    .action-metric b { font-weight: bold; color: #d8dee6; margin-left: 3px; }\n    .action-metric .unit { color: #6c7681; margin-left: 2px; }\n    /* Band tints the number only. A band says how close the mapped network is;\n       it never implies a connection is obtainable there. */\n    .action-metric[data-band=\"STRONG\"] b { color: #6fd18a; }\n    .action-metric[data-band=\"MODERATE\"] b { color: #d8c96a; }\n    .action-metric[data-band=\"DISTANT\"] b { color: #d89a6a; }\n    .action-metric[data-band=\"REMOTE\"] b { color: #b06a6a; }\n    .action-metric.pending { color: #4d555e; }\n    .project-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }"
+      }
+    ],
+    "app": [
+      {
+        "label": "chip renderers for GRID and SUB",
+        "from": "function gridCellHtml(item) {\n  if (!gridDistance) return \"\\u2026\";\n  const hit = gridFor(item);\n  if (!hit || typeof hit.k !== \"number\") return \"-\";\n  const parts = [`Nearest mapped circuit ${hit.k.toFixed(2)} km${hit.v ? ` at ${hit.v} kV` : \"\"}`];\n  if (typeof hit.t === \"number\") parts.push(`transmission ${hit.t.toFixed(2)} km${hit.tv ? ` (${hit.tv} kV)` : \"\"}`);\n  if (typeof hit.d === \"number\") parts.push(`distribution ${hit.d.toFixed(2)} km${hit.dv ? ` (${hit.dv} kV)` : \"\"}`);\n  parts.push(\"Straight-line to mapped geometry, not a cable route or a connection length.\");\n  parts.push(\"Fault level and thermal headroom are not shown and cannot be inferred from distance: they need DNO network data such as source impedance and are established by a connection study.\");\n  const band = hit.b ? ` data-band=\"${escapeHtml(hit.b)}\"` : \"\";\n  return `<span${band} title=\"${escapeHtml(parts.join(\" \\u00b7 \"))}\"><span class=\"km\">${hit.k.toFixed(2)}</span><span class=\"kv\">km${hit.v ? ` \\u00b7 ${hit.v}kV` : \"\"}</span></span>`;\n}",
+        "to": "// The nearest 33 kV+ substation, keyed by REPD ref. Scope is 33 kV and above:\n// 11 kV is rare for utility-scale export and where it occurs is often a private\n// network behind the meter, so it is not a screening signal. Every one of the\n// 5,800 substations in the Atlas layer qualifies, so nothing is filtered out at\n// runtime -- the scope is a property of the layer, recorded in the payload.\nlet substation = null;\n\nfunction substationFor(item) {\n  return (substation && substation[String(item.repd_ref)]) || null;\n}\n\n// The sentence a distance can never answer. Held in one place so the two chips\n// and the strip cannot drift apart.\nconst HEADROOM_CAVEAT = \"Fault level and thermal headroom cannot be inferred from \"\n  + \"distance: they depend on DNO network data such as source impedance, fault \"\n  + \"infeed and existing committed connections, and are established by a \"\n  + \"connection study.\";\n\nfunction metricChip({ ready, hit, label, unitSuffix, lines }) {\n  if (!ready) return `<span class=\"action-metric pending\">${label} \\u2026</span>`;\n  if (!hit || typeof hit.k !== \"number\") {\n    // Absence from a mapped layer is not absence on the ground, so this is a\n    // dash and never a large number standing in for \"not found\".\n    return `<span class=\"action-metric\" title=\"No mapped feature found for this project. Absence from a mapped layer is not absence on the ground.\">${label} -</span>`;\n  }\n  const band = hit.b ? ` data-band=\"${escapeHtml(hit.b)}\"` : \"\";\n  const title = escapeHtml(lines.filter(Boolean).join(\" \\u00b7 \"));\n  return `<span class=\"action-metric\"${band} title=\"${title}\">${label}`\n    + `<b>${hit.k.toFixed(2)}</b><span class=\"unit\">km${unitSuffix}</span></span>`;\n}\n\n// Distance to the nearest mapped circuit, at 33 kV and above.\nfunction gridActionHtml(item) {\n  const hit = gridFor(item);\n  const lines = [];\n  if (hit && typeof hit.k === \"number\") {\n    lines.push(`Nearest mapped circuit ${hit.k.toFixed(2)} km${hit.v ? ` at ${hit.v} kV` : \"\"}`);\n    if (typeof hit.t === \"number\") lines.push(`transmission ${hit.t.toFixed(2)} km${hit.tv ? ` (${hit.tv} kV)` : \"\"}`);\n    if (typeof hit.d === \"number\") lines.push(`distribution ${hit.d.toFixed(2)} km${hit.dv ? ` (${hit.dv} kV)` : \"\"}`);\n    lines.push(\"Straight-line to mapped geometry, not a cable route or a connection length.\");\n    lines.push(HEADROOM_CAVEAT);\n  }\n  return metricChip({\n    ready: Boolean(gridDistance), hit, label: \"GRID\",\n    unitSuffix: hit && hit.v ? ` \\u00b7 ${hit.v}kV` : \"\", lines,\n  });\n}\n\n// Distance to the nearest 33 kV+ substation -- for a scheme of a few tens of MW\n// this is closer to where it would actually connect than the circuit is.\nfunction substationActionHtml(item) {\n  const hit = substationFor(item);\n  const lines = [];\n  if (hit && typeof hit.k === \"number\") {\n    lines.push(`Nearest substation at 33 kV or above, ${hit.k.toFixed(2)} km`\n      + (hit.n ? ` \\u2014 ${hit.n}` : \"\")\n      + (hit.v && hit.v.length ? ` (${hit.v.join(\"/\")} kV)` : \"\"));\n    lines.push(\"A mapped substation point does not confirm capacity, voltage suitability, connection rights, queue position or acceptance by any network party.\");\n    lines.push(HEADROOM_CAVEAT);\n  }\n  return metricChip({\n    ready: Boolean(substation), hit, label: \"SUB\", unitSuffix: \"\", lines,\n  });\n}"
+      },
+      {
+        "label": "GRID table cell removed",
+        "from": "<td class=\"hide-mobile grid-cell\">${gridCellHtml(item)}</td>",
+        "to": ""
+      },
+      {
+        "label": "GRID and SUB placed after MAP inside ACTIONS",
+        "from": "<div class=\"project-actions\">${mapAction}<a class=\"action-link newslink\"",
+        "to": "<div class=\"project-actions\">${mapAction}${gridActionHtml(item)}${substationActionHtml(item)}<a class=\"action-link newslink\""
+      },
+      {
+        "label": "fail-closed row back to 13 columns",
+        "from": "<tr><td colspan=\"14\" class=\"fast-fail\">",
+        "to": "<tr><td colspan=\"13\" class=\"fast-fail\">"
+      },
+      {
+        "label": "grid heading wiring removed; grid_asc/grid_desc stay in SORTS",
+        "from": "  // Nearest first: the screening question is \"what is close\", so the\n  // first click answers it rather than showing the most remote sites.\n  grid: { header: \"gridHeader\", indicator: \"gridSortIndicator\", asc: \"grid_asc\", desc: \"grid_desc\", first: \"grid_asc\" },\n",
+        "to": ""
+      },
+      {
+        "label": "substation loader",
+        "from": "async function loadGridDistance() {",
+        "to": "async function loadSubstation33kv() {\n  const entry = registry.supplemental_assets?.grid_actions_inline;\n  if (!entry) return;\n  try {\n    runtimeEvidence.substationRequests += 1;\n    const payload = await fetchImmutable(entry.payload.path);\n    invariant(payload.schema === entry.payload.schema, \"substation schema mismatch\");\n    invariant(payload.generation === entry.generation, \"substation generation mismatch\");\n    invariant(payload.substation && typeof payload.substation === \"object\", \"substation index missing\");\n    substation = payload.substation;\n    runtimeEvidence.substationReady = true;\n  } catch (error) {\n    // A substation payload that will not load must not take the table with it.\n    substation = null;\n  }\n}\n\nasync function loadGridDistance() {"
+      },
+      {
+        "label": "load the substation payload during boot",
+        "from": "  await loadGridDistance();",
+        "to": "  await loadGridDistance();\n  await loadSubstation33kv();"
+      },
+      {
+        "label": "runtime evidence counters",
+        "from": "  gridDistanceRequests: 0,\n  gridDistanceReady: false,",
+        "to": "  gridDistanceRequests: 0,\n  gridDistanceReady: false,\n  substationRequests: 0,\n  substationReady: false,"
+      },
+      {
+        "label": "strip describes both metrics and where they now live",
+        "from": "      note.textContent = `GRID \\u00b7 BETA \\u00b7 straight-line km to the nearest mapped circuit \\u00b7 `\n        + `${(payload.projects || 0).toLocaleString(\"en-GB\")} measured, ${strong} within 2 km \\u00b7 `\n        + `not a cable route, and not headroom`;",
+        "to": "      note.textContent = `GRID + SUB \\u00b7 BETA \\u00b7 in the ACTIONS column, beside MAP \\u00b7 `\n        + `straight-line km to the nearest mapped circuit and to the nearest substation at 33 kV or above \\u00b7 `\n        + `${(payload.projects || 0).toLocaleString(\"en-GB\")} projects measured, ${strong} within 2 km of a circuit \\u00b7 `\n        + `not a cable route, and not headroom \\u2014 fault level and thermal headroom need DNO network data such as source impedance and a connection study`;"
+      }
+    ]
+  },
+  "hash_fields": [
+    {
+      "at": [
+        "payload",
+        "sha256"
+      ],
+      "path": "data/{GEN}-substation-33kv.json"
+    }
+  ],
+  "registry_entry": {
+    "schema": "pipelinenews.grid-actions-supplemental-asset.v1",
+    "generation": "{GEN}",
+    "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+    "usage_context_establishes_upstream_rights": false,
+    "activation": "fetched once during boot, before the first table paint; fails soft",
+    "additive_only": false,
+    "mutates_existing_dashboard": "removes the GRID column and places GRID and SUB inside ACTIONS",
+    "network_at_runtime": false,
+    "payload": {
+      "schema": "pipelinenews.substation-33kv.v1",
+      "path": "data/{GEN}-substation-33kv.json",
+      "sha256": "",
+      "bytes": 0
+    },
+    "placement": {
+      "was": "a sortable GRID column between POSTCODE and OPERATOR",
+      "now": "GRID and SUB chips in the ACTIONS cell, after MAP",
+      "why": "Measured from the published bytes, the GRID column's right edge sat at ~1,430px while a 1366px laptop shows ~1,056px of table; it only cleared the fold at about 1920px. Beside MAP it is reachable at any width, and MAP opens the Atlas the distances are measured against.",
+      "cost": "A sortable heading needs a column, so click-to-sort on distance is gone. Sorting is not: grid_asc and grid_desc remain in the SORT control."
+    },
+    "substation_scope": {
+      "minimum_kv": 33,
+      "why": "33 kV and above. 11 kV is rare for utility-scale export and where it occurs is often a private network behind the meter, so it is not a screening signal.",
+      "layer": "All 5,800 substations in the Atlas layer carry at least 33 kV; 4,342 carry 33 kV itself. Nothing is excluded, so the published substation distance is already the nearest 33 kV+ substation.",
+      "why_it_matters": "A scheme of a few tens of MW connects at a substation, not to a conductor it sits under. Median distance to a 33 kV+ substation is 1.52 km against 6.44 km to a 33 kV circuit, and for the 30-40 MW band the substation is the closer of the two for 68% of projects."
+    },
+    "cannot_be_inferred": "Fault level and thermal headroom. These are properties of the network, not of the geometry: they depend on DNO data such as source impedance, fault infeed and existing committed connections, and are established by a connection study. No distance, at any precision, implies them. Proximity to a mapped substation is not capacity at it.",
+    "provenance": {
+      "geometry": "OpenStreetMap-derived overhead line and substation layers, ODbL-1.0, (c) OpenStreetMap contributors.",
+      "mathematics": "Ventusltd/grid-distance-maths src/geodesy.py. All 3,047 published substation distances were re-measured against it at build time and reproduced within the source payload's own rounding."
+    }
+  }
+}

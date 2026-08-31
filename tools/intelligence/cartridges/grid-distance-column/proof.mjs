@@ -139,6 +139,19 @@ check("payload makes no runtime network claim", payload.network_at_runtime === f
 // ------------------------------------------------------------- the columns --
 const headings = [...doc.querySelectorAll("thead th")]
   .map((th) => th.textContent.replace(/\s+/g, " ").trim());
+// From 202608311858 the GRID column was deliberately removed and the distance
+// moved into the ACTIONS cell beside MAP, because the column sat past the fold
+// on any window narrower than about 1920px. This proof describes the releases
+// that HAD the column; on a later one it stands down rather than reporting a
+// failure for a change that was the point. The check must come BEFORE the
+// column-count assertion, or standing down still leaves a recorded failure.
+if (!headings.some((h) => h.startsWith("GRID"))) {
+  console.log("\nSKIP  this release has no GRID column.");
+  console.log("      The distance moved into ACTIONS in 202608311858; that placement");
+  console.log("      is covered by cartridges/grid-actions-inline/proof.mjs.");
+  process.exit(0);
+}
+
 check("table has 14 columns", headings.length === 14,
   `found ${headings.length}: ${headings.join(" | ")}`);
 
