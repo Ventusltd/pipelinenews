@@ -47,6 +47,12 @@ CARTRIDGES = os.path.join(HERE, "cartridges")
 APP = "assets/202608291447-app.mjs"
 REGISTRY = "data/202608291447-registry.json"
 ANALYTICS_ANCHOR = '    <h2 class="section-title">REPD PIPELINE ANALYTICS</h2>'
+# This is the one stable core binding in every current release. Earlier builds
+# inserted every new cartridge after bindFederatedRelationships(), which made
+# the builder unable to extend a release once that rejected panel was
+# deliberately withdrawn. A withdrawn optional surface cannot be the extension
+# point for the application.
+BOOT_BIND_ANCHOR = "  bindSectorIntelligence();"
 
 
 # --------------------------------------------------------------------- utils
@@ -390,8 +396,8 @@ def cmd_build(parent_id, cartridge_name, gen, atlas_target):
         app = apply_once(app, "async function boot() {",
                          sub(man["loader"]) + "async function boot() {",
                          "loader for %s" % key)
-        app = apply_once(app, "  bindFederatedRelationships();",
-                         "  bindFederatedRelationships();\n  %s" % sub(man["bind_call"]),
+        app = apply_once(app, BOOT_BIND_ANCHOR,
+                         "%s\n  %s" % (BOOT_BIND_ANCHOR, sub(man["bind_call"])),
                          "bind call in boot()")
     write(os.path.join(target, APP), app)
 

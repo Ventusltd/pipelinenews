@@ -1,0 +1,55 @@
+{
+  "key": "gb_electricity_context",
+  "summary": "Attested, browser-sized historic GB system-price context from data-gb-electricity; no forecast and no project binding.",
+  "section": "    <section class=\"meta gb-electricity-launch\" aria-labelledby=\"gbElectricityHeading\">\n      <strong id=\"gbElectricityHeading\">GB ELECTRICITY CONTEXT</strong>\n      <span>Historic Elexon system sell price, year by year. Context for storage, renewable build-out and network reinforcement; not a forecast and not a statement about any project.</span>\n      <span>The 4 kB rollup is owned by data-gb-electricity. Pipeline News does not download the settlement-period history or calculate a second definition.</span>\n      <button class=\"btn\" id=\"gbElectricityOpen\" type=\"button\" aria-controls=\"gbElectricityHost\" aria-expanded=\"false\">OPEN GB ELECTRICITY CONTEXT</button>\n      <span id=\"gbElectricityMeta\">WAIT · attested snapshot not requested at startup</span>\n      <div id=\"gbElectricityHost\" hidden></div>\n    </section>\n\n",
+  "bind_call": "bindGbElectricityContext();",
+  "loader": "async function openGbElectricityContext() {\n  const button = document.getElementById(\"gbElectricityOpen\");\n  const host = document.getElementById(\"gbElectricityHost\");\n  const meta = document.getElementById(\"gbElectricityMeta\");\n  invariant(button && host && meta, \"GB electricity context controls are missing\");\n  if (host.dataset.gbElectricityState === \"ready\") {\n    host.hidden = !host.hidden;\n    button.setAttribute(\"aria-expanded\", String(!host.hidden));\n    return;\n  }\n  if (host.dataset.gbElectricityState === \"loading\") return;\n  const entry = registry.supplemental_assets?.gb_electricity_context;\n  invariant(entry?.activation === \"dynamic-import-and-attested-payload-fetch-on-user-open\", \"GB electricity activation changed\");\n  invariant(entry.project_bindings === 0 && entry.eligible_for_news_signal === false, \"GB electricity project boundary changed\");\n  host.hidden = false;\n  host.dataset.gbElectricityState = \"loading\";\n  button.setAttribute(\"aria-expanded\", \"true\");\n  meta.textContent = \"LOAD · reading the attested 4 kB historic rollup\";\n  runtimeEvidence.gbElectricityImports += 1;\n  invariant(runtimeEvidence.gbElectricityImports === 1, \"GB electricity cartridge imported more than once\");\n  const cartridge = await import(`./${entry.cartridge.filename}`);\n  invariant(cartridge.GB_ELECTRICITY_CONTEXT_CONTRACT.generation === entry.generation, \"GB electricity cartridge identity changed\");\n  invariant(cartridge.GB_ELECTRICITY_CONTEXT_CONTRACT.additive_only === true, \"GB electricity cartridge is no longer additive-only\");\n  const result = await cartridge.mountGbElectricityContext({\n    host,\n    payloadAsset: { ...entry.payload, url: entry.payload.path },\n  });\n  runtimeEvidence.gbElectricityPayloadRequests = result.payloadRequests;\n  invariant(result.payloadRequests === 1 && result.projectBindings === 0, \"GB electricity request or project boundary changed\");\n  meta.textContent = `OK · ${result.years} calendar years · ${result.completeDays.toLocaleString(\"en-GB\")} complete days`;\n}\n\nfunction bindGbElectricityContext() {\n  const button = document.getElementById(\"gbElectricityOpen\");\n  invariant(button, \"GB electricity context opener is missing\");\n  button.addEventListener(\"click\", () => openGbElectricityContext().catch((error) => {\n    console.error(\"GB electricity context\", error);\n    document.getElementById(\"gbElectricityMeta\").textContent = \"FAIL · historic GB context unavailable; core product unchanged\";\n    document.getElementById(\"gbElectricityHost\").dataset.gbElectricityState = \"failed\";\n  }));\n}\n\n",
+  "repairs": {
+    "app": [
+      {
+        "label": "GB electricity runtime evidence counters",
+        "from": "  gridProximityPayloadRequests: 0,",
+        "to": "  gridProximityPayloadRequests: 0,\n  gbElectricityImports: 0,\n  gbElectricityPayloadRequests: 0,"
+      }
+    ]
+  },
+  "hash_fields": [
+    { "at": ["cartridge", "sha256"], "path": "assets/{GEN}-gb-electricity-context.mjs" },
+    { "at": ["payload", "sha256"], "path": "data/{GEN}-price-decade-rollup.json" }
+  ],
+  "registry_entry": {
+    "schema": "pipelinenews.gb-electricity-context-supplemental-asset.v1",
+    "generation": "{GEN}",
+    "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+    "usage_context_establishes_upstream_rights": false,
+    "activation": "dynamic-import-and-attested-payload-fetch-on-user-open",
+    "additive_only": true,
+    "mutates_existing_dom": false,
+    "project_bindings": 0,
+    "eligible_for_news_signal": false,
+    "forecast": false,
+    "host_id": "gbElectricityHost",
+    "bind_call": "bindGbElectricityContext();",
+    "source": {
+      "repository": "Ventusltd/data-gb-electricity",
+      "path": "derived/price-decade-rollup.json",
+      "upstream": "Elexon",
+      "role": "browser-sized historic derived product; sole calculation remains in the data repository"
+    },
+    "cartridge": {
+      "schema": "pipelinenews.gb-electricity-context-cartridge.v1",
+      "generation": "{GEN}",
+      "filename": "{GEN}-gb-electricity-context.mjs",
+      "path": "assets/{GEN}-gb-electricity-context.mjs",
+      "bytes": 0,
+      "sha256": ""
+    },
+    "payload": {
+      "path": "data/{GEN}-price-decade-rollup.json",
+      "schema": "data-gb-electricity.price-decade-rollup.v1",
+      "bytes": 0,
+      "sha256": ""
+    },
+    "scope": "historic GB system sell price context only; no project binding, forecast, recommendation or inferred news signal"
+  }
+}
