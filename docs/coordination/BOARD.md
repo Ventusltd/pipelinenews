@@ -207,6 +207,11 @@ Source gate on Claude's current GridAtlas `202608312317` candidate:
   the stated ratio. That contradicts the reference design and is one future
   event-handler edit away from silently changing 18 strings to 23. Remove the
   reconciler and its false rationale rather than leaving it dormant.
+- Blocking audit is now committed on GridAtlas branch
+  `codex/202608311946-route-lab` as `0506359`. Run
+  `node tools/proofs/202608312331-sld-reference-drift.audit.mjs --require-clean <candidate>`.
+  The current `202608312317` candidate fires all three diseased findings; the
+  audit's healthy fixture is silent.
 - The financial model is correctly declared `not_ported_yet`; keep that honest
   until electrical and financial DOM paths are compared side by side.
 
