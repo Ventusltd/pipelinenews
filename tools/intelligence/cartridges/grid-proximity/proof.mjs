@@ -213,7 +213,36 @@ ok("METHOD tab carries the straight-line caveat",
 
 /* --- payload integrity --------------------------------------------------- */
 ok("payload uses the atlas radius", payload.earth_model.radius_km === 6378.137);
-ok("payload covers five voltages", payload.network.voltages_kv.join(",") === "400,275,220,132,66");
+ok("payload covers all six mapped voltages",
+  payload.network.voltages_kv.join(",") === "400,275,220,132,66,33");
+ok("transmission and distribution are separated",
+  payload.network.transmission_kv.join(",") === "400,275,220,132,66"
+  && payload.network.distribution_kv.join(",") === "33");
+ok("every row answers transmission and distribution separately",
+  payload.rows.every((r) => r.circuit_transmission && r.circuit_distribution));
+ok("the transmission answer is never a distribution voltage",
+  payload.rows.every((r) => payload.network.transmission_kv.includes(r.circuit_transmission.kv)));
+ok("the overall nearest is the better of the two",
+  payload.rows.every((r) => Math.abs(
+    Math.min(r.circuit_transmission.km, r.circuit_distribution.km) - r.circuit.km) < 1e-9));
+ok("estimated 11 kV is capped, not extrapolated across the country",
+  payload.rows.every((r) => !r.substation_11kv_estimated
+    || r.substation_11kv_estimated.km <= payload.network.estimated_11kv_max_km),
+  `${payload.rows.filter((r) => r.substation_11kv_estimated).length} of ${payload.rows.length} in the UKPN area`);
+ok("the estimated layer says it is estimated",
+  payload.network.estimated_11kv_note.includes("(est)")
+  && payload.network.estimated_11kv_note.includes("Absence"));
+ok("the payload warns that nearest is not connection voltage",
+  payload.caveat.voltage_is_not_connection.includes("West Burton"));
+
+// West Burton and Cottam are large, public, and connect at transmission. If the
+// model ever reports distribution as their nearest, it has gone wrong.
+for (const nm of ["West Burton Solar", "Cottam Solar"]) {
+  const row = payload.rows.find((r) => (r.name || "").includes(nm));
+  ok(`${nm} reads transmission, not 33 kV`,
+    row && row.circuit_transmission.km < row.circuit_distribution.km,
+    row ? `${row.circuit_transmission.km} km @${row.circuit_transmission.kv} kV vs ${row.circuit_distribution.km} km @33 kV` : "not found");
+}
 ok("every row carries a grid probable band",
   payload.rows.every((r) => r.grid_probable && r.grid_probable.band));
 ok("the band is reproducible from its own published rule", payload.rows.every((r) => {

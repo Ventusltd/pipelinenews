@@ -39,19 +39,14 @@ Needed, with sources cited in the payload:
 Until these are cited, `grid_probable` deliberately bands on **measured geometry
 only** and publishes what it does not model.
 
-## 2. The 33 kV and 11 kV layers
+## 2. ~~The 33 kV and 11 kV layers~~ — done
 
-The largest available accuracy win, and larger than anything left in the
-geodesy. From the pinned set:
-
-| Layer | Segments | Status |
-|---|---|---|
-| 33 kV, 11 regional files | 104,557 | present, unused |
-| 11 kV UKPN | 15,126 points | present, unused |
-
-Most sub-50 MW solar connects at 33 kV or 11 kV. Measuring those projects only
-against 66–400 kV overstates their distance to a usable connection, in the same
-way omitting 66 kV overstated 71 projects in the previous generation.
+Shipped. 33 kV added as 104,557 line segments across eleven regional files;
+UKPN 11 kV added as 15,126 estimated substation points, capped at 15 km so a
+project outside the licence area reports null rather than a meaningless number.
+489 projects are now nearest to 33 kV, and transmission and distribution
+distances are published separately so a 500 MW scheme reads the one that
+applies to it.
 
 ## 3. DCO and NSIP grid data
 
@@ -102,6 +97,20 @@ better homes for this engine than another panel:
 - the news alert can fire on movement in the bands, not just on headlines.
 
 Neither should become a second visual language. Additive, inside the freeze.
+
+## 5b. Fault level and headroom — only if genuinely open
+
+Not a priority, and previously declined. Revisit only on this condition: an
+open API with no paywall and no login. Several DNOs publish network capacity
+and embedded capacity registers as open data, but **that must be verified
+before a line of code is written** — the claim that a given feed is open is
+itself something to check, not assume.
+
+There is a pandapower clone already in the estate. Pandapower can model fault
+level and thermal headroom properly, but it needs network impedance data that
+the open layers do not carry. Without impedances it would produce numbers that
+look authoritative and mean nothing, which is worse than no number. So: source
+the data first, model second, and only if the data is genuinely free.
 
 ## 6. Housekeeping
 

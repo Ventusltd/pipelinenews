@@ -53,9 +53,30 @@ VOLTAGE_LAYERS = [
     ("grid_220kv.geojson", 220),
     ("grid_132kv.geojson", 132),
     ("grid_66kv.geojson", 66),
+    # 33 kV arrives as eleven regional files. It is distribution, not
+    # transmission, and it is where most sub-50 MW solar actually connects, so
+    # measuring a 30 MW scheme only against 66-400 kV overstates how far it is
+    # from a usable connection.
+    ("grid_33kv_East_of_England.geojson", 33),
+    ("grid_33kv_London_Area.geojson", 33),
+    ("grid_33kv_North_East_England.geojson", 33),
+    ("grid_33kv_North_West_England.geojson", 33),
+    ("grid_33kv_Scotland_North.geojson", 33),
+    ("grid_33kv_Scotland_South.geojson", 33),
+    ("grid_33kv_South_East_England.geojson", 33),
+    ("grid_33kv_South_West_England.geojson", 33),
+    ("grid_33kv_Wales_North.geojson", 33),
+    ("grid_33kv_Wales_South.geojson", 33),
+    ("grid_33kv_Yorkshire.geojson", 33),
 ]
 SUBSTATIONS = "grid_substations.geojson"
-VOLTAGES = [400, 275, 220, 132, 66]
+# The UKPN 11 kV layer is POINTS, every one tagged "UKPN (est)" and "11kV (est)"
+# at source. It is an estimate over one licence area, so it is carried in its
+# own field, labelled estimated, and never merged into the confirmed set.
+UKPN_11KV = "grid_11kv_ukpn.geojson"
+EST_11KV_MAX_KM = 15.0   # beyond this the point is outside the licence area
+VOLTAGES = [400, 275, 220, 132, 66, 33]
+TRANSMISSION = [400, 275, 220, 132, 66]
 CELL = 0.1                  # index cell, degrees
 
 
@@ -123,6 +144,25 @@ def load_substations(root):
                     props.get("operator") or props.get("owner") or "",
                     sorted(set(volts), reverse=True),
                     props.get("substation") or ""))
+    return out
+
+
+def load_ukpn_11kv(root):
+    """Estimated 11 kV substation points. Source tags them "(est)"; so do we."""
+    path = os.path.join(root, UKPN_11KV)
+    if not os.path.exists(path):
+        return []
+    with open(path, encoding="utf-8") as handle:
+        layer = json.load(handle)
+    out = []
+    for feature in layer.get("features", []):
+        geometry = feature.get("geometry") or {}
+        if geometry.get("type") != "Point":
+            continue
+        props = feature.get("properties") or {}
+        out.append((geometry["coordinates"][0], geometry["coordinates"][1],
+                    props.get("name") or "", props.get("operator") or "",
+                    [11], props.get("type") or ""))
     return out
 
 
@@ -316,6 +356,8 @@ def main():
     started = time.time()
     segments = load_segments(args.gg2050)
     subs = load_substations(args.gg2050)
+    ukpn = load_ukpn_11kv(args.gg2050)
+    ukpn_index = build_index(ukpn, lambda s: s[0], lambda s: s[1]) if ukpn else {}
     seg_index = build_index(segments, lambda s: s[0], lambda s: s[1],
                             extra=lambda s: (s[2], s[3]))   # (lon, lat) of the far end
     sub_index = build_index(subs, lambda s: s[0], lambda s: s[1])
@@ -348,8 +390,23 @@ def main():
                 by_voltage[str(kv)] = {"km": hit["km"], "foot": hit["foot"]}
                 per_voltage_full[kv] = hit
         circuit = min(per_voltage_full.values(), key=lambda h: h["km"]) if per_voltage_full else None
+        # West Burton and Cottam connect at 400 and 132 kV because of their size,
+        # with 33 kV four to eight kilometres away. Reporting only "nearest" would
+        # answer the wrong question for them. Both are published; which one
+        # matters is the reader's judgement, not an assumption coded in here.
+        tr = [h for kv, h in per_voltage_full.items() if kv in TRANSMISSION]
+        di = [h for kv, h in per_voltage_full.items() if kv not in TRANSMISSION]
+        transmission = min(tr, key=lambda h: h["km"]) if tr else None
+        distribution = min(di, key=lambda h: h["km"]) if di else None
         nearby = nearest_substations(lon, lat, subs, sub_index, want=5)
         substation = nearby[0] if nearby else None
+        # Outside the UKPN licence area the nearest "11 kV" point is hundreds of
+        # kilometres away and means nothing. Report null, never a large number:
+        # a coverage hole wearing a number is the defect this whole model exists
+        # to avoid.
+        est11 = (nearest_substations(lon, lat, ukpn, ukpn_index, want=1) or [None])[0] if ukpn else None
+        if est11 and est11["km"] > EST_11KV_MAX_KM:
+            est11 = None
         published = None
         try:
             published = float(row[21])
@@ -368,10 +425,13 @@ def main():
             "tech": row[2],
             "status": row[3],
             "circuit": circuit,
+            "circuit_transmission": transmission,
+            "circuit_distribution": distribution,
             "circuit_by_kv": by_voltage,
             "grid_probable": grid_probable(circuit, nearby[0] if nearby else None),
             "substation": substation,
             "substations_nearby": nearby[1:],
+            "substation_11kv_estimated": est11,
             "published_circuit_km": published,
         })
 
@@ -394,10 +454,17 @@ def main():
             },
         },
         "network": {
-            "voltages_kv": [400, 275, 220, 132, 66],
+            "voltages_kv": VOLTAGES,
+            "transmission_kv": TRANSMISSION,
+            "distribution_kv": [33],
             "segments": len(segments),
             "substations": len(subs),
             "measure": "perpendicular distance to the circuit, not to a sampled vertex",
+            "estimated_11kv_points": len(ukpn),
+            "estimated_11kv_max_km": EST_11KV_MAX_KM,
+            "estimated_11kv_note": "UKPN licence area only, tagged (est) at source. "
+                                   "Absence elsewhere means the layer does not cover it, "
+                                   "not that no 11 kV network exists.",
         },
         "grid_probable_rule": {
             "purpose": "A screening band from measured geometry. It says how close "
@@ -427,6 +494,12 @@ def main():
                           "or acceptance by any network party.",
             "coverage": "OpenStreetMap-derived. Absence from the layer is not "
                         "absence on the ground.",
+            "voltage_is_not_connection": "The nearest circuit is not the connection "
+                         "voltage. Large schemes connect at transmission whatever runs "
+                         "past the gate - West Burton and Cottam sit 4 to 8 km from 33 kV "
+                         "and connect at 400 and 132 kV. Transmission and distribution "
+                         "distances are published separately for that reason; no "
+                         "capacity-to-voltage rule is applied without a cited source.",
             "precision": "Quoted to 10 m because the geometry supports it; the "
                          "site coordinate is a register centroid and may sit "
                          "hundreds of metres from the point of connection.",

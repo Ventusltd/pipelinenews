@@ -1,6 +1,6 @@
 /**
  * PipelineNews grid-proximity cartridge.
- * Generation {GEN}. DRAFT - deployment: not-authorised.
+ * Generation 202608311610. DRAFT - deployment: not-authorised.
  *
  * ADDITIVE ONLY. Adds a tabbed panel inside its own host div. It does not
  * modify, re-render, restyle or re-order any existing part of the application.
@@ -44,7 +44,7 @@
 
 export const GRID_PROXIMITY_CARTRIDGE_CONTRACT = Object.freeze({
   schema: "pipelinenews.grid-proximity-cartridge.v1",
-  generation: "{GEN}",
+  generation: "202608311610",
   deployment: "not-authorised",
   activation: "dynamic-import-on-user-open; payload-fetch-on-first-tab-selection",
   additive_only: true,
