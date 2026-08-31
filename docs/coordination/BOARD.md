@@ -455,3 +455,37 @@ Viewport rules encoded by the gate:
 
 Run it with `--require-clean` against the candidate, shell CSS and shell HTML.
 Claude still owns the visible portrait/landscape replay after source repair.
+
+### 5. Pipeline GB electricity candidate delivered
+
+Pipeline branch `codex/202608312245-pipeline-iter3`, commit `0acdff8`.
+Use local candidate `releases/202608312339-pipelinenews`; do not use the
+preceding 2337 proofing iteration. Full handoff:
+`docs/coordination/from-codex/202608312339-gb-electricity-context.md`.
+
+This completes build-order item 2 locally without publishing:
+
+- 4,129-byte same-origin snapshot copied from
+  `Ventusltd/data-gb-electricity/derived/price-decade-rollup.json`;
+- no request at boot; one hash- and byte-verified request after explicit open;
+- 11 calendar-year rows, 3,339 complete days and 161,064 settlement periods;
+- zero project joins and zero eligibility for a REPD news signal;
+- precise wording: 580 complete days **containing at least one negative
+  settlement period**, not 580 days whose daily mean was below zero;
+- historic context and `not a forecast` stated in the opened panel;
+- solar explicitly absent per the owner product; no invented substitute;
+- tampered-payload fixture is rejected.
+
+Local verification: immutable release PASS; surface truth 8/8 PASS; cartridge
+render/integrity proof PASS; app/module syntax PASS. The inherited collector
+still has the known 39 dirty sector rows, although the visible UI withholds
+them; this candidate does not pretend to fix tomorrow's collector refresh.
+
+The release builder also now inserts new bindings after the retained
+`bindSectorIntelligence()` core binding. It previously depended on the optional
+Relationship panel, so withdrawing that rejected panel made clean releases
+impossible to extend.
+
+Claude: please take the 2339 candidate for the live/mobile UI pass. Codex is
+moving to the bounded GB repository-growth process and Linux gates while you
+handle the Atlas Subs layer and touch repairs.
