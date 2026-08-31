@@ -63,6 +63,22 @@ def sha256_file(path):
     return h.hexdigest()
 
 
+# Text assets are hashed as they are PUBLISHED, which is LF: the sums are
+# generated from LF content and GitHub Pages serves those bytes. A Windows
+# checkout with core.autocrlf=true writes CRLF into the working copy, so
+# hashing the file on disk disagrees with every published digest and --check
+# fails on a release nobody has touched. Measured on 202608312018: 48 of 55
+# files "mismatched", none of them actually wrong.
+#
+# The browser hashes what the server sends, so this is the comparison that
+# means anything. Same defect, same fix, as the GridAtlas release verifier.
+def sha256_published(path):
+    if os.path.splitext(path)[1].lower() not in TEXT_EXT:
+        return sha256_file(path)
+    with open(path, "rb") as fh:
+        return hashlib.sha256(fh.read().replace(b"\r\n", b"\n")).hexdigest()
+
+
 def read(p):
     return io.open(p, encoding="utf-8").read()
 
@@ -341,6 +357,17 @@ def cmd_build(parent_id, cartridge_name, gen, atlas_target):
             added.append("%s/%s" % (sub_dir, dest_name))
             print("    %s" % added[-1])
 
+    # The parent tree was normalised at line 290, but the cartridge's own files
+    # arrive AFTER that, straight from a working copy that Windows checks out
+    # with CRLF. They then get hashed as they lie, so sha256sums.txt and the
+    # registry attest CRLF bytes while GitHub Pages serves the LF ones git
+    # stored. Measured on a clean build of 202608312036: the pointer asset's
+    # recorded digest was 2c0eb0e0 and its published digest 9923acba.
+    #
+    # The browser hashes what the server sends, so the release must attest that.
+    # Normalising again here, before any digest is taken, is the whole fix.
+    normalise_to_lf(target)
+
     # ---- 2. index.html : the UI section, plus any declared repairs --------
     print("\n  index.html")
     idx = read(os.path.join(target, "index.html"))
@@ -474,7 +501,7 @@ def cmd_check(release_id):
         listed[name] = digest
     actual = {f for f in walk(target) if f != "sha256sums.txt"}
     bad = [n for n, d in listed.items()
-           if n in actual and sha256_file(os.path.join(target, n)) != d]
+           if n in actual and sha256_published(os.path.join(target, n)) != d]
     for label, items in (("unlisted files", sorted(actual - set(listed))),
                          ("listed but absent", sorted(set(listed) - actual)),
                          ("digest mismatch", bad)):
@@ -491,7 +518,7 @@ def cmd_check(release_id):
             if not node or "path" not in node:
                 continue
             p = os.path.join(target, node["path"])
-            good = os.path.exists(p) and sha256_file(p) == node.get("sha256")
+            good = os.path.exists(p) and sha256_published(p) == node.get("sha256")
             print("  [%s] %s.%s digest" % ("PASS" if good else "FAIL", key, kind))
             ok &= good
         host = entry.get("host_id")
