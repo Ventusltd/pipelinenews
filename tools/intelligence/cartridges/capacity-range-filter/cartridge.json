@@ -1,0 +1,123 @@
+{
+  "key": "capacity_range_filter",
+  "summary": "A PROJECT SIZE range filter at the top of the filter stack: two handles over a ladder of round MW values from 1 to 5,000, plus number boxes for an exact band. Shareable in the URL as mw_min and mw_max.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "This cartridge is NOT panel-only. It adds a filter row above the technology buttons and a clause to the filter predicate, so it patches the filter loop, the URL sync, the hydrate and the clear.",
+  "repairs": {
+    "index.html": [
+      {
+        "label": "PROJECT SIZE range filter styles",
+        "from": "    .grid-note { color: #8d98a5; font-size: 9px; }",
+        "to": "    .grid-note { color: #8d98a5; font-size: 9px; }\n\n    /* PROJECT SIZE range. Two range inputs share one track: the upper one is\n       transparent to pointer events except on its thumb, so both thumbs stay\n       grabbable even when they meet. */\n    .size-filter { align-items: center; gap: 14px; flex-wrap: wrap; }\n    .size-filter .size-label { color: #00ffff; font-size: 10px; letter-spacing: .08em; }\n    .size-track {\n      position: relative; height: 26px; flex: 1 1 260px;\n      min-width: 200px; max-width: 460px;\n    }\n    .size-track input[type=\"range\"] {\n      position: absolute; left: 0; top: 0; width: 100%; margin: 0;\n      background: none; pointer-events: none; -webkit-appearance: none; appearance: none;\n    }\n    .size-track input[type=\"range\"]::-webkit-slider-runnable-track {\n      height: 3px; background: #2b3138; border-radius: 2px;\n    }\n    .size-track input[type=\"range\"]::-moz-range-track {\n      height: 3px; background: #2b3138; border-radius: 2px;\n    }\n    .size-track input[type=\"range\"]::-webkit-slider-thumb {\n      -webkit-appearance: none; appearance: none; pointer-events: auto;\n      height: 15px; width: 15px; margin-top: -6px; border-radius: 50%;\n      background: #00ffff; border: 1px solid #04343a; cursor: pointer;\n    }\n    .size-track input[type=\"range\"]::-moz-range-thumb {\n      pointer-events: auto; height: 13px; width: 13px; border-radius: 50%;\n      background: #00ffff; border: 1px solid #04343a; cursor: pointer;\n    }\n    .size-track input[type=\"range\"]:focus-visible::-webkit-slider-thumb { outline: 2px solid #66ffff; }\n    .size-selected {\n      position: absolute; top: 11px; height: 3px; background: #00ffff;\n      border-radius: 2px; pointer-events: none;\n    }\n    .size-box {\n      width: 72px; background: #10141a; color: #d8dee6; font: inherit;\n      font-size: 11px; border: 1px solid #2b3138; border-radius: 3px; padding: 4px 6px;\n    }\n    .size-box:focus { outline: 1px solid #00ffff; }\n    .size-readout { color: #d8dee6; font-size: 11px; font-variant-numeric: tabular-nums; }\n    .size-note { color: #8d98a5; font-size: 9px; }\n    .size-filter .size-reset {\n      background: none; border: 1px solid #2b3138; color: #8d98a5;\n      font: inherit; font-size: 9px; padding: 3px 7px; border-radius: 3px; cursor: pointer;\n    }\n    .size-filter .size-reset:hover { color: #00ffff; border-color: #00ffff; }\n    @media (max-width: 600px) { .size-track { max-width: none; } }"
+      },
+      {
+        "label": "PROJECT SIZE control above the technology row",
+        "from": "    <div class=\"filters\" id=\"tech\">",
+        "to": "    <div class=\"filters size-filter\" id=\"capacityRange\">\n      <span class=\"size-label\">PROJECT SIZE</span>\n      <div class=\"size-track\">\n        <div class=\"size-selected\" id=\"sizeSelected\"></div>\n        <input type=\"range\" id=\"sizeMinRange\" aria-label=\"Smallest project size to show, MW\">\n        <input type=\"range\" id=\"sizeMaxRange\" aria-label=\"Largest project size to show, MW\">\n      </div>\n      <input type=\"number\" class=\"size-box\" id=\"sizeMinBox\" min=\"1\" max=\"5000\" step=\"0.1\" aria-label=\"Smallest project size in MW\">\n      <span class=\"size-readout\" id=\"sizeReadout\">1 – 5,000 MW</span>\n      <input type=\"number\" class=\"size-box\" id=\"sizeMaxBox\" min=\"1\" max=\"5000\" step=\"0.1\" aria-label=\"Largest project size in MW\">\n      <button type=\"button\" class=\"size-reset\" id=\"sizeReset\">FULL RANGE</button>\n      <span class=\"size-note\" id=\"sizeNote\">drag for round sizes, or type an exact MW value · the register itself starts at 1 MW</span>\n    </div>\n    <div class=\"filters\" id=\"tech\">"
+      }
+    ],
+    "app": [
+      {
+        "label": "size range state, ladder and renderer",
+        "from": "function apply({ syncUrl = true } = {}) {",
+        "to": "// PROJECT SIZE range.\n//\n// The ladder is not linear, and the reason is in the data rather than in\n// taste. The register's median project is 12.3 MW and 98% of it sits under\n// 500 MW, so a linear 1-5000 track would compress the band almost every user\n// cares about into the first two pixels. These stops thicken where the\n// projects are and still reach 5000.\nconst SIZE_STOPS = Object.freeze([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 125, 150, 175, 200, 250, 300, 350, 400, 450, 500, 600, 700, 800, 900, 1000, 1250, 1500, 1750, 2000, 2500, 3000, 3500, 4000, 4500, 5000]);\nconst SIZE_FLOOR = SIZE_STOPS[0];\nconst SIZE_CEILING = SIZE_STOPS[SIZE_STOPS.length - 1];\n\nlet capacityMin = SIZE_FLOOR;\nlet capacityMax = SIZE_CEILING;\n\n// The full range is \"no filter\", so it never reaches the URL and never claims\n// to have excluded anything.\nfunction sizeFilterActive() {\n  return capacityMin > SIZE_FLOOR || capacityMax < SIZE_CEILING;\n}\n\nfunction nearestStopIndex(value) {\n  let best = 0;\n  for (let i = 1; i < SIZE_STOPS.length; i += 1) {\n    if (Math.abs(SIZE_STOPS[i] - value) < Math.abs(SIZE_STOPS[best] - value)) best = i;\n  }\n  return best;\n}\n\n// A typed value is honoured exactly; only the slider snaps. Reversed bounds are\n// swapped rather than rejected, because a user who types 40 then 30 means the\n// band between them.\n//\n// The absent cases are tested BEFORE Number(), not after. Number(null) is 0 and\n// Number(\"\") is 0 -- both finite -- so a missing mw_max would otherwise clamp to\n// the floor and pin the whole register to 1 MW. An emptied box does the same.\n// This is the fallback path, so it has to survive the values that mean \"nothing\n// was given\" rather than only the ones that mean \"not a number\".\nfunction clampSize(value, fallback) {\n  if (value === null || value === undefined || value === \"\") return fallback;\n  const number = Number(value);\n  if (!Number.isFinite(number)) return fallback;\n  return Math.min(SIZE_CEILING, Math.max(SIZE_FLOOR, number));\n}\n\nfunction formatMw(value) {\n  return value.toLocaleString(\"en-GB\", { maximumFractionDigits: 2 });\n}\n\nfunction renderCapacityRange() {\n  const minRange = document.getElementById(\"sizeMinRange\");\n  const maxRange = document.getElementById(\"sizeMaxRange\");\n  const minBox = document.getElementById(\"sizeMinBox\");\n  const maxBox = document.getElementById(\"sizeMaxBox\");\n  const readout = document.getElementById(\"sizeReadout\");\n  const selected = document.getElementById(\"sizeSelected\");\n  if (!minRange || !maxRange) return;\n  const last = SIZE_STOPS.length - 1;\n  for (const input of [minRange, maxRange]) {\n    input.min = \"0\";\n    input.max = String(last);\n    input.step = \"1\";\n  }\n  const lowIndex = nearestStopIndex(capacityMin);\n  const highIndex = nearestStopIndex(capacityMax);\n  minRange.value = String(lowIndex);\n  maxRange.value = String(highIndex);\n  if (minBox) minBox.value = String(capacityMin);\n  if (maxBox) maxBox.value = String(capacityMax);\n  if (readout) {\n    readout.textContent = sizeFilterActive()\n      ? `${formatMw(capacityMin)} – ${formatMw(capacityMax)} MW`\n      : `1 – ${formatMw(SIZE_CEILING)} MW · all sizes`;\n  }\n  if (selected) {\n    const left = (lowIndex / last) * 100;\n    const right = (highIndex / last) * 100;\n    selected.style.left = `${left}%`;\n    selected.style.width = `${Math.max(right - left, 0)}%`;\n  }\n}\n\nfunction apply({ syncUrl = true } = {}) {"
+      },
+      {
+        "label": "size range filter predicate",
+        "from": "    if (county !== \"All\" && item.county !== county) continue;",
+        "to": "    if (county !== \"All\" && item.county !== county) continue;\n    if (item.capacity_mw < capacityMin || item.capacity_mw > capacityMax) continue;"
+      },
+      {
+        "label": "size range cleared from the URL",
+        "from": "  for (const parameter of [\"technology\", \"status\", \"county\", \"q\", \"sort\", \"repd_ref\"]) url.searchParams.delete(parameter);",
+        "to": "  for (const parameter of [\"technology\", \"status\", \"county\", \"q\", \"sort\", \"repd_ref\",\n    \"mw_min\", \"mw_max\"]) url.searchParams.delete(parameter);"
+      },
+      {
+        "label": "size range written to the URL",
+        "from": "  if (sortMode !== \"capacity_desc\") url.searchParams.set(\"sort\", sortMode);",
+        "to": "  if (sortMode !== \"capacity_desc\") url.searchParams.set(\"sort\", sortMode);\n  if (capacityMin > SIZE_FLOOR) url.searchParams.set(\"mw_min\", String(capacityMin));\n  if (capacityMax < SIZE_CEILING) url.searchParams.set(\"mw_max\", String(capacityMax));"
+      },
+      {
+        "label": "size range read from the URL",
+        "from": "  document.getElementById(\"search\").value = query;\n  document.getElementById(\"sortProjects\").value = sortMode;",
+        "to": "  document.getElementById(\"search\").value = query;\n  document.getElementById(\"sortProjects\").value = sortMode;\n  capacityMin = clampSize(parameters.get(\"mw_min\"), SIZE_FLOOR);\n  capacityMax = clampSize(parameters.get(\"mw_max\"), SIZE_CEILING);\n  if (capacityMin > capacityMax) [capacityMin, capacityMax] = [capacityMax, capacityMin];\n  renderCapacityRange();"
+      },
+      {
+        "label": "CLEAR FILTERS resets the size range",
+        "from": "  document.getElementById(\"search\").value = \"\";\n  document.getElementById(\"sortProjects\").value = sortMode;\n  apply();",
+        "to": "  document.getElementById(\"search\").value = \"\";\n  document.getElementById(\"sortProjects\").value = sortMode;\n  capacityMin = SIZE_FLOOR;\n  capacityMax = SIZE_CEILING;\n  renderCapacityRange();\n  apply();"
+      },
+      {
+        "label": "size range controls bound",
+        "from": "  document.getElementById(\"county\").addEventListener(\"change\", (event) => { county = event.target.value; apply(); });",
+        "to": "  document.getElementById(\"county\").addEventListener(\"change\", (event) => { county = event.target.value; apply(); });\n  const sizeMinRange = document.getElementById(\"sizeMinRange\");\n  const sizeMaxRange = document.getElementById(\"sizeMaxRange\");\n  const sizeMinBox = document.getElementById(\"sizeMinBox\");\n  const sizeMaxBox = document.getElementById(\"sizeMaxBox\");\n  if (sizeMinRange && sizeMaxRange) {\n    // Dragging one handle past the other pushes rather than crosses, so the\n    // band can be collapsed to a single stop but never inverted.\n    const onRange = () => {\n      let low = Number(sizeMinRange.value);\n      let high = Number(sizeMaxRange.value);\n      if (low > high) { const swap = low; low = high; high = swap; }\n      capacityMin = SIZE_STOPS[low];\n      capacityMax = SIZE_STOPS[high];\n      renderCapacityRange();\n      apply();\n    };\n    sizeMinRange.addEventListener(\"input\", onRange);\n    sizeMaxRange.addEventListener(\"input\", onRange);\n  }\n  // The boxes take an exact value, so a band the ladder does not carry -- 33 to\n  // 37 -- is still reachable. Committed on change, not on every keystroke.\n  const onBox = () => {\n    capacityMin = clampSize(sizeMinBox?.value, SIZE_FLOOR);\n    capacityMax = clampSize(sizeMaxBox?.value, SIZE_CEILING);\n    if (capacityMin > capacityMax) {\n      const swap = capacityMin; capacityMin = capacityMax; capacityMax = swap;\n    }\n    renderCapacityRange();\n    apply();\n  };\n  if (sizeMinBox) sizeMinBox.addEventListener(\"change\", onBox);\n  if (sizeMaxBox) sizeMaxBox.addEventListener(\"change\", onBox);\n  const sizeReset = document.getElementById(\"sizeReset\");\n  if (sizeReset) {\n    sizeReset.addEventListener(\"click\", () => {\n      capacityMin = SIZE_FLOOR;\n      capacityMax = SIZE_CEILING;\n      renderCapacityRange();\n      apply();\n    });\n  }"
+      }
+    ]
+  },
+  "registry_entry": {
+    "schema": "pipelinenews.capacity-range-filter.v1",
+    "generation": "{GEN}",
+    "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+    "usage_context_establishes_upstream_rights": false,
+    "activation": "inline control; no payload, no fetch",
+    "additive_only": false,
+    "mutates_existing_dashboard": "adds a PROJECT SIZE range filter and the mw_min / mw_max URL parameters",
+    "network_at_runtime": false,
+    "scale": {
+      "stops": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        12,
+        15,
+        20,
+        25,
+        30,
+        35,
+        40,
+        45,
+        50,
+        60,
+        70,
+        80,
+        90,
+        100,
+        125,
+        150,
+        175,
+        200,
+        250,
+        300,
+        350,
+        400,
+        450,
+        500,
+        600,
+        700,
+        800,
+        900,
+        1000,
+        1250,
+        1500,
+        1750,
+        2000,
+        2500,
+        3000,
+        3500,
+        4000,
+        4500,
+        5000
+      ],
+      "why_not_linear": "Measured over all 7,680 projects the median is 12.3 MW, the 75th percentile is 40 MW and 98% sit under 500 MW. A linear 1-5000 track would put the 30-40 MW band inside 0.2% of its length. The ladder thickens where the register is dense and still reaches 5,000.",
+      "exact_values": "The number boxes accept any value in range, so a band the ladder does not carry is still reachable. Only the slider snaps."
+    },
+    "filters_only": "This is a view control. It never redefines the pipeline: the register's own floor is 1 MW, the largest record is 4,100 MW, and clearing the filter restores every qualifying record."
+  }
+}
