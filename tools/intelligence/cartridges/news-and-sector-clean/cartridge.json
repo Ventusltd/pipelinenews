@@ -1,0 +1,137 @@
+{
+  "key": "sector_intelligence_clean",
+  "summary": "Newspaper shows only project-bound and sector-relevant headlines; the sector panel shows only the one topic whose items are actually on topic.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Filters the news payload at ingest, removes the project caption for unbound stories, deletes three geography filters, and replaces the sector intelligence module with one that shows only DATA_CENTRES and states what is withheld.",
+  "repairs": {
+    "index.html": [
+      {
+        "label": "remove the INTERNATIONAL filter; its stories now sit in one list",
+        "from": "<button data-news=\"INTERNATIONAL\">INTERNATIONAL</button>",
+        "to": ""
+      },
+      {
+        "label": "remove the US filter; its stories now sit in one list",
+        "from": "<button data-news=\"US\">US</button>",
+        "to": ""
+      },
+      {
+        "label": "remove the EUROPE filter; its stories now sit in one list",
+        "from": "<button data-news=\"EUROPE\">EUROPE</button>",
+        "to": ""
+      }
+    ],
+    "app": [
+      {
+        "label": "keep project-bound and sector-relevant stories, drop the rest",
+        "from": "    newsRows = payload.rows;",
+        "to": "    // BOUND keeps its caption; SECTOR is real trade news with no project\n    // established, so it carries none. Everything else goes.\n    //\n    // The sector test reads the headline, which is an inference and is treated\n    // as one: it decides what to SHOW, and is never used to claim a story is\n    // about a project.\n    const NEWS_SECTOR = /\\b(solar|pv|photovolta|battery|bess|storage|ldes|grid|inverter|substation|transmission|curtail|ppa|renewab|wind|electrolys|interconnector|flexibilit|flexitricity|energy hub|energy park|power plant|megawatt|data ?centres?|datacentres?|data ?centers?)\\b/i;\n    const NEWS_CAPACITY = /\\b\\d[\\d,.]*\\s?(mw|mwh|gw|gwh|kw)\\b/i;\n    const NEWS_OFFTOPIC = /\\b(care home|care centre|care award|ring road|dibden|solent gateway)\\b/i;\n    // Engineering and business only. Geopolitics is somebody else's page.\n    const NEWS_NEUTRAL = /\\b(iran|ukraine|russia|israel|gaza|war|sanction|missile|conflict)\\b/i;\n\n    const newsBound = (row) =>\n      row[NEWS_FIELD.eligible] === true\n      && row[NEWS_FIELD.canonical] === true\n      && String(row[NEWS_FIELD.role] || \"\") === \"PRIMARY_MATCH\"\n      && String(row[NEWS_FIELD.repdRef] || \"\").trim() !== \"\";\n\n    const newsSector = (row) => {\n      const headline = String(row[NEWS_FIELD.headline] || \"\");\n      if (NEWS_OFFTOPIC.test(headline) || NEWS_NEUTRAL.test(headline)) return false;\n      return NEWS_SECTOR.test(headline) || NEWS_CAPACITY.test(headline);\n    };\n\n    const allNews = payload.rows;\n    newsRows = allNews.filter((row) => newsBound(row) || newsSector(row));\n    runtimeEvidence.newsBound = allNews.filter(newsBound).length;\n    runtimeEvidence.newsSector = newsRows.length - runtimeEvidence.newsBound;\n    runtimeEvidence.newsDropped = allNews.length - newsRows.length;"
+      },
+      {
+        "label": "the meta line counts bound, sector and withheld",
+        "from": "    document.getElementById(\"newsMeta\").textContent = `${registry.news_counts.uk} UK · ${registry.news_counts.international} international (${registry.news_counts.us} US · ${registry.news_counts.europe} Europe · ${registry.news_counts.other} other) · ${registry.news_counts.all} headlines · immutable compact edition`;",
+        "to": "    document.getElementById(\"newsMeta\").textContent =\n      `${runtimeEvidence.newsBound.toLocaleString(\"en-GB\")} bound to a REPD project · `\n      + `${runtimeEvidence.newsSector.toLocaleString(\"en-GB\")} sector headlines, no project binding · `\n      + `${runtimeEvidence.newsDropped.toLocaleString(\"en-GB\")} withheld as off-topic · immutable compact edition`;"
+      },
+      {
+        "label": "no project caption without a REPD reference",
+        "from": "  const projectName = row[NEWS_FIELD.project] || \"\";",
+        "to": "  // With no repd_ref there is no project this story is about, so it must not\n  // carry one. This is what captioned a New Jersey storage story \"Wilton\n  // International, Greystones Road\".\n  const projectName = String(row[NEWS_FIELD.repdRef] || \"\").trim()\n    ? (row[NEWS_FIELD.project] || \"\")\n    : \"\";"
+      },
+      {
+        "label": "read the sector panel from the corrected registry entry",
+        "from": "  const entry = registry.supplemental_assets?.sector_intelligence;",
+        "to": "  const entry = registry.supplemental_assets?.sector_intelligence_clean\n    || registry.supplemental_assets?.sector_intelligence;"
+      }
+    ]
+  },
+  "hash_fields": [
+    {
+      "at": [
+        "cartridge",
+        "sha256"
+      ],
+      "path": "assets/{GEN}-sector-intelligence.mjs"
+    }
+  ],
+  "registry_entry": {
+    "schema": "pipelinenews.sector-intelligence-supplemental-asset.v3",
+    "generation": "{GEN}",
+    "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+    "usage_context_establishes_upstream_rights": false,
+    "activation": "dynamic-import-on-user-open; payload-fetch-on-first-topic-selection",
+    "cartridge": {
+      "schema": "pipelinenews.sector-intelligence-cartridge.v3",
+      "generation": "{GEN}",
+      "filename": "{GEN}-sector-intelligence.mjs",
+      "path": "assets/{GEN}-sector-intelligence.mjs",
+      "bytes": 0,
+      "sha256": "",
+      "activation": "dynamic-import-on-user-open"
+    },
+    "payload": {
+      "path": "data/202608272130-sector-intelligence.json",
+      "bytes": 46724,
+      "sha256": "846e10a00377509a3196972cdf3eb99ab127ca5864e63332f323e446d4bc95c1"
+    },
+    "topics": [
+      {
+        "code": "DATA_CENTRES",
+        "label": "DATA CENTRES",
+        "display_rank": 1
+      },
+      {
+        "code": "INVERTER_SECURITY_POLICY",
+        "label": "INVERTERS · SECURITY · POLICY",
+        "display_rank": 2
+      },
+      {
+        "code": "ENERGY_SECURITY_HORMUZ",
+        "label": "STRAIT OF HORMUZ",
+        "display_rank": 3
+      },
+      {
+        "code": "ENERGY_SECURITY_UKRAINE",
+        "label": "UKRAINE · ENERGY SECURITY",
+        "display_rank": 4
+      },
+      {
+        "code": "GREAT_GRID_UPGRADE",
+        "label": "GREAT GRID UPGRADE",
+        "display_rank": 5
+      },
+      {
+        "code": "WORLDWIDE_PV",
+        "label": "WORLDWIDE PV",
+        "display_rank": 6
+      },
+      {
+        "code": "MV_HV_COMPONENTS",
+        "label": "MV/HV COMPONENTS",
+        "display_rank": 7
+      }
+    ],
+    "parquet_datasets": [
+      "sector_items",
+      "sector_item_topics",
+      "sector_project_bindings"
+    ],
+    "data_centres_owner_repository": "Ventusltd/data-centres-gb",
+    "owner_parquet_copied": false,
+    "companies_house_owner_repository": "Ventusltd/companies",
+    "project_bindings": 0,
+    "eligible_for_news_signal": false,
+    "deployment": "not-authorised",
+    "topics_shown": [
+      "DATA_CENTRES"
+    ],
+    "topics_withheld": {
+      "GREAT_GRID_UPGRADE": "1 of 6 items on topic",
+      "INVERTER_SECURITY_POLICY": "2 of 12 items on topic",
+      "MV_HV_COMPONENTS": "0 of 6",
+      "WORLDWIDE_PV": "0 of 6",
+      "ENERGY_SECURITY_HORMUZ": "0 of 6, and geopolitical",
+      "ENERGY_SECURITY_UKRAINE": "0 of 6, and geopolitical"
+    },
+    "why_withheld": "The collector returned a generic government feed for six of seven topics. One item, a Biometrics Commissioner FOI response, appears under five different topics. The rows remain in the payload so a fixed collector restores the topics without another release here."
+  }
+}
