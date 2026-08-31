@@ -27,7 +27,9 @@ const payloadPath = join(root, "data", `${gen}-grid-proximity.json`);
 const payloadText = await readFile(payloadPath, "utf8");
 const payload = JSON.parse(payloadText);
 
-const dom = new JSDOM("<!doctype html><html><body></body></html>");
+// pretendToBeVisual gives jsdom a requestAnimationFrame. Without it the scope
+// takes its no-animation path, which is also worth proving works.
+const dom = new JSDOM("<!doctype html><html><body></body></html>", { pretendToBeVisual: true });
 globalThis.window = dom.window;
 globalThis.document = dom.window.document;
 globalThis.Blob = dom.window.Blob;
@@ -73,9 +75,12 @@ ok("mount rendered inside its own host", host.children.length === 1 && document.
 ok("mount added nothing outside the host", document.body.innerHTML.length > before);
 
 const tabButtons = Array.from(host.querySelectorAll("button"));
-ok("all four tabs present", tabButtons.length === 4, tabButtons.map((b) => b.textContent).join(","));
+ok("all five tabs present", tabButtons.length === 5, tabButtons.map((b) => b.textContent).join(","));
 
-const wait = () => new Promise((r) => setTimeout(r, 0));
+const wait = (ms = 0) => new Promise((r) => setTimeout(r, ms));
+// requestAnimationFrame in jsdom fires on a ~16 ms timer, so a loop of
+// setTimeout(0) never advances it. The scope needs real elapsed time.
+const settle = async (ms) => { const end = Date.now() + ms; while (Date.now() < end) await wait(20); };
 async function openTab(label) {
   const b = tabButtons.find((x) => x.textContent === label);
   b.click();
@@ -160,6 +165,44 @@ ok("every exported line stamps its measurement method",
   exported && exported.features.every((f) => f.properties.measurement_method === "atlas_haversine_6378_137_km"));
 ok("export carries the caveat block", exported && Boolean(exported.properties.caveat.straight_line));
 
+/* --- target scope --------------------------------------------------------- */
+const targetText = await openTab("TARGET");
+ok("TARGET tab renders the scope", targetText.includes("DRAW STRAIGHT TO NEAREST SUBSTATION"));
+const canvas = host.querySelector("#gpScope");
+ok("scope canvas exists and is square", canvas && canvas.width === canvas.height, canvas ? `${canvas.width}x${canvas.height}` : "absent");
+ok("scope styles are scoped to the cartridge host", (() => {
+  const style = document.getElementById("gp-scope-style");
+  if (!style) return false;
+  const selectors = style.textContent.match(/^\s*#?[^@{}]+\{/gm) || [];
+  return selectors.every((s) => s.includes("#gridProximityHost"));
+})(), "no selector may escape #gridProximityHost");
+
+const scopeTarget = payload.rows.find((r) => r.substation && r.substation.name);
+host.querySelector("#gpTargetPick").value = scopeTarget.ref;
+host.querySelector("#gpTargetGo").click();
+await settle(1400);
+const readoutText = host.querySelector("#gpReadout").textContent;
+ok("scope acquires a named target", readoutText.includes(scopeTarget.substation.name.slice(0, 12)),
+  readoutText.slice(0, 60));
+ok("scope reports a bearing in degrees", /\d{3}°/.test(readoutText));
+ok("scope lists every voltage in reach",
+  Object.keys(scopeTarget.circuit_by_kv).every((kv) => readoutText.includes(`${kv} kV`)),
+  Object.keys(scopeTarget.circuit_by_kv).join("/"));
+ok("scope carries the ETAP / DIgSILENT caveat",
+  readoutText.includes("ETAP") && readoutText.includes("chartered engineer"));
+
+// The bearing shown must be the real one, re-derived here.
+{
+  const D = Math.PI / 180;
+  const [lo1, la1] = scopeTarget.at; const [lo2, la2] = scopeTarget.substation.at;
+  const y = Math.sin((lo2 - lo1) * D) * Math.cos(la2 * D);
+  const x = Math.cos(la1 * D) * Math.sin(la2 * D) - Math.sin(la1 * D) * Math.cos(la2 * D) * Math.cos((lo2 - lo1) * D);
+  const brg = (Math.atan2(y, x) / D + 360) % 360;
+  const shown = Number((readoutText.match(/(\d{3})°/) || [])[1]);
+  ok("the bearing shown matches an independent derivation",
+    Math.abs(shown - brg) <= 1, `shown ${shown} independent ${brg.toFixed(1)}`);
+}
+
 /* --- method -------------------------------------------------------------- */
 const methodText = await openTab("METHOD");
 ok("METHOD tab states the radius", methodText.includes("6378.137"));
@@ -171,9 +214,35 @@ ok("METHOD tab carries the straight-line caveat",
 /* --- payload integrity --------------------------------------------------- */
 ok("payload uses the atlas radius", payload.earth_model.radius_km === 6378.137);
 ok("payload covers five voltages", payload.network.voltages_kv.join(",") === "400,275,220,132,66");
+ok("every row carries a grid probable band",
+  payload.rows.every((r) => r.grid_probable && r.grid_probable.band));
+ok("the band is reproducible from its own published rule", payload.rows.every((r) => {
+  const g = r.grid_probable;
+  if (g.band === "UNKNOWN") return true;
+  const bands = payload.grid_probable_rule.bands;
+  const expected = (bands.find((b) => b.circuit_km_max !== null
+    && r.circuit.km <= b.circuit_km_max && r.substation.km <= b.substation_km_max) || { band: "REMOTE" }).band;
+  return expected === g.band;
+}));
+ok("the rule publishes what it does not model",
+  payload.grid_probable_rule.not_modelled.length >= 4);
+ok("no capacity-to-voltage assumption has been smuggled in",
+  payload.grid_probable_rule.not_modelled.some((s) => s.includes("capacity-to-voltage")));
 ok("every row carries a snapped circuit foot",
   payload.rows.every((r) => r.circuit && Array.isArray(r.circuit.foot) && r.circuit.foot.length === 2));
 ok("every row carries a nearest substation", payload.rows.every((r) => r.substation));
+ok("every row carries four more substations for the scope",
+  payload.rows.every((r) => Array.isArray(r.substations_nearby) && r.substations_nearby.length === 4));
+ok("nearby substations are ordered by range",
+  payload.rows.every((r) => [r.substation, ...r.substations_nearby]
+    .every((s, i, a) => i === 0 || a[i - 1].km <= s.km)));
+ok("every row carries the nearest circuit at each voltage",
+  payload.rows.every((r) => Object.keys(r.circuit_by_kv).length >= 1));
+ok("the overall nearest circuit equals the best of the per-voltage set",
+  payload.rows.every((r) => {
+    const best = Math.min(...Object.values(r.circuit_by_kv).map((v) => v.km));
+    return Math.abs(best - r.circuit.km) < 1e-6;
+  }));
 
 const failed = checks.filter((c) => !c.pass);
 for (const c of checks) {

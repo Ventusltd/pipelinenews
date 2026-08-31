@@ -1,9 +1,9 @@
 {
   "key": "grid_proximity",
-  "summary": "Geodesic radius search, sortable project table, and auto-drawn indicative connections to the nearest circuit and substation. Recomputes network proximity on the original line geometry across 400/275/220/132/66 kV.",
-  "section": "    <section class=\"meta grid-proximity-launch\" aria-labelledby=\"gridProximityHeading\">\n      <strong id=\"gridProximityHeading\">GRID PROXIMITY — RADIUS, SORT AND CONNECTIONS</strong>\n      <span>Search every project inside a radius of any point, sort the register by capacity, town, county or grid distance, and read the indicative connection to the nearest circuit and substation.</span>\n      <span>Distances use the same haversine and the same Earth radius as the GridAtlas radius tool and the GIS SLD sandbox, so a distance read here equals the distance read there.</span>\n      <span>Measured to the circuit itself across 149,340 mapped segments at 400, 275, 220, 132 and 66 kV, not to a sampled point.</span>\n      <button class=\"btn\" id=\"gridProximityOpen\" type=\"button\" aria-controls=\"gridProximityHost\" aria-expanded=\"false\">OPEN GRID PROXIMITY</button>\n      <span id=\"gridProximityMeta\">WAIT · dynamic cartridge not requested at startup</span>\n      <div id=\"gridProximityHost\" hidden></div>\n    </section>\n\n",
+  "summary": "Geodesic radius search, sortable project table, a targeting scope that draws straight to the nearest substation, and auto-drawn indicative connections. Recomputes network proximity on the original line geometry across 400/275/220/132/66 kV.",
+  "section": "    <section class=\"meta grid-proximity-launch\" aria-labelledby=\"gridProximityHeading\">\n      <strong id=\"gridProximityHeading\">GRID PROXIMITY — RADIUS, SORT AND CONNECTIONS</strong>\n      <span>Search every project inside a radius of any point, sort the register by capacity, town, county or grid distance, and read the indicative connection to the nearest circuit and substation, or lock the scope onto a site and see every voltage within reach.</span>\n      <span>Distances use the same haversine and the same Earth radius as the GridAtlas radius tool and the GIS SLD sandbox, so a distance read here equals the distance read there.</span>\n      <span>Measured to the circuit itself across 149,340 mapped segments at 400, 275, 220, 132 and 66 kV, not to a sampled point.</span>\n      <button class=\"btn\" id=\"gridProximityOpen\" type=\"button\" aria-controls=\"gridProximityHost\" aria-expanded=\"false\">OPEN GRID PROXIMITY</button>\n      <span id=\"gridProximityMeta\">WAIT · dynamic cartridge not requested at startup</span>\n      <div id=\"gridProximityHost\" hidden></div>\n    </section>\n\n",
   "bind_call": "bindGridProximity();",
-  "loader": "async function openGridProximity() {\n  const button = document.getElementById(\"gridProximityOpen\");\n  const host = document.getElementById(\"gridProximityHost\");\n  const meta = document.getElementById(\"gridProximityMeta\");\n  invariant(button && host && meta, \"grid-proximity controls are missing\");\n  if (host.dataset.gridProximityState === \"ready\") {\n    host.hidden = !host.hidden;\n    button.setAttribute(\"aria-expanded\", String(!host.hidden));\n    return;\n  }\n  if (host.dataset.gridProximityState === \"loading\") return;\n  const entry = registry.supplemental_assets?.grid_proximity;\n  invariant(entry?.activation === \"dynamic-import-on-user-open; payload-fetch-on-first-tab-selection\", \"grid proximity activation changed\");\n  invariant(entry.project_bindings === 0 && entry.eligible_for_news_signal === false, \"grid proximity binding boundary changed\");\n  host.hidden = false;\n  host.dataset.gridProximityState = \"loading\";\n  button.setAttribute(\"aria-expanded\", \"true\");\n  meta.textContent = \"LOAD \\u00b7 importing derived controls; no payload requested\";\n  runtimeEvidence.gridProximityImports += 1;\n  invariant(runtimeEvidence.gridProximityImports === 1, \"grid proximity cartridge imported more than once\");\n  const cartridge = await import(`./${entry.cartridge.filename}`);\n  invariant(cartridge.GRID_PROXIMITY_CARTRIDGE_CONTRACT.generation === entry.generation, \"grid proximity cartridge identity changed\");\n  invariant(cartridge.GRID_PROXIMITY_CARTRIDGE_CONTRACT.additive_only === true, \"grid proximity cartridge is no longer additive-only\");\n  const result = cartridge.mountGridProximity({\n    host,\n    payloadAsset: { ...entry.payload, url: entry.payload.path },\n  });\n  runtimeEvidence.gridProximityPayloadRequests = result.payloadRequests;\n  invariant(runtimeEvidence.gridProximityPayloadRequests === 0 && result.projectBindings === 0, \"grid proximity payload requested at mount, or a binding appeared\");\n  host.dataset.gridProximityState = \"ready\";\n  meta.textContent = \"WAIT \\u00b7 four tabs \\u00b7 choose one to request the derived proximity index\";\n}\n\nfunction bindGridProximity() {\n  const button = document.getElementById(\"gridProximityOpen\");\n  invariant(button, \"grid-proximity opener is missing\");\n  button.addEventListener(\"click\", () => openGridProximity().catch((error) => {\n    console.error(\"grid proximity\", error);\n    document.getElementById(\"gridProximityMeta\").textContent = \"FAIL \\u00b7 grid proximity unavailable; core product unchanged\";\n    document.getElementById(\"gridProximityHost\").dataset.gridProximityState = \"failed\";\n  }));\n}\n\n",
+  "loader": "async function openGridProximity() {\n  const button = document.getElementById(\"gridProximityOpen\");\n  const host = document.getElementById(\"gridProximityHost\");\n  const meta = document.getElementById(\"gridProximityMeta\");\n  invariant(button && host && meta, \"grid-proximity controls are missing\");\n  if (host.dataset.gridProximityState === \"ready\") {\n    host.hidden = !host.hidden;\n    button.setAttribute(\"aria-expanded\", String(!host.hidden));\n    return;\n  }\n  if (host.dataset.gridProximityState === \"loading\") return;\n  const entry = registry.supplemental_assets?.grid_proximity;\n  invariant(entry?.activation === \"dynamic-import-on-user-open; payload-fetch-on-first-tab-selection\", \"grid proximity activation changed\");\n  invariant(entry.project_bindings === 0 && entry.eligible_for_news_signal === false, \"grid proximity binding boundary changed\");\n  host.hidden = false;\n  host.dataset.gridProximityState = \"loading\";\n  button.setAttribute(\"aria-expanded\", \"true\");\n  meta.textContent = \"LOAD \\u00b7 importing derived controls; no payload requested\";\n  runtimeEvidence.gridProximityImports += 1;\n  invariant(runtimeEvidence.gridProximityImports === 1, \"grid proximity cartridge imported more than once\");\n  const cartridge = await import(`./${entry.cartridge.filename}`);\n  invariant(cartridge.GRID_PROXIMITY_CARTRIDGE_CONTRACT.generation === entry.generation, \"grid proximity cartridge identity changed\");\n  invariant(cartridge.GRID_PROXIMITY_CARTRIDGE_CONTRACT.additive_only === true, \"grid proximity cartridge is no longer additive-only\");\n  const result = cartridge.mountGridProximity({\n    host,\n    payloadAsset: { ...entry.payload, url: entry.payload.path },\n  });\n  runtimeEvidence.gridProximityPayloadRequests = result.payloadRequests;\n  invariant(runtimeEvidence.gridProximityPayloadRequests === 0 && result.projectBindings === 0, \"grid proximity payload requested at mount, or a binding appeared\");\n  host.dataset.gridProximityState = \"ready\";\n  meta.textContent = \"WAIT \\u00b7 five tabs \\u00b7 choose one to request the derived proximity index\";\n}\n\nfunction bindGridProximity() {\n  const button = document.getElementById(\"gridProximityOpen\");\n  invariant(button, \"grid-proximity opener is missing\");\n  button.addEventListener(\"click\", () => openGridProximity().catch((error) => {\n    console.error(\"grid proximity\", error);\n    document.getElementById(\"gridProximityMeta\").textContent = \"FAIL \\u00b7 grid proximity unavailable; core product unchanged\";\n    document.getElementById(\"gridProximityHost\").dataset.gridProximityState = \"failed\";\n  }));\n}\n\n",
   "repairs": {
     "app": [
       {
@@ -14,8 +14,20 @@
     ]
   },
   "hash_fields": [
-    { "at": ["cartridge", "sha256"], "path": "assets/{GEN}-grid-proximity.mjs" },
-    { "at": ["payload", "sha256"], "path": "data/{GEN}-grid-proximity.json" }
+    {
+      "at": [
+        "cartridge",
+        "sha256"
+      ],
+      "path": "assets/{GEN}-grid-proximity.mjs"
+    },
+    {
+      "at": [
+        "payload",
+        "sha256"
+      ],
+      "path": "data/{GEN}-grid-proximity.json"
+    }
   ],
   "registry_entry": {
     "schema": "pipelinenews.grid-proximity-supplemental-asset.v1",
@@ -50,10 +62,31 @@
       "sha256": ""
     },
     "tabs": [
-      { "code": "RADIUS", "label": "RADIUS", "display_rank": 1 },
-      { "code": "SORT", "label": "SORT", "display_rank": 2 },
-      { "code": "CONNECT", "label": "CONNECT", "display_rank": 3 },
-      { "code": "METHOD", "label": "METHOD", "display_rank": 4 }
+      {
+        "code": "RADIUS",
+        "label": "RADIUS",
+        "display_rank": 1
+      },
+      {
+        "code": "SORT",
+        "label": "SORT",
+        "display_rank": 2
+      },
+      {
+        "code": "CONNECT",
+        "label": "CONNECT",
+        "display_rank": 3
+      },
+      {
+        "code": "TARGET",
+        "label": "TARGET",
+        "display_rank": 4
+      },
+      {
+        "code": "METHOD",
+        "label": "METHOD",
+        "display_rank": 5
+      }
     ],
     "earth_model": {
       "formula": "haversine",
@@ -64,7 +97,13 @@
       ]
     },
     "network": {
-      "voltages_kv": [400, 275, 220, 132, 66],
+      "voltages_kv": [
+        400,
+        275,
+        220,
+        132,
+        66
+      ],
       "segments": 149340,
       "substations": 5800,
       "measure": "perpendicular distance to the circuit, not to a sampled vertex"

@@ -55,6 +55,7 @@ VOLTAGE_LAYERS = [
     ("grid_66kv.geojson", 66),
 ]
 SUBSTATIONS = "grid_substations.geojson"
+VOLTAGES = [400, 275, 220, 132, 66]
 CELL = 0.1                  # index cell, degrees
 
 
@@ -126,17 +127,49 @@ def load_substations(root):
 
 
 def build_index(items, lon_at, lat_at, extra=None):
+    """Index by every cell an item's bounding box touches, not just its ends.
+
+    Registering a segment only by its two endpoints hides it from any cell it
+    merely passes through. With 0.1 degree cells (~11 km) that is rare but real:
+    it left one project reporting a 400 kV circuit at 3.792 km when a 132 kV
+    circuit crossed at 3.789 km.
+    """
     index = {}
     for i, item in enumerate(items):
-        keys = {cell_of(lat_at(item), lon_at(item))}
-        if extra:
-            keys.add(cell_of(*extra(item)))
-        for key in keys:
-            index.setdefault(key, []).append(i)
+        a_lat, a_lon = lat_at(item), lon_at(item)
+        b_lat, b_lon = extra(item)[::-1] if extra else (a_lat, a_lon)
+        i0, i1 = sorted((int(math.floor(a_lat / CELL)), int(math.floor(b_lat / CELL))))
+        j0, j1 = sorted((int(math.floor(a_lon / CELL)), int(math.floor(b_lon / CELL))))
+        for ci in range(i0, i1 + 1):
+            for cj in range(j0, j1 + 1):
+                index.setdefault((ci, cj), []).append(i)
     return index
 
 
-def nearest_segment(lon0, lat0, segments, index):
+
+def swept_radius_km(lon0, lat0, ring, kx, ky):
+    """Radius around (lon0, lat0) that a Chebyshev ring sweep has provably covered.
+
+    Sweeping cells within Chebyshev distance `ring` covers an axis-aligned box of
+    cells, NOT a disc centred on the query point. The query point sits somewhere
+    inside its own cell, so the guaranteed radius is the distance to the nearest
+    edge of that box - which can be almost a whole cell less than ring * CELL.
+
+    Assuming otherwise is what left eight projects reporting a circuit that was
+    not the nearest, worst by 10.5 km at Shetland, and fourteen with substations
+    a few metres out of order.
+    """
+    ci = math.floor(lat0 / CELL)
+    cj = math.floor(lon0 / CELL)
+    lat_lo = (ci - ring) * CELL
+    lat_hi = (ci + ring + 1) * CELL
+    lon_lo = (cj - ring) * CELL
+    lon_hi = (cj + ring + 1) * CELL
+    return min((lat0 - lat_lo) * ky, (lat_hi - lat0) * ky,
+               (lon0 - lon_lo) * kx, (lon_hi - lon0) * kx)
+
+
+def nearest_segment(lon0, lat0, segments, index, only_kv=None):
     """Exact perpendicular distance to the nearest circuit, and where it lands.
 
     The projection is done on a local tangent plane so the foot of the
@@ -156,6 +189,8 @@ def nearest_segment(lon0, lat0, segments, index):
                     continue
                 candidates.extend(index.get((i, j), ()))
         for idx in candidates:
+            if only_kv is not None and segments[idx][4] != only_kv:
+                continue
             x1, y1, x2, y2 = segments[idx][:4]
             ax, ay = (x1 - lon0) * kx, (y1 - lat0) * ky
             bx, by = (x2 - lon0) * kx, (y2 - lat0) * ky
@@ -170,8 +205,8 @@ def nearest_segment(lon0, lat0, segments, index):
             d2 = px * px + py * py
             if d2 < best[0]:
                 best = (d2, idx, t)
-        # Safe to stop only once the best hit is inside the ring already swept.
-        if best[1] is not None and math.sqrt(best[0]) <= ring * CELL * ky * 0.999:
+        # Safe to stop only once the best hit is inside the area provably swept.
+        if best[1] is not None and math.sqrt(best[0]) <= swept_radius_km(lon0, lat0, ring, kx, ky):
             break
     if best[1] is None:
         return None
@@ -188,37 +223,85 @@ def nearest_segment(lon0, lat0, segments, index):
     }
 
 
-def nearest_substation(lon0, lat0, subs, index):
+def nearest_substations(lon0, lat0, subs, index, want=5):
     meridional, prime_vertical = curvature(lat0)
     kx = prime_vertical * math.cos(lat0 * DEG) * DEG
     ky = meridional * DEG
     ci, cj = cell_of(lat0, lon0)
-    best = (float("inf"), None)
+    found = {}
     for ring in range(0, 90):
-        candidates = []
         for i in range(ci - ring, ci + ring + 1):
             for j in range(cj - ring, cj + ring + 1):
                 if ring and abs(i - ci) != ring and abs(j - cj) != ring:
                     continue
-                candidates.extend(index.get((i, j), ()))
-        for idx in candidates:
-            lon, lat = subs[idx][0], subs[idx][1]
-            dx, dy = (lon - lon0) * kx, (lat - lat0) * ky
-            d2 = dx * dx + dy * dy
-            if d2 < best[0]:
-                best = (d2, idx)
-        if best[1] is not None and math.sqrt(best[0]) <= ring * CELL * ky * 0.999:
+                for idx in index.get((i, j), ()):
+                    if idx in found:
+                        continue
+                    lon, lat = subs[idx][0], subs[idx][1]
+                    dx, dy = (lon - lon0) * kx, (lat - lat0) * ky
+                    found[idx] = math.sqrt(dx * dx + dy * dy)
+        # Keep sweeping until `want` candidates are all provably inside the
+        # area already covered, not merely until `want` have been seen.
+        if len(found) >= want:
+            kth = sorted(found.values())[want - 1]
+            if kth <= swept_radius_km(lon0, lat0, ring, kx, ky):
+                break
+    if not found:
+        return []
+    # Rank on the metric that is REPORTED, not the one used to search. The plane
+    # metric and the haversine differ by ~0.1%, which was enough to emit pairs a
+    # few metres out of order when the search ranked on one and printed the other.
+    ranked = sorted(found, key=lambda i: haversine_km(lon0, lat0, subs[i][0], subs[i][1]))[:want]
+    out = []
+    for idx in ranked:
+        lon, lat, name, operator, volts, kind = subs[idx]
+        out.append({
+            "km": round(haversine_km(lon0, lat0, lon, lat), 3),
+            "name": name,
+            "operator": operator,
+            "kv": volts,
+            "kind": kind,
+            "at": [round(lon, 6), round(lat, 6)],
+        })
+    return out
+
+
+
+# --- grid probable ----------------------------------------------------------
+# A screening band, from measured geometry only. It says how close the mapped
+# network is, not whether a connection is obtainable.
+#
+# Deliberately NOT in this model, because the sources have not been cited yet:
+#   - capacity-to-voltage suitability (needs ENA / DNO published practice)
+#   - connection queue position, curtailment, or headroom
+#   - 33 kV and 11 kV distribution, which is where most sub-50 MW schemes land
+#   - DNO licence area, ownership, or IDNO presence
+# Adding a capacity rule from memory would be a guess. It waits for sources.
+GRID_PROBABLE_BANDS = [
+    ("STRONG",   2.0,  1.0),
+    ("MODERATE", 5.0,  3.0),
+    ("DISTANT", 15.0, 10.0),
+]
+
+
+def grid_probable(circuit, substation):
+    """Band a site by how close the mapped network is. Inputs are shown, always."""
+    if not circuit or not substation:
+        return {"band": "UNKNOWN", "why": "no mapped circuit or substation in range"}
+    c = circuit["km"]
+    s = substation["km"]
+    for band, circuit_max, sub_max in GRID_PROBABLE_BANDS:
+        if c <= circuit_max and s <= sub_max:
             break
-    if best[1] is None:
-        return None
-    lon, lat, name, operator, volts, kind = subs[best[1]]
+    else:
+        band = "REMOTE"
     return {
-        "km": round(haversine_km(lon0, lat0, lon, lat), 3),
-        "name": name,
-        "operator": operator,
-        "kv": volts,
-        "kind": kind,
-        "at": [round(lon, 6), round(lat, 6)],
+        "band": band,
+        "circuit_km": c,
+        "circuit_kv": circuit["kv"],
+        "substation_km": s,
+        "why": ("nearest circuit %.2f km at %d kV, nearest substation %.2f km"
+                % (c, circuit["kv"], s)),
     }
 
 
@@ -234,7 +317,7 @@ def main():
     segments = load_segments(args.gg2050)
     subs = load_substations(args.gg2050)
     seg_index = build_index(segments, lambda s: s[0], lambda s: s[1],
-                            extra=lambda s: (s[3], s[2]))
+                            extra=lambda s: (s[2], s[3]))   # (lon, lat) of the far end
     sub_index = build_index(subs, lambda s: s[0], lambda s: s[1])
     print("segments %d | substations %d | cells %d/%d"
           % (len(segments), len(subs), len(seg_index), len(sub_index)))
@@ -252,8 +335,21 @@ def main():
             lon, lat = float(row[10]), float(row[11])
         except (ValueError, IndexError):
             continue
-        circuit = nearest_segment(lon, lat, segments, seg_index)
-        substation = nearest_substation(lon, lat, subs, sub_index)
+        # One search per voltage, and the overall nearest is the best of those.
+        # Running a separate unfiltered search alongside them let the two
+        # disagree: a sparser filtered sweep reaches further and can find a
+        # circuit the unfiltered sweep stopped short of. Deriving the overall
+        # answer from the per-voltage set makes disagreement impossible.
+        by_voltage = {}
+        per_voltage_full = {}
+        for kv in VOLTAGES:
+            hit = nearest_segment(lon, lat, segments, seg_index, only_kv=kv)
+            if hit:
+                by_voltage[str(kv)] = {"km": hit["km"], "foot": hit["foot"]}
+                per_voltage_full[kv] = hit
+        circuit = min(per_voltage_full.values(), key=lambda h: h["km"]) if per_voltage_full else None
+        nearby = nearest_substations(lon, lat, subs, sub_index, want=5)
+        substation = nearby[0] if nearby else None
         published = None
         try:
             published = float(row[21])
@@ -272,7 +368,10 @@ def main():
             "tech": row[2],
             "status": row[3],
             "circuit": circuit,
+            "circuit_by_kv": by_voltage,
+            "grid_probable": grid_probable(circuit, nearby[0] if nearby else None),
             "substation": substation,
+            "substations_nearby": nearby[1:],
             "published_circuit_km": published,
         })
 
@@ -299,6 +398,25 @@ def main():
             "segments": len(segments),
             "substations": len(subs),
             "measure": "perpendicular distance to the circuit, not to a sampled vertex",
+        },
+        "grid_probable_rule": {
+            "purpose": "A screening band from measured geometry. It says how close "
+                       "the mapped network is, not whether a connection is obtainable.",
+            "bands": [
+                {"band": "STRONG", "circuit_km_max": 2.0, "substation_km_max": 1.0},
+                {"band": "MODERATE", "circuit_km_max": 5.0, "substation_km_max": 3.0},
+                {"band": "DISTANT", "circuit_km_max": 15.0, "substation_km_max": 10.0},
+                {"band": "REMOTE", "circuit_km_max": None, "substation_km_max": None},
+            ],
+            "not_modelled": [
+                "capacity-to-voltage suitability (awaiting ENA and DNO published practice)",
+                "connection queue position, curtailment or headroom",
+                "33 kV and 11 kV distribution, where most sub-50 MW schemes connect",
+                "DNO licence area, ownership or IDNO presence",
+            ],
+            "honesty": "Every input to the band is published beside it. Nothing here "
+                       "is inferred from capacity, and no assumption about connection "
+                       "voltage has been made without a cited source.",
         },
         "caveat": {
             "straight_line": "Straight-line distance to mapped geometry. Not a "
