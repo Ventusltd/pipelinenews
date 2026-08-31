@@ -137,7 +137,11 @@ const countyOf = (row) => projects.dictionaries.county[row[F.county]] || "";
 
 // ------------------------------------------------------------- the columns --
 const headings = [...doc.querySelectorAll("thead th")].map((th) => th.textContent.replace(/\s+/g, " ").trim());
-check("table has 13 columns", headings.length === 13, `found ${headings.length}: ${headings.join(" | ")}`);
+// The count is not hard-coded: a later cartridge may legitimately add a
+// column, and this proof owns TOWN and POSTCODE, not the table's width. It
+// asserts the columns it added and that the body agrees with the header.
+check("table has at least the 13 columns this cartridge left behind",
+  headings.length >= 13, `found ${headings.length}: ${headings.join(" | ")}`);
 check("TOWN column present", headings.some((h) => h.startsWith("TOWN")), headings.join(" | "));
 check("POSTCODE column present", headings.some((h) => h.startsWith("POSTCODE")), headings.join(" | "));
 check("TOWN sits between COUNTY and POSTCODE",
@@ -155,10 +159,14 @@ check("every column this proof reads was found",
 
 const first = rowsOf();
 check("rows render", first.length > 0, `${first.length} rows`);
-check("every row has 13 cells", first.every((tr) => cellsOf(tr).length === 13),
-  `widths: ${[...new Set(first.map((tr) => cellsOf(tr).length))].join(",")}`);
+check("every row has one cell per heading",
+  first.every((tr) => cellsOf(tr).length === headings.length),
+  `${headings.length} headings, row widths: ${[...new Set(first.map((tr) => cellsOf(tr).length))].join(",")}`);
+const failColspan = (await readFile(join(root, "assets", "202608291447-app.mjs"), "utf8"))
+  .match(/colspan="(\d+)" class="fast-fail"/);
 check("fail-closed row would span the whole table",
-  (await readFile(join(root, "assets", "202608291447-app.mjs"), "utf8")).includes('colspan="13"'));
+  failColspan !== null && Number(failColspan[1]) === headings.length,
+  failColspan ? `colspan ${failColspan[1]}, ${headings.length} headings` : "no fail-closed row found");
 
 // ---------------------------------------------------- the values in the cells --
 let townMatches = 0;
