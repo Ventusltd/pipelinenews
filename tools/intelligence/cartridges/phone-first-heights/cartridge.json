@@ -1,0 +1,40 @@
+{
+  "key": "phone_first_heights",
+  "summary": "The body is no longer pinned to 100vh on a phone, and the panes that want a viewport fraction use dvh, which tracks the browser toolbar.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "The mobile block overrode display and overflow but not height, so a phone kept a body exactly 100vh tall -- and on iOS 100vh is the viewport with the chrome hidden, which is taller than what you can see whenever the toolbar is showing. The body now grows, with min-height:100svh for the full-screen feel; .paper and .tablewrap use dvh. Every declaration is written vh-then-modern, so a browser without dvh keeps today's behaviour exactly.",
+  "repairs": {
+    "assets": [
+      {
+        "path": "assets/202608270055-v8-fast.css",
+        "edits": [
+          {
+            "label": "the desktop shell measures the viewport that is actually visible",
+            "from": "body{display:flex;height:100vh;overflow:hidden;font-size:13px}",
+            "to": "body{display:flex;height:100vh;height:100dvh;overflow:hidden;font-size:13px}"
+          },
+          {
+            "label": "on a phone the body grows instead of being pinned to 100vh",
+            "from": "@media(max-width:768px){body{display:block;overflow:auto}",
+            "to": "@media(max-width:768px){body{display:block;overflow:auto;height:auto;min-height:100vh;min-height:100svh}"
+          },
+          {
+            "label": "the newspaper pane tracks the toolbar instead of ignoring it",
+            "from": ".paper{height:min(68vh,760px);min-height:520px;overflow:auto;overscroll-behavior:contain}",
+            "to": ".paper{height:min(68vh,760px);height:min(68dvh,760px);min-height:520px;overflow:auto;overscroll-behavior:contain}"
+          },
+          {
+            "label": "and on a phone too",
+            "from": ".paper{height:65vh;min-height:480px}",
+            "to": ".paper{height:65vh;height:65dvh;min-height:480px}"
+          },
+          {
+            "label": "the table pane likewise",
+            "from": ".tablewrap{background:var(--panel);border:1px solid var(--soft);overflow:auto;max-height:65vh}",
+            "to": ".tablewrap{background:var(--panel);border:1px solid var(--soft);overflow:auto;max-height:65vh;max-height:65dvh}"
+          }
+        ]
+      }
+    ]
+  }
+}
