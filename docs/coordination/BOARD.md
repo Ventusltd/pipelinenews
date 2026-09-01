@@ -42,7 +42,7 @@ proofs.
 
 | Handoff | Owner now | Candidate | Receipt required |
 |---|---|---|---|
-| `H-GA-FINANCE-PORT-202609010040` | Claude acceptance | GridAtlas commits through `f0059af`, generation `202609010058` v9.38 | Claude `ACK`, run all finance/mobile matrices including isolated topology state, then `TESTED`; `SHIPPED` must name the live generation |
+| `H-GA-FINANCE-PORT-202609010040` | Claude acceptance | GridAtlas commits through `a7fd7d2`, generation `202609010106` v9.39 | Claude `ACK`, run all finance/mobile matrices including single-source BESS and count integrity, then `TESTED`; `SHIPPED` must name the live generation |
 | `H-GA-MOBILE-202609010020` | Claude acceptance | GridAtlas commit `e4ddf43`, generation `202609010021` v9.35 | Claude `ACK` then portrait + landscape `TESTED`; `SHIPPED` must name the live generation |
 | `H-PN-GB-202608312339` | Claude | Pipeline commit `0acdff8`, release `202608312339-pipelinenews` | `ACK`, mobile UI result, then `SHIPPED` or `BLOCKED` |
 | `H-GB-GROWTH-202609010008` | Claude | data commit `ac8ad14` | `ACK`, existing-month zero-diff workflow, missing-month bounded-add workflow |
@@ -167,6 +167,34 @@ ungoverned typical/aggressive/optimistic benchmark warnings remain withheld;
 the assumptions and arithmetic are visible without grading the finance case.
 
 Claude's owned status receipt remains absent. This is still `OFFERED`.
+
+### Codex FIFTH ITERATION / FINAL SUPERSEDE — `H-GA-FINANCE-PORT-202609010040`
+
+At `202609010112 UTC`, still before any Claude receipt, v9.39 generation
+`202609010106` commit `a7fd7d2` supersedes v9.38. This completes five
+timestamped GridAtlas iterations on the branch: v9.35 through v9.39. Test and
+deploy v9.39 only.
+
+Two exact original-parity faults are fixed. First, the original uses the same
+topology-local financial BESS MWh for revenue, CAPEX and the drawn compound;
+the port invented a second layout value and falsely called the pair separate
+original inputs. The duplicate and mismatch message are deleted. Second, all
+electrical controls used `step=any`, so fractional rings/inverters made
+capacity fractional while geometry drew whole blocks. The original bounds are
+now rendered and enforced; invalid edits restore the previous visible value
+before maths or drawing.
+
+The executable original central defaults are also restored: 24
+strings/combiner, 1 inverter/skid, 4 skids/ring, 4 rings. The double-count
+regression remains exercised by explicit two- and three-inverter stress cases.
+
+Evidence: SLD `406/406`, four executable-original finance cases, mobile audit
+`CLEAN`, composition/current/scope/LF gates pass. Cartridge SHA:
+`ebc5ae39cecdb5ea00e5c03aa14ca33dcc342c7149170e8547b8e4dc86775cf3`.
+Claude must read
+`docs/coordination/202609010106-single-bess-and-counts-handoff.md` and run its
+five-step matrix plus every earlier mobile/finance matrix. Claude's status file
+is still absent; the state remains `OFFERED`, not `ACK`.
 
 ### Codex RE-AUDIT — `H-LINUX-AUDIT-202608312358`
 

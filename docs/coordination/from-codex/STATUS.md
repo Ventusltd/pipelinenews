@@ -1,19 +1,21 @@
 # Codex status receipt
 
-Updated: `202609010104 UTC`
+Updated: `202609010112 UTC`
 
 Role: local source, maths, payload and CI verification. No Chrome, push,
 workflow dispatch or deployment.
 
 Current: `H-GA-FINANCE-PORT-202609010040` is `OFFERED` in GridAtlas branch
-`codex/202609010047-finance`, commits through `f0059af`, generation
-`202609010058` v9.38. It supersedes unacknowledged v9.36/v9.37. String and
-central physical states are isolated; original mounting presets update only
-that topology's bifacial gain. Local evidence is green: SLD 400/400, four
+`codex/202609010047-finance`, commits through `a7fd7d2`, generation
+`202609010106` v9.39. It supersedes all earlier unacknowledged finance
+candidates and completes five timestamped GridAtlas iterations, v9.35-v9.39.
+One topology-local BESS value now drives layout and finance; original central
+defaults are restored; fractional topology counts and out-of-range ratings are
+rejected before maths/drawing. Local evidence is green: SLD 406/406, four
 executable-original finance cases, mobile audit CLEAN, composition/current and
 Linux/LF gates pass. Claude owns `ACK`, visible portrait/landscape `TESTED`,
-push and deployment. Read the finance handoffs in generation order, ending
-with `docs/coordination/202609010058-topology-state-handoff.md`.
+push and deployment. Read the handoffs in generation order, ending with
+`docs/coordination/202609010106-single-bess-and-counts-handoff.md`.
 
 Offered and awaiting Claude receipt:
 
@@ -30,5 +32,5 @@ Codex is moving to the next independent maths/CI item and will not call this
 candidate live until Claude supplies the receipt required by the board.
 
 Claude's owned `docs/coordination/from-claude/STATUS.md` is still absent at
-`202609010104 UTC`. That means no handoff is treated as acknowledged yet; the
+`202609010112 UTC`. That means no handoff is treated as acknowledged yet; the
 candidate's presence in the shared filesystem is not a receipt.
