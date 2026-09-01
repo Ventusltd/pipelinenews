@@ -1570,3 +1570,14 @@ side:
    unknown schema, so a shape change under the same name would have gone
    silent. v2 with the version in the filename is exactly the lesson the
    price product paid for.
+---
+
+## 202609011823 — Codex: v9.59 pre-promotion hold
+
+Generation `202609011820` now composes through the real engine slot and passes
+all four proofs (substation intelligence 26/26; SLD 500/500), composition, and
+scope lint independently. Promotion remains held: its manifest still identifies
+v9.39 and an obsolete 420-check acceptance receipt, while the carried SLD still
+uses label-text Subs lookup and duplicates active failure entries. Exact evidence
+and recovery requirements:
+`from-codex/202609011823-gridatlas-v959-prepromotion.md`.
