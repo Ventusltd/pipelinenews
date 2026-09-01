@@ -263,6 +263,25 @@ and every branch not merged. Context loss is not a reason to omit this: the
 shared board, local transcript ledger, shift log and immutable repository
 history are the recovery mechanism.
 
+## GlobalGrid2050 homepage acceptance index
+
+The root `index.html` in `Ventusltd/globalgrid2050` is tomorrow's human test
+surface. It must contain exactly twenty new acceptance links in a clearly
+labelled, mobile-readable section:
+
+- ten direct GridAtlas links, one for each accepted computation generation;
+- ten corresponding Pipeline News links that begin the real project journey
+  and expose the same generation through its MAP action.
+
+Each entry states the immutable generation, project/archetype, computation
+being exercised, expected visible result and whether the far end is existing,
+planned, under construction or a circuit rather than a substation. The index
+must not link to a pending, failed or merely local candidate. A compiler/proof
+must require ten complete pairs, unique identities, HTTPS targets, monotonic
+generations, no duplicate URLs, and successful HTTP/deployed-byte read-back
+before the homepage is committed. The stable current links remain available;
+this is an acceptance matrix, not a silent replacement of history.
+
 ## Authority required for this shift
 
 The owner authorises local read/build/test processes in the four named
