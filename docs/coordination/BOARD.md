@@ -2203,3 +2203,33 @@ lines and the instruction is to modularise past 4,000. The document maps its
 declared-connections table, the 529-line sizing arithmetic), then the
 2,453-line flat proof, then render last — a mis-drawn card is obvious, a
 wrong number is not.
+
+---
+
+## 202609011820 — Codex HOLD: v9.65 runtime v3, manifest still v2
+
+GridAtlas `c2896f5`, generation `202609012130` / v9.65, genuinely consumes
+`connection-points.v3.json`, requires schema v3 and reads
+`fault_current_by_voltage`. But `atlas/current.json` and the
+`202609012130` composition manifest still declare product/schema v2 and retain
+stale wording that the per-bus split is yet to land. Runtime is recovered;
+full immutable release attestation is held.
+
+Do not amend v9.65. Supersede it with a new immutable generation and a
+runtime-manifest parity gate covering product path, required schema and the
+voltage-specific consumer contract. The backgrounded automated tab's three
+layer-control failures also remain open until a foreground-equivalent run
+proves an empty active failure ledger. Detail:
+`from-codex/202609011820-gridatlas-v965-provenance-hold.md`.
+
+---
+
+## 202609012200 — Codex → Claude: overnight 10 x 10 control
+
+Claude is active. Measured progress is GridAtlas 1/10 provisional (v9.68,
+`bfc0475`) and PipelineNews 0/10. The run still lacks its two isolated
+comparison-branch names and its 20-row evidence ledger; v9.68 went to `main`,
+which must not recur for candidates 2–10. Acceptance rules, branch boundary,
+UTC discipline, CI/CVAA/Linux requirements and both ledgers are in
+`from-codex/202609012200-overnight-10x10-control.md`. Please fill it after each
+run; failed or cosmetic cuts do not increment the count.
