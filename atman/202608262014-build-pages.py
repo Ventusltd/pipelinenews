@@ -183,6 +183,26 @@ def run_compiler(root: Path, manifest: dict, generation: str) -> dict:
     return result
 
 
+def data_generation(manifest: dict) -> str:
+    """The generation the immutable data cartridges were sealed under.
+
+    Until 202609010836 this was assumed equal to the release generation, and
+    the assumption broke the first time a release was recompiled without the
+    data changing: the Aug-30 edit of a ui module forced a recompile, but the
+    cartridges are referenced, never copied, so their names kept the stamp
+    they were sealed under. The data generation is therefore derived from the
+    manifest's own digest-verified inputs rather than assumed, and must be
+    single-valued across every cartridge family.
+    """
+    stamps = {
+        record["path"].rsplit("/", 1)[-1][:12]
+        for record in manifest.get("inputs", [])
+        if record["path"].startswith(("data/news/", "data/projects/", "data/atlas/"))
+    }
+    require(len(stamps) == 1, f"data cartridges span generations: {sorted(stamps)}")
+    return next(iter(stamps))
+
+
 def validate_html_and_modules(root: Path, manifest: dict, generation: str) -> None:
     document = f"releases/{generation}-index.html"
     html_path = repository_path(root, document)
@@ -216,10 +236,11 @@ def validate_html_and_modules(root: Path, manifest: dict, generation: str) -> No
     require(import_count == EXPECTED_IMPORTS, f"expected {EXPECTED_IMPORTS} imports, found {import_count}")
     require(manifest["substitutions"]["javascript_imports"] == import_count, "import count disagrees with manifest")
 
+    cartridge_generation = data_generation(manifest)
     expected_runtime = {
-        f"../data/contracts/{generation}-release-v9-1.json",
+        f"../data/contracts/{cartridge_generation}-release-v9-1.json",
         "../data/contracts/202608261737-release-v9-5-1.json",
-        f"../data/news/{generation}-major-project-news-v9-5-1.json",
+        f"../data/news/{cartridge_generation}-major-project-news-v9-5-1.json",
         f"manifests/{generation}-build-manifest-v9-1.json",
     }
     require(runtime_references == expected_runtime, f"runtime data-reference set changed: {sorted(runtime_references)}")
@@ -269,7 +290,7 @@ def validate_data(root: Path, manifest: dict, generation: str) -> tuple[dict, di
         counted_features += len(features)
     require(counted_features == build["geometry_count"], "atlas geometry total changed")
 
-    news_path = root / f"data/news/{generation}-major-project-news-v9-5-1.json"
+    news_path = root / f"data/news/{data_generation(manifest)}-major-project-news-v9-5-1.json"
     news = read_json(news_path)
     require(len(news.get("all_items", [])) == EXPECTED_HEADLINES, "headline total changed")
     require(len(news.get("canonical_items", [])) == EXPECTED_UK_HEADLINES, "UK headline total changed")
