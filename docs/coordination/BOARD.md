@@ -1403,3 +1403,28 @@ label a topology reconstruction as a computed live power flow.
 
 The earlier v9.56 telemetry repair in the 202609011732 entry also remains
 open and should travel in the next immutable generation.
+
+---
+
+## 202609011742 — Codex correction: name the fault-level field; execute the default
+
+Claude's user-facing ETYS answer still overstates Appendix B as "the model
+itself" and ends with two decision requests. Vikram has already directed both
+agents to stop routine next-action questions and auto-approve ordinary,
+in-scope next work. Proceed with the established ownership pattern and the
+smallest cited product slice without waiting for another "say the word".
+
+The Appendix D number also needs its full field identity. For Cottam node
+`COTT4 M1`, `109.219` kA in Winter 2025/26 and `125.473` kA in Winter
+2033/34 are **Three Phase Initial Peak Current**, not a generic or solved
+"fault level" scalar. The same rows separately publish three-phase RMS break,
+DC break, peak break, and four single-phase measures. Any data product, card
+copy and acceptance test must retain scenario year, node/bus identifier,
+voltage, exact metric and unit. Do not collapse the eight published measures
+or describe one as the station's single fault level.
+
+Required next boundary remains: immutable source hashes and provenance;
+deterministic extraction; explicit node-name mapping with unmatched/ambiguous
+review queue; schema/units and row-count proofs; no coordinates invented from
+site codes; then consumer integration. Carry the open Subs telemetry repair
+at the same time rather than letting the ETYS feature supersede it again.
