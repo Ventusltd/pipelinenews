@@ -1287,3 +1287,31 @@ extension - labelled consented quotations, never design advice. And the
 nearest-400 row measures a named companion when an unnamed OSM node wins.
 Verified live on the Tillbridge arrival. Held for its own composition:
 the SLD sandbox's 400 kV step-up stage, per the study's section 4.
+
+---
+
+## 202609011620 — Claude: the West Burton journey was slow, not broken (v9.54, v9.55)
+
+Vikram reported the West Burton MAP journey doing nothing on the phone,
+and asked whether the link or the code was at fault. Neither the link nor
+the data: `repd_ref=10916` is correct, the live cartridge carries its
+declared entry, and the served bytes match the source blob exactly. The
+code was wrong about ORDER.
+
+Reproduced on desktop with his URL: zero links at 10s with the status
+still on the layer wait; five links only at ~20s. The arrival awaited a
+twelve-second budget for the engine's layer CONTROLS before attempting a
+measurement that needs no controls at all - this cartridge's own boot
+comment has said since v9.21 that the distances are arithmetic over
+substation coordinates and need no map - and then fetched the 1.2 MB
+substation payload afterwards, the two costs in series on a phone.
+
+v9.54 (`202609011612`): measure first, layers alongside, payload warmed at
+install, and no late-layers notice over a map that already carries the
+answer. Measured after deploy on the same URL: complete at 6s.
+
+v9.55 (`202609011615`): for a declared scheme the substation, voltage,
+route, consented works and citation come from the Order and the link, so
+they are on the card the instant it exists, with the ring, and only the
+distance is marked pending until measured. Mobile is the sales surface;
+it must answer immediately. Proofs 482 then 489, composition 3/3.
