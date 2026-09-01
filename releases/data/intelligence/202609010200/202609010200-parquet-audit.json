@@ -1,0 +1,726 @@
+{
+  "schema": "pipelinenews.sector-intelligence-parquet-audit.v3",
+  "generation": "202609010200",
+  "status": "PASS",
+  "duckdb_version": "1.3.2",
+  "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+  "application_usage_establishes_upstream_rights": false,
+  "source_ledger": {
+    "schema": "pipelinenews.sector-intelligence-ledger.v3",
+    "bytes": 29214,
+    "sha256": "fc4f085dcac13b81791c68f575af3dad0604e387adc7c31fdf55b422a5b89a00",
+    "collection_anchor_at": "2026-09-01T02:00:32Z",
+    "collection_anchor_basis": "ACTIONS_LIVE_COLLECTION_STARTED_AT",
+    "source_statuses": [
+      {
+        "source_id": "DATA_CENTRES_OWNER_EXPORT",
+        "result": "OK",
+        "requested": true,
+        "response_bytes": 4579,
+        "response_sha256": "a3b783f5b2133c45b22a18bd4e3071d58262e2a849c6cfeab9cb80a7552b7907",
+        "content_type": "text/plain",
+        "retained_items": 3,
+        "error_code": null
+      },
+      {
+        "source_id": "EC_ENERGY_RSS",
+        "result": "OK",
+        "requested": true,
+        "response_bytes": 39383,
+        "response_sha256": "279c95861e2f894d84e34f37ce7efea2ce09c757042ebd19b2508b158e35c4d1",
+        "content_type": "application/rss+xml",
+        "retained_items": 1,
+        "error_code": null
+      },
+      {
+        "source_id": "EIA_SOLAR_RSS",
+        "result": "FAILED_SOFT",
+        "requested": true,
+        "response_bytes": 0,
+        "response_sha256": null,
+        "content_type": null,
+        "retained_items": 0,
+        "error_code": "NETWORK_OR_FORMAT_FAILURE"
+      },
+      {
+        "source_id": "FCC_CURRENT_COVERED_LIST",
+        "result": "STATIC_LINK",
+        "requested": false,
+        "response_bytes": 0,
+        "response_sha256": null,
+        "content_type": null,
+        "retained_items": 1,
+        "error_code": null
+      },
+      {
+        "source_id": "FCC_EDOCS_NEWS_RSS",
+        "result": "FAILED_SOFT",
+        "requested": true,
+        "response_bytes": 0,
+        "response_sha256": null,
+        "content_type": null,
+        "retained_items": 0,
+        "error_code": "NETWORK_OR_FORMAT_FAILURE"
+      },
+      {
+        "source_id": "FROZEN_GENERIC_DATA_CENTRE_NEWS",
+        "result": "OK",
+        "requested": false,
+        "response_bytes": 82460,
+        "response_sha256": "00cfbc6243e83cca274707a19b7848f776ce223d5e02808164e213dde887a8be",
+        "content_type": "application/json",
+        "retained_items": 6,
+        "error_code": null
+      },
+      {
+        "source_id": "GOVUK_GRID_UPGRADE",
+        "result": "OK",
+        "requested": true,
+        "response_bytes": 21925,
+        "response_sha256": "64b8096f8ba1ead093b954fa3928d36871bada99fa30a069e88a7187f8516203",
+        "content_type": "application/json",
+        "retained_items": 0,
+        "error_code": null
+      },
+      {
+        "source_id": "GOVUK_INVERTER_SECURITY",
+        "result": "OK",
+        "requested": true,
+        "response_bytes": 15313,
+        "response_sha256": "94789e9521a9d8a8c30be8bf9f60bb93604af0d9b6f4ace3253d5d5c6588c497",
+        "content_type": "application/json",
+        "retained_items": 0,
+        "error_code": null
+      },
+      {
+        "source_id": "GOVUK_MV_HV_COMPONENTS",
+        "result": "OK",
+        "requested": true,
+        "response_bytes": 29749,
+        "response_sha256": "f1fb381126404d2847a0831e684bedfaf15d5aa0596cc7124b02fdcdcedd9e3c",
+        "content_type": "application/json",
+        "retained_items": 0,
+        "error_code": null
+      },
+      {
+        "source_id": "GOVUK_WORLDWIDE_PV",
+        "result": "OK",
+        "requested": true,
+        "response_bytes": 23499,
+        "response_sha256": "843cf8603ce16af0d16c7561175c717b7fc89525c3bd05d134c85cedf91103da",
+        "content_type": "application/json",
+        "retained_items": 0,
+        "error_code": null
+      },
+      {
+        "source_id": "NATIONAL_GRID_GREAT_GRID_UPGRADE",
+        "result": "STATIC_LINK",
+        "requested": false,
+        "response_bytes": 0,
+        "response_sha256": null,
+        "content_type": null,
+        "retained_items": 1,
+        "error_code": null
+      },
+      {
+        "source_id": "OFGEM_GRID_RSS",
+        "result": "OK",
+        "requested": true,
+        "response_bytes": 306,
+        "response_sha256": "41bc66e909e020c53224c8b2e1108c367fdc5ca543622349a817a1b4f3a758df",
+        "content_type": "application/rss+xml",
+        "retained_items": 0,
+        "error_code": null
+      }
+    ],
+    "policy_evidence": {
+      "network_requests": 9,
+      "upstream_data_centre_requests": 0,
+      "pinned_data_centre_owner_export_requests": 1,
+      "companies_house_requests": 0,
+      "generic_news_rows_preserved": 136,
+      "generic_data_centre_rows_sanitised": 6,
+      "query_context_used_for_project_identity": false,
+      "stripped_project_identity_fields": [
+        "repd_ref",
+        "gg_project_id",
+        "project",
+        "technology",
+        "capacity_mw",
+        "operator",
+        "county",
+        "related_context_repd_ref"
+      ],
+      "retained_raw_html_bytes": 0,
+      "retained_article_body_bytes": 0,
+      "retained_search_snippet_characters": 0,
+      "owner_parquet_copied": false,
+      "sector_project_bindings": 0,
+      "all_items_eligible_for_news_signal": false,
+      "topic_relevance_gate": {
+        "generation": "202609010015",
+        "basis": "AFFIRMATIVE_ITEM_LOCAL_TITLE_OR_SUMMARY_EVIDENCE",
+        "active_topics": [
+          "DATA_CENTRES",
+          "INVERTER_SECURITY_POLICY",
+          "GREAT_GRID_UPGRADE",
+          "WORLDWIDE_PV",
+          "MV_HV_COMPONENTS"
+        ],
+        "candidates": 39,
+        "retained": 12,
+        "rejected": 27,
+        "withdrawn_sources": [
+          "GOVUK_HORMUZ_ENERGY",
+          "GOVUK_UKRAINE_ENERGY"
+        ]
+      }
+    },
+    "sanitized_receipt": {
+      "path": "releases/data/intelligence/202609010200/202609010200-source-ledger-receipt.json",
+      "bytes": 6013,
+      "sha256": "bc4ee50e5378f071be666140679d04a5c56124793280a7eb7c19109dade6ee41"
+    }
+  },
+  "datasets": [
+    {
+      "stage": {
+        "dataset": "sector_items",
+        "stage": "STAGE",
+        "path": "staging/dataset=sector_items/part-000.parquet",
+        "rows": 12,
+        "distinct_declared_keys": 12,
+        "null_declared_keys": 0,
+        "blank_declared_keys": 0,
+        "duplicate_key_groups": 0,
+        "expected_minus_physical_rows": 0,
+        "physical_minus_expected_rows": 0,
+        "full_typed_value_equality": true,
+        "required_null_counts": {
+          "intelligence_item_id": 0,
+          "generation": 0,
+          "item_kind": 0,
+          "source_id": 0,
+          "source_item_id": 0,
+          "title": 0,
+          "canonical_url": 0,
+          "observed_at": 0,
+          "collection_anchor_at": 0,
+          "staleness_state": 0,
+          "status": 0,
+          "evidence_class": 0,
+          "usage_context": 0,
+          "source_licence_id": 0,
+          "source_terms_url": 0,
+          "redistribution_rights": 0,
+          "attribution": 0,
+          "eligible_for_news_signal": 0
+        },
+        "schema": [
+          {
+            "name": "intelligence_item_id",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "generation",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "item_kind",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "source_id",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "source_item_id",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "title",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "summary",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "canonical_url",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "source_published_at",
+            "duckdb_type": "TIMESTAMP"
+          },
+          {
+            "name": "observed_at",
+            "duckdb_type": "TIMESTAMP"
+          },
+          {
+            "name": "collection_anchor_at",
+            "duckdb_type": "TIMESTAMP"
+          },
+          {
+            "name": "staleness_state",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "status",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "evidence_class",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "usage_context",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "source_licence_id",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "source_terms_url",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "redistribution_rights",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "attribution",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "owner_repository",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "owner_generation",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "owner_record_id",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "generic_article_id",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "value_min",
+            "duckdb_type": "DOUBLE"
+          },
+          {
+            "name": "value_max",
+            "duckdb_type": "DOUBLE"
+          },
+          {
+            "name": "unit",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "eligible_for_news_signal",
+            "duckdb_type": "BOOLEAN"
+          }
+        ],
+        "compression": [
+          "ZSTD"
+        ],
+        "compression_status": "PASS_ZSTD",
+        "bytes": 12240,
+        "sha256": "023f9c3d3ba4ec43d6560ae7dd40854d8226d6d21179ad53860e5d11cf8d1b85"
+      },
+      "landed": {
+        "dataset": "sector_items",
+        "stage": "LANDED",
+        "path": "releases/data/intelligence/202609010200/sector-items/202609010200-part-000.parquet",
+        "rows": 12,
+        "distinct_declared_keys": 12,
+        "null_declared_keys": 0,
+        "blank_declared_keys": 0,
+        "duplicate_key_groups": 0,
+        "expected_minus_physical_rows": 0,
+        "physical_minus_expected_rows": 0,
+        "full_typed_value_equality": true,
+        "required_null_counts": {
+          "intelligence_item_id": 0,
+          "generation": 0,
+          "item_kind": 0,
+          "source_id": 0,
+          "source_item_id": 0,
+          "title": 0,
+          "canonical_url": 0,
+          "observed_at": 0,
+          "collection_anchor_at": 0,
+          "staleness_state": 0,
+          "status": 0,
+          "evidence_class": 0,
+          "usage_context": 0,
+          "source_licence_id": 0,
+          "source_terms_url": 0,
+          "redistribution_rights": 0,
+          "attribution": 0,
+          "eligible_for_news_signal": 0
+        },
+        "schema": [
+          {
+            "name": "intelligence_item_id",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "generation",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "item_kind",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "source_id",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "source_item_id",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "title",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "summary",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "canonical_url",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "source_published_at",
+            "duckdb_type": "TIMESTAMP"
+          },
+          {
+            "name": "observed_at",
+            "duckdb_type": "TIMESTAMP"
+          },
+          {
+            "name": "collection_anchor_at",
+            "duckdb_type": "TIMESTAMP"
+          },
+          {
+            "name": "staleness_state",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "status",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "evidence_class",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "usage_context",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "source_licence_id",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "source_terms_url",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "redistribution_rights",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "attribution",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "owner_repository",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "owner_generation",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "owner_record_id",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "generic_article_id",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "value_min",
+            "duckdb_type": "DOUBLE"
+          },
+          {
+            "name": "value_max",
+            "duckdb_type": "DOUBLE"
+          },
+          {
+            "name": "unit",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "eligible_for_news_signal",
+            "duckdb_type": "BOOLEAN"
+          }
+        ],
+        "compression": [
+          "ZSTD"
+        ],
+        "compression_status": "PASS_ZSTD",
+        "bytes": 12240,
+        "sha256": "023f9c3d3ba4ec43d6560ae7dd40854d8226d6d21179ad53860e5d11cf8d1b85"
+      }
+    },
+    {
+      "stage": {
+        "dataset": "sector_item_topics",
+        "stage": "STAGE",
+        "path": "staging/dataset=sector_item_topics/part-000.parquet",
+        "rows": 12,
+        "distinct_declared_keys": 12,
+        "null_declared_keys": 0,
+        "blank_declared_keys": 0,
+        "duplicate_key_groups": 0,
+        "expected_minus_physical_rows": 0,
+        "physical_minus_expected_rows": 0,
+        "full_typed_value_equality": true,
+        "required_null_counts": {
+          "intelligence_item_id": 0,
+          "topic_code": 0,
+          "generation": 0,
+          "assignment_basis": 0,
+          "display_rank": 0,
+          "eligible_for_news_signal": 0
+        },
+        "schema": [
+          {
+            "name": "intelligence_item_id",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "topic_code",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "generation",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "assignment_basis",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "display_rank",
+            "duckdb_type": "BIGINT"
+          },
+          {
+            "name": "eligible_for_news_signal",
+            "duckdb_type": "BOOLEAN"
+          }
+        ],
+        "compression": [
+          "ZSTD"
+        ],
+        "compression_status": "PASS_ZSTD",
+        "bytes": 2136,
+        "sha256": "979793b995ebaa826a0f472bc47bceeae20fa3a0a49e1a55ecc16980b427599a"
+      },
+      "landed": {
+        "dataset": "sector_item_topics",
+        "stage": "LANDED",
+        "path": "releases/data/intelligence/202609010200/sector-item-topics/202609010200-part-000.parquet",
+        "rows": 12,
+        "distinct_declared_keys": 12,
+        "null_declared_keys": 0,
+        "blank_declared_keys": 0,
+        "duplicate_key_groups": 0,
+        "expected_minus_physical_rows": 0,
+        "physical_minus_expected_rows": 0,
+        "full_typed_value_equality": true,
+        "required_null_counts": {
+          "intelligence_item_id": 0,
+          "topic_code": 0,
+          "generation": 0,
+          "assignment_basis": 0,
+          "display_rank": 0,
+          "eligible_for_news_signal": 0
+        },
+        "schema": [
+          {
+            "name": "intelligence_item_id",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "topic_code",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "generation",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "assignment_basis",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "display_rank",
+            "duckdb_type": "BIGINT"
+          },
+          {
+            "name": "eligible_for_news_signal",
+            "duckdb_type": "BOOLEAN"
+          }
+        ],
+        "compression": [
+          "ZSTD"
+        ],
+        "compression_status": "PASS_ZSTD",
+        "bytes": 2136,
+        "sha256": "979793b995ebaa826a0f472bc47bceeae20fa3a0a49e1a55ecc16980b427599a"
+      }
+    },
+    {
+      "stage": {
+        "dataset": "sector_project_bindings",
+        "stage": "STAGE",
+        "path": "staging/dataset=sector_project_bindings/part-000.parquet",
+        "rows": 0,
+        "distinct_declared_keys": 0,
+        "null_declared_keys": 0,
+        "blank_declared_keys": 0,
+        "duplicate_key_groups": 0,
+        "expected_minus_physical_rows": 0,
+        "physical_minus_expected_rows": 0,
+        "full_typed_value_equality": true,
+        "required_null_counts": {
+          "intelligence_item_id": 0,
+          "repd_ref": 0,
+          "binding_role": 0,
+          "generation": 0,
+          "decision": 0,
+          "eligible_for_news_signal": 0
+        },
+        "schema": [
+          {
+            "name": "intelligence_item_id",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "repd_ref",
+            "duckdb_type": "BIGINT"
+          },
+          {
+            "name": "binding_role",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "generation",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "decision",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "evidence",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "eligible_for_news_signal",
+            "duckdb_type": "BOOLEAN"
+          }
+        ],
+        "compression": [],
+        "compression_status": "NOT_APPLICABLE_EMPTY_NO_COLUMN_CHUNKS",
+        "bytes": 234,
+        "sha256": "b268d0b5656a02a379633692b8c7950a1b53cb0031884f67c757cf8679e16e23"
+      },
+      "landed": {
+        "dataset": "sector_project_bindings",
+        "stage": "LANDED",
+        "path": "releases/data/intelligence/202609010200/sector-project-bindings/202609010200-part-000.parquet",
+        "rows": 0,
+        "distinct_declared_keys": 0,
+        "null_declared_keys": 0,
+        "blank_declared_keys": 0,
+        "duplicate_key_groups": 0,
+        "expected_minus_physical_rows": 0,
+        "physical_minus_expected_rows": 0,
+        "full_typed_value_equality": true,
+        "required_null_counts": {
+          "intelligence_item_id": 0,
+          "repd_ref": 0,
+          "binding_role": 0,
+          "generation": 0,
+          "decision": 0,
+          "eligible_for_news_signal": 0
+        },
+        "schema": [
+          {
+            "name": "intelligence_item_id",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "repd_ref",
+            "duckdb_type": "BIGINT"
+          },
+          {
+            "name": "binding_role",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "generation",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "decision",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "evidence",
+            "duckdb_type": "VARCHAR"
+          },
+          {
+            "name": "eligible_for_news_signal",
+            "duckdb_type": "BOOLEAN"
+          }
+        ],
+        "compression": [],
+        "compression_status": "NOT_APPLICABLE_EMPTY_NO_COLUMN_CHUNKS",
+        "bytes": 234,
+        "sha256": "b268d0b5656a02a379633692b8c7950a1b53cb0031884f67c757cf8679e16e23"
+      }
+    }
+  ],
+  "summary": {
+    "datasets": 3,
+    "total_rows": 24,
+    "sector_items": 12,
+    "sector_item_topics": 12,
+    "sector_project_bindings": 0,
+    "all_nonempty_column_chunks_zstd": true,
+    "all_schemas_exact": true,
+    "rows_equal_distinct_declared_keys": true,
+    "null_declared_keys": 0,
+    "blank_declared_keys": 0,
+    "duplicate_key_groups": 0,
+    "full_typed_value_equality": true,
+    "browser_rows": 12,
+    "browser_derived_only_from_landed_parquet": true,
+    "generic_news_rows_mutated": false,
+    "owner_parquet_copied": false
+  },
+  "deployment": "not-authorised"
+}
