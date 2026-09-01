@@ -6,6 +6,7 @@
  * project index. It does not ask app.mjs whether its own links are correct.
  */
 import { readFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -35,12 +36,36 @@ const index = await text('index.html');
 const manifest = await json('release-manifest.json');
 const registry = await json('data/202608291447-registry.json');
 const projects = await json('data/202608270055-8ab1807551bc-v8-fast-projects.json');
-const modulePath = join(release, 'assets', `${generation}-atlas-pointer-deep-link.mjs`);
+/* The deep-link module is resolved from what the runtime ACTUALLY imports,
+   not from the release's own generation.
+   ------------------------------------------------------------------------
+   It used to be `${generation}-atlas-pointer-deep-link.mjs`, which is only
+   the right name for a release built by the cartridge that introduced that
+   asset. Every other release carries its parent's copy, so this proof could
+   not run on them at all - it threw ERR_MODULE_NOT_FOUND, which is a gate
+   that cannot check rather than a gate that fails. 202609012324, the first
+   release cut by the night shift, is where that surfaced.
+
+   Reading the specifier out of app.mjs is also a stronger check: it proves
+   the module the runtime really loads, rather than a file that merely
+   happens to be named after the release. */
+const imported = app.match(
+  /^import \{ buildAtlasV9DeepLink \} from "\.\/(\d{12}-atlas-pointer-deep-link\.mjs)";/m);
+check('the runtime imports exactly one deep-link receiver, by name',
+  !!imported && (app.match(/-atlas-pointer-deep-link\.mjs"/g) || []).length === 1,
+  imported ? imported[1] : 'no import found in assets/202608291447-app.mjs');
+if (!imported) {
+  console.error('\nFAIL: cannot resolve the deep-link module the runtime imports.');
+  process.exit(1);
+}
+const modulePath = join(release, 'assets', imported[1]);
 const deepLink = await import(pathToFileURL(modulePath).href);
 
 check('release manifest records the ported target', manifest.atlas_target === 'ported');
-check('runtime imports the new receiver module',
-  app.startsWith(`import { buildAtlasV9DeepLink } from "./${generation}-atlas-pointer-deep-link.mjs";`));
+check('the imported receiver module is present in this release\'s own assets',
+  existsSync(modulePath), imported[1]);
+check('the receiver is the ported one, not a legacy-target module',
+  (await readFile(modulePath, 'utf8')).includes('ventusltd.github.io/gridatlas/atlas/'));
 check('runtime no longer imports the legacy-target module',
   !app.includes('./202608311343-atlas-pointer-deep-link.mjs'));
 check('both site-navigation links use the stable GridAtlas route',

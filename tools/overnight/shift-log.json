@@ -38,6 +38,78 @@
       "dirty": [
         "?? tools/intelligence/cartridges/transmission-is-answerable/"
       ]
+    },
+    {
+      "step": "202609012335-transmission-is-answerable.mjs",
+      "id": "transmission-is-answerable",
+      "cartridge": "transmission-is-answerable",
+      "started_at": "2026-09-01T23:24:41.113Z",
+      "dry": false,
+      "python": "python",
+      "stages": [
+        {
+          "name": "parent release",
+          "at": "2026-09-01T23:24:41.773Z",
+          "parent": "202608312339-pipelinenews",
+          "of": 24
+        },
+        {
+          "name": "cartridge prepared",
+          "at": "2026-09-01T23:24:41.893Z",
+          "cartridge": "transmission-is-answerable"
+        },
+        {
+          "name": "tooling committed",
+          "at": "2026-09-01T23:24:42.047Z",
+          "commit": "1bc0679"
+        },
+        {
+          "name": "built",
+          "at": "2026-09-01T23:24:42.330Z",
+          "releaseId": "202609012324-pipelinenews",
+          "parent": "202608312339-pipelinenews"
+        },
+        {
+          "name": "readback verifier authored",
+          "at": "2026-09-01T23:24:42.335Z",
+          "readback": "atman/202609012324-public-browser-readback.mjs",
+          "modelled_on": "202608300309-public-browser-readback.mjs"
+        },
+        {
+          "name": "gate builder check",
+          "at": "2026-09-01T23:24:42.443Z",
+          "status": 0
+        },
+        {
+          "name": "gate neutral surface",
+          "at": "2026-09-01T23:24:42.636Z",
+          "status": 0
+        },
+        {
+          "name": "gate atlas deep-link cartridge",
+          "at": "2026-09-01T23:24:42.752Z",
+          "status": 1
+        }
+      ],
+      "outcome": "failed",
+      "reason": "gate red: atlas deep-link cartridge",
+      "finished_at": "2026-09-01T23:24:42.752Z",
+      "output": "node:internal/modules/esm/resolve:271\r\n    throw new ERR_MODULE_NOT_FOUND(\r\n          ^\r\n\r\nError [ERR_MODULE_NOT_FOUND]: Cannot find module 'C:\\Users\\vikra\\OneDrive\\Documents\\GitHub\\pipelinenews\\releases\\202609012324-pipelinenews\\assets\\202609012324-atlas-pointer-deep-link.mjs' imported from C:\\Users\\vikra\\OneDrive\\Documents\\GitHub\\pipelinenews\\tools\\intelligence\\cartridges\\atlas-live-handoff\\proof.mjs\r\n    at finalizeResolution (node:internal/modules/esm/resolve:271:11)\r\n    at moduleResolve (node:internal/modules/esm/resolve:865:10)\r\n    at defaultResolve (node:internal/modules/esm/resolve:992:11)\r\n    at #cachedDefaultResolve (node:internal/modules/esm/loader:701:20)\r\n    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:721:38)\r\n    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:759:56)\r\n    at #resolve (node:internal/modules/esm/loader:683:17)\r\n    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:603:35)\r\n    at node:internal/modules/esm/loader:632:32\r\n    at TracingChannel.tracePromise (node:diagnostics_channel:362:14) {\r\n  code: 'ERR_MODULE_NOT_FOUND',\r\n  url: 'file:///C:/Users/vikra/OneDrive/Documents/GitHub/pipelinenews/releases/202609012324-pipelinenews/assets/202609012324-atlas-pointer-deep-link.mjs'\r\n}\r\n\r\nNode.js v24.19.0\r\n"
+    },
+    {
+      "step": "202609012335-transmission-is-answerable.mjs",
+      "id": "transmission-is-answerable",
+      "cartridge": "transmission-is-answerable",
+      "started_at": "2026-09-01T23:25:37.190Z",
+      "dry": false,
+      "python": "python",
+      "stages": [],
+      "outcome": "failed",
+      "reason": "working tree not clean before the step",
+      "finished_at": "2026-09-01T23:25:37.223Z",
+      "dirty": [
+        " M tools/intelligence/cartridges/atlas-live-handoff/proof.mjs"
+      ]
     }
   ]
 }
