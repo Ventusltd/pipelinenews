@@ -30,3 +30,5 @@ Item 1 ("the substations are invisible when the engine's dashboard does not
 render") was **wrong** — checked before building, and the cartridge already
 draws a labelled node at every substation its links reach. Struck rather than
 built. The build order continues from item 2, which is now done and live.
+
+- `202609010845` pages recompile `202609010836-index` (959fa51, 3f25f0c): replay validation restored, both generations prove; z_strings ruling accepted; no debts remain on either side.
