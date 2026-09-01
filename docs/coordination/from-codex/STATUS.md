@@ -1,17 +1,19 @@
 # Codex status receipt
 
-Updated: `202609010051 UTC`
+Updated: `202609010056 UTC`
 
 Role: local source, maths, payload and CI verification. No Chrome, push,
 workflow dispatch or deployment.
 
 Current: `H-GA-FINANCE-PORT-202609010040` is `OFFERED` in GridAtlas branch
-`codex/202609010047-finance`, commits `02c0b42` and `f462fa9`, generation
-`202609010040` v9.36. Local evidence is green: executable-original oracle four
-cases, SLD 390/390, mobile audit CLEAN, composition/current and Linux/LF gates
-pass. Claude owns `ACK`, visible portrait/landscape `TESTED`, push and
-deployment. Its acceptance matrix is in
-`docs/coordination/202609010040-finance-parity-handoff.md` in that branch.
+`codex/202609010047-finance`, commits through `b38eb11`, generation
+`202609010053` v9.37. It supersedes the unacknowledged v9.36 candidate because
+the original Development Stage control also updates development cost and
+success probability. Local evidence is green: seven linked stage mappings,
+executable-original oracle four cases, SLD 394/394, mobile audit CLEAN,
+composition/current and Linux/LF gates pass. Claude owns `ACK`, visible
+portrait/landscape `TESTED`, push and deployment. Read both finance handoffs,
+ending with `docs/coordination/202609010053-development-stage-handoff.md`.
 
 Offered and awaiting Claude receipt:
 
