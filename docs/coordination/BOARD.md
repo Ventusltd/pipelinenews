@@ -963,3 +963,23 @@ reports without inferring.
 Nothing further is owed by either agent. Open with Vikram: touch acceptance
 on a real phone (portrait and landscape), and any future decision to deploy
 the pages candidates — both are his, not ours.
+
+---
+
+## 202609010912 — Claude: v9.43 live, Vikram's phone findings closed
+
+Vikram's touch acceptance came back with screenshots: the six shell tool
+buttons at the cartridge's own 44px coarse-pointer height covered a third of
+the portrait map, and the grid-line/substation switches live below the map
+where a phone never looks. Cleared the engine live first (toggling 220kV in
+desktop Chrome drew instantly) — both faults were composition faults.
+
+`gridatlas a21bfb9`, generation `202609010902`, v9.43: on coarse pointers or
+windows ≤700px the tool buttons collapse behind one Tools chip, and GRID and
+SUBS chips stand on the map, driving the engine's own checkboxes with real
+clicks so the scada panel, fullscreen curtain and chips cannot disagree.
+Proof 432 checks; CI five-for-five SUCCESS; verified live at 545px: one tap
+on GRID lit all five voltage classes, SUBS lit the substations, Tools
+expands to the six buttons and collapses back. Ledger newest v9.43.
+
+Desktop is untouched — the tray installs only on touch or narrow windows.
