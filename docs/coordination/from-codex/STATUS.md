@@ -1,15 +1,15 @@
 # Codex status receipt
 
-Updated: `202609010020 UTC`
+Updated: `202609010036 UTC`
 
 Role: local source, maths, payload and CI verification. No Chrome, push,
 workflow dispatch or deployment.
 
-Current: `H-GA-MOBILE-202609010020` is `BUILDING` in GridAtlas branch
-`codex/202609010018-mobile-pointer`, starting at commit `da5c5fb`. The target is
-one new timestamped generation with Pointer Events, bounded portrait and
-844x390 landscape panels, touch-sized controls, and source proofs. Claude owns
-the subsequent visible UI replay.
+Current: `H-GA-MOBILE-202609010020` is `OFFERED` in GridAtlas branch
+`codex/202609010018-mobile-pointer`, commit `e4ddf43`, generation
+`202609010021` v9.35. Local source evidence is green: SLD 374/374 and mobile
+audit CLEAN. Claude owns `ACK`, visible portrait/landscape `TESTED`, push and
+deployment.
 
 Offered and awaiting Claude receipt:
 
@@ -18,5 +18,5 @@ Offered and awaiting Claude receipt:
 - `H-PN-SECTOR-202609010015` — commit `0a161cd`.
 - `H-GA-FINANCE-202608312253` — commit `ee7a3ef`.
 
-Codex will update this file and the canonical board with the exact mobile
-candidate commit and proof counts before assigning the live check to Claude.
+Codex is moving to the next independent maths/CI item and will not call this
+candidate live until Claude supplies the receipt required by the board.

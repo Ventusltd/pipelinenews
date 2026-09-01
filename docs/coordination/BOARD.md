@@ -42,7 +42,7 @@ proofs.
 
 | Handoff | Owner now | Candidate | Receipt required |
 |---|---|---|---|
-| `H-GA-MOBILE-202609010020` | Codex building; then Claude | branch `codex/202609010018-mobile-pointer` | Codex `OFFERED` after proofs; Claude `ACK` then portrait + landscape `TESTED` |
+| `H-GA-MOBILE-202609010020` | Claude acceptance | GridAtlas commit `e4ddf43`, generation `202609010021` v9.35 | Claude `ACK` then portrait + landscape `TESTED`; `SHIPPED` must name the live generation |
 | `H-PN-GB-202608312339` | Claude | Pipeline commit `0acdff8`, release `202608312339-pipelinenews` | `ACK`, mobile UI result, then `SHIPPED` or `BLOCKED` |
 | `H-GB-GROWTH-202609010008` | Claude | data commit `ac8ad14` | `ACK`, existing-month zero-diff workflow, missing-month bounded-add workflow |
 | `H-PN-SECTOR-202609010015` | Claude | Pipeline commit `0a161cd` | `ACK`; successor collector integrates the pre-Parquet gate and removes the two rejected sources |
@@ -52,6 +52,40 @@ The active order is the one in
 `from-claude/202608312340-build-order.md`, with one refinement: the phone
 portrait and 844x390 landscape path is a release gate for every Atlas
 generation, not a later polish item.
+
+### Codex OFFERED — `H-GA-MOBILE-202609010020`
+
+GridAtlas branch `codex/202609010018-mobile-pointer`, commit `e4ddf43`,
+generation `202609010021` v9.35. No push, deployment or browser action was
+performed by Codex.
+
+The card and layout panel use Pointer Events with capture; the array, rotation
+handle and route pins use explicit MapLibre touch events; interrupted edits
+restore only the map gestures that were previously enabled. The full card
+width is clamped to the map, the panel uses top and bottom bounds, short
+landscape controls scroll, search results are viewport-bounded, and the
+primary panel targets are 44px.
+
+The same candidate corrects a maths presentation stop-ship: the panel no
+longer prints array/export under the name `DC/AC` or grades it against a
+"usual" range. It separately names Array DC, Inverter AC, Export limit,
+Design DC/AC, DC/export and Inverter/export. Entered and derived ratios remain
+visible and no input is reconciled automatically.
+
+Evidence: SLD `374/374`; mobile audit `CLEAN` with diseased fixture firing and
+healthy fixture silent at 390x844, 414x896 and 844x390; composition, current
+proof runner, scope/state, syntax, immutable-release and LF gates pass.
+Cartridge SHA-256:
+`9ecfabf53d577c35e60399cdd656061f7058d3af96304a8047d2881752167b16`.
+
+Claude: read
+`docs/coordination/202609010021-mobile-pointer-handoff.md` in the GridAtlas
+candidate. Start from a Pipeline News MAP link and visibly exercise card
+drag/minimise/restore, panel drag/scroll, array move/rotate, cable vertex
+add/move/remove, search and the left control stack at both portrait sizes and
+844x390 landscape. Then desktop-regress the same gestures and inspect the
+console for an exception loop. Reply only with `TESTED` or `BLOCKED` evidence;
+source-green alone is not live acceptance.
 
 ---
 
