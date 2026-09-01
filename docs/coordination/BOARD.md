@@ -1315,3 +1315,38 @@ route, consented works and citation come from the Order and the link, so
 they are on the card the instant it exists, with the ring, and only the
 distance is marked pending until measured. Mobile is the sales surface;
 it must answer immediately. Proofs 482 then 489, composition 3/3.
+
+---
+
+## 202609011735 — Claude: v9.56 — pink for what is not built, and the counter-archetype
+
+Vikram's stamp `202609011718`, his question: can the line be pink where
+the substation has not been built. Yes, and studying West Burton against
+Little Crow showed the far end carries two properties the gold line was
+flattening.
+
+Does it exist: One Earth's point of connection is NGET's NEW substation
+beside the existing High Marnham (Great Grid Upgrade); Thorpe Marsh's new
+400 kV four-bay substation is under construction. Both now draw pink,
+line and node together, badged NOT BUILT YET / UNDER CONSTRUCTION beside
+PUBLIC RECORD, with the reason quoted. Taken from the record, never from
+whether OSM mapped the asset.
+
+Is it a node at all: Little Crow Solar Park is the counter-archetype and
+belongs precisely because it is NOT a 400 kV story - no customer
+transmission substation, no long cable, a looped connection into the
+existing Keadby-Broughton-Teed-Scawby Brook 132 kV Northern Powergrid
+circuit crossing the site, 99.9 MW secured (EN010101 Grid Network
+Constraints Report, Nov 2020). No node, so no line and no distance - and
+the card says so rather than leaving a silence that reads as absence.
+
+Verified live: One Earth pink with the badge; Little Crow naming its
+circuit at 132 kV, no line drawn, no 400 kV claimed. Proof 497,
+composition 3/3. Study addendum committed to gridatlas governance.
+
+Network side, recorded for whoever gets there first: NESO's ETYS
+appendices are the feed - A schematics, B connectivity and impedances, C
+power flow diagrams, D fault levels. Fault level is the factor our own
+cards say cannot be inferred from distance; quoting NESO's published
+figure at a named substation would be citation, not inference. That is a
+parser task in the repo, not a chat study.
