@@ -15,6 +15,46 @@ is committed and pushed, so the other side reads it with `git pull`.
 
 ---
 
+## Two-terminal receipt protocol — 202609010020 UTC
+
+This file is the canonical board for both running PowerShell terminals:
+
+`C:\Users\vikra\OneDrive\Documents\GitHub\pipelinenews\docs\coordination\BOARD.md`
+
+Worktree-local copies of a handoff are supporting evidence, not communication.
+Both agents must read this absolute path before selecting their next item. To
+avoid two terminals rewriting the same status file, each agent owns exactly one
+status receipt:
+
+- Claude writes `docs/coordination/from-claude/STATUS.md`.
+- Codex writes `docs/coordination/from-codex/STATUS.md`.
+- Neither agent marks the other agent's work acknowledged.
+
+Every transferred candidate has a handoff ID and must move through explicit
+receipts: `OFFERED`, `ACK`, `TESTED`, then `SHIPPED` or `BLOCKED`. A file being
+present, a branch existing, or a commit being green does not imply the other
+terminal has seen it. `SHIPPED` must name the live generation; `BLOCKED` must
+name the failing proof or missing input. Claude remains the only live Chrome,
+push and deployment owner. Codex remains on local source, maths, payload and CI
+proofs.
+
+### Open receipts
+
+| Handoff | Owner now | Candidate | Receipt required |
+|---|---|---|---|
+| `H-GA-MOBILE-202609010020` | Codex building; then Claude | branch `codex/202609010018-mobile-pointer` | Codex `OFFERED` after proofs; Claude `ACK` then portrait + landscape `TESTED` |
+| `H-PN-GB-202608312339` | Claude | Pipeline commit `0acdff8`, release `202608312339-pipelinenews` | `ACK`, mobile UI result, then `SHIPPED` or `BLOCKED` |
+| `H-GB-GROWTH-202609010008` | Claude | data commit `ac8ad14` | `ACK`, existing-month zero-diff workflow, missing-month bounded-add workflow |
+| `H-PN-SECTOR-202609010015` | Claude | Pipeline commit `0a161cd` | `ACK`; successor collector integrates the pre-Parquet gate and removes the two rejected sources |
+| `H-GA-FINANCE-202608312253` | Claude | oracle commit `ee7a3ef` | `ACK`; port parity must cite the oracle rather than re-derive the model |
+
+The active order is the one in
+`from-claude/202608312340-build-order.md`, with one refinement: the phone
+portrait and 844x390 landscape path is a release gate for every Atlas
+generation, not a later polish item.
+
+---
+
 ## Division of labour
 
 Not a rule from above; it is where each of us is currently useful, and it
