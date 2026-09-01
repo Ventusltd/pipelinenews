@@ -1,0 +1,671 @@
+name: Build PipelineNews Sector Intelligence Candidate 202609010140
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/202609010140-sector-intelligence-candidate.yml"
+      - "build/javascript/202609010140-verify-v8-fast-browser.mjs"
+      - "build/python/202609010140-build-sector-intelligence-parquet.py"
+      - "data/news-discovery/202609010140-sector-intelligence-contract.json"
+      - "discovery/fixtures/202609010140-sector-intelligence-rss.json"
+      - "discovery/javascript/202609010140-sector-intelligence-runner.mjs"
+      - "index/202609010140-compile-v8-sector-intelligence.mjs"
+      - "manifests/202609010140-sector-intelligence-candidate.json"
+      - "ui/cartridges/202609010140-sector-intelligence.mjs"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pipelinenews-main-candidate-build
+  cancel-in-progress: false
+
+env:
+  SECTOR_GENERATION: "202609010140"
+  SECTOR_SOURCE_PARENT: "f16d6b54283e90e337bcb96d2ba9f34c815a7185"
+  SECTOR_PARENT_GENERATION: "202609010140"
+  SECTOR_WORK_ROOT: "work/202609010140-sector-intelligence"
+  DUCKDB_VERSION: "1.3.2"
+  PLAYWRIGHT_VERSION: "1.55.0"
+
+jobs:
+  build:
+    name: Collect, write-audit-publish and compile twice
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Configure Node
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: "22"
+
+      - name: Configure Python
+        uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
+        with:
+          python-version: "3.12"
+
+      - name: Prove exact nine-file timestamped source boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF" = "refs/heads/main"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git rev-parse HEAD^)" = "$SECTOR_SOURCE_PARENT"
+          test "$(git rev-list --count "$SECTOR_SOURCE_PARENT..$GITHUB_SHA")" = "1"
+          mkdir -p "$SECTOR_WORK_ROOT/evidence"
+          git diff --name-only "$SECTOR_SOURCE_PARENT" "$GITHUB_SHA" | LC_ALL=C sort > "$SECTOR_WORK_ROOT/evidence/source-paths.txt"
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { readFile, writeFile } from "node:fs/promises";
+          const generation = process.env.SECTOR_GENERATION;
+          const expected = [
+            `.github/workflows/${generation}-sector-intelligence-candidate.yml`,
+            `build/javascript/${generation}-verify-v8-fast-browser.mjs`,
+            `build/python/${generation}-build-sector-intelligence-parquet.py`,
+            `data/news-discovery/${generation}-sector-intelligence-contract.json`,
+            `discovery/fixtures/${generation}-sector-intelligence-rss.json`,
+            `discovery/javascript/${generation}-sector-intelligence-runner.mjs`,
+            `index/${generation}-compile-v8-sector-intelligence.mjs`,
+            `manifests/${generation}-sector-intelligence-candidate.json`,
+            `ui/cartridges/${generation}-sector-intelligence.mjs`,
+          ].sort();
+          const actual = (await readFile(`${process.env.SECTOR_WORK_ROOT}/evidence/source-paths.txt`, "utf8"))
+            .trim().split("\n").filter(Boolean);
+          assert.deepEqual(actual, expected);
+          assert.ok(actual.every((relative) => relative.includes(generation)));
+          assert.ok(actual.every((relative) => !relative.startsWith("releases/") && !relative.startsWith("atman/")));
+          const workflow = await readFile(expected[0], "utf8");
+          for (const forbidden of [
+            ["actions", "deploy-pages@"].join("/"), ["actions", "upload-pages-artifact@"].join("/"),
+            ["pages", "write"].join(": "), ["id-token", "write"].join(": "),
+            ["workflows", "pages.yml/dispatches"].join("/"),
+          ]) assert.ok(!workflow.includes(forbidden), `deployment capability entered workflow: ${forbidden}`);
+          assert.ok(!workflow.includes(["github", "run_attempt"].join(".")), "retry-volatile run_attempt entered artifact identity");
+          await writeFile(`${process.env.SECTOR_WORK_ROOT}/evidence/source-scope-proof.json`, `${JSON.stringify({
+            schema: "pipelinenews.sector-intelligence-source-scope-proof.v3",
+            generation,
+            source_commit: process.env.GITHUB_SHA,
+            source_parent_commit: process.env.SECTOR_SOURCE_PARENT,
+            changed_paths: actual,
+            application: "NON_COMMERCIAL_OPEN_SOURCE",
+            upstream_rights: "SOURCE_SPECIFIC_NOT_INFERRED",
+            prior_releases_changed: false,
+            stable_route_changed: false,
+            current_pointer_changed: false,
+            catalogue_changed: false,
+            deployment_authorised: false,
+          }, null, 2)}\n`);
+          NODE
+          git diff --quiet "$SECTOR_SOURCE_PARENT" "$GITHUB_SHA" -- \
+            .github/workflows/pages.yml \
+            .github/workflows/authorise-v8-fast-pages.yml \
+            releases/current.json \
+            archive/202608261547-pipelinenews/releases/current.json \
+            releases/202608270055-v8-fast-candidate.html
+
+      - name: Verify source manifest and immutable pins
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { lstat, readFile } from "node:fs/promises";
+          const generation = process.env.SECTOR_GENERATION;
+          const manifestPath = `manifests/${generation}-sector-intelligence-candidate.json`;
+          const manifest = JSON.parse(await readFile(manifestPath));
+          const contract = JSON.parse(await readFile(`data/news-discovery/${generation}-sector-intelligence-contract.json`));
+          assert.equal(manifest.schema, "pipelinenews.sector-intelligence-source-manifest.v3");
+          assert.equal(manifest.generation, generation);
+          assert.equal(manifest.source_parent_commit, process.env.SECTOR_SOURCE_PARENT);
+          assert.equal(manifest.parent_generation, process.env.SECTOR_PARENT_GENERATION);
+          assert.equal(manifest.deployment, "not-authorised");
+          assert.equal(manifest.project_posture.application, "NON_COMMERCIAL_OPEN_SOURCE");
+          assert.equal(manifest.project_posture.application_usage_establishes_upstream_rights, false);
+          assert.equal(manifest.time_provenance.live_collection_anchor_basis,
+            "ACTIONS_LIVE_COLLECTION_STARTED_AT");
+          assert.equal(manifest.time_provenance.live_collection_anchor_captured_once_immediately_before_fetch, true);
+          assert.equal(manifest.source_boundary.length, 9);
+          assert.equal(manifest.source_files.length, 8);
+          assert.equal(manifest.data_law.datasets.length, 3);
+          assert.equal(manifest.data_law.compression, "ZSTD");
+          assert.equal(manifest.data_law.physical_path, contract.physical_layout.path_template);
+          assert.deepEqual(manifest.data_law.dataset_directories, contract.physical_layout.dataset_directories);
+          assert.equal(manifest.data_law.committed_sanitized_source_ledger_receipt, true);
+          assert.equal(manifest.identity_and_news_boundary.generic_headlines, 136);
+          assert.equal(manifest.identity_and_news_boundary.data_centre_discovery_rows_sanitised_in_sector_view, 6);
+          assert.equal(manifest.identity_and_news_boundary.query_context_may_establish_project_identity, false);
+          assert.equal(manifest.federation.data_centres.owner_parquet_copied, false);
+          assert.equal(manifest.federation.companies_house.acquisition_in_pipelinenews, false);
+          assert.equal(manifest.browser.atman_runtime_dependency, false);
+          assert.equal(manifest.browser.browser_overlay,
+            "EXACT_CHECKOUT_INHERITED_RELEASES_PLUS_HASH_VERIFIED_CANDIDATE");
+          assert.equal(manifest.browser.candidate_artifact_closure_revalidated, true);
+          const expectedFiles = manifest.source_boundary.filter((relative) => relative !== manifestPath).sort();
+          assert.deepEqual(manifest.source_files.map(({ path }) => path), expectedFiles);
+          for (const record of [...manifest.source_files, ...manifest.pinned_parent_references]) {
+            assert.deepEqual(Object.keys(record).sort(), ["bytes", "path", "sha256"]);
+            assert.equal(typeof record.bytes, "number", `unresolved byte pin: ${record.path}`);
+            assert.match(record.sha256, /^[a-f0-9]{64}$/u, `unresolved digest pin: ${record.path}`);
+            const metadata = await lstat(record.path);
+            assert.ok(metadata.isFile() && !metadata.isSymbolicLink());
+            const bytes = await readFile(record.path);
+            assert.equal(bytes.length, record.bytes, `byte pin changed: ${record.path}`);
+            assert.equal(createHash("sha256").update(bytes).digest("hex"), record.sha256, `digest pin changed: ${record.path}`);
+          }
+          NODE
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { readFile } from "node:fs/promises";
+          const unresolved = new RegExp(["__", "[A-Z0-9_]+", "__"].join(""), "u");
+          for (const relative of [
+            `.github/workflows/${process.env.SECTOR_GENERATION}-sector-intelligence-candidate.yml`,
+            `index/${process.env.SECTOR_GENERATION}-compile-v8-sector-intelligence.mjs`,
+            `manifests/${process.env.SECTOR_GENERATION}-sector-intelligence-candidate.json`,
+          ]) {
+            const source = await readFile(relative, "utf8");
+            assert.ok(!unresolved.test(source), `unresolved placeholder: ${relative}`);
+            assert.ok(!source.includes(["SHA256", "PENDING"].join("_")), `unresolved digest: ${relative}`);
+          }
+          NODE
+
+      - name: Install pinned analytical engine
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check "duckdb==$DUCKDB_VERSION"
+          python - <<'PY'
+          import duckdb
+          assert duckdb.__version__ == "1.3.2"
+          PY
+
+      - name: Syntax and retention preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check "discovery/javascript/$SECTOR_GENERATION-sector-intelligence-runner.mjs"
+          node --check "build/javascript/$SECTOR_GENERATION-verify-v8-fast-browser.mjs"
+          node --check "ui/cartridges/$SECTOR_GENERATION-sector-intelligence.mjs"
+          node --check "index/$SECTOR_GENERATION-compile-v8-sector-intelligence.mjs"
+          python -c 'from pathlib import Path; p=Path("build/python/202609010140-build-sector-intelligence-parquet.py"); compile(p.read_text(), str(p), "exec")'
+          test ! -d build/python/__pycache__
+          test "$(sha256sum releases/data/202608271524-fd2212a8c76d-v8-fast-news.json | cut -d' ' -f1)" = \
+            "00cfbc6243e83cca274707a19b7848f776ce223d5e02808164e213dde887a8be"
+          test "$(sha256sum releases/javascript/202608271329-atlas-v8-deep-link-cartridge.js | cut -d' ' -f1)" = \
+            "d8e997acea1ed6c628e4d69f27653a5fe9a21bb459ff95d4ee0a7d040b431ff7"
+
+      - name: Run two independent synthetic collectors and hostile source gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$SECTOR_WORK_ROOT/fixture"
+          for pass in a b; do
+            node "discovery/javascript/$SECTOR_GENERATION-sector-intelligence-runner.mjs" \
+              --contract "data/news-discovery/$SECTOR_GENERATION-sector-intelligence-contract.json" \
+              --generic-news "releases/data/202608271524-fd2212a8c76d-v8-fast-news.json" \
+              --fixture "discovery/fixtures/$SECTOR_GENERATION-sector-intelligence-rss.json" \
+              --ledger "$SECTOR_WORK_ROOT/fixture/ledger-$pass.json"
+          done
+          # The relevance gate must be as deterministic as the collector it
+          # follows: gate both synthetic ledgers and require byte equality of
+          # the gated outputs as well as the raw ones.
+          for pass in a b; do
+            node "discovery/javascript/202609010015-sector-ledger-relevance-gate.mjs" \
+              --input "$SECTOR_WORK_ROOT/fixture/ledger-$pass.json" \
+              --output "$SECTOR_WORK_ROOT/fixture/gated-$pass.json"
+          done
+          test "$(sha256sum "$SECTOR_WORK_ROOT/fixture/gated-a.json" | cut -d' ' -f1)" = \
+            "$(sha256sum "$SECTOR_WORK_ROOT/fixture/gated-b.json" | cut -d' ' -f1)"
+          node "build/javascript/$SECTOR_GENERATION-verify-v8-fast-browser.mjs" \
+            --mode source \
+            --contract "data/news-discovery/$SECTOR_GENERATION-sector-intelligence-contract.json" \
+            --fixture "discovery/fixtures/$SECTOR_GENERATION-sector-intelligence-rss.json" \
+            --generic-news "releases/data/202608271524-fd2212a8c76d-v8-fast-news.json" \
+            --ledger-a "$SECTOR_WORK_ROOT/fixture/ledger-a.json" \
+            --ledger-b "$SECTOR_WORK_ROOT/fixture/ledger-b.json" \
+            | tee "$SECTOR_WORK_ROOT/evidence/source-verification.json"
+
+      - name: Collect bounded live sector metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          collection_anchor="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          printf '%s\n' "$collection_anchor" > "$SECTOR_WORK_ROOT/evidence/collection-anchor.txt"
+          node "discovery/javascript/$SECTOR_GENERATION-sector-intelligence-runner.mjs" \
+            --contract "data/news-discovery/$SECTOR_GENERATION-sector-intelligence-contract.json" \
+            --generic-news "releases/data/202608271524-fd2212a8c76d-v8-fast-news.json" \
+            --collection-anchor-at "$collection_anchor" \
+            --collection-anchor-basis "ACTIONS_LIVE_COLLECTION_STARTED_AT" \
+            --ledger "$SECTOR_WORK_ROOT/live-ledger.json" \
+            | tee "$SECTOR_WORK_ROOT/evidence/live-collector-result.json"
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { readFile } from "node:fs/promises";
+          const ledger = JSON.parse(await readFile(`${process.env.SECTOR_WORK_ROOT}/live-ledger.json`));
+          const collectionAnchor = (await readFile(`${process.env.SECTOR_WORK_ROOT}/evidence/collection-anchor.txt`, "utf8")).trim();
+          assert.equal(ledger.collection_anchor_at, collectionAnchor);
+          assert.equal(ledger.collection_anchor_basis, "ACTIONS_LIVE_COLLECTION_STARTED_AT");
+          assert.equal(new Date(ledger.collection_anchor_at).toISOString().replace(".000Z", "Z"), collectionAnchor);
+          assert.equal(ledger.policy_evidence.network_requests, 9);
+          assert.equal(ledger.policy_evidence.upstream_data_centre_requests, 0);
+          assert.equal(ledger.policy_evidence.pinned_data_centre_owner_export_requests, 1);
+          assert.equal(ledger.policy_evidence.generic_data_centre_rows_sanitised, 6);
+          assert.equal(ledger.datasets.sector_items.rows.filter(({ owner_repository }) => owner_repository).length, 3);
+          assert.equal(ledger.datasets.sector_project_bindings.rows.length, 0);
+          assert.ok(ledger.datasets.sector_items.rows.every(({ eligible_for_news_signal }) => eligible_for_news_signal === false));
+          NODE
+          # The collector's receipt is evidence and stays byte-for-byte as
+          # collected. The builder receives only the gated ledger: a dynamic
+          # row needs affirmative evidence in its own title or summary, an
+          # official source or query string is never sufficient, and zero rows
+          # is a valid answer.
+          mv "$SECTOR_WORK_ROOT/live-ledger.json" "$SECTOR_WORK_ROOT/raw-live-ledger.json"
+          node "discovery/javascript/202609010015-sector-ledger-relevance-gate.mjs" \
+            --input "$SECTOR_WORK_ROOT/raw-live-ledger.json" \
+            --output "$SECTOR_WORK_ROOT/live-ledger.json" \
+            | tee "$SECTOR_WORK_ROOT/evidence/relevance-gate-result.json"
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { readFile } from "node:fs/promises";
+          const raw = JSON.parse(await readFile(`${process.env.SECTOR_WORK_ROOT}/raw-live-ledger.json`));
+          const gated = JSON.parse(await readFile(`${process.env.SECTOR_WORK_ROOT}/live-ledger.json`));
+          assert.equal(gated.schema, raw.schema);
+          assert.ok(gated.datasets.sector_items.rows.length <= raw.datasets.sector_items.rows.length);
+          assert.equal(gated.datasets.sector_project_bindings.rows.length, 0);
+          assert.ok(gated.policy_evidence.topic_relevance_gate, "the gate must leave its evidence");
+          NODE
+
+      - name: Build and read back three ZSTD Parquet grains twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          for pass in a b; do
+            python "build/python/$SECTOR_GENERATION-build-sector-intelligence-parquet.py" \
+              --contract "data/news-discovery/$SECTOR_GENERATION-sector-intelligence-contract.json" \
+              --ledger "$SECTOR_WORK_ROOT/live-ledger.json" \
+              --out-root "$SECTOR_WORK_ROOT/pass-$pass" \
+              --stage-root "$SECTOR_WORK_ROOT/stage-$pass" \
+              --audit "$SECTOR_WORK_ROOT/audit-$pass.json" \
+              | tee "$SECTOR_WORK_ROOT/evidence/parquet-pass-$pass.json"
+          done
+          cmp "$SECTOR_WORK_ROOT/audit-a.json" "$SECTOR_WORK_ROOT/audit-b.json"
+
+      - name: Compile two independent immutable candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          for pass in a b; do
+            SOURCE_COMMIT="$GITHUB_SHA" GITHUB_RUN_ID="$GITHUB_RUN_ID" node \
+              "index/$SECTOR_GENERATION-compile-v8-sector-intelligence.mjs" \
+              --sector-root "$SECTOR_WORK_ROOT/pass-$pass" \
+              --audit "$SECTOR_WORK_ROOT/audit-$pass.json" \
+              --out-root "$SECTOR_WORK_ROOT/pass-$pass" \
+              | tee "$SECTOR_WORK_ROOT/evidence/compiler-pass-$pass.json"
+          done
+
+      - name: Independently verify landed files and byte determinism
+        shell: bash
+        run: |
+          set -euo pipefail
+          node "build/javascript/$SECTOR_GENERATION-verify-v8-fast-browser.mjs" \
+            --mode candidate \
+            --contract "data/news-discovery/$SECTOR_GENERATION-sector-intelligence-contract.json" \
+            --generic-news "releases/data/202608271524-fd2212a8c76d-v8-fast-news.json" \
+            --ledger "$SECTOR_WORK_ROOT/live-ledger.json" \
+            --candidate-a "$SECTOR_WORK_ROOT/pass-a" \
+            --candidate-b "$SECTOR_WORK_ROOT/pass-b" \
+            | tee "$SECTOR_WORK_ROOT/evidence/candidate-verification.json"
+          git diff --quiet
+          test -z "$(git status --short --untracked-files=no)"
+
+      - name: Upload quarantine candidate and compact evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pipelinenews-sector-candidate-${{ github.run_id }}
+          path: work/202609010140-sector-intelligence/pass-a/
+          if-no-files-found: error
+          retention-days: 30
+          overwrite: true
+
+      - name: Upload source and data-law evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pipelinenews-sector-evidence-${{ github.run_id }}
+          path: work/202609010140-sector-intelligence/evidence/
+          if-no-files-found: error
+          retention-days: 30
+          overwrite: true
+
+  browser:
+    name: Verify lazy browser behaviour
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Configure Node
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: "22"
+
+      - name: Download immutable candidate
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          name: pipelinenews-sector-candidate-${{ github.run_id }}
+          path: ${{ runner.temp }}/sector-candidate
+
+      - name: Build exact inherited-asset overlay from verified closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { constants } from "node:fs";
+          import { copyFile, lstat, mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+          import path from "node:path";
+          const generation = process.env.SECTOR_GENERATION;
+          const artifactRoot = path.resolve(process.env.RUNNER_TEMP, "sector-candidate");
+          const overlayRoot = path.resolve(process.env.RUNNER_TEMP, "sector-overlay");
+          const manifestRelative = `build/${generation}-v8-fast-site-manifest.json`;
+          const manifest = JSON.parse(await readFile(path.join(artifactRoot, manifestRelative)));
+          assert.equal(manifest.schema, "pipelinenews.v8.fast-site-candidate.v1");
+          assert.equal(manifest.generation, generation);
+          assert.equal(manifest.source_commit, process.env.GITHUB_SHA);
+          assert.equal(manifest.github_run_id, process.env.GITHUB_RUN_ID);
+          assert.equal(manifest.deployment, "not-authorised");
+          async function walk(directory, base = directory) {
+            const files = [];
+            for (const entry of await readdir(directory, { withFileTypes: true })) {
+              const filename = path.join(directory, entry.name);
+              const metadata = await lstat(filename);
+              assert.equal(metadata.isSymbolicLink(), false, `overlay source symlink rejected: ${filename}`);
+              if (metadata.isDirectory()) files.push(...await walk(filename, base));
+              else {
+                assert.equal(metadata.isFile(), true, `overlay source is not a regular file: ${filename}`);
+                files.push(path.relative(base, filename).split(path.sep).join("/"));
+              }
+            }
+            return files.sort();
+          }
+          const expected = [manifestRelative, ...manifest.outputs.map(({ path: relative }) => relative)].sort();
+          assert.equal(expected.length, 11);
+          assert.equal(new Set(expected).size, expected.length);
+          assert.deepEqual(await walk(artifactRoot), expected, "candidate artifact closure changed");
+          const records = new Map(manifest.outputs.map((record) => [record.path, record]));
+          for (const relative of manifest.outputs.map(({ path: value }) => value)) {
+            const bytes = await readFile(path.join(artifactRoot, relative));
+            const record = records.get(relative);
+            assert.equal(bytes.length, record.bytes, `candidate artifact byte mismatch: ${relative}`);
+            assert.equal(createHash("sha256").update(bytes).digest("hex"), record.sha256,
+              `candidate artifact digest mismatch: ${relative}`);
+          }
+          await mkdir(overlayRoot);
+          const inheritedRoot = path.resolve("releases");
+          const inherited = await walk(inheritedRoot);
+          for (const relative of inherited) {
+            const destination = path.join(overlayRoot, "releases", relative);
+            await mkdir(path.dirname(destination), { recursive: true });
+            await copyFile(path.join(inheritedRoot, relative), destination, constants.COPYFILE_EXCL);
+          }
+          for (const relative of expected) {
+            assert.equal(path.posix.normalize(relative), relative);
+            const destination = path.resolve(overlayRoot, relative);
+            assert.ok(destination.startsWith(`${overlayRoot}${path.sep}`));
+            await mkdir(path.dirname(destination), { recursive: true });
+            await copyFile(path.join(artifactRoot, relative), destination, constants.COPYFILE_EXCL);
+          }
+          await writeFile(path.join(process.env.RUNNER_TEMP, "sector-overlay-proof.json"), `${JSON.stringify({
+            schema: "pipelinenews.sector-intelligence-browser-overlay-proof.v3",
+            generation,
+            source_commit: process.env.GITHUB_SHA,
+            candidate_files: expected.length,
+            inherited_release_files: inherited.length,
+            artifact_hashes_verified: true,
+            exclusive_copies: true,
+            deployment: "not-authorised",
+            status: "PASS",
+          }, null, 2)}\n`);
+          NODE
+
+      - name: Install pinned browser verifier
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --ignore-scripts "playwright@$PLAYWRIGHT_VERSION"
+          npx playwright install --with-deps chromium
+
+      - name: Serve candidate and verify zero-startup sector requests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory "$RUNNER_TEMP/sector-overlay" > "$RUNNER_TEMP/sector-http.log" 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent "http://127.0.0.1:4173/releases/$SECTOR_GENERATION-v8-fast-candidate.html" > /dev/null; then break; fi
+            sleep 1
+          done
+          node "build/javascript/$SECTOR_GENERATION-verify-v8-fast-browser.mjs" \
+            --mode browser \
+            --url "http://127.0.0.1:4173/releases/$SECTOR_GENERATION-v8-fast-candidate.html" \
+            | tee "$RUNNER_TEMP/browser-verification.json"
+
+      - name: Upload browser evidence
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pipelinenews-sector-browser-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/browser-verification.json
+            ${{ runner.temp }}/sector-overlay-proof.json
+          if-no-files-found: error
+          retention-days: 30
+          overwrite: true
+
+  commit-candidate:
+    name: Commit immutable quarantine closure
+    needs: [build, browser]
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout exact source with publication credential
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Configure Node
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        with:
+          node-version: "22"
+
+      - name: Download verified candidate
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        with:
+          name: pipelinenews-sector-candidate-${{ github.run_id }}
+          path: candidate
+
+      - name: Revalidate source head and copy exact output closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git fetch origin main
+          test "$(git rev-parse origin/main)" = "$GITHUB_SHA"
+          node --input-type=module <<'NODE'
+          import assert from "node:assert/strict";
+          import { createHash } from "node:crypto";
+          import { constants } from "node:fs";
+          import { copyFile, lstat, mkdir, readFile, readdir } from "node:fs/promises";
+          import path from "node:path";
+          const generation = process.env.SECTOR_GENERATION;
+          const candidateRoot = path.resolve("candidate");
+          const manifestRelative = `build/${generation}-v8-fast-site-manifest.json`;
+          const manifest = JSON.parse(await readFile(path.join(candidateRoot, manifestRelative)));
+          assert.equal(manifest.schema, "pipelinenews.v8.fast-site-candidate.v1");
+          assert.equal(manifest.generation, generation);
+          assert.equal(manifest.source_commit, process.env.GITHUB_SHA);
+          assert.equal(manifest.github_run_id, process.env.GITHUB_RUN_ID);
+          assert.equal(manifest.deployment, "not-authorised");
+          const paths = [...manifest.outputs.map(({ path: relative }) => relative), manifestRelative].sort();
+          assert.equal(paths.length, 11);
+          assert.equal(new Set(paths).size, paths.length);
+          assert.equal(paths.filter((relative) => relative.endsWith(`${generation}-part-000.parquet`)).length, 3);
+          assert.ok(manifest.outputs.every(({ path: relative }) => relative.startsWith("releases/")
+            && path.posix.basename(relative).startsWith(generation)));
+          async function walk(directory, base = directory) {
+            const files = [];
+            for (const entry of await readdir(directory, { withFileTypes: true })) {
+              const filename = path.join(directory, entry.name);
+              const metadata = await lstat(filename);
+              assert.equal(metadata.isSymbolicLink(), false, `artifact symlink rejected: ${filename}`);
+              if (metadata.isDirectory()) files.push(...await walk(filename, base));
+              else {
+                assert.equal(metadata.isFile(), true, `artifact entry is not a regular file: ${filename}`);
+                files.push(path.relative(base, filename).split(path.sep).join("/"));
+              }
+            }
+            return files.sort();
+          }
+          assert.deepEqual(await walk(candidateRoot), paths, "artifact contains undeclared or missing files");
+          const records = new Map(manifest.outputs.map((record) => [record.path, record]));
+          assert.equal(records.size, manifest.outputs.length);
+          for (const relative of paths) {
+            assert.ok(relative.includes(generation));
+            assert.ok(!relative.startsWith("atman/") && !relative.endsWith("current.json"));
+            assert.equal(path.posix.normalize(relative), relative);
+            const source = path.resolve(candidateRoot, relative);
+            const destination = path.resolve(relative);
+            assert.ok(source.startsWith(`${candidateRoot}${path.sep}`));
+            assert.ok(destination.startsWith(`${process.cwd()}${path.sep}`));
+            const sourceMetadata = await lstat(source);
+            assert.ok(sourceMetadata.isFile() && !sourceMetadata.isSymbolicLink());
+            const bytes = await readFile(source);
+            if (relative !== manifestRelative) {
+              const record = records.get(relative);
+              assert.equal(bytes.length, record.bytes, `artifact byte mismatch: ${relative}`);
+              assert.equal(createHash("sha256").update(bytes).digest("hex"), record.sha256,
+                `artifact digest mismatch: ${relative}`);
+            }
+            await mkdir(path.dirname(destination), { recursive: true });
+            await copyFile(source, destination, constants.COPYFILE_EXCL);
+            assert.deepEqual(await readFile(destination), bytes, `exclusive publication copy changed: ${relative}`);
+          }
+          NODE
+          git diff --quiet "$GITHUB_SHA" -- \
+            .github/workflows/pages.yml \
+            .github/workflows/authorise-v8-fast-pages.yml \
+            atman/202608262014-build-pages.py \
+            releases/current.json \
+            archive/202608261547-pipelinenews/releases/current.json
+          probe_root="$RUNNER_TEMP/sector-pages-root"
+          git worktree add --detach "$probe_root" "$GITHUB_SHA"
+          if test -d "$probe_root/build/authorisations"; then
+            mv "$probe_root/build/authorisations" "$RUNNER_TEMP/superseded-authorisations"
+          fi
+          SECTOR_PAGES_PROBE_ROOT="$probe_root" node --input-type=module <<'NODE'
+          import { constants } from "node:fs";
+          import { copyFile, mkdir, readFile } from "node:fs/promises";
+          import path from "node:path";
+          const generation = process.env.SECTOR_GENERATION;
+          const manifestPath = `build/${generation}-v8-fast-site-manifest.json`;
+          const manifest = JSON.parse(await readFile(manifestPath));
+          for (const relative of [manifestPath, ...manifest.outputs.map(({ path: value }) => value)]) {
+            const destination = path.resolve(process.env.SECTOR_PAGES_PROBE_ROOT, relative);
+            await mkdir(path.dirname(destination), { recursive: true });
+            await copyFile(path.resolve(relative), destination, constants.COPYFILE_EXCL);
+          }
+          NODE
+          PYTHONDONTWRITEBYTECODE=1 python3 - "$probe_root" "$RUNNER_TEMP/sector-pages-stage" <<'PY' | tee "$RUNNER_TEMP/sector-pages-quarantine-proof.json"
+          import importlib.util
+          import json
+          import os
+          import pathlib
+          import sys
+
+          real_root = pathlib.Path(".").resolve()
+          probe_root = pathlib.Path(sys.argv[1]).resolve()
+          stage_root = pathlib.Path(sys.argv[2]).resolve()
+          module_path = real_root / "atman/202608262014-build-pages.py"
+          spec = importlib.util.spec_from_file_location("pipelinenews_pages_gate_202608262014", module_path)
+          assert spec and spec.loader
+          pages = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(pages)
+          release = pages.validate_release(real_root, "latest")
+          excluded, authorised = pages.candidate_publication_boundary(probe_root, release)
+          generation = os.environ["SECTOR_GENERATION"]
+          manifest = json.loads(
+              (real_root / f"build/{generation}-v8-fast-site-manifest.json").read_text(encoding="utf-8")
+          )
+          expected = {record["path"] for record in manifest["outputs"]}
+          assert manifest["deployment"] == "not-authorised"
+          assert len(expected) == len(manifest["outputs"]) == 10
+          assert all(path.startswith("releases/") for path in expected)
+          assert expected <= excluded
+          assert authorised == set()
+          pages.copy_release_tree(real_root / "releases", stage_root / "releases", excluded)
+          assert all(not (stage_root / relative).exists() for relative in expected)
+          print(json.dumps({
+              "schema": "pipelinenews.sector-intelligence-pages-quarantine-proof.v3",
+              "generation": generation,
+              "candidate_outputs": len(expected),
+              "excluded_outputs": len(expected & excluded),
+              "authorised_outputs": len(authorised),
+              "unchanged_pages_parser": str(module_path.relative_to(real_root)),
+              "superseded_authorisations_omitted_from_isolated_probe": True,
+              "status": "PASS",
+              "deployment": "not-authorised",
+          }, sort_keys=True))
+          PY
+          git status --short
+
+      - name: Commit candidate without deploying
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --input-type=module <<'NODE' > "$RUNNER_TEMP/output-paths.txt"
+          import { readFile } from "node:fs/promises";
+          const generation = process.env.SECTOR_GENERATION;
+          const manifestPath = `build/${generation}-v8-fast-site-manifest.json`;
+          const manifest = JSON.parse(await readFile(manifestPath));
+          for (const relative of [...manifest.outputs.map(({ path }) => path), manifestPath].sort()) console.log(relative);
+          NODE
+          while IFS= read -r relative; do git add -- "$relative"; done < "$RUNNER_TEMP/output-paths.txt"
+          git diff --cached --name-only | LC_ALL=C sort > "$RUNNER_TEMP/staged.txt"
+          diff -u "$RUNNER_TEMP/output-paths.txt" "$RUNNER_TEMP/staged.txt"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "v8: build sector intelligence candidate $SECTOR_GENERATION"
+          git push origin HEAD:main
+
+      - name: Prove no deployment surface changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --quiet HEAD^ HEAD -- \
+            .github/workflows/pages.yml \
+            .github/workflows/authorise-v8-fast-pages.yml \
+            releases/current.json \
+            archive/202608261547-pipelinenews/releases/current.json \
+            releases/202608270055-v8-fast-candidate.html
+          test "$(git show HEAD:build/$SECTOR_GENERATION-v8-fast-site-manifest.json | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>console.log(JSON.parse(s).deployment))')" = "not-authorised"
