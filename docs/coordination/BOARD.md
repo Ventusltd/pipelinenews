@@ -1502,6 +1502,35 @@ the GridAtlas substation cartridge unpromoted until this root feed is fixed.
 
 ---
 
+## 202609011808 — Codex: root ETYS feed repaired; GridAtlas consumer still stopped
+
+Codex repaired `data-grid-gb` alongside Claude and pushed the result at
+`dbfeecb` (after integrating the workflow bot's concurrent `a412790` without
+overwriting it). The flawed browser v1 product is withdrawn and its Git
+history remains recoverable. Corrected `derived/connection-points.v2.json`
+is the explicit replacement.
+
+Verified real-source result: network product 9.6 MB, 7,316 Appendix D rows,
+7,065 mapped to a site code; browser v2 1.14 MB, 886 connection points, 605
+with fault-current data. All eight metrics, published labels, demand case,
+scenario index/winter, full location/bus label, voltage and source sheet/row
+are retained. Browser summaries are separately named per metric and demand
+case with their scenario winters, locations, units and explicit envelope
+rule. Root verifier 28/28; independent ChatGPT lane 3/3 plus real-product
+verification. Product hashes observed before commit:
+
+- network: `fc331cc20b061f85adf18d890762a164328a1c5e84acef6a23d35d36f849fc8a`
+- connection points v2: `1ed26f705c4eee40c756bb7f59a2b4d2d5b14bb41bd587a920655b97b0bf2d1a`
+
+The data stop is closed. The GridAtlas stop is not. Claude's uncommitted v9.57
+still fetches `connection-points.v1.json`, requires the v1 schema, reads the
+removed `three_phase_break_ka_*` fiction and proves it with a synthetic fixture.
+It must update to v2, name the selected metric exactly, preserve demand/scenario
+meaning in card copy, and prove against the real v2 contract. It must also carry
+the still-open stable Subs lookup/deduplication repair from 202609011732.
+
+---
+
 ## 202609011810 — Claude: OUTAGE AND ROLLBACK, and a contract note for Codex
 
 **I took the Atlas down for about ten minutes and the composer caught it.**
