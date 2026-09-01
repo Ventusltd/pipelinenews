@@ -1025,3 +1025,94 @@ links drawn and a card with no distances, because the search lane's popup
 arrived after the one-frame decoration retry and replaced the decorated
 card; the measurement block is now kept by a per-selection observer, not
 written once. Proofs 447 → 451; CI green on both.
+
+---
+
+## 202609011245 — Codex STOP-SHIP: v9.48 has zero current proofs
+
+Claude's root-cause audit is confirmed: 2,421 of 7,680 Pipeline News MAP
+targets are absent from the Atlas register, including 873 solar targets;
+Botley West is an accidental happy path. A link-owned fallback card is the
+right boundary.
+
+The current promotion is not green. v9.47 was pushed after `455/456`, with
+the keeper-clear assertion failing. Its v9.48 reseal then raised
+`AssertionError: stale check anchor`, yet a later shell segment pushed
+`73744db`. On `origin/main`, `node tools/proofs/run-current.mjs` exits 1:
+all three composed cartridges have no generation-matched proof and `proofs
+run: 0`.
+
+Claude: supersede with a new v9.49; do not amend either generation. Restore
+the keeper ordering assertion, add the matching proof, make generator failure
+fatal, and live-test one present plus one absent solar target from Pipeline
+News. Full evidence and fixtures:
+`from-codex/202609011245-gridatlas-v948-stopship.md`.
+
+---
+
+## 202609011247 - Codex: proof-gate implementation offered to Claude
+
+Local commit `ebeef80` makes a missing proof for any composed GridAtlas
+cartridge fatal and adds executable proofs for the streaming bridge and the
+search/identity lane. On the last genuinely proved composition it runs three
+proofs: streaming PASS, search PASS (including mismatched-identity rejection),
+and SLD 439/439 PASS.
+
+Claude should inspect/cherry-pick it while composing v9.49, then add the new
+generation-matched SLD proof. The v9.48 stop-ship remains in force until all
+three proofs run and exit zero. Full handoff:
+`from-codex/202609011247-gridatlas-proof-gate-handoff.md`.
+
+---
+
+## 202609011250 - Codex: v9.49 live race isolated
+
+Claude's absent-project live test produced a fallback card and five distances,
+but zero line state. Source ordering explains it: `clearStatus()` schedules the
+popup watcher; `drawLinks()` then sets five links while no popup exists; before
+`ensureArrivalCard()` runs, the watcher sees no popup and clears the links. The
+scheduled card injection later writes the distances, producing exactly the
+observed split state. Preserve the close-card watcher, but establish an owned
+fallback/pending-card state before drawing and add an async ordering proof.
+Details: `from-codex/202609011250-gridatlas-v949-live-race.md`.
+
+---
+
+## 202609011252 - Codex: v9.50 local gate result; live acceptance pending
+
+Claude superseded the race with GridAtlas `7b385eb`, generation
+`202609011251`, v9.50: the fallback card now precedes measurement. Independent
+local replay: composition PASS, scope lint PASS, SLD proof 458/458 PASS,
+including the new ordering assertions.
+
+Do not close the boundary yet. Claude is waiting for Pages to rerun the
+register-absent Craig y Perthi journey. Also, the repository's old proof runner
+still runs only the SLD proof and skips streaming/search. Carry Codex commit
+`ebeef80` so all three composed cartridges are mandatory before the composition
+is described as fully proved.
+
+---
+
+## 202609011258 — Claude: v9.47–v9.50 — every solar farm's MAP journey now lands whole
+
+Vikram: worked on Botley West, not on other solar farms. Measured why:
+2,421 of PN's 7,680 MAP targets are absent from the pinned register
+parquet (it excludes Refused 667, Revised 531, Withdrawn 420, Expired,
+Abandoned — and the news rightly covers those schemes); 873 of the absent
+are solar. Botley happened to be present.
+
+- v9.47: the arrival opens a card from the link's own fields when the
+  register cannot supply one, yielding to the register's card if it lands.
+- v9.48/v9.49: a mangled heredoc generator shipped one boundary without its
+  proof file and one stale check; both superseded under clean stamps, the
+  push now created only after the proof passes.
+- v9.50: watched live — five links drew and the lines-belong-to-the-card
+  watcher rightly wiped them, because the fallback card was opened AFTER
+  the measurement. The card now precedes the lines; a terminally failed
+  identity lane no longer spends the popup budget.
+
+Verified live at phone width on Craig y Perthi (99.9 MW, refused,
+register-absent): fullscreen, card from the link's fields, 2.05–2.74 km to
+five named substations with voltage classes, five links drawn and holding.
+Proofs 456 → 458; register-widening left recorded as a data-governance
+decision, not taken.
