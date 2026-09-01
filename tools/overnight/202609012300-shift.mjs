@@ -187,11 +187,28 @@ if (head !== originMain) {
 }
 
 /* ── the parent release ──────────────────────────────────────────────── */
-const releases = fs.readdirSync(path.join(ROOT, 'releases'))
-  .filter(f => /^\d{12}-pipelinenews$/.test(f)).sort();
-if (!releases.length) fail('no parent release found');
+/* A parent must be a COMPLETE release, not merely a directory whose name
+   matches. A failed build leaves empty directories behind - git does not
+   report an empty directory, so the undo never sees one to remove - and the
+   next run picked that husk as its parent and died inside the cartridge
+   generator with a FileNotFoundError. Requiring the release manifest and the
+   runtime asset turns that into a clear refusal, and the husk is swept. */
+const RELEASE_DIR = path.join(ROOT, 'releases');
+const APP_ASSET = path.join('assets', '202608291447-app.mjs');
+const complete = (id) => fs.existsSync(path.join(RELEASE_DIR, id, 'release-manifest.json'))
+  && fs.existsSync(path.join(RELEASE_DIR, id, APP_ASSET));
+
+const named = fs.readdirSync(RELEASE_DIR).filter(f => /^\d{12}-pipelinenews$/.test(f)).sort();
+const husks = named.filter(id => !complete(id));
+for (const id of husks) {
+  fs.rmSync(path.join(RELEASE_DIR, id), { recursive: true, force: true });
+  stage('swept an incomplete release directory', { id });
+}
+const releases = named.filter(complete);
+if (!releases.length) fail('no complete parent release found', { named, husks });
 const parent = step.parent || releases[releases.length - 1];
-stage('parent release', { parent, of: releases.length });
+if (!complete(parent)) fail('the named parent release is incomplete', { parent });
+stage('parent release', { parent, of: releases.length, swept: husks.length });
 
 /* ── the step prepares its cartridge ─────────────────────────────────── */
 untrackedBefore = untracked();

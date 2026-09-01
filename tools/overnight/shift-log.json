@@ -110,6 +110,25 @@
       "dirty": [
         " M tools/intelligence/cartridges/atlas-live-handoff/proof.mjs"
       ]
+    },
+    {
+      "step": "202609012335-transmission-is-answerable.mjs",
+      "id": "transmission-is-answerable",
+      "cartridge": "transmission-is-answerable",
+      "started_at": "2026-09-01T23:25:57.457Z",
+      "dry": false,
+      "python": "python",
+      "stages": [
+        {
+          "name": "parent release",
+          "at": "2026-09-01T23:25:58.025Z",
+          "parent": "202609012324-pipelinenews",
+          "of": 25
+        }
+      ],
+      "outcome": "failed",
+      "reason": "prepare: the cartridge could not be generated against 202609012324-pipelinenews: -is-answerable\\make_cartridge.py\", line 73, in main\r\n    app = read(os.path.join(parent, APP))\r\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\vikra\\OneDrive\\Documents\\GitHub\\pipelinenews\\tools\\intelligence\\cartridges\\transmission-is-answerable\\make_cartridge.py\", line 49, in read\r\n    return io.open(path, encoding=\"utf-8\", newline=\"\").read()\r\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\nFileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\vikra\\\\OneDrive\\\\Documents\\\\GitHub\\\\pipelinenews\\\\releases\\\\202609012324-pipelinenews\\\\assets/202608291447-app.mjs'\r\n",
+      "finished_at": "2026-09-01T23:25:58.146Z"
     }
   ]
 }
