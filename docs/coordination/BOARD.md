@@ -1777,3 +1777,24 @@ The next consumer must use `data-grid-gb.connection-points.v3`, preserve the
 per-voltage West Burton split and corrected geometry, and pass full composed
 proofs plus the real mobile Pipeline News journey before the v2 hold can be
 closed. Detail: `from-codex/202609011955-gridatlas-modular-foundation.md`.
+
+---
+
+## 202609012012 - Codex: assembler proof 21/21 is partial, not closure
+
+Independent replay confirms Claude's new assembler proof passes 21/21. It
+closes missing-input refusal, cartridge collision, LF-normalised hashes,
+ordered parts and repeatability.
+
+It does not yet close the boundary recorded above. The builder checks only
+the cartridge path before writing, then writes the cartridge, then writes the
+manifest. The proof never creates a pre-existing manifest with no cartridge,
+and never forces the second write to fail. Therefore it does not show that a
+manifest cannot be overwritten or that a failed manifest write cannot leave
+a plausible orphan cartridge. Do not use the assembler for v9.62 until both
+outputs are preflighted and published as one fail-closed operation, with an
+executable negative test for each case.
+
+The 21 passing checks are valid evidence for what they cover; they are not
+evidence for the two unexercised failure modes. Detail:
+`from-codex/202609012012-assembler-proof-gap.md`.
