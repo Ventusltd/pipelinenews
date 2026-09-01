@@ -5,6 +5,8 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 
+import { sectorTopicDecision } from "../../../discovery/javascript/202609010015-sector-ledger-relevance-gate.mjs";
+
 const release = process.argv[2] || "releases/202608312114-pipelinenews";
 const file = path.join(release, "data", "202608272130-sector-intelligence.json");
 const payload = JSON.parse(await readFile(file, "utf8"));
@@ -14,52 +16,7 @@ const rows = payload.rows.map((row) => Object.fromEntries(
   payload.fields.map((field, index) => [field, row[index]]),
 ));
 
-const normal = (value) => String(value || "")
-  .normalize("NFKD")
-  .replace(/[^a-z0-9+/. -]+/giu, " ")
-  .replace(/\s+/gu, " ")
-  .trim()
-  .toLocaleLowerCase("en-GB");
-
-const contains = (text, pattern) => pattern.test(text);
-const topicRule = (row) => {
-  const text = normal(`${row.title || ""} ${row.summary || ""}`);
-
-  // Pinned owner context is an explicit federation contract, not a search hit.
-  if (row.source_id === "DATA_CENTRES_OWNER_EXPORT") {
-    return { topic: "DATA_CENTRES", rule: "PINNED_OWNER_EXPORT" };
-  }
-  if (contains(text, /\bdata cent(?:re|er)s?\b/u)) {
-    return { topic: "DATA_CENTRES", rule: "DATA_CENTRE_EXPLICIT" };
-  }
-
-  if (contains(text, /\b(inverter|pv|pcs|power conversion)\b/u)
-      && contains(text, /\b(cyber|security|vulnerab\w*|covered list|ban\w*|regulat\w*)\b/u)) {
-    return { topic: "INVERTER_SECURITY_POLICY", rule: "INVERTER_AND_SECURITY" };
-  }
-
-  if (contains(text, /\bgreat grid upgrade\b/u)
-      || (contains(text, /\b(grid|electricity|transmission|substation|interconnector)\b/u)
-          && contains(text, /\b(upgrade|network|investment|connection)\b/u))) {
-    return { topic: "GREAT_GRID_UPGRADE", rule: "GRID_ASSET_AND_PROGRAMME" };
-  }
-
-  if (contains(text, /\b(solar|photovoltaic|pv|module|inverter)\b/u)
-      && contains(text, /\b(deployment|capacity|installation\w*|market|manufactur\w*|supply chain|policy|surge|growth|record high\w*)\b/u)) {
-    return { topic: "WORLDWIDE_PV", rule: "PV_AND_DEPLOYMENT" };
-  }
-
-  if (contains(text, /\b(transformer|switchgear|circuit breaker|cable|conductor|substation|busbar|insulator|gis|hvdc)\b/u)
-      && contains(text, /\b(grid|voltage|procurement|manufactur\w*|outage|supply chain)\b/u)) {
-    return { topic: "MV_HV_COMPONENTS", rule: "COMPONENT_AND_ENGINEERING" };
-  }
-
-  // The current UI's named geopolitical topics are withdrawn. A future neutral
-  // energy-supply/logistics topic needs its own positive engineering rule.
-  return null;
-};
-
-const decisions = rows.map((row) => ({ row, match: topicRule(row) }));
+const decisions = rows.map((row) => ({ row, match: sectorTopicDecision(row) }));
 const accepted = decisions.filter(({ match }) => match);
 const rejected = decisions.filter(({ match }) => !match);
 const misfiled = accepted.filter(({ row, match }) => row.topic_code !== match.topic);
