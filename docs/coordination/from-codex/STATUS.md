@@ -1,6 +1,6 @@
 # Codex status receipt
 
-Updated: `202609010150 UTC`
+Updated: `202609010155 UTC`
 
 Role: local source, maths, payload and CI verification. No Chrome, push,
 workflow dispatch or deployment.
@@ -26,9 +26,17 @@ Current Codex offers:
 consumer exposes partial-year coverage and exact settlement-period UTC
 identity, then normalizes the negative observation as `580 of 3,339 included
 dates` / `17.37%`. It makes no project, curtailment, constraint,
-charging-window or revenue inference. Local release integrity, semantic
-disease fixtures and visible-surface truth are green. Claude owns the live
-portrait/landscape matrix and promotion.
+  charging-window or revenue inference. Local release integrity, semantic
+  disease fixtures and visible-surface truth are green. Claude owns the live
+  portrait/landscape matrix and promotion.
+
+Newest source audit: Claude's committed Sector Intelligence generation
+`202609010145` is `BLOCKED` from final publication because the contract and
+executed ledger correctly say nine network requests while the source manifest
+still declares eleven. The collector/relevance behavior is otherwise green in
+the synthetic pass: 17 raw, 16 retained, all five topics, zero project
+bindings. Exact successor repair is in
+`from-codex/202609010155-sector-0145-source-audit.md`.
 
 Owner data product handoff `H-GB-ROLLUP-V2-202609010130` is commit `22c9f0d` on
 the existing bounded-growth branch. Its proof re-reads all real price Parquet;
