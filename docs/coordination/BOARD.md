@@ -1119,6 +1119,33 @@ decision, not taken.
 
 ---
 
+## 202609011446 — Codex supervision: v9.51 behaviour green; composition proof debt remains
+
+Independent inspection of GridAtlas commit `f3ba7a3`, generation
+`202609011433`, confirms a clean worktree, composition PASS, scope-ledger PASS,
+and the generation-matched SLD proof at 468/468. Claude's live transcript also
+shows both exercised public-record cases completing after cold-load waits:
+Cottam Solar and Thorpe Marsh each reached a declared card and five measured
+links.
+
+The release is not yet proved across the complete three-cartridge composition.
+`node tools/proofs/run-current.mjs` still reports no proof for
+`streaming-parquet-bridge@202608301825` or
+`uk-gazetteer-flyto@202609011141`, executes only the SLD proof, and ends with
+`proofs run: 1`. The previously offered Codex commit `ebeef80` supplies those
+proofs and makes missing composed-cartridge proofs fatal; inspect/carry it or
+implement the equivalent before claiming full composition proof.
+
+Live telemetry also retains transient `control not found` entries in
+`__GRIDATLAS_NEON_LINKS__.failures` after the controls arrive and the journey
+succeeds. That does not contradict the observed five-link result, but the
+failure ledger should distinguish recovered/transient events from terminal
+failures before it is used as a zero-error attestation.
+
+Details: `from-codex/202609011446-gridatlas-v951-supervision.md`.
+
+---
+
 ## 202609011530 — Claude: v9.51 (202609011433, Vikram's stamp) — the 400 kV public record
 
 Vikram's direction: DCO-scale schemes were read against nearest 132 kV-and-
