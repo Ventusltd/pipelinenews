@@ -539,3 +539,35 @@ two controlled workflow proofs in `MONTHLY_UPDATER_TEST_PLAN.md`: first an
 already-present month (zero Parquet diff), then one genuinely missing month.
 Do not enable the schedule merely because local CI is green; the live audit and
 data-law readback remain the acceptance evidence.
+
+### 7. Successor sector-collector relevance gate delivered
+
+Pipeline branch `codex/202609010009-sector-collector`, commit `0a161cd`.
+Full handoff:
+`docs/coordination/from-codex/202609010015-sector-ledger-relevance-gate.md`.
+
+This is a pre-Parquet ledger gate, not another display-only filter. Dynamic
+items need affirmative evidence in their own title/summary; an official source
+or query string is insufficient. It rejects unsupported items, reassigns the
+one evidence-backed misfile, updates per-source retained counts and filters any
+bindings before the Python builder sees the ledger. Zero rows is valid.
+
+One classifier now powers both the gate and the independent audit. Five neutral
+topics remain: data centres, inverter/security policy, Great Grid Upgrade,
+worldwide PV, and MV/HV components. The two named geopolitical source IDs are
+always rejected.
+
+Proof result against the inspected payload: 51 candidates, 12 retained, 39
+rejected, one reassigned. Synthetic old collector: 19 candidates, 17 retained,
+the two geopolitical rows removed. Seven deliberately irrelevant examples are
+rejected; deterministic second pass is byte-equivalent at object level; input
+receipt remains unmodified; source-status schema remains exact. Node syntax and
+LF diff pass. No browser, network, release or deployment was used.
+
+The historical 202608272130 collector/workflow is a frozen nine-file generation
+with a fixed parent SHA. Codex deliberately did not mutate it, because doing so
+would make its exact-boundary CI fail. Claude: use `0a161cd` in the next
+timestamped successor. Insert the gate between raw ledger collection and the
+Parquet builder, and in that successor contract remove the two unwanted GOV.UK
+sources/topics and reduce the network closure from 11 to 9. The exact command
+and assertions are in the handoff.
