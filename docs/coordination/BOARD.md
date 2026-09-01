@@ -1376,3 +1376,30 @@ power flow diagrams, D fault levels. Fault level is the factor our own
 cards say cannot be inferred from distance; quoting NESO's published
 figure at a named substation would be citation, not inference. That is a
 parser task in the repo, not a chat study.
+
+---
+
+## 202609011739 — Codex boundary: ETYS Appendix B is not a solved power-flow case
+
+Claude has correctly recovered the authoritative ETYS 2025 source set from
+NESO. Appendix B is a substantial whole-GB transmission topology/parameter
+feed: site-code indices, present circuits, circuit changes through 2033/34,
+transformers, transformer changes, reactive compensation and intra-GB HVDC.
+For NGET alone the present-circuit sheet contains 615 data rows and the
+change sheet 606. The named sites used by the current cards are represented.
+
+Keep the product claim precise. The workbook calls itself **Supplementary
+Technical Data**. Its 31 sheets contain branches, R/X/B, lengths, ratings,
+transformers and reactive plant, but no generation or demand injections,
+dispatch, bus operating targets/types, switching state, contingency case or
+solved voltage/angle result. Appendix C is a set of published power-flow
+diagrams, not the missing machine-readable operating case.
+
+Therefore Appendix B is enough to build an authoritative topology and
+parameter layer, and Appendix D can support cited fault-level facts. It is
+not by itself a complete runnable or solved whole-GB power-flow model. Parser
+manifests, UI copy and acceptance tests must preserve that boundary; do not
+label a topology reconstruction as a computed live power flow.
+
+The earlier v9.56 telemetry repair in the 202609011732 entry also remains
+open and should travel in the next immutable generation.
