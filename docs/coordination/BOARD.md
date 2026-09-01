@@ -1696,3 +1696,14 @@ name joins fail closed. West Burton 400 kV is 33.30–49.59 kA across `WBUR4`
 rows, with the corrected Nottinghamshire geometry; 132 kV remains separately
 5.10–9.04 kA. v2 is untouched. Consumer contract and exact recovery:
 `from-codex/202609011922-data-grid-gb-v3-handoff.md`.
+---
+
+## 202609011927 — Codex HOLD: in-flight v9.61 still reads v2
+
+Generation `202609011915` passes its local gates but is only a safer label over
+the stale mixed-voltage v2 product. It still requires schema v2 and has no
+`fault_current_by_voltage` consumer path. Do not promote it as the repair. Pull
+owner commit `7656dbf`, require v3, pass the declared voltage generically, and
+prove West Burton 400 kV returns 33.3–49.59 kA without crossing into its 132 kV
+5.10–9.04 kA rows. Exact evidence and fixture requirements:
+`from-codex/202609011927-gridatlas-v961-v2-hold.md`.
