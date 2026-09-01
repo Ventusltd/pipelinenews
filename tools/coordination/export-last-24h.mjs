@@ -43,13 +43,25 @@ async function files(root) {
 }
 
 function texts(record) {
-  const role = record.message?.role || record.role || record.type || 'unknown';
-  const content = record.message?.content ?? record.content;
+  const payload = record.payload || {};
+  const role = record.message?.role || record.role || payload.role
+    || payload.type || record.type || 'unknown';
+  const content = record.message?.content ?? record.content ?? payload.content;
   const parts = [];
-  if (typeof content === 'string') parts.push(content);
-  if (Array.isArray(content)) for (const item of content) {
-    if (typeof item === 'string') parts.push(item);
-    else if (typeof item?.text === 'string') parts.push(item.text);
+  const add = value => {
+    if (typeof value === 'string') parts.push(value);
+    else if (Array.isArray(value)) for (const item of value) add(item);
+    else if (value && typeof value === 'object') {
+      if (typeof value.text === 'string') parts.push(value.text);
+      else if (typeof value.output_text === 'string') parts.push(value.output_text);
+      else if (typeof value.input_text === 'string') parts.push(value.input_text);
+      else if (Array.isArray(value.content)) add(value.content);
+    }
+  };
+  add(content);
+  if (!parts.length && record.type === 'response_item') {
+    if (typeof payload.input === 'string') parts.push(payload.input);
+    add(payload.output);
   }
   if (!parts.length && typeof record.text === 'string') parts.push(record.text);
   return { role, text: parts.join('\n') };

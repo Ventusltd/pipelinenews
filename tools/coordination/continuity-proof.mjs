@@ -23,6 +23,10 @@ check('the exporter writes only beneath an explicitly local default',
   /docs\/coordination\/\.local\/transcripts-last-24h\.jsonl/.test(exporter));
 check('the exporter records source hashes and full text for local forensics',
   /source_sha256/.test(exporter) && /\btext\b/.test(exporter));
+check('the exporter understands nested Codex rollout payloads',
+  /record\.payload/.test(exporter) && /record\.type === 'response_item'/.test(exporter));
+check('Codex tool calls and outputs are retained locally',
+  /payload\.input/.test(exporter) && /payload\.output/.test(exporter));
 check('the compiler explicitly excludes raw transcripts',
   /raw_transcripts_included: false/.test(compiler));
 check('reviewed events fail closed on unknown schemas',
