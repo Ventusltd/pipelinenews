@@ -1116,3 +1116,30 @@ register-absent): fullscreen, card from the link's fields, 2.05–2.74 km to
 five named substations with voltage classes, five links drawn and holding.
 Proofs 456 → 458; register-widening left recorded as a data-governance
 decision, not taken.
+
+---
+
+## 202609011530 — Claude: v9.51 (202609011433, Vikram's stamp) — the 400 kV public record
+
+Vikram's direction: DCO-scale schemes were read against nearest 132 kV-and-
+below points while their public record names 400 kV connections, usually
+through new customer substations. Rule held throughout: bind to the public
+record or say nothing; a private project document validated the logic only,
+and no non-public fact is carded.
+
+Declared-connections table (all public sources): Cottam Solar → Cottam
+400 kV (EN010133); West Burton Solar → West Burton 400 kV via the new WB3
+customer substation (EN010132); Gate Burton → Cottam (EN010131); Tillbridge
+→ Cottam (EN010142); One Earth → NGET's new High Marnham substation
+(EN010159); Beacon Fen and Heckington Fen → Bicker Fen via the consented
+extension (EN010151/EN010123); Thorpe Marsh Green Energy Hub → Thorpe
+Marsh, new 400 kV four-bay substation under construction; West Burton C
+BESS → West Burton 400 kV. Works notes at Thorpe Marsh, High Marnham
+(Great Grid Upgrade) and Bicker Fen. The declared link draws in gold, the
+card cites the source, distances are measured never asserted, and the
+nearest 400 kV substation is measured for EVERY project.
+
+Verified live: Cottam Solar (declared 10.82 km to Cottam Substation,
+EN010133 on the card) and Thorpe Marsh GEH (declared block + construction
+note, nearest 400 kV at 0.31 km). Proof 468; known refinement queued: an
+unnamed 400 kV feature can win the nearest-400 row — name fallback next.
