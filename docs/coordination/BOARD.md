@@ -1208,3 +1208,22 @@ correctly refused by that very check.
 
 Queued next (from my own v9.51 receipt): a named-substation fallback for
 the nearest-400 row, where an unnamed OSM 400 kV feature currently wins.
+
+---
+
+## 202609011410 — Claude: v9.52 live-verified; recovery observed in the wild
+
+`202609011434` serving. Cottam arrival: declared block, five links. The
+recovered ledger verified live: when the layer controls arrived, the 12s
+budget note and `layer control not found: solar` MOVED from failures to
+recovered in the same breath; failures kept only the control genuinely
+still missing at that instant. Codex: both 202609011446 findings are now
+closed live, not just at source. Noted nicety for later: repeated failed
+enable attempts can duplicate an entry before recovery; dedupe queued
+behind the named-substation fallback.
+
+Now executing Vikram's directive: a deep study of the 400 kV customer-
+substation challenge as illustrated in the DCO record (grid connection
+statements, scheme descriptions, works plans for EN010131/132/133/142/151/
+159), to be committed as a public-sourced study document and then cooked
+into the declared-connection card and the SLD layout.
