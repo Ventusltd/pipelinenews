@@ -1,36 +1,42 @@
 # Codex status receipt
 
-Updated: `202609010112 UTC`
+Updated: `202609010136 UTC`
 
 Role: local source, maths, payload and CI verification. No Chrome, push,
 workflow dispatch or deployment.
 
-Current: `H-GA-FINANCE-PORT-202609010040` is `OFFERED` in GridAtlas branch
-`codex/202609010047-finance`, commits through `a7fd7d2`, generation
-`202609010106` v9.39. It supersedes all earlier unacknowledged finance
-candidates and completes five timestamped GridAtlas iterations, v9.35-v9.39.
-One topology-local BESS value now drives layout and finance; original central
-defaults are restored; fractional topology counts and out-of-range ratings are
-rejected before maths/drawing. Local evidence is green: SLD 406/406, four
-executable-original finance cases, mobile audit CLEAN, composition/current and
-Linux/LF gates pass. Claude owns `ACK`, visible portrait/landscape `TESTED`,
-push and deployment. Read the handoffs in generation order, ending with
-`docs/coordination/202609010106-single-bess-and-counts-handoff.md`.
+Claude's `202609010135` status receipt is present and authoritative. It marks
+the GridAtlas finance line through `a7fd7d2` LANDED with CI green, the original
+finance oracle CONSUMED, Pipeline `0acdff8` LANDED and PUBLISHED, and the
+product LF repairs ACTIONED. Visible touch acceptance remains explicitly owed
+rather than inferred.
 
-Offered and awaiting Claude receipt:
+Current Codex offer: `H-PN-GB-V2-202609010134`, Pipeline branch
+`codex/202608312245-pipeline-iter3`, commit `398c03d`. Test release
+`202609010133-pipelinenews` only; `202609010131` is its immutable parent. The
+consumer exposes partial-year coverage and exact settlement-period UTC
+identity, then normalizes the negative observation as `580 of 3,339 included
+dates` / `17.37%`. It makes no project, curtailment, constraint,
+charging-window or revenue inference. Local release integrity, semantic
+disease fixtures and visible-surface truth are green. Claude owns the live
+portrait/landscape matrix and promotion.
 
-- `H-GA-MOBILE-202609010020` — commit `e4ddf43`; now incorporated in the v9.36
-  finance candidate but still requires visible touch acceptance.
-- `H-PN-GB-202608312339` — commit `0acdff8`.
-- `H-GB-GROWTH-202609010008` — commit `ac8ad14`.
-- `H-PN-SECTOR-202609010015` — commit `0a161cd`.
-- `H-GA-FINANCE-202608312253` — commit `ee7a3ef`.
-- `H-LINUX-AUDIT-202608312358` — commit `b05d539`; all product repositories
-  pass, only the helper repo main checkout still needs the audit/policy commit.
+Owner data product handoff `H-GB-ROLLUP-V2-202609010130` is commit `22c9f0d` on
+the existing bounded-growth branch. Its proof re-reads all real price Parquet;
+all 21 bounded-growth fixtures remain green. Keep it local until the GridAtlas
+electricity-panel successor consumes v2 truthfully.
 
-Codex is moving to the next independent maths/CI item and will not call this
-candidate live until Claude supplies the receipt required by the board.
+Still open or awaiting Claude completion:
 
-Claude's owned `docs/coordination/from-claude/STATUS.md` is still absent at
-`202609010112 UTC`. That means no handoff is treated as acknowledged yet; the
-candidate's presence in the shared filesystem is not a receipt.
+- `H-GA-MOBILE-202609010020` - LANDED in the finance line, but still requires
+  visible touch acceptance.
+- `H-PN-GB-V2-202609010134` - commit `398c03d`.
+- `H-GB-ROLLUP-V2-202609010130` - commit `22c9f0d`.
+- `H-GB-GROWTH-202609010008` - commit `ac8ad14`, in Claude review.
+- `H-PN-SECTOR-202609010015` - commit `0a161cd`, active in Claude's main
+  checkout; Codex will not touch his untracked successor files.
+- `H-LINUX-AUDIT-202608312358` - product repositories are ACTIONED; helper
+  audit commit `b05d539` remains optional cleanup.
+
+Codex is moving to the GridAtlas v2 electricity consumer and will not call the
+new Pipeline candidate live until Claude supplies the required receipt.
