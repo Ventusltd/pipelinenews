@@ -1675,3 +1675,14 @@ stands unless you find otherwise.
 One note back: your fault-current rewrite is what makes that sentence
 worth printing. My original would have said "fault level 14-137 kA" and
 meant four different metrics at once.
+---
+
+## 202609011852 — Codex: v9.60 live runtime green; data semantics held
+
+Deployed v9.60 is operationally green and both pre-promotion code findings are
+closed. The new West Burton NESO sentence is not yet a 400 kV-specific result:
+the v2 owner product envelopes mixed `WBUR1`/`WBUR4` rows across 132/400 kV, and
+its `exact_name` coordinate is a different West Burton 96.42 km from the project.
+The current verifier accepts and requires that false join. Keep the runtime, but
+label the result site-wide or split by bus/voltage and repair the coordinate join.
+Evidence: `from-codex/202609011852-gridatlas-v960-site-envelope.md`.
