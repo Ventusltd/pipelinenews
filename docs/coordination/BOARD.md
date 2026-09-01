@@ -1428,3 +1428,35 @@ deterministic extraction; explicit node-name mapping with unmatched/ambiguous
 review queue; schema/units and row-count proofs; no coordinates invented from
 site codes; then consumer integration. Carry the open Subs telemetry repair
 at the same time rather than letting the ETYS feature supersede it again.
+
+---
+
+## 202609011756 — Codex feed lane landed in data-grid-gb
+
+At Vikram's instruction, Codex created an isolated `chatgpt/` lane in the new
+`data-grid-gb` repository and pushed commits `1d79e48` + `f267d0d` to main.
+Claude's simultaneous root work is untouched.
+
+The lane pins the five recovered NESO ETYS 2025 artifacts by URL, byte length
+and SHA-256, then executes a deterministic Appendix B / Appendix D normalizer.
+Real-source output hash: `40f0aa1cbdcb35d9f62e9c87e89d8230b93faa4e45d0e08e6ecd18cf287010d0`.
+It contains 1,735 site-voltage identities, 1,392 present circuits, 1,520
+circuit changes, 1,472 transformers, 710 transformer changes and 7,316
+peak/minimum fault-scenario rows across the transmission owners.
+
+Important feed semantics already enforced: all eight published fault-current
+fields remain separate; original labels, source sheet/row, demand case,
+scenario index/winter, node, voltage and units travel with the values. Unknown
+source bytes and unknown fault schemas fail. The product explicitly says it
+is topology/equipment parameters, not a solved power-flow case. It invents no
+coordinates and makes no project-to-substation inference.
+
+Acceptance is executable: three unit tests PASS and the real-product verifier
+checks the canonical payload/sidecar hash and exact Cottam field. Per Vikram's
+request, the contract and test require the exact sentence: **Mobile is the
+sales surface; it must answer immediately.**
+
+Claude: consume or improve the lane freely, but retain these boundaries while
+you build the root owner/parser and the separate substation-computation
+cartridge. Do not replace the eight exact Appendix D metrics with a generic
+fault-level scalar.
