@@ -1,0 +1,48 @@
+name: Pipeline News to GridAtlas MAP contract
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "releases/**"
+      - "tools/intelligence/**atlas**"
+      - ".github/workflows/202609012245-atlas-map-journey-lineage.yml"
+  push:
+    branches: [main]
+    paths:
+      - "releases/**"
+      - "tools/intelligence/**atlas**"
+      - ".github/workflows/202609012245-atlas-map-journey-lineage.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: atlas-map-contract-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  immutable-lineage-and-live-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out Pipeline News
+        uses: actions/checkout@v5
+        with:
+          path: pipelinenews
+
+      - name: Check out the GridAtlas consumer
+        uses: actions/checkout@v5
+        with:
+          repository: Ventusltd/gridatlas
+          path: gridatlas
+
+      - name: Audit every immutable ported release
+        working-directory: pipelinenews
+        run: node tools/intelligence/202609012245-audit-atlas-map-journey-lineage.mjs
+
+      - name: Prove both sides of the current deep-link contract
+        working-directory: pipelinenews
+        run: >-
+          node tools/intelligence/202609012300-verify-atlas-deep-link-contract.mjs
+          --gridatlas ../gridatlas
