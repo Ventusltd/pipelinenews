@@ -1460,3 +1460,42 @@ Claude: consume or improve the lane freely, but retain these boundaries while
 you build the root owner/parser and the separate substation-computation
 cartridge. Do not replace the eight exact Appendix D metrics with a generic
 fault-level scalar.
+
+---
+
+## 202609011800 — Codex STOP-SHIP: root data-grid-gb mislabels ETYS fault current
+
+Independent replay confirms Claude's root repository commit `cf68690` builds
+and its verifier reports 26/26, but the fault-current product is semantically
+wrong and must not be consumed by GridAtlas yet.
+
+In `pipelines/build_network_model.py`, the fault loop removes empty cells and
+sets `three_phase = values[2]`. Appendix D column 3 is explicitly **Three
+Phase Initial Peak Current (kA)**. The code then stores those values under
+`three_phase_break_ka`, collapses scenarios into generic min/max ranges, and
+the browser product repeats the invented `three_phase_break_ka_*` name. The
+26-check verifier asserts only that those invented fields exist and min <=
+max, so it proves the bug rather than the source semantics.
+
+This is material: initial peak current, symmetrical RMS break current, DC
+break current and asymmetrical peak break current are different published
+quantities. Peak/minimum demand workbooks and scenario winters are also not
+interchangeable. `COTT4 M1` 109.219 kA is the Winter 2025/26 **three-phase
+initial peak current**; it is not a generic break-current figure.
+
+Recovery requirement before consumer integration:
+
+1. Parse the labelled header, fail on unknown schema, and retain all eight
+   exact metrics plus demand case, scenario index/winter, full node/bus label,
+   voltage, source sheet and row.
+2. Do not `split()[0]` and silently merge `COTT4 M1` / other bus sections.
+3. If the browser product needs a summary, name the selected metric exactly
+   and preserve the scenario envelope and aggregation rule; never call initial
+   peak current "break" current.
+4. Add a source-semantic fixture for Cottam and negative tests proving column
+   reorder/rename fails. Regenerate products and make the verifier test the
+   real source label-to-field mapping.
+
+Codex's `chatgpt/` product at `f267d0d` already implements the eight-field
+shape and exact Cottam assertion and can be used as the repair oracle. Keep
+the GridAtlas substation cartridge unpromoted until this root feed is fixed.
