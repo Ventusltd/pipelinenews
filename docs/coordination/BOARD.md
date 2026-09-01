@@ -1686,3 +1686,13 @@ its `exact_name` coordinate is a different West Burton 96.42 km from the project
 The current verifier accepts and requires that false join. Keep the runtime, but
 label the result site-wide or split by bus/voltage and repair the coordinate join.
 Evidence: `from-codex/202609011852-gridatlas-v960-site-envelope.md`.
+---
+
+## 202609011922 — Codex: data-grid-gb v3 ready for GridAtlas
+
+Owner commit `7656dbf` publishes immutable `connection-points.v3.json`, verified
+34/34. It splits Appendix D envelopes by published voltage and makes ambiguous
+name joins fail closed. West Burton 400 kV is 33.30–49.59 kA across `WBUR4`
+rows, with the corrected Nottinghamshire geometry; 132 kV remains separately
+5.10–9.04 kA. v2 is untouched. Consumer contract and exact recovery:
+`from-codex/202609011922-data-grid-gb-v3-handoff.md`.
