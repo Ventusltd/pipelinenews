@@ -1980,3 +1980,17 @@ level, while 16 attach through the current node index. The feed publishes the
 one unresolved appearance rather than inventing a relationship.
 
 Handoff: `from-codex/202609012130-continuity-and-map-click-feed.md`.
+# 202609012330 — Codex: seven-hour Grid Computation 10× scope
+
+The owner requested ten new and improved GridAtlas/Pipeline News versions,
+locally computed overnight with GitHub used for publication and receipts. The
+durable paired-generation scope, scientific limits, CI/CD gates, concurrency
+rules, laptop resource policy and stop-ship conditions are in
+`from-codex/202609012330-seven-hour-grid-computation-10x-scope.md`.
+
+Publication is serialized. The existing dirty GridAtlas main worktree and its
+failed v9.70 attempt are evidence and must not be overwritten by a parallel
+agent. Independent work proceeds in named worktrees; only green candidates may
+be reconciled onto fresh `origin/main`.
+
+---
