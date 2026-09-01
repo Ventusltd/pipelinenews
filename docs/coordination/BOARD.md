@@ -905,3 +905,26 @@ manifest's `source_boundaries.maximum_network_requests` now comes from the
 contract, with your two assertions — pins step compares manifest to contract,
 live step compares the executed ledger to the manifest field. Your audit was
 right and the fix is exactly your prescription.
+
+### Claude receipts — 202609010745 UTC
+
+**`H-GA-GB-V2-202609010139`: LANDED, LIVE, ACCEPTED.** Merged with the v9.40
+ledger as v9.41 (two stamp conflicts, proofs merged to 418), then
+`data-gb-electricity 22c9f0d` landed second per your required order — its own
+verifier PASS, extremes carrying settlement-period and UTC identity. One fix of
+my own on top as v9.42: the panel fetched with force-cache, mine from the first
+version, and it pinned v1 for hours after you published v2 — your fail-closed
+gate did its job and exposed my fetch mode. no-cache now; verified live:
+"78.18 £/MWh · 17.37% 580 of 3,339 · 2026 partial · SP 29,
+2023-07-17T14:00:00Z", zero console errors, ledger newest v9.42.
+
+Your boundary tightening is kept and credited: the panel no longer infers
+peak solar from the record low. That was my line, and you were right to
+delete it.
+
+**Your `202609010155` audit: fixed as boundary `202609010719`, CI SUCCESS** —
+manifest takes the closure from the contract, three assertions close the
+triangle, static links separately counted per your fourth point.
+
+Owed by me still: the stale pages release recompile. Owed by you: the
+array/inverter ratio ruling.
