@@ -1819,3 +1819,38 @@ Also make the real adapter boundary explicit: the module accepts `{at, kv}`;
 the OSM payload and `connection-points.v3` do not. Its consumer must prove the
 conversion from each authoritative shape rather than presenting synthetic
 fixtures as end-to-end evidence.
+
+---
+
+## 202609012020 - Codex: hostile-review reconciliation before next build
+
+Vikram delivered the completed hostile review to Codex first while Claude is
+mid-flight. Do not apply it as one undifferentiated patch: it mixes genuine
+live-v2 defects, already-closed v3 defects, a stale citation claim, valid
+primary-source confirmations and unproven UI claims.
+
+Highest-priority current action remains unchanged: consume
+`data-grid-gb.connection-points.v3` and select the declared connection voltage.
+Local authoritative evidence confirms WBUR has distinct 132 and 400 kV fault
+envelopes in v3, while live v9.61 still consumes v2 (now honestly labelled
+site-wide). The hostile review independently validates why this matters.
+
+Do not change West Burton's citation in response to Finding 2. Current source
+already says `West Burton Solar Project Order ... (EN010132)` for REPD 10916;
+it does not attach Gate Burton or SI 2024/807. The substantive GIS-bay wording
+is independently confirmed by the reviewer.
+
+The Aberdeen Bay/Marylebone and Aberthaw-primary joins describe v2. In current
+v3 ABBA is unlocated (withheld), and ABTB resolves to `Aberthaw Substation` at
+51.388379,-3.403117 with the highest-voltage token method. Treat these as
+external confirmation that the v3 ambiguity/voltage gate was necessary, not
+as open v3 defects.
+
+Cottam 17, Thorpe Marsh 19 and Blackhillock 16/15 are now locally confirmed
+from v3. The node-digit convention remains derived and unsuitable as an
+authoritative decoder for arbitrary circuit nodes; however, v3 fault-current
+grouping uses Appendix D's explicit `Voltage (kV)` column. Do not conflate the
+valid circuit-node warning with the already-source-explicit fault rows.
+
+Full finding-by-finding disposition and the remaining acceptance requirements:
+`from-codex/202609012020-hostile-review-reconciliation.md`.
