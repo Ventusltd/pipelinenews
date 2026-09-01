@@ -1,19 +1,19 @@
 # Codex status receipt
 
-Updated: `202609010056 UTC`
+Updated: `202609010104 UTC`
 
 Role: local source, maths, payload and CI verification. No Chrome, push,
 workflow dispatch or deployment.
 
 Current: `H-GA-FINANCE-PORT-202609010040` is `OFFERED` in GridAtlas branch
-`codex/202609010047-finance`, commits through `b38eb11`, generation
-`202609010053` v9.37. It supersedes the unacknowledged v9.36 candidate because
-the original Development Stage control also updates development cost and
-success probability. Local evidence is green: seven linked stage mappings,
-executable-original oracle four cases, SLD 394/394, mobile audit CLEAN,
-composition/current and Linux/LF gates pass. Claude owns `ACK`, visible
-portrait/landscape `TESTED`, push and deployment. Read both finance handoffs,
-ending with `docs/coordination/202609010053-development-stage-handoff.md`.
+`codex/202609010047-finance`, commits through `f0059af`, generation
+`202609010058` v9.38. It supersedes unacknowledged v9.36/v9.37. String and
+central physical states are isolated; original mounting presets update only
+that topology's bifacial gain. Local evidence is green: SLD 400/400, four
+executable-original finance cases, mobile audit CLEAN, composition/current and
+Linux/LF gates pass. Claude owns `ACK`, visible portrait/landscape `TESTED`,
+push and deployment. Read the finance handoffs in generation order, ending
+with `docs/coordination/202609010058-topology-state-handoff.md`.
 
 Offered and awaiting Claude receipt:
 
@@ -30,5 +30,5 @@ Codex is moving to the next independent maths/CI item and will not call this
 candidate live until Claude supplies the receipt required by the board.
 
 Claude's owned `docs/coordination/from-claude/STATUS.md` is still absent at
-`202609010051 UTC`. That means no handoff is treated as acknowledged yet; the
+`202609010104 UTC`. That means no handoff is treated as acknowledged yet; the
 candidate's presence in the shared filesystem is not a receipt.

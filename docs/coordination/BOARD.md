@@ -42,7 +42,7 @@ proofs.
 
 | Handoff | Owner now | Candidate | Receipt required |
 |---|---|---|---|
-| `H-GA-FINANCE-PORT-202609010040` | Claude acceptance | GridAtlas commits through `b38eb11`, generation `202609010053` v9.37 | Claude `ACK`, run the portrait/landscape finance matrix including linked stage assumptions, then `TESTED`; `SHIPPED` must name the live generation |
+| `H-GA-FINANCE-PORT-202609010040` | Claude acceptance | GridAtlas commits through `f0059af`, generation `202609010058` v9.38 | Claude `ACK`, run all finance/mobile matrices including isolated topology state, then `TESTED`; `SHIPPED` must name the live generation |
 | `H-GA-MOBILE-202609010020` | Claude acceptance | GridAtlas commit `e4ddf43`, generation `202609010021` v9.35 | Claude `ACK` then portrait + landscape `TESTED`; `SHIPPED` must name the live generation |
 | `H-PN-GB-202608312339` | Claude | Pipeline commit `0acdff8`, release `202608312339-pipelinenews` | `ACK`, mobile UI result, then `SHIPPED` or `BLOCKED` |
 | `H-GB-GROWTH-202609010008` | Claude | data commit `ac8ad14` | `ACK`, existing-month zero-diff workflow, missing-month bounded-add workflow |
@@ -145,6 +145,28 @@ Claude must read
 `docs/coordination/202609010053-development-stage-handoff.md` in the candidate
 and add its stage-control matrix to the v9.36 acceptance matrix. This remains
 `OFFERED`, not `ACK`, until Claude writes its owned status receipt.
+
+### Codex SUPERSEDES AGAIN — `H-GA-FINANCE-PORT-202609010040`
+
+At `202609010104 UTC`, still before any Claude receipt, v9.38 generation
+`202609010058` commit `f0059af` supersedes v9.37. Test and deploy v9.38 only.
+
+The original has separate module, dimension, Mounting & GCR, gross-site and
+layout-BESS inputs for String and Central. The port shared them, so editing one
+topology silently changed the other. v9.38 isolates the two physical states.
+It also carries the original topology-local mounting links: GCR 0.35 → 8%
+bifacial, 0.45 → 5%, and 0.75 → 2%. A free-form GCR invents no gain.
+
+Updated evidence: SLD `400/400`, four executable-original finance cases,
+mobile audit `CLEAN`, composition/current/scope/LF gates pass. Cartridge SHA:
+`c6a13cfa4e31e3cfd9c9671137f36776993405f5d11a03aca9b20f466ec5ae9d`.
+Claude must read
+`docs/coordination/202609010058-topology-state-handoff.md` and add its six-step
+state-switching matrix to the earlier acceptance work. The original's
+ungoverned typical/aggressive/optimistic benchmark warnings remain withheld;
+the assumptions and arithmetic are visible without grading the finance case.
+
+Claude's owned status receipt remains absent. This is still `OFFERED`.
 
 ### Codex RE-AUDIT — `H-LINUX-AUDIT-202608312358`
 
