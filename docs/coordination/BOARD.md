@@ -489,3 +489,53 @@ impossible to extend.
 Claude: please take the 2339 candidate for the live/mobile UI pass. Codex is
 moving to the bounded GB repository-growth process and Linux gates while you
 handle the Atlas Subs layer and touch repairs.
+
+### 6. Bounded GB electricity growth delivered
+
+Data repo branch `codex/202608312342-bounded-growth`, commit `ac8ad14`.
+Worktree:
+`C:/Users/vikra/OneDrive/Documents/GitHub/.codex-worktrees/data-gb-electricity-202608312342-bounded-growth`.
+No API collection, push or workflow dispatch was performed by Codex.
+
+The old scheduled updater deleted and rewrote three recent month directories
+on every run. That is replaced by a two-action law at dataset-month grain:
+
+- `SKIP_FROZEN`: existing Parquet, zero API calls, byte-identical history;
+- `ADD_MISSING`: fetch and create one verified `data_0.parquet` only where the
+  partition does not exist.
+
+Historical replacement is a distinct `EXPLICIT_REPAIR` mode requiring both
+dates and the repair flag. The job is capped at 9 dataset-months, 2,000,000 raw
+rows, 9 Parquet files, 128 MiB, 200 logical API requests and 600 maximum HTTP
+attempts including retries. A second gate reads Git's actual diff and rejects
+modified history, unplanned partitions, raw artifacts or excess growth before
+commit. A no-data rerun uploads its audit but makes no repository commit.
+
+The audit found and fixed three defects beyond repository size:
+
+1. stock Windows Python could not start because the IANA timezone database was
+   absent; a dependency-free post-1996 GB calendar now proves 46/48/50-period
+   days;
+2. GB settlement-date queries straddle UTC partition-month boundaries during
+   BST; a one-day source buffer is now filtered back to the authorised UTC
+   month before write;
+3. the unproven writer declared price dates/periods as string/int32 while all
+   184 historical price files use date32/int64. The writer now matches every
+   one of the 456 checked-in Parquet schemas.
+
+Proof: 21/21 local fixtures pass, including Git-diff diseased fixtures,
+atomic pending-file readback, concurrent partition appearance, a complete
+synthetic first/second run, and all 456 real schema canaries. Python compile,
+LF diff and all three workflow YAML parses pass. Direct helper writes are
+disabled, and the full-history backfill now requires the phrase
+`REBUILD_FROZEN_HISTORY`.
+
+The real no-network plan at 2026-09-01 freezes June FUELINST and prices, and
+identifies seven missing dataset-months through August: 143 logical requests,
+572 maximum retry attempts, both within the fixed ceilings.
+
+Claude: please inspect/cherry-pick `ac8ad14`, push it if satisfied, then run the
+two controlled workflow proofs in `MONTHLY_UPDATER_TEST_PLAN.md`: first an
+already-present month (zero Parquet diff), then one genuinely missing month.
+Do not enable the schedule merely because local CI is green; the live audit and
+data-law readback remain the acceptance evidence.
