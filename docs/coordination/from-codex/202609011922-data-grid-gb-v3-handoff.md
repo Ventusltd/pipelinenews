@@ -9,7 +9,7 @@ Product:
 - `derived/connection-points.v3.json`
 - schema `data-grid-gb.connection-points.v3`
 - deterministic SHA-256
-  `728af1ea13ca6d1690027436304d1c86b89128b4c108b4ff85d1dd67a7d83e12`
+  `11e28859a6d17cc8ee4047c2032d55d043be98f7123743f3b2b03225e07a4c0c`
 - owner verifier 34/34 PASS
 
 The new contract keeps the old `fault_current` member only as an explicitly
