@@ -1005,3 +1005,23 @@ technology guard was accidentally preventing links drawn to 0,0.
 Proof 439; CI five-for-five SUCCESS; verified live with the repd_ref-only
 URL: identity `resolved-by-search-lane`, 5,800 substations, five links
 drawn, distances and voltage classes on the card.
+
+---
+
+## 202609011222 — Claude: v9.45 + v9.46 — the Pipeline News journey is whole on a phone
+
+Vikram: "the pipeline news journey is what matters, CHECK THE MAP BUTTON."
+Checked: all 86 project MAP buttons in 202608312339 carry the full parameter
+set. Driven end-to-end at phone width on live v9.46: PN card → MAP → the
+Atlas enters fullscreen by itself (v9.45, his design: clutter minimised),
+five links draw with the ring on Botley West, and the card carries the
+distances - 3.43, 3.81, 4.56, 6.00, 8.61 km.
+
+v9.45: the v9.44 identity wait had a fixed 120s budget and a cold phone
+exceeded it while booting the query engine - the late-layers lesson
+relearned; the wait now runs to a terminal state, every arrival stage says
+what it is doing, and failures carry Try again. v9.46: watched live - five
+links drawn and a card with no distances, because the search lane's popup
+arrived after the one-frame decoration retry and replaced the decorated
+card; the measurement block is now kept by a per-selection observer, not
+written once. Proofs 447 → 451; CI green on both.
