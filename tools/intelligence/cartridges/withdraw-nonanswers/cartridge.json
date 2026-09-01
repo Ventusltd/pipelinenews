@@ -1,0 +1,80 @@
+{
+  "key": "withdraw_nonanswers",
+  "summary": "Withdraws Relationship and Project Intelligence non-answers and makes the visible news and Sector counts truthful.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Removes two rejected launch surfaces and their boot bindings; reports 132 shown headlines, four withheld, and one evidenced Sector topic without claiming the old payload was deleted.",
+  "registry_repairs": [
+    {
+      "key": "relationship_governance_status",
+      "set": {
+        "ui_state": "WITHDRAWN",
+        "ui_withdrawal_reason": "Three rows all abstain and assert no join; retained as provenance, not exposed as product intelligence."
+      }
+    },
+    {
+      "key": "project_intelligence",
+      "set": {
+        "ui_state": "WITHDRAWN",
+        "ui_withdrawal_reason": "The projection mixes incompatible lifecycle and missing-data taxonomies; retained for audit only."
+      }
+    }
+  ],
+  "repairs": {
+    "index.html": [
+      {
+        "label": "masthead reports the edition actually shown",
+        "from": "      <div class=\"status\">● 136 HEADLINES · 47 UK · 19 INTERNATIONAL · FULL ≥1 MW</div>",
+        "to": "      <div class=\"status\">● 132 SHOWN · 47 PROJECT-BOUND · 85 SECTOR · 4 WITHHELD · FULL ≥1 MW</div>"
+      },
+      {
+        "label": "sector copy no longer repeats the stale 136 total",
+        "from": "The generic 136-headline newspaper remains separate and unchanged.",
+        "to": "The filtered news edition remains separate and cannot create project identity."
+      },
+      {
+        "label": "withdraw relationship abstention ledger from the product UI",
+        "from": "    <section class=\"meta sector-intelligence-launch\" aria-labelledby=\"federatedRelationshipHeading\">\n      <strong id=\"federatedRelationshipHeading\">RELATIONSHIP EVIDENCE — CANDIDATES AND ABSTENTIONS</strong>\n      <span>Compact Companies and data-centre governance projection. No bulk source corpus is copied.</span>\n      <span>All three rows remain ABSTAIN. No ownership, operator, developer, facility or project identity is asserted.</span>\n      <button class=\"btn\" id=\"federatedRelationshipOpen\" type=\"button\" aria-controls=\"federatedRelationshipHost\" aria-expanded=\"false\">OPEN RELATIONSHIP EVIDENCE</button>\n      <span id=\"federatedRelationshipMeta\">WAIT · zero relationship requests before explicit open</span>\n      <div id=\"federatedRelationshipHost\" hidden></div>\n    </section>",
+        "to": ""
+      },
+      {
+        "label": "withdraw project-intelligence mixed taxonomy from the product UI",
+        "from": "    <section class=\"meta sector-intelligence-launch\" aria-labelledby=\"projectIntelHeading\">\n      <strong id=\"projectIntelHeading\">PROJECT INTELLIGENCE — WHERE TO LOOK FIRST</strong>\n      <span>3,054 live solar and battery projects, placed in the window between consent and construction, with grid proximity, nearby data centres and operator footprint.</span>\n      <span>Studies, cable and LV design are specified before a project freezes. This shows which consented projects are still inside that window.</span>\n      <span>Built from the DESNZ planning register under the Open Government Licence v3.0, and mapped network and OpenStreetMap data.</span>\n      <button class=\"btn\" id=\"projectIntelOpen\" type=\"button\" aria-controls=\"projectIntelHost\" aria-expanded=\"false\">OPEN PROJECT INTELLIGENCE</button>\n      <span id=\"projectIntelMeta\">WAIT · dynamic cartridge not requested at startup</span>\n      <div id=\"projectIntelHost\" hidden></div>\n    </section>",
+        "to": ""
+      }
+    ],
+    "app": [
+      {
+        "label": "sector launcher reports one evidenced topic",
+        "from": "meta.textContent = \"WAIT · seven topics · choose one to request the compact Parquet-derived payload\";",
+        "to": "meta.textContent = \"WAIT · one evidenced topic · choose it to request the compact Parquet-derived payload\";"
+      },
+      {
+        "label": "do not bind the withdrawn relationship non-answer",
+        "from": "  bindFederatedRelationships();",
+        "to": "  // Relationship abstention ledger withdrawn from the product UI."
+      },
+      {
+        "label": "do not bind the withdrawn project mixed taxonomy",
+        "from": "  bindProjectIntelligence();",
+        "to": "  // Project mixed-taxonomy panel withdrawn from the product UI."
+      },
+      {
+        "label": "release meta names only the retained visible surfaces",
+        "from": "  document.getElementById(\"releaseMeta\").textContent = `Live News + sector and relationship intelligence + Atlas V9 deep-link successor · ${rows.length.toLocaleString(\"en-GB\")} canonical projects · ${registry.performance.maximum_physical_project_rows} physical rows · sector and relationship payloads lazy · TIMESTAMPED RELEASE · POINTER-CONTROLLED`;",
+        "to": "  document.getElementById(\"releaseMeta\").textContent = `Live News + evidenced sector intelligence + Atlas V9 deep-link successor · 132 shown headlines · 4 withheld off-topic · ${rows.length.toLocaleString(\"en-GB\")} canonical projects · ${registry.performance.maximum_physical_project_rows} physical rows · TIMESTAMPED RELEASE · POINTER-CONTROLLED`;"
+      }
+    ],
+    "assets": [
+      {
+        "path": "assets/202608312109-sector-intelligence.mjs",
+        "edits": [
+          {
+            "label": "sector module describes the filtered edition",
+            "from": "Sector context is separate from the 136-headline newspaper and cannot create or alter REPD project identity.",
+            "to": "Sector context is separate from the filtered news edition and cannot create or alter REPD project identity."
+          }
+        ]
+      }
+    ]
+  }
+}
