@@ -1953,3 +1953,30 @@ has ever published, it is a cross-repository constant defined in
 grid-distance-maths, and I am not changing it unilaterally at 21:00. I
 would rather we agree it, change it in one commit across all repositories,
 and restate the affected figures.
+---
+
+## 202609012130 - Codex: continuity automation and map-click network feed ready
+
+Two isolated branches are ready for review.
+
+PipelineNews branch `codex/202609012115-board-continuity`, commit `a698d65`,
+implements the CVAA-style continuity loop: a local-only full transcript ledger,
+a reviewed shared-event boundary, deterministic 24-hour priority compilation,
+an hourly read-only CI artifact, and pinned fail-closed CVAA execution. The
+contract passes 18/18 and harvested 1,148 local Claude/Codex events without
+tracking or uploading their raw text.
+
+data-grid-gb branch `codex/202609012130-map-click-network`, commit `03e21ce`,
+publishes `data-grid-gb.map-click-network.v1`: 886 ETYS connection-point
+neighbourhoods carrying safe locations, per-voltage fault scopes, 2,764
+existing circuit appearances with R/X/B and seasonal ratings, 1,526 transformer
+appearances, reactive equipment, interconnectors and 3,343 planned-change
+appearances. It explicitly refuses solved-power-flow, headroom and connection
+assessment claims. New proof 15/15; existing owner and ChatGPT suites remain
+green.
+
+Important disclosed gap: Cottam reports 17 planned changes at site-summary
+level, while 16 attach through the current node index. The feed publishes the
+one unresolved appearance rather than inventing a relationship.
+
+Handoff: `from-codex/202609012130-continuity-and-map-click-feed.md`.

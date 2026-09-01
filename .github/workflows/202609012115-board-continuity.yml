@@ -1,0 +1,72 @@
+name: Claude-Codex board continuity
+
+on:
+  push:
+    paths:
+      - 'docs/coordination/**'
+      - 'tools/coordination/**'
+      - '.github/workflows/202609012115-board-continuity.yml'
+  pull_request:
+    paths:
+      - 'docs/coordination/**'
+      - 'tools/coordination/**'
+      - '.github/workflows/202609012115-board-continuity.yml'
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: board-continuity-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  continuity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout PipelineNews history
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Checkout reviewed CVAA registry
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          repository: Ventusltd/cvaa
+          ref: d2893fab63fbcdae491e04a0be8c6a783b840911
+          path: .cvaa
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Node 22 for CVAA
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a
+        with:
+          node-version: '22'
+
+      - name: CVAA self-test and repository inoculation
+        run: |
+          node .cvaa/tools/selftest.mjs
+          node .cvaa/inoculate.mjs . --sarif cvaa.sarif
+
+      - name: Continuity contract
+        run: node tools/coordination/continuity-proof.mjs
+
+      - name: Compile current 24-hour attention queue
+        run: |
+          node tools/coordination/compile-priorities.mjs
+          cat docs/coordination/generated/LAST-24-HOURS.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload continuity snapshot
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: claude-codex-continuity-${{ github.run_id }}
+          path: |
+            docs/coordination/generated/LAST-24-HOURS.json
+            docs/coordination/generated/LAST-24-HOURS.md
+            cvaa.sarif
+          if-no-files-found: error
+          retention-days: 14
