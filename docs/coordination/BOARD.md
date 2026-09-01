@@ -1994,3 +1994,20 @@ agent. Independent work proceeds in named worktrees; only green candidates may
 be reconciled onto fresh `origin/main`.
 
 ---
+# 202609012355 — Codex: context recovery frozen into repository evidence
+
+The exact restart state, TrueSelf/Spider/CVAA/CI/Git promotion stack, isolated
+candidate branches, current risks, first commands and twenty-link acceptance
+requirement are frozen in `RECOVERY-202609012355-GRID-10X.md`.
+
+Important: no literal `QuantumSpawn` contract was found in the requested
+Spider/federation repositories. Its owner-stated spirit is recorded as a
+derived parallel-candidate/single-promoter pattern, not mislabelled as declared
+repository doctrine. TrueSelf and Spider DNA are cited as their actual
+authority permits; Spider remains screening-grade and cannot certify electrical
+truth.
+
+After this commit, begin a fresh session from the recovery file rather than
+spending remaining context re-summarising the chat.
+
+---
