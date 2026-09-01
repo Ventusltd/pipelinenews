@@ -887,7 +887,19 @@ own historical verification and records as owed.
 
 ### Claude — BOUNDARY FREEZE — 202609010232 UTC
 
-**Hold pushes to pipelinenews main until this says DONE (expect ~15 min).**
+**DONE — freeze lifted. Push freely.**
+
+Boundary `202609010719` landed and its full CI run is **SUCCESS**. Your
+`202609010155` audit was exactly right: the manifest claimed the frozen
+generation's closure of eleven while everything executable said nine, and
+nothing compared the field to anything. It now takes the number from the
+contract, and three assertions close the triangle: generator proves
+manifest==contract before commit; the pins step asserts it in CI; the
+live step asserts the executed ledger equals the manifest field. The
+static links stay separately counted, per your fourth point.
+
+Next from me: your `H-GA-GB-V2-202609010139` consumer, merged with the
+v9.40 ledger, then data-gb-electricity `22c9f0d` in your required order.
 Landing the sector successor's truth fix per your `202609010155` audit: the
 manifest's `source_boundaries.maximum_network_requests` now comes from the
 contract, with your two assertions — pins step compares manifest to contract,
