@@ -1,0 +1,643 @@
+{
+  "schema": "pipelinenews.sector-intelligence-contract.v3",
+  "generation": "202609010200",
+  "name": "PipelineNews bounded five-topic sector intelligence",
+  "deployment": "not-authorised",
+  "time_provenance": {
+    "generation_label_timezone": "Europe/London",
+    "generation_label_utc_anchor": "2026-08-27T20:30:00Z",
+    "live_collection_anchor_field": "collection_anchor_at",
+    "live_collection_anchor_basis": "ACTIONS_LIVE_COLLECTION_STARTED_AT",
+    "github_run_id_is_execution_provenance": true,
+    "collection_anchor_claims_wall_clock_fetch_time": true
+  },
+  "project_posture": {
+    "owner": "Ventus Ltd",
+    "application": "NON_COMMERCIAL_OPEN_SOURCE",
+    "application_usage_establishes_upstream_rights": false,
+    "publisher_redistribution_rights": "SOURCE_SPECIFIC_NOT_INFERRED"
+  },
+  "topics": [
+    {
+      "code": "DATA_CENTRES",
+      "label": "DATA CENTRES",
+      "display_rank": 1
+    },
+    {
+      "code": "INVERTER_SECURITY_POLICY",
+      "label": "INVERTERS · SECURITY · POLICY",
+      "display_rank": 2
+    },
+    {
+      "code": "GREAT_GRID_UPGRADE",
+      "label": "GREAT GRID UPGRADE",
+      "display_rank": 3
+    },
+    {
+      "code": "WORLDWIDE_PV",
+      "label": "WORLDWIDE PV",
+      "display_rank": 4
+    },
+    {
+      "code": "MV_HV_COMPONENTS",
+      "label": "MV/HV COMPONENTS",
+      "display_rank": 5
+    }
+  ],
+  "limits": {
+    "maximum_network_requests": 9,
+    "maximum_concurrency": 3,
+    "maximum_results_per_source": 6,
+    "maximum_total_items": 96,
+    "maximum_rows_per_browser_topic": 24,
+    "request_timeout_ms": 5000,
+    "maximum_response_bytes": 1048576,
+    "maximum_feed_entries_scanned": 48,
+    "maximum_feed_scan_operations": 512,
+    "maximum_raw_feed_entry_characters": 65536,
+    "maximum_raw_feed_field_characters": 8192,
+    "maximum_raw_feed_tag_characters": 2048,
+    "maximum_raw_text_characters": 8192,
+    "maximum_title_characters": 180,
+    "maximum_summary_characters": 300,
+    "maximum_url_characters": 700,
+    "redirects": 0,
+    "retained_raw_html_bytes": 0,
+    "retained_article_body_bytes": 0,
+    "retained_search_snippet_characters": 0
+  },
+  "federation": {
+    "data_centres": {
+      "owner_repository": "Ventusltd/data-centres-gb",
+      "owner_generation": "202608271727",
+      "owner_commit": "432864748d3af7b5fffcc51b65804aa6903672dd",
+      "export_path": "exports/202608271727-pipelinenews-data-centres.json",
+      "export_sha256": "a3b783f5b2133c45b22a18bd4e3071d58262e2a849c6cfeab9cb80a7552b7907",
+      "owner_parquet_sha256": "33f3cdf48f226b55f75d3dc2209d9faf5a126fa20e8ad69c5112df7aa4a1d246",
+      "owner_parquet_copied": false,
+      "export_mode": "PINNED_COMPACT_EXPORT_ONLY",
+      "record_kind": "CONTEXT_METRIC",
+      "eligible_for_news_signal": false
+    },
+    "companies_house": {
+      "owner_repository": "Ventusltd/companies",
+      "acquisition_in_pipelinenews": false,
+      "records_in_pipelinenews": 0
+    }
+  },
+  "frozen_generic_news": {
+    "path": "releases/data/202608271524-fd2212a8c76d-v8-fast-news.json",
+    "sha256": "00cfbc6243e83cca274707a19b7848f776ce223d5e02808164e213dde887a8be",
+    "expected_rows": 136,
+    "expected_data_centre_discovery_rows": 6,
+    "required_role": "DISCOVERY_ONLY",
+    "topic": "DATA_CENTRES",
+    "sector_projection": {
+      "repd_ref": null,
+      "gg_project_id": null,
+      "project": null,
+      "technology": null,
+      "capacity_mw": null,
+      "operator": null,
+      "county": null,
+      "related_context_repd_ref": null,
+      "eligible_for_news_signal": false,
+      "binding_label": "SECTOR CONTEXT ONLY — QUERY PROJECT IDENTITY REMOVED"
+    }
+  },
+  "datasets": [
+    {
+      "name": "sector_items",
+      "grain": "one retained sector intelligence item from one explicit source item or one pinned owner-export record",
+      "key": [
+        "intelligence_item_id"
+      ],
+      "columns": [
+        {
+          "name": "intelligence_item_id",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "generation",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "item_kind",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "source_id",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "source_item_id",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "title",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "summary",
+          "duckdb_type": "VARCHAR",
+          "nullable": true
+        },
+        {
+          "name": "canonical_url",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "source_published_at",
+          "duckdb_type": "TIMESTAMP",
+          "nullable": true
+        },
+        {
+          "name": "observed_at",
+          "duckdb_type": "TIMESTAMP",
+          "nullable": false
+        },
+        {
+          "name": "collection_anchor_at",
+          "duckdb_type": "TIMESTAMP",
+          "nullable": false
+        },
+        {
+          "name": "staleness_state",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "evidence_class",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "usage_context",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "source_licence_id",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "source_terms_url",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "redistribution_rights",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "attribution",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "owner_repository",
+          "duckdb_type": "VARCHAR",
+          "nullable": true
+        },
+        {
+          "name": "owner_generation",
+          "duckdb_type": "VARCHAR",
+          "nullable": true
+        },
+        {
+          "name": "owner_record_id",
+          "duckdb_type": "VARCHAR",
+          "nullable": true
+        },
+        {
+          "name": "generic_article_id",
+          "duckdb_type": "VARCHAR",
+          "nullable": true
+        },
+        {
+          "name": "value_min",
+          "duckdb_type": "DOUBLE",
+          "nullable": true
+        },
+        {
+          "name": "value_max",
+          "duckdb_type": "DOUBLE",
+          "nullable": true
+        },
+        {
+          "name": "unit",
+          "duckdb_type": "VARCHAR",
+          "nullable": true
+        },
+        {
+          "name": "eligible_for_news_signal",
+          "duckdb_type": "BOOLEAN",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "name": "sector_item_topics",
+      "grain": "one explicit topic assignment for one sector intelligence item",
+      "key": [
+        "intelligence_item_id",
+        "topic_code"
+      ],
+      "columns": [
+        {
+          "name": "intelligence_item_id",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "topic_code",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "generation",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "assignment_basis",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "display_rank",
+          "duckdb_type": "BIGINT",
+          "nullable": false
+        },
+        {
+          "name": "eligible_for_news_signal",
+          "duckdb_type": "BOOLEAN",
+          "nullable": false
+        }
+      ]
+    },
+    {
+      "name": "sector_project_bindings",
+      "grain": "one evidence-backed project-binding decision for one sector intelligence item and REPD reference",
+      "key": [
+        "intelligence_item_id",
+        "repd_ref",
+        "binding_role"
+      ],
+      "columns": [
+        {
+          "name": "intelligence_item_id",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "repd_ref",
+          "duckdb_type": "BIGINT",
+          "nullable": false
+        },
+        {
+          "name": "binding_role",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "generation",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "decision",
+          "duckdb_type": "VARCHAR",
+          "nullable": false
+        },
+        {
+          "name": "evidence",
+          "duckdb_type": "VARCHAR",
+          "nullable": true
+        },
+        {
+          "name": "eligible_for_news_signal",
+          "duckdb_type": "BOOLEAN",
+          "nullable": false
+        }
+      ]
+    }
+  ],
+  "physical_layout": {
+    "path_template": "releases/data/intelligence/202609010200/{dataset_directory}/202609010200-part-000.parquet",
+    "dataset_directories": {
+      "sector_items": "sector-items",
+      "sector_item_topics": "sector-item-topics",
+      "sector_project_bindings": "sector-project-bindings"
+    },
+    "compression": "ZSTD",
+    "generation_target_policy": "IMMUTABLE_FULL_GENERATION_WRITE_FROM_EMPTY_TARGET",
+    "write_audit_publish": [
+      "WRITE_STAGE",
+      "DUCKDB_AUDIT",
+      "PUBLISH",
+      "DUCKDB_LANDED_READBACK"
+    ],
+    "deterministic_order": "declared key ascending",
+    "empty_dataset_policy": "typed Parquet is required; an empty file has no column chunks, so codec evidence is NOT_APPLICABLE_EMPTY while schema/key/null readback remains gated"
+  },
+  "identity_policy": {
+    "query_context_may_select_candidates": true,
+    "query_context_may_establish_project_identity": false,
+    "query_derived_project_fields_removed_from_sector_projection": true,
+    "capacity_may_establish_identity": false,
+    "default_binding_decision": "NONE",
+    "default_binding_role": "SECTOR_CONTEXT",
+    "eligible_for_news_signal": false,
+    "generic_news_rows_changed": false,
+    "sector_project_bindings_may_be_empty": true,
+    "forbidden_sector_item_fields": [
+      "repd_ref",
+      "gg_project_id",
+      "project",
+      "technology",
+      "capacity_mw",
+      "operator",
+      "county",
+      "related_context_repd_ref"
+    ]
+  },
+  "browser_projection": {
+    "schema": "pipelinenews.sector-intelligence-browser.v3",
+    "path": "releases/data/202609010200-sector-intelligence.json",
+    "derived_only_from_landed_parquet_duckdb_readback": true,
+    "activation": "user-opens-sector-cartridge-then-selects-topic",
+    "startup_requests": 0,
+    "maximum_payload_requests": 1,
+    "maximum_rows_per_topic": 24,
+    "display_order": [
+      "topic display_rank ASC",
+      "source_published_at DESC NULLS LAST",
+      "observed_at DESC",
+      "intelligence_item_id ASC"
+    ]
+  },
+  "sources": [
+    {
+      "id": "DATA_CENTRES_OWNER_EXPORT",
+      "topic_code": "DATA_CENTRES",
+      "adapter": "PINNED_OWNER_EXPORT_V1",
+      "source_url": "https://raw.githubusercontent.com/Ventusltd/data-centres-gb/432864748d3af7b5fffcc51b65804aa6903672dd/exports/202608271727-pipelinenews-data-centres.json",
+      "accepted_content_types": [
+        "application/json",
+        "application/ld+json",
+        "text/plain"
+      ],
+      "item_hosts": [
+        "www.bbc.co.uk"
+      ],
+      "evidence_class": "FEDERATED_OWNER_CONTEXT",
+      "source_licence_id": "OWNER_RECORD_SPECIFIC",
+      "source_terms_url": "https://github.com/Ventusltd/data-centres-gb",
+      "redistribution_rights": "PRESERVE_OWNER_RECORD_RIGHTS_VERBATIM",
+      "attribution": "Ventusltd/data-centres-gb pinned export",
+      "stale_after_hours": 2160
+    },
+    {
+      "id": "FROZEN_GENERIC_DATA_CENTRE_NEWS",
+      "topic_code": "DATA_CENTRES",
+      "adapter": "FROZEN_GENERIC_NEWS_V1",
+      "source_url": "https://github.com/Ventusltd/pipelinenews",
+      "item_hosts": [
+        "news.google.com"
+      ],
+      "evidence_class": "DISCOVERY_ONLY",
+      "source_licence_id": "NOT_DECLARED_IN_FROZEN_CARTRIDGE",
+      "source_terms_url": "https://policies.google.com/terms",
+      "redistribution_rights": "LINK_ONLY_METADATA_ALREADY_IN_FROZEN_RELEASE",
+      "attribution": "Original source named per retained headline; Google News link-through",
+      "stale_after_hours": 8760
+    },
+    {
+      "id": "GOVUK_INVERTER_SECURITY",
+      "topic_code": "INVERTER_SECURITY_POLICY",
+      "adapter": "GOVUK_SEARCH_V1",
+      "source_url": "https://www.gov.uk/api/search.json?count=6&order=-public_timestamp&q=solar%20inverter%20cyber%20security",
+      "item_hosts": [
+        "www.gov.uk"
+      ],
+      "evidence_class": "OFFICIAL_PRIMARY",
+      "source_licence_id": "OGL-3.0",
+      "source_terms_url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+      "redistribution_rights": "METADATA_REUSE_WITH_ATTRIBUTION",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "stale_after_hours": 336
+    },
+    {
+      "id": "FCC_CURRENT_COVERED_LIST",
+      "topic_code": "INVERTER_SECURITY_POLICY",
+      "adapter": "STATIC_LINK_V1",
+      "source_url": "https://www.fcc.gov/supplychain/coveredlist",
+      "item_hosts": [
+        "www.fcc.gov"
+      ],
+      "ventus_authored_label": "FCC current Covered List — verify current inverter scope and later updates",
+      "current_notice_url": "https://docs.fcc.gov/public/attachments/DA-26-870A1.pdf",
+      "current_faq_url": "https://www.fcc.gov/covered-list-faqs-robots-inverters",
+      "historical_notice_only": "https://docs.fcc.gov/public/attachments/DA-26-786A1.pdf",
+      "evidence_class": "OFFICIAL_REGULATOR",
+      "source_licence_id": "US-FEDERAL-PUBLIC-DOMAIN",
+      "source_terms_url": "https://www.usa.gov/government-copyright",
+      "redistribution_rights": "LINK_ONLY_VENTUS_AUTHORED_LABEL",
+      "attribution": "Federal Communications Commission",
+      "stale_after_hours": 168
+    },
+    {
+      "id": "FCC_EDOCS_NEWS_RSS",
+      "topic_code": "INVERTER_SECURITY_POLICY",
+      "adapter": "OFFICIAL_RSS_V1",
+      "source_url": "https://api2.fcc.gov/edocs/public/api/v1/rss/docTypes/News_Release",
+      "item_hosts": [
+        "www.fcc.gov",
+        "docs.fcc.gov",
+        "api2.fcc.gov"
+      ],
+      "retained_if_any_keywords": [
+        "inverter",
+        "covered list",
+        "energy security"
+      ],
+      "evidence_class": "OFFICIAL_REGULATOR",
+      "source_licence_id": "US-FEDERAL-PUBLIC-DOMAIN",
+      "source_terms_url": "https://www.usa.gov/government-copyright",
+      "redistribution_rights": "FCC_AUTHORED_OFFICIAL_METADATA_PUBLIC_DOMAIN_THIRD_PARTY_AND_LOGOS_EXCLUDED",
+      "attribution": "Federal Communications Commission",
+      "stale_after_hours": 336
+    },
+    {
+      "id": "EC_ENERGY_RSS",
+      "topic_code": "INVERTER_SECURITY_POLICY",
+      "adapter": "OFFICIAL_RSS_V1",
+      "source_url": "https://energy.ec.europa.eu/node/2/rss_en",
+      "item_hosts": [
+        "energy.ec.europa.eu"
+      ],
+      "retained_if_any_keywords": [
+        "inverter",
+        "cyber",
+        "solar",
+        "security"
+      ],
+      "evidence_class": "OFFICIAL_POLICY",
+      "source_licence_id": "EC-LEGAL-NOTICE-DECISION-2011-833",
+      "source_terms_url": "https://commission.europa.eu/legal-notice_en",
+      "redistribution_rights": "COMMISSION_OWNED_EDITORIAL_CC_BY_4_0_THIRD_PARTY_AND_IMAGES_EXCLUDED",
+      "attribution": "European Commission, DG Energy",
+      "stale_after_hours": 336
+    },
+    {
+      "id": "GOVUK_GRID_UPGRADE",
+      "topic_code": "GREAT_GRID_UPGRADE",
+      "adapter": "GOVUK_SEARCH_V1",
+      "source_url": "https://www.gov.uk/api/search.json?count=6&order=-public_timestamp&q=Great%20Grid%20Upgrade%20electricity%20transmission",
+      "item_hosts": [
+        "www.gov.uk"
+      ],
+      "evidence_class": "OFFICIAL_PRIMARY",
+      "source_licence_id": "OGL-3.0",
+      "source_terms_url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+      "redistribution_rights": "METADATA_REUSE_WITH_ATTRIBUTION",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "stale_after_hours": 168
+    },
+    {
+      "id": "NATIONAL_GRID_GREAT_GRID_UPGRADE",
+      "topic_code": "GREAT_GRID_UPGRADE",
+      "adapter": "STATIC_LINK_V1",
+      "source_url": "https://www.nationalgrid.com/the-great-grid-upgrade",
+      "item_hosts": [
+        "www.nationalgrid.com"
+      ],
+      "ventus_authored_label": "National Grid Great Grid Upgrade programme",
+      "evidence_class": "OFFICIAL_NETWORK_OWNER",
+      "source_licence_id": "NATIONAL-GRID-LINK-ONLY",
+      "source_terms_url": "https://www.nationalgrid.com/terms-and-conditions",
+      "redistribution_rights": "LINK_ONLY_VENTUS_AUTHORED_LABEL",
+      "attribution": "National Grid",
+      "stale_after_hours": 168
+    },
+    {
+      "id": "OFGEM_GRID_RSS",
+      "topic_code": "GREAT_GRID_UPGRADE",
+      "adapter": "OFFICIAL_RSS_V1",
+      "source_url": "https://www.ofgem.gov.uk/rss.xml",
+      "item_hosts": [
+        "www.ofgem.gov.uk"
+      ],
+      "retained_if_any_keywords": [
+        "grid",
+        "transmission",
+        "connection",
+        "network"
+      ],
+      "evidence_class": "OFFICIAL_REGULATOR",
+      "source_licence_id": "OGL-3.0-CROWN-MATERIAL",
+      "source_terms_url": "https://www.ofgem.gov.uk/c-ofgem-2026",
+      "redistribution_rights": "CROWN_METADATA_OGL_THIRD_PARTY_AND_LOGOS_EXCLUDED",
+      "attribution": "Ofgem; contains public sector information licensed under the Open Government Licence v3.0.",
+      "stale_after_hours": 168
+    },
+    {
+      "id": "GOVUK_WORLDWIDE_PV",
+      "topic_code": "WORLDWIDE_PV",
+      "adapter": "GOVUK_SEARCH_V1",
+      "source_url": "https://www.gov.uk/api/search.json?count=6&order=-public_timestamp&q=global%20solar%20photovoltaic%20deployment",
+      "item_hosts": [
+        "www.gov.uk"
+      ],
+      "evidence_class": "OFFICIAL_PRIMARY",
+      "source_licence_id": "OGL-3.0",
+      "source_terms_url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+      "redistribution_rights": "METADATA_REUSE_WITH_ATTRIBUTION",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "stale_after_hours": 336
+    },
+    {
+      "id": "EIA_SOLAR_RSS",
+      "topic_code": "WORLDWIDE_PV",
+      "adapter": "OFFICIAL_RSS_V1",
+      "source_url": "https://www.eia.gov/rss/todayinenergy.xml",
+      "item_hosts": [
+        "www.eia.gov",
+        "eia.gov"
+      ],
+      "retained_if_any_keywords": [
+        "solar",
+        "photovoltaic",
+        "module",
+        "inverter"
+      ],
+      "evidence_class": "OFFICIAL_STATISTICS",
+      "source_licence_id": "US-FEDERAL-PUBLIC-DOMAIN",
+      "source_terms_url": "https://www.eia.gov/about/copyrights_reuse.php",
+      "redistribution_rights": "EIA_AUTHORED_METADATA_PUBLIC_DOMAIN_WITH_ATTRIBUTION_THIRD_PARTY_LOGOS_PHOTOS_EXCLUDED",
+      "attribution": "U.S. Energy Information Administration",
+      "stale_after_hours": 336
+    },
+    {
+      "id": "GOVUK_MV_HV_COMPONENTS",
+      "topic_code": "MV_HV_COMPONENTS",
+      "adapter": "GOVUK_SEARCH_V1",
+      "source_url": "https://www.gov.uk/api/search.json?count=6&order=-public_timestamp&q=power%20transformer%20high%20voltage%20cable%20grid",
+      "item_hosts": [
+        "www.gov.uk"
+      ],
+      "evidence_class": "OFFICIAL_PRIMARY",
+      "source_licence_id": "OGL-3.0",
+      "source_terms_url": "https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/",
+      "redistribution_rights": "METADATA_REUSE_WITH_ATTRIBUTION",
+      "attribution": "Contains public sector information licensed under the Open Government Licence v3.0.",
+      "stale_after_hours": 336
+    }
+  ],
+  "invariants": {
+    "generic_news_rows": 136,
+    "canonical_uk_headlines": 47,
+    "international_headlines": 19,
+    "generic_news_mutated": false,
+    "data_centre_generic_rows_sanitised": 6,
+    "owner_metric_rows_expected": 3,
+    "project_bindings_default_rows": 0,
+    "all_sector_items_eligible_for_news_signal": false,
+    "all_source_rights_explicit": true,
+    "atman_runtime_dependency": false
+  },
+  "protected_routes": {
+    "stable_route_changed": false,
+    "current_pointer_changed": false,
+    "globalgrid_catalogue_changed": false,
+    "pages_deployment_authorised": false
+  },
+  "lifecycle": "write-once; any source, parser, rights, schema, identity, ranking, federation or UI change requires a later timestamp",
+  "relevance_gate": {
+    "module": "discovery/javascript/202609010015-sector-ledger-relevance-gate.mjs",
+    "evidence_authority": "discovery/javascript/202609010015-sector-topic-evidence.mjs",
+    "position": "between the collector's raw ledger receipt and the Parquet builder",
+    "raw_receipt_preserved": true,
+    "rule": "a dynamic row needs affirmative evidence in its own title or summary; an official source or a search query string is never sufficient, and zero rows is a valid answer",
+    "removed_upstream": [
+      "GOVUK_HORMUZ_ENERGY",
+      "GOVUK_UKRAINE_ENERGY"
+    ],
+    "why_removed_not_gated": "gating their rows would still query the endpoints; a topic this page does not carry should not be fetched at all"
+  }
+}
