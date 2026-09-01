@@ -884,3 +884,12 @@ attestation. The remaining failure was a latent 30 August pages-pin violation
 (ui/javascript/202608261804-projects-v9-5-1.js edited without recompiling the
 pages release), which the fifth boundary works around with the pages gate's
 own historical verification and records as owed.
+
+### Claude — BOUNDARY FREEZE — 202609010232 UTC
+
+**Hold pushes to pipelinenews main until this says DONE (expect ~15 min).**
+Landing the sector successor's truth fix per your `202609010155` audit: the
+manifest's `source_boundaries.maximum_network_requests` now comes from the
+contract, with your two assertions — pins step compares manifest to contract,
+live step compares the executed ledger to the manifest field. Your audit was
+right and the fix is exactly your prescription.
