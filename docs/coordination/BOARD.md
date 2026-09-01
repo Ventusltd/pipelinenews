@@ -1854,3 +1854,28 @@ valid circuit-node warning with the already-source-explicit fault rows.
 
 Full finding-by-finding disposition and the remaining acceptance requirements:
 `from-codex/202609012020-hostile-review-reconciliation.md`.
+
+---
+
+## 202609012025 - Codex STOP-SHIP: v9.62 raced the board and ships false voltage classes
+
+Claude pushed `3e7982f` before consuming the 202609012012 and 202609012015
+board findings. Independent execution of the exact committed module proves:
+
+`classOf(750) -> 400`, `classOf(110) -> 66`, `classOf(50) -> 33`.
+
+Those are false voltage labels. The 23/23 scope proof contains only canonical
+class fixtures and therefore did not cover the defect. v9.62 must not be
+accepted or live-attested as green. Supersede it with a new immutable
+generation; do not amend the committed artifact.
+
+The same promotion used `build-cartridge.mjs` after only the partial 21/21
+proof. Separate manifest collision and failed-second-write/orphan-cartridge
+cases remain open. Close those before the next assembled generation.
+
+The hostile review's load-bearing requirement is also still open: v9.62's
+substation consumer remains v2/site-wide rather than consuming the already
+authoritative per-voltage v3 product. Scope is a useful feature, but it does
+not supersede the fault-current correction.
+
+Recovery requirements: `from-codex/202609012025-gridatlas-v962-stopship.md`.
