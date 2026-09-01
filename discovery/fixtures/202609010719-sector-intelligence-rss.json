@@ -1,0 +1,137 @@
+{
+  "schema": "pipelinenews.sector-intelligence-fixture.v3",
+  "generation": "202609010719",
+  "collection_anchor_at": "2026-08-27T20:30:00Z",
+  "collection_anchor_basis": "SYNTHETIC_FIXTURE_GENERATION_ANCHOR",
+  "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+  "responses": {
+    "DATA_CENTRES_OWNER_EXPORT": {
+      "status": 200,
+      "content_type": "text/plain",
+      "body": {
+        "schema": "pipelinenews-data-centres-intelligence-v1",
+        "generation": "202608271727",
+        "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+        "record_count": 1,
+        "records": [
+          {
+            "display_rank": 1,
+            "eligible_for_project_signal": false,
+            "evidence_commit": "0939e3c735f4c9cacefb3acad00b35b6e07e62c2",
+            "evidence_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "generation_id": "202608271727",
+            "geography": "Fixture geography",
+            "metric_name": "fixture_context_metric",
+            "record_id": "DCGB-INTEL-FIXTURE00000001",
+            "record_kind": "CONTEXT_METRIC",
+            "section": "DATA_CENTRES",
+            "source_attribution": "Fixture source attribution",
+            "source_date": "2026-08-26",
+            "source_id": "fixture-owner-context",
+            "source_licence": "NOT_DECLARED_IN_REPOSITORY",
+            "source_record_key": "fixture_context_metric",
+            "source_rights_status": "REPOSITORY_TRANSCRIBED_CONTEXT_WITH_ATTRIBUTION_AND_LINK_ONLY",
+            "source_url": "https://www.bbc.co.uk/news/articles/cfixture01",
+            "summary": "Synthetic owner-export summary used only to test the federation adapter.",
+            "title": "Synthetic data-centre context metric",
+            "unit": "GW",
+            "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+            "value_max": 125.0,
+            "value_min": 125.0
+          }
+        ],
+        "source_rights": {
+          "repository_code_licence": "MIT",
+          "upstream_source_licence": "NOT_DECLARED_IN_REPOSITORY",
+          "upstream_source_rights_status": "REPOSITORY_TRANSCRIBED_CONTEXT_WITH_ATTRIBUTION_AND_LINK_ONLY"
+        }
+      }
+    },
+    "GOVUK_INVERTER_SECURITY": {
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "results": [
+          {
+            "content_id": "fixture-inverter-policy",
+            "title": "Connected energy technology security policy update",
+            "link": "/government/publications/connected-energy-technology-security",
+            "public_timestamp": "2026-08-26T09:00:00Z",
+            "repd_ref": 17494,
+            "project": "QUERY CONTEXT MUST NOT SURVIVE"
+          }
+        ]
+      }
+    },
+    "FCC_EDOCS_NEWS_RSS": {
+      "status": 200,
+      "content_type": "application/rss+xml",
+      "body": "<?xml version=\"1.0\"?><rss><channel><item><title>FCC updates connected inverter Covered List guidance</title><link>https://www.fcc.gov/document/fixture-inverter-update</link><guid>fcc-fixture-1</guid><pubDate>Wed, 26 Aug 2026 12:00:00 GMT</pubDate><description>DESCRIPTION MUST NOT BE RETAINED</description></item></channel></rss>"
+    },
+    "EC_ENERGY_RSS": {
+      "status": 200,
+      "content_type": "application/rss+xml",
+      "body": "<?xml version=\"1.0\"?><rss><channel><item><title>European solar cybersecurity policy update</title><link>https://energy.ec.europa.eu/news/fixture-cyber-policy_en</link><guid>ec-fixture-1</guid><pubDate>Tue, 25 Aug 2026 12:00:00 GMT</pubDate><description>DESCRIPTION MUST NOT BE RETAINED</description></item></channel></rss>"
+    },
+    "GOVUK_GRID_UPGRADE": {
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "results": [
+          {
+            "content_id": "fixture-grid-upgrade",
+            "title": "Electricity transmission network upgrade programme",
+            "link": "/government/publications/electricity-transmission-network-upgrade",
+            "public_timestamp": "2026-08-25T08:30:00Z"
+          }
+        ]
+      }
+    },
+    "OFGEM_GRID_RSS": {
+      "status": 200,
+      "content_type": "application/rss+xml",
+      "body": "<?xml version=\"1.0\"?><rss><channel><item><title>Ofgem transmission grid connections decision</title><link>https://www.ofgem.gov.uk/publications/fixture-grid-decision</link><guid>ofgem-fixture-1</guid><pubDate>Mon, 24 Aug 2026 10:00:00 GMT</pubDate><description>DESCRIPTION MUST NOT BE RETAINED</description></item></channel></rss>"
+    },
+    "GOVUK_WORLDWIDE_PV": {
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "results": [
+          {
+            "content_id": "fixture-world-pv",
+            "title": "Worldwide solar photovoltaic deployment statistics",
+            "link": "/government/statistics/worldwide-solar-photovoltaic-deployment",
+            "public_timestamp": "2026-08-24T12:00:00Z"
+          }
+        ]
+      }
+    },
+    "EIA_SOLAR_RSS": {
+      "status": 200,
+      "content_type": "text/xml",
+      "body": "<?xml version=\"1.0\"?><rss><channel><item><title>Solar capacity additions lead new generation</title><link>https://www.eia.gov/todayinenergy/detail.php?id=fixture</link><guid>eia-fixture-1</guid><pubDate>Sun, 23 Aug 2026 14:00:00 GMT</pubDate><description>DESCRIPTION MUST NOT BE RETAINED</description></item></channel></rss>"
+    },
+    "GOVUK_MV_HV_COMPONENTS": {
+      "status": 200,
+      "content_type": "application/json",
+      "body": {
+        "results": [
+          {
+            "content_id": "fixture-mv-hv",
+            "title": "Power transformer and high-voltage cable supply update",
+            "link": "/government/publications/power-transformer-high-voltage-cable-supply",
+            "public_timestamp": "2026-08-23T09:00:00Z"
+          }
+        ]
+      }
+    }
+  },
+  "forbidden_retained_content": {
+    "raw_html": false,
+    "article_bodies": false,
+    "rss_descriptions": false,
+    "search_snippets": false,
+    "secrets": false,
+    "request_headers": false
+  }
+}
