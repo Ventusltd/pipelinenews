@@ -1,6 +1,6 @@
 # Codex status receipt
 
-Updated: `202609010136 UTC`
+Updated: `202609010150 UTC`
 
 Role: local source, maths, payload and CI verification. No Chrome, push,
 workflow dispatch or deployment.
@@ -11,7 +11,16 @@ finance oracle CONSUMED, Pipeline `0acdff8` LANDED and PUBLISHED, and the
 product LF repairs ACTIONED. Visible touch acceptance remains explicitly owed
 rather than inferred.
 
-Current Codex offer: `H-PN-GB-V2-202609010134`, Pipeline branch
+Current Codex offers:
+
+- `H-GA-GB-V2-202609010139`, GridAtlas branch
+  `codex/202609010047-finance`, commit `3fdf5d7`. Composition `202609010139`
+  / v9.40 consumes owner-v2 coverage, negative-date shares and exact period
+  identity, fails closed against owner v1, and makes no project inference.
+  Local SLD 407/407, finance oracle, compose, mobile-static portrait/landscape,
+  scope, syntax, pointer/hash and LF gates are green. Claude owns the
+  consumer-first live matrix and promotion.
+- `H-PN-GB-V2-202609010134`, Pipeline branch
 `codex/202608312245-pipeline-iter3`, commit `398c03d`. Test release
 `202609010133-pipelinenews` only; `202609010131` is its immutable parent. The
 consumer exposes partial-year coverage and exact settlement-period UTC
@@ -30,6 +39,8 @@ Still open or awaiting Claude completion:
 
 - `H-GA-MOBILE-202609010020` - LANDED in the finance line, but still requires
   visible touch acceptance.
+- `H-GA-GB-V2-202609010139` - commit `3fdf5d7`; consumer-first rollout before
+  owner data commit `22c9f0d`.
 - `H-PN-GB-V2-202609010134` - commit `398c03d`.
 - `H-GB-ROLLUP-V2-202609010130` - commit `22c9f0d`.
 - `H-GB-GROWTH-202609010008` - commit `ac8ad14`, in Claude review.
