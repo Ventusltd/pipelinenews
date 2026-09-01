@@ -1,0 +1,28 @@
+{
+  "key": "transmission_is_answerable",
+  "summary": "The GRID + SUB strip keeps every refusal and stops ending on one: it names what the Atlas can now answer from NESO's published transmission network.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Extends one strip caption. No payload, no render-time network call.",
+  "repairs": {
+    "app": [
+      {
+        "label": "the strip names what MAP can now answer, without dropping a caveat",
+        "from": "not a cable route, and not headroom \\u2014 fault level and thermal headroom need DNO network data such as source impedance and a connection study",
+        "to": "not a cable route, and not headroom \\u2014 fault level and thermal headroom need DNO network data such as source impedance and a connection study \\u00b7 the published transmission network is now answerable: MAP opens the circuits that land at the declared site, their ratings in every season the operator publishes, how many circuits away its neighbours are, and where this output would flow on a declared DC model"
+      }
+    ]
+  },
+  "registry_entry": {
+    "schema": "pipelinenews.transmission-is-answerable.v1",
+    "generation": "{GEN}",
+    "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+    "usage_context_establishes_upstream_rights": false,
+    "activation": "render-time; no payload",
+    "additive_only": false,
+    "mutates_existing_dashboard": "extends the GRID + SUB strip caption",
+    "network_at_runtime": false,
+    "rule": "Distance is not a route and a rating is not headroom - both refusals are kept verbatim. What is added is only what is actually answerable from a published source: the circuits and transformers at the declared site, their seasonal ratings never summed, the count of circuits to a neighbouring site, and a declared DC injection response. The DC model is not a loading: what is already flowing on those circuits is published nowhere.",
+    "found_by": "Reading the strip after the Atlas gained the published network on 1 September 2026. The sentence was accurate and had become incomplete: it told the reader what could not be answered and no longer mentioned what could.",
+    "upstream": "NESO Electricity Ten Year Statement 2025, Appendix B, via Ventusltd/data-grid-gb derived/gb-transmission-network.v1.json"
+  }
+}

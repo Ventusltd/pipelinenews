@@ -1,0 +1,43 @@
+{
+  "schema": "pipelinenews.shift-log.v1",
+  "runs": [
+    {
+      "step": "202609012335-transmission-is-answerable.mjs",
+      "id": "transmission-is-answerable",
+      "cartridge": "transmission-is-answerable",
+      "started_at": "2026-09-01T23:22:20.815Z",
+      "dry": true,
+      "python": "python",
+      "stages": [
+        {
+          "name": "parent release",
+          "at": "2026-09-01T23:22:21.482Z",
+          "parent": "202608312339-pipelinenews",
+          "of": 24
+        },
+        {
+          "name": "cartridge prepared",
+          "at": "2026-09-01T23:22:21.595Z",
+          "cartridge": "transmission-is-answerable"
+        }
+      ],
+      "outcome": "dry",
+      "finished_at": "2026-09-01T23:22:21.595Z"
+    },
+    {
+      "step": "202609012335-transmission-is-answerable.mjs",
+      "id": "transmission-is-answerable",
+      "cartridge": "transmission-is-answerable",
+      "started_at": "2026-09-01T23:22:32.170Z",
+      "dry": false,
+      "python": "python",
+      "stages": [],
+      "outcome": "failed",
+      "reason": "working tree not clean before the step",
+      "finished_at": "2026-09-01T23:22:32.202Z",
+      "dirty": [
+        "?? tools/intelligence/cartridges/transmission-is-answerable/"
+      ]
+    }
+  ]
+}
