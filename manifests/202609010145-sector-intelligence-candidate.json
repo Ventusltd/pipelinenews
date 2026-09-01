@@ -1,0 +1,277 @@
+{
+  "schema": "pipelinenews.sector-intelligence-source-manifest.v3",
+  "generation": "202609010145",
+  "name": "PipelineNews five-topic three-grain sector intelligence candidate, relevance-gated",
+  "scope": "bounded-sector-metadata-three-parquet-grains-lazy-cartridge",
+  "base_source_commit": "a539bb99b771ab62cc816ac9506df8a986ef0dba",
+  "base_source_tree": "ff2d340404bf7153d4eb583d37500492c4ad0eb1",
+  "source_parent_commit": "a539bb99b771ab62cc816ac9506df8a986ef0dba",
+  "parent_generation": "202609010145",
+  "parent_output_commit": "a539bb99b771ab62cc816ac9506df8a986ef0dba",
+  "parent_source_commit": "314164ba7a1cb3fe9db81754c1331def21ae2961",
+  "parent_github_run_id": "33119945502",
+  "rollback_generation": "202608270055",
+  "protected_recovery_commit": "77bda8c3809d02550d06a1c4154315f56d1120fb",
+  "deployment": "not-authorised",
+  "project_posture": {
+    "owner": "Ventus Ltd",
+    "application": "NON_COMMERCIAL_OPEN_SOURCE",
+    "application_usage_establishes_upstream_rights": false,
+    "publisher_redistribution_rights": "SOURCE_SPECIFIC_NOT_INFERRED"
+  },
+  "time_provenance": {
+    "generation_label_timezone": "Europe/London",
+    "generation_label_utc_anchor": "2026-08-27T20:30:00Z",
+    "live_collection_anchor_field": "collection_anchor_at",
+    "live_collection_anchor_basis": "ACTIONS_LIVE_COLLECTION_STARTED_AT",
+    "live_collection_anchor_captured_once_immediately_before_fetch": true,
+    "github_run_id_is_execution_provenance": true
+  },
+  "source_boundary": [
+    ".github/workflows/202609010145-sector-intelligence-candidate.yml",
+    "build/javascript/202609010145-verify-v8-fast-browser.mjs",
+    "build/python/202609010145-build-sector-intelligence-parquet.py",
+    "data/news-discovery/202609010145-sector-intelligence-contract.json",
+    "discovery/fixtures/202609010145-sector-intelligence-rss.json",
+    "discovery/javascript/202609010145-sector-intelligence-runner.mjs",
+    "index/202609010145-compile-v8-sector-intelligence.mjs",
+    "manifests/202609010145-sector-intelligence-candidate.json",
+    "ui/cartridges/202609010145-sector-intelligence.mjs"
+  ],
+  "source_files": [
+    {
+      "path": ".github/workflows/202609010145-sector-intelligence-candidate.yml",
+      "bytes": 36997,
+      "sha256": "39b990eb2c1e4123ebf2b486861ad518520ac2ce0117b7628616e137cdabf833"
+    },
+    {
+      "path": "build/javascript/202609010145-verify-v8-fast-browser.mjs",
+      "bytes": 33307,
+      "sha256": "dad33deaa4affe5d035352d17c9588653c92706885c0fce1d5c2d86f08671e10"
+    },
+    {
+      "path": "build/python/202609010145-build-sector-intelligence-parquet.py",
+      "bytes": 27641,
+      "sha256": "aae6e172696959edc6b0e022355365333e6cf5b7ef8f138ed30db85bf0d1bdf5"
+    },
+    {
+      "path": "data/news-discovery/202609010145-sector-intelligence-contract.json",
+      "bytes": 21759,
+      "sha256": "cb21dac937651702679bb24278a9b434b2625d21b3c1af14335f8d01249e7668"
+    },
+    {
+      "path": "discovery/fixtures/202609010145-sector-intelligence-rss.json",
+      "bytes": 6032,
+      "sha256": "d8902eec00c05568a169b4301d146a223f4110441fd5a14c8f42b987aa405453"
+    },
+    {
+      "path": "discovery/javascript/202609010145-sector-intelligence-runner.mjs",
+      "bytes": 44874,
+      "sha256": "d55cda81ad1fc93cab76da0dee4952b51232acae785c2b9941ca91e50d13dc4f"
+    },
+    {
+      "path": "index/202609010145-compile-v8-sector-intelligence.mjs",
+      "bytes": 32092,
+      "sha256": "875bd500974b1fa549b6d9b2ef0d6c37cd131f47685896293f4aebe3ba3f7845"
+    },
+    {
+      "path": "ui/cartridges/202609010145-sector-intelligence.mjs",
+      "bytes": 12961,
+      "sha256": "650bd84b2f4d675d56c12ba9c8e4dac6f8b27011378e95fb38a76bc41d3f9c66"
+    }
+  ],
+  "pinned_parent_references": [
+    {
+      "path": "build/202608272048-v8-fast-site-manifest.json",
+      "bytes": 23425,
+      "sha256": "d45c373b3b63533f09dfbd73bc40429f9226b8b004df10c4fd619711f9c1116b"
+    },
+    {
+      "path": "releases/202608272048-v8-fast-candidate.html",
+      "bytes": 11785,
+      "sha256": "082a562cf1960ecd97a9b387841724b27298dcababea34340cd71b3f1ff59322"
+    },
+    {
+      "path": "releases/javascript/202608272048-v8-fast-runtime.js",
+      "bytes": 42859,
+      "sha256": "634fd4a9d0db915975619845b3f21db631f648f86ac5e06b64efa09b09dd179d"
+    },
+    {
+      "path": "releases/data/202608272048-v8-fast-registry.json",
+      "bytes": 24783,
+      "sha256": "95a700a24f5dde5ee9a3bb8f82eb0483b9dcf00ac277c4385fbd01cc3a36cf02"
+    },
+    {
+      "path": "releases/data/202608271524-fd2212a8c76d-v8-fast-news.json",
+      "bytes": 82460,
+      "sha256": "00cfbc6243e83cca274707a19b7848f776ce223d5e02808164e213dde887a8be"
+    },
+    {
+      "path": "releases/styles/202608272048-orientation.css",
+      "bytes": 7131,
+      "sha256": "e9e1cbefd49f10d2d3b06f31274357a947672242159e9f1b50434ca175a870bc"
+    },
+    {
+      "path": "releases/javascript/202608271329-atlas-v8-deep-link-cartridge.js",
+      "bytes": 2945,
+      "sha256": "d8e997acea1ed6c628e4d69f27653a5fe9a21bb459ff95d4ee0a7d040b431ff7"
+    },
+    {
+      "path": "discovery/javascript/202609010015-sector-ledger-relevance-gate.mjs",
+      "bytes": 5393,
+      "sha256": "08484f38af7627dcafdaa1dc6698996db394a5ab52090f91437fd2b90cea411e"
+    },
+    {
+      "path": "discovery/javascript/202609010015-sector-topic-evidence.mjs",
+      "bytes": 1933,
+      "sha256": "c64a5cfbdadd147028e08aeac919ab08082ce66e72fb455722c2bd49a0c743c8"
+    }
+  ],
+  "topics": [
+    "DATA_CENTRES",
+    "INVERTER_SECURITY_POLICY",
+    "ENERGY_SECURITY_HORMUZ",
+    "ENERGY_SECURITY_UKRAINE",
+    "GREAT_GRID_UPGRADE",
+    "WORLDWIDE_PV",
+    "MV_HV_COMPONENTS"
+  ],
+  "data_law": {
+    "datasets": [
+      {
+        "name": "sector_items",
+        "grain": "one retained sector intelligence item from one explicit source item or one pinned owner-export record",
+        "key": [
+          "intelligence_item_id"
+        ]
+      },
+      {
+        "name": "sector_item_topics",
+        "grain": "one explicit topic assignment for one sector intelligence item",
+        "key": [
+          "intelligence_item_id",
+          "topic_code"
+        ]
+      },
+      {
+        "name": "sector_project_bindings",
+        "grain": "one evidence-backed project-binding decision for one sector intelligence item and REPD reference",
+        "key": [
+          "intelligence_item_id",
+          "repd_ref",
+          "binding_role"
+        ]
+      }
+    ],
+    "physical_path": "releases/data/intelligence/202609010145/{dataset_directory}/202609010145-part-000.parquet",
+    "dataset_directories": {
+      "sector_items": "sector-items",
+      "sector_item_topics": "sector-item-topics",
+      "sector_project_bindings": "sector-project-bindings"
+    },
+    "compression": "ZSTD",
+    "generation_target_policy": "IMMUTABLE_FULL_GENERATION_WRITE_FROM_EMPTY_TARGET",
+    "engine": "DuckDB 1.3.2",
+    "write_audit_publish": true,
+    "actual_landed_readback": true,
+    "rows_equal_distinct_declared_keys": true,
+    "null_declared_keys": 0,
+    "blank_declared_keys": 0,
+    "duplicate_key_groups": 0,
+    "full_typed_value_equality": true,
+    "browser_json_only_from_landed_duckdb_readback": true,
+    "committed_sanitized_source_ledger_receipt": true,
+    "empty_binding_table_codec_status": "NOT_APPLICABLE_EMPTY_NO_COLUMN_CHUNKS"
+  },
+  "federation": {
+    "data_centres": {
+      "owner_repository": "Ventusltd/data-centres-gb",
+      "owner_generation": "202608271727",
+      "owner_commit": "432864748d3af7b5fffcc51b65804aa6903672dd",
+      "export_path": "exports/202608271727-pipelinenews-data-centres.json",
+      "export_sha256": "a3b783f5b2133c45b22a18bd4e3071d58262e2a849c6cfeab9cb80a7552b7907",
+      "owner_parquet_sha256": "33f3cdf48f226b55f75d3dc2209d9faf5a126fa20e8ad69c5112df7aa4a1d246",
+      "owner_export_rows": 3,
+      "owner_record_kind": "CONTEXT_METRIC",
+      "owner_summaries_and_rights_preserved_verbatim": true,
+      "owner_parquet_copied": false,
+      "upstream_data_centre_acquisition_in_pipelinenews": false
+    },
+    "companies_house": {
+      "owner_repository": "Ventusltd/companies",
+      "acquisition_in_pipelinenews": false,
+      "rows_in_pipelinenews": 0
+    }
+  },
+  "identity_and_news_boundary": {
+    "generic_headlines": 136,
+    "canonical_uk_headlines": 47,
+    "international_headlines": 19,
+    "generic_news_rows_changed": false,
+    "data_centre_discovery_rows_sanitised_in_sector_view": 6,
+    "query_context_may_establish_project_identity": false,
+    "sector_project_bindings": 0,
+    "sector_rows_eligible_for_news_signal": 0,
+    "official_repd_facts_changed": false
+  },
+  "source_boundaries": {
+    "maximum_network_requests": 11,
+    "static_link_sources": 2,
+    "raw_html_retained": false,
+    "article_bodies_retained": false,
+    "rss_descriptions_retained": false,
+    "search_snippets_retained": false,
+    "secrets_or_request_headers_retained": false,
+    "fcc_current_notice": "https://docs.fcc.gov/public/attachments/DA-26-870A1.pdf",
+    "fcc_historical_notice_only": "https://docs.fcc.gov/public/attachments/DA-26-786A1.pdf",
+    "fcc_edocs_transient_failure": "FAIL_SOFT",
+    "chunked_response_without_content_length": "STREAMED_BYTE_CAP",
+    "chunked_oversize_regression": "RESPONSE_LIMIT"
+  },
+  "browser": {
+    "cartridge": "releases/javascript/202609010145-sector-intelligence.js",
+    "payload": "releases/data/202609010145-sector-intelligence.json",
+    "activation": "dynamic-import-on-user-open; payload-fetch-on-first-topic-selection",
+    "startup_sector_requests": 0,
+    "mount_payload_requests": 0,
+    "maximum_payload_requests": 1,
+    "maximum_rows_per_topic": 24,
+    "browser_overlay": "EXACT_CHECKOUT_INHERITED_RELEASES_PLUS_HASH_VERIFIED_CANDIDATE",
+    "candidate_artifact_closure_revalidated": true,
+    "atman_runtime_dependency": false
+  },
+  "expected_candidate": {
+    "projects": 7680,
+    "capacity_mw": 356474.09,
+    "headlines": 136,
+    "canonical_uk_headlines": 47,
+    "international_headlines": 19,
+    "maximum_physical_project_rows": 50,
+    "maximum_physical_news_rows": 30,
+    "maximum_detail_fetch_concurrency": 4,
+    "maximum_initial_decoded_bytes": 2000000,
+    "owner_context_metrics": 3,
+    "sanitised_generic_data_centre_headlines": 6,
+    "sector_project_bindings": 0
+  },
+  "output_boundary": {
+    "parquet_files": 3,
+    "browser_payloads": 1,
+    "sector_cartridges": 1,
+    "candidate_html_files": 1,
+    "runtime_files": 1,
+    "registry_files": 1,
+    "audit_files": 1,
+    "source_ledger_receipts": 1,
+    "candidate_manifest_files": 1,
+    "total_files": 11
+  },
+  "protected_routes": {
+    "stable_route_changed": false,
+    "current_pointer_changed": false,
+    "globalgrid_catalogue_changed": false,
+    "pages_workflow_changed": false,
+    "pages_deployment_authorised": false
+  },
+  "lifecycle": "write-once; any source, parser, rights, schema, identity, ranking, federation, data or UI change requires a later timestamp"
+}
