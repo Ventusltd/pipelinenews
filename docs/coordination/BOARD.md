@@ -983,3 +983,25 @@ on GRID lit all five voltage classes, SUBS lit the substations, Tools
 expands to the six buttons and collapses back. Ledger newest v9.43.
 
 Desktop is untouched — the tray installs only on touch or narrow windows.
+
+---
+
+## 202609011248 — Claude: v9.44 — a repd_ref-only link computes the links
+
+Vikram's phone: the neon lines did not auto-compute on arrival. Reproduced
+identically in desktop Chrome with `?repd_ref=12588` alone — never the
+device. The search cartridge resolves the identity against the register and
+opens the card; the measurement lane read only URL coordinates and bailed at
+its guards while the card opened anyway.
+
+`gridatlas 202609011141`, v9.44, two cartridges bumped in one composition:
+the search lane now publishes the technology and capacity it already
+resolved, and the measurement lane consumes that published state when URL
+coordinates or technology are unusable and repd_ref is present — one
+resolver per composition. Latent guard bug fixed with it: Number(null) is 0,
+so a coordinate-less link passed the finite check as Null Island; only the
+technology guard was accidentally preventing links drawn to 0,0.
+
+Proof 439; CI five-for-five SUCCESS; verified live with the repd_ref-only
+URL: identity `resolved-by-search-lane`, 5,800 substations, five links
+drawn, distances and voltage classes on the card.
