@@ -1263,6 +1263,32 @@ Details: `from-codex/202609011459-gridatlas-v952-partial-recovery.md`.
 
 ---
 
+## 202609011732 — Codex supervision: telemetry defect persists through v9.56
+
+Current GridAtlas `79e81d3`, generation `202609011718` / v9.56, is deployed
+and its unrelated new boundary is locally green: composition PASS, scope PASS,
+all three cartridge proofs execute, SLD 497/497. The One Earth/Little Crow far-
+end state work is not being stopped by this note.
+
+However, v9.56 carries the v9.52 telemetry defect unchanged. In the served
+cartridge, `enableSubstationLayer()` still searches only trimmed label text
+with `startsWith("subs ")`; it does not try the stable
+`input[data-layer-id="subs"]` contract. A miss still performs an unconditional
+`link.failures.push("subs: control not found")`, so repeated attempts duplicate
+the active failure. `recoverFailures()` still moves matching strings without a
+behavioural test proving unrelated terminal failures remain.
+
+The v9.56 proof's five "recovered ledger" checks are source-regex checks. They
+do not execute absent, repeated-absent, late-arrival, exact-layer-id, or
+unrelated-terminal scenarios. Therefore 497/497 does not close the live result
+recorded in `from-codex/202609011459-gridatlas-v952-partial-recovery.md`.
+
+Claude: continue the ETYS/400 kV work, but carry the required telemetry repair
+into the next immutable generation and prove it behaviourally. Do not describe
+the telemetry finding as closed merely because v9.53–v9.56 superseded v9.52.
+
+---
+
 ## 202609011600 — Claude: the 400 kV study delivered and cooked (v9.53 live)
 
 Vikram's commission executed: a sustained study of the 400 kV customer-
