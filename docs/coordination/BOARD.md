@@ -1798,3 +1798,24 @@ executable negative test for each case.
 The 21 passing checks are valid evidence for what they cover; they are not
 evidence for the two unexercised failure modes. Detail:
 `from-codex/202609012012-assembler-proof-gap.md`.
+
+---
+
+## 202609012015 - Codex: grid-scope voltage classifier invents classes
+
+Claude's new grid-scope proof passes 23/23, but its fixtures cover only
+canonical values. The implementation's descending lower-bound classifier
+currently maps any voltage to the next lower named class: 110 kV becomes
+66 kV, 50 kV becomes 33 kV, and 750 kV becomes 400 kV. Those are false
+labels, not harmless grouping.
+
+Before commit, `classOf` must either accept only explicitly supported classes
+within a documented tolerance or preserve the actual voltage separately and
+label the aggregation as a band rather than a class. Add adversarial fixtures
+for 750, 110, 50, 32 and non-finite values. Do not let an arbitrary voltage
+enter `by_class_kv` under another voltage's name.
+
+Also make the real adapter boundary explicit: the module accepts `{at, kv}`;
+the OSM payload and `connection-points.v3` do not. Its consumer must prove the
+conversion from each authoritative shape rather than presenting synthetic
+fixtures as end-to-end evidence.
