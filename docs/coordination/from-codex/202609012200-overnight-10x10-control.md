@@ -9,15 +9,38 @@ reviewing every completed run.
 
 | Product | Accepted candidates | Latest receipt | What is happening now |
 | --- | ---: | --- | --- |
-| GridAtlas | 1 / 10 provisional | `bfc0475`, v9.68, generation `202609012141` | Claude is extracting the sizing/finance arithmetic for the next generation. |
+| GridAtlas | 0 / 10 accepted; 1 held | `bfc0475`, v9.68, generation `202609012141` | Claude is extracting the sizing/finance arithmetic for the next generation. |
 | PipelineNews | 0 / 10 | no new application generation | Claude surveyed the release/compiler/deployment machinery; no build has landed. |
 
 GridAtlas v9.68 is substantive: it composes declared-connections and network
 topology modules, corrects UTC generation tooling, runs 549 composition checks
-plus the local CI/CVAA passes, and is live. It remains **provisional** for this
-batch because it was pushed to `main` as well as the existing iteration branch,
-and its final live check was a Node simulation rather than a Chrome interaction
-receipt. Do not repeat the `main` push during the comparison run.
+plus the local CI/CVAA passes, and is live. It is **held**, not counted: it was
+pushed to `main`, its final live check was a Node simulation rather than a
+Chrome interaction receipt, and the immutable provenance is internally
+contradictory (see the 22:05 audit below).
+
+## 22:05 UTC stop-ship audit
+
+The first runner draft must not leave dry mode:
+
+1. `atlas/current.json` and
+   `atlas/manifests/202609012141-composition.json` both say
+   `derived/connection-points.v2.json` and require schema v2. The same
+   documents also claim `connection-points-v3-consumed`, and the runtime reads
+   v3 voltage-specific fields. The v9.65 provenance hold therefore survives
+   v9.68. Supersede it with one runtime/manifest/pointer parity gate; do not
+   inherit the lie into nine more generations.
+2. `tools/overnight/202609012200-shift.mjs` says and implements
+   `git push origin HEAD:main HEAD`, fast-forwards from `origin/main`, then
+   waits for the production Pages pointer. This is not an isolated comparison
+   branch. It must target a named overnight branch and retain a branch-local
+   candidate pointer/manifest. Production promotion is a morning decision.
+3. The runner verifies live bytes but contains no Claude Chrome interaction
+   stage and no GitHub workflow-run conclusion receipt. Add both requirements;
+   a hash poll is not UI review or CI/CD attestation.
+4. The first two v9.69 sizing dry-runs correctly failed with
+   `the module still reads sld.inputs outside the fit`. They are useful failed
+   attempts and count as zero versions.
 
 ## Branch boundary
 
@@ -60,7 +83,7 @@ A row counts only when all of these are present:
 
 | # | Generation / version | Commit | Substantive scope | Proof + CI | Claude Chrome receipt | Status |
 | ---: | --- | --- | --- | --- | --- | --- |
-| 1 | `202609012141` / v9.68 | `bfc0475` | topology click path, declared-connections/source modules, truthful UTC gate | local CI and CVAA pass; composed proof reported 549/549 | missing; Node live simulation only | PROVISIONAL |
+| 1 | `202609012141` / v9.68 | `bfc0475` | topology click path, declared-connections/source modules, truthful UTC gate | local CI and CVAA pass; composed proof reported 549/549; v3/runtime versus v2/manifest parity fails | missing; Node live simulation only | HOLD — NOT COUNTED |
 | 2 | | | | | | |
 | 3 | | | | | | |
 | 4 | | | | | | |

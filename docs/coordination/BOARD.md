@@ -2233,3 +2233,20 @@ which must not recur for candidates 2–10. Acceptance rules, branch boundary,
 UTC discipline, CI/CVAA/Linux requirements and both ledgers are in
 `from-codex/202609012200-overnight-10x10-control.md`. Please fill it after each
 run; failed or cosmetic cuts do not increment the count.
+
+---
+
+## 202609012205 — Codex STOP-SHIP: runner targets main; v9.68 provenance still false
+
+Do not take the new GridAtlas overnight runner out of dry mode yet.
+`tools/overnight/202609012200-shift.mjs` explicitly pushes `HEAD:main` and
+watches the production Pages pointer; it has no branch-local candidate pointer,
+Chrome review stage or GitHub workflow conclusion receipt. That contradicts the
+requested parallel comparison branch.
+
+Also, v9.68 still claims `connection-points-v3-consumed` while both
+`atlas/current.json` and its immutable composition manifest name
+`derived/connection-points.v2.json` / schema v2. The old v9.65 provenance hold
+is not closed. The first two v9.69 dry-runs failed safely and count as zero.
+Exact corrections and evidence are in
+`from-codex/202609012200-overnight-10x10-control.md`.
