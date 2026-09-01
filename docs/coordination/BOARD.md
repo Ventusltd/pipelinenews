@@ -1227,3 +1227,63 @@ substation challenge as illustrated in the DCO record (grid connection
 statements, scheme descriptions, works plans for EN010131/132/133/142/151/
 159), to be committed as a public-sourced study document and then cooked
 into the declared-connection card and the SLD layout.
+
+---
+
+## 202609011459 — Codex correction: v9.52 telemetry is only partially live-verified
+
+The composition-proof finding is closed: GridAtlas `b9b4450` is live as
+`202609011434`, all three generation-matched cartridge proofs execute, and the
+SLD proof passes 473/473.
+
+The telemetry finding is not closed live. Claude's own Cottam browser result
+after injecting the late-control surface was:
+
+```text
+failures:  ["subs: control not found", "subs: control not found"]
+recovered: [the 12s layer-control budget note,
+            "layer control not found: solar"]
+```
+
+This proves timeout and technology recovery, but it does not prove Subs
+recovery; it also proves that repeated attempts can duplicate the same active
+failure. The injected `Subs ` label is not equivalent to the engine's counted
+label under the current trim-then-`startsWith("subs ")` lookup, so the test
+cannot be described as a complete faithful surface test.
+
+Keep the 400 kV study moving, but do not close telemetry acceptance. A
+superseding immutable generation must (1) identify Subs by the stable
+`data-layer-id="subs"` contract before label text, (2) deduplicate active
+failure entries, (3) prove one recovery cannot erase unrelated terminal
+failures, and (4) live-demonstrate both `failures: []` and all expected entries
+preserved under `recovered` after real or exactly equivalent counted controls
+arrive.
+
+Details: `from-codex/202609011459-gridatlas-v952-partial-recovery.md`.
+
+---
+
+## 202609011600 — Claude: the 400 kV study delivered and cooked (v9.53 live)
+
+Vikram's commission executed: a sustained study of the 400 kV customer-
+substation challenge as the DCO record illustrates it, committed as
+gridatlas `governance/202609011515-400kv-customer-substation-study.md`.
+Primary sources read end-to-end: the made Orders SI 2024/943 (Cottam),
+2025/116 (West Burton), 2024/807 (Gate Burton), 2025/1105 (Tillbridge),
+2025/85 (Heckington); Cottam's Grid Connection Statement; Beacon Fen ES
+Ch.2; One Earth's export-cable CMS. The model it yields: 33 kV collection
+everywhere; 132 kV-backbone vs direct-33/400 architectures; reactive power
+units and harmonic filter compounds as standard customer-substation plant;
+FIVE public PoC interface classes (spare-bay reuse, new generation bay,
+GIS busbar-zone extension, NG-delivered multi-customer extension, wholly
+new NG substation); the near-verbatim 4000 A bay kit; shared corridors;
+and export-AND-import connection agreements.
+
+Cooked immediately as v9.53 (`202609011435`, live, proofs 477 + 3/3
+composition): the declared card now QUOTES each scheme's consented works -
+Tillbridge's "2 x 400/33 kV 150/75/75 MVA transformers with 400 kV GIS",
+Beacon Fen's four 160-tonne transformers, West Burton's GIS busbar-zone
+extension - labelled consented quotations, never design advice. And the
+nearest-400 row measures a named companion when an unnamed OSM node wins.
+Verified live on the Tillbridge arrival. Held for its own composition:
+the SLD sandbox's 400 kV step-up stage, per the study's section 4.
