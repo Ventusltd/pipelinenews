@@ -95,7 +95,15 @@ const opt = (name) => {
   return i > 0 ? process.argv[i + 1] : null;
 };
 
-const done = new Set(log.runs.filter(r => r.outcome === 'live').map(r => r.step));
+/* A step is finished when its release is published to BOTH repositories.
+   'live' additionally means the public host was seen serving it, which it
+   may not be for some time - that host rebuilds on its own schedule and
+   nothing here can make it hurry. Treating 'published' as unfinished made
+   the queue re-pick a step whose release was already built, committed,
+   pushed and snapshotted, which would have cut a second release for one
+   change. */
+const FINISHED = new Set(['live', 'published']);
+const done = new Set(log.runs.filter(r => FINISHED.has(r.outcome)).map(r => r.step));
 let stepPath = opt('--step');
 if (!stepPath) {
   if (!fs.existsSync(STEPS)) { console.log('no steps directory'); process.exit(0); }
@@ -145,14 +153,19 @@ const brings = new Set((step.brings || []).map(slash));
    from the older v8-fast lineage. They are not this shift's business and
    they are not cleaned - they are simply not counted as a dirty tree. */
 const IGNORABLE = [
-  'tools/overnight/', 'docs/coordination/', 'atman/__pycache__/',
+  'tools/overnight/', 'docs/coordination/',
   'releases/data/', 'releases/javascript/', 'releases/202609010145-',
   'build/202609010145-'
 ];
+/* Python writes __pycache__ wherever it imports from, including inside
+   tools/intelligence the moment the cartridge generator runs. It is build
+   debris the repository does not track and this shift did not ask for, and
+   it appeared between the precondition and the commit. */
+const isDebris = (p) => p.includes('__pycache__/');
 const dirty = status();
 const dirtyElsewhere = dirty.filter((l) => {
   const p = slash(l.slice(3));
-  if (IGNORABLE.some(prefix => p.startsWith(prefix))) return false;
+  if (IGNORABLE.some(prefix => p.startsWith(prefix)) || isDebris(p)) return false;
   if (!l.startsWith('??')) return true;
   if (brings.has(p)) return false;
   /* git collapses a wholly-untracked directory to the directory itself, so
@@ -386,11 +399,18 @@ entry.live = live;
 entry.finished_at = new Date().toISOString();
 
 if (!live) {
-  entry.outcome = 'pushed-not-seen-live';
-  entry.reason = 'the public host did not serve the generation within 15 minutes';
+  /* Published, and not yet served. Both repositories have it and the
+     snapshot was verified byte-identical to the release; the public host
+     rebuilds on its own schedule. Recorded as exactly that - not claimed
+     as live, and not treated as a failure of the cut, because nothing
+     about the cut failed. */
+  entry.outcome = 'published';
+  entry.reason = 'published to both repositories and verified byte-identical; '
+    + 'the public host had not served it within 15 minutes. Not claimed as live.';
+  entry.live_url = liveUrl;
   record(entry);
-  console.log(`\n\x1b[33mpushed; ${liveUrl} not serving yet\x1b[0m`);
-  process.exit(1);
+  console.log(`\n\x1b[33m${releaseId} published; ${liveUrl} not serving yet\x1b[0m`);
+  process.exit(0);
 }
 if (!live.names_its_generation) {
   entry.outcome = 'live-but-not-its-own-generation';

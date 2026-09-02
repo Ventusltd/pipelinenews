@@ -129,6 +129,41 @@
       "outcome": "failed",
       "reason": "prepare: the cartridge could not be generated against 202609012324-pipelinenews: -is-answerable\\make_cartridge.py\", line 73, in main\r\n    app = read(os.path.join(parent, APP))\r\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\vikra\\OneDrive\\Documents\\GitHub\\pipelinenews\\tools\\intelligence\\cartridges\\transmission-is-answerable\\make_cartridge.py\", line 49, in read\r\n    return io.open(path, encoding=\"utf-8\", newline=\"\").read()\r\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\nFileNotFoundError: [Errno 2] No such file or directory: 'C:\\\\Users\\\\vikra\\\\OneDrive\\\\Documents\\\\GitHub\\\\pipelinenews\\\\releases\\\\202609012324-pipelinenews\\\\assets/202608291447-app.mjs'\r\n",
       "finished_at": "2026-09-01T23:25:58.146Z"
+    },
+    {
+      "step": "202609012335-transmission-is-answerable.mjs",
+      "id": "transmission-is-answerable",
+      "cartridge": "transmission-is-answerable",
+      "started_at": "2026-09-02T00:09:33.696Z",
+      "dry": false,
+      "python": "python",
+      "stages": [],
+      "outcome": "failed",
+      "reason": "working tree not clean before the step",
+      "finished_at": "2026-09-02T00:09:33.730Z",
+      "dirty": [
+        "?? tools/intelligence/__pycache__/"
+      ]
+    },
+    {
+      "step": "202609012335-transmission-is-answerable.mjs",
+      "id": "transmission-is-answerable",
+      "cartridge": "transmission-is-answerable",
+      "started_at": "2026-09-01T23:22:32Z",
+      "dry": false,
+      "generation": "202609012326",
+      "release_id": "202609012326-pipelinenews",
+      "stages": [
+        {
+          "name": "recorded after the fact",
+          "at": "2026-09-02T00:11:06.375Z"
+        }
+      ],
+      "outcome": "published",
+      "reason": "built, gated, committed and pushed to pipelinenews; snapshot verified byte-identical and pushed to globalgrid2050 (38ef347). The runner was killed by a 10-minute shell timeout during its live wait, so it never wrote its own entry. Files confirmed present on origin/main via the GitHub API. The public host had not served it 40 minutes later; NOT claimed as live.",
+      "live": null,
+      "live_url": "https://globalgrid2050.com/pipelinenews_intelligence/202609012326/",
+      "attended": true
     }
   ]
 }
