@@ -283,6 +283,32 @@
         "served_but_reachable_from_nothing": []
       },
       "finished_at": "2026-09-02T00:25:51Z"
+    },
+    {
+      "step": "202609012345-season-is-named.mjs",
+      "id": "season-is-named",
+      "cartridge": "season-is-named",
+      "started_at": "2026-09-02T00:52:29.814Z",
+      "dry": true,
+      "python": "python",
+      "stages": [
+        {
+          "name": "parent release",
+          "at": "2026-09-02T00:52:31.755Z",
+          "parent": "202609020025-pipelinenews",
+          "lane": "ported",
+          "in_lane": 13,
+          "skipped_other_lane": 12,
+          "swept": 0
+        },
+        {
+          "name": "cartridge prepared",
+          "at": "2026-09-02T00:52:31.810Z",
+          "cartridge": "season-is-named"
+        }
+      ],
+      "outcome": "dry",
+      "finished_at": "2026-09-02T00:52:31.810Z"
     }
   ]
 }
