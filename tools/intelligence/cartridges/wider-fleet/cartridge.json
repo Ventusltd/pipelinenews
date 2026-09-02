@@ -1,10 +1,10 @@
 {
   "key": "wider_fleet",
-  "summary": "Every REPD technology type the pipeline spine does not carry, one tab each under the REPD's own name. Additive: the solar, BESS and wind product is not read, not rewritten and not refiltered.",
-  "modifies_existing_dashboard": false,
-  "modification_note": "Adds one launch section above REPD PIPELINE ANALYTICS and its own host node. No spine payload is read, no existing row, filter, count or ranking changes.",
-  "section": "    <section class=\"meta wider-fleet-launch\" aria-labelledby=\"widerFleetHeading\">\n      <strong id=\"widerFleetHeading\">WIDER FLEET</strong>\n      <span>The DESNZ REPD carries 24 technology types. This product's four tabs carry four of them. The other twenty &mdash; landfill gas, anaerobic digestion, biomass, EfW incineration, hydro, hydrogen, advanced conversion, tidal, geothermal, compressed and liquid air, flywheels &mdash; get the same treatment here: one tab each, under the REPD's own name.</span>\n      <span>Cut from the same REPD extract as the spine. It does not read the spine, bind a project, or emit a news signal.</span>\n      <button class=\"btn\" id=\"widerFleetOpen\" type=\"button\" aria-controls=\"widerFleetHost\" aria-expanded=\"false\">OPEN WIDER FLEET</button>\n      <span id=\"widerFleetMeta\">WAIT · register cut not requested at startup</span>\n      <div id=\"widerFleetHost\" hidden></div>\n    </section>\n\n",
-  "loader": "async function openWiderFleet() {\n  const button = document.getElementById(\"widerFleetOpen\");\n  const host = document.getElementById(\"widerFleetHost\");\n  const meta = document.getElementById(\"widerFleetMeta\");\n  invariant(button && host && meta, \"wider fleet controls are missing\");\n  if (host.dataset.widerFleetState === \"ready\") {\n    host.hidden = !host.hidden;\n    button.setAttribute(\"aria-expanded\", String(!host.hidden));\n    return;\n  }\n  if (host.dataset.widerFleetState === \"loading\") return;\n  const entry = registry.supplemental_assets?.wider_fleet;\n  invariant(entry?.activation === \"dynamic-import-and-attested-payload-fetch-on-user-open\", \"wider fleet activation changed\");\n  invariant(entry.project_bindings === 0 && entry.eligible_for_news_signal === false, \"wider fleet project boundary changed\");\n  invariant(entry.reads_spine_payload === false, \"wider fleet started reading the spine\");\n  host.hidden = false;\n  host.dataset.widerFleetState = \"loading\";\n  button.setAttribute(\"aria-expanded\", \"true\");\n  meta.textContent = \"LOAD · reading the register cut\";\n  runtimeEvidence.widerFleetImports += 1;\n  invariant(runtimeEvidence.widerFleetImports === 1, \"wider fleet cartridge imported more than once\");\n  const cartridge = await import(`./${entry.cartridge.filename}`);\n  invariant(cartridge.WIDER_FLEET_CONTRACT.generation === entry.generation, \"wider fleet cartridge identity changed\");\n  invariant(cartridge.WIDER_FLEET_CONTRACT.additive_only === true, \"wider fleet cartridge is no longer additive-only\");\n  const result = await cartridge.mountWiderFleet({\n    host,\n    payloadAsset: { ...entry.payload, url: entry.payload.path },\n  });\n  runtimeEvidence.widerFleetPayloadRequests = result.payloadRequests;\n  invariant(result.payloadRequests === 1 && result.projectBindings === 0, \"wider fleet request or project boundary changed\");\n  invariant(result.types === entry.repd_technology_types, \"wider fleet tab count no longer matches the attested cut\");\n  host.dataset.widerFleetState = \"ready\";\n  meta.textContent = `OK · ${result.projects.toLocaleString(\"en-GB\")} projects · ${result.types} REPD technology types · ${result.gigawatts} GW`;\n}\n\nfunction bindWiderFleet() {\n  const button = document.getElementById(\"widerFleetOpen\");\n  invariant(button, \"wider fleet opener is missing\");\n  button.addEventListener(\"click\", () => openWiderFleet().catch((error) => {\n    console.error(\"wider fleet\", error);\n    document.getElementById(\"widerFleetMeta\").textContent = \"FAIL · wider fleet unavailable; core product unchanged\";\n    document.getElementById(\"widerFleetHost\").dataset.widerFleetState = \"failed\";\n  }));\n}\n\n",
+  "summary": "The twenty REPD technology types the spine does not carry, added as tabs in the product's own technology row beside SOLAR, BATTERY, ONSHORE and OFFSHORE.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Appends twenty tabs to the #tech row after the spine has bound its own handlers, so the spine's four tabs keep their listener, their payload and their render path unchanged. A wider tab paints the product's table from this cartridge's own payload; a spine tab runs the spine's own apply() and repaints from the spine's data. No spine payload, count, filter or ranking is read or rewritten.",
+  "section": "    <section class=\"meta wider-fleet-scope\" aria-labelledby=\"widerFleetHeading\">\n      <strong id=\"widerFleetHeading\">WIDER FLEET &mdash; TWENTY MORE REPD TECHNOLOGY TABS BELOW</strong>\n      <span>The DESNZ REPD carries 24 technology types. This product's four tabs carry four of them. The other twenty &mdash; landfill gas, anaerobic digestion, biomass, EfW incineration, hydro, hydrogen, advanced conversion, tidal, geothermal, compressed and liquid air, flywheels &mdash; are the additional tabs in the technology row, under the REPD's own names. Cut from the same REPD extract as the spine.</span>\n      <div id=\"widerFleetHost\" hidden></div>\n      <span id=\"widerFleetMeta\">WAIT &middot; register cut not yet read</span>\n    </section>\n\n",
+  "loader": "async function openWiderFleet() {\n  const meta = document.getElementById(\"widerFleetMeta\");\n  const host = document.getElementById(\"widerFleetHost\");\n  invariant(meta && host, \"wider fleet nodes are missing\");\n  const entry = registry.supplemental_assets?.wider_fleet;\n  invariant(entry?.activation === \"eager-tab-injection-after-spine-controls-bound\", \"wider fleet activation changed\");\n  invariant(entry.project_bindings === 0 && entry.eligible_for_news_signal === false, \"wider fleet project boundary changed\");\n  invariant(entry.reads_spine_payload === false, \"wider fleet started reading the spine\");\n  runtimeEvidence.widerFleetImports += 1;\n  invariant(runtimeEvidence.widerFleetImports === 1, \"wider fleet cartridge imported more than once\");\n  const cartridge = await import(`./${entry.cartridge.filename}`);\n  invariant(cartridge.WIDER_FLEET_CONTRACT.generation === entry.generation, \"wider fleet cartridge identity changed\");\n  invariant(cartridge.WIDER_FLEET_CONTRACT.additive_only === true, \"wider fleet cartridge is no longer additive-only\");\n  invariant(cartridge.WIDER_FLEET_CONTRACT.tabs_in_product_technology_row === true, \"wider fleet tabs left the product technology row\");\n  const result = await cartridge.mountWiderFleet({\n    host,\n    payloadAsset: { ...entry.payload, url: entry.payload.path },\n  });\n  runtimeEvidence.widerFleetPayloadRequests = result.payloadRequests;\n  invariant(result.payloadRequests === 1 && result.projectBindings === 0, \"wider fleet request or project boundary changed\");\n  invariant(result.tabsAdded === entry.repd_technology_types, \"wider fleet tab count no longer matches the attested cut\");\n  meta.textContent = `OK \\u00b7 ${result.tabsAdded} more technology tabs \\u00b7 ${result.projects.toLocaleString(\"en-GB\")} projects \\u00b7 ${result.gigawatts} GW`;\n}\n\nfunction bindWiderFleet() {\n  // Eager, and deliberately not awaited: the tabs must be on the UI without\n  // anyone clicking anything, and a failure here must not delay or break the\n  // product's own boot.\n  openWiderFleet().catch((error) => {\n    console.error(\"wider fleet\", error);\n    const meta = document.getElementById(\"widerFleetMeta\");\n    if (meta) meta.textContent = \"FAIL \\u00b7 wider fleet tabs unavailable; core product unchanged\";\n  });\n}\n\n",
   "bind_call": "bindWiderFleet();",
   "repairs": {
     "app": [
@@ -17,23 +17,21 @@
     ]
   },
   "hash_fields": [
-    {
-      "at": ["cartridge", "sha256"],
-      "path": "assets/{GEN}-wider-fleet.mjs"
-    },
-    {
-      "at": ["payload", "sha256"],
-      "path": "data/{GEN}-wider-fleet.json"
-    }
+    { "at": ["cartridge", "sha256"], "path": "assets/{GEN}-wider-fleet.mjs" },
+    { "at": ["payload", "sha256"], "path": "data/{GEN}-wider-fleet.json" }
   ],
   "registry_entry": {
-    "schema": "pipelinenews.wider-fleet-supplemental-asset.v1",
+    "schema": "pipelinenews.wider-fleet-supplemental-asset.v2",
     "generation": "{GEN}",
     "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
-    "activation": "dynamic-import-and-attested-payload-fetch-on-user-open",
+    "activation": "eager-tab-injection-after-spine-controls-bound",
     "additive_only": true,
-    "mutates_existing_dom": false,
+    "tabs_in_product_technology_row": true,
+    "mutates_existing_dom": true,
+    "mutation_scope": "appends twenty buttons to #tech, and paints .tablewrap tbody only while one of those tabs is the active one",
     "reads_spine_payload": false,
+    "spine_handler_wrapped": false,
+    "spine_tabs_unchanged": ["all", "solar", "bess", "wind_onshore", "wind_offshore"],
     "project_bindings": 0,
     "eligible_for_news_signal": false,
     "forecast": false,
@@ -43,21 +41,18 @@
     "projects": 1104,
     "capacity_gw": 22.76,
     "spine_technology_types_excluded": [
-      "Battery",
-      "Solar Photovoltaics",
-      "Wind Offshore",
-      "Wind Onshore"
+      "Battery", "Solar Photovoltaics", "Wind Offshore", "Wind Onshore"
     ],
     "tabs_derived_from": "the payload at mount time, never listed in source",
     "source": {
       "upstream": "DESNZ Renewable Energy Planning Database, quarterly extract",
       "url": "https://www.gov.uk/government/publications/renewable-energy-planning-database-quarterly-extract",
       "producer": "globalgrid2050 repd_grid_atlasv8/scripts/repd_updaterv8.py + config/registry.yaml",
-      "role": "the same REPD extract and the same classification the spine is cut from; this cartridge adds no second fetcher and no second classification",
+      "role": "the same REPD extract and the same classification the spine is cut from; no second fetcher and no second classification",
       "builder": "tools/intelligence/cartridges/wider-fleet/build_payload.py"
     },
     "cartridge": {
-      "schema": "pipelinenews.wider-fleet-cartridge.v1",
+      "schema": "pipelinenews.wider-fleet-cartridge.v2",
       "generation": "{GEN}",
       "filename": "{GEN}-wider-fleet.mjs",
       "path": "assets/{GEN}-wider-fleet.mjs",
@@ -70,6 +65,6 @@
       "bytes": 0,
       "sha256": ""
     },
-    "scope": "REPD technology types outside the spine's four. Capacity and status are the register's own fields. County, town, postcode and the GlobalGrid reference are spine joins and are withheld rather than guessed."
+    "scope": "REPD technology types outside the spine's four. Capacity and status are the register's own fields. County, town, postcode, REPD ref and the GlobalGrid reference are spine joins and are withheld rather than guessed."
   }
 }
