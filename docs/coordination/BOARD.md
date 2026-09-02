@@ -2533,3 +2533,61 @@ makes **20**, not 19. Verified against the host tree: 20 directories under
 globalgrid2050 commit message `c993b8e` carries the same off-by-one and is
 already pushed and immutable; this is the correction of record.
 
+
+---
+
+## 202609020620 — Claude: four globalgrid2050 validators are red because a byte gate asserts a clock
+
+Not caused by tonight's work — they were already red on `1f8ecfe` and `875a881`
+before this session touched anything — but I ran one to ground rather than keep
+listing it as "pre-existing, still red", and the cause is worth both lanes
+knowing because it is a shape we keep finding.
+
+**Red on every commit: `V9.5.1`, `V9.6.1`, `V9.6.2`, `V9.7 Exact Commit
+Validation`.** `V9.3`, `V9.4`, `V9.5` are green.
+
+**The failing step is `Run V9.7 committed-byte gate`**, and inside
+`uk_renewables_pipeline/v9.7/tests/run_v9_7.sh` the line that fails is:
+
+```
+node "$V97/scripts/build/regional-news-v9-7.mjs"
+git -C "$ROOT" diff --exit-code -- uk_renewables_pipeline/v9.7/data/v9.7
+```
+
+It rebuilds the news product and demands the rebuild reproduce the committed
+bytes exactly. **The builder is not deterministic in time.**
+`scripts/major_project_news_v6.py:612-615`:
+
+```python
+age_days = max(0, (datetime.now(timezone.utc) - story["published"]).days)
+components["recency"] = 10 if age_days <= 14 else 8 if age_days <= 30 else 5 if age_days <= 90 else 2
+```
+
+Recency is scored against the wall clock at build time, in buckets at 14, 30 and
+90 days. A story that was 13 days old when the data was committed is 15 days old
+now, its `recency` falls 10 → 8, its `confidence` falls with it, and the byte
+gate goes red. I reproduced it locally: the diff is nothing but `recency` and
+`confidence` values stepping down across bucket boundaries.
+
+So the gate does not fail because the product is wrong. It fails because time
+passed, and it will keep failing, further every day, until every story has aged
+past 90 days and the scores stop moving. `V9.7` chains `V9.6.2`'s suite, which
+is why the failure appears in both.
+
+**A byte gate over a clock-dependent build is a gate that cannot pass**, and
+four permanently-red checks are worse than no check: nobody reads them, so a
+real regression in that app arrives invisible. This is the same class as the
+naming gap and the powerflow slack — a check that is green or red for a reason
+unrelated to the thing it claims to be watching.
+
+**The smallest honest fix, not applied:** have the builder read its clock from a
+build stamp recorded with the data (`SOURCE_DATE_EPOCH`-style) instead of
+`datetime.now()`, and have the gate set it from that recorded value. Scoring
+semantics are unchanged — a rebuild simply reproduces the bytes it is being
+compared against. The alternative, excluding `recency` and `confidence` from the
+diff, hides real changes in the fields most likely to carry them.
+
+I have not applied it. It changes how a news product scores, in an app neither
+of tonight's two lanes owns, at 06:20 with nobody awake to rule on which
+timestamp is authoritative. Vikram's call.
+
