@@ -2591,3 +2591,106 @@ I have not applied it. It changes how a news product scores, in an app neither
 of tonight's two lanes owns, at 06:20 with nobody awake to rule on which
 timestamp is authoritative. Vikram's call.
 
+
+---
+
+## 202609020710 — Claude: the MAP deep link cannot switch a layer on, and has not been able to since the Atlas moved hosts
+
+Vikram reports the neon grid lines drawing on one Atlas URL and not on the one
+Pipeline News opens. **The two URLs he sent are byte-identical**, and I checked
+that Pipeline News really does emit that exact string rather than something that
+merely looks like it: running the shipped builder
+`202608312037-atlas-pointer-deep-link.mjs` from release `202609020025` against
+Botley West produces
+
+```
+https://ventusltd.github.io/gridatlas/atlas/?repd_ref=12588&project=Botley+West%2C+Botley+-+Botley+West+Solar+Project&technology=solar&capacity_mw=840&latitude=51.8132088&longitude=-1.3489728&zoom=12
+```
+
+character for character. **The URL is not the variable.** The variable is that
+the deep link's only layer-switching line never runs, on either URL.
+
+### The root cause is a repository boundary crossed by an absolute path
+
+`atlas/cartridges/202609020018-substation-intelligence-v9-63.js:825` — in the
+LIVE v9.77 composition:
+
+```js
+const manifestResponse = await fetch('/uk_renewables_pipeline/v9/data/v9.1/build_manifest.json', { cache: 'no-store' });
+if (!manifestResponse.ok) throw new Error(`canonical manifest HTTP ${manifestResponse.status}`);
+```
+
+That is root-absolute, so it resolves against **whatever origin is serving the
+Atlas**. Verified over HTTP just now:
+
+| Path | Result |
+|---|---|
+| `Ventusltd/globalgrid2050` → `uk_renewables_pipeline/v9/data/v9.1/build_manifest.json` | **200** |
+| `Ventusltd/gridatlas` → same path | **404 — the file does not exist in that repository at all** |
+
+The Atlas is now canonically served from `ventusltd.github.io/gridatlas/`, where
+that path is a 404. So `focusCanonicalProjectDeepLink()` throws on its first
+fetch, every time, for every project, and lands in its own catch:
+
+```js
+} catch (error) {
+    console.error('[V9 DEEP LINK FAILED]', error);
+    ... map.flyTo({ center: [lon, lat], zoom: 12, ... });
+}
+```
+
+The catch flies the camera and does nothing else. The line that would switch the
+layer on is above it and is never reached:
+
+```js
+const checkbox = document.querySelector(`input[data-layer-id="${technology}"]`);
+if (checkbox && !checkbox.checked) { checkbox.checked = true; handleLayerToggle(technology, true); }
+```
+
+Every topology layer is added by the engine with `layout: { visibility: 'none' }`,
+so nothing is on until something turns it on. The deep link is the thing that was
+supposed to, and it is dead on the canonical host.
+
+**This matches the screenshot exactly**: the map has flown to Botley West, the
+card is populated, `V9.77` is composed, every TOPOLOGY row reads `[OK]` — and
+every checkbox is clear.
+
+**It is 8 cartridges plus the immutable shell**, not one file:
+`ventus-corev8engine.js:807` carries the same two fetches.
+
+**It probably also explains "subs not loading for wind at all"** from the earlier
+phone report. Same function, same first fetch, same throw — the technology
+mapping below it (`p.technology.startsWith('wind_')` → `wind`) never gets to run.
+One root cause, two reported faults. Worth confirming rather than assuming.
+
+### What this means for the tab where it "worked"
+
+Under this diagnosis a directly typed URL fails identically. The tab where the
+neon lines appeared almost certainly had the layers switched on by hand — the
+GRID control — which is independent of the deep link. So the honest statement is
+not "Pipeline News is broken and the Atlas is fine": **the Atlas deep link has
+not switched a layer on for anyone since it moved to github.io**, and Pipeline
+News is the surface that made it visible.
+
+### Fix, proposed and NOT applied
+
+I have read-only access to `Ventusltd/gridatlas`; the attempt to attach it with
+push was refused. Three options, in my order of preference:
+
+1. **Vendor the canonical partitions into the Atlas** and fetch them the way the
+   400 kV topology is already fetched — relative to the cartridge base
+   (`../cartridges/<hash>/...`). Self-contained, no cross-origin question, and
+   consistent with how the composed app already ships its data.
+2. **Fetch from the owning repository over `raw.githubusercontent.com`**, which
+   does send `access-control-allow-origin: *`. One-line change, but it makes the
+   live app depend on a raw endpoint at runtime.
+3. **Fetch `https://globalgrid2050.com/uk_renewables_pipeline/...` absolutely.**
+   Smallest diff, but GitHub Pages does not send CORS headers by default, so
+   this may fail cross-origin — I could not test it from this container and will
+   not recommend what I cannot check.
+
+Whoever holds push on that repository should also add a check that fails when a
+composed cartridge fetches a root-absolute path that does not exist in its own
+repository. This is the same class as the naming gap and the disconnected
+slack: a thing that is green because nobody asked it the question a user asks.
+
