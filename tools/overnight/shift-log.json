@@ -236,6 +236,21 @@
       "reason": "gate red: atlas deep-link cartridge",
       "finished_at": "2026-09-02T00:23:08.469Z",
       "output": "FAIL  the runtime imports exactly one deep-link receiver, by name: no import found in assets/202608291447-app.mjs\n\nFAIL: cannot resolve the deep-link module the runtime imports.\n"
+    },
+    {
+      "step": "202609012340-mapped-is-not-nearest.mjs",
+      "id": "mapped-is-not-nearest",
+      "cartridge": "mapped-is-not-nearest",
+      "started_at": "2026-09-02T00:44:44.798Z",
+      "dry": false,
+      "python": "python",
+      "stages": [],
+      "outcome": "failed",
+      "reason": "working tree not clean before the step",
+      "finished_at": "2026-09-02T00:44:44.812Z",
+      "dirty": [
+        "?? tools/publication/"
+      ]
     }
   ]
 }

@@ -48,6 +48,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { fileURLToPath } from 'node:url';
+import { isReachable } from '../publication/202609020042-homepage-reachability.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..', '..');
@@ -431,6 +432,20 @@ entry.generation = generation;
 entry.release_id = releaseId;
 entry.commit = commit;
 entry.live = live;
+
+/* SERVED IS NOT REACHABLE. index.html is the only route a reader has to a
+   published snapshot, and this runner deliberately does not edit it - naming a
+   release there is a separate, deliberate act. Both facts held for 202609012326
+   and 202609020025: byte-identical, pushed, served with HTTP 200, and linked
+   from nothing, so the newest version a reader could reach stayed three behind.
+   Recorded here so that state can never again read as a finished cut. */
+{
+  const reach = isReachable(generation, { globalgrid: GG });
+  entry.homepage = reach.available
+    ? { named: reach.named, is_newest_named: reach.is_newest_named,
+        served_but_reachable_from_nothing: reach.unreachable }
+    : { skipped: reach.reason };
+}
 entry.finished_at = new Date().toISOString();
 
 if (!live) {
@@ -460,3 +475,7 @@ run('git', ['add', slash(path.relative(ROOT, LOG))], { quiet: true, allowFail: t
 run('git', ['commit', '-q', '-m', `${utcNow()}: overnight - ${releaseId} verified live`], { allowFail: true, quiet: true });
 run('git', ['push', 'origin', 'HEAD:main'], { allowFail: true, quiet: true });
 console.log(`\n\x1b[32m${releaseId} is live at ${liveUrl}\x1b[0m`);
+if (entry.homepage && entry.homepage.named === false) {
+  console.log(`\x1b[33mand reachable from nothing: globalgrid2050.com/index.html does not name ${generation}.`
+    + ` Serving it is not publishing it - name it there deliberately.\x1b[0m`);
+}

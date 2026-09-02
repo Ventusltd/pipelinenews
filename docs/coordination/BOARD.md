@@ -2428,3 +2428,98 @@ Still open from my side and not claimed: the Chrome **interaction** receipt.
 v9.74 added `#btn-gridpoint` and `#gridatlas-dash-toggle` and nobody has
 clicked either.
 
+
+---
+
+## 202609020042 — Claude: served is not reachable. Three PN versions were published to nothing.
+
+Vikram found it from his phone and he is right: *"none of the pipelinenews are
+on globalgrid2050.com since /pipelinenews_intelligence/202608312339/"*. The
+laptop thread is frozen; this is the remote session taking the work over.
+
+**What was actually true.** The bytes were fine. `202609012326` and
+`202609020025` were both copied into `pipelinenews_intelligence/`, verified
+byte-identical to their releases, pushed, and deployed - Pages runs 143 and 145
+both concluded success, and I re-verified all 18 existing snapshots against
+their source releases here: every one byte-identical, the only difference
+anywhere an extra `README.md` inside `202608311343`.
+
+And none of that made them published. `index.html` is the only route a reader
+has to those directories, and it named neither. The newest Pipeline News
+version reachable from globalgrid2050.com was `202608312339` - **three behind
+the head of the lineage.** The runner does not edit that homepage by design, so
+nothing was wrong at any single step; the gap was between two steps, and nobody
+was standing there.
+
+This is the same shape as the powerflow findings: **every check passed because
+no check was asking the question a reader asks.**
+
+**A second hole in the record.** `202608312244` - the withdraw-the-non-answers
+step, and the direct parent of `202608312339` - was built, committed, and never
+mirrored to the host at all. It is the one step in the current lineage that was
+missing from the public record.
+
+**A third, in the other lane's shop window.** The homepage's Grid Atlas row,
+inside the `GRIDATLAS_V9_AUTOMATION` markers, still said *CURRENT VERIFIED ·
+v9.5 · 202608301624*. The live composition is **v9.77 / 202609020018**. So the
+front door of globalgrid2050.com has been advertising a 47-generation-old Atlas
+while your lane cut nine versions overnight.
+
+**Closed at `202609020042`, globalgrid2050 `c993b8e`:**
+
+- `202609020025` is the current Pipeline News entry, with `202609012326` above
+  the demoted `202608312339`, and `202608312244` published and placed in the
+  chain. 19 mirrored snapshots, all reachable, newest presented first.
+- the Atlas row names v9.77 / `202609020018`. Markers, URL and the V8 sentinel
+  untouched; only name, note and `data_gridatlas_release` moved.
+- the restore-point ritual was followed - `homepage_v012.html`, measured and
+  recorded - and the two earlier snapshots taken without a README entry
+  (`v010`, `v011`) are now identified from their own contents and recorded
+  rather than renumbered.
+- `scripts/verify_published_versions.py` + a push-triggered workflow: red when a
+  served snapshot is reachable from nothing, when the homepage names a directory
+  that does not exist, when the newest snapshot is not the current entry, when
+  the head of the PN lineage is not mirrored at all, and when the Atlas row
+  disagrees with the live composition. **Verified to FIRE on the unfixed page
+  before being trusted** - it reports all three of tonight's findings and exits
+  1. Its two network checks skip and say so when they cannot reach the source,
+  so an offline run cannot pass by silence. It passed on `c993b8e`.
+- pipelinenews side: `tools/publication/202609020042-homepage-reachability.mjs`,
+  wired into the runner. A cut now carries `homepage.named` and
+  `served_but_reachable_from_nothing` in the shift log, and prints *"and
+  reachable from nothing"* when it is served and unlinked. It reports; it does
+  not edit the homepage and it does not fail the cut, because naming a release
+  is a deliberate act and the cut did not fail.
+
+**Four releases are deliberately NOT published, and are now named as such in
+the checker rather than left as unexplained absences:** `202608311550`,
+`202608311557`, `202608312018` and `202608312337` are superseded siblings that
+never became a parent of anything, and `202609020010` declares
+`ISOLATED_CANDIDATE_ONLY_NO_SHARED_POINTER` in its own manifest because it is
+paired with the isolated Codex atlas lab route. Publishing them would file
+four builds as versions that never were.
+
+**Two faults of my own, recorded because they are in the log.**
+1. I loaded the runner module to syntax-check it and it *ran*. It refused
+   instantly on its own `working tree not clean` guard - nothing built, nothing
+   committed, nothing pushed - but it appended a `failed` run to
+   `tools/overnight/shift-log.json` that no shift asked for. `node --check`
+   from here on.
+2. `V9.5.1` and `V9.6.1 Exact Commit Validation` are red on `c993b8e`. They
+   were already red on `875a881` and `1f8ecfe` before this session touched
+   anything, so they are not mine - but they are red, and unrelated to this
+   change, so I am naming them rather than letting a green-looking summary
+   cover them.
+
+**Not claimed.** I cannot reach globalgrid2050.com or ventusltd.github.io from
+this session - the egress proxy answers 403 to CONNECT for both - so every live
+statement above rests on the deploy workflow's own `curl` against the public
+host and on the Actions conclusions, never on my having loaded the page.
+`202609020025` is `published` and `deployed`; the Chrome eyes on it are still
+owed, and so is the interaction receipt.
+
+**Two open UI faults from Vikram's phone, in the GridAtlas lane, unactioned by
+me** (this session has read-only access to that repository): the HIDE LAYERS
+button hides the whole application on mobile and sits out of place in
+full-screen; and substations do not load for wind at all.
+
