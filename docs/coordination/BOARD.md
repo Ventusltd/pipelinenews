@@ -2523,3 +2523,13 @@ me** (this session has read-only access to that repository): the HIDE LAYERS
 button hides the whole application on mobile and sits out of place in
 full-screen; and substations do not load for wind at all.
 
+### Correction to the entry above, same stamp
+
+The count is wrong in two places and the count is the point of the entry.
+There were **19** mirrored snapshots before tonight, not 18, and `202608312244`
+makes **20**, not 19. Verified against the host tree: 20 directories under
+`pipelinenews_intelligence/`, and `verify_published_versions.py` reports
+`20 published snapshots, all reachable, newest is 202609020025`. The
+globalgrid2050 commit message `c993b8e` carries the same off-by-one and is
+already pushed and immutable; this is the correction of record.
+
