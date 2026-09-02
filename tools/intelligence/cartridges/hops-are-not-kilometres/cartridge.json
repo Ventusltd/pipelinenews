@@ -1,0 +1,33 @@
+{
+  "key": "hops_are_not_kilometres",
+  "summary": "The grid proximity panel's CONNECT caption says that a kilometre is not a connection and that MAP reports the count of published circuits between sites. Every existing caveat is kept.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Extends one caption in the grid proximity module. No payload, no render-time network call.",
+  "repairs": {
+    "assets": [
+      {
+        "path": "assets/202608311610-grid-proximity.mjs",
+        "edits": [
+          {
+            "label": "the CONNECT caption separates kilometres from circuits, without dropping a caveat",
+            "from": "The circuit point is a true perpendicular onto the line, not the nearest drawn vertex.",
+            "to": "The circuit point is a true perpendicular onto the line, not the nearest drawn vertex.\n        A kilometre is not a connection: two sites a few kilometres apart can share no published circuit, and the two ends of one published circuit can be over 200 km of route apart. This panel reports straight-line kilometres only; MAP reports the count of published circuits between the declared site and its neighbours."
+          }
+        ]
+      }
+    ]
+  },
+  "registry_entry": {
+    "schema": "pipelinenews.hops-are-not-kilometres.v1",
+    "generation": "{GEN}",
+    "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+    "usage_context_establishes_upstream_rights": false,
+    "activation": "render-time; no payload",
+    "additive_only": false,
+    "mutates_existing_dashboard": "extends the grid proximity CONNECT caption",
+    "network_at_runtime": false,
+    "rule": "A straight-line kilometre and a count of published circuits are different quantities and neither is a cable route, a connection length, a grade or headroom. The panel reports the kilometre and says so; the circuit count is reported where it is measured, in MAP. The only length cited is a published route length: the longest circuit in NESO's Appendix B is 223.195 km of route.",
+    "found_by": "Reading the CONNECT view after the Atlas gained circuit-count distance on 1 September 2026. The view is titled AUTO-DRAWN CONNECTIONS, draws lines with lengths, and nowhere said that length in kilometres is not the quantity that decides whether two sites are joined. The route lengths were read from circuits[].ohl_km and cable_km in Ventusltd/data-grid-gb derived/gb-transmission-network.v1.json on 2 September 2026.",
+    "upstream": "NESO Electricity Ten Year Statement 2025, Appendix B, via Ventusltd/data-grid-gb derived/gb-transmission-network.v1.json"
+  }
+}

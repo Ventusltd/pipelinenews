@@ -1,0 +1,28 @@
+{
+  "key": "mapped_is_not_nearest",
+  "summary": "The GRID + SUB strip states the size of the gap in the mapped layer: 886 transmission substations named by NESO, 502 located, 384 published without coordinates. The nearest mapped substation may not be the nearest substation.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Extends one strip caption. No payload, no render-time network call.",
+  "repairs": {
+    "app": [
+      {
+        "label": "the strip gives the coverage limit its size, without dropping a caveat",
+        "from": "to the nearest substation at 33 kV or above \\u00b7 ",
+        "to": "to the nearest substation at 33 kV or above \\u00b7 nearest mapped is not nearest: of the 886 transmission substations NESO names at 132 kV and above, the Atlas locates 502 and publishes the other 384 without coordinates rather than dropping them, so the nearest mapped substation may not be the nearest substation \\u00b7 "
+      }
+    ]
+  },
+  "registry_entry": {
+    "schema": "pipelinenews.mapped-is-not-nearest.v1",
+    "generation": "{GEN}",
+    "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+    "usage_context_establishes_upstream_rights": false,
+    "activation": "render-time; no payload",
+    "additive_only": false,
+    "mutates_existing_dashboard": "extends the GRID + SUB strip caption",
+    "network_at_runtime": false,
+    "rule": "A distance to the nearest mapped feature is a distance to a layer, not to the network. Where the layer's own publisher states its coverage, the strip states it too, in the publisher's numbers: 886 named, 502 located, 384 without coordinates. Absence from a mapped layer is not absence on the ground, and the existing caveats stay verbatim. No grade, no headroom, no capacity is implied.",
+    "found_by": "Reading counts and join in Ventusltd/data-grid-gb derived/connection-points.v3.json on 2 September 2026 beside the strip in the parent release. The strip said 'nearest mapped' and the hover said 'absence from a mapped layer is not absence on the ground'; neither said how much of the transmission network the layer fails to place, and the publisher had already counted it.",
+    "upstream": "NESO Electricity Ten Year Statement 2025, Appendix B, joined to OpenStreetMap-derived substation geometry via Ventusltd/data-grid-gb derived/connection-points.v3.json (counts.connection_points 886, counts.with_location 502, join.unlocated 384)"
+  }
+}

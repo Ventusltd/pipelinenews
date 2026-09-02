@@ -1,0 +1,28 @@
+{
+  "key": "season_is_named",
+  "summary": "Pipeline News quotes no MVA rating. The GRID + SUB strip now says so, and says that the ratings the Atlas shows are per season, named, and never summed, with NESO's own counts of which circuits publish which season.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Extends one strip caption. No payload, no render-time network call.",
+  "repairs": {
+    "app": [
+      {
+        "label": "the strip names the season a rating belongs to, without dropping a caveat",
+        "from": "within 2 km of a circuit \\u00b7 ",
+        "to": "within 2 km of a circuit \\u00b7 no MVA rating is quoted here; the ratings the Atlas shows are per season, named, and never summed \\u2014 NESO publishes a winter rating for all 1,392 circuits and a summer rating for 1,276, and summer differs from winter on 1,081 of those \\u00b7 "
+      }
+    ]
+  },
+  "registry_entry": {
+    "schema": "pipelinenews.season-is-named.v1",
+    "generation": "{GEN}",
+    "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+    "usage_context_establishes_upstream_rights": false,
+    "activation": "render-time; no payload",
+    "additive_only": false,
+    "mutates_existing_dashboard": "extends the GRID + SUB strip caption",
+    "network_at_runtime": false,
+    "rule": "A rating without its season is ambiguous: NESO publishes a summer rating on 1,276 of 1,392 circuits and it differs from winter on 1,081 of them. Every rating the Atlas shows names its season and none is summed across circuits. A rating is still not headroom, and the strip's refusal on that point is kept verbatim. Pipeline News itself quotes no MVA figure and now says so.",
+    "found_by": "Searching every .html, .mjs and .css file in the parent release for MVA, rating, season, winter and summer: one hit, the word 'corroborating'. Then reading the four seasonal fields on every circuit in Ventusltd/data-grid-gb derived/gb-transmission-network.v1.json on 2 September 2026 and counting which are published and where they differ.",
+    "upstream": "NESO Electricity Ten Year Statement 2025, Appendix B, via Ventusltd/data-grid-gb derived/gb-transmission-network.v1.json (circuits[].winter_mva, spring_mva, summer_mva, autumn_mva)"
+  }
+}
