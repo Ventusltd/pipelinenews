@@ -1,0 +1,5 @@
+
+# Python bytecode from the release builder and cartridge tooling.
+# Left untracked it fails the runner's own clean-tree guard on the next step.
+__pycache__/
+*.py[cod]

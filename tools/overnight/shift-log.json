@@ -370,7 +370,121 @@
       "outcome": "failed",
       "reason": "gate red: deep-link contract vs GridAtlas",
       "finished_at": "2026-09-02T05:51:09.876Z",
-      "output": "PASS  the deep-link builder is where the cartridge says it is\n\n  Pipeline News sets: capacity_mw, latitude, longitude, project, repd_ref, technology, zoom\nPASS  the builder sets at least the identity and the position\nPASS  every parameter the code sets is declared in cartridge.json\nPASS  every parameter cartridge.json declares is actually set\n\n4/5 checks passed\nFAIL  the GridAtlas checkout this contract binds to is available: not found at /home/user/gridatlas — clone Ventusltd/gridatlas beside this repository. This check does not skip: a cross-repository contract that passes when it cannot see the other repository is green exactly where nobody is watching.\n\nFAILURES\n  the GridAtlas checkout this contract binds to is available: not found at /home/user/gridatlas — clone Ventusltd/gridatlas beside this repository. This check does not skip: a cross-repository contract that passes when it cannot see the other repository is green exactly where nobody is watching.\n"
+      "output": "PASS  the deep-link builder is where the cartridge says it is\n\n  Pipeline News sets: capacity_mw, latitude, longitude, project, repd_ref, technology, zoom\nPASS  the builder sets at least the identity and the position\nPASS  every parameter the code sets is declared in cartridge.json\nPASS  every parameter cartridge.json declares is actually set\n\n4/5 checks passed\nFAIL  the GridAtlas checkout this contract binds to is available: not found at /home/user/gridatlas \u2014 clone Ventusltd/gridatlas beside this repository. This check does not skip: a cross-repository contract that passes when it cannot see the other repository is green exactly where nobody is watching.\n\nFAILURES\n  the GridAtlas checkout this contract binds to is available: not found at /home/user/gridatlas \u2014 clone Ventusltd/gridatlas beside this repository. This check does not skip: a cross-repository contract that passes when it cannot see the other repository is green exactly where nobody is watching.\n"
+    },
+    {
+      "step": "202609012345-season-is-named.mjs",
+      "id": "season-is-named",
+      "cartridge": "season-is-named",
+      "started_at": "2026-09-02T05:52:09.335Z",
+      "dry": false,
+      "python": "python",
+      "stages": [
+        {
+          "name": "swept an incomplete release directory",
+          "at": "2026-09-02T05:52:09.790Z",
+          "id": "202609020551-pipelinenews"
+        },
+        {
+          "name": "parent release",
+          "at": "2026-09-02T05:52:09.793Z",
+          "parent": "202609020025-pipelinenews",
+          "lane": "ported",
+          "in_lane": 13,
+          "skipped_other_lane": 12,
+          "swept": 1
+        },
+        {
+          "name": "cartridge prepared",
+          "at": "2026-09-02T05:52:09.831Z",
+          "cartridge": "season-is-named"
+        },
+        {
+          "name": "built",
+          "at": "2026-09-02T05:52:10.147Z",
+          "releaseId": "202609020552-pipelinenews",
+          "parent": "202609020025-pipelinenews"
+        },
+        {
+          "name": "readback verifier authored",
+          "at": "2026-09-02T05:52:10.148Z",
+          "readback": "atman/202609020552-public-browser-readback.mjs",
+          "modelled_on": "202609020025-public-browser-readback.mjs"
+        },
+        {
+          "name": "gate builder check",
+          "at": "2026-09-02T05:52:10.234Z",
+          "status": 0
+        },
+        {
+          "name": "gate neutral surface",
+          "at": "2026-09-02T05:52:10.651Z",
+          "status": 0
+        },
+        {
+          "name": "gate atlas deep-link cartridge",
+          "at": "2026-09-02T05:52:10.813Z",
+          "status": 0,
+          "tally": "21/21"
+        },
+        {
+          "name": "gate deep-link contract vs GridAtlas",
+          "at": "2026-09-02T05:52:10.870Z",
+          "status": 0,
+          "tally": "11/11"
+        },
+        {
+          "name": "parent untouched",
+          "at": "2026-09-02T05:52:10.874Z",
+          "parent": "202609020025-pipelinenews"
+        },
+        {
+          "name": "committed",
+          "at": "2026-09-02T05:52:11.104Z",
+          "commit": "b06b4e6",
+          "generation": "202609020552"
+        },
+        {
+          "name": "pushed",
+          "at": "2026-09-02T05:52:13.135Z",
+          "remote": "origin/main"
+        },
+        {
+          "name": "snapshot copied",
+          "at": "2026-09-02T05:52:13.253Z",
+          "to": "pipelinenews_intelligence/202609020552"
+        },
+        {
+          "name": "snapshot verified byte-identical",
+          "at": "2026-09-02T05:52:13.286Z",
+          "files": 59
+        },
+        {
+          "name": "snapshot pushed",
+          "at": "2026-09-02T05:52:18.490Z",
+          "repo": "globalgrid2050"
+        }
+      ],
+      "generation": "202609020552",
+      "release_id": "202609020552-pipelinenews",
+      "commit": "b06b4e627a76d75985a609b61a78481445b499ed",
+      "live": null,
+      "homepage": {
+        "named": true,
+        "is_newest_named": true,
+        "served_but_reachable_from_nothing": []
+      },
+      "finished_at": "2026-09-02T06:07:22.017Z",
+      "outcome": "published",
+      "reason": "published to both repositories and verified byte-identical; the public host had not served it within 15 minutes. Not claimed as live.",
+      "live_url": "https://globalgrid2050.com/pipelinenews_intelligence/202609020552/",
+      "live_observed": {
+        "recorded_at": "2026-09-02T06:08:42.811079Z",
+        "recorded_by": "remote session, after the run, before the runner recorded it itself",
+        "every_attempt": "403",
+        "source_of_403": "this container's egress proxy refusing CONNECT to globalgrid2050.com",
+        "note": "NOT the public host. globalgrid2050.com answered nothing at all here - the request never left this network. So this run is evidence about the runner's reachability and about nothing else: it neither shows nor denies that the host was serving 202609020552. The site's own Pages run is the only evidence on that question."
+      }
     }
   ]
 }

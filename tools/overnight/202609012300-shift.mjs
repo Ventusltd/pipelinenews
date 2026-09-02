@@ -58,6 +58,14 @@ const LOG = path.join(HERE, 'shift-log.json');
 
 const LIVE_BASE = 'https://globalgrid2050.com/pipelinenews_intelligence';
 
+/* The session that cuts is the session that should be credited. This was a
+   hardcoded id, so every cut made from anywhere else was signed by a session
+   that had not made it - including 202609020552, cut after that session was
+   archived. Read from the environment, and say so when it is not set rather
+   than naming someone. */
+const SESSION_URL = process.env.CLAUDE_SESSION_URL
+  || 'unrecorded (set CLAUDE_SESSION_URL)';
+
 const utcNow = () => new Date().toISOString().replace(/[-:T]/g, '').slice(0, 12);
 const slash = (p) => String(p).split('\\').join('/');
 
@@ -358,7 +366,7 @@ run('git', ['add', `releases/${releaseId}`, readback], { quiet: true });
 run('git', ['commit', '-q', '-m',
   `${generation}: ${step.scope}\n\n${step.note}\n\n` +
   `Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>\n` +
-  `Claude-Session: https://claude.ai/code/session_01S5k13hEkFMreXi2kXxCFca`], { quiet: true });
+  `Claude-Session: ${SESSION_URL}`], { quiet: true });
 const commit = git('rev-parse', 'HEAD');
 untrackedBefore = null;
 stage('committed', { commit: commit.slice(0, 7), generation });
@@ -402,7 +410,7 @@ run('git', ['commit', '-q', '-m',
   `by a numbered-snapshot ritual and a byte-exact sentinel contract, and\n` +
   `naming a release on it is a separate deliberate act.\n\n` +
   `Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>\n` +
-  `Claude-Session: https://claude.ai/code/session_01S5k13hEkFMreXi2kXxCFca`],
+  `Claude-Session: ${SESSION_URL}`],
   { cwd: GG, quiet: true, allowFail: true });
 {
   const r = run('git', ['push', 'origin', 'HEAD:main'], { cwd: GG, allowFail: true, quiet: true });
@@ -413,10 +421,22 @@ run('git', ['commit', '-q', '-m',
 /* ── the live bytes ──────────────────────────────────────────────────── */
 const liveUrl = `${LIVE_BASE}/${generation}/`;
 let live = null;
+/* WHAT THE LOOP SAW, NOT JUST THAT IT GAVE UP. A run that cannot reach the
+   host at all and a host that is genuinely slow to rebuild both end this loop
+   with live === null, and they are not the same fact. Recording the last
+   status and the last transport error keeps 'published' from being read as
+   'the host was slow' when the truth was that this runner never got out of its
+   own network - which is exactly what happened on 202609020552, where every
+   attempt came back 403 from an egress proxy refusing CONNECT and none of them
+   was globalgrid2050.com answering anything. */
+const observed = { attempts: 0, last_status: null, last_error: null, statuses: {} };
 const deadline = Date.now() + 15 * 60 * 1000;
 while (Date.now() < deadline) {
+  observed.attempts += 1;
   try {
     const res = await fetch(liveUrl, { cache: 'no-store' });
+    observed.last_status = res.status;
+    observed.statuses[res.status] = (observed.statuses[res.status] || 0) + 1;
     if (res.ok) {
       const html = await res.text();
       live = { url: liveUrl, status: res.status, bytes: html.length,
@@ -424,7 +444,10 @@ while (Date.now() < deadline) {
       if (live.names_its_generation) break;
     }
     process.stdout.write(`  waiting for ${liveUrl} (${res.status})\r`);
-  } catch (error) { process.stdout.write(`  live check: ${error.message}\r`); }
+  } catch (error) {
+    observed.last_error = error.message;
+    process.stdout.write(`  live check: ${error.message}\r`);
+  }
   await new Promise(r => setTimeout(r, 20000));
 }
 
@@ -456,8 +479,11 @@ if (!live) {
      about the cut failed. */
   entry.outcome = 'published';
   entry.reason = 'published to both repositories and verified byte-identical; '
-    + 'the public host had not served it within 15 minutes. Not claimed as live.';
+    + 'the runner did not observe the public host serving it within 15 minutes. '
+    + 'Not claimed as live. See live_observed for WHAT was seen - a status that '
+    + 'never came from the host is not evidence about the host.';
   entry.live_url = liveUrl;
+  entry.live_observed = observed;
   record(entry);
   console.log(`\n\x1b[33m${releaseId} published; ${liveUrl} not serving yet\x1b[0m`);
   process.exit(0);
