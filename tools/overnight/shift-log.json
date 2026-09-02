@@ -251,6 +251,38 @@
       "dirty": [
         "?? tools/publication/"
       ]
+    },
+    {
+      "step": "202609012340-mapped-is-not-nearest.mjs",
+      "id": "mapped-is-not-nearest",
+      "cartridge": "mapped_is_not_nearest",
+      "started_at": "2026-09-02T00:25:00Z",
+      "dry": false,
+      "reconciled_at": "2026-09-02T00:52:18.022401Z",
+      "reconciled_by": "remote session, after the laptop thread froze",
+      "stages": [],
+      "outcome": "published",
+      "reason": "RECONCILED, NOT OBSERVED. This step's successful cut is absent from this log: its last recorded run is the gate failure at 202609020023, and the laptop thread froze before a success could be written. The release exists and is published, so leaving the log as it stood would have made the queue re-pick a finished step and cut a second release for one change.",
+      "evidence": {
+        "release_id": "202609020025-pipelinenews",
+        "generation": "202609020025",
+        "cartridge_added": "mapped_is_not_nearest",
+        "parent_release_id": "202609012326-pipelinenews",
+        "pipelinenews_commit": "09ad5a6",
+        "globalgrid2050_commit": "34ba41d",
+        "pages_run": 145,
+        "snapshot": "globalgrid2050/pipelinenews_intelligence/202609020025",
+        "snapshot_byte_identical_to_release": true,
+        "named_on_homepage": true,
+        "named_by": "globalgrid2050 c993b8e"
+      },
+      "live": null,
+      "homepage": {
+        "named": true,
+        "is_newest_named": true,
+        "served_but_reachable_from_nothing": []
+      },
+      "finished_at": "2026-09-02T00:25:51Z"
     }
   ]
 }
