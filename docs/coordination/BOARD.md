@@ -2694,3 +2694,42 @@ composed cartridge fetches a root-absolute path that does not exist in its own
 repository. This is the same class as the naming gap and the disconnected
 slack: a thing that is green because nobody asked it the question a user asks.
 
+### Correction, 202609020730 — the entry above named the wrong lane
+
+Vikram: *"this worked straight out of the box, I tested it several times before
+the new version broke it."* He is right and my diagnosis was wrong in its
+conclusion, though not in its evidence.
+
+**What survives.** Pipeline News emits the URL correctly — verified by running
+the shipped builder. And the 404 is real: the engine's
+`focusCanonicalProjectDeepLink()` fetches `/uk_renewables_pipeline/v9/...`,
+which is 200 in `Ventusltd/globalgrid2050` and 404 in `Ventusltd/gridatlas`.
+
+**What was wrong.** I treated that as the explanation for the missing neon
+lines. It is not. That function is the ENGINE's legacy lane. The neon links are
+drawn by the sandbox's own arrival lane, which the version ledger dates to v9.44
+— *"a repd_ref-only link computes the links: identity resolved by the search lane
+is consumed, not re-required from the URL"* — precisely because the URL lane
+could not be relied on. Two different code paths. I read one and explained the
+other, and told Vikram his working test could not have worked. It could, and it
+did.
+
+**What actually changed in the window he describes.** The arrival lane itself is
+byte-identical between v9.75 and v9.77 — diffed. The shell load order is correct:
+substation-intelligence takes the `ventus-corev8engine.js` slot and the sandbox
+takes `202608292126-pre-snapped-config-adapter.js`, which the shell loads after
+it. What changed is **v9.76**: six modules left the sandbox for
+substation-intelligence — geodesy, network-topology, electrical-distance,
+rating-envelope, injection-response and planned-change — and are now shared
+across cartridges through the `window.__GRIDATLAS_MODULES__` registry. The
+sandbox went from ten composed modules to four and now reaches six of them across
+a cartridge boundary it did not have to cross before. **Geodesy is one of them,
+and the neon links are a distance measurement.** That is the prime suspect and I
+have not proved it.
+
+**What I cannot do from here**, and will not pretend otherwise: load the page.
+The one observation that settles this in a single round is the browser console on
+that URL — specifically whether it carries `[V9 DEEP LINK FAILED]`, and whether
+anything reports a missing module or an undefined registry entry. Static reading
+has taken this as far as it goes.
+
