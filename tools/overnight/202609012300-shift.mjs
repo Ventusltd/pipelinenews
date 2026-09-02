@@ -219,9 +219,44 @@ for (const id of husks) {
 }
 const releases = named.filter(complete);
 if (!releases.length) fail('no complete parent release found', { named, husks });
-const parent = step.parent || releases[releases.length - 1];
+
+/* The parent must be in the SAME LANE.
+   ------------------------------------------------------------------------
+   The release chain is linear and shared, and Codex now publishes into it
+   too: 202609020010 is a Codex-lane release with atlas_target "codex",
+   importing 202609020010-codex-atlas-lab-deep-link.mjs so that MAP opens
+   their isolated Atlas lab. Taking "the newest release" as parent made
+   that the base of the live line, and the next release would have
+   inherited it - the public Pipeline News MAP would have pointed at the
+   Codex lab. The deep-link gate caught it, which is the only reason this
+   is a note rather than an incident.
+
+   So the parent is the newest release whose declared atlas_target matches
+   the one this step builds for. A lane picks up where its own lane left
+   off; neither agent's chain is broken and neither silently adopts the
+   other's receiver. */
+const wantedTarget = step.atlasTarget || 'ported';
+const targetOf = (id) => {
+  try {
+    return JSON.parse(fs.readFileSync(
+      path.join(RELEASE_DIR, id, 'release-manifest.json'), 'utf8')).atlas_target || null;
+  } catch { return null; }
+};
+const inLane = releases.filter(id => targetOf(id) === wantedTarget);
+const otherLane = releases.filter(id => targetOf(id) && targetOf(id) !== wantedTarget);
+if (!inLane.length) {
+  fail(`no complete release in the ${wantedTarget} lane to build on`,
+    { releases: releases.slice(-5), other_lane: otherLane.slice(-5) });
+}
+const parent = step.parent || inLane[inLane.length - 1];
 if (!complete(parent)) fail('the named parent release is incomplete', { parent });
-stage('parent release', { parent, of: releases.length, swept: husks.length });
+if (targetOf(parent) !== wantedTarget) {
+  fail('the named parent is in another lane', { parent, its_target: targetOf(parent), wantedTarget });
+}
+stage('parent release', {
+  parent, lane: wantedTarget, in_lane: inLane.length,
+  skipped_other_lane: otherLane.length, swept: husks.length
+});
 
 /* ── the step prepares its cartridge ─────────────────────────────────── */
 untrackedBefore = untracked();

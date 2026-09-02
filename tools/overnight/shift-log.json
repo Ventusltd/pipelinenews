@@ -159,9 +159,14 @@
           "at": "2026-09-02T00:11:06.375Z"
         }
       ],
-      "outcome": "published",
-      "reason": "built, gated, committed and pushed to pipelinenews; snapshot verified byte-identical and pushed to globalgrid2050 (38ef347). The runner was killed by a 10-minute shell timeout during its live wait, so it never wrote its own entry. Files confirmed present on origin/main via the GitHub API. The public host had not served it 40 minutes later; NOT claimed as live.",
-      "live": null,
+      "outcome": "live",
+      "reason": "Published, then 404 for over an hour because the globalgrid2050 Pages deploy is paths-filtered and no path matched pipelinenews_intelligence/. Every earlier snapshot had been served as a side effect of a commit that also touched index.html. The filter now includes the directory; the deploy ran and the release is serving.",
+      "live": {
+        "url": "https://globalgrid2050.com/pipelinenews_intelligence/202609012326/",
+        "status": 200,
+        "seen_at": "2026-09-02T00:25:41.036Z",
+        "by": "polling after the Pages path filter was corrected"
+      },
       "live_url": "https://globalgrid2050.com/pipelinenews_intelligence/202609012326/",
       "attended": true
     },
@@ -178,6 +183,59 @@
       "finished_at": "2026-09-02T00:11:07.321Z",
       "head": "52fd4671b63b87210c640c04795a2d62309dbf88",
       "origin_main": "c000456750e9d84db41de4d3acb44edb4613bea2"
+    },
+    {
+      "step": "202609012340-mapped-is-not-nearest.mjs",
+      "id": "mapped-is-not-nearest",
+      "cartridge": "mapped-is-not-nearest",
+      "started_at": "2026-09-02T00:23:06.820Z",
+      "dry": false,
+      "python": "python",
+      "stages": [
+        {
+          "name": "parent release",
+          "at": "2026-09-02T00:23:07.447Z",
+          "parent": "202609020010-pipelinenews",
+          "of": 26,
+          "swept": 0
+        },
+        {
+          "name": "cartridge prepared",
+          "at": "2026-09-02T00:23:07.573Z",
+          "cartridge": "mapped-is-not-nearest"
+        },
+        {
+          "name": "built",
+          "at": "2026-09-02T00:23:07.937Z",
+          "releaseId": "202609020023-pipelinenews",
+          "parent": "202609020010-pipelinenews"
+        },
+        {
+          "name": "readback verifier authored",
+          "at": "2026-09-02T00:23:07.945Z",
+          "readback": "atman/202609020023-public-browser-readback.mjs",
+          "modelled_on": "202609012326-public-browser-readback.mjs"
+        },
+        {
+          "name": "gate builder check",
+          "at": "2026-09-02T00:23:08.051Z",
+          "status": 0
+        },
+        {
+          "name": "gate neutral surface",
+          "at": "2026-09-02T00:23:08.369Z",
+          "status": 0
+        },
+        {
+          "name": "gate atlas deep-link cartridge",
+          "at": "2026-09-02T00:23:08.469Z",
+          "status": 1
+        }
+      ],
+      "outcome": "failed",
+      "reason": "gate red: atlas deep-link cartridge",
+      "finished_at": "2026-09-02T00:23:08.469Z",
+      "output": "FAIL  the runtime imports exactly one deep-link receiver, by name: no import found in assets/202608291447-app.mjs\n\nFAIL: cannot resolve the deep-link module the runtime imports.\n"
     }
   ]
 }
