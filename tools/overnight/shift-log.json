@@ -164,6 +164,20 @@
       "live": null,
       "live_url": "https://globalgrid2050.com/pipelinenews_intelligence/202609012326/",
       "attended": true
+    },
+    {
+      "step": "202609012340-mapped-is-not-nearest.mjs",
+      "id": "mapped-is-not-nearest",
+      "cartridge": "mapped-is-not-nearest",
+      "started_at": "2026-09-02T00:11:06.619Z",
+      "dry": false,
+      "python": "python",
+      "stages": [],
+      "outcome": "failed",
+      "reason": "origin/main has diverged from this checkout; a human merges, not the night shift",
+      "finished_at": "2026-09-02T00:11:07.321Z",
+      "head": "52fd4671b63b87210c640c04795a2d62309dbf88",
+      "origin_main": "c000456750e9d84db41de4d3acb44edb4613bea2"
     }
   ]
 }
