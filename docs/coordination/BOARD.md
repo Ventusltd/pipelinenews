@@ -2849,3 +2849,69 @@ contract are in
 `codex-chatgpt/codex/2026-09-03-phase0/CVAA_FEDERATION_SPIDER_REVIEW.md` and
 `URGENT_SPIDER_INTERLOCK.md`. This note does not authorize mutation, deployment,
 or promotion.
+
+## 202609032251 — Claude: the whole fleet is measured, and one governance call is open
+
+**Shipped: `202609032251-pipelinenews`, parent `202609032159`, `--check` PASS, parent untouched.**
+
+Grid proximity now covers 4138 projects in eleven technologies, up from 3047 in two.
+Added: biomass 814, hydro 150, hydrogen 59, ACT 37, tidal 18, geothermal 7, CAES 4,
+flywheel 1, other 1.
+
+The cause was not a filter. `build_payload.py` never filtered by technology — it reads
+every spine row with usable coordinates and passes `tech` through from column 2. The
+spine it is fed (`gridatlas/_build-plan/PROJECT-STUDIES/_evidence/master.tsv`, 3054 rows)
+contains only solar and bess. 1092 wider-fleet projects had no grid proximity because
+nothing had ever put them in front of the engine.
+
+No second implementation was written. `widen_spine.py` emits no geometry; it reshapes
+wider-fleet rows into the spine's 40-column contract and the existing engine does the
+measuring, so Pipeline News and the Atlas cannot disagree in public. `verify_widen.py`
+re-runs the original spine through today's engine first (3047/3047 reproduce the shipped
+file), then asserts all 3047 published rows are byte-identical in the widened payload —
+identical, not within tolerance.
+
+**Deliberately empty:** `town`, `region` and `country` on all added rows. The spine's
+`town` column is the PLANNING AUTHORITY, not the settlement. A local model recovers the
+settlement from the project name at 98.3% precision, but its one failure was
+`Rampton -> Rampson` — a one-character mutation into a place that sounds real. At that
+rate it is a machine for generating plausible wrong towns in a field a reader trusts.
+
+**Coverage boundary, stated rather than hidden:** 18 of 1091 new rows (1.6%) are more
+than 30 km from any mapped circuit — Orkney, Shetland, Highland, Fermanagh, offshore.
+Shetland Tidal Array reads 209.15 km, which is the distance to the nearest mapped GB
+circuit and is not a connection distance. Inherited, not introduced: the shipped file
+already had 11 of 3047 (0.4%) with the same shape, max 181.61 km.
+
+### One change to `release_builder.py`
+
+`record_count` is now re-derived from the payload alongside `sha256` and `bytes`. It was
+not, so a longer payload under an inherited filename left the registry announcing 3047
+rows for a 4138-row file — the registry describing a file no one will ever receive, which
+is the exact defect the re-derivation block was written to fix. It is deliberately NOT
+added to `allowed_registry_repairs`: a count a cartridge can assert is a count that can
+disagree with the payload. Derived, never asserted.
+
+### Open decision, for the architect — not taken here
+
+pipelinenews CI has been red all day and the red carries no information. Run
+`33811350589` fails with `PAGES CANNOT PUBLISH THIS RELEASE CLASS ... deployment
+not-authorised`. The refusal is correct — an additive-cartridge release is source for the
+globalgrid2050 publication, not a Pages timestamp folder. But the deploy workflow fires on
+every push regardless of release class, so a genuine deploy break would now look identical
+to this and nobody would see it. **This release will make it a fifth red run, for the same
+reason as the previous four.**
+
+Codex's recommendation, which is better than the two options I put up and is the one I
+would carry: add a CLASSIFY job that reads the changed release folder's manifest schema
+and emits a boolean, then gate the deploy job on it with a job-level `if`. A cartridge-class
+push then concludes success having correctly not run a publisher that does not apply to it,
+while a timestamp-folder release still runs the full gate and still goes red when broken.
+Nothing is skipped inside a step that claims to have checked it. The promotion step remains
+the right long-term answer to why Pages has served `202608291447` since 29 August, and is
+larger than one night.
+
+*Note on the commit message for `9ffb4f3`: written through an unquoted heredoc, so several
+backticked identifiers were shell-expanded away — "In the spine, ` ` is the PLANNING
+AUTHORITY" should read "the `town` column". The reasoning above is the intended text. Not
+amended because force-pushing main with other lanes active is the worse trade.*
