@@ -73,6 +73,24 @@ jobs:
           fi
           python3 tools/publication/pages_release_classifier.py "${args[@]}"
 
+  validate-source-only:
+    name: Validate additive source release without publishing it
+    needs: classify
+    if: needs.classify.outputs.route == 'source-only'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ inputs.expected_sha || github.sha }}
+          persist-credentials: false
+
+      - name: Prove additive release closure
+        env:
+          RELEASE_ID: ${{ needs.classify.outputs.release_id }}
+        run: python3 tools/intelligence/release_builder.py --check "$RELEASE_ID"
+
   deploy:
     uses: ./.github/workflows/202608301214-pages-v2.yml
     with:
