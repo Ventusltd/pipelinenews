@@ -256,6 +256,46 @@ class ClassifierTests(unittest.TestCase):
         repo = Path(__file__).resolve().parents[2]
         self.assertEqual(resolve_live_pointer(repo), "202608291447-pipelinenews")
 
+    def pointer_bytes(self, release_id: str, *, digest: str | None = None) -> bytes:
+        manifest_path = self.repo / "releases" / release_id / "release-manifest.json"
+        raw = manifest_path.read_bytes()
+        import hashlib
+        return (json.dumps(
+            {
+                "schema": "pipelinenews.live-pointer.v3",
+                "generation": release_id[:12],
+                "release_id": release_id,
+                "entrypoint": f"releases/{release_id}/index.html",
+                "release_manifest": {
+                    "path": f"releases/{release_id}/release-manifest.json",
+                    "bytes": len(raw),
+                    "sha256": digest or hashlib.sha256(raw).hexdigest(),
+                },
+            },
+            sort_keys=True,
+        ) + "\n").encode()
+
+    def test_live_pointer_rejects_a_stale_manifest_digest(self) -> None:
+        release_id = "202609032309-pipelinenews"
+        self.manifest(release_id, schema="pipelinenews.timestamp-folder-successor.v1")
+        payload = self.pointer_bytes(release_id, digest="0" * 64)
+        (self.repo / "state").mkdir()
+        (self.repo / "state" / "live-set.json").write_bytes(payload)
+        (self.repo / "releases" / "current-v3.json").write_bytes(payload)
+        with self.assertRaises(ClassificationError):
+            resolve_live_pointer(self.repo)
+
+    def test_live_pointer_rejects_two_identical_current_files(self) -> None:
+        release_id = "202609032310-pipelinenews"
+        self.manifest(release_id, schema="pipelinenews.timestamp-folder-successor.v1")
+        payload = self.pointer_bytes(release_id)
+        (self.repo / "state").mkdir()
+        (self.repo / "state" / "live-set.json").write_bytes(payload)
+        (self.repo / "releases" / "current-v3.json").write_bytes(payload)
+        (self.repo / "releases" / "current-v4.json").write_bytes(payload)
+        with self.assertRaises(ClassificationError):
+            resolve_live_pointer(self.repo)
+
 
 if __name__ == "__main__":
     unittest.main()
