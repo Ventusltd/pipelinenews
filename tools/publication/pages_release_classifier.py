@@ -90,6 +90,10 @@ def classify_release(repo: Path, release_id: str) -> Decision:
             raise ClassificationError("additive release has no valid parent_release_id")
         if parent >= release_id:
             raise ClassificationError("additive release parent must precede its child")
+        parent_path = repo / "releases" / parent / "release-manifest.json"
+        parent_manifest = _load_manifest(parent_path)
+        if parent_manifest.get("release_id") != parent:
+            raise ClassificationError("additive release parent identity is invalid")
         return Decision(
             release_id,
             schema,

@@ -28,6 +28,22 @@ class ClassifierTests(unittest.TestCase):
         if values.get("schema") == "pipelinenews.additive-cartridge-release.v1":
             values.setdefault("deployment", "not-authorised")
             values.setdefault("parent_release_id", "202608291447-pipelinenews")
+            parent_id = str(values["parent_release_id"])
+            if parent_id < folder_id:
+                parent_root = self.repo / "releases" / parent_id
+                parent_root.mkdir(parents=True, exist_ok=True)
+                parent_path = parent_root / "release-manifest.json"
+                if not parent_path.exists():
+                    parent_path.write_text(
+                        json.dumps(
+                            {
+                                "release_id": parent_id,
+                                "generation": parent_id[:12],
+                                "schema": "pipelinenews.timestamp-folder-successor.v1",
+                            }
+                        ),
+                        encoding="utf-8",
+                    )
         if values.get("schema") != "pipelinenews.timestamp-folder-successor.v1":
             values.setdefault("immutable_after_publication", True)
         (root / "release-manifest.json").write_text(json.dumps(values), encoding="utf-8")
@@ -102,6 +118,14 @@ class ClassifierTests(unittest.TestCase):
             schema="pipelinenews.additive-cartridge-release.v1",
             parent_release_id=release_id,
         )
+        with self.assertRaises(ClassificationError):
+            classify_release(self.repo, release_id)
+
+    def test_additive_parent_must_exist(self) -> None:
+        release_id = "202609032300-pipelinenews"
+        self.manifest(release_id, schema="pipelinenews.additive-cartridge-release.v1")
+        parent = self.repo / "releases" / "202608291447-pipelinenews"
+        (parent / "release-manifest.json").unlink()
         with self.assertRaises(ClassificationError):
             classify_release(self.repo, release_id)
 
