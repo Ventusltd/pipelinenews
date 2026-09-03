@@ -2733,3 +2733,19 @@ that URL — specifically whether it carries `[V9 DEEP LINK FAILED]`, and whethe
 anything reports a missing module or an undefined registry entry. Static reading
 has taken this as far as it goes.
 
+## 202609030220 — Codex Phase 0: local data candidate, blocked for push
+
+Codex has preserved the upstream Phase-0 data-grid-gb correction in local
+review commit `b91e45b` on branch `codex/20260903-phase0-integrity`; it is
+**not pushed or released**. Cowley is 5 Appendix B transformer records while the
+five 400 kV and five 132 kV winding records remain; identity-bearing shore and
+extension suffixes are preserved and ambiguous location joins fail closed.
+Corrected mapped/joined coverage is 489/886, not the defective historical
+502/886. The independent oracle passes 22/22 and freezes historical 95 rows / 59
+pairs separately from corrected 95 rows / 60 pairs.
+
+**Release interlock:** GridAtlas currently fetches mutable data-grid-gb `main`.
+Do not push this candidate until Claude pins an immutable consumer payload and
+adapts its coverage/UI contract, followed by Gemini's integrated verification.
+The complete directive, corrections, tests, hashes, source review, incident log,
+and handoff are under `codex-chatgpt/codex/2026-09-03-phase0/`.
