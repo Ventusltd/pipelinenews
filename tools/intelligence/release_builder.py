@@ -556,6 +556,22 @@ def cmd_build(parent_id, cartridge_name, gen, atlas_target):
     if after != before:
         raise SystemExit("FAIL: the parent release changed. That must never happen.")
     print("\n  %s unchanged (%d files, byte-for-byte)" % (parent_id, len(after)))
+
+    # ---- 7. the release must pass its own check ---------------------------
+    # `--check` existed from the beginning and nothing ran it. Six releases
+    # shipped with a digest that does not describe their own bytes, and each of
+    # them would have been caught here, at the one moment when the answer is
+    # still "build it again" rather than "it is immutable now".
+    #
+    # A failure leaves build_ok False, so the atexit handler above discards the
+    # partial release. That is deliberate: a release that cannot verify itself
+    # must not exist, because --list will offer it as a parent and every later
+    # build will inherit whatever was wrong with it.
+    print("\n  ---- proving the release against itself ----\n")
+    if cmd_check(release_id) != 0:
+        raise SystemExit("FAIL: %s does not pass its own --check. Nothing shipped."
+                         % release_id)
+
     build_ok["done"] = True
     print("\nBuilt %s" % release_id)
     print("  unhappy with it? python release_builder.py --from %s --cartridge <other>"
