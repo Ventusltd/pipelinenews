@@ -60,7 +60,7 @@ def release_ids_from_paths(paths: list[str]) -> list[str]:
 
 def discover_release(repo: Path, base: str, head: str) -> str:
     process = subprocess.run(
-        ["git", "diff", "--name-only", "-z", base, head, "--", "releases"],
+        ["git", "diff", "--name-status", "-z", "--find-renames", base, head, "--", "releases"],
         cwd=repo,
         check=False,
         capture_output=True,
@@ -69,7 +69,23 @@ def discover_release(repo: Path, base: str, head: str) -> str:
         raise ClassificationError(
             "git diff failed: " + process.stderr.decode("utf-8", "replace").strip()
         )
-    paths = [item.decode("utf-8") for item in process.stdout.split(b"\0") if item]
+    tokens = [item.decode("utf-8") for item in process.stdout.split(b"\0") if item]
+    paths: list[str] = []
+    index = 0
+    while index < len(tokens):
+        status = tokens[index]
+        index += 1
+        count = 2 if status[:1] in {"R", "C"} else 1
+        if index + count > len(tokens):
+            raise ClassificationError("malformed git name-status output")
+        record_paths = tokens[index : index + count]
+        index += count
+        touched_release = any(RELEASE_PATH_RE.match(path.replace("\\", "/")) for path in record_paths)
+        if touched_release and status != "A":
+            raise ClassificationError(
+                f"immutable release path has destructive status {status}: {record_paths}"
+            )
+        paths.extend(record_paths)
     releases = release_ids_from_paths(paths)
     if len(releases) != 1:
         raise ClassificationError(

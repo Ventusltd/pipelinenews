@@ -228,6 +228,23 @@ class ClassifierTests(unittest.TestCase):
         with self.assertRaises(ClassificationError):
             discover_release(self.repo, base, head)
 
+    def test_git_range_rejects_immutable_release_edits(self) -> None:
+        subprocess.run(["git", "init", "-q"], cwd=self.repo, check=True)
+        subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=self.repo, check=True)
+        subprocess.run(["git", "config", "user.name", "classifier test"], cwd=self.repo, check=True)
+        release_id = "202609032308-pipelinenews"
+        self.manifest(release_id, schema="pipelinenews.timestamp-folder-successor.v1")
+        subprocess.run(["git", "add", "releases"], cwd=self.repo, check=True)
+        subprocess.run(["git", "commit", "-qm", "release"], cwd=self.repo, check=True)
+        base = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=self.repo, text=True).strip()
+        manifest = self.repo / "releases" / release_id / "release-manifest.json"
+        manifest.write_text(manifest.read_text() + "\n", encoding="utf-8")
+        subprocess.run(["git", "add", "releases"], cwd=self.repo, check=True)
+        subprocess.run(["git", "commit", "-qm", "mutate"], cwd=self.repo, check=True)
+        head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=self.repo, text=True).strip()
+        with self.assertRaises(ClassificationError):
+            discover_release(self.repo, base, head)
+
 
 if __name__ == "__main__":
     unittest.main()
