@@ -13,6 +13,7 @@ import argparse
 import hashlib
 import json
 import re
+import subprocess
 import tempfile
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -55,6 +56,26 @@ def release_ids_from_paths(paths: list[str]) -> list[str]:
         if match:
             found.add(match.group(1))
     return sorted(found)
+
+
+def discover_release(repo: Path, base: str, head: str) -> str:
+    process = subprocess.run(
+        ["git", "diff", "--name-only", "-z", base, head, "--", "releases"],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+    )
+    if process.returncode:
+        raise ClassificationError(
+            "git diff failed: " + process.stderr.decode("utf-8", "replace").strip()
+        )
+    paths = [item.decode("utf-8") for item in process.stdout.split(b"\0") if item]
+    releases = release_ids_from_paths(paths)
+    if len(releases) != 1:
+        raise ClassificationError(
+            f"expected exactly one changed release, found {len(releases)}: {releases}"
+        )
+    return releases[0]
 
 
 def _load_manifest(path: Path) -> dict[str, Any]:
@@ -161,12 +182,20 @@ def write_receipt(decision: Decision, path: Path) -> None:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo", type=Path, default=Path.cwd())
-    parser.add_argument("--release", required=True)
+    parser.add_argument("--release")
+    parser.add_argument("--base")
+    parser.add_argument("--head")
     parser.add_argument("--github-output", type=Path)
     parser.add_argument("--receipt", type=Path)
     args = parser.parse_args(argv)
     try:
-        decision = classify_release(args.repo.resolve(), args.release)
+        repo = args.repo.resolve()
+        release_id = args.release
+        if release_id is None:
+            if not args.base or not args.head:
+                raise ClassificationError("provide --release or both --base and --head")
+            release_id = discover_release(repo, args.base, args.head)
+        decision = classify_release(repo, release_id)
     except ClassificationError as exc:
         parser.error(str(exc))
     if args.github_output:

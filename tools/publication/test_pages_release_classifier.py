@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import sys
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -12,6 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pages_release_classifier import (
     ClassificationError,
     classify_release,
+    discover_release,
     release_ids_from_paths,
     write_github_output,
     write_receipt,
@@ -190,6 +192,25 @@ class ClassifierTests(unittest.TestCase):
             ),
             ["202608291447-pipelinenews", "202609032251-pipelinenews"],
         )
+
+    def test_discovers_release_from_git_commit_range(self) -> None:
+        subprocess.run(["git", "init", "-q"], cwd=self.repo, check=True)
+        subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=self.repo, check=True)
+        subprocess.run(["git", "config", "user.name", "classifier test"], cwd=self.repo, check=True)
+        (self.repo / "README").write_text("base\n", encoding="utf-8")
+        self.manifest(
+            "202608291447-pipelinenews",
+            schema="pipelinenews.timestamp-folder-successor.v1",
+        )
+        subprocess.run(["git", "add", "README", "releases"], cwd=self.repo, check=True)
+        subprocess.run(["git", "commit", "-qm", "base"], cwd=self.repo, check=True)
+        base = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=self.repo, text=True).strip()
+        release_id = "202609032305-pipelinenews"
+        self.manifest(release_id, schema="pipelinenews.additive-cartridge-release.v1")
+        subprocess.run(["git", "add", "releases"], cwd=self.repo, check=True)
+        subprocess.run(["git", "commit", "-qm", "release"], cwd=self.repo, check=True)
+        head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=self.repo, text=True).strip()
+        self.assertEqual(discover_release(self.repo, base, head), release_id)
 
 
 if __name__ == "__main__":
