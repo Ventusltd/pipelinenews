@@ -1,7 +1,7 @@
 # Pipeline News 30-iteration Pages routing stream
 
 Base: `937b8c019074e40bebbc7edf5d8ef8d1751e034e`<br>
-Iteration head: `a855ffe41d99c765c9eab0607603e274b31737b5`<br>
+Iteration head: `2ae7a6920aa5b7b7cee9cd3cbce894b0ed9dcbe5`<br>
 Branch: `codex/202609040002-pages-classifier`
 
 The stream changes the Pages workflow from one publisher that fails on every
@@ -21,7 +21,7 @@ all match a Pages-compatible target.
 The complete per-attempt receipts are in
 [`20260904-pipelinenews-30x-ledger.json`](./20260904-pipelinenews-30x-ledger.json).
 The first seed commit's Windows test invocation failed and is explicitly not
-counted. Iterations 2 through 33 provide 32 material, passing improvements.
+counted. Iterations 2 through 34 provide 33 material, passing improvements.
 The final cumulative gate passed 26 classifier tests, 15 main-workflow
 contracts, the receipt-only candidate-workflow contract, the latest additive
 release's own `--check`, the live pointer route, and a replay of the historical
@@ -51,7 +51,11 @@ fallback drove the live-pointer preservation in 27-29. Final hostile review
 found the failed seed, missing exact-main binding, and a manifest read/hash
 race; the seed was excluded and iterations 31-32 closed the two defects.
 Governance requiring branch-only compute without deployment authority drove
-iteration 33.
+iteration 33. Integration review then found that a pull-request-only check
+would not prove the exact commit after the CEO merged it. Iteration 34 adds a
+path-scoped `main` push trigger for the candidate workflow and its validated
+tool paths, so merged bytes generate their own receipt without receiving
+deployment authority.
 
 ## Serial cutter and rerun contract
 
@@ -62,9 +66,9 @@ and test receipt. A cutter rerun must search the exact iteration subject and
 changed-tree digest: skip only an exact match and fail on any divergent match.
 It must never manufacture another timestamp release, amend an immutable release
 folder, deploy, or clean the primary worktree. The candidate Action follows the
-same rule with one concurrency key, `cancel-in-progress: true`, no schedule or
-push trigger, read-only permissions, serial tests, and a receipt named by the
-candidate commit.
+same rule with one concurrency key, `cancel-in-progress: true`, no schedule,
+a path-scoped `main` integration trigger, read-only permissions, serial tests,
+and a receipt named by the candidate commit.
 
 No immutable release directory, live pointer, deployment, primary worktree, or
 main branch was changed by this candidate stream.

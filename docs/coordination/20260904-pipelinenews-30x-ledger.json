@@ -1,5 +1,5 @@
 {
-  "attempt_count": 33,
+  "attempt_count": 34,
   "base_commit": "937b8c019074e40bebbc7edf5d8ef8d1751e034e",
   "branch": "codex/202609040002-pages-classifier",
   "cumulative_validation": {
@@ -11,11 +11,12 @@
       "git diff --check origin/main...HEAD",
       "git rev-list --count origin/main..HEAD"
     ],
-    "head": "a855ffe41d99c765c9eab0607603e274b31737b5",
+    "head": "2ae7a6920aa5b7b7cee9cd3cbce894b0ed9dcbe5",
     "historical_additive_push_route": "source-only",
     "release_builder_check": "pass",
     "result": "pass",
-    "workflow_checks": 15
+    "workflow_checks": 15,
+    "main_integration_trigger": "pass"
   },
   "entries": [
     {
@@ -627,6 +628,25 @@
           "result": "pass"
         }
       ]
+    },
+    {
+      "changed_paths": [
+        ".github/workflows/202609040100-pages-routing-candidate.yml",
+        "tools/publication/test_pages_candidate_workflow.py"
+      ],
+      "commit": "2ae7a6920aa5b7b7cee9cd3cbce894b0ed9dcbe5",
+      "improvement": "run the receipt-only candidate proof after path-scoped integration to main",
+      "iteration": 34,
+      "parent": "6d5ef4ba3aab23b47b2cc6f9fdf5eb1fcb38b30c",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/run_pages_candidate_gate.py --receipt <temp>",
+          "detail": "six serial commands passed at the committed iteration head",
+          "result": "pass"
+        }
+      ]
     }
   ],
   "evidence_corpus": [
@@ -688,11 +708,14 @@
       27,
       28,
       29
+    ],
+    "main_integration_self_proof": [
+      34
     ]
   },
-  "iteration_count": 32,
+  "iteration_count": 33,
   "iteration_count_semantics": "passing material improvements; the failed seed is recorded but not counted",
-  "iteration_head": "a855ffe41d99c765c9eab0607603e274b31737b5",
+  "iteration_head": "2ae7a6920aa5b7b7cee9cd3cbce894b0ed9dcbe5",
   "minimum_required_iterations": 30,
   "qualifying_iterations": [
     2,
@@ -726,7 +749,8 @@
     30,
     31,
     32,
-    33
+    33,
+    34
   ],
   "schema": "pipelinenews.30x-candidate-ledger.v2"
 }
