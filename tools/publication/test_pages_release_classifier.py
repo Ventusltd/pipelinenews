@@ -24,6 +24,7 @@ class ClassifierTests(unittest.TestCase):
         root = self.repo / "releases" / folder_id
         root.mkdir(parents=True)
         values.setdefault("release_id", folder_id)
+        values.setdefault("generation", folder_id[:12])
         (root / "release-manifest.json").write_text(json.dumps(values), encoding="utf-8")
 
     def test_routes_pages_release(self) -> None:
@@ -48,6 +49,12 @@ class ClassifierTests(unittest.TestCase):
     def test_manifest_identity_must_match_directory(self) -> None:
         release_id = "202609032253-pipelinenews"
         self.manifest(release_id, release_id="202609032254-pipelinenews", schema="pipelinenews.additive-cartridge-release.v1")
+        with self.assertRaises(ClassificationError):
+            classify_release(self.repo, release_id)
+
+    def test_generation_must_match_release_id(self) -> None:
+        release_id = "202609032255-pipelinenews"
+        self.manifest(release_id, generation="202609032254", schema="pipelinenews.additive-cartridge-release.v1")
         with self.assertRaises(ClassificationError):
             classify_release(self.repo, release_id)
 

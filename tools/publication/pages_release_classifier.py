@@ -57,6 +57,8 @@ def classify_release(repo: Path, release_id: str) -> Decision:
     manifest = _load_manifest(manifest_path)
     if manifest.get("release_id") != release_id:
         raise ClassificationError("manifest release_id does not match its directory")
+    if manifest.get("generation") != release_id[:12]:
+        raise ClassificationError("manifest generation does not match its release id")
     schema = manifest.get("schema")
     if not isinstance(schema, str) or not schema:
         raise ClassificationError("release manifest has no non-empty schema")
