@@ -114,7 +114,7 @@ def discover_release(
     return releases[0]
 
 
-def _load_manifest(path: Path) -> dict[str, Any]:
+def _read_manifest(path: Path) -> tuple[dict[str, Any], bytes]:
     def reject_duplicates(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
         result: dict[str, Any] = {}
         for key, value in pairs:
@@ -126,23 +126,28 @@ def _load_manifest(path: Path) -> dict[str, Any]:
     try:
         if not path.is_file():
             raise ClassificationError(f"manifest is not a regular file: {path}")
-        if path.stat().st_size > MAX_MANIFEST_BYTES:
+        raw = path.read_bytes()
+        if len(raw) > MAX_MANIFEST_BYTES:
             raise ClassificationError("release manifest exceeds 1 MiB limit")
         value = json.loads(
-            path.read_text(encoding="utf-8"), object_pairs_hook=reject_duplicates
+            raw.decode("utf-8"), object_pairs_hook=reject_duplicates
         )
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         raise ClassificationError(f"cannot read manifest {path}: {exc}") from exc
     if not isinstance(value, dict):
         raise ClassificationError("release manifest must be a JSON object")
-    return value
+    return value, raw
+
+
+def _load_manifest(path: Path) -> dict[str, Any]:
+    return _read_manifest(path)[0]
 
 
 def classify_release(repo: Path, release_id: str) -> Decision:
     if not RELEASE_ID_RE.fullmatch(release_id):
         raise ClassificationError(f"invalid release id: {release_id!r}")
     manifest_path = repo / "releases" / release_id / "release-manifest.json"
-    manifest = _load_manifest(manifest_path)
+    manifest, raw = _read_manifest(manifest_path)
     if manifest.get("release_id") != release_id:
         raise ClassificationError("manifest release_id does not match its directory")
     if manifest.get("generation") != release_id[:12]:
@@ -155,7 +160,6 @@ def classify_release(repo: Path, release_id: str) -> Decision:
     ) is not True:
         raise ClassificationError("release must declare immutable_after_publication: true")
     if schema in PAGES_SCHEMAS:
-        raw = manifest_path.read_bytes()
         return Decision(
             release_id, schema, "pages", "Pages timestamp-folder contract", str(manifest_path),
             hashlib.sha256(raw).hexdigest(), len(raw), manifest.get("deployment"),
@@ -174,7 +178,6 @@ def classify_release(repo: Path, release_id: str) -> Decision:
         parent_manifest = _load_manifest(parent_path)
         if parent_manifest.get("release_id") != parent:
             raise ClassificationError("additive release parent identity is invalid")
-        raw = manifest_path.read_bytes()
         return Decision(
             release_id,
             schema,

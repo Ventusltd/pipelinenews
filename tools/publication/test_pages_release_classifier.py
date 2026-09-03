@@ -6,6 +6,7 @@ import sys
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -305,6 +306,21 @@ class ClassifierTests(unittest.TestCase):
             discover_release(repo, head, head, allow_pointer_fallback=True),
             "202608291447-pipelinenews",
         )
+
+    def test_receipt_hash_uses_the_same_snapshot_as_classification(self) -> None:
+        release_id = "202609032311-pipelinenews"
+        self.manifest(release_id, schema="pipelinenews.timestamp-folder-successor.v1")
+        manifest = {
+            "release_id": release_id,
+            "generation": release_id[:12],
+            "schema": "pipelinenews.timestamp-folder-successor.v1",
+        }
+        snapshot = b"the exact bytes classified"
+        with patch("pages_release_classifier._read_manifest", return_value=(manifest, snapshot)):
+            decision = classify_release(self.repo, release_id)
+        import hashlib
+        self.assertEqual(decision.manifest_bytes, len(snapshot))
+        self.assertEqual(decision.manifest_sha256, hashlib.sha256(snapshot).hexdigest())
 
 
 if __name__ == "__main__":
