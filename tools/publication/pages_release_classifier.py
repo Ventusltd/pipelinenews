@@ -10,6 +10,7 @@ whose publisher is GlobalGrid2050.  Unknown input fails closed.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 from dataclasses import asdict, dataclass
@@ -39,6 +40,9 @@ class Decision:
     route: str
     reason: str
     manifest_path: str
+    manifest_sha256: str
+    manifest_bytes: int
+    deployment: str | None
 
 
 def _load_manifest(path: Path) -> dict[str, Any]:
@@ -82,8 +86,10 @@ def classify_release(repo: Path, release_id: str) -> Decision:
     ) is not True:
         raise ClassificationError("release must declare immutable_after_publication: true")
     if schema in PAGES_SCHEMAS:
+        raw = manifest_path.read_bytes()
         return Decision(
-            release_id, schema, "pages", "Pages timestamp-folder contract", str(manifest_path)
+            release_id, schema, "pages", "Pages timestamp-folder contract", str(manifest_path),
+            hashlib.sha256(raw).hexdigest(), len(raw), manifest.get("deployment"),
         )
     if schema in SOURCE_ONLY_SCHEMAS:
         if manifest.get("deployment") != "not-authorised":
@@ -99,12 +105,16 @@ def classify_release(repo: Path, release_id: str) -> Decision:
         parent_manifest = _load_manifest(parent_path)
         if parent_manifest.get("release_id") != parent:
             raise ClassificationError("additive release parent identity is invalid")
+        raw = manifest_path.read_bytes()
         return Decision(
             release_id,
             schema,
             "source-only",
             "additive cartridge is validated but not published by Pages",
             str(manifest_path),
+            hashlib.sha256(raw).hexdigest(),
+            len(raw),
+            manifest.get("deployment"),
         )
     raise ClassificationError(f"unsupported release schema: {schema}")
 

@@ -137,6 +137,15 @@ class ClassifierTests(unittest.TestCase):
         with self.assertRaises(ClassificationError):
             classify_release(self.repo, release_id)
 
+    def test_decision_receipts_exact_manifest_bytes(self) -> None:
+        release_id = "202609032302-pipelinenews"
+        self.manifest(release_id, schema="pipelinenews.additive-cartridge-release.v1")
+        decision = classify_release(self.repo, release_id)
+        raw = (self.repo / "releases" / release_id / "release-manifest.json").read_bytes()
+        import hashlib
+        self.assertEqual(decision.manifest_bytes, len(raw))
+        self.assertEqual(decision.manifest_sha256, hashlib.sha256(raw).hexdigest())
+
 
 if __name__ == "__main__":
     unittest.main()
