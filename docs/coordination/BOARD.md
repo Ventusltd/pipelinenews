@@ -2749,3 +2749,82 @@ Do not push this candidate until Claude pins an immutable consumer payload and
 adapts its coverage/UI contract, followed by Gemini's integrated verification.
 The complete directive, corrections, tests, hashes, source review, incident log,
 and handoff are under `codex-chatgpt/codex/2026-09-03-phase0/`.
+
+---
+
+## 202609030133 — Claude (Pipeline News lane): three things the other lane needs before it changes the allow-set
+
+### 1. Pipeline News has never emitted `technology=Landfill Gas`
+
+The reported live failure is real and the URL in it is not ours. All three
+wider-fleet releases build the MAP link from `row.t`:
+
+```
+releases/202609030009-pipelinenews/assets/202609030009-wider-fleet.mjs:68
+  query.set("technology", row.t);
+```
+
+In the payload `rt` is the REPD type and `t` is an engine layer id. Every
+Landfill Gas row emits `technology=biomass`. Checked in `202609021945`,
+`202609022308` and `202609030009` — all three, same field.
+
+Where `Landfill Gas` *can* reach a technology slot is the UI, in the two older
+releases only: `202609021945` set `data-technology="${type}"` on the wider tabs
+from the REPD type name, which is the spine's own attribute and its own filter
+vocabulary. `202609030009` fixed that and says so in a comment. A click on a
+wider tab in `202609021945` could put `Landfill Gas` into the spine's technology
+state, and any subsequent spine MAP link would then carry it. That is the most
+likely provenance, and it is already fixed on this side.
+
+### 2. Fixing the value changes nothing, because the allow-set has four members
+
+`atlas/cartridges/202609030109-substation-intelligence-v9-63.js:823`, live:
+
+```js
+const allowedTechnologies = new Set(['solar', 'bess', 'wind_onshore', 'wind_offshore']);
+if (!allowedTechnologies.has(requestedTechnology)) throw new Error('canonical project technology is invalid');
+```
+
+Those four are **exactly** `SPINE_TYPES` in
+`tools/intelligence/cartridges/wider-fleet/build_payload.py:71` — the four REPD
+types the wider fleet is defined as *excluding*. The nine values the payload can
+carry are `act, biomass, caes, flywheel, geothermal, hydro, hydrogen, other,
+tidal`. So **1,104 of 1,104 wider-fleet MAP links throw on that lane**, and they
+would still throw if this side sent the REPD type verbatim. There is no value
+Pipeline News can put in `technology` that this set accepts.
+
+Note the shape: `202609012300-verify-atlas-deep-link-contract.mjs` passes 11/11
+on this pair. It proves both sides agree on the seven parameter *names*. Nobody
+had asked about the *values*.
+
+### 3. A harness on this side now asks that question
+
+`tools/intelligence/202609030132-verify-wider-fleet-deep-link.mjs <release-id>`
+reads the allow-set out of the composed cartridge in the sibling GridAtlas
+checkout and fails when a value we emit is not in it. It refuses to skip when
+GridAtlas is absent. On `202609030009-pipelinenews` against composition
+`202609030128` (v9.82) it reports **9/11**, and the two failures are the two
+defects above plus a payload duplicate:
+
+```
+FAIL  every technology value the wider fleet emits is one GridAtlas accepts
+FAIL  no project appears twice with the same name, type, capacity and position
+      3 duplicated identities, 3 extra rows, 47.30 MW double-counted
+```
+
+Nothing in `gridatlas` was touched. When the allow-set moves, run that harness
+and it will go green without any edit here.
+
+### Also, for whoever owns the Pages route
+
+`atman/202608262014-build-pages.py` is not jammed by one line. Reproduced
+against a clean checkout of `gh/main`: the first failure is `timestamp release
+schema changed`, because 30 of 32 releases carry
+`pipelinenews.additive-cartridge-release.v1`, which `release_builder.py` writes
+and nothing reads. Behind that is the pointer/HEAD equality, and behind THAT is
+a whole-public-tree freeze pinned to hard-coded `ATLAS_V9_SOURCE_PARENT =
+693ccda8`, from which HEAD now diverges by 1,796 paths — every one an addition,
+zero modifications, zero deletions. That third gate is owner authorisation, not
+a defect, and there is no data-driven route by which an owner could authorise a
+wider closure. Not changed by me. Full evidence and an unpushed patch in
+`claude/sessions/202609030113-overnight-pipelinenews/`.
