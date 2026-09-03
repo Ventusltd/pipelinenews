@@ -12,6 +12,10 @@ def verify(path: Path) -> dict[str, object]:
     pre_jobs, jobs = text.split("\njobs:\n", 1)
     checks = {
         "classifier_precedes_routes": jobs.index("  classify:\n") < jobs.index("  deploy:\n"),
+        "classification_is_bound_to_full_oid": '[[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]]' in jobs,
+        "classification_checkout_matches_oid": 'test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"' in jobs,
+        "classification_oid_is_current_main": 'test "$(git rev-parse FETCH_HEAD)" = "$EXPECTED_SHA"' in jobs,
+        "main_binding_precedes_classification": jobs.index("Require exact current main before classification") < jobs.index("Classify release from immutable manifest"),
         "classifier_emits_receipt": "--receipt reports/pages-release-classification.json" in jobs,
         "source_only_has_own_gate": "if: needs.classify.outputs.route == 'source-only'" in jobs,
         "source_only_runs_release_check": "release_builder.py --check \"$RELEASE_ID\"" in jobs,

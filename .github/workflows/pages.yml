@@ -52,6 +52,16 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      - name: Require exact current main before classification
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha || github.sha }}
+        run: |
+          set -euo pipefail
+          [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          git fetch --no-tags origin refs/heads/main
+          test "$(git rev-parse FETCH_HEAD)" = "$EXPECTED_SHA"
+
       - name: Classify release from immutable manifest
         id: classify
         shell: bash
