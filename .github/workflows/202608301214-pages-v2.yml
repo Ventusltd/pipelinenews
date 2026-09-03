@@ -89,7 +89,58 @@ jobs:
           args=(--generation latest --stage _site)
           if test -n "$release"; then
             [[ "$release" =~ ^[0-9]{12}-pipelinenews$ ]]
-            args+=(--timestamp-folder-release "$release")
+            # WHICH RELEASE CLASS IS THIS, AND CAN PAGES PUBLISH IT?
+            #
+            # The selection above finds a release folder by its PATH SHAPE, and
+            # two different tools write folders of that shape. atman writes Pages
+            # timestamp-folder successors; tools/intelligence/release_builder.py
+            # writes additive-cartridge releases, which are SOURCE for the
+            # globalgrid2050 publication and mark themselves
+            # deployment: not-authorised. Only the first kind is a thing this
+            # workflow can publish.
+            #
+            # Until now the difference was discovered inside the builder, as
+            # "timestamp release schema changed" - a message that names a change
+            # that never happened. The schema was never the same one. Every
+            # cartridge release therefore failed the deploy on arrival, and the
+            # run has been red 20 consecutive times since 2026-08-31.
+            #
+            # So the class is read here, by name, and each is answered
+            # explicitly. A cartridge release still FAILS - it is not skipped and
+            # this step never reports success over a release it did not publish -
+            # but it fails saying what it is and what would have to be true.
+            manifest="releases/$release/release-manifest.json"
+            test -f "$manifest"
+            schema="$(jq -r '.schema // "MISSING"' "$manifest")"
+            deployment="$(jq -r '.deployment // "unstated"' "$manifest")"
+            case "$schema" in
+              pipelinenews.timestamp-folder-successor.v1|pipelinenews.current-atlas-link-release.v2)
+                args+=(--timestamp-folder-release "$release")
+                ;;
+              pipelinenews.additive-cartridge-release.v1)
+                echo "PAGES CANNOT PUBLISH THIS RELEASE CLASS"
+                echo "  release    $release"
+                echo "  schema     $schema"
+                echo "  deployment $deployment"
+                echo
+                echo "  An additive-cartridge release is source for the"
+                echo "  globalgrid2050 publication, not a Pages timestamp folder."
+                echo "  It carries none of the timestamp-folder contract this"
+                echo "  workflow verifies (entrypoint, public_url, publication"
+                echo "  control, folder contract, functional-file closure), and its"
+                echo "  own manifest says deployment: not-authorised."
+                echo
+                echo "  To publish one here it must first be promoted into a"
+                echo "  timestamp-folder successor, and that promotion must be the"
+                echo "  thing that authorises it. Nothing does that today, which is"
+                echo "  the open decision - not this step."
+                exit 1
+                ;;
+              *)
+                echo "UNKNOWN RELEASE CLASS: $release declares schema $schema"
+                exit 1
+                ;;
+            esac
           fi
           python3 atman/202608262014-build-pages.py "${args[@]}"
 
