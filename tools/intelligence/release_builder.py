@@ -623,16 +623,30 @@ def cmd_build(parent_id, cartridge_name, gen, atlas_target):
             # allowed_registry_repairs, because a count a cartridge can assert is a count
             # that can disagree with the payload.
             if kind == "payload" and "record_count" in node:
+                # An unparseable payload is a worse problem than a stale count, and
+                # swallowing it would leave the registry asserting the inherited number
+                # over a file nobody can read - neither a failure nor a correction.
                 try:
                     doc = json.loads(read(abs_path))
-                except ValueError:
-                    doc = None
+                except ValueError as exc:
+                    raise SystemExit("payload will not parse, so its record_count cannot "
+                                     "be derived: %s (%s)" % (node["path"], exc))
                 counted = None
                 if isinstance(doc, dict):
-                    rows = next((v for v in doc.values()
-                                 if isinstance(v, list) and v and isinstance(v[0], dict)),
-                                None)
-                    counted = len(rows) if rows is not None else doc.get("record_count")
+                    # Exactly one list-of-records, named or not. Taking the FIRST such
+                    # list in dict order would count whichever key the JSON happens to
+                    # put first, so a payload carrying both `rows` and `sources` would
+                    # produce a confidently wrong number rather than no number. Ambiguity
+                    # must fail loudly, not resolve itself by insertion order.
+                    candidates = [k for k, v in doc.items()
+                                  if isinstance(v, list) and v and isinstance(v[0], dict)]
+                    if len(candidates) > 1:
+                        raise SystemExit(
+                            "cannot derive record_count for %s: %d candidate row lists "
+                            "(%s). Name the field rather than trusting key order."
+                            % (node["path"], len(candidates), ", ".join(sorted(candidates))))
+                    counted = (len(doc[candidates[0]]) if candidates
+                               else doc.get("record_count"))
                 elif isinstance(doc, list):
                     counted = len(doc)
                 if isinstance(counted, int) and node.get("record_count") != counted:
