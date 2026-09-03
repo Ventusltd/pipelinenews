@@ -2,6 +2,14 @@ name: Pipeline News Pages routing candidate
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/pages.yml'
+      - '.github/workflows/202609040100-pages-routing-candidate.yml'
+      - 'tools/publication/**'
+      - 'tools/intelligence/release_builder.py'
   pull_request:
     paths:
       - '.github/workflows/pages.yml'

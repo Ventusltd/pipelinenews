@@ -13,7 +13,11 @@ class CandidateWorkflowTests(unittest.TestCase):
         permissions = source.split("\npermissions:\n", 1)[1].split("\nconcurrency:\n", 1)[0]
         self.assertIn("workflow_dispatch:", trigger)
         self.assertIn("pull_request:", trigger)
-        self.assertNotIn("push:", trigger)
+        self.assertIn("push:", trigger)
+        push = trigger.split("  push:\n", 1)[1].split("  pull_request:\n", 1)[0]
+        self.assertIn("branches:\n      - main", push)
+        self.assertIn(".github/workflows/202609040100-pages-routing-candidate.yml", push)
+        self.assertIn("tools/publication/**", push)
         self.assertNotIn("schedule:", trigger)
         self.assertEqual(permissions.strip(), "contents: read")
         self.assertIn("cancel-in-progress: true", source)
