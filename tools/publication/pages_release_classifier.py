@@ -211,6 +211,47 @@ def write_receipt(decision: Decision, path: Path) -> None:
     temporary.replace(path)
 
 
+def resolve_live_pointer(repo: Path) -> str:
+    """Resolve the one current pointer that is byte-identical to live-set."""
+    live_path = repo / "state" / "live-set.json"
+    try:
+        live_bytes = live_path.read_bytes()
+    except OSError as exc:
+        raise ClassificationError(f"cannot read live pointer: {exc}") from exc
+    supported = [repo / "releases" / "current-v3.json", repo / "releases" / "current-v4.json"]
+    matches = [path for path in supported if path.is_file() and path.read_bytes() == live_bytes]
+    if len(matches) != 1:
+        raise ClassificationError(
+            f"expected one current pointer identical to live-set, found {len(matches)}"
+        )
+    pointer_path = matches[0]
+    pointer = _load_manifest(pointer_path)
+    expected_schema = "pipelinenews.live-pointer." + pointer_path.stem.removeprefix("current-")
+    if pointer.get("schema") != expected_schema:
+        raise ClassificationError("current pointer schema does not match its filename")
+    release_id = pointer.get("release_id")
+    if not isinstance(release_id, str) or not RELEASE_ID_RE.fullmatch(release_id):
+        raise ClassificationError("current pointer has no valid release_id")
+    if pointer.get("generation") != release_id[:12]:
+        raise ClassificationError("current pointer generation does not match release_id")
+    if pointer.get("entrypoint") != f"releases/{release_id}/index.html":
+        raise ClassificationError("current pointer entrypoint does not name its release")
+    manifest_ref = pointer.get("release_manifest")
+    if not isinstance(manifest_ref, dict):
+        raise ClassificationError("current pointer has no release_manifest receipt")
+    manifest_path = repo / "releases" / release_id / "release-manifest.json"
+    manifest_bytes = manifest_path.read_bytes()
+    if manifest_ref.get("path") != f"releases/{release_id}/release-manifest.json":
+        raise ClassificationError("current pointer manifest path is inconsistent")
+    if manifest_ref.get("bytes") != len(manifest_bytes):
+        raise ClassificationError("current pointer manifest byte count is stale")
+    if manifest_ref.get("sha256") != hashlib.sha256(manifest_bytes).hexdigest():
+        raise ClassificationError("current pointer manifest digest is stale")
+    if classify_release(repo, release_id).route != "pages":
+        raise ClassificationError("current pointer does not target a Pages release class")
+    return release_id
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo", type=Path, default=Path.cwd())

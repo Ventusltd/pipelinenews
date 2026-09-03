@@ -16,6 +16,7 @@ from pages_release_classifier import (
     discover_release,
     release_ids_from_paths,
     require_commit,
+    resolve_live_pointer,
     write_github_output,
     write_receipt,
 )
@@ -250,6 +251,10 @@ class ClassifierTests(unittest.TestCase):
         subprocess.run(["git", "init", "-q"], cwd=self.repo, check=True)
         with self.assertRaises(ClassificationError):
             require_commit(self.repo, "937b8c0", "base")
+
+    def test_resolves_the_committed_live_pointer(self) -> None:
+        repo = Path(__file__).resolve().parents[2]
+        self.assertEqual(resolve_live_pointer(repo), "202608291447-pipelinenews")
 
 
 if __name__ == "__main__":
