@@ -85,6 +85,11 @@ def classify_release(repo: Path, release_id: str) -> Decision:
             raise ClassificationError(
                 "additive releases must declare deployment: not-authorised"
             )
+        parent = manifest.get("parent_release_id")
+        if not isinstance(parent, str) or not RELEASE_ID_RE.fullmatch(parent):
+            raise ClassificationError("additive release has no valid parent_release_id")
+        if parent >= release_id:
+            raise ClassificationError("additive release parent must precede its child")
         return Decision(
             release_id,
             schema,

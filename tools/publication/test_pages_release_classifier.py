@@ -27,6 +27,7 @@ class ClassifierTests(unittest.TestCase):
         values.setdefault("generation", folder_id[:12])
         if values.get("schema") == "pipelinenews.additive-cartridge-release.v1":
             values.setdefault("deployment", "not-authorised")
+            values.setdefault("parent_release_id", "202608291447-pipelinenews")
         if values.get("schema") != "pipelinenews.timestamp-folder-successor.v1":
             values.setdefault("immutable_after_publication", True)
         (root / "release-manifest.json").write_text(json.dumps(values), encoding="utf-8")
@@ -90,6 +91,16 @@ class ClassifierTests(unittest.TestCase):
             release_id,
             schema="pipelinenews.additive-cartridge-release.v1",
             immutable_after_publication=False,
+        )
+        with self.assertRaises(ClassificationError):
+            classify_release(self.repo, release_id)
+
+    def test_additive_parent_must_be_valid_and_older(self) -> None:
+        release_id = "202609032259-pipelinenews"
+        self.manifest(
+            release_id,
+            schema="pipelinenews.additive-cartridge-release.v1",
+            parent_release_id=release_id,
         )
         with self.assertRaises(ClassificationError):
             classify_release(self.repo, release_id)
