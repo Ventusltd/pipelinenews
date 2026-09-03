@@ -79,8 +79,33 @@ const exists = async (path) => {
 
 const root = join(RELEASES, releaseId);
 const generation = releaseId.slice(0, 12);
-const cartridgePath = join(root, 'assets', `${generation}-wider-fleet.mjs`);
-const payloadPath = join(root, 'data', `${generation}-wider-fleet.json`);
+
+/* WHERE THE CARTRIDGE ACTUALLY IS.
+ *
+ * This used to be `assets/${releaseId.slice(0,12)}-wider-fleet.mjs`, which
+ * assumes the asset is named after the release reading it. That holds for
+ * exactly one release -- the one that ADDED the cartridge. Every release built
+ * on top of it inherits the file under the older generation's name, so the
+ * check reported "the release carries a wider-fleet cartridge: FAIL" for a
+ * release that carries it perfectly well, and stopped before it read anything.
+ * Measured on 202609031307, the first generation to inherit it.
+ *
+ * The registry is the authority for where a supplemental asset lives -- it is
+ * the file app.mjs itself resolves the import from -- so ask it, and fall back
+ * to the old guess only when there is no registry entry to ask.
+ */
+const registryPath = join(root, 'data', '202608291447-registry.json');
+let cartridgeRelative = `assets/${generation}-wider-fleet.mjs`;
+let payloadRelative = `data/${generation}-wider-fleet.json`;
+if (await exists(registryPath)) {
+  const entry = JSON.parse(await readFile(registryPath, 'utf8'))
+    .supplemental_assets?.wider_fleet;
+  if (entry?.cartridge?.path) cartridgeRelative = entry.cartridge.path;
+  if (entry?.payload?.path) payloadRelative = entry.payload.path;
+  console.log(`  registry names ${cartridgeRelative} and ${payloadRelative}\n`);
+}
+const cartridgePath = join(root, cartridgeRelative);
+const payloadPath = join(root, payloadRelative);
 
 check('the release carries a wider-fleet cartridge', await exists(cartridgePath), cartridgePath);
 check('the release carries a wider-fleet payload', await exists(payloadPath), payloadPath);

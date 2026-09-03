@@ -562,7 +562,23 @@ def cmd_build(parent_id, cartridge_name, gen, atlas_target):
     # the verifier cannot distinguish a deliberate withdrawal from a broken
     # host or missing boot binding. Registry repairs are restricted to this
     # small UI-state vocabulary and cannot rewrite asset identity or digests.
-    allowed_registry_repairs = {"ui_state", "ui_withdrawal_reason"}
+    #
+    # The vocabulary started at withdrawal alone, and that was too narrow the
+    # first time a cartridge changed the SHAPE of a surface instead of removing
+    # it. wider-fleet-dropdown replaced twenty appended tabs with one select;
+    # the registry entry it inherited went on saying
+    # "tabs_in_product_technology_row": true and "appends twenty buttons to
+    # #tech", and neither could be corrected. A published attestation that
+    # describes a control the release does not draw is worse than no
+    # attestation, because it is the file a reader checks the UI against.
+    # These fields are descriptive only: none of them names a path, a digest,
+    # a byte count, a generation or a schema, so the identity guarantee this
+    # restriction exists to protect is untouched.
+    allowed_registry_repairs = {
+        "ui_state", "ui_withdrawal_reason",
+        "control_in_product_technology_row", "deep_linkable", "mutation_scope",
+        "presentation", "tabs_in_product_technology_row",
+    }
     for repair in man.get("registry_repairs", []):
         other_key = repair.get("key")
         other = (reg.get("supplemental_assets") or {}).get(other_key)
