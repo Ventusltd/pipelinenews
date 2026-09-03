@@ -27,6 +27,8 @@ class ClassifierTests(unittest.TestCase):
         values.setdefault("generation", folder_id[:12])
         if values.get("schema") == "pipelinenews.additive-cartridge-release.v1":
             values.setdefault("deployment", "not-authorised")
+        if values.get("schema") != "pipelinenews.timestamp-folder-successor.v1":
+            values.setdefault("immutable_after_publication", True)
         (root / "release-manifest.json").write_text(json.dumps(values), encoding="utf-8")
 
     def test_routes_pages_release(self) -> None:
@@ -78,6 +80,16 @@ class ClassifierTests(unittest.TestCase):
             release_id,
             schema="pipelinenews.additive-cartridge-release.v1",
             deployment="authorised",
+        )
+        with self.assertRaises(ClassificationError):
+            classify_release(self.repo, release_id)
+
+    def test_modern_release_must_be_immutable(self) -> None:
+        release_id = "202609032258-pipelinenews"
+        self.manifest(
+            release_id,
+            schema="pipelinenews.additive-cartridge-release.v1",
+            immutable_after_publication=False,
         )
         with self.assertRaises(ClassificationError):
             classify_release(self.repo, release_id)

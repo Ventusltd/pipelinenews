@@ -72,6 +72,10 @@ def classify_release(repo: Path, release_id: str) -> Decision:
     schema = manifest.get("schema")
     if not isinstance(schema, str) or not schema:
         raise ClassificationError("release manifest has no non-empty schema")
+    if schema != "pipelinenews.timestamp-folder-successor.v1" and manifest.get(
+        "immutable_after_publication"
+    ) is not True:
+        raise ClassificationError("release must declare immutable_after_publication: true")
     if schema in PAGES_SCHEMAS:
         return Decision(
             release_id, schema, "pages", "Pages timestamp-folder contract", str(manifest_path)
