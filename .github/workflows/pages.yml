@@ -36,6 +36,43 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  classify:
+    name: Classify exact release before choosing a publisher
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      release_id: ${{ steps.classify.outputs.release_id }}
+      route: ${{ steps.classify.outputs.route }}
+      pages_applicable: ${{ steps.classify.outputs.pages_applicable }}
+      manifest_sha256: ${{ steps.classify.outputs.manifest_sha256 }}
+      manifest_bytes: ${{ steps.classify.outputs.manifest_bytes }}
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ inputs.expected_sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Classify release from immutable manifest
+        id: classify
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.before }}
+          HEAD_SHA: ${{ inputs.expected_sha || github.sha }}
+          REQUESTED_RELEASE: ${{ inputs.timestamp_folder_release || '' }}
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          args=(--repo . --github-output "$GITHUB_OUTPUT" --receipt reports/pages-release-classification.json)
+          if test -n "$REQUESTED_RELEASE"; then
+            args+=(--release "$REQUESTED_RELEASE")
+          else
+            test "$GITHUB_EVENT_NAME" = push
+            args+=(--base "$BASE_SHA" --head "$HEAD_SHA")
+          fi
+          python3 tools/publication/pages_release_classifier.py "${args[@]}"
+
   deploy:
     uses: ./.github/workflows/202608301214-pages-v2.yml
     with:
