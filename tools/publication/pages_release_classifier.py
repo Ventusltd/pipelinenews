@@ -25,6 +25,7 @@ PAGES_SCHEMAS = frozenset(
 )
 SOURCE_ONLY_SCHEMAS = frozenset({"pipelinenews.additive-cartridge-release.v1"})
 RELEASE_ID_RE = re.compile(r"^[0-9]{12}-pipelinenews$")
+MAX_MANIFEST_BYTES = 1024 * 1024
 
 
 class ClassificationError(ValueError):
@@ -50,6 +51,10 @@ def _load_manifest(path: Path) -> dict[str, Any]:
         return result
 
     try:
+        if not path.is_file():
+            raise ClassificationError(f"manifest is not a regular file: {path}")
+        if path.stat().st_size > MAX_MANIFEST_BYTES:
+            raise ClassificationError("release manifest exceeds 1 MiB limit")
         value = json.loads(
             path.read_text(encoding="utf-8"), object_pairs_hook=reject_duplicates
         )
