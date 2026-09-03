@@ -29,6 +29,7 @@ Pure stdlib. No network. No git operation. Writes only a NEW release directory.
 
 import argparse
 import atexit
+import contextlib
 import datetime
 import hashlib
 import io
@@ -37,6 +38,7 @@ import os
 import re
 import shutil
 import sys
+from collections import Counter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 # tools/intelligence/ -> repo root -> releases/
@@ -277,15 +279,102 @@ def cmd_list():
               % (name, len(files), len(panels), ", ".join(panels) or "—"))
     print("\nBuild from any of them:")
     print("  python release_builder.py --from %s --cartridge <name>" % rel[-1])
-    print("\nAvailable cartridges:")
+
+    # "Available" used to mean "there is a directory here", and that is not the
+    # same question as "can this be built". Measured against 202609030009 on
+    # 2026-09-03: of the nineteen listed, fifteen were already in the release
+    # and the other four could not apply at all -- their patch anchors had been
+    # rewritten by later cartridges. Nothing was buildable, and the listing said
+    # nothing about it. The key check below is exact and free; the anchor check
+    # costs a build each, so it lives behind --applicable.
+    print("\nCartridges, against %s:" % rel[-1])
     if os.path.isdir(CARTRIDGES):
+        applied = set(cartridge_keys(rel[-1]))
         for c in sorted(os.listdir(CARTRIDGES)):
             man = os.path.join(CARTRIDGES, c, "cartridge.json")
-            if os.path.exists(man):
-                m = json.loads(read(man))
-                print("  %-26s %s" % (c, m.get("summary", "")))
+            if not os.path.exists(man):
+                continue
+            m = json.loads(read(man))
+            mark = "applied" if m.get("key") in applied else "new    "
+            print("  [%s] %-26s %s" % (mark, c, m.get("summary", "")))
+        print("\n  [applied] is exact. [  new  ] means only that the key is absent;")
+        print("  whether its patches still anchor is a different question:")
+        print("    python release_builder.py --applicable %s" % rel[-1])
     else:
         print("  (none — create %s/<name>/cartridge.json)" % CARTRIDGES)
+    return 0
+
+
+def cartridge_keys(release_id):
+    """The supplemental-asset keys a release already carries."""
+    reg_path = os.path.join(RELEASES, release_id, REGISTRY)
+    if not os.path.exists(reg_path):
+        return set()
+    try:
+        return set((json.loads(read(reg_path)).get("supplemental_assets") or {}).keys())
+    except ValueError:
+        return set()
+
+
+# --------------------------------------------------------------- applicable
+
+def cmd_applicable(parent_id):
+    """Report which cartridges can actually be built onto a parent.
+
+    A cartridge fails to apply when a later cartridge rewrote the text its
+    patches anchor on. Nothing in the repository detected that: `--list` showed
+    every directory under cartridges/ as available, and the operator found out
+    by running a build and watching it discard itself.
+
+    This answers the question the only way it can be answered honestly -- by
+    building each one. Every probe writes a throwaway release and removes it
+    again; a failed probe is already removed by the builder's own discard
+    handler before this function sees it. The parent is never modified, and
+    cmd_build asserts that itself.
+    """
+    if not os.path.isdir(os.path.join(RELEASES, parent_id)):
+        raise SystemExit("no such parent release: %s" % parent_id)
+    if not os.path.isdir(CARTRIDGES):
+        raise SystemExit("no cartridges directory: %s" % CARTRIDGES)
+
+    applied = cartridge_keys(parent_id)
+    names = sorted(n for n in os.listdir(CARTRIDGES)
+                   if os.path.exists(os.path.join(CARTRIDGES, n, "cartridge.json")))
+    print("Cartridges against %s\n" % parent_id)
+    print("  each candidate is really built into a throwaway generation and removed again\n")
+
+    rows = []
+    for name in names:
+        man = json.loads(read(os.path.join(CARTRIDGES, name, "cartridge.json")))
+        if man.get("key") in applied:
+            rows.append((name, "ALREADY APPLIED", ""))
+            continue
+        gen = utc_stamp()
+        target = os.path.join(RELEASES, "%s-pipelinenews" % gen)
+        if os.path.exists(target):
+            rows.append((name, "NOT PROBED", "a release already occupies %s" % gen))
+            continue
+        buffer = io.StringIO()
+        try:
+            with contextlib.redirect_stdout(buffer):
+                cmd_build(parent_id, name, gen, None)
+            rows.append((name, "APPLIES", ""))
+        except SystemExit as error:
+            rows.append((name, "CANNOT APPLY", str(error).splitlines()[0][:120]))
+        finally:
+            if os.path.isdir(target):
+                shutil.rmtree(target, ignore_errors=True)
+
+    for name, verdict, detail in rows:
+        print("  %-28s %-16s %s" % (name, verdict, detail))
+    tally = Counter(verdict for _n, verdict, _d in rows)
+    print()
+    for verdict, count in tally.most_common():
+        print("  %-16s %d" % (verdict, count))
+    if not tally.get("APPLIES"):
+        print("\n  Nothing here can be built onto %s. A new generation needs a new"
+              % parent_id)
+        print("  cartridge, not a rebuild of an existing one.")
     return 0
 
 
@@ -643,12 +732,16 @@ def main():
     ap.add_argument("--atlas-target", choices=["legacy", "ported"],
                     help="record which atlas this release points at")
     ap.add_argument("--check", help="verify an existing release")
+    ap.add_argument("--applicable", metavar="PARENT",
+                    help="report which cartridges can actually be built onto PARENT")
     a = ap.parse_args()
 
     if a.list:
         return cmd_list()
     if a.check:
         return cmd_check(a.check)
+    if a.applicable:
+        return cmd_applicable(a.applicable)
     if a.parent and a.cartridge:
         return cmd_build(a.parent, a.cartridge, a.gen or utc_stamp(), a.atlas_target)
     ap.print_help()
