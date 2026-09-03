@@ -18,6 +18,8 @@ def verify(path: Path) -> dict[str, object]:
         "pages_needs_classifier": "  deploy:\n    needs: classify\n" in jobs,
         "pages_has_job_level_if": "if: needs.classify.outputs.route == 'pages'" in jobs,
         "pages_receives_classified_release": "timestamp_folder_release: ${{ needs.classify.outputs.release_id }}" in jobs,
+        "push_preserves_pointer_fallback": "--allow-pointer-fallback" in jobs,
+        "manual_preserves_pointer_fallback": "args+=(--live-pointer)" in jobs,
         "global_token_is_read_only": "pages: write" not in pre_jobs and "id-token: write" not in pre_jobs,
         "pages_route_has_write_token": "pages: write\n      id-token: write\n    uses:" in jobs,
     }

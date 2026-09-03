@@ -14,7 +14,7 @@ class WorkflowContractTests(unittest.TestCase):
         workflow = Path(__file__).resolve().parents[2] / ".github" / "workflows" / "pages.yml"
         receipt = verify(workflow)
         self.assertTrue(receipt["passed"])
-        self.assertGreaterEqual(sum(receipt["checks"].values()), 9)
+        self.assertGreaterEqual(sum(receipt["checks"].values()), 11)
 
 
 if __name__ == "__main__":
