@@ -1,36 +1,73 @@
 #!/usr/bin/env python3
 """
-Build the WIDER FLEET page: every REPD technology type the Pipeline News
-spine does not carry, one tab each, in Pipeline News' own layout.
+Build the WIDER FLEET payload: every REPD technology type the Pipeline News
+spine does not carry, with its REPD reference.
 
-The spine admits four of the REPD's technology types (Solar Photovoltaics,
-Battery, Wind Onshore, Wind Offshore). This emits the rest with the same
-treatment. It reads the register the existing repd_updaterv8.py already
-produces from the DESNZ REPD extract -- there is no second fetcher here and
-no second classification.
+WHY THE REFERENCE MATTERS
+-------------------------
+GridAtlas resolves an arrival by REPD ref and nothing else
+(identity_rule: EXACT_REPD_REF_ONLY). A MAP link without one lands with
+status ABSENT, and the place-search cartridge returns before its flyTo --
+so the card opens, the substation measurement runs off the link's own
+coordinates, and the camera never moves. The project is on screen only if
+you happen to already be looking at it. Watched live on 2026-09-02 for
+Rainham Phase II: correct card, correct 1.426 km measurement, camera still
+at [-3.5, 54.0].
 
-Tabs are derived from the register at build time and never hand-listed. A
-hand-kept technology list is exactly what left `wind_onshore` in Pipeline
-News and absent from the engine; the register is the only authority.
+The first cut of this payload came from repd_master.json, whose properties
+are name, operator, tech, raw_tech, status, capacity and mounting -- no
+reference of any kind, because repd_updaterv8.py never reads one from the
+REPD CSV. So the ref is joined back on here, from the same CSV that
+produced the register.
+
+THE JOIN, AND WHY IT IS NOT A REBUILD
+-------------------------------------
+The register keeps its own geodesy and its own classification: the CSV
+carries OSGB36 eastings and northings, and reprojecting them here would be
+a second implementation of both. Only identity and locality are taken from
+the CSV, matched onto rows the register already produced:
+
+    1. site name + technology type + installed capacity   (unique)
+    2. site name + technology type, capacity ignored      (when 1 found none)
+    3. ... narrowed by operator                           (when several)
+    4. ... then by development status                     (when still several)
+
+Tier 2 exists because the register and the CSV disagree on capacity for 120
+of these rows; a decimal place is not an identity. It still requires the
+site name AND the technology type to match, and still requires the result
+to be unique.
+
+Anything still ambiguous, or absent from the CSV, gets no reference. It is
+left null and the MAP link for that row carries no ref, exactly as before.
+A guessed identity is worse than a missing one: it would point the Atlas at
+a different project and every measurement on the card would be about the
+wrong site.
+
+TOWN is deliberately not populated. There is no town column in the REPD;
+the field the spine calls "town" is the planning authority, and putting an
+authority under a TOWN heading would be a quiet lie.
 
 Usage:
-    python build_wider_fleet.py --register dist/repd_master.json --out site/
+    python build_payload.py --register dist/repd_master.json \
+                            --repd-csv repd.csv --out site/
 
 Outputs:
     <out>/wider-fleet.json        the register cut, one row per project
-    <out>/wider-fleet.html        the page, Pipeline News stylesheet and markup
-    <out>/wider-fleet-report.txt  what was carried, for the build log
+    <out>/wider-fleet-report.txt  what was carried and what was not
 """
 
 import argparse
+import csv
+import io
 import json
 import os
+import re
 import sys
 from collections import Counter, defaultdict
 
 # The four REPD technology types the pipeline spine already carries. Anything
-# outside this set is this page's scope. Named in the REPD's own vocabulary so
-# the boundary is checkable against the source rather than against a nickname.
+# outside this set is this payload's scope. Named in the REPD's own vocabulary
+# so the boundary is checkable against the source, not against a nickname.
 SPINE_TYPES = {
     "Solar Photovoltaics",
     "Battery",
@@ -38,265 +75,181 @@ SPINE_TYPES = {
     "Wind Offshore",
 }
 
-# Engine layer colours, so a technology reads the same here as on the Atlas.
-# Keyed by the family repd_updaterv8.py already assigns -- no second table.
-FAMILY_COLOUR = {
-    "biomass": "#39ff14",
-    "hydro": "#00aaff",
-    "hydrogen": "#ffffff",
-    "tidal": "#00bfff",
-    "act": "#ff6600",
-    "caes": "#88aaff",
-    "geothermal": "#ff3300",
-    "flywheel": "#ff69b4",
-    "other": "#888888",
-}
 
-PN_RELEASE = "https://globalgrid2050.com/pipelinenews_intelligence/202609020611/"
-ATLAS = "https://ventusltd.github.io/gridatlas/atlas/"
+def norm(value):
+    return re.sub(r"\s+", " ", (value or "").strip()).lower()
 
 
-def load_rows(register_path):
-    """Read the served register and return the rows outside the spine."""
+def megawatts(value):
+    try:
+        return round(float(value), 3)
+    except (TypeError, ValueError):
+        return None
+
+
+def load_csv_index(path):
+    """Index the REPD extract by name+technology+capacity, and by name+technology.
+
+    The capacity-free index is not a loosening. The register's capacity and the
+    CSV's disagree on 120 of these rows -- the register carries a rounded or a
+    later figure -- and without a second index every one of them lost its
+    identity to a decimal place.
+    """
+    with_capacity = defaultdict(list)
+    without_capacity = defaultdict(list)
+    with io.open(path, encoding="utf-8-sig", errors="replace") as handle:
+        for row in csv.DictReader(handle):
+            if not (row.get("Ref ID") or "").strip():
+                continue
+            name = norm(row.get("Site Name"))
+            technology = norm(row.get("Technology Type"))
+            with_capacity[(name, technology,
+                           megawatts(row.get("Installed Capacity (MWelec)")))].append(row)
+            without_capacity[(name, technology)].append(row)
+    return with_capacity, without_capacity
+
+
+def resolve(index, props):
+    """Return (csv_row, how) or (None, why-not). Never guesses."""
+    with_capacity, without_capacity = index
+    name = norm(props.get("name"))
+    technology = norm(props.get("raw_tech"))
+
+    candidates = with_capacity.get((name, technology, megawatts(props.get("capacity"))), [])
+    if not candidates:
+        # Same site, same technology, one row: the capacity is the only thing
+        # that disagreed, and a decimal place is not an identity.
+        loose = without_capacity.get((name, technology), [])
+        if len(loose) == 1:
+            return loose[0], "name+technology, capacity differs"
+        if not loose:
+            return None, "absent"
+        candidates = loose
+    if len(candidates) == 1:
+        return candidates[0], "name+technology+capacity"
+
+    by_operator = [r for r in candidates
+                   if norm(r.get("Operator (or Applicant)")) == norm(props.get("operator"))]
+    if len(by_operator) == 1:
+        return by_operator[0], "narrowed by operator"
+
+    pool = by_operator or candidates
+    by_status = [r for r in pool
+                 if norm(r.get("Development Status (short)")) == norm(props.get("status"))]
+    if len(by_status) == 1:
+        return by_status[0], "narrowed by status"
+
+    return None, "ambiguous"
+
+
+def build(register_path, csv_path):
     with open(register_path, encoding="utf-8") as handle:
-        doc = json.load(handle)
-    features = doc.get("features", doc)
+        document = json.load(handle)
+    features = document.get("features", document)
+    index = load_csv_index(csv_path) if csv_path else None
 
-    rows, skipped = [], 0
+    rows, how, skipped = [], Counter(), 0
     for feature in features:
         props = feature.get("properties") or {}
         raw = (props.get("raw_tech") or "Unknown").strip()
         if raw in SPINE_TYPES:
             continue
-        geom = (feature.get("geometry") or {}).get("coordinates") or []
-        if len(geom) < 2:
+        coordinates = (feature.get("geometry") or {}).get("coordinates") or []
+        if len(coordinates) < 2:
             skipped += 1
             continue
-        try:
-            capacity = float(props.get("capacity") or 0)
-        except (TypeError, ValueError):
-            capacity = 0.0
-        rows.append({
+
+        match, reason = (resolve(index, props) if index else (None, "no csv supplied"))
+        how[reason] += 1
+
+        row = {
             "n": props.get("name") or "",
             "o": props.get("operator") or "",
             "t": props.get("tech") or "other",
             "rt": raw,
             "s": props.get("status") or "",
-            "c": capacity,
-            "ll": [round(float(geom[0]), 5), round(float(geom[1]), 5)],
-        })
+            "c": megawatts(props.get("capacity")) or 0.0,
+            "ll": [round(float(coordinates[0]), 5), round(float(coordinates[1]), 5)],
+        }
+        if match:
+            row["ref"] = (match.get("Ref ID") or "").strip()
+            county = (match.get("County") or "").strip()
+            postcode = (match.get("Post Code") or "").strip()
+            if county:
+                row["cty"] = county
+            if postcode:
+                row["pc"] = postcode
+        rows.append(row)
 
     rows.sort(key=lambda r: -r["c"])
-    return rows, skipped
+    return rows, how, skipped
 
 
-def report(rows, skipped):
-    counts, megawatts, family = Counter(), defaultdict(float), {}
+def report(rows, how, skipped):
+    counts, power = Counter(), defaultdict(float)
     for row in rows:
         counts[row["rt"]] += 1
-        megawatts[row["rt"]] += row["c"]
-        family[row["rt"]] = row["t"]
+        power[row["rt"]] += row["c"]
 
-    lines = [
-        "WIDER FLEET BUILD",
-        "",
-        "%-42s %6s %13s  %s" % ("REPD TECHNOLOGY TYPE", "N", "MW", "FAMILY"),
-    ]
+    referenced = sum(1 for r in rows if r.get("ref"))
+    lines = ["WIDER FLEET BUILD", "",
+             "%-42s %6s %13s  %s" % ("REPD TECHNOLOGY TYPE", "N", "MW", "WITH REF")]
     for name, count in counts.most_common():
-        lines.append("%-42s %6d %13s  %s"
-                     % (name, count, format(megawatts[name], ",.1f"), family[name]))
+        with_ref = sum(1 for r in rows if r["rt"] == name and r.get("ref"))
+        lines.append("%-42s %6d %13s  %d" % (name, count, format(power[name], ",.1f"), with_ref))
+
+    lines += ["", "identity resolution against the REPD extract"]
+    for reason, count in how.most_common():
+        lines.append("  %-34s %d" % (reason, count))
+
     lines += [
         "",
         "tabs (REPD technology types) : %d" % len(counts),
         "projects                     : %d" % len(rows),
         "capacity                     : %.2f GW" % (sum(r["c"] for r in rows) / 1000),
+        "with a REPD reference        : %d of %d (%.1f%%)"
+        % (referenced, len(rows), 100.0 * referenced / max(1, len(rows))),
+        "without one, MAP unresolved  : %d" % (len(rows) - referenced),
+        "with county                  : %d" % sum(1 for r in rows if r.get("cty")),
+        "with postcode                : %d" % sum(1 for r in rows if r.get("pc")),
         "dropped, no coordinates      : %d" % skipped,
         "spine types excluded         : %s" % ", ".join(sorted(SPINE_TYPES)),
     ]
     return "\n".join(lines)
 
 
-def page_html(rows):
-    """Pipeline News' own markup and stylesheet; only the scope differs."""
-    counts = Counter(row["rt"] for row in rows)
-    total_gw = sum(row["c"] for row in rows) / 1000
-    colours = json.dumps(FAMILY_COLOUR, separators=(",", ":"))
-
-    return f"""<!doctype html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PipelineNews | Wider Fleet</title>
-<link rel="stylesheet" href="{PN_RELEASE}assets/202608270055-v8-fast.css">
-<link rel="stylesheet" href="{PN_RELEASE}assets/202608272048-orientation.css">
-</head><body>
-
-<aside class="sidebar">
-  <div class="brand">
-    <b>GLOBALGRID2050</b>
-    <small>UK RENEWABLES PIPELINE &middot; WIDER FLEET &middot; REPD TECHNOLOGY TYPES OUTSIDE THE SPINE</small>
-  </div>
-  <button class="release-menu-opener" type="button" popovertarget="releaseMenu"
-          popovertargetaction="toggle" aria-controls="releaseMenu">RELEASES</button>
-  <nav class="nav nav-mobile" id="releaseMenu" popover="auto" aria-label="Release links">
-    <a href="{PN_RELEASE}">&#9666; PIPELINE NEWS &middot; SOLAR &middot; WIND &middot; BESS (UNCHANGED)</a>
-    <a class="active" href="#">WIDER FLEET</a>
-  </nav>
-</aside>
-
-<main class="main">
-  <div class="header">
-    <h1>WIDER FLEET &middot; THE REST OF THE RENEWABLE ENERGY PLANNING DATABASE</h1>
-    <div class="status" id="hdrStatus">&#9679; {len(rows):,} PROJECTS &middot; {len(counts)} REPD TECHNOLOGY TYPES &middot; {total_gw:.2f} GW &middot; SPINE UNTOUCHED</div>
-  </div>
-
-  <div class="meta">
-    <strong>ADDITIVE PAGE &middot; SEPARATE FROM THE PIPELINE SPINE &middot; NOTHING IN THE EXISTING RELEASE IS READ, REWRITTEN OR REFILTERED</strong>
-    <span>Same source, same layout. The DESNZ REPD carries 24 technology types; the pipeline spine admits four of them as its four tabs. This page gives the remaining {len(counts)} the same treatment &mdash; one tab each, under the REPD's own name, nothing merged.</span>
-    <span class="release-meta">Cut from the same REPD extract the spine is cut from. No new fetcher and no second register: repd_updaterv8.py + config/registry.yaml already read this CSV and already classify every one of these types.</span>
-    <a href="https://www.gov.uk/government/publications/renewable-energy-planning-database-quarterly-extract"
-       target="_blank" rel="noopener">DESNZ Renewable Energy Planning Database &mdash; quarterly extract</a>
-  </div>
-
-  <h2 class="section-title">WIDER FLEET ANALYTICS</h2>
-  <div class="gauges" id="gauges"></div>
-  <div class="filters" id="tech"></div>
-
-  <div class="filters" id="status">
-    <button class="btn active" data-official-status="All" aria-pressed="true">ALL STATUS</button>
-    <button class="btn" data-official-status="operational" aria-pressed="false">OPERATIONAL</button>
-    <button class="btn" data-official-status="under construction" aria-pressed="false">CONSTRUCTING</button>
-    <button class="btn" data-official-status="awaiting construction" aria-pressed="false">AWAITING</button>
-    <button class="btn" data-official-status="application submitted" aria-pressed="false">SUBMITTED</button>
-  </div>
-
-  <div class="meta">
-    <span>Capacity and status are the REPD's own fields, carried unchanged. County, town, postcode and the GlobalGrid reference are spine joins and are shown as &mdash;: this register cut does not carry them, and inventing them would be the one thing this page must not do.</span>
-  </div>
-
-  <div class="tablewrap">
-    <table>
-      <thead><tr>
-        <th>SITE NAME</th>
-        <th class="hide-mobile">COUNTY</th>
-        <th class="hide-mobile">TOWN</th>
-        <th class="hide-mobile">POSTCODE</th>
-        <th class="hide-mobile">OPERATOR</th>
-        <th>TECHNOLOGY</th>
-        <th>OFFICIAL REPD STATUS</th>
-        <th class="sortable-heading">OFFICIAL CAPACITY &#9660;</th>
-        <th class="hide-mobile">REPD REF</th>
-        <th class="hide-mobile">GLOBALGRID REF</th>
-        <th>ACTIONS</th>
-      </tr></thead>
-      <tbody id="rows"></tbody>
-    </table>
-  </div>
-
-  <div id="projectWindowControls" class="project-window-controls">
-    <button type="button" data-window="previous" disabled>PREVIOUS 50</button>
-    <span data-window-range>&mdash;</span>
-    <button type="button" data-window="next">NEXT 50</button>
-  </div>
-</main>
-
-<script>
-var COLOUR={colours};
-var ALL=[],tech='all',stat='All',page=0,PAGE=50;
-function esc(s){{return String(s==null?'':s).replace(/[&<>"]/g,function(c){{
-  return {{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}}[c];}});}}
-function num(n){{return n.toLocaleString('en-GB',{{maximumFractionDigits:2}});}}
-function filtered(){{return ALL.filter(function(r){{
-  return (tech==='all'||r.rt===tech)&&(stat==='All'||r.s===stat);}});}}
-
-/* One tab per REPD technology type, biggest first -- the same shape as the
-   spine's ALL TECH / SOLAR / BATTERY / ONSHORE / OFFSHORE row. Built from the
-   register, so a new REPD type appears on its own without an edit here. */
-function buildTabs(){{
-  var count={{}};
-  ALL.forEach(function(r){{count[r.rt]=(count[r.rt]||0)+1;}});
-  var html='<button class="btn active" data-technology="all" aria-pressed="true">ALL WIDER</button>';
-  Object.keys(count).sort(function(a,b){{return count[b]-count[a];}}).forEach(function(t){{
-    html+='<button class="btn" data-technology="'+esc(t)+'" aria-pressed="false">'
-      +esc(t.toUpperCase())+'</button>';}});
-  document.getElementById('tech').innerHTML=html;
-}}
-
-function render(){{
-  var f=filtered(),mw=0,big=0,i;
-  for(i=0;i<f.length;i++){{mw+=f[i].c;if(f[i].c>big)big=f[i].c;}}
-  var types={{}};for(i=0;i<f.length;i++)types[f[i].rt]=1;
-  var g=[['FILTERED CAPACITY (MW)',num(+mw.toFixed(2))],
-    ['FILTERED PROJECTS',num(f.length)+' \\u00b7 '+Object.keys(types).length+' REPD TYPES'],
-    ['LARGEST SINGLE SITE (MW)',num(big)]];
-  document.getElementById('gauges').innerHTML=g.map(function(kv){{
-    return '<div class="card"><h3>'+kv[0]+'</h3><div class="chart">'+kv[1]+'</div></div>';}}).join('');
-  var max=Math.max(0,Math.ceil(f.length/PAGE)-1);if(page>max)page=max;
-  document.getElementById('rows').innerHTML=f.slice(page*PAGE,page*PAGE+PAGE).map(function(r){{
-    return '<tr>'
-    +'<td class="site">'+esc(r.n)+'<div class="project-meta">'+esc(r.rt)+'</div></td>'
-    +'<td class="hide-mobile">&mdash;</td><td class="hide-mobile town-cell">&mdash;</td>'
-    +'<td class="hide-mobile reference-cell">&mdash;</td>'
-    +'<td class="hide-mobile">'+esc(r.o||'\\u2014')+'</td>'
-    +'<td><span class="badge" style="background:'+(COLOUR[r.t]||'#888')+';color:#04080a">'+esc(r.rt)+'</span></td>'
-    +'<td>'+esc(r.s)+'</td><td class="mw">'+num(r.c)+' MW</td>'
-    +'<td class="hide-mobile reference-cell repd-ref">&mdash;</td>'
-    +'<td class="hide-mobile reference-cell globalgrid-ref">&mdash;</td>'
-    +'<td><a class="btn" target="_blank" rel="noopener" href="{ATLAS}?project='
-      +encodeURIComponent(r.n)+'&technology='+encodeURIComponent(r.t)+'&capacity_mw='+r.c
-      +'&latitude='+r.ll[1]+'&longitude='+r.ll[0]+'&zoom=12">MAP \\u2197</a></td></tr>';}}).join('');
-  document.querySelector('[data-window-range]').textContent=
-    f.length?((page*PAGE+1)+'\\u2013'+Math.min(f.length,page*PAGE+PAGE)+' of '+num(f.length)):'0 of 0';
-  document.querySelector('[data-window="previous"]').disabled=page<=0;
-  document.querySelector('[data-window="next"]').disabled=page>=max;
-}}
-
-function wire(id,attr,set){{
-  document.getElementById(id).addEventListener('click',function(e){{
-    var b=e.target.closest('button');if(!b)return;
-    var all=e.currentTarget.querySelectorAll('button');
-    for(var i=0;i<all.length;i++){{all[i].classList.remove('active');all[i].setAttribute('aria-pressed','false');}}
-    b.classList.add('active');b.setAttribute('aria-pressed','true');
-    set(b.dataset[attr]);page=0;render();}});}}
-wire('tech','technology',function(v){{tech=v;}});
-wire('status','officialStatus',function(v){{stat=v;}});
-document.getElementById('projectWindowControls').addEventListener('click',function(e){{
-  var b=e.target.closest('button');if(!b)return;
-  page+=b.dataset.window==='next'?1:-1;render();window.scrollTo({{top:0,behavior:'smooth'}});}});
-
-fetch('wider-fleet.json').then(function(r){{return r.json();}}).then(function(rows){{
-  ALL=rows;buildTabs();render();
-}}).catch(function(e){{
-  document.getElementById('hdrStatus').textContent='\\u25cf REGISTER UNAVAILABLE \\u2014 '+e.message;}});
-</script>
-</body></html>
-"""
-
-
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--register", required=True,
                         help="repd_master.json produced by repd_updaterv8.py")
+    parser.add_argument("--repd-csv", required=True,
+                        help="the DESNZ REPD extract the register was built from")
     parser.add_argument("--out", required=True, help="output directory")
     parser.add_argument("--min-types", type=int, default=15,
                         help="fail the build below this many technology types")
+    parser.add_argument("--min-referenced", type=float, default=90.0,
+                        help="fail the build below this %% of rows carrying a REPD ref")
     args = parser.parse_args()
 
-    rows, skipped = load_rows(args.register)
+    rows, how, skipped = build(args.register, args.repd_csv)
     if not rows:
         sys.exit("no wider-fleet rows: register empty, or every type is in the spine")
 
     types = len({row["rt"] for row in rows})
     if types < args.min_types:
         sys.exit("only %d technology types, expected at least %d -- "
-                 "the register or the spine boundary has moved"
-                 % (types, args.min_types))
+                 "the register or the spine boundary has moved" % (types, args.min_types))
+
+    referenced = 100.0 * sum(1 for r in rows if r.get("ref")) / len(rows)
+    if referenced < args.min_referenced:
+        sys.exit("only %.1f%% of rows carry a REPD reference, expected at least %.1f%% -- "
+                 "the CSV and the register have drifted apart"
+                 % (referenced, args.min_referenced))
 
     os.makedirs(args.out, exist_ok=True)
     with open(os.path.join(args.out, "wider-fleet.json"), "w", encoding="utf-8") as handle:
         json.dump(rows, handle, separators=(",", ":"))
-    with open(os.path.join(args.out, "wider-fleet.html"), "w", encoding="utf-8") as handle:
-        handle.write(page_html(rows))
-    text = report(rows, skipped)
+    text = report(rows, how, skipped)
     with open(os.path.join(args.out, "wider-fleet-report.txt"), "w", encoding="utf-8") as handle:
         handle.write(text + "\n")
     print(text)

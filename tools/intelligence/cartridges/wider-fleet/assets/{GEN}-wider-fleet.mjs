@@ -53,6 +53,26 @@ const PAGE = 50;
 
 const esc = (value) => String(value == null ? "" : value)
   .replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+/* The Atlas resolves an arrival by REPD ref and nothing else
+   (identity_rule: EXACT_REPD_REF_ONLY). Without one it reports status ABSENT
+   and its place-search cartridge returns before its own flyTo, so the card
+   opens and the measurement runs while the camera stays on the default UK
+   view -- which reads as "the map cannot find it". Watched live for Rainham
+   Phase II on 2026-09-02. A row that genuinely has no resolved ref still
+   links without one: the card and the measurement work, only the camera
+   does not move, and that is better than sending a guessed identity. */
+function atlasLink(row) {
+  const query = new URLSearchParams();
+  if (row.ref) query.set("repd_ref", row.ref);
+  query.set("project", row.n);
+  query.set("technology", row.t);
+  query.set("capacity_mw", String(row.c));
+  query.set("latitude", String(row.ll[1]));
+  query.set("longitude", String(row.ll[0]));
+  query.set("zoom", "12");
+  return `${ATLAS}?${query.toString()}`;
+}
+
 const num = (value) => value.toLocaleString("en-GB", { maximumFractionDigits: 2 });
 
 export async function mountWiderFleet({ host, payloadAsset }) {
@@ -147,18 +167,18 @@ export async function mountWiderFleet({ host, payloadAsset }) {
 
     tableBody.innerHTML = shown.slice(page * PAGE, page * PAGE + PAGE).map((row) => `<tr>
       <td class="site">${esc(row.n)}<div class="project-meta">${esc(row.rt)}</div><div class="mobile-extra">${esc(row.o || "")}</div></td>
-      <td class="hide-mobile">&mdash;</td>
+      <td class="hide-mobile">${esc(row.cty || "—")}</td>
       <td class="hide-mobile town-cell">&mdash;</td>
-      <td class="hide-mobile reference-cell">&mdash;</td>
+      <td class="hide-mobile reference-cell">${esc(row.pc || "—")}</td>
       <td class="hide-mobile">${esc(row.o || "—")}</td>
       <td><span class="badge" style="background:${FAMILY_COLOUR[row.t] || "#888"};color:#04080a">${esc(row.rt)}</span></td>
       <td>${esc(row.s)}</td>
       <td class="mw">${num(row.c)} MW</td>
-      <td class="hide-mobile reference-cell repd-ref">&mdash;</td>
-      <td class="hide-mobile reference-cell globalgrid-ref">&mdash;</td>
+      <td class="hide-mobile reference-cell repd-ref">${esc(row.ref || "—")}</td>
+      <td class="hide-mobile reference-cell globalgrid-ref">${row.ref ? "GG2050-REPD-" + esc(row.ref) : "&mdash;"}</td>
       <td class="hide-mobile reference-cell repd-updated">&mdash;</td>
       <td><span class="signal none">&mdash;</span><div class="signal-note">no news binding on this tab</div></td>
-      <td><div class="project-actions"><a class="action-link" target="_blank" rel="noopener" href="${ATLAS}?project=${encodeURIComponent(row.n)}&technology=${encodeURIComponent(row.t)}&capacity_mw=${row.c}&latitude=${row.ll[1]}&longitude=${row.ll[0]}&zoom=12">MAP ↗</a></div></td>
+      <td><div class="project-actions"><a class="action-link" target="_blank" rel="noopener" href="${atlasLink(row)}">MAP ↗</a></div></td>
     </tr>`).join("");
 
     if (windowControls) {
