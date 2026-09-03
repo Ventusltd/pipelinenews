@@ -79,10 +79,35 @@ def sha256_file(path):
 # The browser hashes what the server sends, so this is the comparison that
 # means anything. Same defect, same fix, as the GridAtlas release verifier.
 def sha256_published(path):
-    if os.path.splitext(path)[1].lower() not in TEXT_EXT:
-        return sha256_file(path)
+    return hashlib.sha256(published_bytes(path)).hexdigest()
+
+
+# Six of the thirty-one ledgered releases fail their own `--check` today, and
+# every one of the ten mismatched entries is this defect:
+#
+#   releases/202608311530 .. 202608311610  grid-proximity.mjs + its sidecar
+#   releases/202608312018                  atlas-pointer-deep-link.mjs
+#
+# For all ten, sha256(bytes.replace(LF, CRLF)) equals the recorded digest
+# exactly. The bytes GitHub Pages serves are LF and are correct; the LEDGER
+# names bytes that were never served. The digests were taken on a Windows
+# working copy before `.gitattributes` forced LF, by hashing the file on disk.
+#
+# normalise_to_lf() and `.gitattributes` between them mean the tree is already
+# LF by the time any digest is recorded, so on a current checkout this helper
+# returns the same bytes sha256_file() would have hashed. That is the point: it
+# is no longer possible for the answer to depend on whose machine ran the build.
+def published_bytes(path):
+    """The bytes this file ships as: LF for text, untouched for everything else."""
     with open(path, "rb") as fh:
-        return hashlib.sha256(fh.read().replace(b"\r\n", b"\n")).hexdigest()
+        raw = fh.read()
+    if os.path.splitext(path)[1].lower() not in TEXT_EXT:
+        return raw
+    return raw.replace(b"\r\n", b"\n")
+
+
+def published_size(path):
+    return len(published_bytes(path))
 
 
 def read(p):
@@ -162,7 +187,7 @@ def refresh_sha256_sidecars(target):
         if not os.path.exists(subject_abs):
             continue
         path = os.path.join(target, rel)
-        want = sha256_file(subject_abs)
+        want = sha256_published(subject_abs)
         line = "%s  %s\n" % (want, os.path.basename(subject))
         if read(path) != line:
             write(path, line)
@@ -192,10 +217,10 @@ def refresh_build_manifest(target, release_id):
                 f = os.path.join(target, node["path"])
                 if os.path.exists(f):
                     if "bytes" in node:
-                        node["bytes"] = os.path.getsize(f)
+                        node["bytes"] = published_size(f)
                         count += 1
                     if "sha256" in node:
-                        node["sha256"] = sha256_file(f)
+                        node["sha256"] = sha256_published(f)
             for v in node.values():
                 count += visit(v)
         elif isinstance(node, list):
@@ -479,7 +504,7 @@ def cmd_build(parent_id, cartridge_name, gen, atlas_target):
             abs_path = os.path.join(target, node["path"])
             if not os.path.exists(abs_path):
                 continue
-            digest, size = sha256_file(abs_path), os.path.getsize(abs_path)
+            digest, size = sha256_published(abs_path), published_size(abs_path)
             if node.get("sha256") != digest or node.get("bytes") != size:
                 print("      %s.%s  %s -> %s" % (other_key, kind,
                                                  str(node.get("sha256"))[:12], digest[:12]))
@@ -523,7 +548,7 @@ def cmd_build(parent_id, cartridge_name, gen, atlas_target):
 
     files = [f for f in walk(target) if f != "sha256sums.txt"]
     write(os.path.join(target, "sha256sums.txt"),
-          "".join("%s  %s\n" % (sha256_file(os.path.join(target, f)), f) for f in files))
+          "".join("%s  %s\n" % (sha256_published(os.path.join(target, f)), f) for f in files))
     print("    sha256sums.txt (%d files)" % len(files))
 
     # ---- 6. the parent must be untouched ---------------------------------
