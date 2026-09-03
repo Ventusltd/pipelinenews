@@ -1,0 +1,60 @@
+{
+  "key": "unnamed_is_not_unspoken",
+  "summary": "The SUB hover named the nearest substation when the mapped layer had a name for it and said nothing at all when it did not, so a reader could not tell an unnamed feature from a truncated sentence. 714 of the 3,047 nearest substations in this cut carry no name tag, and the gap reaches the top of the network: 34 of the 251 mapped 400 kV sites the fleet can reach are unnamed. The hover now says the layer has no name for it, and no name is inferred.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "One line of the SUB chip’s hover text, plus one sentence that appears only when the nearest substation is unnamed. No payload, no new asset, no render-time network call, and no change to the distance, the voltage, the caveats or any named row. Nothing is written into the name field: it stays empty and is described as empty.",
+  "repairs": {
+    "app": [
+      {
+        "label": "an unnamed substation says so, and no name is invented for it",
+        "from": "    lines.push(`Nearest substation at 33 kV or above, ${hit.k.toFixed(2)} km`\n      + (hit.n ? ` \\u2014 ${hit.n}` : \"\")\n      + (hit.v && hit.v.length ? ` (${hit.v.join(\"/\")} kV)` : \"\"));\n",
+        "to": "    // A substation the layer has not named printed as a bare distance with the\n    // name clause silently dropped, which reads as a truncation rather than as\n    // a fact about the layer. Counted on this cut: of the 3,047 nearest\n    // substations, 2,333 carry a name tag and 714 do not. Across the 4,737\n    // distinct substations the fleet can reach, 1,154 are unnamed, and the gap\n    // is not confined to the small stuff -- 34 of the 251 mapped 400 kV sites\n    // have no name either.\n    //\n    // The name is not filled in. A settlement recogniser runs at 98.3% on this\n    // estate and its one failure was Rampton -> Rampson: plausible, wrong, and\n    // uncheckable by the reader it was written for. An empty field a reader can\n    // see is empty beats a field they cannot audit. Say the layer has no name.\n    lines.push(`Nearest substation at 33 kV or above, ${hit.k.toFixed(2)} km`\n      + (hit.n ? ` \\u2014 ${hit.n}` : \" \\u2014 unnamed in the mapped layer\")\n      + (hit.v && hit.v.length ? ` (${hit.v.join(\"/\")} kV)` : \"\"));\n    if (!hit.n) lines.push(\"The layer carries this substation as geometry with no name tag: 714 of the 3,047 nearest substations in this cut arrive that way, and 34 of the 251 mapped 400 kV sites. No name has been inferred for it, because a plausible wrong name in a field a reader trusts cannot be checked by the reader it is written for.\");\n",
+        "expect": 1
+      }
+    ]
+  },
+  "registry_entry": {
+    "schema": "pipelinenews.unnamed-is-not-unspoken.v1",
+    "generation": "{GEN}",
+    "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+    "usage_context_establishes_upstream_rights": false,
+    "activation": "render-time; no payload",
+    "additive_only": false,
+    "mutates_existing_dashboard": "one line of the SUB chip hover, and one conditional line beneath it",
+    "network_at_runtime": false,
+    "rule": "An empty field is described, never filled. Where the mapped layer carries no name for a feature, the surface says the layer carries no name for it and leaves the field empty. No recogniser, model or heuristic may write into a field a reader trusts and cannot check — the local settlement recogniser on this estate runs at 98.3% precision and its one failure was Rampton -> Rampson, which is plausible, wrong and uncheckable. Dropping the clause silently is the same failure in the other direction: it hides the gap instead of inventing over it.",
+    "found_by": "Counted on releases/202609032251-pipelinenews on 2026-09-04 from the release’s own shipped payloads. In data/202608311858-substation-33kv.json, 2,333 of the 3,047 entries carry an `n` field and 714 do not. Taking every substation named in data/202608311610-grid-proximity.json — each row’s nearest plus its substations_nearby, deduplicated on coordinate — gives 4,737 distinct mapped substations, of which 1,154 (24.4%) have no name and 2,156 no operator. By voltage: 400 kV 34 unnamed of 251, 275 kV 28 of 226, 132 kV 185 of 1,178, 66 kV 28 of 282, 33 kV 912 of 3,451. The reader-facing effect was first seen from the other end, on the live Atlas card for REPD 155 (Markinch Biomass CHP), which answered “Nearest 400 kV substation: Unnamed substation · 28.82 km straight”; Pipeline News had the same gap and showed it as silence instead.",
+    "measured": {
+      "sub_chip_rows": 3047,
+      "nearest_substation_named": 2333,
+      "nearest_substation_unnamed": 714,
+      "distinct_substations_reachable_from_the_fleet": 4737,
+      "distinct_unnamed": 1154,
+      "distinct_without_operator": 2156,
+      "unnamed_by_kv": {
+        "400": {
+          "total": 251,
+          "unnamed": 34
+        },
+        "275": {
+          "total": 226,
+          "unnamed": 28
+        },
+        "132": {
+          "total": 1178,
+          "unnamed": 185
+        },
+        "66": {
+          "total": 282,
+          "unnamed": 28
+        },
+        "33": {
+          "total": 3451,
+          "unnamed": 912
+        }
+      },
+      "names_inferred": 0
+    },
+    "upstream": "OpenStreetMap via the pinned Ventus voltage layers, ODbL-1.0, (c) OpenStreetMap contributors — the name tag is the layer’s, and its absence is the layer’s too."
+  }
+}
