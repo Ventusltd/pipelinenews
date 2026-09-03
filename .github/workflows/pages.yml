@@ -28,16 +28,110 @@ on:
 permissions:
   contents: read
   actions: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: pipelinenews-pages-v2
   cancel-in-progress: false
 
 jobs:
+  classify:
+    name: Classify exact release before choosing a publisher
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      release_id: ${{ steps.classify.outputs.release_id }}
+      route: ${{ steps.classify.outputs.route }}
+      pages_applicable: ${{ steps.classify.outputs.pages_applicable }}
+      manifest_sha256: ${{ steps.classify.outputs.manifest_sha256 }}
+      manifest_bytes: ${{ steps.classify.outputs.manifest_bytes }}
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ inputs.expected_sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Require exact current main before classification
+        env:
+          EXPECTED_SHA: ${{ inputs.expected_sha || github.sha }}
+        run: |
+          set -euo pipefail
+          [[ "$EXPECTED_SHA" =~ ^[0-9a-f]{40}$ ]]
+          test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+          git fetch --no-tags origin refs/heads/main
+          test "$(git rev-parse FETCH_HEAD)" = "$EXPECTED_SHA"
+
+      - name: Classify release from immutable manifest
+        id: classify
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.before }}
+          HEAD_SHA: ${{ inputs.expected_sha || github.sha }}
+          REQUESTED_RELEASE: ${{ inputs.timestamp_folder_release || '' }}
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          args=(--repo . --github-output "$GITHUB_OUTPUT" --receipt reports/pages-release-classification.json)
+          if test -n "$REQUESTED_RELEASE"; then
+            args+=(--release "$REQUESTED_RELEASE")
+          elif test "$GITHUB_EVENT_NAME" = push; then
+            args+=(--base "$BASE_SHA" --head "$HEAD_SHA" --allow-pointer-fallback)
+          else
+            args+=(--live-pointer)
+          fi
+          python3 tools/publication/pages_release_classifier.py "${args[@]}"
+
+      - name: Record the routing decision in the run summary
+        env:
+          RELEASE_ID: ${{ steps.classify.outputs.release_id }}
+          ROUTE: ${{ steps.classify.outputs.route }}
+          MANIFEST_SHA256: ${{ steps.classify.outputs.manifest_sha256 }}
+          MANIFEST_BYTES: ${{ steps.classify.outputs.manifest_bytes }}
+        run: |
+          {
+            echo "## Pipeline News release routing"
+            echo
+            echo "- Release: \`$RELEASE_ID\`"
+            echo "- Route: \`$ROUTE\`"
+            echo "- Manifest: \`$MANIFEST_SHA256\` ($MANIFEST_BYTES bytes)"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Retain the byte-bound classification receipt
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pages-release-classification-${{ steps.classify.outputs.release_id }}
+          path: reports/pages-release-classification.json
+          if-no-files-found: error
+          retention-days: 30
+
+  validate-source-only:
+    name: Validate additive source release without publishing it
+    needs: classify
+    if: needs.classify.outputs.route == 'source-only'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          ref: ${{ inputs.expected_sha || github.sha }}
+          persist-credentials: false
+
+      - name: Prove additive release closure
+        env:
+          RELEASE_ID: ${{ needs.classify.outputs.release_id }}
+        run: python3 tools/intelligence/release_builder.py --check "$RELEASE_ID"
+
   deploy:
+    needs: classify
+    if: needs.classify.outputs.route == 'pages'
+    permissions:
+      contents: read
+      actions: read
+      pages: write
+      id-token: write
     uses: ./.github/workflows/202608301214-pages-v2.yml
     with:
       expected_sha: ${{ inputs.expected_sha || github.sha }}
-      timestamp_folder_release: ${{ inputs.timestamp_folder_release || '' }}
+      timestamp_folder_release: ${{ needs.classify.outputs.release_id }}

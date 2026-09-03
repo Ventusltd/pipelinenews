@@ -1,0 +1,756 @@
+{
+  "attempt_count": 34,
+  "base_commit": "937b8c019074e40bebbc7edf5d8ef8d1751e034e",
+  "branch": "codex/202609040002-pages-classifier",
+  "cumulative_validation": {
+    "candidate_workflow_checks": 1,
+    "classifier_tests": 26,
+    "commands": [
+      "python tools/publication/run_pages_candidate_gate.py --receipt <temp>",
+      "python tools/publication/pages_release_classifier.py --repo . --base b1e09fb9f2afaeeb989fa8f5e96528f8d68c1aaf --head 9ffb4f3df8a1a7e62b7bec7942ec25d1ff09ccb9",
+      "git diff --check origin/main...HEAD",
+      "git rev-list --count origin/main..HEAD"
+    ],
+    "head": "2ae7a6920aa5b7b7cee9cd3cbce894b0ed9dcbe5",
+    "historical_additive_push_route": "source-only",
+    "release_builder_check": "pass",
+    "result": "pass",
+    "workflow_checks": 15,
+    "main_integration_trigger": "pass"
+  },
+  "entries": [
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "002d181275217cd9388adce91a2bd446cbb459e4",
+      "improvement": "classify Pages and additive releases",
+      "iteration": 1,
+      "parent": "937b8c019074e40bebbc7edf5d8ef8d1751e034e",
+      "qualifies": false,
+      "result": "superseded",
+      "tests": [
+        {
+          "command": "python -m unittest tools/publication/test_pages_release_classifier.py",
+          "detail": "Windows import path was not initialized; iteration 02 repaired the harness.",
+          "result": "fail"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "bdc6619fb098fc0135c3de70492e632bec5e0022",
+      "improvement": "make classifier tests path-independent",
+      "iteration": 2,
+      "parent": "002d181275217cd9388adce91a2bd446cbb459e4",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "42365840136175b4d03b2c38b46341121d62e7b5",
+      "improvement": "reject unsafe release identifiers",
+      "iteration": 3,
+      "parent": "bdc6619fb098fc0135c3de70492e632bec5e0022",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "3e0d1ed37861fbe9d81068c1a5a8f0667ce50da0",
+      "improvement": "bind manifest identity to its directory",
+      "iteration": 4,
+      "parent": "42365840136175b4d03b2c38b46341121d62e7b5",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "34ddbd27b3ddb238f548e99ebf31a873c01d71d8",
+      "improvement": "bind generation to release identity",
+      "iteration": 5,
+      "parent": "3e0d1ed37861fbe9d81068c1a5a8f0667ce50da0",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "3271ba2567954f299c7baac3c301b0eff836aaf2",
+      "improvement": "reject ambiguous duplicate manifest keys",
+      "iteration": 6,
+      "parent": "34ddbd27b3ddb238f548e99ebf31a873c01d71d8",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "83c0ea63ffc8914ab1fcb88224fb6572aa1580a5",
+      "improvement": "enforce additive deployment boundary",
+      "iteration": 7,
+      "parent": "3271ba2567954f299c7baac3c301b0eff836aaf2",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "1f145fe9676e10dfff012c0ac1400a6bcf7c25d0",
+      "improvement": "require immutable modern releases",
+      "iteration": 8,
+      "parent": "83c0ea63ffc8914ab1fcb88224fb6572aa1580a5",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "2fe9b43f9499c35c6ceb14e13052233cf8f278db",
+      "improvement": "validate additive release lineage",
+      "iteration": 9,
+      "parent": "1f145fe9676e10dfff012c0ac1400a6bcf7c25d0",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "cefe9ddc4956f76a12babd54d7732a65023758d6",
+      "improvement": "require a real additive parent manifest",
+      "iteration": 10,
+      "parent": "2fe9b43f9499c35c6ceb14e13052233cf8f278db",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "ec3e77d405e222cb856045ead2dc881d8b99dcdd",
+      "improvement": "bound manifest input size",
+      "iteration": 11,
+      "parent": "cefe9ddc4956f76a12babd54d7732a65023758d6",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "84089920e6d01d42b9cb107b5074455366716d07",
+      "improvement": "receipt exact manifest bytes",
+      "iteration": 12,
+      "parent": "ec3e77d405e222cb856045ead2dc881d8b99dcdd",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "42404857681b0929f0ac4da6d063585cc6299ffe",
+      "improvement": "emit safe GitHub job outputs",
+      "iteration": 13,
+      "parent": "84089920e6d01d42b9cb107b5074455366716d07",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "9d44e36e92833343edd98d3907d33f3f15ee2ff2",
+      "improvement": "write classification receipts atomically",
+      "iteration": 14,
+      "parent": "42404857681b0929f0ac4da6d063585cc6299ffe",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "aa9d01f9fd42480838a1c2ef9df3af00ae941ba1",
+      "improvement": "prove the current additive release route",
+      "iteration": 15,
+      "parent": "9d44e36e92833343edd98d3907d33f3f15ee2ff2",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "d2401f7d9c9760c85ded17d34a16364700928a3d",
+      "improvement": "discover release ids from changed paths",
+      "iteration": 16,
+      "parent": "aa9d01f9fd42480838a1c2ef9df3af00ae941ba1",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "24eda035c56f91574195dbb6a311ab228a50488f",
+      "improvement": "derive the candidate from an exact Git range",
+      "iteration": 17,
+      "parent": "d2401f7d9c9760c85ded17d34a16364700928a3d",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "70f3b9d790fcdae3b542060f77ac93ef674fedc6",
+      "improvement": "prove multi-release changes fail closed",
+      "iteration": 18,
+      "parent": "24eda035c56f91574195dbb6a311ab228a50488f",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "df628c2ec078964cada2f68381cc03effbd7f77e",
+      "improvement": "reject immutable release path mutations",
+      "iteration": 19,
+      "parent": "70f3b9d790fcdae3b542060f77ac93ef674fedc6",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "9204e70668a3c6ee85f196f15126bd075a753ec9",
+      "improvement": "require exact available Git commits",
+      "iteration": 20,
+      "parent": "df628c2ec078964cada2f68381cc03effbd7f77e",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        ".github/workflows/pages.yml"
+      ],
+      "commit": "01a59344127bb767a5e89b89aebcdf47cff5b70e",
+      "improvement": "classify release before choosing Pages",
+      "iteration": 21,
+      "parent": "9204e70668a3c6ee85f196f15126bd075a753ec9",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        },
+        {
+          "command": "python tools/publication/pages_release_classifier.py --repo . --release 202609032251-pipelinenews",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        ".github/workflows/pages.yml"
+      ],
+      "commit": "6752ca5e3cfdc4bf0673a5ddd33c387610367586",
+      "improvement": "validate additive releases without publishing",
+      "iteration": 22,
+      "parent": "01a59344127bb767a5e89b89aebcdf47cff5b70e",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/intelligence/release_builder.py --check 202609032251-pipelinenews",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        ".github/workflows/pages.yml"
+      ],
+      "commit": "3a0479f0a5d529bcd63c44b9401b43f58c84728b",
+      "improvement": "gate Pages at the reusable-job boundary",
+      "iteration": 23,
+      "parent": "6752ca5e3cfdc4bf0673a5ddd33c387610367586",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        ".github/workflows/pages.yml"
+      ],
+      "commit": "96b2589d79e942ff63a2e2d61d229253525de715",
+      "improvement": "retain the byte-bound routing receipt",
+      "iteration": 24,
+      "parent": "3a0479f0a5d529bcd63c44b9401b43f58c84728b",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "git diff --check",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        ".github/workflows/pages.yml"
+      ],
+      "commit": "dde98ba674bddf6246d4d00ebb8bd036d85b86b5",
+      "improvement": "scope Pages write authority to its route",
+      "iteration": 25,
+      "parent": "96b2589d79e942ff63a2e2d61d229253525de715",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "git diff --check",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/test_verify_pages_workflow.py",
+        "tools/publication/verify_pages_workflow.py"
+      ],
+      "commit": "9b732620050337b1d952ad4ff3bdb1237a03c515",
+      "improvement": "prove both workflow routes statically",
+      "iteration": 26,
+      "parent": "dde98ba674bddf6246d4d00ebb8bd036d85b86b5",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        },
+        {
+          "command": "python tools/publication/test_verify_pages_workflow.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "6ae34fb99595fd537c8bb0074d7f8fa7ac21bfe4",
+      "improvement": "resolve only byte-identical live pointers",
+      "iteration": 27,
+      "parent": "9b732620050337b1d952ad4ff3bdb1237a03c515",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "4b0b2b99bf0e1814bdaf3bebee5ae848718f082a",
+      "improvement": "prove stale and ambiguous pointers fail",
+      "iteration": 28,
+      "parent": "6ae34fb99595fd537c8bb0074d7f8fa7ac21bfe4",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        ".github/workflows/pages.yml",
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "a65aab5c38ef5f448e761e2b8942da90b332424f",
+      "improvement": "preserve manual and pointer-only Pages routes",
+      "iteration": 29,
+      "parent": "4b0b2b99bf0e1814bdaf3bebee5ae848718f082a",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        },
+        {
+          "command": "python tools/publication/test_verify_pages_workflow.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/run_pages_candidate_gate.py",
+        "tools/publication/test_verify_pages_workflow.py",
+        "tools/publication/verify_pages_workflow.py"
+      ],
+      "commit": "f3c396ad1545121ae8cc6f503b125095b7ea5665",
+      "improvement": "run the complete Pages candidate gate serially",
+      "iteration": 30,
+      "parent": "a65aab5c38ef5f448e761e2b8942da90b332424f",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/run_pages_candidate_gate.py --receipt <temp>",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        ".github/workflows/pages.yml",
+        "tools/publication/test_verify_pages_workflow.py",
+        "tools/publication/verify_pages_workflow.py"
+      ],
+      "commit": "2212d539c013532e37a65d67aed4723b0bfa73ee",
+      "improvement": "bind classification to exact current main",
+      "iteration": 31,
+      "parent": "f3c396ad1545121ae8cc6f503b125095b7ea5665",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        },
+        {
+          "command": "python tools/publication/test_verify_pages_workflow.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        "tools/publication/pages_release_classifier.py",
+        "tools/publication/test_pages_release_classifier.py"
+      ],
+      "commit": "4146a4b08b43bbbef8cc5c44ac674287ce03ae44",
+      "improvement": "bind classification and receipt to one read",
+      "iteration": 32,
+      "parent": "2212d539c013532e37a65d67aed4723b0bfa73ee",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/test_pages_release_classifier.py",
+          "result": "pass"
+        },
+        {
+          "command": "python tools/publication/test_verify_pages_workflow.py",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        ".github/workflows/202609040100-pages-routing-candidate.yml",
+        "tools/publication/run_pages_candidate_gate.py",
+        "tools/publication/test_pages_candidate_workflow.py"
+      ],
+      "commit": "a855ffe41d99c765c9eab0607603e274b31737b5",
+      "improvement": "add a receipt-only branch compute gate",
+      "iteration": 33,
+      "parent": "4146a4b08b43bbbef8cc5c44ac674287ce03ae44",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/run_pages_candidate_gate.py --receipt <temp>",
+          "result": "pass"
+        }
+      ]
+    },
+    {
+      "changed_paths": [
+        ".github/workflows/202609040100-pages-routing-candidate.yml",
+        "tools/publication/test_pages_candidate_workflow.py"
+      ],
+      "commit": "2ae7a6920aa5b7b7cee9cd3cbce894b0ed9dcbe5",
+      "improvement": "run the receipt-only candidate proof after path-scoped integration to main",
+      "iteration": 34,
+      "parent": "6d5ef4ba3aab23b47b2cc6f9fdf5eb1fcb38b30c",
+      "qualifies": true,
+      "result": "pass",
+      "tests": [
+        {
+          "command": "python tools/publication/run_pages_candidate_gate.py --receipt <temp>",
+          "detail": "six serial commands passed at the committed iteration head",
+          "result": "pass"
+        }
+      ]
+    }
+  ],
+  "evidence_corpus": [
+    "claude/CLAUDE.md",
+    "claude/sessions/202609032300-four-lanes-one-night/00-NOTE.md",
+    "claude/sessions/202609032304-codex-cto-control/00-NOTE.md",
+    "claude/sessions/202609032304-codex-cto-control/01-CLAUDE-REPLY.md",
+    "claude/sessions/202609032304-codex-cto-control/02-CODEX-REPLY.md",
+    "claude/sessions/202609032304-codex-cto-control/03-MILESTONE-PIPELINE-30-GRID-10.md",
+    "pipelinenews/docs/coordination/BOARD.md",
+    "codex-chatgpt/codex/2026-09-03-claude-24h-audit/EXECUTIVE_TIMELINE.md",
+    "codex-chatgpt/codex/2026-09-03-claude-24h-audit/QA_REPORT.md",
+    "codex-chatgpt/codex/2026-09-03-phase0/CLAUDE_10X_GRID_FINDING_BRIEF.md",
+    "codex-chatgpt/codex/2026-09-03-gridatlas-v10-proposal/PRODUCT_AND_ARCHITECTURE.md",
+    "codex-chatgpt/codex/2026-09-03-gridatlas-v10-proposal/RED_TEAM_FINDINGS.md",
+    "git range b1e09fb9f2afaeeb989fa8f5e96528f8d68c1aaf..937b8c019074e40bebbc7edf5d8ef8d1751e034e",
+    "branch codex/202609012206-pipelinenews-10x10 at 3724c9d and 721c4ae",
+    "branch codex/202609020100-pipeline-pages-fix (documentation only; not counted)"
+  ],
+  "finding_drivers": {
+    "branch_only_compute_without_deploy_authority": [
+      33
+    ],
+    "identity_and_provenance_failure_classes": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    "independent_pass_count_and_toctou_review": [
+      31,
+      32
+    ],
+    "pages_red_on_expected_additive_release": [
+      1,
+      7,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26
+    ],
+    "pointer_and_blank_manual_dispatch_compatibility_review": [
+      27,
+      28,
+      29
+    ],
+    "main_integration_self_proof": [
+      34
+    ]
+  },
+  "iteration_count": 33,
+  "iteration_count_semantics": "passing material improvements; the failed seed is recorded but not counted",
+  "iteration_head": "2ae7a6920aa5b7b7cee9cd3cbce894b0ed9dcbe5",
+  "minimum_required_iterations": 30,
+  "qualifying_iterations": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34
+  ],
+  "schema": "pipelinenews.30x-candidate-ledger.v2"
+}
