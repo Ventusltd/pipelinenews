@@ -58,6 +58,18 @@ class ClassifierTests(unittest.TestCase):
         with self.assertRaises(ClassificationError):
             classify_release(self.repo, release_id)
 
+    def test_duplicate_manifest_keys_fail_closed(self) -> None:
+        release_id = "202609032256-pipelinenews"
+        root = self.repo / "releases" / release_id
+        root.mkdir(parents=True)
+        (root / "release-manifest.json").write_text(
+            '{"release_id":"%s","generation":"202609032256",'
+            '"schema":"pipelinenews.additive-cartridge-release.v1","schema":"invented"}' % release_id,
+            encoding="utf-8",
+        )
+        with self.assertRaises(ClassificationError):
+            classify_release(self.repo, release_id)
+
 
 if __name__ == "__main__":
     unittest.main()

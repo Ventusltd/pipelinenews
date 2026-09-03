@@ -41,8 +41,18 @@ class Decision:
 
 
 def _load_manifest(path: Path) -> dict[str, Any]:
+    def reject_duplicates(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        result: dict[str, Any] = {}
+        for key, value in pairs:
+            if key in result:
+                raise ClassificationError(f"duplicate JSON key: {key}")
+            result[key] = value
+        return result
+
     try:
-        value = json.loads(path.read_text(encoding="utf-8"))
+        value = json.loads(
+            path.read_text(encoding="utf-8"), object_pairs_hook=reject_duplicates
+        )
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         raise ClassificationError(f"cannot read manifest {path}: {exc}") from exc
     if not isinstance(value, dict):
