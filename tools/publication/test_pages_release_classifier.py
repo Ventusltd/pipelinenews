@@ -25,6 +25,8 @@ class ClassifierTests(unittest.TestCase):
         root.mkdir(parents=True)
         values.setdefault("release_id", folder_id)
         values.setdefault("generation", folder_id[:12])
+        if values.get("schema") == "pipelinenews.additive-cartridge-release.v1":
+            values.setdefault("deployment", "not-authorised")
         (root / "release-manifest.json").write_text(json.dumps(values), encoding="utf-8")
 
     def test_routes_pages_release(self) -> None:
@@ -66,6 +68,16 @@ class ClassifierTests(unittest.TestCase):
             '{"release_id":"%s","generation":"202609032256",'
             '"schema":"pipelinenews.additive-cartridge-release.v1","schema":"invented"}' % release_id,
             encoding="utf-8",
+        )
+        with self.assertRaises(ClassificationError):
+            classify_release(self.repo, release_id)
+
+    def test_additive_release_cannot_claim_deployment_authority(self) -> None:
+        release_id = "202609032257-pipelinenews"
+        self.manifest(
+            release_id,
+            schema="pipelinenews.additive-cartridge-release.v1",
+            deployment="authorised",
         )
         with self.assertRaises(ClassificationError):
             classify_release(self.repo, release_id)

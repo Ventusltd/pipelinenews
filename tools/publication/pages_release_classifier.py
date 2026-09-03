@@ -77,6 +77,10 @@ def classify_release(repo: Path, release_id: str) -> Decision:
             release_id, schema, "pages", "Pages timestamp-folder contract", str(manifest_path)
         )
     if schema in SOURCE_ONLY_SCHEMAS:
+        if manifest.get("deployment") != "not-authorised":
+            raise ClassificationError(
+                "additive releases must declare deployment: not-authorised"
+            )
         return Decision(
             release_id,
             schema,
