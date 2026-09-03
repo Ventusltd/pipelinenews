@@ -27,6 +27,7 @@ PAGES_SCHEMAS = frozenset(
 )
 SOURCE_ONLY_SCHEMAS = frozenset({"pipelinenews.additive-cartridge-release.v1"})
 RELEASE_ID_RE = re.compile(r"^[0-9]{12}-pipelinenews$")
+RELEASE_PATH_RE = re.compile(r"^releases/([0-9]{12}-pipelinenews)(?:/|$)")
 MAX_MANIFEST_BYTES = 1024 * 1024
 
 
@@ -44,6 +45,16 @@ class Decision:
     manifest_sha256: str
     manifest_bytes: int
     deployment: str | None
+
+
+def release_ids_from_paths(paths: list[str]) -> list[str]:
+    """Return sorted distinct release ids named by repository-relative paths."""
+    found: set[str] = set()
+    for path in paths:
+        match = RELEASE_PATH_RE.match(path.replace("\\", "/"))
+        if match:
+            found.add(match.group(1))
+    return sorted(found)
 
 
 def _load_manifest(path: Path) -> dict[str, Any]:

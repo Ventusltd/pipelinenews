@@ -12,6 +12,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pages_release_classifier import (
     ClassificationError,
     classify_release,
+    release_ids_from_paths,
     write_github_output,
     write_receipt,
 )
@@ -176,6 +177,19 @@ class ClassifierTests(unittest.TestCase):
             decision.schema, "pipelinenews.additive-cartridge-release.v1"
         )
         self.assertGreater(decision.manifest_bytes, 1000)
+
+    def test_release_paths_are_deduplicated_and_sorted(self) -> None:
+        self.assertEqual(
+            release_ids_from_paths(
+                [
+                    "docs/coordination/BOARD.md",
+                    "releases/202609032251-pipelinenews/index.html",
+                    "releases\\202609032251-pipelinenews\\release-manifest.json",
+                    "releases/202608291447-pipelinenews/index.html",
+                ]
+            ),
+            ["202608291447-pipelinenews", "202609032251-pipelinenews"],
+        )
 
 
 if __name__ == "__main__":
