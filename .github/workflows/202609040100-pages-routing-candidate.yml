@@ -1,0 +1,42 @@
+name: Pipeline News Pages routing candidate
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/pages.yml'
+      - '.github/workflows/202609040100-pages-routing-candidate.yml'
+      - 'tools/publication/**'
+      - 'tools/intelligence/release_builder.py'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pipelinenews-pages-routing-candidate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  candidate:
+    name: Prove release routing without deployment authority
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout candidate branch
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+
+      - name: Run serial candidate gate
+        run: >-
+          python3 tools/publication/run_pages_candidate_gate.py
+          --receipt reports/pages-routing-candidate.json
+
+      - name: Retain candidate receipt
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pages-routing-candidate-${{ github.sha }}
+          path: reports/pages-routing-candidate.json
+          if-no-files-found: warn
+          retention-days: 30
