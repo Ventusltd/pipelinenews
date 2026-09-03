@@ -168,6 +168,15 @@ class ClassifierTests(unittest.TestCase):
         self.assertEqual(json.loads(receipt.read_text())["release_id"], release_id)
         self.assertTrue(receipt.read_bytes().endswith(b"\n"))
 
+    def test_current_committed_additive_release_classifies(self) -> None:
+        repo = Path(__file__).resolve().parents[2]
+        decision = classify_release(repo, "202609032251-pipelinenews")
+        self.assertEqual(decision.route, "source-only")
+        self.assertEqual(
+            decision.schema, "pipelinenews.additive-cartridge-release.v1"
+        )
+        self.assertGreater(decision.manifest_bytes, 1000)
+
 
 if __name__ == "__main__":
     unittest.main()
