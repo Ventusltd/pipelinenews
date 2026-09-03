@@ -40,6 +40,10 @@ class ClassifierTests(unittest.TestCase):
         with self.assertRaises(ClassificationError):
             classify_release(self.repo, "202609032252-pipelinenews")
 
+    def test_release_id_cannot_escape_release_root(self) -> None:
+        with self.assertRaises(ClassificationError):
+            classify_release(self.repo, "../../outside")
+
 
 if __name__ == "__main__":
     unittest.main()

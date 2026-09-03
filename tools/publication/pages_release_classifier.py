@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
@@ -23,6 +24,7 @@ PAGES_SCHEMAS = frozenset(
     }
 )
 SOURCE_ONLY_SCHEMAS = frozenset({"pipelinenews.additive-cartridge-release.v1"})
+RELEASE_ID_RE = re.compile(r"^[0-9]{12}-pipelinenews$")
 
 
 class ClassificationError(ValueError):
@@ -49,6 +51,8 @@ def _load_manifest(path: Path) -> dict[str, Any]:
 
 
 def classify_release(repo: Path, release_id: str) -> Decision:
+    if not RELEASE_ID_RE.fullmatch(release_id):
+        raise ClassificationError(f"invalid release id: {release_id!r}")
     manifest_path = repo / "releases" / release_id / "release-manifest.json"
     manifest = _load_manifest(manifest_path)
     schema = manifest.get("schema")
