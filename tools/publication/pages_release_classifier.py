@@ -13,6 +13,7 @@ import argparse
 import hashlib
 import json
 import re
+import tempfile
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
@@ -135,11 +136,23 @@ def write_github_output(decision: Decision, path: Path) -> None:
             stream.write(f"{key}={value}\n")
 
 
+def write_receipt(decision: Decision, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    payload = json.dumps(asdict(decision), indent=2, sort_keys=True) + "\n"
+    with tempfile.NamedTemporaryFile(
+        "w", encoding="utf-8", newline="\n", dir=path.parent, delete=False
+    ) as stream:
+        stream.write(payload)
+        temporary = Path(stream.name)
+    temporary.replace(path)
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo", type=Path, default=Path.cwd())
     parser.add_argument("--release", required=True)
     parser.add_argument("--github-output", type=Path)
+    parser.add_argument("--receipt", type=Path)
     args = parser.parse_args(argv)
     try:
         decision = classify_release(args.repo.resolve(), args.release)
@@ -147,6 +160,8 @@ def main(argv: list[str] | None = None) -> int:
         parser.error(str(exc))
     if args.github_output:
         write_github_output(decision, args.github_output)
+    if args.receipt:
+        write_receipt(decision, args.receipt)
     print(json.dumps(asdict(decision), sort_keys=True))
     return 0
 

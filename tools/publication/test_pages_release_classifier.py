@@ -9,7 +9,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from pages_release_classifier import ClassificationError, classify_release, write_github_output
+from pages_release_classifier import (
+    ClassificationError,
+    classify_release,
+    write_github_output,
+    write_receipt,
+)
 
 
 class ClassifierTests(unittest.TestCase):
@@ -154,6 +159,14 @@ class ClassifierTests(unittest.TestCase):
         values = dict(line.split("=", 1) for line in output.read_text().splitlines())
         self.assertEqual(values["route"], "source-only")
         self.assertEqual(values["pages_applicable"], "false")
+
+    def test_receipt_replace_is_complete_json(self) -> None:
+        release_id = "202609032304-pipelinenews"
+        self.manifest(release_id, schema="pipelinenews.additive-cartridge-release.v1")
+        receipt = self.repo / "reports" / "classification.json"
+        write_receipt(classify_release(self.repo, release_id), receipt)
+        self.assertEqual(json.loads(receipt.read_text())["release_id"], release_id)
+        self.assertTrue(receipt.read_bytes().endswith(b"\n"))
 
 
 if __name__ == "__main__":
