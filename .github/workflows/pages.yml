@@ -73,6 +73,29 @@ jobs:
           fi
           python3 tools/publication/pages_release_classifier.py "${args[@]}"
 
+      - name: Record the routing decision in the run summary
+        env:
+          RELEASE_ID: ${{ steps.classify.outputs.release_id }}
+          ROUTE: ${{ steps.classify.outputs.route }}
+          MANIFEST_SHA256: ${{ steps.classify.outputs.manifest_sha256 }}
+          MANIFEST_BYTES: ${{ steps.classify.outputs.manifest_bytes }}
+        run: |
+          {
+            echo "## Pipeline News release routing"
+            echo
+            echo "- Release: \`$RELEASE_ID\`"
+            echo "- Route: \`$ROUTE\`"
+            echo "- Manifest: \`$MANIFEST_SHA256\` ($MANIFEST_BYTES bytes)"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Retain the byte-bound classification receipt
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: pages-release-classification-${{ steps.classify.outputs.release_id }}
+          path: reports/pages-release-classification.json
+          if-no-files-found: error
+          retention-days: 30
+
   validate-source-only:
     name: Validate additive source release without publishing it
     needs: classify
