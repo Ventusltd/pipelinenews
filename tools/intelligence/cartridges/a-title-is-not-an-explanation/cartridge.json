@@ -1,0 +1,57 @@
+{
+  "key": "a_title_is_not_an_explanation",
+  "summary": "GRID -, SUB - and NO MAP are drawn like buttons and each kept its reason in a title attribute, so on a phone — which reports hover: none — the reason could not be reached at all. 4,633 of the 7,680 rows in this cut carry the dashes and 26 carry NO MAP. Tapping one now prints its own sentence on its own line in the cell; the title stays put, so a mouse keeps the hover it had.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Two edits in app.mjs — one helper and two lines added to the existing #tbody click delegate — and one appended block in orientation.css. The explanation shown is the chip’s own title attribute read back with textContent, never a second copy that could drift from it and never markup. No payload, no new asset, no render-time network call. Chips with no title stay inert rather than opening empty, and no chip’s wording, distance, colour or sort order changes.",
+  "repairs": {
+    "app": [
+      {
+        "label": "the explanation is printed in the cell, not only hovered",
+        "from": "// Distance to the nearest mapped circuit, at 33 kV and above.\nfunction gridActionHtml(item) {\n",
+        "to": "// A title attribute is not an explanation on a phone. Measured on this cut:\n// 4,633 of the 7,680 rows carry a dashed GRID and SUB, and 26 carry NO MAP\n// instead of a map link. Every one of those non-answers keeps its reason in a\n// title attribute. The pain log of 2026-09-03, taken at 393x852 with\n// matchMedia(\"(pointer: coarse)\") true and \"(hover: hover)\" false, counted 56\n// of the 100 rows on the default view showing GRID - and SUB -, tapped one,\n// and got nothing: \"A dash with no reachable explanation reads as broken, not\n// as not known.\" NO MAP additionally sets cursor: not-allowed, which a device\n// with no cursor cannot show either.\n//\n// So the explanation is printed, in the cell, when the chip is tapped. The\n// title attribute is left exactly where it is: a mouse keeps the hover it\n// always had, and this is the same sentence by another route rather than a\n// second, drifting copy of it. textContent, so the string cannot become markup.\nfunction revealExplanation(chip) {\n  const existing = chip.nextElementSibling;\n  if (existing && existing.classList.contains(\"action-explain\")) {\n    existing.remove();\n    chip.setAttribute(\"aria-expanded\", \"false\");\n    return;\n  }\n  const cell = chip.parentElement;\n  if (cell) {\n    for (const other of cell.querySelectorAll(\".action-explain\")) other.remove();\n    for (const other of cell.querySelectorAll(\"[aria-expanded=\\\"true\\\"]\")) {\n      other.setAttribute(\"aria-expanded\", \"false\");\n    }\n  }\n  const note = document.createElement(\"p\");\n  note.className = \"action-explain\";\n  note.textContent = chip.getAttribute(\"title\") || \"\";\n  chip.insertAdjacentElement(\"afterend\", note);\n  chip.setAttribute(\"aria-expanded\", \"true\");\n}\n\n// Distance to the nearest mapped circuit, at 33 kV and above.\nfunction gridActionHtml(item) {\n",
+        "expect": 1
+      },
+      {
+        "label": "the tbody delegate opens a non-answer on tap",
+        "from": "  document.getElementById(\"tbody\").addEventListener(\"click\", (event) => {\n    const copy = event.target.closest(\".copy-id\");\n    if (copy) copyProjectId(copy);\n",
+        "to": "  document.getElementById(\"tbody\").addEventListener(\"click\", (event) => {\n    const copy = event.target.closest(\".copy-id\");\n    if (copy) copyProjectId(copy);\n    // Delegated, so it reaches rows drawn after boot and rows the wider fleet\n    // renders into the same tbody. Only chips that actually carry a title are\n    // matched: a chip with a number has its own hover text and opens the same\n    // way, and a chip with nothing to say stays inert rather than opening empty.\n    const explainable = event.target.closest(\".action-metric[title], .action-disabled[title]\");\n    if (explainable) revealExplanation(explainable);\n",
+        "expect": 1
+      }
+    ],
+    "assets": [
+      {
+        "path": "assets/202608272048-orientation.css",
+        "edits": [
+          {
+            "label": "the explanation line, and a 44px chip where there is no hover",
+            "from": ".export-meta.is-declined {\n  color: #ffcc00;\n  flex-basis: 100%;\n  line-height: 1.6;\n  max-width: 100%;\n}\n",
+            "to": ".export-meta.is-declined {\n  color: #ffcc00;\n  flex-basis: 100%;\n  line-height: 1.6;\n  max-width: 100%;\n}\n\n/* THE NON-ANSWER THAT COULD NOT BE ASKED.\n\n   GRID -, SUB - and NO MAP are drawn in the same bordered boxes as MAP, NEWS\n   and COPY ID, so they read as buttons; each one held its reason in a title\n   attribute, and a phone reports hover: none. On this cut 4,633 of 7,680 rows\n   carry the dashes and 26 carry NO MAP. The chips are now tappable and print\n   their own reason on its own line in the cell.\n\n   flex-basis: 100% because .project-actions is a wrapping flex row: without it\n   the sentence would be squeezed between two chips, which is the failure the\n   export refusal above already had to fix. */\n\n.action-metric[title], .action-disabled[title] {\n  cursor: pointer;\n}\n\n.action-explain {\n  flex: 1 0 100%;\n  margin: 5px 0 2px;\n  padding: 7px 9px;\n  background: #07090c;\n  border: 1px solid #37404a;\n  border-left: 3px solid #5fbdc2;\n  color: #c8d0d8;\n  font: 400 10px/1.55 'Courier New', monospace;\n  text-transform: none;\n}\n\n/* A coarse pointer has no hover to fall back on, so the chip that carries the\n   only explanation has to be reachable by a thumb. 44px is the same floor the\n   technology row and the wider-fleet select already meet. */\n@media (pointer: coarse) {\n  .action-metric[title], .action-disabled[title] {\n    min-height: 44px;\n    display: inline-flex;\n    align-items: center;\n  }\n}\n",
+            "expect": 1
+          }
+        ]
+      }
+    ]
+  },
+  "registry_entry": {
+    "schema": "pipelinenews.a-title-is-not-an-explanation.v1",
+    "generation": "{GEN}",
+    "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+    "usage_context_establishes_upstream_rights": false,
+    "activation": "render-time; no payload",
+    "additive_only": false,
+    "mutates_existing_dashboard": "the ACTIONS column non-answers become tappable and print their own reason",
+    "network_at_runtime": false,
+    "rule": "An explanation that exists only in a title attribute does not exist on a device with no hover. Where a control's only content is the reason it has nothing to show, that reason must be reachable by the pointer the reader actually has. The reachable copy is read back from the attribute at the moment of the tap, so there is one sentence and not two that can drift apart.",
+    "found_by": "sessions/202609031710-user-pain-log/00-PAIN.md, entries 7 and 8: 101 MAP taps on a verified coarse-pointer viewport — 393x852, devicePixelRatio 3, matchMedia(“(pointer: coarse)”) true, “(hover: hover)” false, maxTouchPoints 5. “56 of the 100 rows on screen show GRID - and SUB -. They are drawn in the same bordered boxes as MAP, NEWS and COPY ID, so they read as buttons. I tapped one. Nothing happened — no panel, no message, no change. There IS an explanation but it is a hover tooltip, and this phone reports hover: none. On a phone that sentence can never appear.” Entry 8 records the same for the NO MAP badge, which also sets cursor: not-allowed — a second signal a phone cannot render. Counted against releases/202609032251-pipelinenews on 2026-09-04: 4,633 of the 7,680 records are dashed on GRID and SUB, and 26 have geometry_status missing plus 2 invalid, which is what draws NO MAP.",
+    "measured": {
+      "records_in_cut": 7680,
+      "rows_with_a_dashed_grid_and_sub": 4633,
+      "rows_drawn_as_no_map": 26,
+      "rows_the_pain_log_counted_dashed_on_the_default_view": "56 of 100",
+      "taps_that_produced_an_explanation_before": 0,
+      "explanation_strings_added": 0,
+      "explanation_strings_made_reachable": 3
+    },
+    "upstream": "none; this reads only strings the release already ships"
+  }
+}
