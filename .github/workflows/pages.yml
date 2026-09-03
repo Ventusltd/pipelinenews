@@ -65,9 +65,10 @@ jobs:
           args=(--repo . --github-output "$GITHUB_OUTPUT" --receipt reports/pages-release-classification.json)
           if test -n "$REQUESTED_RELEASE"; then
             args+=(--release "$REQUESTED_RELEASE")
+          elif test "$GITHUB_EVENT_NAME" = push; then
+            args+=(--base "$BASE_SHA" --head "$HEAD_SHA" --allow-pointer-fallback)
           else
-            test "$GITHUB_EVENT_NAME" = push
-            args+=(--base "$BASE_SHA" --head "$HEAD_SHA")
+            args+=(--live-pointer)
           fi
           python3 tools/publication/pages_release_classifier.py "${args[@]}"
 

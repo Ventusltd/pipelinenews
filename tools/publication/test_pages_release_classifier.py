@@ -296,6 +296,16 @@ class ClassifierTests(unittest.TestCase):
         with self.assertRaises(ClassificationError):
             resolve_live_pointer(self.repo)
 
+    def test_zero_release_diff_can_resolve_the_live_pointer(self) -> None:
+        repo = Path(__file__).resolve().parents[2]
+        head = subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], cwd=repo, text=True
+        ).strip()
+        self.assertEqual(
+            discover_release(repo, head, head, allow_pointer_fallback=True),
+            "202608291447-pipelinenews",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

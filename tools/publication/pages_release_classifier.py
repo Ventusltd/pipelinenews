@@ -72,7 +72,9 @@ def require_commit(repo: Path, value: str, label: str) -> None:
         raise ClassificationError(f"{label} is not an available commit: {value}")
 
 
-def discover_release(repo: Path, base: str, head: str) -> str:
+def discover_release(
+    repo: Path, base: str, head: str, *, allow_pointer_fallback: bool = False
+) -> str:
     require_commit(repo, base, "base")
     require_commit(repo, head, "head")
     process = subprocess.run(
@@ -103,6 +105,8 @@ def discover_release(repo: Path, base: str, head: str) -> str:
             )
         paths.extend(record_paths)
     releases = release_ids_from_paths(paths)
+    if not releases and allow_pointer_fallback:
+        return resolve_live_pointer(repo)
     if len(releases) != 1:
         raise ClassificationError(
             f"expected exactly one changed release, found {len(releases)}: {releases}"
@@ -258,16 +262,26 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--release")
     parser.add_argument("--base")
     parser.add_argument("--head")
+    parser.add_argument("--allow-pointer-fallback", action="store_true")
+    parser.add_argument("--live-pointer", action="store_true")
     parser.add_argument("--github-output", type=Path)
     parser.add_argument("--receipt", type=Path)
     args = parser.parse_args(argv)
     try:
         repo = args.repo.resolve()
-        release_id = args.release
-        if release_id is None:
+        modes = int(args.release is not None) + int(bool(args.base or args.head)) + int(args.live_pointer)
+        if modes != 1:
+            raise ClassificationError("choose one of --release, --base/--head, or --live-pointer")
+        if args.release is not None:
+            release_id = args.release
+        elif args.live_pointer:
+            release_id = resolve_live_pointer(repo)
+        else:
             if not args.base or not args.head:
-                raise ClassificationError("provide --release or both --base and --head")
-            release_id = discover_release(repo, args.base, args.head)
+                raise ClassificationError("both --base and --head are required")
+            release_id = discover_release(
+                repo, args.base, args.head, allow_pointer_fallback=args.allow_pointer_fallback
+            )
         decision = classify_release(repo, release_id)
     except ClassificationError as exc:
         parser.error(str(exc))
