@@ -15,6 +15,7 @@ from pages_release_classifier import (
     classify_release,
     discover_release,
     release_ids_from_paths,
+    require_commit,
     write_github_output,
     write_receipt,
 )
@@ -244,6 +245,11 @@ class ClassifierTests(unittest.TestCase):
         head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=self.repo, text=True).strip()
         with self.assertRaises(ClassificationError):
             discover_release(self.repo, base, head)
+
+    def test_abbreviated_commit_is_rejected(self) -> None:
+        subprocess.run(["git", "init", "-q"], cwd=self.repo, check=True)
+        with self.assertRaises(ClassificationError):
+            require_commit(self.repo, "937b8c0", "base")
 
 
 if __name__ == "__main__":

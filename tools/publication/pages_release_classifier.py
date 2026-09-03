@@ -29,6 +29,7 @@ PAGES_SCHEMAS = frozenset(
 SOURCE_ONLY_SCHEMAS = frozenset({"pipelinenews.additive-cartridge-release.v1"})
 RELEASE_ID_RE = re.compile(r"^[0-9]{12}-pipelinenews$")
 RELEASE_PATH_RE = re.compile(r"^releases/([0-9]{12}-pipelinenews)(?:/|$)")
+COMMIT_RE = re.compile(r"^[0-9a-f]{40}$")
 MAX_MANIFEST_BYTES = 1024 * 1024
 
 
@@ -58,7 +59,22 @@ def release_ids_from_paths(paths: list[str]) -> list[str]:
     return sorted(found)
 
 
+def require_commit(repo: Path, value: str, label: str) -> None:
+    if not COMMIT_RE.fullmatch(value):
+        raise ClassificationError(f"{label} must be a full lowercase commit oid")
+    process = subprocess.run(
+        ["git", "cat-file", "-e", f"{value}^{{commit}}"],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+    )
+    if process.returncode:
+        raise ClassificationError(f"{label} is not an available commit: {value}")
+
+
 def discover_release(repo: Path, base: str, head: str) -> str:
+    require_commit(repo, base, "base")
+    require_commit(repo, head, "head")
     process = subprocess.run(
         ["git", "diff", "--name-status", "-z", "--find-renames", base, head, "--", "releases"],
         cwd=repo,
