@@ -20,9 +20,10 @@ class ClassifierTests(unittest.TestCase):
     def tearDown(self) -> None:
         self.temp.cleanup()
 
-    def manifest(self, release_id: str, **values: object) -> None:
-        root = self.repo / "releases" / release_id
+    def manifest(self, folder_id: str, **values: object) -> None:
+        root = self.repo / "releases" / folder_id
         root.mkdir(parents=True)
+        values.setdefault("release_id", folder_id)
         (root / "release-manifest.json").write_text(json.dumps(values), encoding="utf-8")
 
     def test_routes_pages_release(self) -> None:
@@ -43,6 +44,12 @@ class ClassifierTests(unittest.TestCase):
     def test_release_id_cannot_escape_release_root(self) -> None:
         with self.assertRaises(ClassificationError):
             classify_release(self.repo, "../../outside")
+
+    def test_manifest_identity_must_match_directory(self) -> None:
+        release_id = "202609032253-pipelinenews"
+        self.manifest(release_id, release_id="202609032254-pipelinenews", schema="pipelinenews.additive-cartridge-release.v1")
+        with self.assertRaises(ClassificationError):
+            classify_release(self.repo, release_id)
 
 
 if __name__ == "__main__":
