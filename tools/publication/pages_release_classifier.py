@@ -119,15 +119,34 @@ def classify_release(repo: Path, release_id: str) -> Decision:
     raise ClassificationError(f"unsupported release schema: {schema}")
 
 
+def write_github_output(decision: Decision, path: Path) -> None:
+    values = {
+        "release_id": decision.release_id,
+        "schema": decision.schema,
+        "route": decision.route,
+        "pages_applicable": str(decision.route == "pages").lower(),
+        "manifest_sha256": decision.manifest_sha256,
+        "manifest_bytes": str(decision.manifest_bytes),
+    }
+    with path.open("a", encoding="utf-8", newline="\n") as stream:
+        for key, value in values.items():
+            if "\n" in value or "\r" in value:
+                raise ClassificationError(f"unsafe workflow output value for {key}")
+            stream.write(f"{key}={value}\n")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo", type=Path, default=Path.cwd())
     parser.add_argument("--release", required=True)
+    parser.add_argument("--github-output", type=Path)
     args = parser.parse_args(argv)
     try:
         decision = classify_release(args.repo.resolve(), args.release)
     except ClassificationError as exc:
         parser.error(str(exc))
+    if args.github_output:
+        write_github_output(decision, args.github_output)
     print(json.dumps(asdict(decision), sort_keys=True))
     return 0
 

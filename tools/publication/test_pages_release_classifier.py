@@ -9,7 +9,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from pages_release_classifier import ClassificationError, classify_release
+from pages_release_classifier import ClassificationError, classify_release, write_github_output
 
 
 class ClassifierTests(unittest.TestCase):
@@ -145,6 +145,15 @@ class ClassifierTests(unittest.TestCase):
         import hashlib
         self.assertEqual(decision.manifest_bytes, len(raw))
         self.assertEqual(decision.manifest_sha256, hashlib.sha256(raw).hexdigest())
+
+    def test_github_outputs_are_scalar_and_job_ready(self) -> None:
+        release_id = "202609032303-pipelinenews"
+        self.manifest(release_id, schema="pipelinenews.additive-cartridge-release.v1")
+        output = self.repo / "github-output"
+        write_github_output(classify_release(self.repo, release_id), output)
+        values = dict(line.split("=", 1) for line in output.read_text().splitlines())
+        self.assertEqual(values["route"], "source-only")
+        self.assertEqual(values["pages_applicable"], "false")
 
 
 if __name__ == "__main__":
