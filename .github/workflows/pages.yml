@@ -92,7 +92,9 @@ jobs:
         run: python3 tools/intelligence/release_builder.py --check "$RELEASE_ID"
 
   deploy:
+    needs: classify
+    if: needs.classify.outputs.route == 'pages'
     uses: ./.github/workflows/202608301214-pages-v2.yml
     with:
       expected_sha: ${{ inputs.expected_sha || github.sha }}
-      timestamp_folder_release: ${{ inputs.timestamp_folder_release || '' }}
+      timestamp_folder_release: ${{ needs.classify.outputs.release_id }}
