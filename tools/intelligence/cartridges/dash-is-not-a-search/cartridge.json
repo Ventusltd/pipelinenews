@@ -1,0 +1,54 @@
+{
+  "key": "dash_is_not_a_search",
+  "summary": "A dashed GRID or SUB chip said “No mapped feature found for this project”, which asserts a search that ran and failed. 3,047 of the 7,680 records in this cut carry a grid measurement; the payload’s own coverage block records no_circuit: 0, so not one of the 4,633 dashed rows was measured and came up empty. The chip now separates the two silences it had been merging: 4,605 rows have a register coordinate and were not measured, and 28 have no coordinate to measure from.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Replaces one hover string on the dashed GRID and SUB chips with two, chosen by the row’s own geometry_status. No payload, no new asset, no render-time network call, and no change to any chip that carries a number. The mapped-layer caveat (“Absence from a mapped layer is not absence on the ground”) is removed from the dash and left verbatim everywhere it belongs: it qualifies a distance measured against an incomplete layer, and a dashed row has no distance to qualify.",
+  "repairs": {
+    "app": [
+      {
+        "label": "the dash says which silence it is, and stops asserting a failed search",
+        "from": "function metricChip({ ready, hit, label, unitSuffix, lines }) {\n  if (!ready) return `<span class=\"action-metric pending\">${label} \\u2026</span>`;\n  if (!hit || typeof hit.k !== \"number\") {\n    // Absence from a mapped layer is not absence on the ground, so this is a\n    // dash and never a large number standing in for \"not found\".\n    return `<span class=\"action-metric\" title=\"No mapped feature found for this project. Absence from a mapped layer is not absence on the ground.\">${label} -</span>`;\n  }\n",
+        "to": "function metricChip({ ready, hit, located, label, unitSuffix, lines }) {\n  if (!ready) return `<span class=\"action-metric pending\">${label} \\u2026</span>`;\n  if (!hit || typeof hit.k !== \"number\") {\n    // One sentence covered two different silences, and it asserted a search\n    // that never ran. Counted on this cut: 3,047 of the 7,680 records carry a\n    // distance and 4,633 do not, and the grid-distance payload's own coverage\n    // block records no_circuit: 0 -- not one project was measured and came up\n    // empty. \"No mapped feature found for this project\" therefore described\n    // none of the 4,633 rows it was printed on. 4,605 of them hold a register\n    // coordinate and were simply not measured; the other 28 have no coordinate\n    // to measure from. The row already knows which it is.\n    //\n    // The mapped-layer caveat is not repeated here. It qualifies a distance\n    // that was measured against an incomplete layer, and no distance was\n    // measured for this row; it still stands, verbatim, on every chip that\n    // carries a number and in the GRID + SUB strip.\n    const why = located\n      ? \"Not measured. 3,047 of the 7,680 records in this cut carry a grid measurement and 4,633 do not. This project has a register coordinate and is one of the 4,605 unmeasured records that do: no search was run for it, so none failed.\"\n      : \"Not measurable. The register publishes no usable coordinate for this project, so there is no point on the ground to measure from. 28 of the 7,680 records are in that state, 26 missing and 2 invalid. The record stays searchable and exportable.\"\n    return `<span class=\"action-metric\" title=\"${why}\">${label} -</span>`;\n  }\n",
+        "expect": 1
+      },
+      {
+        "label": "GRID hands the chip the fact the row already holds",
+        "from": "  return metricChip({\n    ready: Boolean(gridDistance), hit, label: \"GRID\",\n    unitSuffix: hit && hit.v ? ` \\u00b7 ${hit.v}kV` : \"\", lines,\n  });\n",
+        "to": "  return metricChip({\n    ready: Boolean(gridDistance), hit, located: item.geometry_status === \"valid\",\n    label: \"GRID\",\n    unitSuffix: hit && hit.v ? ` \\u00b7 ${hit.v}kV` : \"\", lines,\n  });\n",
+        "expect": 1
+      },
+      {
+        "label": "SUB hands the chip the same fact",
+        "from": "  return metricChip({\n    ready: Boolean(substation), hit, label: \"SUB\", unitSuffix: \"\", lines,\n  });\n",
+        "to": "  return metricChip({\n    ready: Boolean(substation), hit, located: item.geometry_status === \"valid\",\n    label: \"SUB\", unitSuffix: \"\", lines,\n  });\n",
+        "expect": 1
+      }
+    ]
+  },
+  "registry_entry": {
+    "schema": "pipelinenews.dash-is-not-a-search.v1",
+    "generation": "{GEN}",
+    "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+    "usage_context_establishes_upstream_rights": false,
+    "activation": "render-time; no payload",
+    "additive_only": false,
+    "mutates_existing_dashboard": "the hover text of a dashed GRID or SUB chip",
+    "network_at_runtime": false,
+    "rule": "A dash reports the absence of a measurement. It may not report the result of one. Where two different absences share a cell, the cell names which one it is from a fact the record already carries — geometry_status — and never from a guess about why the number is missing.",
+    "found_by": "Counted on releases/202609032251-pipelinenews on 2026-09-04, from the release’s own shipped files. data/202608270055-8ab1807551bc-v8-fast-projects.json carries 7,680 rows; 7,652 have latitude and longitude and 28 do not (geometry_status missing 26, invalid 2). The grid index in data/202608311800-grid-distance.json holds 3,047 refs and the substation index in data/202608311858-substation-33kv.json holds the same 3,047. Every one of the 3,047 has a coordinate; not one coordinate-less record is in either index. That leaves 4,633 dashed rows, 4,605 of them with a usable coordinate. The grid-distance payload’s coverage block reads with_circuit 3,047, no_circuit 0, and its own note already said the truth the chip did not: “A project with no entry has no mapped circuit found, OR no coordinate in the register.”",
+    "measured": {
+      "records_in_cut": 7680,
+      "carry_a_grid_measurement": 3047,
+      "dashed": 4633,
+      "dashed_with_a_register_coordinate": 4605,
+      "dashed_without_a_usable_coordinate": 28,
+      "coordinate_state_of_those_28": {
+        "missing": 26,
+        "invalid": 2
+      },
+      "measured_and_found_nothing": 0,
+      "rows_the_old_string_described_correctly": 0
+    },
+    "upstream": "DESNZ Renewable Energy Planning Database Q2 2026 (OGL v3.0) for the register coordinate and its geometry_status; the release’s own data/202608311800-grid-distance.json coverage block for with_circuit and no_circuit."
+  }
+}
