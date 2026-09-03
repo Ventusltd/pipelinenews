@@ -614,6 +614,31 @@ def cmd_build(parent_id, cartridge_name, gen, atlas_target):
                 print("      %s.%s  %s -> %s" % (other_key, kind,
                                                  str(node.get("sha256"))[:12], digest[:12]))
                 node["sha256"], node["bytes"] = digest, size
+            # record_count is the same kind of claim as sha256 and bytes: a statement
+            # about the file at `path`. It was not re-derived, so a cartridge that ships
+            # a longer payload under an inherited filename left the registry announcing
+            # the old count for the new file - the registry describing a file no one will
+            # ever receive, which is the exact defect the block above exists to fix.
+            # Derived, never repaired: `record_count` is deliberately absent from
+            # allowed_registry_repairs, because a count a cartridge can assert is a count
+            # that can disagree with the payload.
+            if kind == "payload" and "record_count" in node:
+                try:
+                    doc = json.loads(read(abs_path))
+                except ValueError:
+                    doc = None
+                counted = None
+                if isinstance(doc, dict):
+                    rows = next((v for v in doc.values()
+                                 if isinstance(v, list) and v and isinstance(v[0], dict)),
+                                None)
+                    counted = len(rows) if rows is not None else doc.get("record_count")
+                elif isinstance(doc, list):
+                    counted = len(doc)
+                if isinstance(counted, int) and node.get("record_count") != counted:
+                    print("      %s.%s  record_count %s -> %s"
+                          % (other_key, kind, node.get("record_count"), counted))
+                    node["record_count"] = counted
     write(reg_path, json.dumps(reg, indent=2, ensure_ascii=False) + "\n")
     print("    supplemental_assets.%s" % key)
 

@@ -1,0 +1,14 @@
+{
+  "key": "wider_fleet_proximity",
+  "summary": "Grid proximity is computed for the whole fleet, not just solar and battery. The payload goes from 3047 rows and two technologies to 4138 rows and eleven, adding biomass, hydro, hydrogen, ACT, tidal, geothermal, CAES, flywheel and other. Every one of the 3047 rows already published is byte-identical.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Replaces the grid_proximity payload in this release with a longer one under the same filename, so the registry's path stays true and its digest, size and record count re-derive from the file that actually ships. The parent release is not touched. No module, DOM or caption changes: the cartridge that renders grid proximity is unchanged and simply reads a longer file.",
+  "registry_repairs": [
+    {
+      "key": "grid_proximity",
+      "set": {
+        "presentation": "Radius search, sortable table and nearest circuit and substation across 400/275/220/132/66/33 kV plus estimated UKPN 11 kV points, over 4138 projects in eleven technologies: solar 1747, bess 1300, biomass 814, hydro 150, hydrogen 59, ACT 37, tidal 18, geothermal 7, CAES 4, flywheel 1, other 1. The 1091 added rows leave town, region and country empty, because the spine's town column is the planning authority rather than the settlement and the wider-fleet source carries no authority field."
+      }
+    }
+  ]
+}
