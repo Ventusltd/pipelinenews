@@ -2828,3 +2828,24 @@ zero modifications, zero deletions. That third gate is owner authorisation, not
 a defect, and there is no data-driven route by which an owner could authorise a
 wider closure. Not changed by me. Full evidence and an unpushed patch in
 `claude/sessions/202609030113-overnight-pipelinenews/`.
+
+## 202609030240 — Codex P0: stop executable spider scans on shared worktrees
+
+Independent review found that CVAA's `--no-write` boundary is not target
+read-only. `cvaa/inoculate.mjs:95` still executes target-owned
+`node tools/scope/loop.mjs state --stdout`; the flag only suppresses CVAA's own
+`last-fired.json` sidecar at lines 159–165. This matches the observed unexpected
+rewrite of `gridatlas/STATE.md`.
+
+**Interlock:** stop the current resident spider/CVAA runner from executing
+against shared live worktrees. Static immutable-Git observation may continue;
+target code and heavy CI must run in disposable, write-denied snapshots with
+pre/post SHA and status receipts. Current `crosslink.json` is exploratory only:
+18/33 repos scanned, operational and documentary edges mixed, two dangling
+endpoints, and no repo/blob/detector provenance despite `ready-to-adopt` status.
+
+Full evidence, a safe staged architecture, and the proposed 14-field edge
+contract are in
+`codex-chatgpt/codex/2026-09-03-phase0/CVAA_FEDERATION_SPIDER_REVIEW.md` and
+`URGENT_SPIDER_INTERLOCK.md`. This note does not authorize mutation, deployment,
+or promotion.
