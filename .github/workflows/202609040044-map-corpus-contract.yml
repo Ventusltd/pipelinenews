@@ -1,0 +1,50 @@
+name: Pipeline News complete MAP corpus contract
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/202609040044-map-corpus-contract.yml'
+      - 'releases/202609040044-pipelinenews/**'
+      - 'tools/intelligence/cartridges/map-corpus-contract/**'
+  pull_request:
+    paths:
+      - '.github/workflows/202609040044-map-corpus-contract.yml'
+      - 'releases/202609040044-pipelinenews/**'
+      - 'tools/intelligence/cartridges/map-corpus-contract/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pipelinenews-map-corpus-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contract:
+    name: Prove all Pipeline MAP senders against pinned Grid receiver bytes
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact Pipeline candidate
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+
+      - name: Checkout the pinned Grid receiver candidate read-only
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          repository: Ventusltd/gridatlas
+          ref: b73247803377233069acfeff415ecad4e8391cb2
+          path: .receiver/gridatlas
+          persist-credentials: false
+
+      - name: Verify immutable release closure
+        run: python3 tools/intelligence/release_builder.py --check 202609040044-pipelinenews
+
+      - name: Verify all 8,756 source rows and the receiver API
+        run: >-
+          node tools/intelligence/cartridges/map-corpus-contract/proof.mjs
+          202609040044-pipelinenews
+          --gridatlas .receiver/gridatlas

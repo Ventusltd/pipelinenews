@@ -1,0 +1,101 @@
+{
+  "key": "map_corpus_contract",
+  "summary": "One canonical Pipeline News MAP sender for every coordinate-bearing spine and wider-fleet source row, with duplicate wider display identities collapsed without discarding distinct REPD references.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Replaces both MAP URL builders with one strict sender and replaces the wider-fleet payload/runtime through a new registry entry. The inherited wider_fleet receipt remains as immutable provenance but is marked superseded.",
+  "repairs": {
+    "app": [
+      {
+        "label": "spine MAP actions import the complete corpus contract",
+        "from": "import { buildAtlasV9DeepLink } from \"./202608312037-atlas-pointer-deep-link.mjs\";",
+        "to": "import { buildAtlasV9DeepLink } from \"./{GEN}-atlas-pointer-deep-link.mjs\";",
+        "expect": 1
+      },
+      {
+        "label": "wider UI reads the deduplicated corpus entry",
+        "from": "const entry = registry.supplemental_assets?.wider_fleet;",
+        "to": "const entry = registry.supplemental_assets?.map_corpus_contract;",
+        "expect": 1
+      }
+    ]
+  },
+  "registry_repairs": [
+    {
+      "key": "wider_fleet",
+      "set": {
+        "ui_state": "superseded",
+        "ui_withdrawal_reason": "The map_corpus_contract successor owns the active wider-fleet payload and runtime; this receipt remains only as provenance for the 1,104-row source cut.",
+        "presentation": "superseded by one 1,101-identity display with all 1,091 resolved REPD references retained"
+      }
+    }
+  ],
+  "hash_fields": [
+    {
+      "at": ["cartridge", "sha256"],
+      "path": "assets/{GEN}-wider-fleet.mjs"
+    },
+    {
+      "at": ["payload", "sha256"],
+      "path": "data/{GEN}-wider-fleet.json"
+    },
+    {
+      "at": ["sender", "sha256"],
+      "path": "assets/{GEN}-atlas-pointer-deep-link.mjs"
+    }
+  ],
+  "registry_entry": {
+    "schema": "pipelinenews.map-corpus-contract.v1",
+    "generation": "{GEN}",
+    "usage_context": "NON_COMMERCIAL_OPEN_SOURCE",
+    "activation": "eager-tab-injection-after-spine-controls-bound",
+    "additive_only": true,
+    "control_in_product_technology_row": "select",
+    "deep_linkable": true,
+    "mutates_existing_dom": true,
+    "mutation_scope": "replaces no spine control; appends one wider-fleet select and paints the shared table only while that select is active",
+    "reads_spine_payload": false,
+    "spine_handler_wrapped": false,
+    "project_bindings": 0,
+    "eligible_for_news_signal": false,
+    "forecast": false,
+    "repd_technology_types": 20,
+    "source_rows": 1104,
+    "projects": 1101,
+    "map_actions": 1091,
+    "duplicate_identities_removed": 3,
+    "identity_rule": "EXACT_REPD_REF; a merged display identity may expose one MAP action for each distinct source reference",
+    "canonical_url_parameters": [
+      "repd_ref", "project", "technology", "capacity_mw", "latitude", "longitude", "zoom"
+    ],
+    "receiver_contract": {
+      "repository": "Ventusltd/gridatlas",
+      "candidate_commit": "b73247803377233069acfeff415ecad4e8391cb2",
+      "module": "atlas/codex/20260904-finding-loop-30x/finding-loop.mjs",
+      "module_sha256": "fdaf16829275c904ef190ba96925415151c9ac6f409eac39d81440dbdd0c3d20",
+      "module_bytes": 60148,
+      "exports": ["PROJECT_TECHNOLOGIES", "createProjectRegister", "createProjectIndex", "parseProjectDeepLink"],
+      "integration_state": "candidate; Pipeline proof must be rerun against the exact Grid integration head before promotion"
+    },
+    "cartridge": {
+      "schema": "pipelinenews.wider-fleet-cartridge.v3",
+      "generation": "{GEN}",
+      "filename": "{GEN}-wider-fleet.mjs",
+      "path": "assets/{GEN}-wider-fleet.mjs",
+      "bytes": 0,
+      "sha256": ""
+    },
+    "payload": {
+      "path": "data/{GEN}-wider-fleet.json",
+      "schema": "pipelinenews.wider-fleet-deduplicated-register-cut.v1",
+      "record_count": 0,
+      "bytes": 0,
+      "sha256": ""
+    },
+    "sender": {
+      "schema": "pipelinenews.atlas-map-corpus-contract.v1",
+      "path": "assets/{GEN}-atlas-pointer-deep-link.mjs",
+      "bytes": 0,
+      "sha256": ""
+    }
+  }
+}
