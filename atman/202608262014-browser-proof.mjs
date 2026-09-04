@@ -157,14 +157,19 @@ try {
 
   const failContext = await browser.newContext({ viewport: { width: 390, height: 844 } });
   const failClosed = await failContext.newPage();
-  await failClosed.route(`**/data/news/${generation}-major-project-news-v9-5-1.json*`, (route) => route.fulfill({
-    status: 503,
-    contentType: "application/json",
-    body: "{}",
-  }));
+  let failedNewsRequests = 0;
+  await failClosed.route("**/data/news/*-major-project-news-v9-5-1.json*", (route) => {
+    failedNewsRequests += 1;
+    return route.fulfill({
+      status: 503,
+      contentType: "application/json",
+      body: "{}",
+    });
+  });
   await failClosed.goto(cacheBustedUrl(), { waitUntil: "domcontentloaded", timeout: 120_000 });
   await failClosed.waitForFunction(() => document.querySelectorAll("#tbody tr").length === 7680, null, { timeout: 120_000 });
   assert.equal(await failClosed.locator("#tbody tr").count(), 7680);
+  assert.equal(failedNewsRequests, 1, "expected to intercept exactly one immutable news payload request");
   assert.match(await failClosed.locator("#stories").innerText(), /unavailable|No location-verified|No headlines match/i);
   await failClosed.screenshot({ path: `${evidenceDir}/mobile-390-fail-closed.png` });
   await failContext.close();

@@ -150,6 +150,23 @@ class PromotionToolingTests(unittest.TestCase):
         self.assertIn("pipeline.wider_technology !== 'Biomass (dedicated)'", source)
         self.assertIn("error?.stack || error?.message", source)
 
+    def test_modular_browser_proof_intercepts_immutable_news_payload(self) -> None:
+        source = (ROOT / "atman/202608262014-browser-proof.mjs").read_text()
+        route = '"**/data/news/*-major-project-news-v9-5-1.json*"'
+        interception = (
+            'assert.equal(failedNewsRequests, 1, '
+            '"expected to intercept exactly one immutable news payload request")'
+        )
+        unavailable = (
+            'assert.match(await failClosed.locator("#stories").innerText(), '
+            '/unavailable|No location-verified|No headlines match/i)'
+        )
+        self.assertIn(route, source)
+        self.assertNotIn("${generation}-major-project-news-v9-5-1.json", source)
+        self.assertIn("failedNewsRequests += 1", source)
+        self.assertLess(source.index(route), source.index(interception))
+        self.assertLess(source.index(interception), source.index(unavailable))
+
     def test_pointer_source_manifest_receipt_fails_closed(self) -> None:
         manifest_receipt = {
             "path": f"releases/{SOURCE_RELEASE}/release-manifest.json",
