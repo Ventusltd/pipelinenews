@@ -396,6 +396,250 @@ def _atlas_link_v2_outputs(root: Path, folder_relative: str) -> tuple[list[dict]
     return records + [ledger_record], declared
 
 
+def _promotion_receiver_record(receiver: dict, key: str, prefix: str) -> dict:
+    value = receiver.get(key)
+    require(isinstance(value, dict), f"promotion receiver {key} missing")
+    require(set(value) >= {"path", "bytes", "sha256"}, f"promotion receiver {key} fields changed")
+    path = value.get("path")
+    require(
+        isinstance(path, str)
+        and path.startswith(prefix)
+        and "\\" not in path
+        and posixpath.normpath(path) == path,
+        f"promotion receiver {key} path changed",
+    )
+    require(isinstance(value.get("bytes"), int) and value["bytes"] > 0, f"promotion receiver {key} bytes changed")
+    require(bool(SHA256_RE.fullmatch(str(value.get("sha256", "")))), f"promotion receiver {key} digest changed")
+    return value
+
+
+def validate_pages_promotion_wrapper_v1(
+    root: Path,
+    release_id: str,
+    generation: str,
+    folder_relative: str,
+    folder: Path,
+    release_manifest_relative: str,
+    release_manifest_path: Path,
+    release_manifest: dict,
+    build_manifest_relative: str,
+    build_manifest: dict,
+) -> dict:
+    """Validate a Pages-class wrapper without reinterpreting its source bytes."""
+    promotion = release_manifest.get("promotion_wrapper")
+    expected_promotion_fields = {
+        "schema", "source_release_id", "source_commit", "validator_commit",
+        "copied_file_count", "copied_files_sha256", "source_release_manifest",
+        "receiver_contract_sha256",
+    }
+    require(isinstance(promotion, dict) and set(promotion) == expected_promotion_fields,
+            "promotion wrapper fields changed")
+    require(promotion.get("schema") == "pipelinenews.pages-promotion-wrapper.v1",
+            "promotion wrapper schema changed")
+    require(build_manifest.get("promotion_wrapper") == promotion,
+            "release and build promotion bindings differ")
+    require(build_manifest.get("schema") == "pipelinenews.current-atlas-link-build-manifest.v2",
+            "promotion build schema changed")
+    for manifest in (release_manifest, build_manifest):
+        require(manifest.get("generation") == generation and manifest.get("release_id") == release_id,
+                "promotion wrapper identity changed")
+    require(release_manifest.get("classification") == "CURRENT_ATLAS_LINK_CANDIDATE",
+            "promotion wrapper classification changed")
+    require(release_manifest.get("immutable_after_publication") is True,
+            "promotion wrapper is not immutable")
+    require(release_manifest.get("deployment") == "candidate",
+            "promotion wrapper deployment state changed")
+    require(release_manifest.get("product_surface")
+            == "BYTE_IDENTICAL_ADDITIVE_RELEASE_PLUS_FINAL_GRID_RECEIVER",
+            "promotion product boundary changed")
+    require(all(release_manifest.get(key) == 0 for key in
+                ("application_changes", "data_changes", "news_changes", "project_changes")),
+            "promotion wrapper claims product changes")
+    require(build_manifest.get("classification") == "DETERMINISTIC_SOURCE_RELEASE_PROMOTION",
+            "promotion build classification changed")
+
+    source_release_id = promotion.get("source_release_id")
+    source_match = TIMESTAMP_FOLDER_RE.fullmatch(str(source_release_id or ""))
+    require(source_match is not None and source_match.group(1) < generation,
+            "promotion source identity changed")
+    require(release_manifest.get("parent_release_id") == source_release_id
+            and build_manifest.get("source_release_id") == source_release_id,
+            "promotion source release bindings differ")
+    source_commit = require_git_commit(root, promotion.get("source_commit"), "promotion source commit")
+    validator_commit = require_git_commit(root, promotion.get("validator_commit"), "promotion validator commit")
+    require(build_manifest.get("source_commit") == source_commit
+            and build_manifest.get("validator_commit") == validator_commit,
+            "promotion build commits differ")
+    subprocess.run(["git", "merge-base", "--is-ancestor", source_commit, validator_commit],
+                   cwd=root, check=True, capture_output=True)
+
+    outputs, declared = _atlas_link_v2_outputs(root, folder_relative)
+    record_by_path = {record["path"]: record for record in outputs}
+    atlas_relative = f"{folder_relative}/atlas-link-manifest.json"
+    required = {
+        f"{folder_relative}/index.html", release_manifest_relative,
+        build_manifest_relative, atlas_relative,
+    }
+    require(required.issubset(declared), "promotion ledger omits required files")
+
+    build_declared: set[str] = set()
+    files = build_manifest.get("files")
+    require(isinstance(files, list) and files, "promotion build file list missing")
+    for index, item in enumerate(files):
+        require(isinstance(item, dict) and set(item) == {"path", "bytes", "sha256"},
+                f"promotion build record {index} changed")
+        local = item["path"]
+        require(not Path(local).is_absolute() and posixpath.normpath(local) == local,
+                f"unsafe promotion build path: {local}")
+        relative = f"{folder_relative}/{local}"
+        require(relative in declared, f"promotion build path absent from ledger: {relative}")
+        expected = record_by_path[relative]
+        require(item["bytes"] == expected["bytes"] and item["sha256"] == expected["sha256"],
+                f"promotion build record differs: {relative}")
+        require(relative not in build_declared, f"duplicate promotion build record: {relative}")
+        build_declared.add(relative)
+    require(declared - build_declared == {release_manifest_relative, build_manifest_relative},
+            "promotion build and SHA ledgers differ")
+
+    actual = {
+        path.relative_to(root).as_posix()
+        for path in folder.rglob("*") if path.is_file()
+    }
+    require(not any(path.is_symlink() for path in folder.rglob("*")),
+            "symlink in promotion wrapper")
+    require(actual == {record["path"] for record in outputs},
+            "promotion wrapper closure differs from ledger")
+    release_commit = git_text(root, "log", "--diff-filter=A", "-1", "--format=%H", "--",
+                              release_manifest_relative)
+    require(bool(COMMIT_RE.fullmatch(release_commit)), "promotion wrapper is not committed")
+    require(git_text(root, "show", "-s", "--format=%P", release_commit).split()
+            == [validator_commit], "promotion wrapper parent changed")
+    changes = {
+        line for line in git_text(root, "diff-tree", "--no-commit-id", "--name-only", "-r",
+                                  release_commit).splitlines() if line
+    }
+    require(changes == actual, "promotion commit changes paths outside its wrapper folder")
+    for item in outputs:
+        require_commit_file(root, release_commit, item["path"], item["sha256"],
+                            "promotion committed output")
+
+    control_names = {
+        "atlas-link-manifest.json", "build-manifest.json",
+        "release-manifest.json", "sha256sums.txt",
+    }
+    source_prefix = f"releases/{source_release_id}/"
+    source_files = {
+        line.removeprefix(source_prefix)
+        for line in git_text(root, "ls-tree", "-r", "--name-only", source_commit, "--",
+                             source_prefix).splitlines()
+        if line.startswith(source_prefix)
+    }
+    source_copies = source_files - control_names
+    wrapper_copies = {
+        path.removeprefix(f"{folder_relative}/") for path in actual
+    } - control_names
+    require(wrapper_copies == source_copies,
+            "promotion wrapper does not copy the exact source file set")
+    copied_records = []
+    for local in sorted(wrapper_copies):
+        wrapper_path = repository_path(root, f"{folder_relative}/{local}")
+        source_path = f"{source_prefix}{local}"
+        source_payload = subprocess.check_output(["git", "show", f"{source_commit}:{source_path}"],
+                                                 cwd=root)
+        wrapper_payload = wrapper_path.read_bytes()
+        require(wrapper_payload == source_payload, f"promotion changed source bytes: {local}")
+        copied_records.append({
+            "path": local, "bytes": len(wrapper_payload),
+            "sha256": hashlib.sha256(wrapper_payload).hexdigest(),
+        })
+    require(promotion.get("copied_file_count") == len(copied_records),
+            "promotion copied-file count changed")
+    copied_digest = hashlib.sha256(json.dumps(
+        copied_records, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")).hexdigest()
+    require(promotion.get("copied_files_sha256") == copied_digest,
+            "promotion copied-file closure digest changed")
+
+    source_manifest_record = promotion.get("source_release_manifest")
+    require(isinstance(source_manifest_record, dict)
+            and set(source_manifest_record) == {"path", "bytes", "sha256"}
+            and source_manifest_record.get("path")
+            == f"releases/{source_release_id}/release-manifest.json",
+            "promotion source manifest receipt changed")
+    verify_record_at_commit(root, source_commit, source_manifest_record,
+                            "promotion source manifest")
+    source_manifest = json.loads(subprocess.check_output(
+        ["git", "show", f"{source_commit}:{source_manifest_record['path']}"], cwd=root
+    ).decode("utf-8"))
+    require(source_manifest.get("schema") == "pipelinenews.additive-cartridge-release.v1"
+            and source_manifest.get("deployment") == "not-authorised"
+            and source_manifest.get("release_id") == source_release_id,
+            "promotion source is not the immutable additive release")
+
+    atlas = read_json(repository_path(root, atlas_relative))
+    require(atlas.get("schema") == "pipelinenews.atlas-current-link-manifest.v2"
+            and atlas.get("classification")
+            == "VERIFIED_GRIDATLAS_PRODUCTION_RECEIVER_BOUND",
+            "promotion Atlas binding changed")
+    require(atlas.get("generation") == generation
+            and atlas.get("pipeline_release_id") == release_id
+            and atlas.get("source_pipeline_release_id") == source_release_id
+            and atlas.get("source_commit") == source_commit,
+            "promotion Atlas identity changed")
+    transport = atlas.get("transport") or {}
+    require(transport.get("identity_rule") == "EXACT_REPD_REF"
+            and transport.get("query_parameter_order")
+            == ["repd_ref", "project", "technology", "capacity_mw", "latitude", "longitude", "zoom"]
+            and transport.get("source_rows") == 8756
+            and transport.get("clickable_rows") == 8743
+            and transport.get("unresolved_rows") == 13,
+            "promotion transport contract changed")
+    receiver = atlas.get("receiver")
+    require(isinstance(receiver, dict)
+            and receiver.get("schema") == "pipelinenews.gridatlas-production-receiver.v1"
+            and receiver.get("repository") == "Ventusltd/gridatlas"
+            and bool(COMMIT_RE.fullmatch(str(receiver.get("commit", ""))))
+            and bool(GENERATION_RE.fullmatch(str(receiver.get("generation", ""))))
+            and bool(re.fullmatch(r"v9\.\d+", str(receiver.get("version", ""))))
+            and receiver.get("base_url") == "https://ventusltd.github.io/gridatlas/atlas/"
+            and receiver.get("required_result") == "MEASURE_LINK_FIRST"
+            and receiver.get("identity_reconciliation")
+            == "VERIFY_CONCURRENTLY_AND_REMEASURE_AT_RESOLVED_POINT",
+            "promotion receiver identity changed")
+    _promotion_receiver_record(receiver, "measurement_cartridge", "atlas/cartridges/")
+    _promotion_receiver_record(receiver, "engine_cartridge", "atlas/cartridges/")
+    _promotion_receiver_record(receiver, "composition_manifest", "atlas/manifests/")
+    _promotion_receiver_record(receiver, "production_proof", "tools/proofs/")
+    receiver_digest = hashlib.sha256(json.dumps(
+        receiver, ensure_ascii=False, sort_keys=True, separators=(",", ":")
+    ).encode("utf-8")).hexdigest()
+    require(atlas.get("receiver_contract_sha256") == receiver_digest
+            and promotion.get("receiver_contract_sha256") == receiver_digest
+            and build_manifest.get("receiver") == receiver,
+            "promotion receiver contract digest changed")
+    require(release_manifest.get("atlas_live_url") == receiver["base_url"]
+            and release_manifest.get("atlas_receiver_commit") == receiver["commit"]
+            and release_manifest.get("atlas_receiver_version") == receiver["version"],
+            "promotion release receiver binding changed")
+
+    return {
+        "release_id": release_id,
+        "generation": generation,
+        "kind": "pages-promotion-wrapper-v1",
+        "folder_path": f"{folder_relative}/",
+        "index_path": f"{folder_relative}/index.html",
+        "index_sha256": record_by_path[f"{folder_relative}/index.html"]["sha256"],
+        "manifest_path": release_manifest_relative,
+        "manifest_sha256": sha256(release_manifest_path),
+        "manifest": release_manifest,
+        "outputs": outputs,
+        "release_commit": release_commit,
+        "receiver": receiver,
+        "source_release_id": source_release_id,
+        "source_commit": source_commit,
+    }
+
+
 def validate_current_atlas_link_v2(
     root: Path,
     release_id: str,
@@ -409,6 +653,12 @@ def validate_current_atlas_link_v2(
     build_manifest: dict,
 ) -> dict:
     require(release_manifest.get("schema") == "pipelinenews.current-atlas-link-release.v2", "Atlas-link release schema changed")
+    if isinstance(release_manifest.get("promotion_wrapper"), dict):
+        return validate_pages_promotion_wrapper_v1(
+            root, release_id, generation, folder_relative, folder,
+            release_manifest_relative, release_manifest_path, release_manifest,
+            build_manifest_relative, build_manifest,
+        )
     require(build_manifest.get("schema") == "pipelinenews.current-atlas-link-build-manifest.v2", "Atlas-link build schema changed")
     for manifest in (release_manifest, build_manifest):
         require(manifest.get("generation") == generation and manifest.get("release_id") == release_id, "Atlas-link identity changed")
@@ -534,7 +784,101 @@ def validate_current_atlas_link_v2(
     }
 
 
+def validate_pages_promotion_source_pointer(pointer: dict, timestamp_folder: dict) -> dict:
+    """Require the pointer's complete source receipt to match the wrapper."""
+    promotion = timestamp_folder["manifest"].get("promotion_wrapper") or {}
+    expected = {
+        "release_id": timestamp_folder["source_release_id"],
+        "commit": timestamp_folder["source_commit"],
+        "manifest": promotion.get("source_release_manifest"),
+    }
+    source = pointer.get("promotion_source")
+    require(source == expected, "promotion pointer source receipt changed")
+    return source
+
+
+def validate_pages_promotion_pointer(root: Path, timestamp_folder: dict) -> dict:
+    """Validate the two-file live pointer child of a promotion wrapper."""
+    state_relative = Path("state/live-set.json")
+    current_relative = Path("releases/current-v4.json")
+    require((root / state_relative).is_file() and (root / current_relative).is_file(),
+            "promotion live pointer copies are missing")
+    state_payload = (root / state_relative).read_bytes()
+    require((root / current_relative).read_bytes() == state_payload,
+            "promotion live pointer copies differ")
+    pointer = json.loads(state_payload)
+    release_id = timestamp_folder["release_id"]
+    generation = timestamp_folder["generation"]
+    require(pointer.get("schema") == "pipelinenews.live-pointer.v4"
+            and pointer.get("classification") == "VERIFIED_LIVE_TIMESTAMPED_RELEASE"
+            and pointer.get("generation") == generation
+            and pointer.get("release_id") == release_id,
+            "promotion live pointer identity changed")
+    require(pointer.get("route") == f"/pipelinenews/releases/{release_id}/"
+            and pointer.get("entrypoint") == f"releases/{release_id}/index.html",
+            "promotion live pointer route changed")
+
+    release_binding = pointer.get("release_manifest")
+    build_binding = pointer.get("build_manifest")
+    atlas_binding = pointer.get("atlas_link_manifest")
+    for label, binding, expected_path in (
+        ("release", release_binding, timestamp_folder["manifest_path"]),
+        ("build", build_binding, f"releases/{release_id}/build-manifest.json"),
+        ("Atlas", atlas_binding, f"releases/{release_id}/atlas-link-manifest.json"),
+    ):
+        require(isinstance(binding, dict) and binding.get("path") == expected_path,
+                f"promotion pointer {label} binding changed")
+        verify_record(root, binding, f"promotion pointer {label} binding")
+
+    deployed = require_git_commit(root, pointer.get("deployed_commit"),
+                                  "promotion deployed commit")
+    require(deployed == timestamp_folder["release_commit"],
+            "promotion pointer deployed commit differs from wrapper")
+    validate_pages_promotion_source_pointer(pointer, timestamp_folder)
+    require(pointer.get("release_source_commit") == timestamp_folder["source_commit"],
+            "promotion pointer source commit changed")
+    require(pointer.get("atlas_v9_receiver") == timestamp_folder["receiver"],
+            "promotion pointer receiver changed")
+    verification = pointer.get("verification")
+    require(isinstance(verification, dict)
+            and verification.get("mode") == "EXACT_HEAD_PREVIEW_DEPLOY_PUBLIC_READBACK"
+            and verification.get("source_rows") == 8756
+            and verification.get("clickable_rows") == 8743
+            and verification.get("synthetic_receiver") is False
+            and verification.get("route_interceptions") == 0,
+            "promotion pointer verification contract changed")
+
+    pointer_commit = git_text(root, "log", "-1", "--format=%H", "--",
+                              current_relative.as_posix())
+    require(pointer_commit == git_text(root, "log", "-1", "--format=%H", "--",
+                                       state_relative.as_posix()),
+            "promotion live pointers were not committed together")
+    require(git_text(root, "show", "-s", "--format=%P", pointer_commit).split()
+            == [deployed], "promotion pointer is not a one-parent child of wrapper")
+    changes = {
+        line for line in git_text(root, "diff-tree", "--no-commit-id", "--name-only", "-r",
+                                  pointer_commit).splitlines() if line
+    }
+    require(changes == {current_relative.as_posix(), state_relative.as_posix()},
+            "promotion pointer commit changed paths outside two pointers")
+    subprocess.run(["git", "merge-base", "--is-ancestor", pointer_commit, "HEAD"],
+                   cwd=root, check=True, capture_output=True)
+    return {
+        "paths": [current_relative.as_posix(), state_relative.as_posix()],
+        "bytes": len(state_payload),
+        "sha256": hashlib.sha256(state_payload).hexdigest(),
+        "pointer": pointer,
+    }
+
+
 def validate_current_or_predecessor_pointer(root: Path, timestamp_folder: dict) -> dict | None:
+    if timestamp_folder.get("kind") == "pages-promotion-wrapper-v1":
+        state_path = root / "state" / "live-set.json"
+        if state_path.exists():
+            state = read_json(state_path)
+            if (state.get("schema") == "pipelinenews.live-pointer.v4"
+                    and state.get("release_id") == timestamp_folder.get("release_id")):
+                return validate_pages_promotion_pointer(root, timestamp_folder)
     state_relative = Path("state/live-set.json")
     if not (root / state_relative).is_file():
         return None
@@ -998,6 +1342,17 @@ def require_commit_file(root: Path, commit: str, relative: str, expected_sha256:
     require(actual == expected_sha256, f"{label} changed at {commit}: {relative}")
 
 
+def pages_public_change_base(release: dict) -> str:
+    """Anchor a promotion's public diff after its immutable source commit."""
+    timestamp_folder = release.get("timestamp_folder")
+    if timestamp_folder is not None and timestamp_folder.get("kind") == "pages-promotion-wrapper-v1":
+        source_commit = timestamp_folder.get("source_commit")
+        require(isinstance(source_commit, str) and bool(COMMIT_RE.fullmatch(source_commit)),
+                "promotion public-diff source changed")
+        return source_commit
+    return ATLAS_V9_SOURCE_PARENT
+
+
 def candidate_publication_boundary(root: Path, release: dict) -> tuple[set[str], set[str]]:
     """Return excluded and owner-authorised immutable fast-candidate outputs."""
     build = root / "build"
@@ -1217,12 +1572,13 @@ def candidate_publication_boundary(root: Path, release: dict) -> tuple[set[str],
         require_commit_file(root, candidate_output_commit, candidate["manifest_path"], candidate["manifest_sha256"], "candidate manifest")
         for record in candidate["outputs"]:
             require_commit_file(root, candidate_output_commit, record["path"], record["sha256"], "candidate output")
+        timestamp_folder = release.get("timestamp_folder")
         changed_public_paths = {
             line for line in git_text(
                 root,
                 "diff",
                 "--name-only",
-                ATLAS_V9_SOURCE_PARENT,
+                pages_public_change_base(release),
                 "HEAD",
                 "--",
                 "releases",
@@ -1232,7 +1588,6 @@ def candidate_publication_boundary(root: Path, release: dict) -> tuple[set[str],
             ).splitlines() if line
         }
         allowed_public_changes: set[str] = set()
-        timestamp_folder = release.get("timestamp_folder")
         if timestamp_folder is not None:
             allowed_public_changes.update(record["path"] for record in timestamp_folder["outputs"])
             allowed_public_changes.add(timestamp_folder["manifest_path"])
@@ -1318,14 +1673,23 @@ def candidate_publication_boundary(root: Path, release: dict) -> tuple[set[str],
     return excluded, authorised
 
 
-def copy_release_tree(source: Path, target: Path, excluded: set[str]) -> None:
+def copy_release_tree(
+    source: Path,
+    target: Path,
+    excluded: set[str],
+    excluded_trees: set[str] | None = None,
+) -> None:
     """Overlay committed releases without copying non-deploying candidates."""
     require(source.is_dir(), f"release publication tree missing: {source}")
+    excluded_trees = excluded_trees or set()
     target.mkdir(parents=True, exist_ok=True)
     for candidate in sorted(source.rglob("*")):
         relative = candidate.relative_to(source).as_posix()
         public_relative = f"releases/{relative}"
         require(not candidate.is_symlink(), f"symlink in release publication tree: {public_relative}")
+        if any(public_relative == prefix or public_relative.startswith(f"{prefix}/")
+               for prefix in excluded_trees):
+            continue
         if public_relative in excluded:
             require(candidate.is_file(), f"excluded candidate output is not a file: {public_relative}")
             continue
@@ -1337,6 +1701,29 @@ def copy_release_tree(source: Path, target: Path, excluded: set[str]) -> None:
             shutil.copy2(candidate, destination)
         else:
             raise AssertionError(f"unsupported release publication entry: {public_relative}")
+
+
+def nondeploying_release_trees(root: Path) -> set[str]:
+    """Return additive source releases that Pages must never serve directly."""
+    releases = root / "releases"
+    require(releases.is_dir(), "release publication tree missing")
+    excluded: set[str] = set()
+    for folder in sorted(releases.iterdir()):
+        if not folder.is_dir() or not TIMESTAMP_FOLDER_RE.fullmatch(folder.name):
+            continue
+        require(not folder.is_symlink(), f"symlink release folder: {folder.name}")
+        manifest_path = folder / "release-manifest.json"
+        if not manifest_path.is_file():
+            continue
+        manifest = read_json(manifest_path)
+        if manifest.get("schema") != "pipelinenews.additive-cartridge-release.v1":
+            continue
+        require(manifest.get("release_id") == folder.name,
+                f"additive release identity changed: {folder.name}")
+        require(manifest.get("deployment") == "not-authorised",
+                f"additive release gained direct Pages authority: {folder.name}")
+        excluded.add(f"releases/{folder.name}")
+    return excluded
 
 
 def stage_legacy_apps(archive: Path, site: Path) -> None:
@@ -1407,7 +1794,14 @@ def stage_site(root: Path, site: Path, release: dict) -> None:
             copy_file(archive, site, relative)
 
     excluded_candidates, authorised_candidates = candidate_publication_boundary(root, release)
-    copy_release_tree(root / "releases", site / "releases", excluded_candidates)
+    timestamp_folder = release.get("timestamp_folder")
+    excluded_release_trees = nondeploying_release_trees(root)
+    if timestamp_folder is not None and timestamp_folder.get("kind") == "pages-promotion-wrapper-v1":
+        require(f"releases/{timestamp_folder['source_release_id']}" in excluded_release_trees,
+                "promotion source is not classified as non-deploying")
+    copy_release_tree(
+        root / "releases", site / "releases", excluded_candidates, excluded_release_trees,
+    )
     copy_tree(root / "data", site / "data")
     live_pointer = release.get("live_pointer")
     if live_pointer is not None:
@@ -1417,13 +1811,15 @@ def stage_site(root: Path, site: Path, release: dict) -> None:
 
     for relative in excluded_candidates:
         require(not (site / relative).exists(), f"non-deploying candidate entered Pages artifact: {relative}")
+    for relative in excluded_release_trees:
+        require(not (site / relative).exists(),
+                f"non-deploying promotion source entered Pages artifact: {relative}")
     authorised_records = {
         record["path"]: record for record in release.get("candidate_outputs", [])
     }
     require(set(authorised_records) == authorised_candidates, "authorised candidate record set changed")
     for relative in authorised_candidates:
         verify_record(site, authorised_records[relative], "staged authorised candidate output")
-    timestamp_folder = release.get("timestamp_folder")
     if timestamp_folder is not None:
         for record in timestamp_folder["outputs"]:
             verify_record(site, record, "staged timestamp-folder output")
@@ -1516,7 +1912,10 @@ def main() -> int:
     if args.timestamp_folder_release:
         release["timestamp_folder"] = validate_timestamp_folder_release(root, args.timestamp_folder_release)
     timestamp_folder = release.get("timestamp_folder")
-    if timestamp_folder is not None and timestamp_folder.get("kind") == "current-atlas-link-v2":
+    if (timestamp_folder is not None
+            and timestamp_folder.get("kind") in {
+                "current-atlas-link-v2", "pages-promotion-wrapper-v1",
+            }):
         live_pointer = validate_current_or_predecessor_pointer(root, timestamp_folder)
     else:
         live_pointer = validate_live_pointer(root, timestamp_folder)

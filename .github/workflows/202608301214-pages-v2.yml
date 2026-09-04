@@ -64,6 +64,39 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Read an exact promotion-wrapper receiver
+        id: promotion
+        shell: bash
+        env:
+          RELEASE_ID: ${{ inputs.timestamp_folder_release }}
+        run: |
+          set -euo pipefail
+          echo "applicable=false" >> "$GITHUB_OUTPUT"
+          if test -z "$RELEASE_ID"; then exit 0; fi
+          [[ "$RELEASE_ID" =~ ^[0-9]{12}-pipelinenews$ ]]
+          release_manifest="releases/$RELEASE_ID/release-manifest.json"
+          manifest="releases/$RELEASE_ID/atlas-link-manifest.json"
+          if ! test -f "$release_manifest"; then exit 0; fi
+          promotion_schema="$(jq -r '.promotion_wrapper.schema // empty' "$release_manifest")"
+          if test -z "$promotion_schema"; then exit 0; fi
+          test "$promotion_schema" = pipelinenews.pages-promotion-wrapper.v1
+          test -f "$manifest"
+          schema="$(jq -r '.schema // empty' "$manifest")"
+          if test "$schema" != pipelinenews.atlas-current-link-manifest.v2; then exit 0; fi
+          commit="$(jq -r '.receiver.commit // empty' "$manifest")"
+          [[ "$commit" =~ ^[0-9a-f]{40}$ ]]
+          echo "applicable=true" >> "$GITHUB_OUTPUT"
+          echo "receiver_commit=$commit" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout the exact Grid production receiver read-only
+        if: steps.promotion.outputs.applicable == 'true'
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          repository: Ventusltd/gridatlas
+          ref: ${{ steps.promotion.outputs.receiver_commit }}
+          path: _receiver/gridatlas
+          persist-credentials: false
+
       - name: Validate committed products and stage public closure
         id: release
         shell: bash
@@ -144,6 +177,14 @@ jobs:
           fi
           python3 atman/202608262014-build-pages.py "${args[@]}"
 
+      - name: Prove the complete MAP corpus against production receiver bytes
+        if: steps.promotion.outputs.applicable == 'true'
+        env:
+          RELEASE_ID: ${{ inputs.timestamp_folder_release }}
+        run: >-
+          node tools/publication/prove_pages_promotion_wrapper.mjs
+          "$RELEASE_ID" --gridatlas _receiver/gridatlas
+
       - name: Install pinned browser harness
         shell: bash
         run: |
@@ -196,7 +237,12 @@ jobs:
           generation="${{ steps.release.outputs.timestamp_folder_release }}"
           generation="${generation%%-*}"
           [[ "$generation" =~ ^[0-9]{12}$ ]]
-          verifier="atman/${generation}-public-browser-readback.mjs"
+          manifest="releases/${{ steps.release.outputs.timestamp_folder_release }}/release-manifest.json"
+          if jq -e '.promotion_wrapper.schema == "pipelinenews.pages-promotion-wrapper.v1"' "$manifest" >/dev/null; then
+            verifier="atman/pages-promotion-wrapper-readback.mjs"
+          else
+            verifier="atman/${generation}-public-browser-readback.mjs"
+          fi
           test -f "$verifier"
           python3 -m http.server 4175 --bind 127.0.0.1 --directory _site >"$RUNNER_TEMP/atlas-preview.log" 2>&1 &
           pid=$!
@@ -433,7 +479,12 @@ jobs:
           mkdir -p reports
           generation="${{ needs.build.outputs.timestamp_folder_release }}"
           generation="${generation%%-*}"
-          verifier="atman/${generation}-public-browser-readback.mjs"
+          manifest="releases/${{ needs.build.outputs.timestamp_folder_release }}/release-manifest.json"
+          if jq -e '.promotion_wrapper.schema == "pipelinenews.pages-promotion-wrapper.v1"' "$manifest" >/dev/null; then
+            verifier="atman/pages-promotion-wrapper-readback.mjs"
+          else
+            verifier="atman/${generation}-public-browser-readback.mjs"
+          fi
           test -f "$verifier"
           node "$verifier" --candidate "$TIMESTAMP_FOLDER_URL" --output "$TIMESTAMP_FOLDER_PROOF"
 

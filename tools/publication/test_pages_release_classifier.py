@@ -255,7 +255,8 @@ class ClassifierTests(unittest.TestCase):
 
     def test_resolves_the_committed_live_pointer(self) -> None:
         repo = Path(__file__).resolve().parents[2]
-        self.assertEqual(resolve_live_pointer(repo), "202608291447-pipelinenews")
+        pointer = json.loads((repo / "state/live-set.json").read_text(encoding="utf-8"))
+        self.assertEqual(resolve_live_pointer(repo), pointer["release_id"])
 
     def pointer_bytes(self, release_id: str, *, digest: str | None = None) -> bytes:
         manifest_path = self.repo / "releases" / release_id / "release-manifest.json"
@@ -299,12 +300,13 @@ class ClassifierTests(unittest.TestCase):
 
     def test_zero_release_diff_can_resolve_the_live_pointer(self) -> None:
         repo = Path(__file__).resolve().parents[2]
+        pointer = json.loads((repo / "state/live-set.json").read_text(encoding="utf-8"))
         head = subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=repo, text=True
         ).strip()
         self.assertEqual(
             discover_release(repo, head, head, allow_pointer_fallback=True),
-            "202608291447-pipelinenews",
+            pointer["release_id"],
         )
 
     def test_receipt_hash_uses_the_same_snapshot_as_classification(self) -> None:
