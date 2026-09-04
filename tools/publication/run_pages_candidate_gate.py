@@ -61,6 +61,7 @@ def main(argv: list[str] | None = None) -> int:
     python = sys.executable
     commands = [
         [python, "tools/publication/test_pages_release_classifier.py"],
+        [python, "tools/publication/test_release_builder_applicability.py"],
         [python, "tools/publication/test_verify_pages_workflow.py"],
         [python, "tools/publication/test_pages_candidate_workflow.py"],
         [python, "tools/publication/pages_release_classifier.py", "--repo", ".", "--release", latest],

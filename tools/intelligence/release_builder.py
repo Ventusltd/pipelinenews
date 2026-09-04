@@ -55,6 +55,9 @@ ANALYTICS_ANCHOR = '    <h2 class="section-title">REPD PIPELINE ANALYTICS</h2>'
 # deliberately withdrawn. A withdrawn optional surface cannot be the extension
 # point for the application.
 BOOT_BIND_ANCHOR = "  bindSectorIntelligence();"
+RELEASE_ID_RE = re.compile(r"^[0-9]{12}-pipelinenews$")
+LEGACY_ROOT_RELEASE_ID = "202608291447-pipelinenews"
+LEGACY_ROOT_SCHEMA = "pipelinenews.timestamp-folder-successor.v1"
 
 
 # --------------------------------------------------------------------- utils
@@ -113,7 +116,10 @@ def published_size(path):
 
 
 def read(p):
-    return io.open(p, encoding="utf-8").read()
+    # Applicability walks every manifest and registry in an ancestry. Closing
+    # each handle immediately avoids retaining two descriptors per generation.
+    with io.open(p, encoding="utf-8") as stream:
+        return stream.read()
 
 
 def write(p, t):
@@ -306,14 +312,119 @@ def cmd_list():
 
 
 def cartridge_keys(release_id):
-    """The supplemental-asset keys a release already carries."""
-    reg_path = os.path.join(RELEASES, release_id, REGISTRY)
-    if not os.path.exists(reg_path):
-        return set()
-    try:
-        return set((json.loads(read(reg_path)).get("supplemental_assets") or {}).keys())
-    except ValueError:
-        return set()
+    """Every cartridge key applied anywhere in a release's ancestry.
+
+    Registered cartridges are visible in ``supplemental_assets``. Repair-only
+    cartridges intentionally register no asset, so their only durable identity
+    is the ``cartridge_added`` field in the release manifest that applied them.
+    Looking at the tip registry alone therefore made ``--applicable`` probe an
+    already-applied repair forever. A replacement edit can be idempotent, so the
+    probe may even appear to succeed while changing nothing.
+
+    An incomplete ancestry is not evidence that a cartridge is new. Missing or
+    malformed records and cycles consequently stop the command before it can
+    perform a throwaway build.
+    """
+    keys = set()
+    seen = set()
+    current = release_id
+
+    while current is not None:
+        if not isinstance(current, str) or not RELEASE_ID_RE.fullmatch(current):
+            raise SystemExit("malformed release id in applicability ancestry: %r"
+                             % current)
+        if current in seen:
+            raise SystemExit("cycle in applicability ancestry at %s" % current)
+        seen.add(current)
+
+        release_dir = os.path.join(RELEASES, current)
+        if not os.path.isdir(release_dir):
+            raise SystemExit("missing release in applicability ancestry: %s" % current)
+
+        manifest_path = os.path.join(release_dir, "release-manifest.json")
+        if not os.path.isfile(manifest_path):
+            raise SystemExit("missing release manifest in applicability ancestry: %s"
+                             % current)
+        try:
+            manifest = json.loads(read(manifest_path))
+        except (OSError, ValueError) as error:
+            raise SystemExit("malformed release manifest in applicability ancestry "
+                             "%s: %s" % (current, error))
+        if not isinstance(manifest, dict):
+            raise SystemExit("malformed release manifest in applicability ancestry "
+                             "%s: expected object" % current)
+        if manifest.get("release_id") != current:
+            raise SystemExit("malformed release manifest in applicability ancestry "
+                             "%s: release_id is %r" %
+                             (current, manifest.get("release_id")))
+
+        added = manifest.get("cartridge_added")
+        if added is not None:
+            if (not isinstance(added, str) or not added.strip()
+                    or added != added.strip()):
+                raise SystemExit("malformed cartridge_added in applicability ancestry "
+                                 "%s: %r" % (current, added))
+            keys.add(added)
+
+        registry_path = os.path.join(release_dir, REGISTRY)
+        if not os.path.isfile(registry_path):
+            raise SystemExit("missing registry in applicability ancestry: %s" % current)
+        try:
+            registry = json.loads(read(registry_path))
+        except (OSError, ValueError) as error:
+            raise SystemExit("malformed registry in applicability ancestry %s: %s"
+                             % (current, error))
+        if not isinstance(registry, dict):
+            raise SystemExit("malformed registry in applicability ancestry %s: "
+                             "expected object" % current)
+        supplemental = registry.get("supplemental_assets")
+        if not isinstance(supplemental, dict):
+            raise SystemExit("malformed supplemental_assets in applicability ancestry "
+                             "%s: expected object" % current)
+        malformed_keys = [key for key in supplemental
+                          if (not isinstance(key, str) or not key.strip()
+                              or key != key.strip())]
+        if malformed_keys:
+            raise SystemExit("malformed supplemental asset key in applicability ancestry "
+                             "%s: %r" % (current, malformed_keys[0]))
+        malformed_entries = [key for key, entry in supplemental.items()
+                             if not isinstance(entry, dict)]
+        if malformed_entries:
+            key = malformed_entries[0]
+            raise SystemExit("malformed supplemental asset entry in applicability "
+                             "ancestry %s: %s is %s, expected object"
+                             % (current, key, type(supplemental[key]).__name__))
+        keys.update(supplemental)
+
+        parent = manifest.get("parent_release_id")
+        if parent is None:
+            is_legacy_root = (current == LEGACY_ROOT_RELEASE_ID
+                              and manifest.get("schema") == LEGACY_ROOT_SCHEMA)
+            if not is_legacy_root:
+                state = "null" if "parent_release_id" in manifest else "missing"
+                raise SystemExit("%s parent_release_id in applicability ancestry %s; "
+                                 "only legacy root %s (%s) may terminate the chain"
+                                 % (state, current, LEGACY_ROOT_RELEASE_ID,
+                                    LEGACY_ROOT_SCHEMA))
+            break
+        if not isinstance(parent, str) or not RELEASE_ID_RE.fullmatch(parent):
+            raise SystemExit("malformed parent_release_id in applicability ancestry "
+                             "%s: %r" % (current, parent))
+        if current == LEGACY_ROOT_RELEASE_ID:
+            raise SystemExit("legacy applicability root %s must not declare a parent"
+                             % current)
+        if parent == current:
+            raise SystemExit("parent release generation is not strictly older in "
+                             "applicability ancestry: %s -> %s" % (current, parent))
+        if parent in seen:
+            raise SystemExit("cycle in applicability ancestry: %s -> %s"
+                             % (current, parent))
+        if parent[:12] >= current[:12]:
+            raise SystemExit("parent release generation is not strictly older in "
+                             "applicability ancestry: %s -> %s" % (current, parent))
+        current = parent
+
+    return keys
 
 
 # --------------------------------------------------------------- applicable
@@ -326,11 +437,12 @@ def cmd_applicable(parent_id):
     every directory under cartridges/ as available, and the operator found out
     by running a build and watching it discard itself.
 
-    This answers the question the only way it can be answered honestly -- by
-    building each one. Every probe writes a throwaway release and removes it
-    again; a failed probe is already removed by the builder's own discard
-    handler before this function sees it. The parent is never modified, and
-    cmd_build asserts that itself.
+    Applied identity comes from the complete release ancestry. For every key
+    absent from that ancestry, this answers the remaining anchor question the
+    only way it can be answered honestly -- by building it. Every probe writes
+    a throwaway release and removes it again; a failed probe is already removed
+    by the builder's own discard handler before this function sees it. The
+    parent is never modified, and cmd_build asserts that itself.
     """
     if not os.path.isdir(os.path.join(RELEASES, parent_id)):
         raise SystemExit("no such parent release: %s" % parent_id)
@@ -341,7 +453,7 @@ def cmd_applicable(parent_id):
     names = sorted(n for n in os.listdir(CARTRIDGES)
                    if os.path.exists(os.path.join(CARTRIDGES, n, "cartridge.json")))
     print("Cartridges against %s\n" % parent_id)
-    print("  each candidate is really built into a throwaway generation and removed again\n")
+    print("  each unapplied candidate is built into a throwaway generation and removed again\n")
 
     rows = []
     for name in names:
