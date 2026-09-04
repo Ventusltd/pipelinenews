@@ -97,6 +97,17 @@ jobs:
           path: _receiver/gridatlas
           persist-credentials: false
 
+      # Beside GridAtlas, not inside it: the pinned production proof resolves
+      # ../grid-distance-maths for its canonical geodesy parity check.
+      - name: Checkout the exact canonical geodesy read-only
+        if: steps.promotion.outputs.applicable == 'true'
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          repository: Ventusltd/grid-distance-maths
+          ref: 30d2f817a4b007b7c3be334f3aff308331a848b8
+          path: _receiver/grid-distance-maths
+          persist-credentials: false
+
       - name: Validate committed products and stage public closure
         id: release
         shell: bash

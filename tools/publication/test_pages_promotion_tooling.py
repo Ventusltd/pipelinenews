@@ -107,6 +107,25 @@ class PromotionToolingTests(unittest.TestCase):
         receiver_step = receiver_step.split("Prove the complete MAP corpus", 1)[0]
         self.assertIn("persist-credentials: false", receiver_step)
 
+    def test_workflow_checks_out_pinned_geodesy_beside_grid_before_proof(self) -> None:
+        source = (ROOT / ".github/workflows/202608301214-pages-v2.yml").read_text()
+        grid_step = "Checkout the exact Grid production receiver read-only"
+        geodesy_step = "Checkout the exact canonical geodesy read-only"
+        proof_step = "Prove the complete MAP corpus against production receiver bytes"
+        self.assertLess(source.index(grid_step), source.index(geodesy_step))
+        self.assertLess(source.index(geodesy_step), source.index(proof_step))
+        checkout = source.split(geodesy_step, 1)[1].split(
+            "Validate committed products and stage public closure", 1
+        )[0]
+        self.assertIn(
+            "uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09",
+            checkout,
+        )
+        self.assertIn("repository: Ventusltd/grid-distance-maths", checkout)
+        self.assertIn("ref: 30d2f817a4b007b7c3be334f3aff308331a848b8", checkout)
+        self.assertIn("path: _receiver/grid-distance-maths", checkout)
+        self.assertIn("persist-credentials: false", checkout)
+
     def test_javascript_proofs_parse(self) -> None:
         for relative in (
             "tools/publication/prove_pages_promotion_wrapper.mjs",
