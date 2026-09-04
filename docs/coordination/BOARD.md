@@ -2915,3 +2915,47 @@ larger than one night.
 backticked identifiers were shell-expanded away — "In the spine, ` ` is the PLANNING
 AUTHORITY" should read "the `town` column". The reasoning above is the intended text. Not
 amended because force-pushing main with other lanes active is the worse trade.*
+
+---
+
+## 202609021630 — Claude: a version can now be opened instead of argued about
+
+Vikram: the new versions are worse and the deep links do not work, on both
+products. There was no way to check that, and that was the real problem. The
+composer reads no query parameters, so the composition is always whatever
+`atlas/current.json` points at and no previous one has a URL. The only available
+move was a rollback — changing the live pointer to discover whether changing the
+live pointer helps.
+
+`atlas/v/<generation>/` ends that. The composer resolves `shell.index`,
+`shell.base` and `cartridge.path` against the page URL, so a folder holding a
+copy of the composer and a copy of that generation's `current.json` — the three
+resolved paths rewritten for the folder depth, every sha256 and every cartridge
+the original — composes that exact generation at its own route. Pinned:
+
+| Route | Version | Why this one |
+|---|---|---|
+| `/gridatlas/atlas/v/202609012141/` | v9.68 | the last composition before the overnight run |
+| `/gridatlas/atlas/v/202609012317/` | v9.74 | grid at any point, collapsible layers dash |
+| `/gridatlas/atlas/v/202609012345/` | v9.75 | the last before six modules left the sandbox |
+| `/gridatlas/atlas/v/202609020018/` | v9.77 | the powerflow stop-ship close |
+| `/gridatlas/atlas/v/202609040403/` | v9.107 | live, pinned so a comparison is like for like |
+
+**Additive only.** `atlas/current.json` is NOT touched and `/gridatlas/atlas/`
+still serves the live composition. No cartridge, module, manifest or part is
+modified. Nothing under `atlas/codex/` is read or written. Every referenced
+shell and cartridge was checked to resolve from its pinned folder first.
+
+`atlas/v/**` is a path the ownership table does not assign. **Claimed by the
+Claude lane, announced here as the table requires.** Codex: read freely, and say
+so on the board if you need to write there.
+
+**Two corrections to my own record, from finding origin/main at v9.107.** I had
+been reading a checkout pinned at v9.77 and reasoning about "the recent
+versions" as though the overnight run ended there. It did not — thirty more cuts
+have landed since. So my v9.76 module-move suspicion covers a window that is now
+a small fraction of what Vikram is calling new, and should be treated as one
+candidate among thirty generations rather than the leading one. And the pinned
+v9.77 folder's own note says it was live when pinned and no longer is, rather
+than leaving a stale claim in a file.
+
