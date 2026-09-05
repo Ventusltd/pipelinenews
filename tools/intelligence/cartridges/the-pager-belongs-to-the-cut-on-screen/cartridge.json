@@ -1,0 +1,37 @@
+{
+  "key": "the_pager_belongs_to_the_cut_on_screen",
+  "summary": "The table pager is one panel shared by the product and by any wider-fleet cut on screen, and the spine's handler moves windowStart and calls renderTable() directly rather than through apply(). Both handlers therefore ran on every press: measured live on 202609050200 with LANDFILL GAS showing 1-50 of 275, one press of NEXT gave 101-200 of 7,680 project rows under a control still reading LANDFILL GAS. The cut now stops propagation while it holds the table. The same two buttons also said PREVIOUS 50 and NEXT 50 while moving the spine's window of 100, and the wider cut's page of 50; no number on them can be true of both, so the number comes off and the range readout beside them, which is derived, carries it.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Two edits. In app.mjs, ensureWindowControls() labels its buttons PREVIOUS and NEXT instead of PREVIOUS 50 and NEXT 50 -- the readout between them already states the exact window for whichever cut is showing, and it is computed rather than written. In the wider-fleet cartridge, the capture-phase pager listener calls event.stopPropagation() once it has decided the press is its own, which is what its existing comment -- 'the spine owns its own paging' -- already claimed. windowStart is left untouched while a cut holds the table and apply() zeroes it when the reader returns, so no state is left half-paged. WIDER_FLEET_CONTRACT.owns_the_pager_while_showing is invarianted at mount so the claim and the code cannot drift apart.",
+  "repairs": {
+    "app": [
+      {
+        "label": "the pager buttons stop naming a window size that is wrong for both cuts",
+        "from": "  panel.innerHTML = '<button type=\"button\" data-window=\"previous\">PREVIOUS 50</button><span data-window-range></span><button type=\"button\" data-window=\"next\">NEXT 50</button>';",
+        "to": "  /* The buttons said PREVIOUS 50 and NEXT 50 and moved WINDOW_SIZE, which is\n     100: from \"1-100 of 7,680\" one press reached \"101-200 of 7,680\". They also\n     serve the wider-fleet cut, whose own page is 50, so no single number on\n     these two buttons can be true of both. The range readout beside them\n     already states the window exactly, for whichever cut is showing, so the\n     number comes off the buttons rather than being made wrong in a second\n     place. */\n  panel.innerHTML = '<button type=\"button\" data-window=\"previous\">PREVIOUS</button><span data-window-range></span><button type=\"button\" data-window=\"next\">NEXT</button>';"
+      },
+      {
+        "label": "invariant the pager claim at mount",
+        "from": "  invariant(cartridge.WIDER_FLEET_CONTRACT.releases_on_spine_repaint === true, \"wider fleet stopped letting go when the spine repaints\");",
+        "to": "  invariant(cartridge.WIDER_FLEET_CONTRACT.releases_on_spine_repaint === true, \"wider fleet stopped letting go when the spine repaints\");\n  invariant(cartridge.WIDER_FLEET_CONTRACT.owns_the_pager_while_showing === true, \"wider fleet stopped holding the pager while it holds the table\");"
+      }
+    ],
+    "assets": [
+      {
+        "path": "assets/202609040044-wider-fleet.mjs",
+        "edits": [
+          {
+            "label": "the cut keeps the pager press it has already handled",
+            "from": "  if (windowControls) {\n    windowControls.addEventListener(\"click\", (event) => {\n      if (!active) return;                    // the spine owns its own paging\n      const button = event.target.closest(\"button\");\n      if (!button || !button.dataset.window) return;\n      page += button.dataset.window === \"next\" ? 1 : -1;\n      renderWider();\n    }, true);\n  }",
+            "to": "  if (windowControls) {\n    windowControls.addEventListener(\"click\", (event) => {\n      if (!active) return;                    // the spine owns its own paging\n      const button = event.target.closest(\"button\");\n      if (!button || !button.dataset.window) return;\n      /* The spine binds its OWN click handler to this same panel, and it moves\n         windowStart and calls renderTable() directly rather than going through\n         apply(). Listening in the capture phase was never enough on its own:\n         both handlers ran, this one paged the wider cut and the spine's then\n         repainted its own rows over the top. Measured live on 202609050200\n         with LANDFILL GAS showing \"1-50 of 275\", one press of NEXT gave\n         \"101-200 of 7,680\" project rows under a control still reading\n         LANDFILL GAS.\n\n         Stopping propagation here is what makes \"the spine owns its own\n         paging\" true in both directions: the spine keeps the panel while the\n         product holds the table, and the cut keeps it while the cut does.\n         windowStart is left where it was and apply() zeroes it when the reader\n         returns to the product, so nothing is left half-paged. */\n      event.stopPropagation();\n      page += button.dataset.window === \"next\" ? 1 : -1;\n      renderWider();\n    }, true);\n  }"
+          },
+          {
+            "label": "state it in the contract the spine invariants",
+            "from": "  releases_on_spine_repaint: true,",
+            "to": "  releases_on_spine_repaint: true,\n  /* Paging does not go through apply(), so the seam above cannot see it. While\n     a wider cut holds the table this cartridge takes the shared pager and stops\n     the spine's own handler from repainting underneath it. */\n  owns_the_pager_while_showing: true,"
+          }
+        ]
+      }
+    ]
+  }
+}
