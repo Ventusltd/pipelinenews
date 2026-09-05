@@ -38,7 +38,23 @@
       <a href="../dashboard_v2_2026-08-22.html">V2</a>
       <a href="../dashboard.html">V1 LEGACY</a>
       <a href="../../index.html">DIRECTORY</a>
-      <a href="../../repd_grid_atlasv8/">MAP ATLAS</a>
+      <!-- This was ../../repd_grid_atlasv8/ until 2026-09-05. That route is
+           named RETIRED by the deep-link contract every shell built from this
+           template compiles in, and it still answers HTTP 200 while carrying
+           no engine - so the nav and the table disagreed about where the
+           Atlas is, and the nav was the one that was wrong.
+
+           It survived because the link gate scanned only .js and .mjs, so
+           "0 live sites, exit 0" was true of the JavaScript and false of the
+           HTML. With .html scanning added the gate finds 15 live anchors on
+           this route, and THIS FILE is the one that matters: three compilers
+           read it - index/202608261927-compile-index.mjs,
+           index/202608270055-compile-v8-fast.mjs and
+           index/202609010836-compile-index.mjs - so every shell built from
+           here inherits whatever this line says. The nine already-published
+           version indexes keep their own bytes; they are history and are not
+           rewritten. This stops the next one being wrong. -->
+      <a href="https://ventusltd.github.io/gridatlas/atlas/" id="mapAtlasNav">MAP ATLAS</a>
       <a href="#" id="export">EXPORT CSV</a>
     </nav>
   </aside>
