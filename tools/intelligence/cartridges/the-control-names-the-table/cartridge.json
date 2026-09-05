@@ -1,0 +1,57 @@
+{
+  "key": "the_control_names_the_table",
+  "summary": "The WIDER FLEET control went on naming a technology the table had stopped showing. It let go when one of the spine's five technology tabs was clicked and on nothing else, so the sort select, the sort headings, the county select, the status tabs, the search box, the size handles and CLEAR FILTERS each repainted the product's own rows underneath it. Measured live on 202609040144 with LANDFILL GAS chosen: changing the sort to COUNTY A-Z put 24 solar, 45 battery and 31 onshore wind rows on screen, 0 landfill gas, under a counter reading 7,680 of 7,680, while the control and the note above the table both still said LANDFILL GAS. apply() is the one place the spine repaints, so apply() now announces it and the cut lets go.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Adds a release seam to the spine beside the summary seam: onSpineRepaint(listener) registers one listener, and apply() calls it after presentSummary() on every repaint. The wider-fleet cartridge registers there and calls its existing clearWider(), which is the same letting-go it already did on a spine-tab click. No spine behaviour changes when nothing is registered: the listener is null until a cut mounts, and the call is guarded. The cut's own guard on `active` means a repaint while the product already holds the table does nothing at all, so the export strip the spine just set is not cleared. The mount argument is fatal if absent rather than optional, and WIDER_FLEET_CONTRACT.releases_on_spine_repaint is invarianted at mount, so the two halves cannot drift apart unnoticed.",
+  "repairs": {
+    "app": [
+      {
+        "label": "the release seam, beside the summary seam",
+        "from": "function syncFilterUrl() {",
+        "to": "/* ── THE RELEASE SEAM ─────────────────────────────────\n\n   The other half of the summary seam. presentSummary() lets a cut that is not\n   the spine's own SAY what it is showing. This lets it be TOLD that the spine\n   has taken the table back.\n\n   Measured on 202609040144, live, with WIDER FLEET set to Landfill Gas\n   (275 rows, 787.87 MW):\n\n     control used            what the table then held        the control still said\n     SORT county A–Z         24 solar, 45 battery, 31 wind   LANDFILL GAS\n     COUNTY select           24 solar, 43 battery, 31 wind   LANDFILL GAS\n     STATUS Operational       3 solar,  1 battery,  2 wind   LANDFILL GAS\n     COUNTY column header     3 solar,  1 battery,  2 wind   LANDFILL GAS\n     CLEAR FILTERS            9 solar, 36 battery, 55 wind   LANDFILL GAS\n\n   Zero landfill gas rows in all five, and the wider-fleet note above the table\n   went on describing a cut that was no longer on it. The cartridge let go on a\n   click of one of the spine's five tabs and on nothing else, so every other\n   control that repaints repainted underneath it.\n\n   The fix is not a longer list of control ids. A hand-kept list of controls is\n   the same mistake as a hand-kept list of technologies, one layer up, and the\n   next control added to this product would not be on it. apply() is the single\n   place the spine repaints from its own data — every one of the fourteen\n   handlers ends there — so apply() is where the announcement belongs. A cut\n   that is not the spine's own registers here and lets go when it fires. */\n\nlet spineRepaintListener = null;\n\nfunction onSpineRepaint(listener) {\n  spineRepaintListener = typeof listener === \"function\" ? listener : null;\n}\n\nfunction syncFilterUrl() {"
+      },
+      {
+        "label": "apply() announces that the spine repainted",
+        "from": "  renderTable();\n  presentSummary(summary);\n  updateSortHeader();",
+        "to": "  renderTable();\n  presentSummary(summary);\n  // The spine has just repainted from its own payload. Anything that had the\n  // table before this line no longer has it, and must stop saying it does.\n  if (spineRepaintListener) spineRepaintListener();\n  updateSortHeader();"
+      },
+      {
+        "label": "hand the release seam to the wider-fleet mount",
+        "from": "    presentSummary,\n  });",
+        "to": "    presentSummary,\n    /* Handed over for the same reason presentSummary is: so the cut can be\n       told the product took its table back, rather than this file keeping a\n       list of the controls that do it. */\n    onSpineRepaint,\n  });"
+      },
+      {
+        "label": "invariant the cut's half of the seam at mount",
+        "from": "  invariant(cartridge.WIDER_FLEET_CONTRACT.drives_summary_seam === true, \"wider fleet stopped driving the spine summary seam\");",
+        "to": "  invariant(cartridge.WIDER_FLEET_CONTRACT.drives_summary_seam === true, \"wider fleet stopped driving the spine summary seam\");\n  invariant(cartridge.WIDER_FLEET_CONTRACT.releases_on_spine_repaint === true, \"wider fleet stopped letting go when the spine repaints\");"
+      }
+    ],
+    "assets": [
+      {
+        "path": "assets/202609040044-wider-fleet.mjs",
+        "edits": [
+          {
+            "label": "accept the release seam",
+            "from": "export async function mountWiderFleet({ host, payloadAsset, presentSummary }) {",
+            "to": "export async function mountWiderFleet({ host, payloadAsset, presentSummary, onSpineRepaint }) {"
+          },
+          {
+            "label": "a missing release seam fails, it does not skip",
+            "from": "  if (typeof presentSummary !== \"function\") {\n    throw new Error(\"wider fleet: the spine did not hand over its summary seam\");\n  }",
+            "to": "  if (typeof presentSummary !== \"function\") {\n    throw new Error(\"wider fleet: the spine did not hand over its summary seam\");\n  }\n  /* Fatal for the same reason, and not optional: a mount that could\n     not be told the spine had repainted would go on naming a cut that\n     had left the table, which is the defect this generation exists to\n     end. A missing input fails here; it does not skip. */\n  if (typeof onSpineRepaint !== \"function\") {\n    throw new Error(\"wider fleet: the spine did not hand over its release seam\");\n  }"
+          },
+          {
+            "label": "let go on every spine repaint, not only a tab click",
+            "from": "  for (const tab of spineTabs) {\n    tab.addEventListener(\"click\", () => { clearWider(); page = 0; });\n  }",
+            "to": "  for (const tab of spineTabs) {\n    tab.addEventListener(\"click\", () => { clearWider(); page = 0; });\n  }\n\n  /* Every OTHER spine control — the sort select, the twelve sort\n     headings, the county select, the five status tabs, the search box,\n     the two size handles and their boxes, CLEAR FILTERS — repaints the\n     table through the spine's apply(), which now says so. Letting go\n     here means the control and the table can no longer disagree, and it\n     is one registration rather than a list of ids that a control added\n     tomorrow would not be on.\n\n     Guarded on `active` so that a repaint while the product already has\n     its own table costs nothing: clearWider() calls presentSummary(null),\n     and doing that on every apply() would clear the export strip the\n     spine had just set. */\n  onSpineRepaint(() => {\n    if (!active) return;\n    clearWider();\n    page = 0;\n  });"
+          },
+          {
+            "label": "state it in the contract the spine invariants",
+            "from": "  drives_summary_seam: true,",
+            "to": "  drives_summary_seam: true,\n  /* Registers on the spine's release seam and clears itself when the\n     spine repaints, so the control never names a cut the table has\n     stopped showing. app.mjs invariants this at mount. */\n  releases_on_spine_repaint: true,"
+          }
+        ]
+      }
+    ]
+  }
+}
