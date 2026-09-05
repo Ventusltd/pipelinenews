@@ -70,8 +70,18 @@ check('runtime no longer imports the legacy-target module',
   !app.includes('./202608311343-atlas-pointer-deep-link.mjs'));
 check('both site-navigation links use the stable GridAtlas route',
   (index.match(/https:\/\/ventusltd\.github\.io\/gridatlas\/atlas\//g) || []).length === 2);
-check('site navigation contains no legacy Atlas href',
-  !index.includes('https://globalgrid2050.com/repd_grid_atlasv8/'));
+/* Was: assert the navigation does not contain one named legacy href. Naming a
+   dead route in a proof keeps a copy of it alive -- Ventusltd/testcode's
+   link-target driver counts every mention, and cannot tell an assertion of
+   absence from a link. This asks the positive question instead, against the
+   receiver module's own base_url: every Atlas href in the navigation is the
+   receiver this release actually ships. It is stronger, because it fails for
+   ANY other receiver rather than for one remembered string, and it needs no
+   network. */
+const atlasHrefs = [...index.matchAll(/https:\/\/[^"'\s>]*?(?:atlas|repd_grid)[^"'\s>]*/gi)].map((m) => m[0]);
+check('every Atlas href in the navigation is this release\'s own receiver',
+  atlasHrefs.length > 0 && atlasHrefs.every((href) => href.startsWith(deepLink.ATLAS_DEEP_LINK_CONTRACT.receiver.base_url)),
+  atlasHrefs.join(' | '));
 
 const entry = registry.supplemental_assets?.atlas_live_handoff;
 check('registry carries the handoff receipt', Boolean(entry));

@@ -38,14 +38,29 @@
  * that makes the full payload safe was there all along.
  *
  * ---------------------------------------------------------------------------
- * THE OPEN DECISION (priority item L-04)
+ * THE DECISION, CLOSED 2026-09-05
  * ---------------------------------------------------------------------------
- * Two receivers accept the same parameters:
- *   "legacy" - globalgrid2050.com/repd_grid_atlasv8/  - proven, in use today
- *   "ported" - ventusltd.github.io/gridatlas/atlas/   - the migration target
+ * This file used to offer two receivers and default to the wrong one:
+ * ACTIVE_TARGET was "legacy", the V8 overlay that the engine now publishes as
+ * retired. The route is deliberately not spelled out anywhere in this file any
+ * more -- Ventusltd/testcode's link-target driver counts every mention of it,
+ * and a comment is as good a place as a constant for a dead route to survive.
  *
- * Change ACTIVE_TARGET below. That is the entire switch. Both are validated by
- * the same invariants, so neither can be selected in a broken state.
+ * It still serves, so nothing ever 404'd and no link checker went red.
+ * It carries zero engine cartridges and no current.json -- measured 2026-09-05,
+ * 0 against the canonical shell's 20 and 3 -- so an arrival there can never
+ * compute a nearest substation, a corridor estimate or a rating envelope.
+ * Driven live on REPD 8162 the retired receiver exposes no __GRIDATLAS_*
+ * globals at all and never names the project; the canonical one loads 14 engine
+ * modules and answers BRAINTREE at 9.44 km, 400/132 kV.
+ *
+ * The composed releases were correct only because release_builder.py rewrites
+ * this line when --atlas-target ported is passed. A source part whose default
+ * is a dead receiver is a defect waiting for the first build that forgets the
+ * flag, so the branch is gone rather than the default changed. The engine now
+ * publishes the answer as data in ventus-grid-engine/deeplink/receivers.json,
+ * and an ACTIVE_TARGET this file does not know still fails the invariant below
+ * rather than resolving to anything.
  */
 
 const ATLAS_TARGETS = Object.freeze({
@@ -66,23 +81,11 @@ const ATLAS_TARGETS = Object.freeze({
     state_url: "https://ventusltd.github.io/gridatlas/state/live-set.json",
     source_commit: "4f3e8fc5c7ea28edf83dbac9b231024723bcf231",
   }),
-  legacy: Object.freeze({
-    id: "legacy",
-    schema: "pipelinenews.gridatlas-live-pointer-receipt.v4",
-    classification: "VERIFIED_LEGACY_ATLAS_V8_IN_SERVICE",
-    generation: "legacy",
-    release_id: "repd_grid_atlasv8",
-    base_url: "https://globalgrid2050.com/repd_grid_atlasv8/",
-    pinned_release_url: "https://globalgrid2050.com/repd_grid_atlasv8/",
-    hostname: "globalgrid2050.com",
-    pathname: "/repd_grid_atlasv8/",
-    state_url: null,
-    source_commit: null,
-  }),
 });
 
-/** L-04. One line. Both branches are invariant-checked below. */
-const ACTIVE_TARGET = "legacy";
+/** One receiver, because the other one carries no engine. An unknown value
+ *  here fails the invariant below rather than selecting anything. */
+const ACTIVE_TARGET = "ported";
 
 const RECEIVER = ATLAS_TARGETS[ACTIVE_TARGET];
 
