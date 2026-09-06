@@ -1,6 +1,6 @@
 const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),assert=require('node:assert/strict');
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'C:/Users/vikra/OneDrive/Documents/GitHub/gridatlas-main-202609050200/node_modules/playwright');
-const generation=process.argv[2],sub=process.argv.includes('--sub');
+const generation=process.argv[2],sub=process.argv.includes('--sub'),mobile=process.argv.includes('--mobile-actions');
 if(!/^\d{12}$/.test(generation||''))throw Error('Generation required');
 const root=path.resolve('releases',generation+'-pipelinenews');
 const output=process.env.EVIDENCE_DIR||`C:/Users/vikra/OneDrive/Desktop/offline-screenshots/recovery-20260906/pipeline${generation.slice(-4)}`;
@@ -29,6 +29,12 @@ const server=http.createServer((req,res)=>{try{const pathname=decodeURIComponent
    for(let batch=0;batch<100;batch++){
    const chips=await page.locator('[data-repd-metric]').evaluateAll(nodes=>nodes.map(n=>({ref:n.dataset.repdMetric,text:n.textContent,title:n.title})));
    assert.ok(await page.locator('.project-actions .action-metric').count(),'No metric state for '+option+' batch '+batch);
+   if(mobile && profile.name==='phone'){
+    const outside=await page.locator('.tablewrap tbody .project-actions > *').evaluateAll(nodes=>nodes.filter(node=>{const rect=node.getBoundingClientRect();return rect.left<0||rect.right>innerWidth+1;}).map(node=>node.textContent));
+    assert.deepEqual(outside,[],'Phone actions outside viewport');
+    const targets=await page.locator('.tablewrap tbody .action-link').evaluateAll(nodes=>nodes.every(node=>node.getBoundingClientRect().height>=44));
+    assert.ok(targets,'MAP target too small');
+   }
    for(const chip of chips){const index=chip.text.startsWith('SUB')?station:grid;const k=index?.[chip.ref]?.k;
     if(typeof k==='number'){assert.ok(chip.text.includes(k.toFixed(2)),JSON.stringify(chip));measured++;}
     else assert.ok(chip.text.includes('unavailable'));
@@ -42,7 +48,9 @@ const server=http.createServer((req,res)=>{try{const pathname=decodeURIComponent
   }
   assert.ok(measured>500);
   await page.selectOption('#widerTechnology',options[0]);
+  if(mobile)await page.locator('.tablewrap tbody tr').first().scrollIntoViewIfNeeded();
   await page.screenshot({path:path.join(output,profile.name+'.png'),fullPage:true});
+  if(mobile)await page.screenshot({path:path.join(output,profile.name+'-actions.png')});
   assert.deepEqual(errors,[]);
   results.push({profile:profile.name,technologies:options.length,observations,measured,errors});
   await page.close();

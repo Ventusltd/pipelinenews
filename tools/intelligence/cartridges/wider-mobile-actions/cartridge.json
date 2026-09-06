@@ -1,0 +1,10 @@
+{
+  "key": "wider_mobile_actions",
+  "summary": "Keep each wider-fleet site's MAP, GRID and SUB actions inside the phone viewport.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Responsive row cards preserve exact metrics, site names, technology, status and capacity. Desktop table and main-spine table retain their existing layout.",
+  "repairs": {
+    "index.html": [{"label": "Load scoped phone row presentation", "from": "</head>", "to": "<link rel=\"stylesheet\" href=\"assets/{GEN}-wider-mobile-actions.css\">\n</head>"}],
+    "assets": [{"path": "assets/202609040044-wider-fleet.mjs", "edits": [{"label": "Identify wider-fleet rows for responsive actions", "from": ".map((row) => `<tr>\n      <td class=\"site\">", "to": ".map((row) => `<tr class=\"wider-fleet-row\">\n      <td class=\"site\">"}]}]
+  }
+}

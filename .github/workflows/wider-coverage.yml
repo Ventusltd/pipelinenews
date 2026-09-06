@@ -2,7 +2,7 @@ name: Wider fleet GRID and SUB engineering checks
 on:
   push:
     branches: [main, 'codex/20260906-next30']
-    paths: ['releases/202609060315-pipelinenews/**', 'releases/202609060316-pipelinenews/**', 'cartridges/*coverage*', 'cartridges/wider-grid*', 'tools/intelligence/*wider*', '.github/workflows/wider-coverage.yml']
+    paths: ['releases/202609060315-pipelinenews/**', 'releases/202609060316-pipelinenews/**', 'releases/202609060318-pipelinenews/**', 'cartridges/*coverage*', 'cartridges/wider-grid*', 'tools/intelligence/*wider*', '.github/workflows/wider-coverage.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -23,6 +23,7 @@ jobs:
         run: |
           python3 tools/intelligence/release_builder.py --check 202609060315-pipelinenews
           python3 tools/intelligence/release_builder.py --check 202609060316-pipelinenews
+          python3 tools/intelligence/release_builder.py --check 202609060318-pipelinenews
       - name: Install pinned browser
         run: |
           npm install --no-save --package-lock=false playwright@1.62.1
@@ -34,6 +35,7 @@ jobs:
         run: |
           EVIDENCE_DIR=wider-artifacts/grid node tools/intelligence/wider-coverage.browser.cjs 202609060315
           EVIDENCE_DIR=wider-artifacts/sub node tools/intelligence/wider-coverage.browser.cjs 202609060316 --sub
+          EVIDENCE_DIR=wider-artifacts/mobile node tools/intelligence/wider-coverage.browser.cjs 202609060318 --sub --mobile-actions
       - uses: actions/upload-artifact@v4
         if: always()
         with:
