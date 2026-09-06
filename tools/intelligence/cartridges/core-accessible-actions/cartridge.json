@@ -1,0 +1,52 @@
+{
+  "key": "core_accessible_actions",
+  "summary": "Keep core pipeline MAP GRID SUB and COPY ID actions reachable on phones, with touch and keyboard metric explanations.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Reuse the established responsive row presentation and existing metric dialog for the core register. Values, project-record controls and canonical identities are unchanged.",
+  "repairs": {
+    "app": [
+      {
+        "label": "Use native metric buttons with exact project identity",
+        "from": "function metricChip({ ready, hit, located, label, unitSuffix, lines }) {\n  if (!ready) return `<span class=\"action-metric\" title=\"The distance source is unavailable in this session\">${label} unavailable</span>`;\n  if (!hit || typeof hit.k !== \"number\") {\n    // One sentence covered two different silences, and it asserted a search\n    // that never ran. Counted on this cut: 3,047 of the 7,680 records carry a\n    // distance and 4,633 do not, and the grid-distance payload's own coverage\n    // block records no_circuit: 0 -- not one project was measured and came up\n    // empty. \"No mapped feature found for this project\" therefore described\n    // none of the 4,633 rows it was printed on. 4,605 of them hold a register\n    // coordinate and were simply not measured; the other 28 have no coordinate\n    // to measure from. The row already knows which it is.\n    //\n    // The mapped-layer caveat is not repeated here. It qualifies a distance\n    // that was measured against an incomplete layer, and no distance was\n    // measured for this row; it still stands, verbatim, on every chip that\n    // carries a number and in the GRID + SUB strip.\n    const coverage=metricCoverage[label];\n    const why = located\n      ? `No published ${label} distance for this record in the active source. ${coverage.measured.toLocaleString('en-GB')} of ${coverage.total.toLocaleString('en-GB')} main-register records have a distance; source coverage is not evidence that infrastructure is absent.`\n      : `No usable register coordinate. ${coverage.withoutCoordinates} main-register records are in this state. The record remains searchable and exportable with null geometry.`;\n    return `<span class=\"action-metric\" title=\"${why}\">${label} -</span>`;\n  }\n  // No band attribute is emitted, so nothing downstream can style or read\n  // a verdict back out of the DOM. The distance is the whole claim.\n  const band = \"\";\n  const title = escapeHtml(lines.filter(Boolean).join(\" \\u00b7 \"));\n  return `<span class=\"action-metric\"${band} title=\"${title}\">${label}`\n    + `<b>${hit.k.toFixed(2)}</b><span class=\"unit\">km${unitSuffix}</span></span>`;\n}\n",
+        "to": "function metricChip({ ready, hit, located, label, unitSuffix, lines, ref }) {\n  if (!ready) return `<button type=\"button\" class=\"action-metric\" style=\"cursor:pointer;min-height:44px;font:inherit;color:inherit\" data-repd-metric=\"${escapeHtml(ref)}\" data-metric-kind=\"${label}\" title=\"The distance source is unavailable in this session\">${label} unavailable</button>`;\n  if (!hit || typeof hit.k !== \"number\") {\n    // One sentence covered two different silences, and it asserted a search\n    // that never ran. Counted on this cut: 3,047 of the 7,680 records carry a\n    // distance and 4,633 do not, and the grid-distance payload's own coverage\n    // block records no_circuit: 0 -- not one project was measured and came up\n    // empty. \"No mapped feature found for this project\" therefore described\n    // none of the 4,633 rows it was printed on. 4,605 of them hold a register\n    // coordinate and were simply not measured; the other 28 have no coordinate\n    // to measure from. The row already knows which it is.\n    //\n    // The mapped-layer caveat is not repeated here. It qualifies a distance\n    // that was measured against an incomplete layer, and no distance was\n    // measured for this row; it still stands, verbatim, on every chip that\n    // carries a number and in the GRID + SUB strip.\n    const coverage=metricCoverage[label];\n    const why = located\n      ? `No published ${label} distance for this record in the active source. ${coverage.measured.toLocaleString('en-GB')} of ${coverage.total.toLocaleString('en-GB')} main-register records have a distance; source coverage is not evidence that infrastructure is absent.`\n      : `No usable register coordinate. ${coverage.withoutCoordinates} main-register records are in this state. The record remains searchable and exportable with null geometry.`;\n    return `<button type=\"button\" class=\"action-metric\" style=\"cursor:pointer;min-height:44px;font:inherit;color:inherit\" data-repd-metric=\"${escapeHtml(ref)}\" data-metric-kind=\"${label}\" title=\"${why}\">${label} -</button>`;\n  }\n  // No band attribute is emitted, so nothing downstream can style or read\n  // a verdict back out of the DOM. The distance is the whole claim.\n  const band = \"\";\n  const title = escapeHtml(lines.filter(Boolean).join(\" \\u00b7 \"));\n  return `<button type=\"button\" class=\"action-metric\" style=\"cursor:pointer;min-height:44px;font:inherit;color:inherit\" data-repd-metric=\"${escapeHtml(ref)}\" data-metric-kind=\"${label}\"${band} title=\"${title}\">${label}`\n    + `<b>${hit.k.toFixed(2)}</b><span class=\"unit\">km${unitSuffix}</span></button>`;\n}\n"
+      },
+      {
+        "label": "Attribute core GRID button to its REPD record",
+        "from": "    ready: Boolean(gridDistance), hit, located:",
+        "to": "    ref: item.repd_ref, ready: Boolean(gridDistance), hit, located:"
+      },
+      {
+        "label": "Attribute core SUB button to its REPD record",
+        "from": "    ready: Boolean(substation), hit, located:",
+        "to": "    ref: item.repd_ref, ready: Boolean(substation), hit, located:"
+      }
+    ],
+    "assets": [
+      {
+        "path": "assets/202609060333-metric-details.mjs",
+        "edits": [
+          {
+            "label": "Use explicit metric kind for compact core buttons",
+            "from": "trigger.textContent.split(/\\s/)[0]+' observation",
+            "to": "(trigger.dataset.metricKind||trigger.textContent.split(/\\s/)[0])+' observation"
+          },
+          {
+            "label": "Render the observation separator as one intended Unicode character",
+            "from": "+' observation \u00c2\u00b7 REPD ",
+            "to": "+' observation \\u00b7 REPD "
+          }
+        ]
+      },
+      {
+        "path": "assets/202609060318-wider-mobile-actions.css",
+        "edits": [
+          {
+            "label": "Keep all core actions in the established phone row layout",
+            "from": "/* The wider-fleet row keeps its existing data and actions, within the phone viewport. */\n@media (max-width: 700px) {\n  .tablewrap:has(.wider-fleet-row) { overflow-x: hidden; }\n  .tablewrap table:has(.wider-fleet-row) { display: block; width: 100%; min-width: 0; }\n  .tablewrap table:has(.wider-fleet-row) thead { display: none; }\n  .tablewrap tbody:has(.wider-fleet-row) { display: block; width: 100%; }\n  .tablewrap tr.wider-fleet-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; box-sizing: border-box; border-bottom: 1px solid #37404a; padding: 10px 0; }\n  .tablewrap tr.wider-fleet-row td { display: block; min-width: 0; width: auto; max-width: 100%; box-sizing: border-box; white-space: normal; overflow-wrap: anywhere; border: 0; padding: 5px 8px; }\n  .tablewrap tr.wider-fleet-row td.hide-mobile { display: none !important; }\n  .tablewrap tr.wider-fleet-row td.site,\n  .tablewrap tr.wider-fleet-row td:nth-child(6),\n  .tablewrap tr.wider-fleet-row td:nth-child(12),\n  .tablewrap tr.wider-fleet-row td:last-child { grid-column: 1 / -1; }\n  .tablewrap tr.wider-fleet-row .mobile-extra { display: block !important; }\n  .tablewrap tr.wider-fleet-row .project-actions { display: flex; flex-wrap: wrap; width: 100%; gap: 8px; }\n  .tablewrap tr.wider-fleet-row .action-link { display: inline-flex; align-items: center; min-height: 44px; box-sizing: border-box; }\n  .tablewrap tr.wider-fleet-row .action-metric { max-width: 100%; white-space: normal; }\n}\n",
+            "to": "/* The wider-fleet row keeps its existing data and actions, within the phone viewport. */\n@media (max-width: 700px) {\n  .tablewrap:has(:is(.wider-fleet-row,[data-project-index])) { overflow-x: hidden; }\n  .tablewrap table:has(:is(.wider-fleet-row,[data-project-index])) { display: block; width: 100%; min-width: 0; }\n  .tablewrap table:has(:is(.wider-fleet-row,[data-project-index])) thead { display: none; }\n  .tablewrap tbody:has(:is(.wider-fleet-row,[data-project-index])) { display: block; width: 100%; }\n  .tablewrap tr:is(.wider-fleet-row,[data-project-index]) { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; box-sizing: border-box; border-bottom: 1px solid #37404a; padding: 10px 0; }\n  .tablewrap tr:is(.wider-fleet-row,[data-project-index]) td { display: block; min-width: 0; width: auto; max-width: 100%; box-sizing: border-box; white-space: normal; overflow-wrap: anywhere; border: 0; padding: 5px 8px; }\n  .tablewrap tr:is(.wider-fleet-row,[data-project-index]) td.hide-mobile { display: none !important; }\n  .tablewrap tr:is(.wider-fleet-row,[data-project-index]) td.site,\n  .tablewrap tr:is(.wider-fleet-row,[data-project-index]) td:nth-child(6),\n  .tablewrap tr:is(.wider-fleet-row,[data-project-index]) td:nth-child(12),\n  .tablewrap tr:is(.wider-fleet-row,[data-project-index]) td:last-child { grid-column: 1 / -1; }\n  .tablewrap tr:is(.wider-fleet-row,[data-project-index]) .mobile-extra { display: block !important; }\n  .tablewrap tr:is(.wider-fleet-row,[data-project-index]) .project-actions { display: flex; flex-wrap: wrap; width: 100%; gap: 8px; }\n  .tablewrap tr:is(.wider-fleet-row,[data-project-index]) .action-link { display: inline-flex; align-items: center; min-height: 44px; box-sizing: border-box; }\n  .tablewrap tr:is(.wider-fleet-row,[data-project-index]) .action-metric { max-width: 100%; white-space: normal; }\n}\n\n@media(max-width:700px){.tablewrap .copy-id{min-height:44px}}\n"
+          }
+        ]
+      }
+    ]
+  }
+}

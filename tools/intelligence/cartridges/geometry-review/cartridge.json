@@ -1,0 +1,57 @@
+{
+  "key": "geometry_review",
+  "summary": "Find and export records without usable coordinates without removing them from the register.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Coordinate filter composes with existing filters, pagination, summaries and GeoJSON, and survives reload through the geometry query parameter.",
+  "repairs": {
+    "index.html": [
+      {
+        "label": "Expose coordinate availability choices",
+        "from": "      <select id=\"sortProjects\"",
+        "to": "      <select id=\"geometryFilter\" aria-label=\"Project coordinate availability\"><option value=\"all\">COORDINATES: ALL RECORDS</option><option value=\"located\">COORDINATES: MAPPABLE</option><option value=\"missing\">COORDINATES: NEED REVIEW</option></select>\n      <select id=\"sortProjects\""
+      }
+    ],
+    "app": [
+      {
+        "label": "Load coordinate availability predicate",
+        "from": "import {summarizeCoverage} from './202609060342-metric-coverage.mjs';",
+        "to": "import {matchesGeometry} from './{GEN}-geometry-filter.mjs';\nimport {summarizeCoverage} from './202609060342-metric-coverage.mjs';"
+      },
+      {
+        "label": "Track explicit geometry view",
+        "from": "let sortMode = \"capacity_desc\";",
+        "to": "let sortMode = \"capacity_desc\";\nlet geometryMode = \"all\";"
+      },
+      {
+        "label": "Filter before rendering and export selection",
+        "from": "    if (technology !== \"all\" && item.technology !== technology) continue;",
+        "to": "    if (!matchesGeometry(item,geometryMode)) continue;\n    if (technology !== \"all\" && item.technology !== technology) continue;"
+      },
+      {
+        "label": "Replace geometry URL state rather than accumulating it",
+        "from": "    \"mw_min\", \"mw_max\"]) url.searchParams.delete(parameter);",
+        "to": "    \"mw_min\", \"mw_max\", \"geometry\"]) url.searchParams.delete(parameter);"
+      },
+      {
+        "label": "Write shareable geometry selection",
+        "from": "  if (sortMode !== \"capacity_desc\") url.searchParams.set(\"sort\", sortMode);",
+        "to": "  if (sortMode !== \"capacity_desc\") url.searchParams.set(\"sort\", sortMode);\n  if (geometryMode !== \"all\") url.searchParams.set(\"geometry\",geometryMode);"
+      },
+      {
+        "label": "Restore validated geometry query on reload",
+        "from": "  const requestedSort = parameters.get(\"sort\") || \"capacity_desc\";",
+        "to": "  const requestedSort = parameters.get(\"sort\") || \"capacity_desc\";\n  geometryMode=[\"all\",\"located\",\"missing\"].includes(parameters.get(\"geometry\"))?parameters.get(\"geometry\"):\"all\";\n  document.getElementById(\"geometryFilter\").value=geometryMode;"
+      },
+      {
+        "label": "Clear coordinate filter with all other filters",
+        "from": "function clearFilters(event) {",
+        "to": "function clearFilters(event) {\n  geometryMode=\"all\";document.getElementById(\"geometryFilter\").value=\"all\";"
+      },
+      {
+        "label": "Bind explicit coordinate review control",
+        "from": "  document.getElementById(\"clearFilters\").addEventListener(\"click\", clearFilters);",
+        "to": "  document.getElementById(\"clearFilters\").addEventListener(\"click\", clearFilters);\n  document.getElementById(\"geometryFilter\").addEventListener(\"change\",event=>{geometryMode=event.target.value;apply();});"
+      }
+    ]
+  }
+}

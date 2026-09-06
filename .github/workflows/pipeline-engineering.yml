@@ -2,7 +2,7 @@ name: Pipeline engineering interaction checks
 on:
   push:
     branches: [main, 'codex/20260906-next30']
-    paths: ['releases/2026090603*-pipelinenews/**', 'cartridges/project-geojson*', 'cartridges/metric-*', 'cartridges/wider-*', '.github/workflows/pipeline-engineering.yml']
+    paths: ['releases/2026090603*-pipelinenews/**', 'cartridges/project-geojson*', 'cartridges/metric-*', 'cartridges/geometry-*', 'tools/intelligence/wider-coverage.browser.cjs', 'cartridges/wider-*', '.github/workflows/pipeline-engineering.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -25,6 +25,12 @@ jobs:
             options: '--sub --mobile-actions --details --geojson --filter --order --wider-geojson'
           - generation: '202609060342'
             options: '--sub --mobile-actions --details --geojson --filter --order --wider-geojson --coverage'
+          - generation: '202609060343'
+            options: '--sub --mobile-actions --details --geojson --filter --order --wider-geojson --coverage --sub-order'
+          - generation: '202609060345'
+            options: '--sub --mobile-actions --details --geojson --filter --order --wider-geojson --coverage --sub-order --geometry'
+          - generation: '202609060349'
+            options: '--sub --mobile-actions --details --geojson --filter --order --wider-geojson --coverage --sub-order --geometry --core-actions'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -32,7 +38,7 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24'
-      - run: node --test cartridges/project-geojson.test.mjs cartridges/wider-grid-actions.test.mjs cartridges/wider-filter.test.mjs cartridges/wider-order.test.mjs cartridges/wider-geojson.test.mjs cartridges/metric-coverage.test.mjs
+      - run: node --test cartridges/project-geojson.test.mjs cartridges/wider-grid-actions.test.mjs cartridges/wider-filter.test.mjs cartridges/wider-order.test.mjs cartridges/wider-geojson.test.mjs cartridges/metric-coverage.test.mjs cartridges/geometry-filter.test.mjs
       - run: python3 tools/intelligence/release_builder.py --check ${{ matrix.generation }}-pipelinenews
       - run: |
           npm install --no-save --package-lock=false playwright@1.62.1

@@ -1,0 +1,42 @@
+{
+  "key": "core_sub_distance_order",
+  "summary": "Order the main pipeline by nearest or furthest mapped substation distance, keeping missing observations last in both directions.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Uses the existing SUB observation index and current filter/export ordering; no connection ranking or headroom grade.",
+  "repairs": {
+    "index.html": [
+      {
+        "label": "Expose both SUB distance directions",
+        "from": "        <option value=\"grid_asc\">",
+        "to": "        <option value=\"sub_asc\">SORT: SUB DISTANCE ? NEAREST</option>\n        <option value=\"sub_desc\">SORT: SUB DISTANCE ? FURTHEST</option>\n        <option value=\"grid_asc\">"
+      }
+    ],
+    "app": [
+      {
+        "label": "Accept SUB order in controls and links",
+        "from": "  \"grid_asc\", \"grid_desc\"]);",
+        "to": "  \"grid_asc\", \"grid_desc\", \"sub_asc\", \"sub_desc\"]);"
+      },
+      {
+        "label": "Share the measured-distance sorter with SUB",
+        "from": "} else if (sortMode === \"grid_asc\" || sortMode === \"grid_desc\") {",
+        "to": "} else if ([\"grid_asc\",\"grid_desc\",\"sub_asc\",\"sub_desc\"].includes(sortMode)) {"
+      },
+      {
+        "label": "Apply the named direction",
+        "from": "    const direction = sortMode === \"grid_asc\" ? 1 : -1;",
+        "to": "    const direction = sortMode.endsWith(\"_asc\") ? 1 : -1;\n    const observationFor = sortMode.startsWith(\"sub_\") ? substationFor : gridFor;"
+      },
+      {
+        "label": "Read left observation from selected metric",
+        "from": "      const a = gridFor(project(left))?.k;",
+        "to": "      const a = observationFor(project(left))?.k;"
+      },
+      {
+        "label": "Read right observation from selected metric",
+        "from": "      const b = gridFor(project(right))?.k;",
+        "to": "      const b = observationFor(project(right))?.k;"
+      }
+    ]
+  }
+}

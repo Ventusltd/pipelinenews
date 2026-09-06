@@ -21,6 +21,20 @@ const server=http.createServer((req,res)=>{try{const pathname=decodeURIComponent
   page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base,{waitUntil:'networkidle'});
   await page.waitForSelector('#widerTechnology',{timeout:60000});
+  if(process.argv.includes('--core-actions')){
+   await page.waitForFunction(()=>document.body.dataset.fastReady==='true');
+   const button=page.locator('.tablewrap tbody button[data-repd-metric]').first();await button.focus();
+   const identity=await button.evaluate(node=>({kind:node.dataset.metricKind,ref:node.dataset.repdMetric,title:node.title}));
+   await page.keyboard.press('Enter');await page.locator('#wider-metric-dialog').waitFor({state:'visible'});
+   assert.equal(await page.locator('#wider-metric-heading').innerText(),identity.kind+' observation \u00b7 REPD '+identity.ref);
+   assert.equal(await page.locator('#wider-metric-explanation').innerText(),identity.title);
+   await page.keyboard.press('Escape');assert.equal(await button.evaluate(node=>document.activeElement===node),true);
+   if(profile.name==='phone'){
+    const invalid=await page.locator('.tablewrap tbody .project-actions > *').evaluateAll(nodes=>nodes.filter(node=>{const r=node.getBoundingClientRect();return r.left<0||r.right>innerWidth+1||r.height<44;}).map(node=>({text:node.textContent,box:node.getBoundingClientRect().toJSON()})));
+    assert.deepEqual(invalid,[],'Core action outside phone viewport or too small');
+   }
+   await button.scrollIntoViewIfNeeded();await page.screenshot({path:path.join(output,profile.name+'-core-actions.png')});
+  }
   if(process.argv.includes('--coverage')){
    await page.waitForFunction(()=>document.body.dataset.fastReady==='true');
    const coverage=await page.evaluate(()=>window.__PIPELINENEWS_FAST__.metricCoverage);
@@ -37,6 +51,21 @@ const server=http.createServer((req,res)=>{try{const pathname=decodeURIComponent
    assert.equal(data.features.length,7680);assert.equal(data.metadata.null_geometry,28);
    for(const feature of data.features){const row=byRef.get(feature.properties.repd_ref);assert.ok(row);assert.equal(feature.id,row[1]);
     if(feature.geometry)assert.deepEqual(feature.geometry.coordinates,[row[12],row[11]]);else assert.notEqual(source.dictionaries.geometry_status[row[10]],'valid');
+   }
+   if(process.argv.includes('--sub-order')){
+    for(const mode of ['sub_asc','sub_desc']){
+     await page.selectOption('#sortProjects',mode);const pending=page.waitForEvent('download');await page.locator('#exportGeoJSON').click();
+     const file=path.join(output,profile.name+'-'+mode+'.geojson');await(await pending).saveAs(file);const ordered=JSON.parse(fs.readFileSync(file));
+     assert.equal(ordered.features.length,7680);let previous=mode==='sub_asc'?-Infinity:Infinity,missing=false;
+     for(const feature of ordered.features){const k=station[feature.properties.repd_ref]?.k;if(!Number.isFinite(k)){missing=true;continue;}assert.equal(missing,false,'Measured SUB row after unavailable row');assert.ok(mode==='sub_asc'?k>=previous:k<=previous);previous=k;}
+     assert.equal(new URL(page.url()).searchParams.get('sort'),mode);
+    }
+   }
+   if(process.argv.includes('--geometry')){
+    await page.selectOption('#geometryFilter','missing');const pending=page.waitForEvent('download');await page.locator('#exportGeoJSON').click();
+    const file=path.join(output,profile.name+'-unlocated.geojson');await(await pending).saveAs(file);const missing=JSON.parse(fs.readFileSync(file));assert.equal(missing.features.length,28);assert.ok(missing.features.every(feature=>feature.geometry===null));
+    assert.equal(new URL(page.url()).searchParams.get('geometry'),'missing');await page.reload({waitUntil:'networkidle'});await page.waitForFunction(()=>document.body.dataset.fastReady==='true');assert.equal(await page.locator('#geometryFilter').inputValue(),'missing');assert.equal(await page.locator('.tablewrap tbody tr').count(),28);
+    await page.locator('#clearFilters').click();assert.equal(await page.locator('#geometryFilter').inputValue(),'all');assert.equal(new URL(page.url()).searchParams.has('geometry'),false);
    }
    const exact=new URL(base);exact.searchParams.set('repd_ref','12588');await page.goto(exact.href,{waitUntil:'networkidle'});
    await page.waitForFunction(()=>document.body.dataset.fastReady==='true');
@@ -99,12 +128,12 @@ const server=http.createServer((req,res)=>{try{const pathname=decodeURIComponent
   }
   if(process.argv.includes('--filter')){
    await page.selectOption('#widerTechnology','Landfill Gas');
-   await page.locator('#widerLocalFilter').fill('Calédon');
+   await page.locator('#widerLocalFilter').fill('Cal\u00e9don');
    assert.equal(await page.locator('.wider-fleet-row').count(),1);
    assert.match(await page.locator('.wider-fleet-row .site').innerText(),/Caledon Green/);
-   assert.equal(new URL(page.url()).searchParams.get('wider_q'),'Calédon');
+   assert.equal(new URL(page.url()).searchParams.get('wider_q'),'Cal\u00e9don');
    await page.reload({waitUntil:'networkidle'});await page.waitForSelector('#widerTechnology');
-   assert.equal(await page.locator('#widerLocalFilter').inputValue(),'Calédon');assert.equal(await page.locator('.wider-fleet-row').count(),1);
+   assert.equal(await page.locator('#widerLocalFilter').inputValue(),'Cal\u00e9don');assert.equal(await page.locator('.wider-fleet-row').count(),1);
    await page.locator('#widerLocalFilter').fill('no-project-with-this-impossible-name');
    assert.equal(await page.locator('.wider-fleet-row').count(),0);assert.match(await page.locator('[data-window-range]').innerText(),/0 of 0/);
    await page.locator('#widerLocalFilter').fill('');assert.equal(await page.locator('.wider-fleet-row').count(),50);
