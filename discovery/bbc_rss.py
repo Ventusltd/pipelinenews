@@ -12,11 +12,11 @@ import xml.etree.ElementTree as ET
 
 SECTIONS = ('science_and_environment', 'business', 'england', 'scotland', 'wales',
             'northern_ireland', 'uk', 'england/lincolnshire', 'england/cambridgeshire',
-            'england/norfolk', 'england/suffolk', 'england/nottinghamshire',
-            'england/essex', 'england/kent', 'england/oxfordshire', 'england/wiltshire',
+            'england/norfolk', 'england/suffolk', 'england/nottingham',
+            'england/essex', 'england/kent', 'england/oxford', 'england/wiltshire',
             'england/somerset', 'england/devon', 'england/cornwall', 'england/lancashire',
             'england/cumbria', 'england/tees', 'england/york_and_north_yorkshire',
-            'england/south_yorkshire', 'england/leicestershire', 'england/derbyshire',
+            'england/south_yorkshire', 'england/leicester', 'england/derbyshire',
             'england/northamptonshire', 'england/hampshire', 'england/shropshire',
             'england/stoke_and_staffordshire', 'england/hereford_and_worcester')
 MAX_BYTES = 1_048_576
