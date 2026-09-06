@@ -1,0 +1,209 @@
+{
+  "schema": "pipelinenews.bbc-rss.v1",
+  "checked_at": "2026-09-06T02:02:45.039303+00:00",
+  "last_success_at": "2026-09-06T02:02:45.039303+00:00",
+  "status": "partial",
+  "items": [],
+  "feeds": [
+    {
+      "url": "https://feeds.bbci.co.uk/news/science_and_environment/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "320ff2d4cd16737991d6ab7d6c834eddc760a573b4797a48aac0b80168afe520"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/business/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "ca6b6d49b74d2b486addbebc89a8a4783dee5218e2ba0e96f2b13329a72085a3"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "7ce57de8c98054ad3d7636c040e41a5a56ec877c8688b3a2ca344975c02148f1"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/scotland/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "8ac4cccbf0c5147e18c44092a6fdb99cf60dd4eaa0464d1879f6add81814b674"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/wales/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "2d0c50670dcdd321b16a9d6930ab3f474687b0c83d72bd05a972169b1d753d0a"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/northern_ireland/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "b7214e5460c382fc3ef031f9b3cddde4c9fc38424f5b8e6752f45109d9f791c6"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/uk/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "fecf9bf99bd3acab52ae9773ebe2ea2c09f16f3fec670967b5ce459a47f9c04a"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/lincolnshire/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "8df0f87235d41a980b845d672791526f8f8fb50a3829bf8d3652f95707938715"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/cambridgeshire/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "610060447fd20da6e1a97954bafcc2aa7a596d666f7a160e61d86bc30bb9080c"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/norfolk/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "c3669c7145371207607f49802e134b59a64a125634013b9d59077284706fdd64"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/suffolk/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "b13a2e12124af704961512aa3385fbaf11d3e85cba930e03bedbd35daee3457d"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/nottinghamshire/rss.xml",
+      "status": "failed",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/essex/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "a0ca402a5a975cbaab38b9e96c7e064a379c5f614f18a42437827166288d0e61"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/kent/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "eff3fe0ad734a701951b0c7789bec76a4330f765d6ea69d0d8eca0c11bdd3ab7"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/oxfordshire/rss.xml",
+      "status": "failed",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/wiltshire/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "096431868617af6e47ee837b86ffe7a35d81460d390bd3caaae6350c9bd52691"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/somerset/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "5611331bd843fb706ecf2b29751adc0a2fa652ba962221a31c94fcda0d5b9e4a"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/devon/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "c5073647c526014fc334ba8ae005d35e370fa5eb7a8e271e8b7fc02e2b577380"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/cornwall/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "48be4a134095809d15314474aacaf98005eefb22b7e3d897e3fa7cff6898a917"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/lancashire/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "c63972516826f7869a81680d5b54b057cf76893088f62d5ba201f076a1ae7ff0"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/cumbria/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "e9d425625aa5228c867f9579a514ad94c1a087a6915936b3138611f1189aa787"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/tees/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "efc5cfed98dd7c06821734ec5272851f25225eb89c9b42a6c1e276cfa3a4b3d7"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/york_and_north_yorkshire/rss.xml",
+      "status": "failed",
+      "error": "ValueError: feed redirect rejected"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/south_yorkshire/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "cb8a6f12c228d17f7874bbd0463b151037171b9e9a8ab6278f2ed19baaa1d596"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/leicestershire/rss.xml",
+      "status": "failed",
+      "error": "HTTPError: HTTP Error 404: Not Found"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/derbyshire/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "019d7fef6c4c5f9013cd4aefe6672dc5d799fc6892965210a424c7a1390752f9"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/northamptonshire/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "bf27c053ad2068ddf3d67dfd4614d329c746133203c65cca138027f2234d0b2f"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/hampshire/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "9b4a96201df568182a02593316070094490b313815b19ea78cbe4ca0055326d6"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/shropshire/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "a1ec3b692295063f9d1e179e4992f8bf11b36e0485678f3adf233ea9951be29a"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/stoke_and_staffordshire/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "5915a0c13b8268a665e158c62848593be38f332d26aef76a0ba1a4029b782800"
+    },
+    {
+      "url": "https://feeds.bbci.co.uk/news/england/hereford_and_worcester/rss.xml",
+      "status": "ok",
+      "items": 0,
+      "sha256": "5d4ba6b05c1ba56f63ec33e94c3fe71ea061e65c1588e9f0431bef2b269cd4a2"
+    }
+  ],
+  "limits": {
+    "feeds": 31,
+    "bytes_per_feed": 1048576,
+    "retained_items": 500,
+    "retention_days": 30
+  },
+  "attribution": "BBC News",
+  "source": "https://www.bbc.co.uk/news",
+  "scope": "RSS headlines and links; no article-page requests; no inferred REPD match.",
+  "submitted_articles": [
+    {
+      "url": "https://www.bbc.co.uk/news/articles/c4gmkezn4nlo",
+      "intake_id": "bbc-news-c4gmkezn4nlo",
+      "status": "NOT_SEEN_IN_FETCHED_RSS",
+      "headline": null,
+      "note": "Not seen does not mean absent from BBC or REPD; RSS is a rolling feed."
+    }
+  ]
+}
