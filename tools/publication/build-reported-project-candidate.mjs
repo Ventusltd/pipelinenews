@@ -1,0 +1,20 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+import {validateReportedProject} from '../../cartridges/reported-project.mjs';
+const gen=process.argv[2];
+execFileSync(process.execPath,['tools/publication/build-rss-candidate.mjs',gen],{stdio:'inherit'});
+const out=`testcode/${gen}`,manifest=JSON.parse(readFileSync(`${out}/manifest.json`));
+const blob=path=>execFileSync('git',['show',`${manifest.sourceCommit}:${path}`],{maxBuffer:2*1024*1024});
+const digest=b=>createHash('sha256').update(b).digest('hex');
+const evidence='discovery/inbox/202609060208-cearn-project-evidence.json';
+validateReportedProject(JSON.parse(blob(evidence)));
+const extra={'project-evidence.json':evidence,'reported-project.mjs':'cartridges/reported-project.mjs','reported-project-panel.mjs':'cartridges/reported-project-panel.mjs'};
+for(const [name,path]of Object.entries(extra)){const b=blob(path);writeFileSync(`${out}/${name}`,b);manifest.sources.push({path,sha256:digest(b)});}
+let html=readFileSync(`${out}/index.html`,'utf8');
+html=html.replace('<section><h2>Energy and infrastructure news</h2>', '<section id="reported-project"><p>Loading attributed project evidence...</p></section><section><h2>Energy and infrastructure news</h2>');
+html=html.replace('</html>',`<script type="module">import {showReportedProject} from './reported-project-panel.mjs';const host=document.getElementById('reported-project');try{const r=await fetch('./project-evidence.json');if(!r.ok)throw Error('Source unavailable');showReportedProject(host,await r.json());}catch(e){host.textContent='Project evidence unavailable: '+e.message;}</script></html>`);
+writeFileSync(`${out}/index.html`,html);
+manifest.planId='BBC-RSS-02';manifest.relatedPlan='PIPELINE-01';manifest.change='Keep Cearn news-only and separate its claims from related Botley West facts';
+manifest.files=['index.html','snapshot.json',...Object.keys(extra)].map(path=>{const b=readFileSync(`${out}/${path}`);return{path,bytes:b.length,sha256:digest(b)};});
+writeFileSync(`${out}/manifest.json`,JSON.stringify(manifest,null,2)+'\n');
