@@ -2,7 +2,7 @@ name: Pipeline engineering interaction checks
 on:
   push:
     branches: [main, 'codex/20260906-next30']
-    paths: ['releases/202609060333-pipelinenews/**', 'releases/202609060334-pipelinenews/**', 'cartridges/project-geojson*', 'cartridges/metric-details.mjs', '.github/workflows/pipeline-engineering.yml']
+    paths: ['releases/20260906033*-pipelinenews/**', 'cartridges/project-geojson*', 'cartridges/metric-details.mjs', 'cartridges/wider-filter*', 'cartridges/wider-order*', '.github/workflows/pipeline-engineering.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -17,6 +17,10 @@ jobs:
             options: '--sub --mobile-actions --details'
           - generation: '202609060334'
             options: '--sub --mobile-actions --details --geojson'
+          - generation: '202609060337'
+            options: '--sub --mobile-actions --details --geojson --filter'
+          - generation: '202609060338'
+            options: '--sub --mobile-actions --details --geojson --filter --order'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -24,7 +28,7 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '24'
-      - run: node --test cartridges/project-geojson.test.mjs cartridges/wider-grid-actions.test.mjs
+      - run: node --test cartridges/project-geojson.test.mjs cartridges/wider-grid-actions.test.mjs cartridges/wider-filter.test.mjs cartridges/wider-order.test.mjs
       - run: python3 tools/intelligence/release_builder.py --check ${{ matrix.generation }}-pipelinenews
       - run: |
           npm install --no-save --package-lock=false playwright@1.62.1

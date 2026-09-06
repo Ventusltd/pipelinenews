@@ -65,6 +65,35 @@ const server=http.createServer((req,res)=>{try{const pathname=decodeURIComponent
   }
   assert.ok(measured>500);
   await page.selectOption('#widerTechnology',options[0]);
+  if(process.argv.includes('--order')){
+   await page.selectOption('#widerTechnology','Landfill Gas');
+   for(const [mode,index] of [['grid_asc',grid],['sub_asc',station]]){
+    await page.selectOption('#widerOrder',mode);let last=-Infinity,seen=0;
+    for(let batch=0;batch<100;batch++){
+     const references=await page.locator('.wider-fleet-row').evaluateAll(rows=>rows.map(row=>[...row.querySelectorAll('[data-repd-metric]')].map(chip=>chip.dataset.repdMetric)));
+     for(const refs of references){const values=refs.map(ref=>index[ref]?.k).filter(Number.isFinite),value=values.length?Math.min(...values):Infinity;assert.ok(value>=last,'Distance order regressed across a page');last=value;seen++;}
+     if(await page.locator('[data-window="next"]').isDisabled())break;await page.locator('[data-window="next"]').click();
+    }
+    assert.equal(seen,275);assert.equal(new URL(page.url()).searchParams.get('wider_sort'),mode);
+   }
+   await page.reload({waitUntil:'networkidle'});await page.waitForSelector('#widerOrder');assert.equal(await page.locator('#widerOrder').inputValue(),'sub_asc');
+   await page.selectOption('#widerOrder','capacity_desc');
+  }
+  if(process.argv.includes('--filter')){
+   await page.selectOption('#widerTechnology','Landfill Gas');
+   await page.locator('#widerLocalFilter').fill('Calédon');
+   assert.equal(await page.locator('.wider-fleet-row').count(),1);
+   assert.match(await page.locator('.wider-fleet-row .site').innerText(),/Caledon Green/);
+   assert.equal(new URL(page.url()).searchParams.get('wider_q'),'Calédon');
+   await page.reload({waitUntil:'networkidle'});await page.waitForSelector('#widerTechnology');
+   assert.equal(await page.locator('#widerLocalFilter').inputValue(),'Calédon');assert.equal(await page.locator('.wider-fleet-row').count(),1);
+   await page.locator('#widerLocalFilter').fill('no-project-with-this-impossible-name');
+   assert.equal(await page.locator('.wider-fleet-row').count(),0);assert.match(await page.locator('[data-window-range]').innerText(),/0 of 0/);
+   await page.locator('#widerLocalFilter').fill('');assert.equal(await page.locator('.wider-fleet-row').count(),50);
+   await page.selectOption('#widerTechnology','');assert.equal(await page.locator('#widerLocalFilter').isDisabled(),true);
+   assert.equal(new URL(page.url()).searchParams.has('wider_q'),false);
+   await page.selectOption('#widerTechnology',options[0]);
+  }
   if(process.argv.includes('--geojson')){
    let downloads=0;const count=()=>downloads++;page.on('download',count);
    await page.locator('#exportGeoJSON').click();assert.match(await page.locator('#exportMeta').innerText(),/declined.*wider-fleet/);

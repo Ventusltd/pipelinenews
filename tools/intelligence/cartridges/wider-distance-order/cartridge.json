@@ -1,0 +1,72 @@
+{
+  "key": "wider_distance_order",
+  "summary": "Sort wider-fleet sites by their shortest listed GRID or SUB distance, with unavailable observations last.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Grouped sites use all explicitly listed REPD measurements. Named choices include capacity and site name; no grade or headroom ranking is introduced.",
+  "repairs": {
+    "assets": [
+      {
+        "path": "assets/202609040044-wider-fleet.mjs",
+        "edits": [
+          {
+            "label": "Load neutral distance ordering",
+            "from": "import {filterWiderRows} from './202609060337-wider-filter.mjs';",
+            "to": "import {sortWiderRows} from './{GEN}-wider-order.mjs';\nimport {filterWiderRows} from './202609060337-wider-filter.mjs';"
+          },
+          {
+            "label": "Accept explicit metric lookup seam",
+            "from": "metricActions = () => \"\" })",
+            "to": "metricActions = () => \"\", metricLookup = () => undefined })"
+          },
+          {
+            "label": "Add named ordering control",
+            "from": "  let active = null;",
+            "to": "  const orderControl=document.createElement('select');orderControl.id='widerOrder';orderControl.setAttribute('aria-label','Order selected wider-fleet technology');\n  orderControl.style.cssText=localFilter.style.cssText;orderControl.disabled=true;\n  for(const [value,label] of [['capacity_desc','Capacity: largest first'],['name_asc','Site name: A to Z'],['grid_asc','Shortest listed GRID distance'],['sub_asc','Shortest listed SUB distance']]){const option=document.createElement('option');option.value=value;option.textContent=label;orderControl.append(option);}\n  const requestedOrder=new URL(location.href).searchParams.get('wider_sort');if([...orderControl.options].some(option=>option.value===requestedOrder))orderControl.value=requestedOrder;\n  group.append(orderControl);orderControl.addEventListener('change',()=>{if(!active)return;page=0;renderWider();writeDeepLink(active);});\n\n  let active = null;"
+          },
+          {
+            "label": "Order current local results without changing source rows",
+            "from": "const visible = () => filterWiderRows(active ? rows.filter((row) => row.rt === active) : [],localQuery);",
+            "to": "const visible = () => sortWiderRows(filterWiderRows(active ? rows.filter((row) => row.rt === active) : [],localQuery),orderControl.value,metricLookup);"
+          },
+          {
+            "label": "Release distance ordering with table ownership",
+            "from": "    localFilter.disabled=true;localQuery='';localFilter.value='';",
+            "to": "    orderControl.disabled=true;orderControl.value='capacity_desc';\n    localFilter.disabled=true;localQuery='';localFilter.value='';"
+          },
+          {
+            "label": "Remove wider order on return to core",
+            "from": "cleanUrl.searchParams.delete('wider_q');",
+            "to": "cleanUrl.searchParams.delete('wider_q');cleanUrl.searchParams.delete('wider_sort');"
+          },
+          {
+            "label": "Enable sorting for wider view",
+            "from": "    localFilter.disabled=false;",
+            "to": "    localFilter.disabled=false;orderControl.disabled=false;"
+          },
+          {
+            "label": "Persist exact order in shareable link",
+            "from": "    if(type && localQuery)url.searchParams.set('wider_q',localQuery);",
+            "to": "    if(type && orderControl.value!=='capacity_desc')url.searchParams.set('wider_sort',orderControl.value);else url.searchParams.delete('wider_sort');\n    if(type && localQuery)url.searchParams.set('wider_q',localQuery);"
+          },
+          {
+            "label": "Attest selector filter and order",
+            "from": "controlsAdded: 2,",
+            "to": "controlsAdded: 3,"
+          }
+        ]
+      }
+    ],
+    "app": [
+      {
+        "label": "Supply exact metric observations for ordering",
+        "from": "    metricActions: row => widerMetricActions(row, gridDistance) + ' ' + widerMetricActions(row, substation, 'SUB'),",
+        "to": "    metricActions: row => widerMetricActions(row, gridDistance) + ' ' + widerMetricActions(row, substation, 'SUB'),\n    metricLookup: (ref,label) => (label==='SUB'?substation:gridDistance)?.[ref]?.k,"
+      },
+      {
+        "label": "Check three explicit wider controls",
+        "from": "invariant(result.controlsAdded === 2, \"wider fleet must expose its selector and local filter\");",
+        "to": "invariant(result.controlsAdded === 3, \"wider fleet must expose its selector, local filter and order\");"
+      }
+    ]
+  }
+}

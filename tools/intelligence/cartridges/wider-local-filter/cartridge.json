@@ -1,0 +1,57 @@
+{
+  "key": "wider_local_filter",
+  "summary": "Search names, operators, postcodes and grouped REPD references within the selected wider-fleet technology.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Local filtering uses the same owned payload, resets pagination and summaries, preserves table ownership, and round-trips in the wider_q deep link.",
+  "repairs": {
+    "assets": [
+      {
+        "path": "assets/202609040044-wider-fleet.mjs",
+        "edits": [
+          {
+            "label": "Import local-filter model",
+            "from": "import { buildAtlasV9DeepLink } from \"./202609040044-atlas-pointer-deep-link.mjs\";",
+            "to": "import {filterWiderRows} from './{GEN}-wider-filter.mjs';\nimport { buildAtlasV9DeepLink } from \"./202609040044-atlas-pointer-deep-link.mjs\";"
+          },
+          {
+            "label": "Add labelled in-cut search control",
+            "from": "  let active = null;",
+            "to": "  let localQuery=(new URL(location.href).searchParams.get('wider_q')||'').slice(0,120);\n  const localFilter=document.createElement('input');localFilter.type='search';localFilter.id='widerLocalFilter';localFilter.maxLength=120;\n  localFilter.placeholder='Name, operator, postcode or REPD ref';localFilter.setAttribute('aria-label','Filter selected wider-fleet technology');\n  localFilter.style.cssText='box-sizing:border-box;min-height:44px;width:100%;max-width:480px;background:#05090d;color:#dbeafe;border:1px solid #37516b;padding:8px;font:12px monospace';\n  localFilter.value=localQuery;localFilter.disabled=true;group.append(localFilter);\n  localFilter.addEventListener('input',()=>{if(!active)return;localQuery=localFilter.value;page=0;renderWider();writeDeepLink(active);});\n\n  let active = null;"
+          },
+          {
+            "label": "Filter only the selected wider technology",
+            "from": "  const visible = () => (active ? rows.filter((row) => row.rt === active) : []);",
+            "to": "  const visible = () => filterWiderRows(active ? rows.filter((row) => row.rt === active) : [],localQuery);"
+          },
+          {
+            "label": "Release local filter with table ownership",
+            "from": "  function clearWider() {",
+            "to": "  function clearWider() {\n    localFilter.disabled=true;localQuery='';localFilter.value='';\n    const cleanUrl=new URL(location.href);cleanUrl.searchParams.delete('wider_q');history.replaceState(null,'',cleanUrl);"
+          },
+          {
+            "label": "Activate filter with selected technology",
+            "from": "    active = type;",
+            "to": "    active = type;\n    localFilter.disabled=false;"
+          },
+          {
+            "label": "Share exact local query in wider deep link",
+            "from": "    if (type) url.searchParams.set(\"technology\", type);",
+            "to": "    if(type && localQuery)url.searchParams.set('wider_q',localQuery);else url.searchParams.delete('wider_q');\n    if (type) url.searchParams.set(\"technology\", type);"
+          },
+          {
+            "label": "Attest both selector and local filter",
+            "from": "    controlsAdded: 1,",
+            "to": "    controlsAdded: 2,"
+          }
+        ]
+      }
+    ],
+    "app": [
+      {
+        "label": "Verify selector plus local filter control contract",
+        "from": "invariant(result.controlsAdded === 1, \"wider fleet put more than one control in the technology row\");",
+        "to": "invariant(result.controlsAdded === 2, \"wider fleet must expose its selector and local filter\");"
+      }
+    ]
+  }
+}
