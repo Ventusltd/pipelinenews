@@ -2,7 +2,7 @@ name: Pipeline coverage contract
 on:
   push:
     branches: [main, 'codex/20260906-next30']
-    paths: ['cartridges/**', '.github/workflows/coverage-contract.yml']
+    paths: ['cartridges/**', 'discovery/bbc_rss.py', 'discovery/test_bbc_rss.py', '.github/workflows/coverage-contract.yml', '.github/workflows/bbc-rss-discovery.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -17,3 +17,4 @@ jobs:
         with:
           node-version: 22
       - run: node --test cartridges/*.test.mjs
+      - run: python3 -B -m unittest discover -s discovery -p test_bbc_rss.py
