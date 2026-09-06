@@ -15,7 +15,7 @@ SECTIONS = ('science_and_environment', 'business', 'england', 'scotland', 'wales
             'england/norfolk', 'england/suffolk', 'england/nottingham',
             'england/essex', 'england/kent', 'england/oxford', 'england/wiltshire',
             'england/somerset', 'england/devon', 'england/cornwall', 'england/lancashire',
-            'england/cumbria', 'england/tees', 'england/york_and_north_yorkshire',
+            'england/cumbria', 'england/tees', 'england/north_yorkshire',
             'england/south_yorkshire', 'england/leicester', 'england/derbyshire',
             'england/northamptonshire', 'england/hampshire', 'england/shropshire',
             'england/stoke_and_staffordshire', 'england/hereford_and_worcester')
