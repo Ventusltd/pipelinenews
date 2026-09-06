@@ -11,10 +11,12 @@ if (existsSync(output)) throw Error('Candidate already exists; immutable output 
 const root = 'releases/202609050309-pipelinenews/data/';
 const names = ['202608311610-grid-proximity.json','202608311800-grid-distance.json','202608311858-substation-33kv.json'];
 const hash = body => createHash('sha256').update(body).digest('hex');
-const bytes = names.map(name => readFileSync(root + name));
+const sourceCommit = execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+const committed = path => execFileSync('git',['show',sourceCommit+':'+path],{maxBuffer:20*1024*1024});
+const bytes = names.map(name => committed(root + name));
 const sources = names.map((name,i) => ({path:root + name, sha256:hash(bytes[i]), bytes:bytes[i].length}));
 const result = auditCoverage(...bytes.map(b => JSON.parse(b)));
-result.sourceCommit = execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+result.sourceCommit = sourceCommit;
 result.sources = sources;
 mkdirSync(output, {recursive:true});
 const report = JSON.stringify(result,null,2)+'\n';
@@ -50,5 +52,5 @@ try {
 }catch(error){el('status').textContent='Coverage unavailable: '+error.message;}
 </script></html>`);
 const files=['index.html','coverage.json'].map(path=>{const b=readFileSync(output+'/'+path);return {path,bytes:b.length,sha256:hash(b)};});
-writeFileSync(output+'/manifest.json',JSON.stringify({schema:'ventus.testcode-candidate.v1',generation,planId:'PIPELINE-01',status:'candidate',change:'Report exact coverage differences and unjoinable source rows',owner:'Ventusltd/pipelinenews',sourceCommit:result.sourceCommit,module:{path:'cartridges/coverage-join-audit.mjs',sha256:hash(readFileSync('cartridges/coverage-join-audit.mjs'))},sources,files,acceptance:'Owner fixtures pass; exact CI, served bytes and Chrome pending'},null,2)+'\n');
+writeFileSync(output+'/manifest.json',JSON.stringify({schema:'ventus.testcode-candidate.v1',generation,planId:'PIPELINE-01',status:'candidate',change:'Report exact coverage differences and unjoinable source rows',owner:'Ventusltd/pipelinenews',sourceCommit:result.sourceCommit,module:{path:'cartridges/coverage-join-audit.mjs',sha256:hash(committed('cartridges/coverage-join-audit.mjs'))},sources,files,acceptance:'Owner fixtures pass; exact CI, served bytes and Chrome pending'},null,2)+'\n');
 console.log(output);
