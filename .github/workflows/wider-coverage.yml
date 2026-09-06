@@ -1,0 +1,42 @@
+name: Wider fleet GRID and SUB engineering checks
+on:
+  push:
+    branches: [main, 'codex/20260906-next30']
+    paths: ['releases/202609060315-pipelinenews/**', 'releases/202609060316-pipelinenews/**', 'cartridges/*coverage*', 'cartridges/wider-grid*', 'tools/intelligence/*wider*', '.github/workflows/wider-coverage.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  wider:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - name: Preserve baseline observations and exact grouped identities
+        run: node --test cartridges/grid-coverage-successor.test.mjs cartridges/sub-coverage-successor.test.mjs cartridges/wider-grid-actions.test.mjs
+      - name: Verify immutable release identities
+        run: |
+          python3 tools/intelligence/release_builder.py --check 202609060315-pipelinenews
+          python3 tools/intelligence/release_builder.py --check 202609060316-pipelinenews
+      - name: Install pinned browser
+        run: |
+          npm install --no-save --package-lock=false playwright@1.62.1
+          npx playwright install --with-deps chromium
+      - name: Exercise all technologies and pages, including source failure
+        env:
+          PLAYWRIGHT_MODULE: playwright
+          EVIDENCE_DIR: wider-artifacts
+        run: |
+          EVIDENCE_DIR=wider-artifacts/grid node tools/intelligence/wider-coverage.browser.cjs 202609060315
+          EVIDENCE_DIR=wider-artifacts/sub node tools/intelligence/wider-coverage.browser.cjs 202609060316 --sub
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wider-coverage-${{ github.sha }}
+          path: wider-artifacts/
+          retention-days: 7

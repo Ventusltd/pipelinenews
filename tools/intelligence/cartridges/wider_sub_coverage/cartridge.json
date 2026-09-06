@@ -1,0 +1,67 @@
+{
+  "key": "wider_sub_coverage",
+  "summary": "Expose published SUB distances for exact wider-fleet identities beside MAP.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Existing main-spine measurements preserved; no additional core records claimed. Grouped references remain individually attributed.",
+  "repairs": {
+    "app": [
+      {
+        "label": "Load exact-identity owner coverage with existing baseline fallback",
+        "from": "async function loadSubstation33kv() {\n  const entry = registry.supplemental_assets?.grid_actions_inline;\n  if (!entry) return;\n  try {\n    runtimeEvidence.substationRequests += 1;\n    const payload = await fetchImmutable(entry.payload.path);\n    invariant(payload.schema === entry.payload.schema, \"substation schema mismatch\");\n    invariant(payload.generation === entry.generation, \"substation generation mismatch\");\n    invariant(payload.substation && typeof payload.substation === \"object\", \"substation index missing\");\n    substation = payload.substation;\n    runtimeEvidence.substationReady = true;\n  } catch (error) {\n    // A substation payload that will not load must not take the table with it.\n    substation = null;\n  }\n}",
+        "to": "async function loadSubstation33kv() {\n  for(const entry of [registry.supplemental_assets?.wider_sub_coverage,registry.supplemental_assets?.grid_actions_inline].filter(Boolean)) {\n    try {\n      runtimeEvidence.substationRequests += 1;\n      const payload=await fetchImmutable(entry.payload.path);\n      invariant(payload.schema===entry.payload.schema && payload.generation===entry.generation,'sub coverage identity mismatch');\n      invariant(payload.substation && typeof payload.substation==='object' && !Array.isArray(payload.substation),'sub coverage index missing');\n      substation=payload.substation;\n      runtimeEvidence.substationReady=true;\n      runtimeEvidence.subCoverageSource=entry.generation;\n      return;\n    } catch(error) { runtimeEvidence.subCoverageFallback=true; }\n  }\n  substation=null;\n}"
+      },
+      {
+        "label": "Show SUB alongside wider GRID with each exact identity",
+        "from": "metricActions: row => widerMetricActions(row, gridDistance),",
+        "to": "metricActions: row => widerMetricActions(row, gridDistance) + ' ' + widerMetricActions(row, substation, 'SUB'),"
+      }
+    ]
+  },
+  "hash_fields": [
+    {
+      "at": [
+        "payload",
+        "sha256"
+      ],
+      "path": "data/{GEN}-sub-coverage.json"
+    },
+    {
+      "at": [
+        "audit",
+        "sha256"
+      ],
+      "path": "data/{GEN}-sub-coverage-audit.json"
+    }
+  ],
+  "registry_entry": {
+    "schema": "pipelinenews.wider_sub_coverage.v1",
+    "generation": "{GEN}",
+    "source_commit": "b4b829148d26a99d68636b7b8e2bfac9616bc707",
+    "sources": [
+      {
+        "path": "cartridges/sub-coverage-successor.mjs",
+        "sha256": "ebf547745dd8418d1fa5222a4e6f531e6600d255a34f57aa0ace09fec415997f"
+      },
+      {
+        "path": "releases/202609050309-pipelinenews/data/202608311858-substation-33kv.json",
+        "sha256": "81cae241eccfd77c2a2898843c9220ae1378668e7494dbeaf7378d6d94e7a480"
+      },
+      {
+        "path": "releases/202609050309-pipelinenews/data/202608311610-grid-proximity.json",
+        "sha256": "beb5e940d005e46651281048ef7dff36ec195b71132a4e4fa402e683458d62a3"
+      }
+    ],
+    "payload": {
+      "schema": "pipelinenews.substation-33kv.v1",
+      "path": "data/{GEN}-sub-coverage.json"
+    },
+    "audit": {
+      "schema": "pipelinenews.sub-coverage-successor-audit.v1",
+      "path": "data/{GEN}-sub-coverage-audit.json"
+    },
+    "added_owner_identities": 1090,
+    "original_entries_preserved": 3047,
+    "core_measured_unchanged": 3047,
+    "engineering_boundary": "Nearest mapped station is not necessarily the nearest station on the ground. This observation does not establish connection suitability, rights, capacity, fault level, thermal headroom or cable routing."
+  }
+}

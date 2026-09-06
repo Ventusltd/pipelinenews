@@ -1,0 +1,93 @@
+{
+  "key": "wider_grid_coverage",
+  "summary": "Expose published GRID distances for exact wider-fleet identities beside MAP.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Existing main-spine measurements preserved; no additional core records claimed. Grouped references remain individually attributed.",
+  "repairs": {
+    "app": [
+      {
+        "label": "Load exact-identity owner coverage with existing baseline fallback",
+        "from": "async function loadGridDistance() {\n  const entry = registry.supplemental_assets?.grid_distance_column;\n  const note = document.getElementById(\"gridDistanceNote\");\n  if (!entry) {\n    if (note) note.textContent = \"GRID \\u00b7 not in this release\";\n    return;\n  }\n  try {\n    runtimeEvidence.gridDistanceRequests += 1;\n    const payload = await fetchImmutable(entry.payload.path);\n    invariant(payload.schema === entry.payload.schema, \"grid-distance schema mismatch\");\n    invariant(payload.generation === entry.generation, \"grid-distance generation mismatch\");\n    invariant(payload.grid && typeof payload.grid === \"object\", \"grid-distance index missing\");\n    gridDistance = payload.grid;\n    runtimeEvidence.gridDistanceReady = true;\n    if (note) {\n      const counts = payload.bands?.counts || {};\n      const strong = (counts.STRONG || 0).toLocaleString(\"en-GB\");\n      note.textContent = `GRID + SUB \\u00b7 BETA \\u00b7 in the ACTIONS column, beside MAP \\u00b7 `\n        + `straight-line km to the nearest mapped circuit and to the nearest substation at 33 kV or above \\u00b7 nearest mapped is not nearest: of the 886 transmission substations NESO names at 132 kV and above, the Atlas locates 502 and publishes the other 384 without coordinates rather than dropping them, so the nearest mapped substation may not be the nearest substation \\u00b7 `\n        + `${(payload.projects || 0).toLocaleString(\"en-GB\")} projects measured, ${strong} within 2 km of a circuit \\u00b7 no MVA rating is quoted here; the ratings the Atlas shows are per season, named, and never summed \\u2014 NESO publishes a winter rating for all 1,392 circuits and a summer rating for 1,276, and summer differs from winter on 1,081 of those \\u00b7 `\n        + `not a cable route, and not headroom \\u2014 fault level and thermal headroom need DNO network data such as source impedance and a connection study \\u00b7 the published transmission network is now answerable: MAP opens the circuits that land at the declared site, their ratings in every season the operator publishes, how many circuits away its neighbours are, and where this output would flow on a declared DC model`;\n      // The full scope of the BETA sits on hover rather than in the strip, so\n      // the caveat is one gesture away without crowding the filter row.\n      note.title = [\n        payload.caveat?.distance,\n        payload.caveat?.headroom,\n        payload.caveat?.coverage,\n        payload.beta?.not_covered?.length\n          ? \"Not covered in this beta: \" + payload.beta.not_covered.join(\"; \")\n          : \"\",\n        payload.earth_model\n          ? `Measured on ${payload.earth_model.formula} at R = ${payload.earth_model.radius_km} km using ${payload.earth_model.implementation}; every published distance re-measured and reproduced at build time.`\n          : \"\",\n      ].filter(Boolean).join(\"\\n\\n\");\n    }\n  } catch (error) {\n    // A grid payload that will not load must not take the table with it.\n    gridDistance = null;\n    if (note) note.textContent = \"GRID \\u00b7 unavailable in this session\";\n  }\n}",
+        "to": "async function loadGridDistance() {\n  for(const entry of [registry.supplemental_assets?.wider_grid_coverage,registry.supplemental_assets?.grid_distance_column].filter(Boolean)) {\n    try {\n      runtimeEvidence.gridDistanceRequests += 1;\n      const payload=await fetchImmutable(entry.payload.path);\n      invariant(payload.schema===entry.payload.schema && payload.generation===entry.generation,'grid coverage identity mismatch');\n      invariant(payload.grid && typeof payload.grid==='object' && !Array.isArray(payload.grid),'grid coverage index missing');\n      gridDistance=payload.grid;\n      runtimeEvidence.gridDistanceReady=true;\n      runtimeEvidence.gridCoverageSource=entry.generation;\n      return;\n    } catch(error) { runtimeEvidence.gridCoverageFallback=true; }\n  }\n  gridDistance=null;\n}"
+      },
+      {
+        "label": "Import neutral wider fleet metric presentation",
+        "from": "import { buildAtlasV9DeepLink } from \"./202609040044-atlas-pointer-deep-link.mjs\";",
+        "to": "import {widerMetricActions} from './{GEN}-wider-metrics.mjs';\nimport { buildAtlasV9DeepLink } from \"./202609040044-atlas-pointer-deep-link.mjs\";"
+      },
+      {
+        "label": "Pass exact GRID observations through existing cartridge seam",
+        "from": "  const result = await cartridge.mountWiderFleet({\n    host,",
+        "to": "  const result = await cartridge.mountWiderFleet({\n    host,\n    metricActions: row => widerMetricActions(row, gridDistance),"
+      }
+    ],
+    "assets": [
+      {
+        "path": "assets/202609040044-wider-fleet.mjs",
+        "edits": [
+          {
+            "label": "Accept optional distance renderer without reading spine state",
+            "from": "mountWiderFleet({ host, payloadAsset, presentSummary, onSpineRepaint })",
+            "to": "mountWiderFleet({ host, payloadAsset, presentSummary, onSpineRepaint, metricActions = () => \"\" })"
+          },
+          {
+            "label": "Show per-record GRID beside MAP",
+            "from": "${mapActions(row)}</div>",
+            "to": "${mapActions(row)} ${metricActions(row)}</div>"
+          }
+        ]
+      }
+    ]
+  },
+  "hash_fields": [
+    {
+      "at": [
+        "payload",
+        "sha256"
+      ],
+      "path": "data/{GEN}-grid-coverage.json"
+    },
+    {
+      "at": [
+        "audit",
+        "sha256"
+      ],
+      "path": "data/{GEN}-grid-coverage-audit.json"
+    }
+  ],
+  "registry_entry": {
+    "schema": "pipelinenews.wider_grid_coverage.v1",
+    "generation": "{GEN}",
+    "source_commit": "b4b829148d26a99d68636b7b8e2bfac9616bc707",
+    "sources": [
+      {
+        "path": "cartridges/grid-coverage-successor.mjs",
+        "sha256": "0e4062610ab6888abf7ef30c1520f7d89189bc2d6eeaba69152dc5527bb349a4"
+      },
+      {
+        "path": "releases/202609050309-pipelinenews/data/202608311800-grid-distance.json",
+        "sha256": "e186c8923ab4ca574309083c11e991084bd5eb001150733968ca0c0625891b82"
+      },
+      {
+        "path": "releases/202609050309-pipelinenews/data/202608311610-grid-proximity.json",
+        "sha256": "beb5e940d005e46651281048ef7dff36ec195b71132a4e4fa402e683458d62a3"
+      },
+      {
+        "path": "cartridges/wider-grid-actions.mjs",
+        "sha256": "7c28da79350af56cd076e12ddc36e7c318c5fc0ed4bd0a8736e94469cb8b91ca"
+      }
+    ],
+    "payload": {
+      "schema": "pipelinenews.grid-distance.v1",
+      "path": "data/{GEN}-grid-coverage.json"
+    },
+    "audit": {
+      "schema": "pipelinenews.grid-coverage-successor-audit.v1",
+      "path": "data/{GEN}-grid-coverage-audit.json"
+    },
+    "added_owner_identities": 1090,
+    "original_entries_preserved": 3047,
+    "core_measured_unchanged": 3047,
+    "engineering_boundary": "Mapped straight-line first pass only. Not a cable route, connection voltage, firm capacity or thermal/fault headroom. Missing identity is excluded; missing distance remains unavailable."
+  }
+}
