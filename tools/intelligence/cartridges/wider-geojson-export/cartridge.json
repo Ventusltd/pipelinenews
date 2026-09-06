@@ -1,0 +1,47 @@
+{
+  "key": "wider_geojson_export",
+  "summary": "Download the visible wider-fleet selection as attributed GeoJSON site groups and exact per-REPD GRID/SUB observations.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "One feature per published site group preserves capacity once and keeps each member status separately; no core-spine identity is guessed. CSV ownership refusal remains intact.",
+  "repairs": {
+    "assets": [
+      {
+        "path": "assets/202609040044-wider-fleet.mjs",
+        "edits": [
+          {
+            "label": "Load site-group export model",
+            "from": "import {sortWiderRows} from './202609060338-wider-order.mjs';",
+            "to": "import {widerGeoJSON} from './{GEN}-wider-geojson.mjs';\nimport {sortWiderRows} from './202609060338-wider-order.mjs';"
+          },
+          {
+            "label": "Add explicit wider-owned GIS export",
+            "from": "  let active = null;",
+            "to": "  const geoExport=document.createElement('button');geoExport.type='button';geoExport.id='widerGeoJSON';geoExport.textContent='SAVE WIDER-FLEET GEOJSON';\n  geoExport.style.cssText=localFilter.style.cssText+';cursor:pointer';geoExport.disabled=true;group.append(geoExport);\n  geoExport.addEventListener('click',()=>{\n    if(!active)return;\n    try {\n      const data=widerGeoJSON(visible(),metricLookup,{release:'{GEN}',technology:active,query:localQuery,order:orderControl.value,payload:{path:payloadAsset.url,sha256:payloadAsset.sha256}});\n      const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)+'\\n'],{type:'application/geo+json'}));\n      const link=document.createElement('a');link.href=url;link.download='wider-fleet-{GEN}.geojson';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);\n      document.getElementById('exportMeta').textContent=data.features.length+' filtered wider-fleet site groups exported; exact REPD memberships retained.';\n    }catch(error){document.getElementById('exportMeta').textContent='Wider-fleet export failed: '+error.message;}\n  });\n\n  let active = null;"
+          },
+          {
+            "label": "Disable export outside wider view",
+            "from": "    orderControl.disabled=true;",
+            "to": "    geoExport.disabled=true;\n    orderControl.disabled=true;"
+          },
+          {
+            "label": "Enable export for current wider view",
+            "from": "    localFilter.disabled=false;orderControl.disabled=false;",
+            "to": "    localFilter.disabled=false;orderControl.disabled=false;geoExport.disabled=false;"
+          },
+          {
+            "label": "Attest four controls",
+            "from": "controlsAdded: 3,",
+            "to": "controlsAdded: 4,"
+          }
+        ]
+      }
+    ],
+    "app": [
+      {
+        "label": "Verify explicit wider export control",
+        "from": "invariant(result.controlsAdded === 3, \"wider fleet must expose its selector, local filter and order\");",
+        "to": "invariant(result.controlsAdded === 4, \"wider fleet must expose selector, filter, order and its own GeoJSON export\");"
+      }
+    ]
+  }
+}

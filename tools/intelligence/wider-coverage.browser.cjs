@@ -21,6 +21,13 @@ const server=http.createServer((req,res)=>{try{const pathname=decodeURIComponent
   page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base,{waitUntil:'networkidle'});
   await page.waitForSelector('#widerTechnology',{timeout:60000});
+  if(process.argv.includes('--coverage')){
+   await page.waitForFunction(()=>document.body.dataset.fastReady==='true');
+   const coverage=await page.evaluate(()=>window.__PIPELINENEWS_FAST__.metricCoverage);
+   for(const label of ['GRID','SUB'])assert.deepEqual(coverage[label],{available:true,total:7680,measured:3047,withoutCoordinates:28,sourceKeys:4137});
+   assert.match(await page.locator('#gridDistanceNote').innerText(),/GRID 3,047\/7,680.*SUB 3,047\/7,680/);
+   assert.doesNotMatch(await page.locator('#gridDistanceNote').innerText(),/loading/i);
+  }
   if(process.argv.includes('--geojson')){
    await page.waitForFunction(()=>document.body.dataset.fastReady==='true');
    const pending=page.waitForEvent('download');await page.locator('#exportGeoJSON').click();
@@ -65,6 +72,17 @@ const server=http.createServer((req,res)=>{try{const pathname=decodeURIComponent
   }
   assert.ok(measured>500);
   await page.selectOption('#widerTechnology',options[0]);
+  if(process.argv.includes('--wider-geojson')){
+   const downloadWide=async suffix=>{const pending=page.waitForEvent('download');await page.locator('#widerGeoJSON').click();const file=path.join(output,profile.name+'-wider-'+suffix+'.geojson');await(await pending).saveAs(file);return JSON.parse(fs.readFileSync(file));};
+   await page.selectOption('#widerTechnology','Landfill Gas');const all=await downloadWide('landfill');assert.equal(all.features.length,275);
+   assert.equal(all.metadata.payload.sha256,registry.supplemental_assets.map_corpus_contract.payload.sha256);
+   for(const feature of all.features)for(const observation of feature.properties.observations){assert.equal(observation.grid_km,grid[observation.repd_ref]?.k??null);assert.equal(observation.sub_km,station[observation.repd_ref]?.k??null);}
+   await page.selectOption('#widerTechnology','Biomass (dedicated)');await page.locator('#widerLocalFilter').fill('Blything');
+   const grouped=await downloadWide('grouped');assert.equal(grouped.features.length,1);assert.deepEqual(grouped.features[0].properties.repd_refs,['12139','15838']);assert.equal(grouped.features[0].properties.capacity_mw,.3);
+   assert.deepEqual(grouped.features[0].properties.statuses,['operational','awaiting construction']);assert.equal(grouped.features[0].id,undefined);
+   await page.locator('#widerLocalFilter').fill('no-matching-project');assert.equal((await downloadWide('empty')).features.length,0);
+   await page.locator('#widerLocalFilter').fill('');await page.selectOption('#widerTechnology',options[0]);
+  }
   if(process.argv.includes('--order')){
    await page.selectOption('#widerTechnology','Landfill Gas');
    for(const [mode,index] of [['grid_asc',grid],['sub_asc',station]]){
@@ -129,6 +147,16 @@ const server=http.createServer((req,res)=>{try{const pathname=decodeURIComponent
  const runtime=await page.evaluate(()=>window.__PIPELINENEWS_FAST__);
  assert.equal(runtime.gridCoverageFallback,true);
  if(sub)assert.equal(runtime.subCoverageFallback,true);
+ if(process.argv.includes('--coverage')){
+  assert.match(await page.locator('#gridDistanceNote').innerText(),/baseline used/);
+  await page.route('**/*-grid-distance.json',route=>route.abort());
+  await page.route('**/*-substation-33kv.json',route=>route.abort());
+  await page.goto(base,{waitUntil:'networkidle'});await page.waitForFunction(()=>document.body.dataset.fastReady==='true');
+  const coverage=await page.evaluate(()=>window.__PIPELINENEWS_FAST__.metricCoverage);
+  assert.equal(coverage.GRID.available,false);assert.equal(coverage.SUB.available,false);
+  assert.match(await page.locator('#gridDistanceNote').innerText(),/GRID unavailable.*SUB unavailable/);
+  assert.ok(await page.locator('.tablewrap tbody tr').count());
+ }
  results.push({faultInjection:'successor request unavailable',baselineFallback:true});
  fs.writeFileSync(path.join(output,'browser.json'),JSON.stringify({generation,sub,results},null,2));
  console.log(JSON.stringify({generation,sub,results}));

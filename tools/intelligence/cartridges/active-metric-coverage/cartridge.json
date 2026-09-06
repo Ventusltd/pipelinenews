@@ -1,0 +1,35 @@
+{
+  "key": "active_metric_coverage",
+  "summary": "Finish the GRID loading state and show measured coverage against the actual main-register membership.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Distinguishes failed sources from empty coverage, labels baseline fallback, and removes unsupported claims about searches never being run. Extra wider-fleet keys are never counted as measured core records.",
+  "repairs": {
+    "app": [
+      {
+        "label": "Load active membership coverage counter",
+        "from": "import {projectGeoJSON} from './202609060334-project-geojson.mjs';",
+        "to": "import {summarizeCoverage} from './{GEN}-metric-coverage.mjs';\nimport {projectGeoJSON} from './202609060334-project-geojson.mjs';"
+      },
+      {
+        "label": "Compute explicit coverage from actual loaded data",
+        "from": "function metricChip(",
+        "to": "const metricCoverage={};\nfunction updateMetricCoverage() {\n  const projects=rows.map((_,index)=>project(index));\n  metricCoverage.GRID=summarizeCoverage(projects,gridDistance);metricCoverage.SUB=summarizeCoverage(projects,substation);\n  runtimeEvidence.metricCoverage=metricCoverage;\n  const note=document.getElementById('gridDistanceNote');if(!note)return;\n  const describe=label=>{const c=metricCoverage[label];return c.available?label+' '+c.measured.toLocaleString('en-GB')+'/'+c.total.toLocaleString('en-GB'):label+' unavailable';};\n  note.textContent='Main register coverage ? '+describe('GRID')+' ? '+describe('SUB')+' ? '+metricCoverage.GRID.withoutCoordinates+' without usable coordinates ? straight-line mapped observations, not routes or headroom';\n  if(runtimeEvidence.gridCoverageFallback||runtimeEvidence.subCoverageFallback)note.textContent+=' ? verified baseline used where available';\n  note.title='Counts are intersections with the main register, not all keys in the source indexes. GRID source keys: '+metricCoverage.GRID.sourceKeys+'; SUB source keys: '+metricCoverage.SUB.sourceKeys+'. Nearest mapped infrastructure may not be the nearest actual infrastructure.';\n  note.setAttribute('role','status');\n}\n\nfunction metricChip("
+      },
+      {
+        "label": "Finish the loading state after both metric loaders",
+        "from": "  await loadSubstation33kv();",
+        "to": "  await loadSubstation33kv();\n  updateMetricCoverage();"
+      },
+      {
+        "label": "Describe unavailable observations without asserting an unperformed search",
+        "from": "    const why = located\n      ? \"Not measured. 3,047 of the 7,680 records in this cut carry a grid measurement and 4,633 do not. This project has a register coordinate and is one of the 4,605 unmeasured records that do: no search was run for it, so none failed.\"\n      : \"Not measurable. The register publishes no usable coordinate for this project, so there is no point on the ground to measure from. 28 of the 7,680 records are in that state, 26 missing and 2 invalid. The record stays searchable and exportable.\"",
+        "to": "    const coverage=metricCoverage[label];\n    const why = located\n      ? `No published ${label} distance for this record in the active source. ${coverage.measured.toLocaleString('en-GB')} of ${coverage.total.toLocaleString('en-GB')} main-register records have a distance; source coverage is not evidence that infrastructure is absent.`\n      : `No usable register coordinate. ${coverage.withoutCoordinates} main-register records are in this state. The record remains searchable and exportable with null geometry.`;"
+      },
+      {
+        "label": "Report finished source failure as unavailable",
+        "from": "if (!ready) return `<span class=\"action-metric pending\">${label} \\u2026</span>`;",
+        "to": "if (!ready) return `<span class=\"action-metric\" title=\"The distance source is unavailable in this session\">${label} unavailable</span>`;"
+      }
+    ]
+  }
+}
