@@ -6,7 +6,8 @@ test('one-time IDs are unique and retries preserve the allocated barcode',()=>{
  const a=allocateProvisional([],project);assert.equal(a.repd_ref,'9999-REPD-TBC');
  assert.equal(a.gg_project_id,'GG2050-REPD-9999-REPD-TBC');
  assert.deepEqual(allocateProvisional([a],project),a);
- assert.equal(allocateProvisional([a],{...project,source_key:'another'}).repd_ref,'10000-REPD-TBC');
+ assert.equal(allocateProvisional([a],{...project,source_key:'another-article-same-project'}).repd_ref,'9999-REPD-TBC');
+ assert.equal(allocateProvisional([a],{...project,source_key:'another',name:'Another Solar Farm'}).repd_ref,'10000-REPD-TBC');
 });
 test('quarterly match replaces the number on the same row and keeps old links',()=>{
  const a=allocateProvisional([],project),official={...project,repd_ref:'25001'};

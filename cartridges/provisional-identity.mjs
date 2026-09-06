@@ -3,7 +3,11 @@ export const globalGridReference = ref => `GG2050-REPD-${ref}`;
 const normalise = value => String(value ?? '').normalize('NFKC').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
 
 export function allocateProvisional(records, project) {
-  const existing = records.find(row => row.source_key === project.source_key);
+  const existing = records.find(row => row.source_key === project.source_key
+    || (normalise(row.name)===normalise(project.name)
+      && normalise(row.operator)===normalise(project.operator)
+      && normalise(row.county)===normalise(project.county)
+      && Number(row.capacity_mw)===Number(project.capacity_mw)));
   if (existing) return structuredClone(existing);
   let number=9999;
   const used=new Set(records.flatMap(row=>[row.repd_ref,...(row.aliases ?? [])]));

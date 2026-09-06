@@ -18,7 +18,15 @@
       "gg_project_id": "GG2050-REPD-9999-REPD-TBC",
       "identity_status": "REPD_PENDING",
       "aliases": [],
-      "identity_history": []
+      "identity_history": [],
+      "reconciliation": {
+        "status": "NO_VERIFIED_MATCH",
+        "source": {
+          "path": "releases/202609060213-pipelinenews/data/202608270055-8ab1807551bc-v8-fast-projects.json",
+          "sha256": "c06aedef176d2d38fd135806306a8ef81b4af9994c7be31e8bd760304149f862"
+        },
+        "candidate_count": 0
+      }
     }
   ]
 }
