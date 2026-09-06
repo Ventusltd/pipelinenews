@@ -1,0 +1,42 @@
+name: Pipeline engineering interaction checks
+on:
+  push:
+    branches: [main, 'codex/20260906-next30']
+    paths: ['releases/202609060333-pipelinenews/**', 'releases/202609060334-pipelinenews/**', 'cartridges/project-geojson*', 'cartridges/metric-details.mjs', '.github/workflows/pipeline-engineering.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  engineering:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        include:
+          - generation: '202609060333'
+            options: '--sub --mobile-actions --details'
+          - generation: '202609060334'
+            options: '--sub --mobile-actions --details --geojson'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+      - run: node --test cartridges/project-geojson.test.mjs cartridges/wider-grid-actions.test.mjs
+      - run: python3 tools/intelligence/release_builder.py --check ${{ matrix.generation }}-pipelinenews
+      - run: |
+          npm install --no-save --package-lock=false playwright@1.62.1
+          npx playwright install --with-deps chromium
+      - name: Test actual controls and downloaded files
+        env:
+          PLAYWRIGHT_MODULE: playwright
+          EVIDENCE_DIR: engineering-artifacts
+        run: node tools/intelligence/wider-coverage.browser.cjs ${{ matrix.generation }} ${{ matrix.options }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pipeline-${{ matrix.generation }}-${{ github.sha }}
+          path: engineering-artifacts/
+          retention-days: 7

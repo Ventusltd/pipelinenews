@@ -21,6 +21,23 @@ const server=http.createServer((req,res)=>{try{const pathname=decodeURIComponent
   page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base,{waitUntil:'networkidle'});
   await page.waitForSelector('#widerTechnology',{timeout:60000});
+  if(process.argv.includes('--geojson')){
+   await page.waitForFunction(()=>document.body.dataset.fastReady==='true');
+   const pending=page.waitForEvent('download');await page.locator('#exportGeoJSON').click();
+   const download=await pending,file=path.join(output,profile.name+'-all-projects.geojson');await download.saveAs(file);
+   const data=JSON.parse(fs.readFileSync(file)),source=JSON.parse(fs.readFileSync(path.join(root,'data/202608270055-8ab1807551bc-v8-fast-projects.json')));
+   const byRef=new Map(source.rows.map(row=>[String(row[0]),row]));
+   assert.equal(data.features.length,7680);assert.equal(data.metadata.null_geometry,28);
+   for(const feature of data.features){const row=byRef.get(feature.properties.repd_ref);assert.ok(row);assert.equal(feature.id,row[1]);
+    if(feature.geometry)assert.deepEqual(feature.geometry.coordinates,[row[12],row[11]]);else assert.notEqual(source.dictionaries.geometry_status[row[10]],'valid');
+   }
+   const exact=new URL(base);exact.searchParams.set('repd_ref','12588');await page.goto(exact.href,{waitUntil:'networkidle'});
+   await page.waitForFunction(()=>document.body.dataset.fastReady==='true');
+   const filteredDownload=page.waitForEvent('download');await page.locator('#exportGeoJSON').click();
+   const filteredFile=path.join(output,profile.name+'-filtered-project.geojson');await(await filteredDownload).saveAs(filteredFile);
+   const one=JSON.parse(fs.readFileSync(filteredFile));assert.equal(one.features.length,1);assert.equal(one.features[0].properties.repd_ref,'12588');
+   await page.goto(base,{waitUntil:'networkidle'});await page.waitForSelector('#widerTechnology');
+  }
   const options=await page.locator('#widerTechnology option').evaluateAll(nodes=>nodes.map(n=>n.value).filter(Boolean));
   assert.equal(options.length,20);
   let observations=0,measured=0;
@@ -48,6 +65,23 @@ const server=http.createServer((req,res)=>{try{const pathname=decodeURIComponent
   }
   assert.ok(measured>500);
   await page.selectOption('#widerTechnology',options[0]);
+  if(process.argv.includes('--geojson')){
+   let downloads=0;const count=()=>downloads++;page.on('download',count);
+   await page.locator('#exportGeoJSON').click();assert.match(await page.locator('#exportMeta').innerText(),/declined.*wider-fleet/);
+   assert.equal(downloads,0);page.off('download',count);
+  }
+  if(process.argv.includes('--details')){
+   const trigger=page.locator('button[data-repd-metric]').first(),title=await trigger.getAttribute('title');
+   await trigger.focus();await page.keyboard.press('Enter');
+   assert.equal(await page.locator('#wider-metric-explanation').innerText(),title);
+   assert.ok(await page.locator('#wider-metric-dialog').isVisible());
+   const bounds=await page.locator('#wider-metric-dialog').boundingBox();assert.ok(bounds.x>=0&&bounds.x+bounds.width<=profile.width+1);
+   await page.screenshot({path:path.join(output,profile.name+'-explanation.png')});
+   await page.keyboard.press('Escape');assert.equal(await page.locator('#wider-metric-dialog').isVisible(),false);
+   assert.equal(await trigger.evaluate(node=>node===document.activeElement),true);
+   await trigger.click();await page.locator('#wider-metric-dialog button').click();
+   assert.equal(await page.locator('#wider-metric-dialog').isVisible(),false);
+  }
   if(mobile)await page.locator('.tablewrap tbody tr').first().scrollIntoViewIfNeeded();
   await page.screenshot({path:path.join(output,profile.name+'.png'),fullPage:true});
   if(mobile)await page.screenshot({path:path.join(output,profile.name+'-actions.png')});

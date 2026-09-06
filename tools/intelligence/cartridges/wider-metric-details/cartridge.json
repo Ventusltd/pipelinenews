@@ -1,0 +1,32 @@
+{
+  "key": "wider_metric_details",
+  "summary": "Open exact distance source and engineering limits by touch or keyboard.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Neutral GRID and SUB metrics become accessible buttons with a bounded explanation dialog. Observation values and row identities are unchanged.",
+  "repairs": {
+    "app": [
+      {
+        "label": "Install touch and keyboard metric explanations",
+        "from": "import {widerMetricActions} from './202609060315-wider-metrics.mjs';",
+        "to": "import {widerMetricActions} from './202609060315-wider-metrics.mjs';\nimport {installMetricDetails} from './{GEN}-metric-details.mjs';\ninstallMetricDetails();"
+      }
+    ],
+    "assets": [
+      {
+        "path": "assets/202609060315-wider-metrics.mjs",
+        "edits": [
+          {
+            "label": "Expose exact-identity metrics as native keyboard buttons",
+            "from": "return `<span class=\"action-metric\" data-repd-metric=",
+            "to": "return `<button type=\"button\" class=\"action-metric\" style=\"cursor:pointer;min-height:44px;font:inherit;color:inherit\" data-repd-metric="
+          },
+          {
+            "label": "Close native metric button",
+            "from": "'unavailable'}</span>`;",
+            "to": "'unavailable'}</button>`;"
+          }
+        ]
+      }
+    ]
+  }
+}

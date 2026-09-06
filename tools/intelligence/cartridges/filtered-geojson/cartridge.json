@@ -1,0 +1,32 @@
+{
+  "key": "filtered_project_geojson",
+  "summary": "Download the current filtered canonical pipeline projects as portable GeoJSON.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Preserves canonical identities and capacity units. Missing/invalid coordinates remain null-geometry features. Wider-fleet ownership refuses an incorrect main-spine export.",
+  "repairs": {
+    "index.html": [
+      {
+        "label": "Expose filtered GIS export beside CSV",
+        "from": "<button class=\"btn export-inline\" id=\"exportInline\">EXPORT FILTERED CSV</button>",
+        "to": "<button class=\"btn export-inline\" id=\"exportInline\">EXPORT FILTERED CSV</button>\n      <button class=\"btn export-inline\" id=\"exportGeoJSON\">EXPORT PIPELINE GEOJSON</button>"
+      }
+    ],
+    "app": [
+      {
+        "label": "Load bounded GeoJSON projector",
+        "from": "import {widerMetricActions} from './202609060315-wider-metrics.mjs';",
+        "to": "import {projectGeoJSON} from './{GEN}-project-geojson.mjs';\nimport {widerMetricActions} from './202609060315-wider-metrics.mjs';"
+      },
+      {
+        "label": "Use current filter indices and respect table ownership",
+        "from": "async function downloadCsv(event) {",
+        "to": "function downloadProjectGeoJSON() {\n  const meta=document.getElementById('exportMeta');\n  if(presentedExport){meta.textContent='GeoJSON export declined: the wider-fleet view owns this table. Select a main pipeline technology first.';return;}\n  try {\n    const data=projectGeoJSON(filtered.map(index=>({...project(index),capacity_unit:UNITS[project(index).technology]})),{release:'{GEN}',source:registry.source,filters:Object.fromEntries(new URL(location.href).searchParams)});\n    const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)+'\\n'],{type:'application/geo+json'}));\n    const anchor=document.createElement('a');anchor.href=url;anchor.download='pipeline-{GEN}-filtered.geojson';document.body.append(anchor);anchor.click();anchor.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);\n    meta.textContent=data.metadata.records.toLocaleString('en-GB')+' filtered records exported as GeoJSON; '+data.metadata.null_geometry+' retain null geometry.';\n  } catch(error){meta.textContent='GeoJSON export failed: '+error.message;}\n}\n\nasync function downloadCsv(event) {"
+      },
+      {
+        "label": "Bind explicit export action",
+        "from": "  document.getElementById(\"exportInline\").addEventListener(\"click\", downloadCsv);",
+        "to": "  document.getElementById(\"exportInline\").addEventListener(\"click\", downloadCsv);\n  document.getElementById(\"exportGeoJSON\").addEventListener(\"click\", downloadProjectGeoJSON);"
+      }
+    ]
+  }
+}
