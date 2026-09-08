@@ -27,6 +27,15 @@ const ALLOWED_TECHNOLOGIES = new Set(["all", "solar", "bess", "wind_onshore", "w
 const ALLOWED_STATUSES = new Set(["All", "Operational", "Under Construction", "Awaiting Construction", "Application Submitted"]);
 const ALLOWED_SORTS = new Set(["capacity_desc", "updated_desc", "updated_asc"]);
 
+export function gridAnalyticsEngineV1(project) {
+  const explicit = String(project?.grid_engine || "").trim();
+  if (explicit) return explicit;
+  const technology = String(project?.technology || "").trim().toLowerCase();
+  if (technology === "wind_offshore") return "VENTUS OFFSHORE DETERMINISTIC";
+  if (technology === "interconnector") return "VENTUS INTERCONNECTOR";
+  return "VENTUS ONSHORE";
+}
+
 let all = [];
 let filtered = [];
 let metadata = null;
@@ -45,6 +54,7 @@ export function atlasUrlV9_5_1(project) {
   url.searchParams.set("repd_ref", project.repd_ref);
   url.searchParams.set("project", project.name);
   url.searchParams.set("technology", project.technology);
+  url.searchParams.set("grid_engine", gridAnalyticsEngineV1(project));
   url.searchParams.set("capacity_mw", project.capacity_mw);
   url.searchParams.set("latitude", project.latitude);
   url.searchParams.set("longitude", project.longitude);
@@ -109,6 +119,7 @@ function renderTable() {
   const body = document.getElementById("tbody");
   body.innerHTML = filtered.map((project) => {
     const label = LABELS[project.technology];
+    const gridEngine = gridAnalyticsEngineV1(project);
     const unit = UNITS[project.technology];
     const location = [project.county, project.region].filter(Boolean).join(" · ");
     const signal = signalForProjectV9_5_1(project);
@@ -209,10 +220,10 @@ function csvCell(value) {
 
 function downloadCsv(event) {
   event.preventDefault();
-  const headers = ["Site Name", "REPD Ref", "GlobalGrid Project ID", "GlobalGrid Development ID", "Identity Status", "Identity Confidence", "Technology", "Official REPD Technology", "Official REPD Capacity", "Capacity Unit", "Official REPD Status", "Derived Lifecycle", "Operator or Applicant", "County", "Region", "Country", "Planning Authority", "Planning Application Reference", "REPD Record Updated", "Planning Application Submitted", "Planning Application Withdrawn", "Planning Permission Granted", "Planning Permission Refused", "Planning Permission Expired", "Under Construction", "Operational", "Old REPD Ref", "Direct Related REPD Refs", "Planning Sibling REPD Refs", "Development REPD Refs", "Typed Relationships JSON", "Geometry Status", "Easting", "Northing", "Source CRS", "Longitude", "Latitude", "Atlas V8 URL", "Output CRS", "Coordinate Transform", "Coordinate Use", "Source Dataset", "Source Row", "Projects Array SHA-256", "Source Identity SHA-256", "Source Coordinate Fixture SHA-256", "Source Workbook SHA-256", "Source Reconciliation", "Canonical News Signal — Event Unverified", "Canonical News Match Note"];
+  const headers = ["Site Name", "REPD Ref", "GlobalGrid Project ID", "GlobalGrid Development ID", "Identity Status", "Identity Confidence", "Technology", "Grid Analytics Engine", "Official REPD Technology", "Official REPD Capacity", "Capacity Unit", "Official REPD Status", "Derived Lifecycle", "Operator or Applicant", "County", "Region", "Country", "Planning Authority", "Planning Application Reference", "REPD Record Updated", "Planning Application Submitted", "Planning Application Withdrawn", "Planning Permission Granted", "Planning Permission Refused", "Planning Permission Expired", "Under Construction", "Operational", "Old REPD Ref", "Direct Related REPD Refs", "Planning Sibling REPD Refs", "Development REPD Refs", "Typed Relationships JSON", "Geometry Status", "Easting", "Northing", "Source CRS", "Longitude", "Latitude", "Atlas V8 URL", "Output CRS", "Coordinate Transform", "Coordinate Use", "Source Dataset", "Source Row", "Projects Array SHA-256", "Source Identity SHA-256", "Source Coordinate Fixture SHA-256", "Source Workbook SHA-256", "Source Reconciliation", "Canonical News Signal — Event Unverified", "Canonical News Match Note"];
   const rows = filtered.map((project) => {
     const signal = signalForProjectV9_5_1(project);
-    return [project.name, project.repd_ref, project.gg_project_id, project.gg_development_id, project.identity_status, project.identity_confidence, LABELS[project.technology], project.repd_technology, project.capacity_mw, UNITS[project.technology], project.status, project.lifecycle, project.operator, project.county, project.region, project.country, project.planning_authority, project.planning_application_reference, project.repd_record_updated, project.planning_application_submitted, project.planning_application_withdrawn, project.planning_permission_granted, project.planning_permission_refused, project.planning_permission_expired, project.under_construction, project.operational, project.repd_old_ref, project.direct_related_repd_refs.join("|"), project.planning_sibling_repd_refs.join("|"), project.development_repd_refs.join("|"), JSON.stringify(project.relationships), project.geometry_status, project.easting, project.northing, "EPSG:27700", project.longitude, project.latitude, atlasUrlV9_5_1(project), "RFC 7946 WGS84", project.coordinate_source, "market map context only; never evidence of a grid connection or cadastral boundary", metadata.source_dataset, project.source_row, metadata.projects_sha256, metadata.source_identity_sha256, metadata.source_coordinate_fixture_sha256, metadata.source_workbook_sha256, "14657/14657 canonical REPD Ref IDs", signal.label, signal.note];
+    return [project.name, project.repd_ref, project.gg_project_id, project.gg_development_id, project.identity_status, project.identity_confidence, LABELS[project.technology], gridAnalyticsEngineV1(project), project.repd_technology, project.capacity_mw, UNITS[project.technology], project.status, project.lifecycle, project.operator, project.county, project.region, project.country, project.planning_authority, project.planning_application_reference, project.repd_record_updated, project.planning_application_submitted, project.planning_application_withdrawn, project.planning_permission_granted, project.planning_permission_refused, project.planning_permission_expired, project.under_construction, project.operational, project.repd_old_ref, project.direct_related_repd_refs.join("|"), project.planning_sibling_repd_refs.join("|"), project.development_repd_refs.join("|"), JSON.stringify(project.relationships), project.geometry_status, project.easting, project.northing, "EPSG:27700", project.longitude, project.latitude, atlasUrlV9_5_1(project), "RFC 7946 WGS84", project.coordinate_source, "market map context only; never evidence of a grid connection or cadastral boundary", metadata.source_dataset, project.source_row, metadata.projects_sha256, metadata.source_identity_sha256, metadata.source_coordinate_fixture_sha256, metadata.source_workbook_sha256, "14657/14657 canonical REPD Ref IDs", signal.label, signal.note];
   });
   const content = `\ufeff${[headers, ...rows].map((row) => row.map(csvCell).join(",")).join("\r\n")}`;
   const url = URL.createObjectURL(new Blob([content], { type: "text/csv;charset=utf-8" }));
