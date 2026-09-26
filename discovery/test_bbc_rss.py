@@ -3,7 +3,7 @@ import unittest
 from bbc_rss import canonical_article, parse_feed, merge_items, collect, SECTIONS
 
 NOW = dt.datetime(2026, 9, 6, tzinfo=dt.timezone.utc)
-RSS = b'''<rss><channel><item><title>New solar farm proposed</title><link>https://www.bbc.co.uk/news/articles/c4gmkezn4nlo?at_campaign=rss</link><pubDate>Sat, 05 Sep 2026 10:00:00 GMT</pubDate></item></channel></rss>'''
+RSS = b'''<rss><channel><item><title>New 25 MW solar farm proposed</title><link>https://www.bbc.co.uk/news/articles/c4gmkezn4nlo?at_campaign=rss</link><pubDate>Sat, 05 Sep 2026 10:00:00 GMT</pubDate></item></channel></rss>'''
 
 
 class RssTests(unittest.TestCase):
@@ -13,6 +13,19 @@ class RssTests(unittest.TestCase):
         self.assertIsNone(item['repd_ref'])
         self.assertFalse(item['eligible_for_project_signal'])
         self.assertEqual(item['source_published_at'], '2026-09-05T10:00:00+00:00')
+        self.assertEqual(item['source_priority'], 1)
+        self.assertEqual(item['capacity_mw_max'], 25.0)
+        self.assertEqual(item['capacity_gate'], 'ABOVE_1MW')
+
+    def test_unknown_capacity_solar_is_retained_for_later_match(self):
+        body = RSS.replace(b'25 MW ', b'')
+        item = parse_feed(body, 'feed', NOW.isoformat())[0]
+        self.assertIsNone(item['capacity_mw_max'])
+        self.assertEqual(item['capacity_gate'], 'UNKNOWN_RETAIN_FOR_MATCH')
+
+    def test_explicit_sub_one_mw_solar_is_excluded(self):
+        body = RSS.replace(b'25 MW', b'500 kW')
+        self.assertEqual(parse_feed(body, 'feed', NOW.isoformat()), [])
 
     def test_retry_and_cross_feed_deduplication(self):
         a = parse_feed(RSS, 'feed-a', NOW.isoformat())
