@@ -1,13 +1,7 @@
 name: Refresh BBC RSS discovery
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'discovery/bbc_rss.py'
-      - 'discovery/test_bbc_rss.py'
-      - '.github/workflows/bbc-rss-discovery.yml'
   schedule:
-    - cron: '17 * * * *'
+    - cron: '17 */2 * * *'
   workflow_dispatch:
 permissions:
   contents: write
@@ -31,7 +25,7 @@ jobs:
           node-version: 22
       - name: Prove RSS boundaries before any collection
         run: python -B -m unittest discover -s discovery -p test_bbc_rss.py
-      - name: Collect priority solar news sources
+      - name: Collect BBC RSS only
         id: collect
         continue-on-error: true
         run: python -B discovery/bbc_rss.py
@@ -45,7 +39,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -- discovery/products/bbc-rss.json data/provisional/project-register.json
           if ! git diff --cached --quiet; then
-            git commit -m 'Refresh priority solar news metadata and source health [skip ci]'
+            git commit -m 'Refresh BBC RSS metadata and source health [skip ci]'
             git pull --rebase origin main
             git push origin HEAD:main
           fi
