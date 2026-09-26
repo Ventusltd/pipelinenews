@@ -12,9 +12,10 @@ import xml.etree.ElementTree as ET
 
 SOURCES = {
     1: ('BBC News', None),
-    2: ('Solar Power Portal', 'https://www.solarpowerportal.co.uk/feed'),
-    3: ('pv magazine', 'https://www.pv-magazine.com/feed'),
+    2: ('Solar Power Portal', 'https://www.solarpowerportal.co.uk/feed/'),
+    3: ('pv magazine', 'https://www.pv-magazine.com/feed/'),
 }
+SOURCE_ID_PREFIX = {1: 'bbc', 2: 'spp', 3: 'pvmag'}
 UK_SIGNAL = re.compile(r'\b(UK|United Kingdom|Britain|British|England|Scotland|Wales|Northern Ireland|London|GB)\b', re.I)
 
 SECTIONS = ('science_and_environment', 'business', 'england', 'scotland', 'wales',
@@ -92,7 +93,8 @@ def parse_feed(body, feed_url, observed_at, source_priority=1):
                 published = parsed.astimezone(dt.timezone.utc).isoformat()
         except (ValueError, TypeError, OverflowError):
             pass
-        result.append({'id': 'bbc:' + url.rsplit('/', 1)[1], 'url': url,
+        slug = url.rstrip('/').rsplit('/', 1)[1]
+        result.append({'id': SOURCE_ID_PREFIX[source_priority] + ':' + slug, 'url': url,
                        'headline': headline, 'publisher': SOURCES[source_priority][0], 'source_priority': source_priority,
                        'topic': 'solar', 'capacity_mw_max': max(capacities_mw) if capacities_mw else None,
                        'capacity_gate': 'ABOVE_1MW' if capacities_mw and max(capacities_mw) > MIN_SOLAR_MW else 'UNKNOWN_RETAIN_FOR_MATCH',
@@ -120,8 +122,15 @@ def merge_items(previous, incoming, now):
             return value.tzinfo is not None and value >= cutoff
         except (ValueError, TypeError):
             return False
-    return sorted((x for x in kept.values() if recent(x)),
-                  key=lambda x: (x['source_published_at'] or '', x['id']), reverse=True)[:MAX_ITEMS]
+    return sorted(
+        (x for x in kept.values() if recent(x)),
+        key=lambda x: (
+            -(dt.datetime.fromisoformat(x['source_published_at']).timestamp()
+              if x.get('source_published_at') else 0),
+            int(x.get('source_priority', 99)),
+            x['id'],
+        ),
+    )[:MAX_ITEMS]
 
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -151,7 +160,7 @@ def collect(previous, now, fetch=None):
     ok = sum(x['status'] == 'ok' for x in health)
     return {'schema':'pipelinenews.priority-solar-news.v1', 'checked_at':observed,
             'last_success_at':observed if ok else previous.get('last_success_at'),
-            'status':'ok' if ok == len(SECTIONS) else 'partial' if ok else 'failed',
+            'status':'ok' if ok == len(feed_specs) else 'partial' if ok else 'failed',
             'items':merge_items(previous.get('items', []), incoming, now), 'feeds':health,
             'limits':{'feeds':len(feed_specs), 'bytes_per_feed':MAX_BYTES, 'retained_items':MAX_ITEMS, 'retention_days':30},
             'source_priority': {'1':'BBC News','2':'Solar Power Portal','3':'pv magazine'},
