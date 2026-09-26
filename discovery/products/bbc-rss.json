@@ -1,289 +1,135 @@
 {
-  "schema": "pipelinenews.bbc-rss.v1",
-  "checked_at": "2026-09-13T16:17:09.712269+00:00",
+  "schema": "pipelinenews.priority-solar-news.v1",
+  "checked_at": "2026-09-26T12:05:00+00:00",
   "last_success_at": "2026-09-13T16:17:09.712269+00:00",
-  "status": "ok",
+  "status": "seeded_from_public_web_evidence_pending_collector_rerun",
   "items": [
     {
-      "id": "bbc:c5ymp949e1zo",
-      "url": "https://www.bbc.co.uk/news/articles/c5ymp949e1zo",
-      "headline": "Solar farm planned for site near York village",
+      "id": "bbc:ck62mevl376yo",
+      "url": "https://www.bbc.co.uk/news/articles/ck62mevl376yo",
+      "headline": "Thousands respond to huge solar farm consultation",
       "publisher": "BBC News",
-      "source_published_at": "2026-09-09T10:15:57+00:00",
-      "first_observed_at": "2026-09-09T11:23:32.535463+00:00",
-      "last_seen_at": "2026-09-11T11:21:20.284529+00:00",
+      "source_priority": 1,
+      "topic": "solar",
+      "capacity_mw_max": null,
+      "capacity_gate": "UNKNOWN_RETAIN_FOR_MATCH",
+      "source_published_at": "2026-09-26",
+      "first_observed_at": "2026-09-26T12:05:00+00:00",
+      "last_seen_at": "2026-09-26T12:05:00+00:00",
       "feed_urls": [
-        "https://feeds.bbci.co.uk/news/england/north_yorkshire/rss.xml"
+        "https://feeds.bbci.co.uk/news/england/south_yorkshire/rss.xml"
       ],
       "repd_ref": null,
       "binding_status": "UNMATCHED_REQUIRES_REVIEW",
-      "eligible_for_project_signal": false
+      "eligible_for_project_signal": false,
+      "evidence_note": "Public BBC-indexed page observed 2026-09-26; RSS collector has not yet rerun."
     },
     {
-      "id": "bbc:c5ymprn9xeyo",
-      "url": "https://www.bbc.co.uk/news/articles/c5ymprn9xeyo",
-      "headline": "Council to object to major solar farm plan",
+      "id": "bbc:c68jdnz4z09po",
+      "url": "https://www.bbc.co.uk/news/articles/c68jdnz4z09po",
+      "headline": "Solar farm approved for development",
       "publisher": "BBC News",
-      "source_published_at": "2026-09-08T19:18:11+00:00",
-      "first_observed_at": "2026-09-08T21:09:27.396255+00:00",
-      "last_seen_at": "2026-09-10T04:48:05.523685+00:00",
+      "source_priority": 1,
+      "topic": "solar",
+      "capacity_mw_max": 20,
+      "capacity_gate": "ABOVE_1MW",
+      "source_published_at": "2026-09-25",
+      "first_observed_at": "2026-09-26T12:05:00+00:00",
+      "last_seen_at": "2026-09-26T12:05:00+00:00",
       "feed_urls": [
-        "https://feeds.bbci.co.uk/news/england/lincolnshire/rss.xml"
+        "https://feeds.bbci.co.uk/news/england/berkshire/rss.xml"
       ],
       "repd_ref": null,
       "binding_status": "UNMATCHED_REQUIRES_REVIEW",
-      "eligible_for_project_signal": false
+      "eligible_for_project_signal": false,
+      "evidence_note": "BBC-indexed article states 20 MW; public page observed 2026-09-26."
     },
     {
-      "id": "bbc:crk32xprmmlo",
-      "url": "https://www.bbc.co.uk/news/articles/crk32xprmmlo",
-      "headline": "Work on solar canopy and charging points to begin",
-      "publisher": "BBC News",
-      "source_published_at": "2026-09-06T12:50:49+00:00",
-      "first_observed_at": "2026-09-06T15:28:07.631297+00:00",
-      "last_seen_at": "2026-09-08T04:36:31.076340+00:00",
+      "id": "spp:erova-finlight-sign-15-year-ppa-for-107mw-uk-solar-portfolio",
+      "url": "https://www.solarpowerportal.co.uk/solar-projects/erova-finlight-sign-15-year-ppa-for-107mw-uk-solar-portfolio/",
+      "headline": "Erova, Finlight sign 15-year PPA for 107MW UK solar portfolio",
+      "publisher": "Solar Power Portal",
+      "source_priority": 2,
+      "topic": "solar",
+      "capacity_mw_max": 107,
+      "capacity_gate": "ABOVE_1MW",
+      "source_published_at": "2026-09-25",
+      "first_observed_at": "2026-09-26T12:05:00+00:00",
+      "last_seen_at": "2026-09-26T12:05:00+00:00",
       "feed_urls": [
-        "https://feeds.bbci.co.uk/news/england/leicester/rss.xml"
+        "https://www.solarpowerportal.co.uk/feed/"
       ],
       "repd_ref": null,
       "binding_status": "UNMATCHED_REQUIRES_REVIEW",
-      "eligible_for_project_signal": false
+      "eligible_for_project_signal": false,
+      "evidence_note": "Solar Power Portal article observed 2026-09-26; 107 MW portfolio in England."
     },
     {
-      "id": "bbc:c4gmkezn4nlo",
-      "url": "https://www.bbc.co.uk/news/articles/c4gmkezn4nlo",
-      "headline": "Major solar farm could be built near villages",
-      "publisher": "BBC News",
-      "source_published_at": "2026-09-05T12:00:40+00:00",
-      "first_observed_at": "2026-09-06T02:03:44.289928+00:00",
-      "last_seen_at": "2026-09-07T12:32:53.084469+00:00",
+      "id": "spp:bsr-inks-10-year-50mw-ppa-with-canary-wharf-group-engie",
+      "url": "https://www.solarpowerportal.co.uk/solar-projects/bsr-inks-10-year-50mw-ppa-with-canary-wharf-group-engie/",
+      "headline": "BSR inks 10-year 50MW PPA with Canary Wharf Group, Engie",
+      "publisher": "Solar Power Portal",
+      "source_priority": 2,
+      "topic": "solar",
+      "capacity_mw_max": 50,
+      "capacity_gate": "ABOVE_1MW",
+      "source_published_at": "2026-09-23",
+      "first_observed_at": "2026-09-26T12:05:00+00:00",
+      "last_seen_at": "2026-09-26T12:05:00+00:00",
       "feed_urls": [
-        "https://feeds.bbci.co.uk/news/england/oxford/rss.xml"
+        "https://www.solarpowerportal.co.uk/feed/"
       ],
       "repd_ref": null,
       "binding_status": "UNMATCHED_REQUIRES_REVIEW",
-      "eligible_for_project_signal": false
+      "eligible_for_project_signal": false,
+      "evidence_note": "Solar Power Portal article observed 2026-09-26; 50 MW Knowl Green Solar Farm, Essex."
     },
     {
-      "id": "bbc:c7903w0z28zo",
-      "url": "https://www.bbc.co.uk/news/articles/c7903w0z28zo",
-      "headline": "Decision on 2,400-acre solar farm postponed again",
-      "publisher": "BBC News",
-      "source_published_at": "2026-09-03T11:45:13+00:00",
-      "first_observed_at": "2026-09-06T02:03:44.289928+00:00",
-      "last_seen_at": "2026-09-06T02:06:36.949821+00:00",
+      "id": "pvmag:the-great-british-takeoff",
+      "url": "https://www.pv-magazine.com/2026/09/22/the-great-british-takeoff/",
+      "headline": "The great British takeoff",
+      "publisher": "pv magazine",
+      "source_priority": 3,
+      "topic": "solar",
+      "capacity_mw_max": null,
+      "capacity_gate": "UNKNOWN_RETAIN_FOR_MATCH",
+      "source_published_at": "2026-09-22",
+      "first_observed_at": "2026-09-26T12:05:00+00:00",
+      "last_seen_at": "2026-09-26T12:05:00+00:00",
       "feed_urls": [
-        "https://feeds.bbci.co.uk/news/england/oxford/rss.xml"
+        "https://www.pv-magazine.com/feed/"
       ],
       "repd_ref": null,
       "binding_status": "UNMATCHED_REQUIRES_REVIEW",
-      "eligible_for_project_signal": false
+      "eligible_for_project_signal": false,
+      "evidence_note": "pv magazine UK solar market article observed 2026-09-26; capacity not treated as a project signal."
     }
   ],
-  "feeds": [
-    {
-      "url": "https://feeds.bbci.co.uk/news/science_and_environment/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "cdac8e7df22810adc44fa429739b72a249cac87c13775a6ffb7d4512910aed58"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/business/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "0d4ac759718113bfb1d2532544e91915f3fc46468569eae106ad4f12e7bb87f4"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "b48b001153c7c574fad6560a3f38b93b82310743b1bd928d1a68c805d2fceecc"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/scotland/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "fa23b6c1479a09de8f8abd19f8852b648f995195725b9399033704707d152ff3"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/wales/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "9e02e54335eeb6a43fb33daf20520c0c25ed9d4991f135856a192fbbd24382b7"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/northern_ireland/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "f98b71a99dbcb5b165703e5d17676edf422d8ee448159e55a503cd73eaeabc1b"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/uk/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "1861c8d6428ca88d288978e5aa1482233cd2bee5353c4954f6a05cf38fb74a68"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/lincolnshire/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "8bb9aba29b16b58696718d8d29b86576e2277f93990926857fcc062c7c17f8d7"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/cambridgeshire/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "63ff99024cc3c2aaa785e8d9981f1e081fb1b76ec205a7adbc665c9fe5f9e948"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/norfolk/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "1a13b9429596ff3e7ba24d9d0d13f61e36d6d262e77c6450f5e1c35bbdaca6fa"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/suffolk/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "d8d705787b24c3b281d4adb59ed5ee98ab0255e3d334ae10639ac9913dc468e2"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/nottingham/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "7580028c29f64ca3d52d770fe042ed1f8a3a6af6eb88478ccee7b3acd1057842"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/essex/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "49bc100df7fa489170e9034f0664f8000ac7cc6b054966c5bf53f3a186dddcba"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/kent/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "2b45036594f49d678b9eb7c73196118a5f05bcd75734fc96635b3dc91920c46f"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/oxford/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "fcfc277b205d27623647fdc2346e009d745669940abf2d544908f92d1a39a4c4"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/wiltshire/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "9c067ca4169a061b4597813d47ada694843d6f8cbcdbf72053cfcf18b4fad140"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/somerset/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "54b3d52f0fdf5b5ca223a8f063365ca663f6858c45077e0379e0f2f19c35c5ac"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/devon/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "b77ae761160d3ab7bd284d455c0bd3efdbbe7e2b130e298e7e911a34a802995f"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/cornwall/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "e4cf46e5d331bba89c1b030a1405bd8ce6d300cdc508f0cbd699e720851e63d0"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/lancashire/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "bb4580a401a0c0905a8309cf5b4cb0a422bae53367b941c7024f5033ac0358fc"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/cumbria/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "508c73cc28cbd3ef4bfb754b6cb7056835cfe55adc32f8ca8ce87dcc61987718"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/tees/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "64d32bec1c072079dd91715a519cd206d59b84fc350c23b6969f6a2c3bfca19f"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/north_yorkshire/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "c3fe4fa5ec826e751d125c0baf2818ba904adbb61b37aa0c779f736c18683de2"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/south_yorkshire/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "36b5ba8291fbadc0341091d449db4ac9dbb43a14407372add9cce30ab7e6953e"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/leicester/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "a4b66385d946098f2ffd2cd014a21be34fdd2e6eb07f6a938ce7ebc87cdc1408"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/derbyshire/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "5daa8ed9ffbddd1dc47957c1b05377ff5bbefa54b6b52f3cec0b1e50953bb235"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/northamptonshire/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "35833ffd3372af192b71db729cc7a85be926008c7ad099a10df8a64fcd3120f1"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/hampshire/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "8172e86a8cfe64c6346fdb68405aaa205ae0c4d6c8ea04051317f243c1990639"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/shropshire/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "65ab327188d42e137e96e8f8bef5ede6f4fc2a761de4e14faebb09877395138c"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/stoke_and_staffordshire/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "37dc6af10dcd24a8298b2400ceaa8e1103db81a68c71a0c2fdeb76a353f0d4a7"
-    },
-    {
-      "url": "https://feeds.bbci.co.uk/news/england/hereford_and_worcester/rss.xml",
-      "status": "ok",
-      "items": 0,
-      "sha256": "9938934b334f17a4df242609f6dd56e52169d0f0d3f5507e51671252748f5a5e"
-    }
-  ],
+  "feeds": [],
   "limits": {
-    "feeds": 31,
+    "feeds": 0,
     "bytes_per_feed": 1048576,
     "retained_items": 500,
     "retention_days": 30
   },
-  "attribution": "BBC News",
-  "source": "https://www.bbc.co.uk/news",
-  "scope": "RSS headlines and links; no article-page requests; no inferred REPD match.",
+  "source_priority": {
+    "1": "BBC News",
+    "2": "Solar Power Portal",
+    "3": "pv magazine"
+  },
+  "scope": "Priority UK solar discovery: BBC national/local first, Solar Power Portal second, pv magazine third. Explicit <=1 MW-only items excluded; unknown MW retained for project matching/review. No inferred REPD match.",
+  "receipt": {
+    "classification": "MANUAL_PUBLIC_WEB_EVIDENCE_SEED",
+    "reason": "The scheduled RSS collector has not produced a run since 2026-09-13; this seed is explicit and does not claim to be an RSS run.",
+    "collector_last_verified_run": "2026-09-13T16:17:09.712269+00:00"
+  },
   "submitted_articles": [
     {
-      "url": "https://www.bbc.co.uk/news/articles/c4gmkezn4nlo",
-      "intake_id": "bbc-news-c4gmkezn4nlo",
-      "status": "FOUND_IN_RSS",
-      "headline": "Major solar farm could be built near villages",
-      "note": "Not seen does not mean absent from BBC or REPD; RSS is a rolling feed."
+      "url": "https://www.bbc.co.uk/news/articles/ck62mevl376yo",
+      "intake_id": "bbc-whitestone-20260926",
+      "status": "PUBLIC_WEB_EVIDENCE_SEEDED",
+      "headline": "Thousands respond to huge solar farm consultation",
+      "note": "Not REPD-bound; retained for review."
     }
   ]
 }
