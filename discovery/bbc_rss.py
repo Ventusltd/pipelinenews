@@ -11,17 +11,24 @@ import urllib.request
 import xml.etree.ElementTree as ET
 
 SECTIONS = ('science_and_environment', 'business', 'england', 'scotland', 'wales',
-            'northern_ireland', 'uk', 'england/lincolnshire', 'england/cambridgeshire',
-            'england/norfolk', 'england/suffolk', 'england/nottingham',
-            'england/essex', 'england/kent', 'england/oxford', 'england/wiltshire',
-            'england/somerset', 'england/devon', 'england/cornwall', 'england/lancashire',
-            'england/cumbria', 'england/tees', 'england/north_yorkshire',
-            'england/south_yorkshire', 'england/leicester', 'england/derbyshire',
-            'england/northamptonshire', 'england/hampshire', 'england/shropshire',
-            'england/stoke_and_staffordshire', 'england/hereford_and_worcester')
+            'northern_ireland', 'uk',
+            # BBC Local: deliberately broad. A failed/retired feed is recorded in health
+            # rather than silently shrinking geographic coverage.
+            'england/berkshire', 'england/beds_bucks_and_herts', 'england/birmingham_and_black_country',
+            'england/bristol', 'england/cambridgeshire', 'england/cornwall', 'england/coventry_and_warwickshire',
+            'england/cumbria', 'england/derbyshire', 'england/devon', 'england/dorset', 'england/essex',
+            'england/gloucestershire', 'england/hampshire', 'england/hereford_and_worcester', 'england/humberside',
+            'england/kent', 'england/lancashire', 'england/leeds_and_west_yorkshire', 'england/leicester',
+            'england/lincolnshire', 'england/london', 'england/manchester', 'england/norfolk',
+            'england/northamptonshire', 'england/nottingham', 'england/oxford', 'england/shropshire',
+            'england/somerset', 'england/south_yorkshire', 'england/stoke_and_staffordshire',
+            'england/suffolk', 'england/surrey', 'england/sussex', 'england/tees',
+            'england/tyne', 'england/wear', 'england/wiltshire', 'england/north_yorkshire')
 MAX_BYTES = 1_048_576
 MAX_ITEMS = 500
-TOPIC = re.compile(r'\b(solar|photovoltaic|wind farm|battery storage|energy storage|electricity grid|substation)\b', re.I)
+SOLAR_TOPIC = re.compile(r'\b(solar|photovoltaic|photovoltaics|PV|solar farm|solar park|solar panels?)\b', re.I)
+CAPACITY = re.compile(r'(?<![\w.])(\d+(?:\.\d+)?)\s*(GW|MW|kW)(?:p|ac|dc)?\b', re.I)
+MIN_SOLAR_MW = 1.0
 
 
 def canonical_article(value):
@@ -49,7 +56,17 @@ def parse_feed(body, feed_url, observed_at):
         headline = ' '.join(item.findtext('title', '').split())[:300]
         # Description is used only to find relevant links; no article body is retained.
         description = item.findtext('description', '')[:2000]
-        if not headline or not TOPIC.search(headline + ' ' + description):
+        text = headline + ' ' + description
+        if not headline or not SOLAR_TOPIC.search(text):
+            continue
+        capacities_mw = []
+        for value, unit in CAPACITY.findall(text):
+            scale = {'kw': 0.001, 'mw': 1.0, 'gw': 1000.0}[unit.lower()]
+            capacities_mw.append(float(value) * scale)
+        # Keep unknown-capacity solar stories: RSS summaries often omit MW even when
+        # the underlying project is utility-scale. Explicitly sub-1 MW-only items are
+        # outside this lane. Later project matching can resolve unknown capacity.
+        if capacities_mw and max(capacities_mw) <= MIN_SOLAR_MW:
             continue
         published = None
         try:
@@ -59,7 +76,9 @@ def parse_feed(body, feed_url, observed_at):
         except (ValueError, TypeError, OverflowError):
             pass
         result.append({'id': 'bbc:' + url.rsplit('/', 1)[1], 'url': url,
-                       'headline': headline, 'publisher': 'BBC News',
+                       'headline': headline, 'publisher': 'BBC News', 'source_priority': 1,
+                       'topic': 'solar', 'capacity_mw_max': max(capacities_mw) if capacities_mw else None,
+                       'capacity_gate': 'ABOVE_1MW' if capacities_mw and max(capacities_mw) > MIN_SOLAR_MW else 'UNKNOWN_RETAIN_FOR_MATCH',
                        'source_published_at': published, 'first_observed_at': observed_at,
                        'last_seen_at': observed_at, 'feed_urls': [feed_url],
                        'repd_ref': None, 'binding_status': 'UNMATCHED_REQUIRES_REVIEW',
@@ -112,13 +131,13 @@ def collect(previous, now, fetch=None):
         except Exception as error:
             health.append({'url':url, 'status':'failed', 'error':type(error).__name__ + ': ' + str(error)[:180]})
     ok = sum(x['status'] == 'ok' for x in health)
-    return {'schema':'pipelinenews.bbc-rss.v1', 'checked_at':observed,
+    return {'schema':'pipelinenews.bbc-rss.v2', 'checked_at':observed,
             'last_success_at':observed if ok else previous.get('last_success_at'),
             'status':'ok' if ok == len(SECTIONS) else 'partial' if ok else 'failed',
             'items':merge_items(previous.get('items', []), incoming, now), 'feeds':health,
             'limits':{'feeds':len(SECTIONS), 'bytes_per_feed':MAX_BYTES, 'retained_items':MAX_ITEMS, 'retention_days':30},
             'attribution':'BBC News', 'source':'https://www.bbc.co.uk/news',
-            'scope':'RSS headlines and links; no article-page requests; no inferred REPD match.'}
+            'scope':'Priority BBC national + local solar RSS discovery. Explicit <=1 MW-only items excluded; unknown MW retained for project matching/review. No article-page requests; no inferred REPD match.'}
 
 
 def main():
