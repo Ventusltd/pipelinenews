@@ -1,6 +1,6 @@
 import datetime as dt
 import unittest
-from bbc_rss import canonical_article, parse_feed, merge_items, collect, SECTIONS
+from bbc_rss import canonical_article, parse_feed, merge_items, collect, SECTIONS, SOURCES
 
 NOW = dt.datetime(2026, 9, 6, tzinfo=dt.timezone.utc)
 RSS = b'''<rss><channel><item><title>New 25 MW solar farm proposed</title><link>https://www.bbc.co.uk/news/articles/c4gmkezn4nlo?at_campaign=rss</link><pubDate>Sat, 05 Sep 2026 10:00:00 GMT</pubDate></item></channel></rss>'''
@@ -54,8 +54,18 @@ class RssTests(unittest.TestCase):
         self.assertEqual(result['status'],'failed')
         self.assertEqual(result['last_success_at'],previous['last_success_at'])
         self.assertEqual(len(result['items']),1)
-        self.assertEqual(len(calls),len(SECTIONS))
-        self.assertTrue(all(url.startswith('https://feeds.bbci.co.uk/') for url in calls))
+        self.assertEqual(len(calls), len(SECTIONS) + 2)
+        self.assertTrue(all(url.startswith('https://feeds.bbci.co.uk/') for url in calls[:-2]))
+        self.assertEqual(calls[-2:], [SOURCES[2][1], SOURCES[3][1]])
+
+
+    def test_trade_sources_require_uk_and_keep_priority(self):
+        spp = b'''<rss><channel><item><title>UK 15MW solar farm approved</title><link>https://www.solarpowerportal.co.uk/solar-projects/example</link><pubDate>Sat, 05 Sep 2026 10:00:00 GMT</pubDate></item></channel></rss>'''
+        pvm = b'''<rss><channel><item><title>British 20 MW solar project advances</title><link>https://www.pv-magazine.com/2026/09/05/example/</link><pubDate>Sat, 05 Sep 2026 10:00:00 GMT</pubDate></item></channel></rss>'''
+        self.assertEqual(parse_feed(spp, SOURCES[2][1], NOW.isoformat(), 2)[0]['source_priority'], 2)
+        self.assertEqual(parse_feed(pvm, SOURCES[3][1], NOW.isoformat(), 3)[0]['source_priority'], 3)
+        non_uk = pvm.replace(b'British ', b'German ')
+        self.assertEqual(parse_feed(non_uk, SOURCES[3][1], NOW.isoformat(), 3), [])
 
 
 if __name__ == '__main__': unittest.main()
