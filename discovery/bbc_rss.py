@@ -10,6 +10,13 @@ import urllib.parse
 import urllib.request
 import xml.etree.ElementTree as ET
 
+SOURCES = {
+    1: ('BBC News', None),
+    2: ('Solar Power Portal', 'https://www.solarpowerportal.co.uk/feed'),
+    3: ('pv magazine', 'https://www.pv-magazine.com/feed'),
+}
+UK_SIGNAL = re.compile(r'\b(UK|United Kingdom|Britain|British|England|Scotland|Wales|Northern Ireland|London|GB)\b', re.I)
+
 SECTIONS = ('science_and_environment', 'business', 'england', 'scotland', 'wales',
             'northern_ireland', 'uk',
             # BBC Local: deliberately broad. A failed/retired feed is recorded in health
@@ -31,17 +38,23 @@ CAPACITY = re.compile(r'(?<![\w.])(\d+(?:\.\d+)?)\s*(GW|MW|kW)(?:p|ac|dc)?\b', r
 MIN_SOLAR_MW = 1.0
 
 
-def canonical_article(value):
+def canonical_article(value, source_priority=1):
     u = urllib.parse.urlsplit(value)
-    if u.scheme != 'https' or u.hostname not in ('www.bbc.co.uk', 'www.bbc.com') or u.username or u.password or u.port:
-        raise ValueError('not a BBC article URL')
-    if not re.fullmatch(r'/news/articles/[a-z0-9]+', u.path):
-        raise ValueError('not a BBC article path')
-    # RSS campaign parameters are attribution, not a second news identity.
-    return 'https://www.bbc.co.uk' + u.path
+    allowed = {
+        1: ('www.bbc.co.uk', 'www.bbc.com'),
+        2: ('www.solarpowerportal.co.uk', 'solarpowerportal.co.uk'),
+        3: ('www.pv-magazine.com', 'pv-magazine.com'),
+    }[source_priority]
+    if u.scheme != 'https' or u.hostname not in allowed or u.username or u.password or u.port:
+        raise ValueError('article URL is outside the selected priority source')
+    if source_priority == 1:
+        if not re.fullmatch(r'/news/articles/[a-z0-9]+', u.path):
+            raise ValueError('not a BBC article path')
+        return 'https://www.bbc.co.uk' + u.path
+    return urllib.parse.urlunsplit(('https', allowed[0], u.path.rstrip('/') + '/', '', ''))
 
 
-def parse_feed(body, feed_url, observed_at):
+def parse_feed(body, feed_url, observed_at, source_priority=1):
     if len(body) > MAX_BYTES or b'<!DOCTYPE' in body.upper() or b'<!ENTITY' in body.upper():
         raise ValueError('RSS exceeds bound or contains a DTD/entity declaration')
     root = ET.fromstring(body)
@@ -50,7 +63,7 @@ def parse_feed(body, feed_url, observed_at):
     result = []
     for item in root.findall('./channel/item')[:MAX_ITEMS]:
         try:
-            url = canonical_article(item.findtext('link', '').strip())
+            url = canonical_article(item.findtext('link', '').strip(), source_priority)
         except ValueError:
             continue
         headline = ' '.join(item.findtext('title', '').split())[:300]
@@ -58,6 +71,10 @@ def parse_feed(body, feed_url, observed_at):
         description = item.findtext('description', '')[:2000]
         text = headline + ' ' + description
         if not headline or not SOLAR_TOPIC.search(text):
+            continue
+        # BBC local/national feeds are UK by construction. Trade publications
+        # are global, so require a UK signal before they enter this lane.
+        if source_priority in (2, 3) and not UK_SIGNAL.search(text):
             continue
         capacities_mw = []
         for value, unit in CAPACITY.findall(text):
@@ -76,7 +93,7 @@ def parse_feed(body, feed_url, observed_at):
         except (ValueError, TypeError, OverflowError):
             pass
         result.append({'id': 'bbc:' + url.rsplit('/', 1)[1], 'url': url,
-                       'headline': headline, 'publisher': 'BBC News', 'source_priority': 1,
+                       'headline': headline, 'publisher': SOURCES[source_priority][0], 'source_priority': source_priority,
                        'topic': 'solar', 'capacity_mw_max': max(capacities_mw) if capacities_mw else None,
                        'capacity_gate': 'ABOVE_1MW' if capacities_mw and max(capacities_mw) > MIN_SOLAR_MW else 'UNKNOWN_RETAIN_FOR_MATCH',
                        'source_published_at': published, 'first_observed_at': observed_at,
@@ -116,8 +133,9 @@ def collect(previous, now, fetch=None):
     observed = now.isoformat()
     incoming, health = [], []
     opener = urllib.request.build_opener(NoRedirect)
-    for section in SECTIONS:
-        url = f'https://feeds.bbci.co.uk/news/{section}/rss.xml'
+    feed_specs = [(1, f'https://feeds.bbci.co.uk/news/{section}/rss.xml') for section in SECTIONS]
+    feed_specs += [(priority, spec[1]) for priority, spec in SOURCES.items() if priority > 1]
+    for source_priority, url in feed_specs:
         try:
             if fetch:
                 body = fetch(url)
@@ -125,19 +143,19 @@ def collect(previous, now, fetch=None):
                 req = urllib.request.Request(url, headers={'User-Agent':'PipelineNews-RSS/1.0', 'Accept':'application/rss+xml, application/xml'})
                 with opener.open(req, timeout=10) as response:
                     body = response.read(MAX_BYTES + 1)
-            items = parse_feed(body, url, observed)
+            items = parse_feed(body, url, observed, source_priority)
             incoming.extend(items)
             health.append({'url':url, 'status':'ok', 'items':len(items), 'sha256':hashlib.sha256(body).hexdigest()})
         except Exception as error:
             health.append({'url':url, 'status':'failed', 'error':type(error).__name__ + ': ' + str(error)[:180]})
     ok = sum(x['status'] == 'ok' for x in health)
-    return {'schema':'pipelinenews.bbc-rss.v2', 'checked_at':observed,
+    return {'schema':'pipelinenews.priority-solar-news.v1', 'checked_at':observed,
             'last_success_at':observed if ok else previous.get('last_success_at'),
             'status':'ok' if ok == len(SECTIONS) else 'partial' if ok else 'failed',
             'items':merge_items(previous.get('items', []), incoming, now), 'feeds':health,
-            'limits':{'feeds':len(SECTIONS), 'bytes_per_feed':MAX_BYTES, 'retained_items':MAX_ITEMS, 'retention_days':30},
-            'attribution':'BBC News', 'source':'https://www.bbc.co.uk/news',
-            'scope':'Priority BBC national + local solar RSS discovery. Explicit <=1 MW-only items excluded; unknown MW retained for project matching/review. No article-page requests; no inferred REPD match.'}
+            'limits':{'feeds':len(feed_specs), 'bytes_per_feed':MAX_BYTES, 'retained_items':MAX_ITEMS, 'retention_days':30},
+            'source_priority': {'1':'BBC News','2':'Solar Power Portal','3':'pv magazine'},
+            'scope':'Priority UK solar discovery: BBC national/local first, Solar Power Portal second, pv magazine third. Explicit <=1 MW-only items excluded; unknown MW retained for project matching/review. No article-page requests; no inferred REPD match.'}
 
 
 def main():
