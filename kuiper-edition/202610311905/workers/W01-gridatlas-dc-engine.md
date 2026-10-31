@@ -127,7 +127,7 @@ QUOTE:
 ```
 WHY: This is the served `NS.geodesy` (registered at :1774 of the live substation-intelligence cartridge, which loads
 before sld-sandbox; same text as atlas/modules/202609011950-geodesy.js:21-41). `gridScope.scope` calls
-`geodesy.distanceKm` (sld-sandbox :109-110), `measure.distanceKm` delegates to it (sld-sandbox :3299-3301), so all three
+`geodesy.distanceKm` (sld-sandbox :107-108), `measure.distanceKm` delegates to it (sld-sandbox :3299-3301), so all three
 30-lists measure on R = 6378.137 km. The comment refuses even a 1e-15 km difference because "the claim being made is
 PARITY". The DC test uses an independent asin-form haversine on the same radius (overlay-offtakers.test.mjs:50) and DC2
 passes, so the two forms agree to the 2 decimals shown.

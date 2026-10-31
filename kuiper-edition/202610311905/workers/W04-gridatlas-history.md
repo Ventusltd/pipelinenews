@@ -311,8 +311,8 @@ Rollback hunk (`git show 1eb6414 -- atlas/current.json`, @@ -1,7 +1,7 @@):
 + "generation": "202609241334",
 + "previous_generation": "202609200022",
 ```
-WHY: This arc changed the process. A direct-to-live feature was rolled back in 55 minutes. It then went through 12 "no live pointer switch"
-preview commits (#40..#48 and unnumbered) from 2026-10-26 to 2026-10-28, and was released as an additive delta whose arrival
+WHY: This arc changed the process. A direct-to-live feature was rolled back in 55 minutes. It then went through 14 isolated/preview-only commits
+(bd191e8 2026-10-23 .. 5f8715f 2026-10-28; PRs #40 #42 #44..#48 plus unnumbered; subjects say "no live pointer switch", "preview only" or "isolated"), and was released as an additive delta whose arrival
 "is pixel-identical to 202609241334" (release body). The release body records "Rollback: git revert this commit" and
 "Authorised by: owner (Vikram), 28 Oct 2026 17:3x UTC". "unknown, not zero" is the estate's absence rule applied to a data feed.
 PATTERN: additive delta, default OFF; preview-only until accepted
@@ -451,7 +451,7 @@ Committer names (`git log --format=%cn | sort | uniq -c`): Ventusltd 275, GitHub
 Cadence (`--date=iso-strict`, calendar day in the author's offset): 2026-09-01 63, 09-02 43, 09-03 34, 09-04 15, 09-05 22, 09-06 2,
 09-07 16, 09-08 16, 09-11 4, 09-17 1, 09-20 1, 09-24 1, 09-29 2, 10-23 5, 10-26 3, 10-27 7, 10-28 15, 10-29 61. By month: September 220, October 91.
 Two storms: 2026-09-01..09-05 (177 commits; v9.51 -> v9.138) and 2026-10-27..10-29 (83 commits; previews -> v9.172 -> v9.186 -> v9.187).
-Subjects containing "overnight": 51 (2026-09-01 22:48 to 2026-09-02 01:19 +01:00, the loop of "step authored" / "verified live").
+Subjects containing "overnight": 51 (2026-09-01T23:09:03+01:00 to 2026-09-02T01:19:58+01:00, the loop of "step authored" / "verified live").
 Versions named in subjects run v9.51 -> v9.187.
 
 Busiest hours (UTC, `git log --date=format-local:%H`, TZ=UTC): 23h 38, 22h 35, 00h 35, 21h 32, 03h 24, 02h 20, 09h 17, 17h 12.
@@ -480,7 +480,7 @@ Preview -> ACCEPT -> release for the last three generations (UTC, author time):
 Note: the 22 follow-ups plus 4fa72ae and 2f80729 all have committer time 2026-10-29T21:59:11+00:00, which suggests one rebase/push. Several come in same-subject pairs touching
 one file each (465d247/0d97015, b2ed386/486ea3c, 5709508/6deccf5), consistent with per-file commits through the GitHub web or API.
 
-R-<code> review tickets (subjects): R-taps MAJOR x2 (c054ecf897aa334062182e63cb7edaf400a53185, f3018a7), R-cifix MAJOR x1 (61fee61f5e5dd952893e85458d468951f537a049),
+R-<code> review tickets (subjects): R-taps MAJOR x2 (c054ecf897aa334062182e63cb7edaf400a53185, f3018a7e3d92c06c7261e19cfa2ca852267a2187), R-cifix MAJOR x1 (61fee61f5e5dd952893e85458d468951f537a049),
 R-otsec x2, R-words x2, R-taps x2, R-a11yperf, R-camera, R-otdata. Bodies add R-cifix MINOR x3, R-release MINOR, R-l3regress MINOR, R-handoff MINOR,
 R-security, R-repd, R-provenance, R-layout, R-diff, R-data, R-bugs, R-a11y. All appear on 2026-10-28/29.
 
@@ -545,4 +545,5 @@ Turning points in order (full SHA, author date, subject):
 8. F15 gridatlas@cacb69a7c4abc3b1a90fd75807ce8ef8cbc46d9e atlas/current.json:717-726. The live pointer to the data-centre module (digest verified 71,191 B).
 
 ## One next command (exactly one, runnable from a clone)
-git -C /home/user/estate/gridatlas log --date=iso-strict --format='%H %ad %s' --grep='Authorised' -i --all-match --format='%H %ad %s' -- atlas/current.json
+git -C /home/user/estate/gridatlas log -i --grep='Authori[sz]ed' --date=iso-strict --format='%H %ad %s' -- atlas/current.json
+(lists every pointer move that records its authority: 4 today, from 3235a34 2026-09-08 to cacb69a; the trend of who may move the live map)
