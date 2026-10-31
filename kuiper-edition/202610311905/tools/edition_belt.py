@@ -8,7 +8,7 @@ class is a property and never a position; no edges, because an unmeasured edge w
 without a key.
 
 Input : register.tsv  (worker, finding, repo, commit, path, line_start, line_end, title, pattern, verified)
-Output: belt/belt.json  {name, source, law, counts, stations:[[x,y,id,open,...]]} in the wafer contract
+Output: belt/belt.json  {name, source, law, counts, stations:[[x,y,key,copies]], edges:[]} as the wafer reads it
         belt/bodies.json one record per body, key beside the human fields
         belt/rules.txt   every constant used
         proof/<run-id>-belt.json  SHA-256 of every output, counts, the exact command line
@@ -23,9 +23,13 @@ import argparse, csv, hashlib, json, math, os, subprocess, sys, datetime
 # the exact 32-bit odometer, theta = 2*pi * ((k * 2654435769) mod 2**32) / 2**32, which turns +222.492236
 # degrees per key (0.6180339887 of a turn). estate.py turns the mirror +137.5 as a float; this edition
 # follows the live wafer, and prints which in rules.txt.
+ESTATE_A_MIN, ESTATE_A_MAX = 0.16, 0.92   # kuiper-belt tools/estate.py:20 A_MIN, A_MAX
 MULT = 2654435769                       # floor(2**32 / phi), hex 9E3779B9, Knuth TAOCP vol 3 s6.4
 TWO32 = 2 ** 32
-A_MIN, A_MAX = 0.08, 0.48              # the drawable annulus in the unit square, centre (0.5, 0.5)
+# Centred on zero, as estate.py:159-163 measured from the live files ("the renderer multiplies straight
+# through with no centring"; SPEC.md's "unit square" was inferred from prose and was wrong). The annulus
+# is estate.py's, so this belt draws at the same scale as the estate belt.
+A_MIN, A_MAX = ESTATE_A_MIN, ESTATE_A_MAX
 
 def sh(cmd, cwd=None):
     return subprocess.run(cmd, cwd=cwd, capture_output=True, text=True)
@@ -86,9 +90,10 @@ def main():
     for k, b in enumerate(uniq):
         r = A_MIN + (A_MAX - A_MIN) * math.sqrt((k + 0.5) / n)
         th = 2 * math.pi * ((k * MULT) % TWO32) / TWO32
-        x, y = round(0.5 + r * math.cos(th), 6), round(0.5 + r * math.sin(th), 6)
+        x, y = round(r * math.cos(th), 6), round(r * math.sin(th), 6)
         b["k"], b["x"], b["y"], b["r"], b["theta"] = k, x, y, round(r, 6), round(th % (2 * math.pi), 6)
-        stations.append({"id": b["id"], "x": x, "y": y, "m": 1, "class": b["class"], "open": True})
+        # The renderer's contract (estate.py:167-168, pilot.mjs:285-288): stations are [x, y, key(, copies)].
+        stations.append([x, y, b["id"], 1])
     belt = {
         "name": f"kuiper-edition-{args.run_id}",
         "source": "verified keyed findings of the swarm; key = git blob SHA of the file at the cited commit, joined with the line",
@@ -111,7 +116,7 @@ def main():
     write("belt/rules.txt", "\n".join([
         f"asof {asof}", f"run-id {args.run_id}", f"a_min {A_MIN}", f"a_max {A_MAX}",
         f"theta_law 2*pi*((k*{MULT}) mod 2^32)/2^32  (+222.492236 deg per key; the mirror of estate.py's float +137.507764)", "radius_law sqrt((k+0.5)/n) scaled to the annulus",
-        "order sorted key, key = <blob sha>:<line>", "edges none (unmeasured)", f"n {n}", f"git {git}",
+        "order sorted key, key = <blob sha>:<line>", "frame centred on zero, as estate.py measured", "stations [x, y, key, copies]", "edges none (unmeasured)", f"n {n}", f"git {git}",
         "command " + " ".join(sys.argv), ""]))
     proof = {"run_id": args.run_id, "asof": asof, "sha256": outs, "counts": belt["counts"], "command": " ".join(sys.argv)}
     open(os.path.join(args.out, "proof", f"{args.run_id}-belt.json"), "w").write(json.dumps(proof, indent=1))
