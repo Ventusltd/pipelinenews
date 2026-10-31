@@ -12,6 +12,11 @@ data-gridatlas@8bf88da9e210ce9f61dc0398869d3369f3fa2445 (20 commits)
 gridatlas@cacb69a7c4abc3b1a90fd75807ce8ef8cbc46d9e (311 commits in the clone; read only for the engine cartridges that carry E1 and E4)
 pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 (521 commits)
 (All seven HEADs match `proof/inventory.tsv`.)
+Note on pipelinenews: while this report was being written the harness committed worker reports, so the live HEAD is
+now `0f698cc32e0e6f41f793ef0a97c314083d98f759` (2026-10-31T19:19:42+00:00). Keys stay on the inventory HEAD
+`67aa2eb05993c630887b41c3b720ba42a86669a4`. `git diff 67aa2eb..HEAD -- ui/atlas-v9-deep-links.js tools/` is empty, so
+every cited pipelinenews line is byte-identical at both commits. A controller should resolve these with
+`git show 67aa2eb05993c630887b41c3b720ba42a86669a4:<path> | sed -n '<line>p'`.
 
 READ:
 gridmachine1/CABLE-ENGINES.md

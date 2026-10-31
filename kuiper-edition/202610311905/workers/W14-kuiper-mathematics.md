@@ -1,5 +1,5 @@
 # W14 kuiper-mathematics
-Written 2026-10-31T19:05:00Z+ (worker W14, Opus). Read only. No clone was changed: `git status --short` was empty after every run.
+Written 2026-10-31T19:19:11Z (worker W14, Opus; brief 2026-10-31T19:05:00Z). Read only. No clone was changed: `git status --short` was empty after every run.
 
 HEADS:
 - maths@b898a5ee39aa81a45197c5f17ba1195727aa538e (8 commits)
@@ -61,7 +61,19 @@ QUOTE:
 const isqrt = v => { let x = 1n << 300n; for (;;) { const y = (x + v / x) >> 1n; if (y >= x) return x; x = y; } };
 const SQRT5 = isqrt(5n * ONE * ONE);                               /* sqrt(5) * 2^256 */
 ```
-WHY: Note 11 teaches the square root as a recipe that is repeated, not a fact the machine knows: "The same input and the same algorithm produce the same sequence of operations." (11:65). exactness.mjs is that recipe in integers. It starts above the root (2^300), takes `(x + v/x) >> 1`, and stops the first time the guess does not fall (`y >= x`). That stopping rule returns floor(sqrt(v)) exactly, with no float involved. It computes sqrt(5) to 256 fractional bits, and from that 1/phi^2 and the "true" golden angle, the ground truth that every float and int32 law in the estate is scored against. This is the only integer square root in the code estate that I found (grep for `isqrt` and Newton forms in my slice). Every other `sqrt` is IEEE-754 `Math.sqrt`/`math.sqrt`/GLSL `sqrt`.
+KEY: kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 learn-the-kuiper/202610050609/one.js:27-34
+QUOTE:
+```js
+  // FLOOR(SQRT(n)) in whole numbers: a first guess from the machine root, then corrected until n x n <= key < (n + 1) x (n + 1)
+  function isqrt(n) {
+    if (n < 2n) return n;
+    var x = BigInt(Math.floor(Math.sqrt(Number(n))));
+    while (x * x > n) x -= 1n;
+    while ((x + 1n) * (x + 1n) <= n) x += 1n;
+    return x;
+  }
+```
+WHY: Note 11 teaches the square root as a recipe that is repeated, not a fact the machine knows: "The same input and the same algorithm produce the same sequence of operations." (11:65). exactness.mjs is that recipe in integers. It starts above the root (2^300), takes `(x + v/x) >> 1`, and stops the first time the guess does not fall (`y >= x`). That stopping rule returns floor(sqrt(v)) exactly, with no float involved. It computes sqrt(5) to 256 fractional bits, and from that 1/phi^2 and the "true" golden angle, the ground truth that every float and int32 law in the estate is scored against. The teaching game's one.js gets the same exact floor by a second route: a float seed, then corrected by the defining inequality n^2 <= key < (n+1)^2. Its correctness is checked by the definition, not trusted from the float. A third, galaxies-wafers@fff6fc6ad4f93a15fe8f6456942a1b44e5547105 build/tile_layer.py:47 `return math.isqrt(key) // S`, uses the integer root to cut the r = sqrt(key) disc into exact key bands [(bS)^2, ((b+1)S)^2) "with no floating point" (tile_layer.py:5-7). `grep -rEl 'isqrt|math\.isqrt'` (excluding globalgrid2050) finds 10 files: exactness.mjs, 3 copies of one.js, and 6 galaxies-wafers tiling files. Every other `sqrt` in the law's implementations is IEEE-754 `Math.sqrt`/`math.sqrt`/GLSL `sqrt`.
 PATTERN: exact ground truth by integer Newton/Heron iteration; monotone-descent termination
 
 ### F3 The odometer stops being golden: continued fraction break near 6.5e7 keys, and exact repetition every 2^32 keys
@@ -121,7 +133,7 @@ PATTERN: argument reduction as a determinism contract; constants serialised roun
 ### F6 The mirror: two Kuiper spirals that are reflections of each other, and the line that reconciles them
 KEY: maths@b898a5ee39aa81a45197c5f17ba1195727aa538e 08a-which-way-the-golden-turn-goes.md:17-26
 QUOTE:
-```md
+````md
 ```
 222.492236° + 137.507764° = 360°
 ```
@@ -132,7 +144,7 @@ QUOTE:
 |---|---|---|
 | teaching sheet, Kuiper belt (`tools/estate.py`) | +137.507764° | one way |
 | Kuiper wafer (`tools/wafer_keys.py`, `index.html`) | +222.492236° = -137.507764° | the other way |
-```
+````
 KEY: particle-physics-drawing-engine@eb52ad7ebab151d49fb7cfde56523f5962129530 tools/particles.py:49-50
 QUOTE:
 ```python
@@ -145,7 +157,7 @@ PATTERN: name the chirality; reconcile by 1 - frac, never by a second constant
 ### F7 Excel's 2^53 cliff and the split-multiplier formula
 KEY: maths@b898a5ee39aa81a45197c5f17ba1195727aa538e 10-kuiper-placement-law.md:159-165
 QUOTE:
-```md
+````md
 **Excel's limit.** Excel holds whole numbers exactly only up to $2^{53}$ = 9,007,199,254,740,992. `A2*2654435769` goes past that above key 3,393,263, and C2 quietly goes wrong. The real wafer has 43,486,619,138 issued keys, so for big keys use the split formula, which never goes past $2^{53}$:
 
 ```
@@ -153,8 +165,8 @@ QUOTE:
 ```
 
 It works because 2654435769 = 40503 × 65536 + 31161. For key 43486619138 it gives **305752434**; the plain formula gives a wrong number.
-```
-WHY: This is the spreadsheet twin of `Math.imul`. It splits the multiplier into 16-bit limbs so that no intermediate passes 2^53 (largest term < 1.75e14). I verified every number: 40503 x 65536 + 31161 = 2654435769; floor(2^53/2654435769) = 3,393,263; split and exact both give 305,752,434. The same limb idea appears in exactness.mjs:52-55 (`mulhi32`, 16-bit limbs for the 64-bit constant C64), measured against BigInt on 1,000,000 slots with 0 disagreements (exactness-result.txt:17). Stale datum: "43,486,619,138 issued keys" is now 45,461,911,314 (F3 key). The arithmetic example is unaffected.
+````
+WHY: This is the spreadsheet twin of `Math.imul`. It splits the multiplier into 16-bit limbs so that no intermediate passes 2^53 (largest term < 1.75e14). I verified every number: 40503 x 65536 + 31161 = 2654435769; floor(2^53/2654435769) = 3,393,263; split and exact both give 305,752,434. The same limb idea appears in exactness.mjs:53-57 (`mulhi32`, 16-bit limbs for the 64-bit constant C64), measured against BigInt on 1,000,000 slots with 0 disagreements (exactness-result.txt:17). Stale datum: "43,486,619,138 issued keys" is now 45,461,911,314 (F3 key). The arithmetic example is unaffected.
 PATTERN: limb-split multiplication to stay inside a host's exact-integer range
 
 ### F8 A verbatim lift of the law, a float32 replica of the shader, and a teaching variant that labels itself NOT THE REAL KUIPER
@@ -257,7 +269,7 @@ QUOTE:
 ```js
     for (let i = 0; i < c.n; i++) { const r = (o.D/2 - o.d/2)*Math.sqrt((i+0.5)/c.n), a = i*2.399963229728653; o.wires.push([r*Math.cos(a), r*Math.sin(a)]); }
 ```
-KEY: stars@cbca125bb5eeb7d0ffb02f4546d60eb5d47dadc9 library/standalone.mjs:4853-4857
+KEY: stars@cbca125bb5eeb7d0ffb02f4546d60eb5d47dadc9 library/standalone.mjs:4852-4856
 QUOTE:
 ```js
 // Family #135184 · element #135184 · 67 places in 1 repositories · https://github.com/Ventusltd/globalgrid2050/blob/c66759f0d7ac3489df9158da6eaa1330a37c069f/kuiper-grid/i0073/releases/003100000000-kuiper-shell/conductor-round.html#L78-L97
@@ -298,7 +310,7 @@ double dcac = (se * w / 1000.0) * st / %(KVA).1f;
 bool band = (dcac >= %(LO).2f) && (dcac <= %(HI).2f);
 code = (se > na) ? %(FC)d : ((se > nb) ? %(DI)d : (band ? %(OK)d : %(OB)d));
 ```
-KEY: worlds-@b5f15716486c3ff509c56914fbee06f2e6aec2d8 atlas-lattice.json:43-50
+KEY: worlds-@b5f15716486c3ff509c56914fbee06f2e6aec2d8 atlas-lattice.json:43-51
 QUOTE:
 ```json
  "evaluated": 295770420000,
@@ -387,11 +399,12 @@ Legend. Radius: `k` = sqrt(k); `k+.5` = sqrt(k + 0.5); `scaled` = a + (b - a)*sq
 | 26 | stars@cbca125 | library/standalone.mjs:4857 | scaled (strands) | +137.5 | f64 | copy of conductor settle (#7) | provenance-stamped copy |
 | 27 | stars@cbca125 | LINES.md:99845 (`let seed = 0x9e3779b9;`) | n/a | n/a | PRNG seed | not placement | false positive |
 | 28 | pipelinenews@de3e68e | kuiper-edition/202610311905/tools/edition_belt.py:82-83 | scaled | +137.5 | f64, no fmod | this edition's belt | follows #6; drops `% 2pi` |
+| 29 | galaxies-wafers@fff6fc6 | build/tile_layer.py:47 | k, banded by isqrt(key)//S | n/a | exact integer | tile bands of the disc | agrees with r = sqrt(k) exactly |
 
 Disagreement summary (keyed above). (1) Chirality: the live wafer turns +222.49. Every float implementation (#6, 7, 18-22, 25, 26, 28) and particles.py turn +137.5. That is 2 families, mirror images, and 08a is the only reconciling text. (2) Radius: the live view uses sqrt(k + 0.5). The data law, SPEC, header comment, canonical placement and galaxies use sqrt(k). (3) Arithmetic: odo32 is exact but periodic at 2^32 and non-golden past about 6.5e7 keys (F3). f64 is near-golden to 5.67e-7 rad error at k = 2^31 (exactness-result.txt:13) but needs argument reduction for cross-library agreement (F5). (4) Reduction: worlds.py reduces, while canonical placement and edition_belt.py do not.
 
 ## Patterns (keyed; each cites at least one F above)
-- **Integer-exact angle, float last** (F1, F7, F9, F23 row): carry the angle as an exact 32-bit integer and convert to radians only at the end. Excel (F7), JS (F1) and GLSL (F9) each reach the same m by a different route: `MOD` limbs, `Math.imul`, uint wrap.
+- **Integer-exact angle, float last** (F1, F6, F7, F9; table rows #1, #2, #17, #23): carry the angle as an exact 32-bit integer and convert to radians only at the end. Excel (F7), JS (F1) and GLSL (F9) each reach the same m by a different route: `MOD` limbs, `Math.imul`, uint wrap.
 - **Exact ground truth by integer iteration** (F2): Heron in BigInt to 256 bits, used to score every float law.
 - **Zero-tolerance twin gate that blocks the artefact** (F4, F10): `if worst > 0: return 1` before `page()`, and "A check that reached nothing is not a pass."
 - **Determinism contracts for floats** (F5): reduce before trig; serialise constants with %.17g.
@@ -418,7 +431,7 @@ Disagreement summary (keyed above). (1) Chirality: the live wafer turns +222.49.
 - Candidate: globalgrid2050 kuiper-grid/i00NN/releases/003100000000-kuiper-shell/index.html (48 files) may hold older revisions of the keyPlace line. I read them with grep -l only, so I did not verify whether any differ from kuiper-belt index.html:250.
 - Candidate: the float32 shader's visible error at the rim (F9, about 0.09 units of position) may be the source of the "photons" the kuiper-law.js header says are reported in `kuiper-law.receipt.json`. I did not read that file.
 - Candidate: the odo32 law past 2^32 keys places about 10.6 keys per angle on a single ray. Whether this is visible as radial striping on the live wafer at full zoom-out was not tested.
-- Candidate: replacing C32 with the 64-bit constant C64 = 11400714819323198485 (exactness.mjs:20, measured at 6.961e-10 rad error at k = 2^31, against 1.562 rad for int32) would remove both F3 caveats. A WebGL2 limb implementation (`mulhi32`) is already proven at 0 disagreements in 1e6 slots.
+- Candidate: replacing C32 with the 64-bit constant C64 = 11400714819323198485 (exactness.mjs:19, measured at 6.961e-10 rad error at k = 2^31, against 1.562 rad for int32) would remove both F3 caveats. A WebGL2 limb implementation (`mulhi32`) is already proven at 0 disagreements in 1e6 slots.
 
 ## Proposed lines for the Kuiper edition (which keyed lines deserve a place, and why)
 1. kuiper-belt index.html:250 (F1): the law itself, as it runs.

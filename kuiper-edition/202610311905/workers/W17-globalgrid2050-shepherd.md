@@ -465,8 +465,9 @@ PATTERN: anti-pattern, a retry loop that falls through to parse
 
 ## Measurement: the kuiper-belt "17,300 blobs, 5.7 GB, mean 329 kB" claim
 
-The claim, keyed: kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 NEXT.md:55-57
+The claim, keyed: kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 NEXT.md:54-57
 ```
+6. **Count the estate honestly.** Sum `git log --numstat` additions across all 66 repositories, with
    data paths reported separately, so every coverage claim finally has a denominator. One repository
    alone holds 17,300 blobs and 5.7 GB at a mean of 329 kB — history is dominated by republished data,
    not authorship.
@@ -553,18 +554,18 @@ acd2f242667dd60868476490209c5b9ce4aeb8f9 2026-09-16T04:31:08+01:00 Ventusltd tes
 2. **c002bc326346e12e3c6b92ffb4ae386addb5f17c** 2026-09-19T04:12:02+01:00. The estate is counted by 12
    content-sharded runners, and the total refuses an incomplete set (F3). Hunk:
 ```
- jobs:
--  count:
-+  shard:
-     runs-on: self-hosted
--    timeout-minutes: 240
-+    timeout-minutes: 120
-+    strategy:
-+      fail-fast: false
-+      matrix:
-+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-     steps:
--      - name: Count every line
++          $ErrorActionPreference = 'Stop'
++          $files = Get-ChildItem "$env:RUNNER_TEMP\shards" -Recurse -Filter 'shard.json'
++          if ($files.Count -eq 0) { throw 'no shard results: a check that examines nothing refuses' }
++          $sum = @{}
++          $seen = @()
++          foreach ($f in $files) {
++            $j = Get-Content $f.FullName -Raw | ConvertFrom-Json
++            $seen += $j.shard
++            foreach ($k in 'head_lines','head_blobs','head_text_blobs','head_binary_blobs',
++                           'history_lines','history_blobs','history_text_blobs','history_binary_blobs',
++                           'authored_added','authored_deleted','commits','tracked_paths') {
++              if ($null -ne $j.$k) { $sum[$k] = [int64]$sum[$k] + [int64]$j.$k }
 ```
 3. **f69ff82307c126e9684cef7272a98110150ad2f7** 2026-09-19T18:54:29+01:00. "retire the early Kuiper page". It
    deletes `202609190230-kuiper-belt/` (app.mjs 980 lines, pilot.mjs 499, proof/checks.mjs 188 …) because "it
