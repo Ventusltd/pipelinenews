@@ -354,7 +354,7 @@ WHY: Line 71 stamps "engine firm-capacity.js, diversified-demand.js, electrifica
 but the page imports the moving github.io path. firm-capacity.js changed again 15 minutes later
 (c94470107ca6b9a140406002f594110918ea3dc4, 2026-09-06T04:28:07+01:00, "a computed MVA printed all sixteen
 of its digits"), so the served page cannot run the commit it names. The only guard is the schema check
-at lines 270-273 (`throw new Error('unexpected schema ' + ...)`), which catches a schema change but not a
+at lines 272-274 (`throw new Error('unexpected schema ' + ...)`), which catches a schema change but not a
 change in behaviour. This is the same class as gridmachine1 BUGS.md:28 GG-007 "A dependency that tracks a
 moving branch".
 PATTERN: stamp-vs-import drift (a defect worth a Kuiper law)

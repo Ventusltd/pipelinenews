@@ -1,5 +1,5 @@
 # W16 pipelinenews
-HEADS: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 (keys use the project tip 67aa2eb05993c630887b41c3b720ba42a86669a4. The clone HEAD kept moving during this run because the harness commits worker reports: it was 67aa2eb at start, 6f90d4d3be50a65b39296c63aa3034bd9fd24c21 at write time. Every commit after 67aa2eb touches only kuiper-edition/: `git diff --name-only 67aa2eb05993c630887b41c3b720ba42a86669a4 HEAD | grep -v "^kuiper-edition/" | wc -l` = 0, so each keyed line is byte-identical at HEAD; resolve with `git show <sha>:<path> | sed -n <line>p` or `sed -n <line>p <path>`.)
+HEADS: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 (keys use the project tip 67aa2eb05993c630887b41c3b720ba42a86669a4. The clone HEAD kept moving during this run because the harness commits worker reports: it was 67aa2eb at start, ca9bc00e3c67a70899eafe3b1b30cba9c16f4eab at write time. Every commit after 67aa2eb touches only kuiper-edition/: `git diff --name-only 67aa2eb05993c630887b41c3b720ba42a86669a4 HEAD | grep -v "^kuiper-edition/" | wc -l` = 0, so each keyed line is byte-identical at HEAD; resolve with `git show <sha>:<path> | sed -n <line>p` or `sed -n <line>p <path>`.)
 Written 2026-10-31T19:40:00Z by W16 (Opus). Read only; no clone was changed.
 
 READ:
@@ -522,13 +522,11 @@ H7 83d9c430b283f8beaa8c0a05e42b14d4a4784623 2026-08-30T12:45:12+01:00 "retire du
  
 +# Automatic deployment is intentionally limited to immutable release and
 +# pointer outputs. Workflow-source edits require an explicit manual dispatch,
-     branches: [main]
-@@ -10,9 +13,6 @@ on:
-       - 'state/live-set.json'
-       - 'state/atlas-v9-link-contract.json'
++# preventing one source commit from launching obsolete promotion workflows.
        - 'machine-learning/proofs/202608300309-*-atlas-v9-deep-link-proof.json'
 -      - '.github/workflows/pages.yml'
 -      - '.github/workflows/202608301214-pages-v2.yml'
+-      - 'atman/202608262014-build-pages.py'
 ```
 H8 9937d1efee29639e90a36b51417b0afe5e032d06 2026-08-31T14:25:42+01:00 Vikram Kumar "project intelligence panel, repaired map deep link, byte-stable releases": 93 files, 15,704 insertions. Commit message lines:
 ```
@@ -541,8 +539,8 @@ one of which was already in the compact project index and already passed to the
 ```
 H9 7df51f3412b7a4306dee2bd5ce92e15c9174a985 2026-09-06T03:01:34+01:00 "Automate bounded BBC RSS discovery without requiring a REPD match": birth of the collector and of the storm.
 ```diff
-+++ b/discovery/bbc_rss.py
 @@ -0,0 +1,151 @@
++"""Bounded BBC RSS discovery. Never fetch article pages or infer REPD bindings."""
 ```
 H10 2fd65304fdfd51780c13823f7d14b87019e245b1 2026-09-26T13:00:33+01:00 "Run priority solar discovery after collector changes": reintroduces a push trigger on workflow source.
 ```diff

@@ -1,0 +1,51 @@
+# W20 duplicate bodies across all 26 clones, 2026-10-31 (UTC).
+# Command: python3 -I /tmp/w20/dups2.py  (per clone: git -C <clone> ls-tree -r -z HEAD; pipelinenews pinned to 67aa2eb05993c630887b41c3b720ba42a86669a4; submodules skipped; node_modules/vendor NOT excluded, as the Kuiper counts every tracked blob)
+# Shell cross-check: for r in estate/*/ pipelinenews/; do git -C $r ls-files -s | awk ...; done | sort -u | cut -f1 | uniq -d | wc -l  -> 1842
+# tracked paths 72475; distinct blobs 30895; blobs in >1 repository 1842; blobs at >1 path (any repo) 4219; blobs at exactly 1 path 26676
+# Kuiper kuiper-network.json counts (kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 kuiper-network.json:1): bodies 19441, duplicated 2154, unique 17287
+
+## table A: top 20 blobs by number of repositories holding them (ties by copies)
+rank	blob_sha	repos	copies	size_bytes	repo_list	example_path
+1	dfe0770424b2a19faf507a501ebfc23be8f54e7b	9	9	66	elements,galaxies-wafers,kuiper-drawing-engine,kuiper-ship,maths,particle-physics-drawing-engine,substations,testcode,ventus-grid-engine	elements:.gitattributes
+2	d645695673349e3947e8e5ae42332d0ac3164cd7	7	8	11358	data-grid-gb,globalgrid2050,grid-distance-maths,gridatlas,pipelinenews,testcode,ventus-grid-engine	data-grid-gb:LICENSE
+3	e69de29bb2d1d6434b8b29ae775ad8c2e48c5391	6	9	0	code-generator,data-grid-gb,galaxies-wafers,globalgrid2050,pipelinenews,stars	code-generator:.nojekyll
+4	0048802883266c68d5bdb6f5add0074e8b5b729d	5	5	2648	cvaa,data-centres-gb,data-gridatlas,grid-distance-maths,pipelinenews	cvaa:.gitattributes
+5	2a2d7013c4c4973f3cb661dbe4b5bdd4569290fc	4	5	34731	code-generator,globalgrid2050,gridatlas,testcode	code-generator:apps/substation-finder/Ps/202609041945-place-global-search-v9-5.js
+6	159b7ae4029cc0686cd3770abf596919a928e5dd	3	95	669	globalgrid2050,pipelinenews,testcode	globalgrid2050:testcode/202609051152/pipeline/scripts/core/plugin-host.js
+7	ace94d28df6890d206ce22a581ef7f13ed719948	3	95	203	globalgrid2050,pipelinenews,testcode	globalgrid2050:testcode/202609051152/pipeline/styles/mobile.css
+8	ad3284c0025f5b8c7f90255fcbadf3d811f36e37	3	95	6245	globalgrid2050,pipelinenews,testcode	globalgrid2050:testcode/202609051152/pipeline/styles/v7.css
+9	c2ec95aa95a5d57911728963e187b7d0e840c6ce	3	95	707	globalgrid2050,pipelinenews,testcode	globalgrid2050:testcode/202609051152/pipeline/scripts/core/utils.js
+10	60e4b28f039fd6d3a97ff09aba19fdd30d713d99	3	94	979338	data-gridatlas,globalgrid2050,pipelinenews	data-gridatlas:202608291410-repd-routing/projects.json
+11	9054ec9ba841807ad3887960f9e11e57a65065d8	3	91	1916	globalgrid2050,pipelinenews,testcode	globalgrid2050:testcode/202609051152/pipeline/scripts/plugins/capacity-presentation-v9-3.js
+12	dceee01d0f51e85b071aef275250c1fb223eeba7	3	91	2532	globalgrid2050,pipelinenews,testcode	globalgrid2050:testcode/202609051152/pipeline/scripts/core/project-filter-v9-2.js
+13	06d1727722f347f7a4da874c194e56e6b3ae70b6	3	89	1169	globalgrid2050,pipelinenews,testcode	globalgrid2050:testcode/202609051152/pipeline/scripts/plugins/project-export.js
+14	1d081d2d9e1630912b912953cf18f431754f9e19	3	89	2753	globalgrid2050,pipelinenews,testcode	globalgrid2050:testcode/202609051152/pipeline/scripts/plugins/gauges-v9-2.js
+15	3468d88cce2c349b63e14d0f8dd02de850899f08	3	89	15322	globalgrid2050,pipelinenews,testcode	globalgrid2050:testcode/202609051152/pipeline/scripts/data/canonical-projects.js
+16	3838c79ed304d6f7f98e20af5b21b00918f141fa	3	89	402	globalgrid2050,pipelinenews,testcode	globalgrid2050:testcode/202609051152/pipeline/styles/v9-4.css
+17	3f786bc76e8e9e42d067c1312615b767452b2f0f	3	89	2144	globalgrid2050,pipelinenews,testcode	globalgrid2050:testcode/202609051152/pipeline/contracts/project-spine.v7.2.json
+18	8bc7ad18c98e1bd488a2f1b2a270aaba95d33271	3	89	5694	globalgrid2050,pipelinenews,testcode	globalgrid2050:testcode/202609051152/pipeline/scripts/plugins/canonical-project-controls.js
+19	8fe3faf1801b1e581dd7fb40adfad9ebe78d0c30	3	89	3995	globalgrid2050,pipelinenews,testcode	globalgrid2050:testcode/202609051152/pipeline/scripts/core/project-state.js
+20	914fc4b7389fed8d454682ee2e52ab7719da7b95	3	89	1593	globalgrid2050,pipelinenews,testcode	globalgrid2050:testcode/202609051152/pipeline/scripts/plugins/project-filters.js
+
+## table B: top 20 blobs by number of tracked paths (copies), any repository
+rank	blob_sha	repos	copies	size_bytes	repo_list	example_path
+1	7e0e56505e87935a63e82f74b74ed9ac53626ecd	1	202	1080	particle-physics-drawing-engine	particle-physics-drawing-engine:results/msi/20260918T0058Z/20260918T0058Z-exactness.log
+2	21d53685ceb1168a5bf9605a937c61edc68c4b09	1	162	42874	star-maker	star-maker:shots/01da3666a923.jpg
+3	16ca2e806e086abea2579249125b8378b87fbae5	2	117	233609	globalgrid2050,testcode	globalgrid2050:testcode/202609051214/atlas/data/repd-identities/2.json
+4	29e1daa2ff0d0545fa84f489468970371c280ef5	2	117	86811	globalgrid2050,testcode	globalgrid2050:testcode/202609051214/atlas/data/repd-identities/18.json
+5	3508f1ded6068d299aa7563de217970701a2f0c4	2	117	217529	globalgrid2050,testcode	globalgrid2050:testcode/202609051214/atlas/data/repd-identities/1.json
+6	4541bd2a996226288befbcf522e2c8d420ca2476	2	117	212564	globalgrid2050,testcode	globalgrid2050:testcode/202609051214/atlas/data/repd-identities/5.json
+7	4af9811510ac3e6217946882de177f818b60d93b	2	117	76868	globalgrid2050,testcode	globalgrid2050:testcode/202609051214/atlas/data/repd-identities/8.json
+8	51c770ec77f3edc8eb7e994c114f41e9b703a2f0	2	117	140045	globalgrid2050,testcode	globalgrid2050:testcode/202609051214/atlas/data/repd-identities/7.json
+9	5d145b6f472910bfcac9c81ba1163cf239f5c3fa	2	117	102479	globalgrid2050,testcode	globalgrid2050:testcode/202609051214/atlas/data/repd-identities/16.json
+10	69239d13292374ec32add69617303d51ad976fb2	2	117	281903	globalgrid2050,testcode	globalgrid2050:testcode/202609051214/atlas/data/repd-identities/3.json
+11	6a80536cb0a1b49af0493777b1288a8fa3733aba	2	117	95925	globalgrid2050,testcode	globalgrid2050:testcode/202609051214/atlas/data/repd-identities/14.json
+12	7070968ee01e2ddedc47a351b11fa865e970c219	2	117	308	globalgrid2050,testcode	globalgrid2050:testcode/202609051214/atlas/data/repd-identities/0.json
+13	7589ba5a726886088648296588b1a72cee3e3e07	2	117	108252	globalgrid2050,testcode	globalgrid2050:testcode/202609051214/atlas/data/repd-identities/6.json
+14	8d07907b5bfbe70552222a83fbe6f87ec6c2658c	2	117	95772	globalgrid2050,testcode	globalgrid2050:testcode/202609051214/atlas/data/repd-identities/15.json
+15	8fbc62e4f238653777ae900e270a6d979d82775b	2	117	89533	globalgrid2050,testcode	globalgrid2050:testcode/202609051214/atlas/data/repd-identities/17.json
+16	c2bc707c8e99ed507a4585337ccd6fd117eb2d55	2	117	277362	globalgrid2050,testcode	globalgrid2050:testcode/202609051214/atlas/data/repd-identities/4.json
+17	c9cf6463c52ad759caff88fc54415f6a0c9d529e	2	117	93454	globalgrid2050,testcode	globalgrid2050:testcode/202609051214/atlas/data/repd-identities/12.json
+18	cd23f75f1dec872574de17878cfbbe72921e6109	2	117	31642	globalgrid2050,testcode	globalgrid2050:testcode/202609051214/atlas/data/repd-identities/20.json
+19	cf8d57d35a1019acc1bf4096c1ec9bebccf3e2de	2	117	69695	globalgrid2050,testcode	globalgrid2050:testcode/202609051214/atlas/data/repd-identities/19.json
+20	d2593e8b9ba0473f9e887006882d7cb3e27b02bf	2	117	106432	globalgrid2050,testcode	globalgrid2050:testcode/202609051214/atlas/data/repd-identities/9.json
