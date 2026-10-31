@@ -107,7 +107,7 @@ by neither, and the proof digests the README calls the receipt no longer match t
        """Every run of name characters is hashed, whole and with its leading path stripped, and
        compared with the digests. Returns how many tokens matched, never which."""
    ```
-   Imported by six tools; every publishing path exits 2 on one hit.
+   Imported by six tools; publishers exit 2 on one hit.
 
 8. **Identity is the source ordinal, not row content.** data-grid-gb@b57c94d4e964df2de0dea2786781c6d07a967ea1
    derived/verify_phase0_acceptance.py:364-366 (W09 F9)
@@ -126,7 +126,7 @@ by neither, and the proof digests the README calls the receipt no longer match t
        spareCapacity:
            'Spare capacity is the network operator\'s figure, from its model, its running arrangement and its outage plan. A rating minus a demand is not it.',
    ```
-   data-grid-gb's `not_a_connection_assessment` and 06b-dc-engine.js:92 say the same thing in their own words.
+   data-grid-gb's `not_a_connection_assessment` and 06b-dc-engine.js:92 say the same in their own words.
 
 10. **The identity law in one expression.** pipelinenews@6a4c0244b2817c6b8a74661546c8acc35e53a9b7
     archive/202608261547-pipelinenews/newsv6/modules/data-centre-identity.mjs:2 (W10 F3)
@@ -174,8 +174,7 @@ atlas/modules/202609030137-pinned-products.js pin 1c9909d. No file names b91e45b
 a1516f23a2f8f1e2a3b286ed73cd580ce501c179 (2026-08-28, 612 ABSTAIN slots); data-gridatlas f6d3e7a30a63103d196ddb7be77dbafe6fce8809
 (2026-08-29); ventus-grid-engine 3589facf (2026-09-04, the offtaker ladder), 294dcc06 (2026-09-06T02:59+01:00, "why
 MVA and not MW") and the stamp-versus-import drift between 2b0db38 (04:13:21+01:00) and c944701 (04:28:07+01:00);
-gridmachine1 cable engines f4caffa..bcdab92 (2026-09-07). Authorship as counted: ventus-grid-engine 252 bot, 34
-Ventusltd, 2 owner.
+gridmachine1 cable engines f4caffa..bcdab92 (2026-09-07).
 
 **kuiper-belt** (234 commits, complete from 482dc7722ac85e4428c26b28008b25ef0fb39930: kuiper-engine 146, Ventusltd
 75, Claude 13). 4ffcced5 seeds the laws 2026-09-18T20:06:28+01:00. The estate.py storm: fc08c098 00:18:59 ("KNOWN
@@ -185,8 +184,8 @@ million line count; 0755869f the wafer; 4ef5264f permanence; 9dcf8f8d 14:25 the 
 redaction; 1b18e9c1 14:29 check.yml; 024d127e 14:01:54Z the engine, with the first bot commit c7c8fb52 at 14:05:58Z,
 four minutes later and off the :17 schedule (a manual dispatch; Actions logs unavailable, UNVERIFIED). 485851fc
 2026-09-26 adds wafer_topup.py, the last change to tools/. Edition burst 2026-10-04/05: kuiper-law.js identical
-across all 9 dated folders (md5 60c004ee...). No human commit after a287b4cb 2026-10-05; HEAD b243e38d is a routine
-engine run, 2026-10-31T12:43:52Z. No reverts in any repository here.
+across all 9 dated folders. No human commit after a287b4cb 2026-10-05; HEAD b243e38d is a routine engine run,
+2026-10-31T12:43:52Z. No reverts.
 
 ## Gridatlas and datacentre relevance
 
@@ -203,8 +202,8 @@ user picked (never the site-wide envelope: West Burton's 132 kV bus is 5.1 to 9.
 count beside every answer. Capacity stays unknown: `connection_refs` is empty for all 227 pipeline sites and
 `grid_connection_mw` has a value for 2 (correction C1). Preconditions: move the pin, sort the set, keep v3 under
 3,000,000 bytes (65,491 to spare), and join NESO connection-site names to ETYS `site_code` through the same
-fail-closed normaliser rather than by distance. For the Kuiper: all 311 gridatlas clone commits appear in
-wafer.tsv under repo_index 44; gridatlas is the third-largest body (1,063,560,477 keys; globalgrid2050 91.9 per cent).
+fail-closed normaliser rather than by distance. All 311 gridatlas clone commits appear in wafer.tsv under
+repo_index 44.
 
 ## Defects and drift
 
@@ -254,12 +253,12 @@ Candidates for the owner, not claims. CONFIRMED means re-run in this session.
 - **D11 CONFIRMED. L1 as computed is not L1 as stated**: estate.py:105 uses tracked paths, not inbound refs; :86
   caps `git log` at 400; :204 prints only the summed score. SCATTER_RATIO 4.0 (:25, unchanged since fc08c09) left
   14,529 of 19,257 bodies "scattered".
-- **D12 CONFIRMED. Small inconsistencies**: 8,192 versus 8,000-byte sniff; three tracked `tools/__pycache__/*.pyc`;
-  permanence.json's `earlier_measurement` d672e69 is not an object in this clone; estate.py:135 stale comment;
-  publish_proof.py:45 enforces 1,200 s where iterate.py:8-9 says ten minutes; swarm.py's L1/L2/L3 collide with LAWS.md.
+- **D12 CONFIRMED. Small inconsistencies**: 8,192 versus 8,000-byte sniff; three tracked `.pyc` files;
+  permanence.json's d672e69 is not an object in this clone; estate.py:135 stale comment; publish_proof.py:45
+  enforces 1,200 s where iterate.py:8-9 says ten minutes.
 - **D13 CONFIRMED. Stamp-versus-import drift**: globalgrid2050 grid_engine/202609060316-data-centre-connection/index.html:171
   imports the moving github.io engine while :71 stamps 2b0db38; firm-capacity.js changed at c944701 fifteen minutes later.
-- **D14 PLAUSIBLE.** refresh_network_products.yml runs only verify_connection_points.py (:26, :62), so the 22
+- **D14 PLAUSIBLE.** refresh_network_products.yml runs only verify_connection_points.py (:26, :62); the 22
   Phase-0 checks are not enforced in CI. Read, not executed.
 
 **Corrections to the workers**, from re-running their numbers:
@@ -268,11 +267,10 @@ Candidates for the owner, not claims. CONFIRMED means re-run in this session.
   200 MW (Bedford, dc-a2 seed) and 140 MW (Iver, a published appeal decision). `connection_refs` empty for 227 holds.
 - **C2 (W10 F1).** Output blob 9457f6dc... is tracked 4 times in globalgrid2050 (root, v6, v7, v8), not 5. The
   script blob is 4, as stated; 240 / 51 / 67 and the digest are exact.
-- **C3 (W09 F10).** "Exactly 2 lines" is two content lines; `grep -c '^[-+] '` on each bot diff gives 4.
-- **C4 (W12 next command).** Its awk `NF==3 && $2>0` also matches the `C <sha> <date>` header lines (a string
-  compares greater than 0) and prints every commit as DELETION. `git log --numstat --format= -- cosmos/wafer.tsv
-  cosmos/pulse.tsv | awk '$2>0'` prints nothing.
-- **C5 (W09 F13).** `grep -c fault` on 06b is 2, not 0; both are `preventDefault`. The claim stands.
+- **C3 (W09 F10).** "Exactly 2 lines" is two content lines; each bot diff has 4 diff lines.
+- **C4 (W12 next command).** Its awk `NF==3 && $2>0` also matches the `C <sha> <date>` header lines and prints
+  every commit as DELETION. `git log --numstat --format= -- cosmos/wafer.tsv cosmos/pulse.tsv | awk '$2>0'` prints nothing.
+- **C5 (W09 F13).** `grep -c fault` on 06b is 2, not 0; both are `preventDefault`.
 
 **UNVERIFIED**: rebuilding v1/v3 from sources (`sources/*.xlsx` gitignored and absent); the first engine run as a
 manual dispatch; the 2026-05-22 diary date (globalgrid2050 shallow to 2026-09-16); W09's in-memory nearest-point
@@ -280,15 +278,10 @@ prototype (median 5.23 km), in no repository and not re-run.
 
 ## What the new Kuiper edition should carry from this chapter
 
-In this order: build_connection_points.py:24-27; the gridatlas PINS block :4050-4057 beside its comment
-:4012-4017 (a checkable, live turning point); estate.py:157-158 beside LAWS.md:32 (the disagreement stated, not
-resolved); index.html:250 with the 137.5 / 222.49 note and kuiper-law.js:26; engine.yml:30-44 with the cron line;
-wafer_topup.py:22-25 with "118 commits, 13,178 added, 0 deleted"; check_proof.py:47-55;
-verify_phase0_acceptance.py:364-366; firm-capacity.js:200-209; data-centre-identity.mjs:2;
-build_network_model.py:241-249 as the one-line reproducibility lesson; estate.py:63-65 with swarm.py:134 as its
-breach; entangle_hosts.mjs:119 as the one-character-class bug that left two records disagreeing. Carry the D5
-result verbatim, 5 of 22 at HEAD and 22 of 22 at the parent: the clearest demonstration in the estate that the
-commit, not the tree, is the receipt.
+The ten ranked lines above, in that order, each with its key; then build_network_model.py:241-249 as the
+one-line reproducibility lesson, estate.py:63-65 with swarm.py:134 as its breach, and entangle_hosts.mjs:119 as the
+one-character-class bug that left two records disagreeing. Carry the D5 result verbatim, 5 of 22 at HEAD and 22 of
+22 at the parent: the clearest demonstration in the estate that the commit, not the tree, is the receipt.
 
 ## One next command
 
