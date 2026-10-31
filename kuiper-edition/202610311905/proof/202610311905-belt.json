@@ -5,7 +5,7 @@
   "belt/belt.json": "22b6f5bea08f59308903db8bf5d88eb0094cac1a4ff86f98d68f662193c5754e",
   "belt/bodies.json": "70c212dcabfcc543597f2c08e7205a32c96067521c79b3fd228515ddaa84e00d",
   "belt/unresolved.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-  "belt/rules.txt": "962f7a2d128274818c9d7a0802891cbf4da2dc44ab900a823b21e38c85e04d45"
+  "belt/rules.txt": "f03035eb0f64ea6433a01a33e13a63220715978ca20daf4eec1c24e8dc62f0e6"
  },
  "counts": {
   "register_rows": 354,
@@ -15,6 +15,6 @@
   "dim": 0,
   "focus": 174
  },
- "command": "tools/edition_belt.py --register register.tsv --roots <estate>,/home/user --out . --run-id 202610311905 --asof 2026-10-31T19:05:00+00:00",
+ "command": "tools/edition_belt.py --register register.tsv --roots <estate>,<local> --out . --run-id 202610311905 --asof 2026-10-31T19:05:00+00:00",
  "note": "rules.txt and this command line had their machine paths replaced by <estate>/<local> after the run (NL-008 Q5 D2); the rules.txt digest was recomputed over the scrubbed bytes; belt.json and bodies.json are untouched and reproduce byte for byte."
 }
