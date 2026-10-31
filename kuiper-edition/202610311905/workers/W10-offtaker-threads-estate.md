@@ -480,6 +480,6 @@ ventus-grid-engine authorship (`git log --format='%an' | sort | uniq -c`): 252 g
 ## One next command (exactly one, runnable from a clone)
 
 ```
-git -C /home/user/estate/gridatlas grep -n -E '9457f6dc583bbfdcca40926c353738b321fcb09b|a686a2e00253bbf30c9f5262439bc2332524e8d5cb34481529c6a711c73acab4|datacentres\.geojson' -- tools/offtakers atlas/current.json
+git -C <estate>/gridatlas grep -n -E '9457f6dc583bbfdcca40926c353738b321fcb09b|a686a2e00253bbf30c9f5262439bc2332524e8d5cb34481529c6a711c73acab4|datacentres\.geojson' -- tools/offtakers atlas/current.json
 ```
 (Answers whether the live data-centre Grid Engine still touches the identity-less 240-point blob from F1.)

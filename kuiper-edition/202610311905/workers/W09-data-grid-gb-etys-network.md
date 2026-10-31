@@ -3,7 +3,7 @@
 HEADS: data-grid-gb@b57c94d4e964df2de0dea2786781c6d07a967ea1 gridatlas@cacb69a7c4abc3b1a90fd75807ce8ef8cbc46d9e
 (both equal to `proof/inventory.tsv`; data-grid-gb `git rev-list --count HEAD` = 15, gridatlas = 311)
 
-Written 2026-10-31T19:40:00Z by W09 (Opus). Read only: verifiers were run with `python3 -B` so no bytecode was written; `git status --porcelain` was empty afterwards. JSON products were inspected with `python3 -I` scripts kept in `/tmp/w09/`, and never printed whole.
+Written 2026-10-31T19:40:00Z by W09 (Opus). Read only: verifiers were run with `python3 -B` so no bytecode was written; `git status --porcelain` was empty afterwards. JSON products were inspected with `python3 -I` scripts kept in `<scratch>`, and never printed whole.
 
 READ:
 data-grid-gb/README.md (all 146 lines)
@@ -32,7 +32,7 @@ gridatlas/atlas/current.json (595-620)
 gridatlas/atlas/modules/202609030137-pinned-products.js (1-70)
 gridatlas/atlas/cartridges/202609062358-substation-intelligence-v9-63.js (4008-4064, grep)
 
-Counts used below (commands kept in `/tmp/w09/inspect.py`, run as `python3 -I /tmp/w09/inspect.py derived/connection-points.v3.json derived/gb-transmission-network.v1.json`):
+Counts used below (commands kept in `<scratch>`, run as `python3 -I <scratch> derived/connection-points.v3.json derived/gb-transmission-network.v1.json`):
 - v3: 886 connection points, 489 located, 397 unlocated; matched_by = `exact_name_highest_voltage` 428, `exact_name_voltage_compatible` 22, `distinctive_tokens_highest_voltage` 39; 605 with fault current; 319 of those have rows at more than one voltage; 629 with planned changes; owners NGET 322 / SHET 240 / SPT 238 / OFTO 86; `join_context_key` null on 2 points. Highest kV of the unlocated: 132 kV 180, 400 kV 149, 275 kV 47, 220 kV 18, 150 kV 2, 155 kV 1.
 - v1 network: 921 sites, 2,679 nodes, 1,392 circuits, 1,472 transformers, 2,230 planned changes (Addition 1,362 / Change 522 / Removed 346; circuit 1,520 / transformer 710; years 2026 180, 2028 648, 2030 864, 2033 538), 573 reactive units, 11 interconnectors, 7,316 published fault-current rows (peak 6,163 / minimum 1,153; 7,065 with a site code), 8 metrics, 5 winters 2025/26 to 2033/34. Nodes by inferred kV: 132 kV 962, 400 kV 580, 275 kV 488, None 649; `nodes_whose_voltage_is_not_declared_by_their_site` = 726.
 - `python3 -B derived/verify_connection_points.py` gave `44/44 checks passed`. `python3 -B derived/verify_phase0_acceptance.py --summary-only` gave `"passed": 22, "total": 22`, run at 2026-10-31T19:30Z.
@@ -67,7 +67,7 @@ connections, consent and commercial terms decide connection, and no
 published appendix contains them. Both products carry that sentence in
 their own payload, and the verifier fails if it is ever removed.
 ```
-WHY: The limit on what the data means travels inside both JSON products (`network` at pipelines/build_network_model.py:329-333 too), not only in a README, so any consumer that reads the file also reads the refusal. The same check runs on the v3 payload at verify_connection_points.py:79-81. The grep in the brief ("Nothing here says a project can or cannot connect at a node") matches only README.md:52 and build_connection_points.py:321. No verifier contains that sentence. The verifier tests two substrings instead. I tested this in memory (`python3 -I /tmp/w09/disclaimer.py derived/connection-points.v3.json`). With the payload as published, the check is `True`. With the first sentence "Nothing here says..." deleted, it is still `True`. With the field emptied, it is `False`. So README.md:55-56 overstates the guard: removing the headline sentence alone would pass. The code comment at :48-50 says this was a deliberate choice of substance over wording.
+WHY: The limit on what the data means travels inside both JSON products (`network` at pipelines/build_network_model.py:329-333 too), not only in a README, so any consumer that reads the file also reads the refusal. The same check runs on the v3 payload at verify_connection_points.py:79-81. The grep in the brief ("Nothing here says a project can or cannot connect at a node") matches only README.md:52 and build_connection_points.py:321. No verifier contains that sentence. The verifier tests two substrings instead. I tested this in memory (`python3 -I <scratch> derived/connection-points.v3.json`). With the payload as published, the check is `True`. With the first sentence "Nothing here says..." deleted, it is still `True`. With the field emptied, it is `False`. So README.md:55-56 overstates the guard: removing the headline sentence alone would pass. The code comment at :48-50 says this was a deliberate choice of substance over wording.
 PATTERN: payload-embedded disclaimer, checked for its substance
 
 ### F2 The 397 unmapped sites are published without coordinates, not dropped
@@ -389,7 +389,7 @@ QUOTE:
   only; location_precision is "connection_site_name" and geometry is null
   until a later step joins the name to a substation with evidence.
 ```
-WHY: These are the data-centre-side counterparts of F1/F2. The schema rejects bare `mw`/`capacity_mw`/`power_mw`/`load_mw`/`demand_mw` (:69). The NESO lane keeps a connection-site name without inventing a location, which is exactly the key an ETYS `site_code` join would need. In the merged 227-site pipeline today, `grid_connection_mw` is known for 0 of 227 and `connection_refs` is empty for all 227 (`python3 -I /tmp/w09/dcsites.py …/uk_datacentre_pipeline.geojson`; `/tmp/w09/dcrefs.py`).
+WHY: These are the data-centre-side counterparts of F1/F2. The schema rejects bare `mw`/`capacity_mw`/`power_mw`/`load_mw`/`demand_mw` (:69). The NESO lane keeps a connection-site name without inventing a location, which is exactly the key an ETYS `site_code` join would need. In the merged 227-site pipeline today, `grid_connection_mw` is known for 0 of 227 and `connection_refs` is empty for all 227 (`python3 -I <scratch> …/uk_datacentre_pipeline.geojson`; `<scratch>`).
 PATTERN: two quantities, two fields; null for unknown
 
 ### F15 A size budget keeps the product browser-sized
@@ -431,7 +431,7 @@ PATTERN: relocatable inputs, fixed digests
 - **Remediation turning point**: b91e45b231464c24339f5a58b81e6b1eb4c8b47f, 2026-09-03T02:21:01+01:00, "correct transformer identity and fail-closed joins": +1,506 lines, adding the 661-line Phase-0 oracle and three routing documents. Located 502 → 489, Cowley 10 → 5 transformers. v3's bytes have not changed since (sha 8db7171d… at b91e45b and at HEAD).
 - **Bot churn**: a412790 (2026-09-01T16:47:48Z), 1c9909d1138704b29235c27fd769436dda8a0b18 (2026-09-01T17:23:51Z) and 5181de3423e4fe50c77c568b9f3066c61a1d9e41 (2026-09-03T04:02:57Z). Each changes only the tie order under digit 7 (F10). 1c9909d is also the commit that gridatlas pins (F12).
 - **Quiet for eight weeks, then the data-centre wave**: 3ca8cfd179b0468b4d42f49590da5a0fd1dff9b8 (2026-10-29T21:18:39Z, Apache-2.0 licence, "No data or pipeline bytes changed"), 3c6c72e (21:19:02Z, data-centre and conventional pipelines), 69b566d (21:36:03Z, cross-operator merge guard, 227-site baseline), b57c94d4e964df2de0dea2786781c6d07a967ea1 (21:53:51Z, 4 MiB CSV field bound). None of these touches the ETYS products.
-- Located count over time (computed with `git show <sha>:derived/connection-points.vN.json | python3 -I /tmp/w09/hist.py`): cf68690 v1 574, dbfeecb v2 574, 7656dbf v3 502, 1c9909d v3 502, b91e45b v3 489. It only falls: fewer coordinates, each better supported.
+- Located count over time (computed with `git show <sha>:derived/connection-points.vN.json | python3 -I <scratch>`): cf68690 v1 574, dbfeecb v2 574, 7656dbf v3 502, 1c9909d v3 502, b91e45b v3 489. It only falls: fewer coordinates, each better supported.
 
 ## Gridatlas and datacentre relevance
 
@@ -455,7 +455,7 @@ The full model (`gb-transmission-network.v1.json`, 10 MB) is too heavy for a tap
 4. Prefer joining NESO register connection-site names (dc-a1, F14) to ETYS through the same fail-closed normaliser and `join_context_key`/`site_code` (F4) rather than through distance. A name join to the declared connection site is evidence. Proximity is not.
 
 ## Candidates (unkeyed; clearly marked)
-- CANDIDATE: a prototype I computed in memory, not in any repo, so it carries no key. For the 225 mappable pipeline sites, the nearest *located* v3 connection point is a median 5.23 km away (p90 17.22 km, max 89.13 km). 217 of those nearest points carry by-voltage fault data and 177 carry planned changes. Their highest voltage is 400 kV for 157, 275 kV for 56 and 132 kV for 12. Command: `python3 -I /tmp/w09/dcnear.py derived/connection-points.v3.json datacentres/lanes/dc-a7-merge/out/uk_datacentre_pipeline.geojson` (haversine, R = 6371.0088 km). The max of 89 km probably reflects sites outside GB coverage (for example Northern Ireland). Not checked.
+- CANDIDATE: a prototype I computed in memory, not in any repo, so it carries no key. For the 225 mappable pipeline sites, the nearest *located* v3 connection point is a median 5.23 km away (p90 17.22 km, max 89.13 km). 217 of those nearest points carry by-voltage fault data and 177 carry planned changes. Their highest voltage is 400 kV for 157, 275 kV for 56 and 132 kV for 12. Command: `python3 -I <scratch> derived/connection-points.v3.json datacentres/lanes/dc-a7-merge/out/uk_datacentre_pipeline.geojson` (haversine, R = 6371.0088 km). The max of 89 km probably reflects sites outside GB coverage (for example Northern Ireland). Not checked.
 - CANDIDATE: the verifier does not bound `nodes_whose_voltage_is_not_declared_by_their_site` (726, 27% of nodes). A threshold check would catch a convention change between ETYS editions.
 - CANDIDATE: `verify_phase0_acceptance.py` is not run by `refresh_network_products.yml` (the workflow runs only `verify_connection_points.py`), so the 22 Phase-0 checks are not enforced in CI.
 - CANDIDATE: rebuilding v1/v3 from sources is UNVERIFIED in this clone: `sources/*.xlsx` and `sources/grid_substations.geojson` are gitignored and absent.
@@ -472,6 +472,6 @@ The full model (`gb-transmission-network.v1.json`, 10 MB) is too heavy for a tap
 
 ## One next command
 ```bash
-git -C /home/user/estate/data-grid-gb diff --stat 1c9909d1138704b29235c27fd769436dda8a0b18 HEAD -- derived/
+git -C <estate>/data-grid-gb diff --stat 1c9909d1138704b29235c27fd769436dda8a0b18 HEAD -- derived/
 ```
 (Shows the exact product delta the live Atlas is not yet reading: the v3 correction plus the 2-line tie-order churn in the network file.)

@@ -1,5 +1,5 @@
 # W20 duplicate bodies across all 26 clones, 2026-10-31 (UTC).
-# Command: python3 -I /tmp/w20/dups2.py  (per clone: git -C <clone> ls-tree -r -z HEAD; pipelinenews pinned to 67aa2eb05993c630887b41c3b720ba42a86669a4; submodules skipped; node_modules/vendor NOT excluded, as the Kuiper counts every tracked blob)
+# Command: python3 -I <scratch>  (per clone: git -C <clone> ls-tree -r -z HEAD; pipelinenews pinned to 67aa2eb05993c630887b41c3b720ba42a86669a4; submodules skipped; node_modules/vendor NOT excluded, as the Kuiper counts every tracked blob)
 # Shell cross-check: for r in estate/*/ pipelinenews/; do git -C $r ls-files -s | awk ...; done | sort -u | cut -f1 | uniq -d | wc -l  -> 1842
 # tracked paths 72475; distinct blobs 30895; blobs in >1 repository 1842; blobs at >1 path (any repo) 4219; blobs at exactly 1 path 26676
 # Kuiper kuiper-network.json counts (kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 kuiper-network.json:1): bodies 19441, duplicated 2154, unique 17287

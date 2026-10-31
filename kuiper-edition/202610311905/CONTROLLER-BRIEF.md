@@ -6,8 +6,8 @@ worker files under workers/. Your job is verification first, synthesis second. C
 ## 1. Verify every key
 Write a small script (python3 -I or bash) in /tmp that parses every `KEY:` line of your four worker files
 (`<repo>@<sha> <path>:<line>[-<line>]`; some history workers also write `HEAD-KEY:`), and for each:
-- confirms the sha is reachable in the clone (`git -C /home/user/estate/<repo> cat-file -e <sha>^{commit}`;
-  pipelinenews is at /home/user/pipelinenews);
+- confirms the sha is reachable in the clone (`git -C <estate>/<repo> cat-file -e <sha>^{commit}`;
+  pipelinenews is at <pipelinenews>);
 - extracts the file at that commit (`git -C <clone> show <sha>:<path>`) and checks that the first
   non-blank line of the worker's QUOTE block appears within the cited line range; if it appears within
   ±3 lines instead, mark SHIFTED and record the actual line; otherwise UNVERIFIED.

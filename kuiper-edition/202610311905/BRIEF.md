@@ -28,7 +28,7 @@ Focus: **gridatlas** and **datacentres**.
 
 ## Where the estate is
 
-Clones (read only) under `/home/user/estate/<repo>` and `/home/user/pipelinenews`. HEADs, commit
+Clones (read only) under `<estate>/<repo>` and `<pipelinenews>`. HEADs, commit
 counts, tracked files and text line counts: `proof/inventory.tsv` in this folder. Clone depth is 300
 commits for most repos (pipelinenews is full history, 521 commits). GitHub API is NOT available to
 workers; the local clone is the source.

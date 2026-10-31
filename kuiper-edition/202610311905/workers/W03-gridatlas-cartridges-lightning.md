@@ -428,5 +428,5 @@ PATTERN: EXACT_DELTA_PROOF
 ## One next command
 
 ```bash
-cd /home/user/estate/gridatlas && node tools/proofs/loader-equivalence.proof.mjs
+cd <estate>/gridatlas && node tools/proofs/loader-equivalence.proof.mjs
 ```

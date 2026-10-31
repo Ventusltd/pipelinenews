@@ -52,7 +52,7 @@ joined with the line number, so a body is a line, and every body opens.
 | worker findings written | 20 files, 10,233 lines | `workers/` |
 | keys re-resolved by controllers | 495 of 495: C1 113, C2 103, C3 98, C4 88, C5 93; none shifted, none unverified | `chapters/` |
 | register rows | 354, all CONFIRMED | `register.tsv` |
-| bodies on the belt | 346 (eight lines were cited by two chapters and are one body each); 174 on gridatlas, data-grid-gb or data-centres-gb; 0 unresolved, 0 dim | `belt/rules.txt`, `proof/202610311905-belt.json` |
+| bodies on the belt | 346 (eight register rows share a key with another row: the same blob and line cited twice, and are one body each); 174 on gridatlas, data-grid-gb or data-centres-gb; 0 unresolved, 0 dim | `belt/rules.txt`, `proof/202610311905-belt.json` |
 
 ## The twelve lines
 

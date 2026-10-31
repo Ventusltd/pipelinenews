@@ -675,7 +675,7 @@ acd2f242667dd60868476490209c5b9ce4aeb8f9 2026-09-16T04:31:08+01:00 Ventusltd tes
 ## Candidates (unkeyed; clearly marked)
 
 - CANDIDATE: `scripts/releases.py promote` validates and appends a promotion record with `--reason` in
-  Ventusltd/globalgrid2050-homepage. UNVERIFIED: that repo is not in /home/user/estate.
+  Ventusltd/globalgrid2050-homepage. UNVERIFIED: that repo is not in <estate>.
 - CANDIDATE: inverting deploy-pages.yml to `paths-ignore` would have prevented all seven recorded non-deploys. The
   file's own comment proposes it, but whether it changes runner cost is untested.
 - CANDIDATE: the tracked `homepage-shell/` copies, frozen since 2026-10-04, could be removed from tracking or
@@ -702,5 +702,5 @@ acd2f242667dd60868476490209c5b9ce4aeb8f9 2026-09-16T04:31:08+01:00 Ventusltd tes
 ## One next command (exactly one, runnable from a clone)
 
 ```bash
-git -C /home/user/estate/globalgrid2050 log acd2f242..HEAD --numstat --format='C %H' | awk '/^C /{next} NF==3 && $1!="-" {ext=$3; sub(/.*\./,"",ext); if (ext ~ /^(js|mjs|py|html|css|yml|ps1|sh)$/) code+=$1; else other+=$1} END {print "authored code lines added:", code, " data/prose lines added:", other}'
+git -C <estate>/globalgrid2050 log acd2f242..HEAD --numstat --format='C %H' | awk '/^C /{next} NF==3 && $1!="-" {ext=$3; sub(/.*\./,"",ext); if (ext ~ /^(js|mjs|py|html|css|yml|ps1|sh)$/) code+=$1; else other+=$1} END {print "authored code lines added:", code, " data/prose lines added:", other}'
 ```

@@ -8,7 +8,7 @@ ventus-grid-engine, gridmachine1, data-gridatlas and globalgrid2050 HEADs in pro
 had moved to 0f698cc32e0e6f41f793ef0a97c314083d98f759; W10's commit 6a4c0244b2817c6b8a74661546c8acc35e53a9b7 is
 reachable and `git diff --quiet 6a4c0244 HEAD -- <the four keyed paths>` is silent, so W10's keys stand.
 
-**Keys verified 98 of 98**: W09 35 of 35, W10 19 of 19, W11 28 of 28, W12 16 of 16. `/tmp/c3/verify_keys.py` parses
+**Keys verified 98 of 98**: W09 35 of 35, W10 19 of 19, W11 28 of 28, W12 16 of 16. `<scratch>` parses
 every `KEY:` line (including `LAW SIDE, KEY:` and `COUNTER-EXAMPLE, KEY:`), checks the sha with `git cat-file -e`,
 extracts the file with `git show <sha>:<path>` and requires the first non-blank quoted line inside the cited range.
 Nothing SHIFTED or UNVERIFIED. `C3-register.tsv` has one row per finding, 68 rows, all CONFIRMED. Every numeric
@@ -286,7 +286,7 @@ one-character-class bug that left two records disagreeing. Carry the D5 result v
 ## One next command
 
 ```bash
-git -C /home/user/estate/gridatlas grep -n "ref: '1c9909d1138704b29235c27fd769436dda8a0b18'" -- atlas/cartridges atlas/modules && git -C /home/user/estate/data-grid-gb diff --stat 1c9909d1138704b29235c27fd769436dda8a0b18 b91e45b231464c24339f5a58b81e6b1eb4c8b47f -- derived/connection-points.v3.json
+git -C <estate>/gridatlas grep -n "ref: '1c9909d1138704b29235c27fd769436dda8a0b18'" -- atlas/cartridges atlas/modules && git -C <estate>/data-grid-gb diff --stat 1c9909d1138704b29235c27fd769436dda8a0b18 b91e45b231464c24339f5a58b81e6b1eb4c8b47f -- derived/connection-points.v3.json
 ```
 
 It lists every cartridge generation still pinned to the pre-correction commit, then the one-file delta the pin

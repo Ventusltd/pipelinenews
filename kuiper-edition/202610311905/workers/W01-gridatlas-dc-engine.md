@@ -448,4 +448,4 @@ announced 12, in planning 8 (6 mappable), consented 4, unknown 1.
 8. F18 as a warning page: the stale "203 sites" note beside "227 / 225" in the same live pointer.
 
 ## One next command (exactly one, runnable from a clone)
-`cd /home/user/estate/gridatlas && OFFTAKERS_MODULE=atlas/modules/202610292044-uk-offtakers-overlay.js LIGHTNING_MODULE=atlas/modules/202610291043-uk-lightning-overlay.js node --test --test-name-pattern='^DC' tools/ci/offtakers/overlay-offtakers.test.mjs`
+`cd <estate>/gridatlas && OFFTAKERS_MODULE=atlas/modules/202610292044-uk-offtakers-overlay.js LIGHTNING_MODULE=atlas/modules/202610291043-uk-lightning-overlay.js node --test --test-name-pattern='^DC' tools/ci/offtakers/overlay-offtakers.test.mjs`

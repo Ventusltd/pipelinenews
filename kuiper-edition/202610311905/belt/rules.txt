@@ -10,4 +10,4 @@ stations [x, y, key, copies]
 edges none (unmeasured)
 n 346
 git git version 2.43.0
-command tools/edition_belt.py --register register.tsv --roots /home/user/estate,/home/user --out . --run-id 202610311905 --asof 2026-10-31T19:05:00+00:00
+command tools/edition_belt.py --register register.tsv --roots <estate>,/home/user --out . --run-id 202610311905 --asof 2026-10-31T19:05:00+00:00

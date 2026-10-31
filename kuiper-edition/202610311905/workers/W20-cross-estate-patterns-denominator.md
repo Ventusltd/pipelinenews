@@ -1,13 +1,13 @@
 # W20 cross-estate-patterns-denominator
-Written by worker W20 (Opus), between 2026-10-31T19:05:00Z and 2026-10-31T19:23:05Z. Read only: nothing in any clone was changed. Scratch scripts are in /tmp/w20 (denom.py, dups2.py, distinct.py, idioms.py, idioms_pn.py), outside every clone.
+Written by worker W20 (Opus), between 2026-10-31T19:05:00Z and 2026-10-31T19:23:05Z. Read only: nothing in any clone was changed. Scratch scripts are in <scratch> (denom.py, dups2.py, distinct.py, idioms.py, idioms_pn.py), outside every clone.
 
 HEADS: code-generator@857ea81244848b1da8fe21fffaed74cab568a3b4 cvaa@877bf380202b6a922932afc0bdcfd7f42a183086 data-centres-gb@f9f47286fae63872375c558fc89ff4b1793914e4 data-grid-gb@b57c94d4e964df2de0dea2786781c6d07a967ea1 data-gridatlas@8bf88da9e210ce9f61dc0398869d3369f3fa2445 elements@f7a92fb085c38dcbbd5cb469a66cd5ca61fb95bf energy-transition-simulator@a6b5ae63cc0eeb4d619f154c7e116616c997af77 galaxies-wafers@fff6fc6ad4f93a15fe8f6456942a1b44e5547105 globalgrid2050@c66759f0d7ac3489df9158da6eaa1330a37c069f grid-distance-maths@8e91b07d8312acca5bcaef43e839f06a3b1d642a gridatlas@cacb69a7c4abc3b1a90fd75807ce8ef8cbc46d9e gridmachine1@c6cbf9686eea1aa148b2e4616b7d603e6a93b450 kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 kuiper-drawing-engine@ee69a07a7ebf71f2f20c052f392991f115fdbee0 kuiper-ship@668ff0897022d5c14635198939673de3d9a66ce9 maths@b898a5ee39aa81a45197c5f17ba1195727aa538e particle-physics-drawing-engine@eb52ad7ebab151d49fb7cfde56523f5962129530 star-maker@f65c2f381d91eeb1eba75a97ae6765c24e32197d stars@cbca125bb5eeb7d0ffb02f4546d60eb5d47dadc9 substations@7d3f8233d3f01ee5f069727f21e387d90a280c26 testcode@d09c185c8dacbc5c73afb2b0d0d8dad40745a544 time-stone@a1703b1bb0170ed0f0c162126315049fa157d3bf trillion-loop@35fdea2f2744df338cfa7e28200e18008b307e73 ventus-grid-engine@96a800eb01825748936b5a193ce396a960f9302f worlds-@b5f15716486c3ff509c56914fbee06f2e6aec2d8 pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4
 
 Note on pipelinenews: its HEAD moved during this run (the harness committed the edition workspace: de3e68e42e01d3f37e26fb08b9bc76d36e299b61 at 2026-10-31T19:11:10+00:00, then 6a4c0244... and 9b256fdb... at 19:14). Every pipelinenews key below is pinned to 67aa2eb05993c630887b41c3b720ba42a86669a4 (the HEAD in proof/inventory.tsv). `git diff --stat 67aa2eb05993c630887b41c3b720ba42a86669a4 HEAD -- . ':!kuiper-edition'` printed nothing, so every quoted line is the same at the moving HEAD. A controller doing `rev-parse HEAD == sha` on pipelinenews will see a mismatch; check with `git show 67aa2eb05993c630887b41c3b720ba42a86669a4:<path> | sed -n '<line>p'` instead. All other HEADs equal proof/inventory.tsv (column inv_head_match = True in proof/denominator.tsv).
 
 READ:
-/home/user/pipelinenews/kuiper-edition/202610311905/BRIEF.md
-/home/user/pipelinenews/kuiper-edition/202610311905/proof/inventory.tsv
+<edition>/BRIEF.md
+<edition>/proof/inventory.tsv
 every clone: git ls-files --eol, git ls-tree -r HEAD, git grep -I -c (counts only), git shortlog -sn, git log --format
 kuiper-belt: kuiper-network.json (key "counts" only), tools/estate.py:1-230, tools/count_lines.py:1-60, README.md:28-40, EVIDENCE.md:94-97, CHAINS.md:70, learn-the-kuiper/README.md:42-46, learn-the-kuiper/202610050144/NOTICE.md:6-11
 gridatlas: AGENTS.md:1-30, atlas/current.json:1-48, docs/RELEASE.md:36-42, tools/release/acceptance.mjs:8-30, tools/lightning/build.mjs:55-62, tools/ci/lightning/overlay-engine.test.mjs:1629-1632
@@ -23,7 +23,7 @@ elements: .gitattributes:1-2
 Command (printed exactly as run; the script is a read-only walk of `git ls-files --eol -z` per clone):
 
 ```
-python3 -I /tmp/w20/denom.py > /tmp/w20/denom.tsv
+python3 -I <scratch> > <scratch>
 ```
 
 Rules: tracked paths only; paths with a `node_modules/` or `vendor/` segment, and `kuiper-edition/`, excluded (121 paths in all); binary = git's own `i/-text` flag; text lines = newline count of the file (wc -l semantics); classes by extension: code = js mjs py html css ts sh sql; docs = md txt; data = json tsv csv geojson parquet; other_text = every other text file. Full table with all columns and the inventory comparison: proof/denominator.tsv.
@@ -63,12 +63,12 @@ Comparison with proof/inventory.tsv:
 - tracked_files: equal for all 26 clones (72,475 in total). HEADs: equal for all 26.
 - text lines: equal for code-generator, gridmachine1, trillion-loop. The small positive deltas are explained, with a key, for two clones: inventory counts only an extension allowlist. cvaa delta 422 = jsonl 308 + lock 42 + .gitattributes 72 (per-extension `git ls-files -z '*.<ext>' | xargs -0 cat | wc -l`); data-centres-gb delta 151 = .gitattributes 72 + overpassql 58 + LICENSE 21. In data-centres-gb, inventory's 5,135 = py 3,327 + yml 825 + json 760 + md 115 + html 103 + txt 5 exactly, so yml is on the allowlist.
 - stars, delta -405,740: inventory counts the binary-flagged `LINES.md` (`git ls-files --eol` prints `i/-text w/-text attr/ LINES.md`); `git ls-files -z | xargs -0 wc -l` gives 510,276. This edition excludes binary files from line totals, as kuiper-belt tools/count_lines.py does (F12).
-- globalgrid2050, delta +18,848,313: UNVERIFIED. Inventory's 18,385,284 could not be rebuilt from any allowlist I tried. Per extension (python3 -I /tmp/w20/perext.py /home/user/estate/globalgrid2050): json 17,146,113; csv 13,190,292; js 2,924,662; .ght 2,183,288; .gfl 2,032,356; txt 1,421,545; mjs 921,640; tsv 640,305; geojson 552,576. One possibility is that inventory dropped csv or applied a size cap. That is unproven.
-- Distinct-blob denominator, comparable to kuiper-belt tools/count_lines.py "head" (NUL in the first 8,000 bytes = binary; +1 when there is no final newline): `python3 -I /tmp/w20/distinct.py` printed `paths 72475 distinct_blobs 30895 text_blobs 28322 binary_blobs 2573 distinct_text_lines 25071989`. The Kuiper's own figure, measured 2026-09-19, is 25,335,587 (F12). The two are within 1.0 %, from different estate compositions six weeks apart.
+- globalgrid2050, delta +18,848,313: UNVERIFIED. Inventory's 18,385,284 could not be rebuilt from any allowlist I tried. Per extension (python3 -I <scratch> <estate>/globalgrid2050): json 17,146,113; csv 13,190,292; js 2,924,662; .ght 2,183,288; .gfl 2,032,356; txt 1,421,545; mjs 921,640; tsv 640,305; geojson 552,576. One possibility is that inventory dropped csv or applied a size cap. That is unproven.
+- Distinct-blob denominator, comparable to kuiper-belt tools/count_lines.py "head" (NUL in the first 8,000 bytes = binary; +1 when there is no final newline): `python3 -I <scratch>` printed `paths 72475 distinct_blobs 30895 text_blobs 28322 binary_blobs 2573 distinct_text_lines 25071989`. The Kuiper's own figure, measured 2026-09-19, is 25,335,587 (F12). The two are within 1.0 %, from different estate compositions six weeks apart.
 
 ## Duplicate bodies (task 2)
 
-Command: `python3 -I /tmp/w20/dups2.py` (per clone `git -C <clone> ls-tree -r -z HEAD`; pipelinenews at 67aa2eb; submodules skipped; node_modules and vendor kept, because the Kuiper counts every tracked blob). Shell cross-check, the brief's own form: `for r in estate/*/ pipelinenews/; do git -C $r ls-files -s | awk -v n=$(basename $r) '$1!="160000"{print $2"\t"n}'; done | sort -u | cut -f1 | uniq -d | wc -l` printed 1842. Table: proof/duplicates.tsv.
+Command: `python3 -I <scratch>` (per clone `git -C <clone> ls-tree -r -z HEAD`; pipelinenews at 67aa2eb; submodules skipped; node_modules and vendor kept, because the Kuiper counts every tracked blob). Shell cross-check, the brief's own form: `for r in estate/*/ pipelinenews/; do git -C $r ls-files -s | awk -v n=$(basename $r) '$1!="160000"{print $2"\t"n}'; done | sort -u | cut -f1 | uniq -d | wc -l` printed 1842. Table: proof/duplicates.tsv.
 
 | measure | this run (26 clones) | kuiper-network.json counts |
 |---|---|---|
@@ -327,7 +327,7 @@ PATTERN: scaffolding dominates cross-repo duplication
 | CERN-OHL-S | 25 / 156 | 2 | kuiper-belt 17, globalgrid2050 8 | F14 |
 | ODbL | 18,272 / 20,300 | 11 | globalgrid2050 17967, pipelinenews 165 | F14 |
 
-Commands: `python3 -I /tmp/w20/idioms.py` (one `git -C <clone> grep -I -c <flags> <pattern> -- . ':(exclude,glob)**/node_modules/**' ':(exclude,glob)**/vendor/**'` per idiom per clone; the file count is the number of output rows and the line count is the sum). pipelinenews was rerun with `':(exclude)kuiper-edition'` (/tmp/w20/idioms_pn.py), because the first pass counted the edition's own BRIEF (for example, UNVERIFIED 17 files became 13). Caveat: refuse (392,166 lines) and candidate (479,743 lines) are inflated by data fields in JSON and CSV. File counts are the fairer measure for those two.
+Commands: `python3 -I <scratch>` (one `git -C <clone> grep -I -c <flags> <pattern> -- . ':(exclude,glob)**/node_modules/**' ':(exclude,glob)**/vendor/**'` per idiom per clone; the file count is the number of output rows and the line count is the sum). pipelinenews was rerun with `':(exclude)kuiper-edition'` (<scratch>), because the first pass counted the edition's own BRIEF (for example, UNVERIFIED 17 files became 13). Caveat: refuse (392,166 lines) and candidate (479,743 lines) are inflated by data fields in JSON and CSV. File counts are the fairer measure for those two.
 
 LICENSE / NOTICE files per repo (basename `LICEN[CS]E*|COPYING*` and `NOTICE*`, node_modules/vendor excluded): code-generator 0/0, cvaa 0/0, data-centres-gb 1/0, data-grid-gb 1/3, data-gridatlas 0/0, elements 0/0, energy-transition-simulator 0/0, galaxies-wafers 2/0, globalgrid2050 10/2, grid-distance-maths 1/1, gridatlas 2/1, gridmachine1 0/0, kuiper-belt 4/9, kuiper-drawing-engine 1/0, kuiper-ship 0/0, maths 0/0, particle-physics-drawing-engine 1/1, star-maker 0/0, stars 0/0, substations 0/0, testcode 2/1, time-stone 1/0, trillion-loop 0/0, ventus-grid-engine 1/1, worlds- 0/0, pipelinenews 1/1. Total 28 LICENSE and 20 NOTICE files. 13 of 26 repos have no LICENSE file at HEAD, and maths, which states the placement law, is one of them.
 
@@ -356,7 +356,7 @@ Authors (`git -C <clone> shortlog -sn HEAD` for every clone, pipelinenews at 67a
 | one commit each | 10 | cvaa-fleet-adopter, cvaa-full-history-repair, data-gridatlas-consumer-watchdog-repair-bot, data-gridatlas-stage-bot, Ventus Board, pipelinenews-atlas-link-release-bot, pipelinenews-ledger-count-repair-bot, pipelinenews-pages-gate-repair-bot, pipelinenews-pointer-release-boundary-bot, pipelinenews-runtime-receiver-gate-bot |
 | **total** | **3,324** | 26 |
 
-Bot share: identities with "bot" or "[bot]" in the name account for 647 commits (19.5 %). Adding named automation identities (time-stone, particles-nightly, kuiper-engine, cvaa-fleet-adopter, cvaa-full-history-repair) gives 1,156 commits (34.8 %). Claude-named identities have 93 (2.8 %). Fully automated clones: stars 300/300 (github-actions[bot]), time-stone 206/210, ventus-grid-engine 252/288 (87.5 %). kuiper-belt is 62.4 % kuiper-engine. The focus repos are almost entirely human or agent-under-owner: gridatlas 0 bot commits of 311 (41 "Claude"), data-grid-gb 3 of 15, data-centres-gb 0 of 13. Per-repo table: /tmp/w20/botshare.tsv (scratch, not published).
+Bot share: identities with "bot" or "[bot]" in the name account for 647 commits (19.5 %). Adding named automation identities (time-stone, particles-nightly, kuiper-engine, cvaa-fleet-adopter, cvaa-full-history-repair) gives 1,156 commits (34.8 %). Claude-named identities have 93 (2.8 %). Fully automated clones: stars 300/300 (github-actions[bot]), time-stone 206/210, ventus-grid-engine 252/288 (87.5 %). kuiper-belt is 62.4 % kuiper-engine. The focus repos are almost entirely human or agent-under-owner: gridatlas 0 bot commits of 311 (41 "Claude"), data-grid-gb 3 of 15, data-centres-gb 0 of 13. Per-repo table: <scratch> (scratch, not published).
 
 Cadence windows (first to last commit in each clone, %cI): pipelinenews 2026-08-24T11:39:30+01:00 to 2026-09-26T14:27:23+01:00 at 67aa2eb (521 commits, full history); gridatlas 2026-09-01T14:43:56+01:00 to 2026-10-29T23:53:53+00:00 (311 in clone); data-grid-gb 2026-09-01T17:35:14+01:00 to 2026-10-29T21:53:51+00:00 (15); data-centres-gb 2026-07-29T12:41:30+01:00 to 2026-09-01T00:25:42+01:00 (13). data-centres-gb is the oldest first commit in the estate. Bursts: galaxies-wafers 161 commits in one day (2026-09-15T17:13:57+01:00 to 23:24:46+01:00); energy-transition-simulator 113 in about 26 h; star-maker 81 overnight.
 
@@ -393,6 +393,6 @@ Turning points:
 ## One next command (exactly one, runnable from a clone)
 
 ```
-mkdir -p /tmp/w20-cl && cd /tmp/w20-cl && python3 -I /home/user/estate/kuiper-belt/tools/count_lines.py --roots /home/user/estate --depth head --out /tmp/w20-cl/data
+mkdir -p <scratch> && cd <scratch> && python3 -I <estate>/kuiper-belt/tools/count_lines.py --roots <estate> --depth head --out <scratch>
 ```
-(This reruns the Kuiper's own counter against today's estate so that 25,071,989 can be compared with its own method. It is run from /tmp/w20-cl because count_lines.py writes `proof/<run>-counts.json` relative to the current directory (tools/count_lines.py:210, :265). Run from inside the clone, it would write into kuiper-belt. pipelinenews sits outside /home/user/estate and would need adding as a root.)
+(This reruns the Kuiper's own counter against today's estate so that 25,071,989 can be compared with its own method. It is run from <scratch> because count_lines.py writes `proof/<run>-counts.json` relative to the current directory (tools/count_lines.py:210, :265). Run from inside the clone, it would write into kuiper-belt. pipelinenews sits outside <estate> and would need adding as a root.)

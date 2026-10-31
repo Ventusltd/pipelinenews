@@ -352,6 +352,6 @@ What a Kuiper "edition" is, as practised in kuiper-belt@b243e38 and as the harne
 ## One next command (exactly one, runnable from a clone)
 
 ```
-cd /home/user/estate/kuiper-belt && git diff --stat 8e24d1f3142c805e13695b9c48ce3e2979454cf3 b243e38d4964557458fcaf636fd8d49c799f91a6 -- learn-the-kuiper see-through index.html
+cd <estate>/kuiper-belt && git diff --stat 8e24d1f3142c805e13695b9c48ce3e2979454cf3 b243e38d4964557458fcaf636fd8d49c799f91a6 -- learn-the-kuiper see-through index.html
 ```
 (Confirms nothing in the edition folders or the root law page changed between the last edition commit and HEAD. Run by W13 at 2026-10-31: empty output, i.e. no change; listed so the controller can re-run it.)

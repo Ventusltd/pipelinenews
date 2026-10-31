@@ -175,6 +175,6 @@ On the belt, in this order: dcmerge.py:236-239; fetch_neso.py:409-411; compile-a
 ## One next command
 
 ```
-jq -r '.features[]|select(.properties.name=="SDC M40 Campus (Wapseys Wood)")|[.properties.id,(.geometry!=null|tostring),.properties.operator,(.properties.sources|map(.id)|join(";"))]|@tsv' /home/user/estate/data-grid-gb/datacentres/lanes/dc-a7-merge/out/uk_datacentre_pipeline.geojson
+jq -r '.features[]|select(.properties.name=="SDC M40 Campus (Wapseys Wood)")|[.properties.id,(.geometry!=null|tostring),.properties.operator,(.properties.sources|map(.id)|join(";"))]|@tsv' <estate>/data-grid-gb/datacentres/lanes/dc-a7-merge/out/uk_datacentre_pipeline.geojson
 ```
 (prints the two Wapseys Wood records with their operators and sources; one line after a repair, two today)

@@ -32,7 +32,7 @@ local-arrival-grid.mjs (lines 1-60 + grep), webkit-arrival-probe.mjs, webkit-reg
 git log / git show for db5338b, 2e5879f, 98dd908, 5c41ec4, ccf675d, bb9d84f, 0eab5c2, c5b474e, c9f7a82, f3ba7a3, 64268fd, cf429bc
 
 Written 2026-10-31T19:14:50Z by W05. Read only: no checkout, fetch or edit in any clone. Executions were made from
-/tmp/w05 (outside the clones): pure-function imports of `osgb36_en_to_wgs84` (reconcile tool) and `normalise`
+<scratch> (outside the clones): pure-function imports of `osgb36_en_to_wgs84` (reconcile tool) and `normalise`
 (NESO tool) via `importlib` with `python3 -I`, plus jq counts. Path note: the task named `data/interconnector-endpoints.json`
 and siblings; at this HEAD they live under `atlas/data/` (`git ls-files | grep -F interconnector-endpoints` returns
 `atlas/data/interconnector-endpoints.json`). Every quote below was pulled from the clone by line number by a script, not retyped.
@@ -670,4 +670,4 @@ PATTERN: harvest real inputs from the live consumer; test across engine by viewp
 
 ## One next command
 
-cd /home/user/estate/gridatlas && python3 -I -c "import re;N=re.compile(r'(offshore\s+wind\s*farm|offshore\s+windfarm|wind\s*farm|offshore|project|phase|extension|demonstrator|pilot|park|ltd|limited|the)');print([N.sub(' ',w) for w in ['howpark','southern','parkhill']])"
+cd <estate>/gridatlas && python3 -I -c "import re;N=re.compile(r'(offshore\s+wind\s*farm|offshore\s+windfarm|wind\s*farm|offshore|project|phase|extension|demonstrator|pilot|park|ltd|limited|the)');print([N.sub(' ',w) for w in ['howpark','southern','parkhill']])"

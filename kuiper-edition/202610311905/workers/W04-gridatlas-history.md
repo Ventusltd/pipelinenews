@@ -1,9 +1,9 @@
 # W04 gridatlas-history
 HEADS: gridatlas@cacb69a7c4abc3b1a90fd75807ce8ef8cbc46d9e
 READ:
-/home/user/pipelinenews/kuiper-edition/202610311905/BRIEF.md
-/home/user/pipelinenews/kuiper-edition/202610311905/proof/inventory.tsv (gridatlas row only)
-/home/user/estate/gridatlas/.git/shallow
+<edition>/BRIEF.md
+<edition>/proof/inventory.tsv (gridatlas row only)
+<estate>/gridatlas/.git/shallow
 git log / git show / git shortlog over all 311 commits reachable from HEAD (read only; no checkout, no fetch)
 blobs read at historic commits: tools/proofs/run-current.mjs@270c999, atlas/current.json@8e017d5, tools/ci/202609012200-local-ci.mjs@9118a2d,
 atlas/parts/202609012045-sld-sandbox-body.js@93c13cf, atlas/modules/202609020015-injection-response.js@60d1938,
@@ -14,7 +14,7 @@ tools/proofs/offtakers-cartridge.mjs@0d97015, data/uk_datacentre_pipeline_202610
 atlas/current.json@cacb69a (= HEAD), STATE.md@cacb69a, docs/RELEASE.md@HEAD (line 40 only)
 
 Key convention for this file. Every KEY names the commit whose tree holds the quoted line:
-`gridatlas@<commit> <path>:<line>`. Verify with `git -C /home/user/estate/gridatlas show <commit>:<path> | sed -n '<a>,<b>p'`.
+`gridatlas@<commit> <path>:<line>`. Verify with `git -C <estate>/gridatlas show <commit>:<path> | sed -n '<a>,<b>p'`.
 Where the same lines are byte-identical at HEAD cacb69a7c4abc3b1a90fd75807ce8ef8cbc46d9e, a second line `HEAD-KEY:` gives the HEAD
 location (checked by comparing `git show <commit>:<path> | sed -n` with `sed -n` on the HEAD tree). Times are as git records them
 (`--date=iso-strict`, author offset); UTC where stated.
@@ -545,5 +545,5 @@ Turning points in order (full SHA, author date, subject):
 8. F15 gridatlas@cacb69a7c4abc3b1a90fd75807ce8ef8cbc46d9e atlas/current.json:717-726. The live pointer to the data-centre module (digest verified 71,191 B).
 
 ## One next command (exactly one, runnable from a clone)
-git -C /home/user/estate/gridatlas log -i --grep='Authori[sz]ed' --date=iso-strict --format='%H %ad %s' -- atlas/current.json
+git -C <estate>/gridatlas log -i --grep='Authori[sz]ed' --date=iso-strict --format='%H %ad %s' -- atlas/current.json
 (lists every pointer move that records its authority: 4 today, from 3235a34 2026-09-08 to cacb69a; the trend of who may move the live map)

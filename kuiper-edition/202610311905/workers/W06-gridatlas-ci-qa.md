@@ -33,7 +33,7 @@ README.md (lines 1-40)
 nightly/202608310015-gridatlas-overnight-next-versions/ (listing; runs/ has 4 entries)
 git log of .github/workflows, tools/ci, tools/overnight
 
-Counts (commands run from /home/user/estate/gridatlas between 2026-10-31T19:10Z and 2026-10-31T19:17Z):
+Counts (commands run from <estate>/gridatlas between 2026-10-31T19:10Z and 2026-10-31T19:17Z):
 - Active workflows: **9** — `ls .github/workflows | wc -l` = 9, 2,001 lines (`wc -l .github/workflows/*.yml`). Budget: `ACTIVE_WORKFLOWS` in tools/scope/lib.mjs lists exactly 9; loop.mjs asserts set equality and **21** archived one-offs (`ls .github/workflow-archive/202608301321-hostile-amnesia | wc -l` = 21).
 - Action pinning: **38 of 44** `uses:` lines are pinned to a 40-hex SHA (`grep -h "uses:" .github/workflows/*.yml | grep -c -E "@[0-9a-f]{40}"` = 38; total 44). The 6 unpinned: 5 in offshore-coordinate-reconcile.yml (lines 46, 54, 60, 65, 114), 1 in pr-file-size-guard.yml:181.
 - Node test cases in tools/ci: **241** — `grep -cE "^\s*test\(" tools/ci/offtakers/overlay-offtakers.test.mjs tools/ci/lightning/*.test.mjs` = 30 + 203 + 8. Release tooling: 16 more (`tools/release/flow.test.mjs` 7, `loader-swap.test.mjs` 9).
@@ -510,7 +510,7 @@ All SHAs resolve in gridatlas@cacb69a7c4abc3b1a90fd75807ce8ef8cbc46d9e (shallow,
 ## One next command (exactly one, runnable from a clone)
 
 ```bash
-cd /home/user/estate/gridatlas && node tools/scope/verify-live-bytes.mjs --timeout-s 120 --interval-s 20 --report /tmp/w06-live-bytes.json
+cd <estate>/gridatlas && node tools/scope/verify-live-bytes.mjs --timeout-s 120 --interval-s 20 --report <scratch>
 ```
 
 Why this one: it is read-only (it writes only the report under /tmp) and needs no browser or secrets. It checks whether https://ventusltd.github.io/gridatlas/ serves HEAD cacb69a7 (v9.187, the data-centre release) byte for byte, which this worker could not observe from the clone. Already run here and passed at 2026-10-31T19:16Z: `node tools/scope/loop.mjs state --stdout | diff -q - STATE.md` → `STATE-PARITY-OK` (stderr `scope-ledger=PASS active=none master=done`); `git status --porcelain` empty.

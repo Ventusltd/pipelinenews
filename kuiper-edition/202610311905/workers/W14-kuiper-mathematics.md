@@ -28,7 +28,7 @@ particle-physics-drawing-engine/tools/particles.py (1-50), measurements/exactnes
 galaxies-wafers/wafer.mjs (1-80), stars/library/standalone.mjs:4850-4860
 pipelinenews/kuiper-edition/202610311905/BRIEF.md, tools/edition_belt.py (grep)
 
-Reproductions run (outside clones, scratch in /tmp/w14; Python with -I):
+Reproductions run (outside clones, scratch in <scratch>; Python with -I):
 - `PYTHONDONTWRITEBYTECODE=1 node test/verify_placement.mjs` in grid-distance-maths: `worst difference 1.421e-14 (row 1675)`, PASS, 4096 rows x 11 columns.
 - `node --test tests/geometry.test.mjs tests/site.test.mjs` in kuiper-drawing-engine: 11 pass, 0 fail.
 - Independent Python recomputation: worlds- verdict counts {0:684, 1:204, 2:1853, 3:1849}; 2^32/phi = 2654435769.49723; 0x9e3779b9 = 2654435769; step = 222.49223590828478 deg, mirror 137.50776409171522 deg; float golden 137.50776405003785 deg; 2^53 // 2654435769 = 3393263; key 43486619138 -> 305752434 by both the exact and the split formula; continued fraction of 2654435769/2^32 = 34 terms [0, 1 x22, 2, 4, 1, 1, 25, 3, 1, 1, 1, 1, 12]; 45461911314 / 2^32 = 10.585.
@@ -365,7 +365,7 @@ PATTERN: fail-closed settings validation (null result for the placement law)
 
 ## Keyed table: every implementation of the law across the estate
 
-Grep (as briefed): `grep -rEil --include=*.js --include=*.mjs --include=*.py --include=*.html --include=*.md --exclude-dir={node_modules,vendor,.git,globalgrid2050} -e '2654435769|9E3779B9|0x9e3779b9|2\.399963229728653|137\.507764|222\.492236|0\.6180339887|1\.618033' /home/user/estate /home/user/pipelinenews` gives **120 files**, 430 matching lines. 92 of the 120 are in kuiper-belt/learn-the-kuiper and see-through dated editions (largely identical copies). A second grep for computed forms (`3 - Math.sqrt(5)`, `math.pi * (3.0 - math.sqrt(5.0))`) adds grid-distance-maths, worlds-, galaxies-wafers/iterations/36, particle-physics coax-field-test. globalgrid2050 (grep -l only): **149 files**, of which 96 are under testcode/wafer-development-environment/2026091913..2215-proof-*, 48 are under kuiper-grid/i00NN/releases/003100000000-kuiper-shell/{index,conductor,conductor-round}.html, 3 are under kuiper/releases/202609192301-kuiper-shell/, and there is 1 each in kuiper-grid/drawing/renderer.html and ventus/wiring/renderer.html. Focus repos: gridatlas, data-grid-gb, data-centres-gb and data-gridatlas have **0** files with any constant. The one gridatlas "vogel" word is a test name, `kv-vogel`, at tools/ci/lightning/overlay-engine.test.mjs:1066.
+Grep (as briefed): `grep -rEil --include=*.js --include=*.mjs --include=*.py --include=*.html --include=*.md --exclude-dir={node_modules,vendor,.git,globalgrid2050} -e '2654435769|9E3779B9|0x9e3779b9|2\.399963229728653|137\.507764|222\.492236|0\.6180339887|1\.618033' <estate> <pipelinenews>` gives **120 files**, 430 matching lines. 92 of the 120 are in kuiper-belt/learn-the-kuiper and see-through dated editions (largely identical copies). A second grep for computed forms (`3 - Math.sqrt(5)`, `math.pi * (3.0 - math.sqrt(5.0))`) adds grid-distance-maths, worlds-, galaxies-wafers/iterations/36, particle-physics coax-field-test. globalgrid2050 (grep -l only): **149 files**, of which 96 are under testcode/wafer-development-environment/2026091913..2215-proof-*, 48 are under kuiper-grid/i00NN/releases/003100000000-kuiper-shell/{index,conductor,conductor-round}.html, 3 are under kuiper/releases/202609192301-kuiper-shell/, and there is 1 each in kuiper-grid/drawing/renderer.html and ventus/wiring/renderer.html. Focus repos: gridatlas, data-grid-gb, data-centres-gb and data-gridatlas have **0** files with any constant. The one gridatlas "vogel" word is a test name, `kv-vogel`, at tools/ci/lightning/overlay-engine.test.mjs:1066.
 
 Legend. Radius: `k` = sqrt(k); `k+.5` = sqrt(k + 0.5); `scaled` = a + (b - a)*sqrt((k + .5)/n). Turn: `+222.49` = wafer chirality; `+137.5` = mirror (teaching/belt). Arithmetic: `odo32` = exact 32-bit integer (k*2654435769 mod 2^32); `f64` = float golden angle accumulated as k*GA; `f64-red` = with fmod reduction; `f32` = GPU float. FLAG marks a disagreement with the live wafer (F1), or within a repo.
 
@@ -448,5 +448,5 @@ Errata box: maths 10:169 (TAB-eaten `\times`), 10:159 (stale key count), kuiper-
 
 ## One next command (exactly one, runnable from a clone)
 ```
-cd /home/user/estate/particle-physics-drawing-engine && node measurements/exactness.mjs | diff - measurements/exactness-result.txt && echo "exactness reproduced byte-for-byte"
+cd <estate>/particle-physics-drawing-engine && node measurements/exactness.mjs | diff - measurements/exactness-result.txt && echo "exactness reproduced byte-for-byte"
 ```

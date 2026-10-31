@@ -1,6 +1,6 @@
 # C5 The shepherd, the wafer, the engines and the denominator
 
-Controller C5 (Claude Fable 5.1), Kuiper edition 202610311905. Written 2026-10-31T19:45:00Z after re-resolving every key of W17, W18, W19 and W20 against the local clones. Clones were read only; `git status --porcelain` is empty in every clone I ran a verifier in (one untracked `editions/` folder appeared in the kuiper-belt clone at 2026-10-31T19:37:30Z, written by the harness for this edition, not by a worker or by me). Verification script: `/tmp/c5/verify_keys.py`; every KEY line was parsed, the commit confirmed reachable, the file extracted with `git show <sha>:<path>`, and the first quoted line searched inside the cited range.
+Controller C5 (Claude Fable 5.1), Kuiper edition 202610311905. Written 2026-10-31T19:45:00Z after re-resolving every key of W17, W18, W19 and W20 against the local clones. Clones were read only; `git status --porcelain` is empty in every clone I ran a verifier in (one untracked `editions/` folder appeared in the kuiper-belt clone at 2026-10-31T19:37:30Z, written by the harness for this edition, not by a worker or by me). Verification script: `<scratch>`; every KEY line was parsed, the commit confirmed reachable, the file extracted with `git show <sha>:<path>`, and the first quoted line searched inside the cited range.
 
 **Keys verified 93 of 93.** W17 26 of 26, W18 20 of 20, W19 30 of 30, W20 17 of 17; all CONFIRMED, none SHIFTED, none UNVERIFIED. Seventy findings, one row each in `chapters/C5-register.tsv`. pipelinenews keys are pinned to 67aa2eb05993c630887b41c3b720ba42a86669a4 (the inventory HEAD) and resolved with `git show`, since the live HEAD moved while the swarm ran.
 
@@ -127,7 +127,7 @@ Each is a candidate for the owner, not a claim.
 - **Homepage.** Confirmed and widened to 4 of 7 (defect 1).
 - **Which denominator.** The edition should publish the **distinct-blob text-line count** as its denominator, 25,071,989, with the per-path figure 47,227,007 beside it and labelled "per path". Reasons: it is the Kuiper's own definition (tools/count_lines.py "head": NUL in the first 8,000 bytes is binary, distinct blobs count once, as the belt counts bodies); it is within 1.0 percent of the Kuiper's 2026-09-19 figure, so the two editions are comparable; and it is immune to the snapshot copies (89 to 117 copies of one file) that make the per-path number nearly double. The inventory's 28,754,050 should not be published: it is reproducible for small clones only, counts a binary-flagged 40 MB file in stars, and no rule I could find produces its globalgrid2050 figure.
 
-My recount (`/tmp/c5/distinct_wt.py`, 2026-10-31T19:44:38Z, first-seen blob per `git ls-tree -r` over the 26 clean working trees, NUL in the first 8,000 bytes as binary) gives 72,475 paths, 30,895 distinct blobs, 28,322 text and 2,573 binary, **25,071,989 distinct text lines**: identical to W20, so CONFIRMED.
+My recount (`<scratch>`, 2026-10-31T19:44:38Z, first-seen blob per `git ls-tree -r` over the 26 clean working trees, NUL in the first 8,000 bytes as binary) gives 72,475 paths, 30,895 distinct blobs, 28,322 text and 2,573 binary, **25,071,989 distinct text lines**: identical to W20, so CONFIRMED.
 
 ## What the new Kuiper edition should carry from this chapter
 
@@ -136,7 +136,7 @@ On the belt, in this order: the NaN flip (W17 F2); `MAX_LINK_KM = 40 // beyond t
 ## One next command
 
 ```
-mkdir -p /tmp/c5-cl && cd /tmp/c5-cl && python3 -I /home/user/estate/kuiper-belt/tools/count_lines.py --roots /home/user/estate --depth head --out /tmp/c5-cl/data
+mkdir -p <scratch> && cd <scratch> && python3 -I <estate>/kuiper-belt/tools/count_lines.py --roots <estate> --depth head --out <scratch>
 ```
 
 It reruns the Kuiper's own counter on today's estate, from outside every clone (count_lines.py writes `proof/` relative to the current directory), so the published denominator is produced by the tool that defines it. Add pipelinenews as a root to make it 26 repositories.

@@ -1,8 +1,8 @@
 # W12 kuiper-cosmos-engine-history
 HEADS: kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 gridatlas@cacb69a7c4abc3b1a90fd75807ce8ef8cbc46d9e data-grid-gb@b57c94d4e964df2de0dea2786781c6d07a967ea1 data-centres-gb@f9f47286fae63872375c558fc89ff4b1793914e4
 READ:
-/home/user/pipelinenews/kuiper-edition/202610311905/BRIEF.md
-/home/user/pipelinenews/kuiper-edition/202610311905/proof/inventory.tsv
+<edition>/BRIEF.md
+<edition>/proof/inventory.tsv
 kuiper-belt/.github/workflows/engine.yml
 kuiper-belt/.github/workflows/check.yml
 kuiper-belt/.gitignore
@@ -470,4 +470,4 @@ T13 b243e38d4964557458fcaf636fd8d49c799f91a6 2026-10-31T12:43:52+00:00 HEAD, a r
 
 ## One next command (exactly one, runnable from a clone)
 
-cd /home/user/estate/kuiper-belt && git log --numstat --format='C %H %ad' --date=iso-strict -- cosmos/wafer.tsv cosmos/pulse.tsv | awk '/^C /{c=$2} NF==3 && $2>0 {print "DELETION", c, $3}' | head
+cd <estate>/kuiper-belt && git log --numstat --format='C %H %ad' --date=iso-strict -- cosmos/wafer.tsv cosmos/pulse.tsv | awk '/^C /{c=$2} NF==3 && $2>0 {print "DELETION", c, $3}' | head

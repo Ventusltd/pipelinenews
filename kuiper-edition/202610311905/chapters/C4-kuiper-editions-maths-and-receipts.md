@@ -126,6 +126,6 @@ On the belt (all CONFIRMED): `kuiper-belt index.html:250` (the law), `kuiper-law
 ## One next command
 
 ```
-cd /home/user/estate/kuiper-belt && sha256sum learn-the-kuiper/*/kuiper-law.js learn-the-kuiper/astra-codex/*/kuiper-law.js see-through/*/kuiper-law.js | awk '{print $1}' | sort -u | wc -l
+cd <estate>/kuiper-belt && sha256sum learn-the-kuiper/*/kuiper-law.js learn-the-kuiper/astra-codex/*/kuiper-law.js see-through/*/kuiper-law.js | awk '{print $1}' | sort -u | wc -l
 ```
 Prints 1 today. Run it again after the new edition's folder exists; if it prints 2, the law was edited instead of lifted.

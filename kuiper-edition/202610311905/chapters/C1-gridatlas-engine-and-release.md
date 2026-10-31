@@ -273,7 +273,7 @@ same live pointer, because it is a keyed record contradicting a keyed record.
 ## One next command
 
 ```bash
-cd /home/user/estate/gridatlas && OFFTAKERS_MODULE=atlas/modules/202610292044-uk-offtakers-overlay.js LIGHTNING_MODULE=$PWD/atlas/modules/202610291043-uk-lightning-overlay.js node --test --test-name-pattern='^DC' tools/ci/offtakers/overlay-offtakers.test.mjs
+cd <estate>/gridatlas && OFFTAKERS_MODULE=atlas/modules/202610292044-uk-offtakers-overlay.js LIGHTNING_MODULE=$PWD/atlas/modules/202610291043-uk-lightning-overlay.js node --test --test-name-pattern='^DC' tools/ci/offtakers/overlay-offtakers.test.mjs
 ```
 
 It runs the eleven data-centre tests (DC1-DC11) against the shipped module, read only, in under a minute, and is the

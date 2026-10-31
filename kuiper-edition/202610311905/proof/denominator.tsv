@@ -1,5 +1,5 @@
-# W20 denominator, written 2026-10-31 (UTC). Command (run from /tmp/w20, script read-only over clones):
-#   python3 -I /tmp/w20/denom.py > /tmp/w20/denom.tsv
+# W20 denominator, written 2026-10-31 (UTC). Command (run from <scratch>, script read-only over clones):
+#   python3 -I <scratch> > <scratch>
 # denom.py: for each clone, git -C <clone> ls-files --eol -z; excludes paths with a node_modules/ or vendor/ segment and kuiper-edition/;
 #   binary = git's i/-text flag; text lines = count of b'\n' in the working-tree file (wc -l semantics); classes by extension:
 #   code = js mjs py html css ts sh sql; docs = md txt; data = json tsv csv geojson parquet; other_text = every other non-binary file.

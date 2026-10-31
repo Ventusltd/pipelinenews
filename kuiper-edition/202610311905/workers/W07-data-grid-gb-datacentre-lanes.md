@@ -44,7 +44,7 @@ git log / git show of 3ca8cfd, 3c6c72e, 69b566d, b57c94d
 
 Method notes (read-only):
 - Every committed lane file was re-hashed against lanes/MANIFEST.json with `python3 -I`: 23 of 23 pins match (bytes and sha256).
-- Lanes dc-a2, dc-a3, dc-a4 and dc-a7 were rebuilt OFFLINE from a scratch copy (`mktemp -d /tmp/w07-XXXX`, `cp -r datacentres/lanes`), never in the clone. Every rebuilt output is byte-identical to its pin (hashes under F17). `test_dcmerge.py`: "Ran 52 tests ... OK" on Python 3.13.18. `dc_a4.py selftest`: "SELFTEST OK". `gov_sites.py check`: "27 records; 0 errors".
+- Lanes dc-a2, dc-a3, dc-a4 and dc-a7 were rebuilt OFFLINE from a scratch copy (`mktemp -d <scratch>`, `cp -r datacentres/lanes`), never in the clone. Every rebuilt output is byte-identical to its pin (hashes under F17). `test_dcmerge.py`: "Ran 52 tests ... OK" on Python 3.13.18. `dc_a4.py selftest`: "SELFTEST OK". `gov_sites.py check`: "27 records; 0 errors".
 - Disclosure: one `python3 -I -c 'import dcmerge'` with a sys.path insert wrote `datacentres/lanes/dc-a7-merge/__pycache__/dcmerge.cpython-313.pyc` into the clone at 2026-10-31T19:13:31Z (git-ignored, untracked). I deleted that one file and its empty directory at once; `git status --porcelain --ignored | wc -l` reads 0 afterwards. Later imports used `-B`. No tracked file was touched.
 
 ## Findings (keyed)
@@ -391,4 +391,4 @@ PATTERN: conservative default with no path to the positive state (a schema slot 
 7. gov_sites.py:294-295 (F14): `status=None` with "Current status UNKNOWN": a status two sources disagree on stays unknown.
 
 ## One next command (exactly one, runnable from a clone)
-git -C /home/user/estate/gridatlas grep -n -I -e dcuk-bf4650ea1c4a8a0b -e dcuk-4ad498e7880d6ba4 HEAD | cut -c1-200
+git -C <estate>/gridatlas grep -n -I -e dcuk-bf4650ea1c4a8a0b -e dcuk-4ad498e7880d6ba4 HEAD | cut -c1-200

@@ -599,6 +599,6 @@ No git reverts were found. `git log --format=%s | grep -ci revert` gives 0 for v
 ## One next command (exactly one, runnable from a clone)
 
 ```
-cd /home/user/estate/gridatlas && for f in $(ls atlas/cartridges/*sld-sandbox-v9-8.js | sort); do printf '%s ' "$f"; sed -n '/function nearestSubstations(lon, lat, subs) {/,/^  }$/p' "$f" | sha256sum | cut -c1-16; done | awk '{print $2, $1}' | uniq -c -w16
+cd <estate>/gridatlas && for f in $(ls atlas/cartridges/*sld-sandbox-v9-8.js | sort); do printf '%s ' "$f"; sed -n '/function nearestSubstations(lon, lat, subs) {/,/^  }$/p' "$f" | sha256sum | cut -c1-16; done | awk '{print $2, $1}' | uniq -c -w16
 ```
 (It hashes the E1 body in every sld-sandbox generation, all 92 files, and groups them by hash. That gives the full protection lineage of the substation finder: when it last changed, and whether any generation broke it.)

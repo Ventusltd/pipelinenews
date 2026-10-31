@@ -5,7 +5,7 @@ Written 2026-10-31T19:40:00Z by worker W08 (Opus). I only read the clones and ch
 HEADS: data-centres-gb@f9f47286fae63872375c558fc89ff4b1793914e4 data-grid-gb@b57c94d4e964df2de0dea2786781c6d07a967ea1
 
 READ:
-/home/user/pipelinenews/kuiper-edition/202610311905/BRIEF.md
+<edition>/BRIEF.md
 data-centres-gb: git log (all 13 commits, `git rev-list --count HEAD` = 13), git show --shortstat for every commit, git show 6ca6914, git show 9263635:app.py
 data-centres-gb/README.md
 data-centres-gb/docs/data-sources.md
@@ -577,5 +577,5 @@ that code was copied.
 ## One next command (exactly one, runnable from a clone)
 
 ```bash
-git -C /home/user/estate/data-centres-gb show 0f4e8ac --stat --format='%H %aI %s'
+git -C <estate>/data-centres-gb show 0f4e8ac --stat --format='%H %aI %s'
 ```

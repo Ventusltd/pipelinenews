@@ -596,4 +596,4 @@ H12 67aa2eb05993c630887b41c3b720ba42a86669a4 2026-09-26T14:27:23+01:00 "Restore 
 7. releases/202609060232-pipelinenews/release-manifest.json:36 (F11): "read from UTC clock at build time, never chosen".
 
 ## One next command (exactly one, runnable from a clone)
-`grep -rn "grid_engine" /home/user/estate/gridatlas --include=*.js --include=*.mjs --include=*.json | head -20`
+`grep -rn "grid_engine" <estate>/gridatlas --include=*.js --include=*.mjs --include=*.json | head -20`

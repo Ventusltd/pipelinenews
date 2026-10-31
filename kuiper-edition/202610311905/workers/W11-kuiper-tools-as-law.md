@@ -1,8 +1,8 @@
 # W11 kuiper-tools-as-law
-HEADS: kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 (not shallow: `git -C /home/user/estate/kuiper-belt rev-parse --is-shallow-repository` -> false; 234 commits by `git rev-list --count HEAD`)
+HEADS: kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 (not shallow: `git -C <estate>/kuiper-belt rev-parse --is-shallow-repository` -> false; 234 commits by `git rev-list --count HEAD`)
 READ:
-/home/user/pipelinenews/kuiper-edition/202610311905/BRIEF.md
-/home/user/pipelinenews/kuiper-edition/202610311905/NOTICE.md
+<edition>/BRIEF.md
+<edition>/NOTICE.md
 README.md
 LAWS.md
 SPEC.md
@@ -42,7 +42,7 @@ quoted (brief rule 7).
 
 ## Line counts per tool
 
-Command: `cd /home/user/estate/kuiper-belt && wc -l tools/*.py tools/*.mjs`
+Command: `cd <estate>/kuiper-belt && wc -l tools/*.py tools/*.mjs`
 
 | tool | lines |
 |---|---|
@@ -662,5 +662,5 @@ Arithmetic used above, reproducible: `python3 -I -c "phi=(1+5**.5)/2; e=(2**32/p
 ## One next command (exactly one, runnable from a clone)
 
 ```
-cd /home/user/estate/kuiper-belt && for p in proof/2026091*Z.json; do b=$(basename $p .json); d=$(grep -o '"digest": "[0-9a-f]*"' $p | cut -d'"' -f4); echo "$b head=$(sha256sum data/twins-$b.json | cut -c1-64 | grep -c $d) parent=$(git show 84e4483^:data/twins-$b.json | sha256sum | cut -c1-64 | grep -c $d)"; done
+cd <estate>/kuiper-belt && for p in proof/2026091*Z.json; do b=$(basename $p .json); d=$(grep -o '"digest": "[0-9a-f]*"' $p | cut -d'"' -f4); echo "$b head=$(sha256sum data/twins-$b.json | cut -c1-64 | grep -c $d) parent=$(git show 84e4483^:data/twins-$b.json | sha256sum | cut -c1-64 | grep -c $d)"; done
 ```

@@ -558,12 +558,12 @@ Per day: 121 commits on 2026-09-05, 40 on 09-06, 2 on 09-07, 14 on 09-14, 11 on 
 ## One next command (exactly one, runnable from a clone)
 
 ```
-cd /home/user/estate/globalgrid2050/testcode/wafer-development-environment/202609190330-cable-cross-sections && node proof/kuiper-pulse.check.mjs
+cd <estate>/globalgrid2050/testcode/wafer-development-environment/202609190330-cable-cross-sections && node proof/kuiper-pulse.check.mjs
 ```
 (Re-runs the pulse law from the shipped pilot.mjs. It writes nothing. W18 ran it at 2026-10-31T19:22:16Z and it
 printed 26 PASS lines and exactly one `REFUSE the join back to estate-bodies.json: NOT EXAMINED`, then `all checks
 passed, 1 NOT EXAMINED`. That includes `in the front band a duplicated body averages 453.2 dots against 43.5 for a
-unique one`, which matches kuiper-belt NEXT.md:26. With the join examined (`node proof/kuiper-pulse.check.mjs /home/user/estate/kuiper-belt/data/20260919T001154Z/estate-bodies.json`,
+unique one`, which matches kuiper-belt NEXT.md:26. With the join examined (`node proof/kuiper-pulse.check.mjs <estate>/kuiper-belt/data/20260919T001154Z/estate-bodies.json`,
 run at 2026-10-31T19:22:31Z against kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6), it printed `every station's fourth
 element equals estate-bodies.json copies for that blob SHA (19257 of 19257)` and `all checks passed`. The SHA join in F5 is
 therefore verified end to end.)

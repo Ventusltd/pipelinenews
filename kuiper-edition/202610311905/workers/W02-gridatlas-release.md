@@ -486,5 +486,5 @@ commit subjects at fix time.
 ## One next command (exactly one, runnable from a clone)
 
 ```bash
-cd /home/user/estate/gridatlas && for c in $(git log --format=%h -- atlas/current.json); do printf '%s %s files=%s state=%s\n' "$c" "$(git show $c:atlas/current.json | node -pe 'JSON.parse(require("fs").readFileSync(0)).generation')" "$(git show --format= --name-only $c | wc -l)" "$(git show --format= --name-only $c | grep -c '^STATE.md$')"; done
+cd <estate>/gridatlas && for c in $(git log --format=%h -- atlas/current.json); do printf '%s %s files=%s state=%s\n' "$c" "$(git show $c:atlas/current.json | node -pe 'JSON.parse(require("fs").readFileSync(0)).generation')" "$(git show --format= --name-only $c | wc -l)" "$(git show --format= --name-only $c | grep -c '^STATE.md$')"; done
 ```

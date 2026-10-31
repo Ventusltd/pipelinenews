@@ -1,6 +1,6 @@
 # W15 watchers-receipts-proofs
 HEADS: time-stone@a1703b1bb0170ed0f0c162126315049fa157d3bf stars@cbca125bb5eeb7d0ffb02f4546d60eb5d47dadc9 star-maker@f65c2f381d91eeb1eba75a97ae6765c24e32197d cvaa@877bf380202b6a922932afc0bdcfd7f42a183086 galaxies-wafers@fff6fc6ad4f93a15fe8f6456942a1b44e5547105 elements@f7a92fb085c38dcbbd5cb469a66cd5ca61fb95bf code-generator@857ea81244848b1da8fe21fffaed74cab568a3b4 kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6
-Written 2026-10-31T19:13:25Z by W15 (Opus). Read only; the one thing executed was `node inoculate.mjs . --no-write` on a copy of cvaa in /tmp/w15/cvaa, never in the clone.
+Written 2026-10-31T19:13:25Z by W15 (Opus). Read only; the one thing executed was `node inoculate.mjs . --no-write` on a copy of cvaa in <scratch>, never in the clone.
 READ:
 time-stone/tools/watch.py
 time-stone/README.md
@@ -357,5 +357,5 @@ PATTERN: hash-pinned inputs (receipts expire when inputs change)
 ## One next command (exactly one, runnable from a clone)
 
 ```bash
-cd /home/user/estate/cvaa && git log --format='%H %ad %an %s' --date=iso-strict ade46889126c0e1ebd3bda9dba5fa4f4af049adf..HEAD -- vaccines vaccines.lock inoculate.mjs
+cd <estate>/cvaa && git log --format='%H %ad %an %s' --date=iso-strict ade46889126c0e1ebd3bda9dba5fa4f4af049adf..HEAD -- vaccines vaccines.lock inoculate.mjs
 ```
