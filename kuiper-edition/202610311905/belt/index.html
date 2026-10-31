@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kuiper edition 202610311905: the estate's best lines on the belt</title>
+<style>
+html,body{margin:0;height:100%;background:#05060a;color:#e8e6df;font:14px/1.4 ui-monospace,Menlo,Consolas,monospace}
+#c{display:block;width:100vw;height:100vh;touch-action:none}
+#card{position:fixed;left:0;right:0;bottom:0;max-height:46vh;overflow:auto;background:rgba(10,12,18,.96);border-top:1px solid #2a2f3a;padding:10px 14px;display:none}
+#card b{color:#ffd166}#card a{color:#8ecae6}#card pre{white-space:pre-wrap;color:#cde;margin:6px 0;border-left:2px solid #3a4150;padding-left:8px}
+#hud{position:fixed;top:8px;left:10px;color:#9aa3b2;font-size:12px;pointer-events:none}
+#hud b{color:#e8e6df}
+</style></head><body>
+<canvas id="c"></canvas><div id="hud">loading…</div><div id="card"></div>
+<script>
+// Viewer for belt/belt.json + belt/bodies.json. Draws stations at (x,y) in the unit square, exactly
+// as written by tools/edition_belt.py. The viewer computes no position of its own: a body's place
+// is the file's, and the file is reproducible from the register and the law printed in rules.txt.
+const cv=document.getElementById('c'),ctx=cv.getContext('2d'),hud=document.getElementById('hud'),card=document.getElementById('card');
+let belt=null,bodies=[],byId={},view={z:1,ox:0,oy:0},sel=null,dpr=1;
+const COL={focus:'#ffd166',estate:'#8ecae6',kuiper:'#c77dff',history:'#90be6d'};
+async function load(){
+  belt=await (await fetch('belt.json')).json();
+  bodies=await (await fetch('bodies.json')).json();
+  for(const b of bodies) byId[b.id]=b;
+  hud.innerHTML=`<b>${belt.name}</b> · ${belt.counts.bodies} bodies (${belt.counts.focus} gridatlas/datacentre) · ${belt.counts.unresolved} unresolved · asof ${belt.asof}<br>${belt.law}`;
+  resize(); draw();
+}
+function resize(){dpr=window.devicePixelRatio||1;cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;cv.style.width=innerWidth+'px';cv.style.height=innerHeight+'px';}
+function toScreen(x,y){const s=Math.min(innerWidth,innerHeight)*view.z;return[(innerWidth-s)/2+x*s+view.ox,(innerHeight-s)/2+y*s+view.oy];}
+function draw(){
+  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.fillStyle='#05060a';ctx.fillRect(0,0,innerWidth,innerHeight);
+  const [cx,cy]=toScreen(.5,.5),s=Math.min(innerWidth,innerHeight)*view.z;
+  ctx.strokeStyle='#161a24';ctx.lineWidth=1;for(const r of [0.08,0.48]){ctx.beginPath();ctx.arc(cx,cy,r*s,0,7);ctx.stroke();}
+  for(const st of belt.stations){const b=byId[st.id];const [x,y]=toScreen(st.x,st.y);
+    ctx.fillStyle=COL[st.class]||'#aaa';ctx.globalAlpha=st.open?1:.35;ctx.beginPath();ctx.arc(x,y,sel===st.id?6:3.2,0,7);ctx.fill();
+    if(sel===st.id){ctx.strokeStyle='#fff';ctx.lineWidth=1.5;ctx.stroke();}}
+  ctx.globalAlpha=1;
+}
+function pick(px,py){let best=null,bd=14*14;for(const st of belt.stations){const [x,y]=toScreen(st.x,st.y);const d=(x-px)**2+(y-py)**2;if(d<bd){bd=d;best=st.id;}}return best;}
+function show(id){const b=byId[id];if(!b){card.style.display='none';return;}
+  card.style.display='block';
+  card.innerHTML=`<b>${esc(b.title)}</b> <span style="color:#9aa3b2">[${esc(b.worker)} ${esc(b.finding)} · class ${esc(b.class)} · body k=${b.k}]</span><br>
+  <code>${esc(b.repo)}@${b.commit.slice(0,12)} ${esc(b.path)}:${b.line}${b.line_end&&b.line_end!=String(b.line)?'-'+esc(b.line_end):''}</code><br>
+  ${b.quote?`<pre>${esc(b.quote)}</pre>`:''}${b.pattern?`pattern: ${esc(b.pattern)}<br>`:''}
+  key <code>${b.id}</code><br><a href="${b.destination}" target="_blank" rel="noopener">open the line on GitHub at that commit</a>`;}
+function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+let drag=null;
+cv.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,ox:view.ox,oy:view.oy,moved:false};cv.setPointerCapture(e.pointerId);});
+cv.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.hypot(dx,dy)>4)drag.moved=true;view.ox=drag.ox+dx;view.oy=drag.oy+dy;draw();});
+cv.addEventListener('pointerup',e=>{if(drag&&!drag.moved){sel=pick(e.clientX,e.clientY);show(sel);draw();}drag=null;});
+cv.addEventListener('wheel',e=>{e.preventDefault();view.z=Math.max(.5,Math.min(40,view.z*(e.deltaY<0?1.15:1/1.15)));draw();},{passive:false});
+addEventListener('resize',()=>{resize();draw();});
+load();
+</script></body></html>
