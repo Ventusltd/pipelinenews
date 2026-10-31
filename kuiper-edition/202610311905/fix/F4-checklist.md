@@ -59,7 +59,7 @@ Recommendation: variant B (or an equivalent that leaves `norm_operator`, hence `
 2.4 Generation files (the 202610292044 cut, commit 2f80729, is the template: 7 files): `atlas/manifests/<G>-composition.json`, `atlas/v/<G>/current.json`, `atlas/v/<G>/index.html` (byte copy of the v2 loader), `tools/proofs/<G>-uk-lightning-overlay.proof.mjs`, `tools/proofs/<G>-uk-offtakers-overlay.proof.mjs` (two-liners calling the shared provers), the module, `generations.json`. The lightning cartridge stays 202610291043 and sld-sandbox stays 202609241334: no change there. In the manifest and the route current.json, the lines that must change (numbers from `atlas/v/202610292044/current.json`): `:770` sha256 → new, `:769` url → new stamp, `:771` `"features": 227` → 226, `:772` `"drawn": 225` stays, `:773` built_by "227 sites" → 226, `:796` classes "C data centres 225 (227 records, two unplaced)" → "(226 records, one unplaced)", `:886` composition_note "203 sites" → "226 records, 225 mappable, one unplaced (Ebbsfleet)". No gate asserts `features`, `drawn` or the note (checked: offtakers-cartridge.mjs, run-current.mjs, verify-compose.mjs, release lib.mjs), so a stale number here is caught by no machine: the reviewer of the pair must diff these lines.
 
 2.5 Tests that break at 226 and must change in the same PR:
-- `tools/ci/offtakers/overlay-offtakers.test.mjs:388`: `assert.equal(DCD.features.length - DCD_MAPPABLE.length, 2, 'two unplaced planning records (SDC M40 and Ebbsfleet) ...')` → `1`, message "one unplaced planning record (Ebbsfleet)". Without this edit DC1 FAILS on the new module and the gate is red.
+- `tools/ci/offtakers/overlay-offtakers.test.mjs:389`: `assert.equal(DCD.features.length - DCD_MAPPABLE.length, 2, 'two unplaced planning records (SDC M40 and Ebbsfleet) ...')` → `1`, message "one unplaced planning record (Ebbsfleet)". Without this edit DC1 FAILS on the new module and the gate is red.
 - `tools/ci/offtakers/browser-dc-smoke.mjs:67`: the asserted 225 stays; the message "227 source records, of which two planning sites have unknown coordinates" is false and must read "226 records, one unplaced"; `:55` (`>= 225`) stays; `:50` lightning `'202610291043'` stays; `:16` default generation may move to `<G>` or stay (env overrides it).
 - `docs/OFFTAKERS-SOURCE.md:36`: "corrected 227 sites" → 226.
 
@@ -93,7 +93,7 @@ Local attempt today (system Chrome 147 via `executablePath`, playwright 1.63 fro
 | B2 | vendored file = pipeline file | `sha256sum data/uk_datacentre_pipeline_<stamp>.geojson` vs MANIFEST pin vs `DCFSHA` in 01-data.js:19 | three equal 64-hex strings (today all three are `176c1b2e…2d89`, `cmp` identical) |
 | B3 | module rebuild | `node tools/offtakers/build.mjs --check`; the proof's `build(M) === text` (offtakers-cartridge.mjs:63) | `ok <G> ... rebuilt byte for byte` |
 | B4 | cartridge hash | `node tools/scope/loop.mjs lint` and pr-gate `composition <G>` | `sha256PublishedFile` (LF bytes) = `cartridges[].sha256` in `atlas/v/<G>/current.json` for all 6 cartridges; `bytes` field = file size |
-| B5 | suite pin | DC1 (:388) `SRC.includes("DCFSHA='" + sha(file) + "'")` | passes only if 2.1 and 2.2 agree |
+| B5 | suite pin | DC1 (:389) `SRC.includes("DCFSHA='" + sha(file) + "'")` | passes only if 2.1 and 2.2 agree |
 | B6 | loader | pr-gate loader-registry | `atlas/v/<G>/index.html` byte-identical to loader v2 |
 | B7 | preview = release | release-generation.mjs (step 4, later) | `atlas/v/<G>/current.json` re-rooted equals the pointer to be written |
 
