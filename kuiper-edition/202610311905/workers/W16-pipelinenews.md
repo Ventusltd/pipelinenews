@@ -1,5 +1,5 @@
 # W16 pipelinenews
-HEADS: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 (project tip 67aa2eb05993c630887b41c3b720ba42a86669a4; every later commit up to HEAD 0a0403e11723a27b3148f6d50a37516f22a5e915 is a swarm commit touching only kuiper-edition/, so every keyed line is identical at both;, verified: `git diff --name-only 67aa2eb05993c630887b41c3b720ba42a86669a4 0a0403e11723a27b3148f6d50a37516f22a5e915 | grep -v '^kuiper-edition/' | wc -l` = 0)
+HEADS: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 (keys use the project tip 67aa2eb05993c630887b41c3b720ba42a86669a4. The clone HEAD kept moving during this run because the harness commits worker reports: it was 67aa2eb at start, 941bb8e3f00283ea97cdf0249f64700698db3f55 at write time. Every commit after 67aa2eb touches only kuiper-edition/: 0 = 0, so each keyed line is byte-identical at HEAD; resolve with  or .)
 Written 2026-10-31T19:40:00Z by W16 (Opus). Read only; no clone was changed.
 
 READ:
@@ -28,12 +28,12 @@ discovery/products/bbc-rss.json (via diff)
 manifests/202608291310-atlas-v9-deep-link-successor.json
 git history: full, 521 project commits + 1 swarm commit
 
-Directory sizes (tracked files, `git ls-files <dir> | wc -l` at 0a0403e11723a27b3148f6d50a37516f22a5e915): data 52, ui 41, index 21, releases 2618, atman 57, build 47, archive 731, cartridges 11, discovery 26, orchestration 3, automation 2, manifests 32, repairs 1, reports 2, state 2, tools 142, scripts 2, docs 36; total 3901 tracked files.
+Directory sizes (tracked files, `git ls-files <dir> | wc -l` at 67aa2eb05993c630887b41c3b720ba42a86669a4): data 52, ui 41, index 21, releases 2618, atman 57, build 47, archive 731, cartridges 11, discovery 26, orchestration 3, automation 2, manifests 32, repairs 1, reports 2, state 2, tools 142, scripts 2, docs 36; total 3901 tracked files.
 
 ## Findings (keyed)
 
 ### F1 The engine category belongs on the row, not the map
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 README.md:47
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 README.md:47
 QUOTE:
 ```markdown
 **This repository decides which engine answers.** The engine category belongs on the row, not in the map: the table shows it, the MAP link carries it, and the receipt asserts it. That makes routing testable before a browser opens, visible to a reader, and unable to disagree with itself. Inferring the engine at arrival is what made offshore projects look silent.
@@ -42,7 +42,7 @@ WHY: The single rule this repository contributes to the cable-engine estate: rou
 PATTERN: Decide at the source, carry in the link, assert in the receipt.
 
 ### F2 The code that puts the engine on the row and in the MAP link
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 ui/javascript/202608261804-projects-v9-5-1.js:30-40
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 ui/javascript/202608261804-projects-v9-5-1.js:30-40
 QUOTE:
 ```js
 // The row declares which Ventus cable question the MAP action will answer.
@@ -57,7 +57,7 @@ export function gridAnalyticsEngineV1(project) {
   return "VENTUS ONSHORE";
 }
 ```
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 ui/javascript/202608261804-projects-v9-5-1.js:60
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 ui/javascript/202608261804-projects-v9-5-1.js:60
 QUOTE:
 ```js
   url.searchParams.set("grid_engine", gridAnalyticsEngineV1(project));
@@ -66,7 +66,7 @@ WHY: Commit 8d6566821d3f79f4a6ca4be5eaa93c805bb5f682 ("Declare Grid Analytics En
 PATTERN: One pure function, three surfaces (table, CSV, link).
 
 ### F3 Fail-closed Pipeline News to GridAtlas transport contract
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 releases/202609060232-pipelinenews/assets/202609040044-atlas-pointer-deep-link.mjs:75-83
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 releases/202609060232-pipelinenews/assets/202609040044-atlas-pointer-deep-link.mjs:75-83
 QUOTE:
 ```js
 /** Return a canonical absolute URL, or an empty string for a non-clickable row. */
@@ -82,7 +82,7 @@ WHY: The MAP button exists only when REPD identity is a positive integer, the te
 PATTERN: Refuse to emit rather than emit a degraded link.
 
 ### F4 Self-test that names the refusals
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 releases/202609060232-pipelinenews/assets/202609040044-atlas-pointer-deep-link.mjs:116-126
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 releases/202609060232-pipelinenews/assets/202609040044-atlas-pointer-deep-link.mjs:116-126
 QUOTE:
 ```js
   check("zero capacity remains explicit",
@@ -101,7 +101,7 @@ WHY: Every refusal in F3 has a named check: zero capacity stays explicit (0 is d
 PATTERN: Executable law: test names state the refusal.
 
 ### F5 One Earth radius for the whole estate, with the reason
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 releases/202609060232-pipelinenews/assets/202608311610-grid-proximity.mjs:61-72
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 releases/202609060232-pipelinenews/assets/202608311610-grid-proximity.mjs:61-72
 QUOTE:
 ```js
 /* ---- geodesy -------------------------------------------------------------
@@ -121,7 +121,7 @@ WHY: Pins R = 6378.137 km (WGS84 equatorial) so a distance read in PipelineNews 
 PATTERN: Shared constant over correct constant; document the drift it prevents.
 
 ### F6 Immutable dated compiler: write-once outputs
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 index/202608261927-compile-index.mjs:295-306
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 index/202608261927-compile-index.mjs:295-306
 QUOTE:
 ```js
 async function writeOutputs(outputs) {
@@ -141,7 +141,7 @@ WHY: README.md:9 calls index/ "immutable dated compilers"; this is how they enfo
 PATTERN: Write-once output (O_EXCL).
 
 ### F7 The immutable compilers were themselves rewritten in place by a bot, and now disagree with their own manifest
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 index/202608291310-compile-atlas-v9-deep-link.mjs:108-112
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 index/202608291310-compile-atlas-v9-deep-link.mjs:108-112
 QUOTE:
 ```js
 function replaceExactly(source, needle, replacement, count = 1) {
@@ -150,12 +150,12 @@ function replaceExactly(source, needle, replacement, count = 1) {
   return source.split(needle).join(replacement);
 }
 ```
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 index/202608291310-compile-atlas-v9-deep-link.mjs:122
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 index/202608291310-compile-atlas-v9-deep-link.mjs:122
 QUOTE:
 ```js
   html = replaceExactly(html, "https://ventusltd.github.io/gridatlas/202608300453-atlas-v9/", ATLAS_BASE, 2);
 ```
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 manifests/202608291310-atlas-v9-deep-link-successor.json:62-64
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 manifests/202608291310-atlas-v9-deep-link-successor.json:62-64
 QUOTE:
 ```json
       "path": "index/202608291310-compile-atlas-v9-deep-link.mjs",
@@ -166,14 +166,14 @@ WHY: Outputs are write-once (F6) but the compilers are not. pipelinenews-atlas-l
 PATTERN: Anchor-count replacement (exact N occurrences or refuse); self-hashing compiler.
 
 ### F8 The engine column was added to an "immutable" release, and the release rows do not render it
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 releases/202609010836-index.html:152-154
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 releases/202609010836-index.html:152-154
 QUOTE:
 ```html
             <th>GRID ANALYTICS ENGINE</th>
             <th>NEWS SIGNAL</th>
             <th>ACTIONS</th>
 ```
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 releases/javascript/202609010836-projects-v9-5-1.js:122
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 releases/javascript/202609010836-projects-v9-5-1.js:122
 QUOTE:
 ```js
     const gridEngine = gridAnalyticsEngineV1(project);
@@ -182,12 +182,12 @@ WHY: Commit 8d6566821d3f79f4a6ca4be5eaa93c805bb5f682 edited files under releases
 PATTERN: Counter-example: hand-patching a release instead of compiling a new generation.
 
 ### F9 Build instructions do not authorise deployment
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 README.md:19
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 README.md:19
 QUOTE:
 ```markdown
 Build instructions do not authorise deployment. Every deployment requires explicit owner approval.
 ```
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 .github/DEPLOYMENT_POLICY.md:7
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 .github/DEPLOYMENT_POLICY.md:7
 QUOTE:
 ```markdown
 The Pages staging gate must fail closed on candidate manifests and exclude every release output declared by `build/*-v8-fast-site-manifest.json` unless a separate, valid owner-authorisation record exists at `build/authorisations/<generation>-v8-fast-pages-authorisation.json`. The immutable candidate manifest must remain byte-for-byte unchanged with `deployment: not-authorised`; changing that field is not an authorisation and must fail the gate.
@@ -196,14 +196,14 @@ WHY: Separates "may build" from "may deploy". The policy makes the field `deploy
 PATTERN: Authorisation is a separate signed record, never an edited field.
 
 ### F10 The 2026-08-30 email storm: retire, archive byte-for-byte, narrow triggers
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 .github/workflow-archive/20260830-email-storm/README.md:3-5
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 .github/workflow-archive/20260830-email-storm/README.md:3-5
 QUOTE:
 ```markdown
 These timestamped, one-use repair, authorisation and Atlas-successor workflows were archived after they generated duplicate push/schedule runs and misleading failure-email bursts.
 
 They are retained byte-for-byte for audit but are no longer executable by GitHub Actions because they are outside `.github/workflows/`.
 ```
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 .github/workflows/pages.yml:3-5
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 .github/workflows/pages.yml:3-5
 QUOTE:
 ```yaml
 # Automatic deployment is intentionally limited to immutable release and
@@ -214,7 +214,7 @@ WHY: Commit 83d9c430b283f8beaa8c0a05e42b14d4a4784623 (2026-08-30T12:45:12+01:00,
 PATTERN: Quarantine by relocation; triggers listen to outputs, not sources.
 
 ### F11 Release manifest: generation read from the clock, rollback by rebuild
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 releases/202609060232-pipelinenews/release-manifest.json:32-37
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 releases/202609060232-pipelinenews/release-manifest.json:32-37
 QUOTE:
 ```json
   "deployment": "not-authorised",
@@ -224,7 +224,7 @@ QUOTE:
   "generation_source": "read from UTC clock at build time, never chosen",
   "immutable_after_publication": true,
 ```
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 releases/202609060232-pipelinenews/release-manifest.json:57-58
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 releases/202609060232-pipelinenews/release-manifest.json:57-58
 QUOTE:
 ```json
   "rollback": "build again with --from an earlier release; nothing is edited in place",
@@ -234,7 +234,7 @@ WHY: The latest release (21 assets, 44 data files, 21 named cartridges) declares
 PATTERN: Self-describing immutable release; time-derived identity.
 
 ### F12 Bounded RSS ingest that refuses DTDs and never binds identity
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 discovery/bbc_rss.py:33-38
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 discovery/bbc_rss.py:33-38
 QUOTE:
 ```python
     # RSS campaign parameters are attribution, not a second news identity.
@@ -244,7 +244,7 @@ QUOTE:
 def parse_feed(body, feed_url, observed_at):
     if len(body) > MAX_BYTES or b'<!DOCTYPE' in body.upper() or b'<!ENTITY' in body.upper():
 ```
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 discovery/bbc_rss.py:121
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 discovery/bbc_rss.py:121
 QUOTE:
 ```python
             'scope':'RSS headlines and links; no article-page requests; no inferred REPD match.'}
@@ -253,7 +253,7 @@ WHY: 1 MiB cap per feed, DTD/ENTITY refused before parsing (XXE and billion-laug
 PATTERN: Bounded, identity-neutral ingest.
 
 ### F13 Cartridge loader asserts the privacy and corroboration boundary before display
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 releases/202609060232-pipelinenews/assets/202608311343-project-intelligence.mjs:302-310
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 releases/202609060232-pipelinenews/assets/202608311343-project-intelligence.mjs:302-310
 QUOTE:
 ```js
       invariant(payloadRequests === 1, "derived index requested more than once");
@@ -270,7 +270,7 @@ WHY: The payload may be fetched exactly once, must carry the expected schema, mu
 PATTERN: Assert the payload's own law flags at load time.
 
 ### F14 Distance to the nearest mapped data centre (the datacentre surface in PipelineNews)
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 releases/202609060232-pipelinenews/assets/202608311343-project-intelligence.mjs:169-180
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 releases/202609060232-pipelinenews/assets/202608311343-project-intelligence.mjs:169-180
 QUOTE:
 ```js
 function tabDataCentres(data, ix) {
@@ -290,7 +290,7 @@ WHY: The only data-centre lens in this repo: straight-line km from each live sol
 PATTERN: Screen, not route: label proximity as proximity.
 
 ### F15 Never hand-keep a technology list
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 releases/202609060232-pipelinenews/assets/202609040044-wider-fleet.mjs:37-40
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 releases/202609060232-pipelinenews/assets/202609040044-wider-fleet.mjs:37-40
 QUOTE:
 ```js
  * The names and the counts are both read from the payload at mount time and
@@ -302,7 +302,7 @@ WHY: Names a real defect (wind_onshore missing from the engine's layer ids) and 
 PATTERN: Derive enumerations from data, never from source.
 
 ### F16 The older, permissive deep link it replaced
-KEY: pipelinenews@0a0403e11723a27b3148f6d50a37516f22a5e915 ui/atlas-v9-deep-links.js:3-11
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 ui/atlas-v9-deep-links.js:3-11
 QUOTE:
 ```js
   const RELEASE_ID = "202608300453-atlas-v9";
@@ -330,7 +330,7 @@ PATTERN: Contract tightening over generations.
 
 ## History (keyed by commit SHAs; cadence, authorship, turning points, storms, reverts)
 
-Counts at project tip 67aa2eb05993c630887b41c3b720ba42a86669a4 (521 commits, `git rev-list --count 67aa2eb05993c630887b41c3b720ba42a86669a4`); HEAD 0a0403e11723a27b3148f6d50a37516f22a5e915 is commit 522, the swarm's own workspace commit by Claude at 2026-10-31T19:11:10Z.
+Counts at project tip 67aa2eb05993c630887b41c3b720ba42a86669a4 (521 commits, `git rev-list --count 67aa2eb05993c630887b41c3b720ba42a86669a4`); commits after the tip are the swarm's own workspace commits by Claude (first de3e68e42e01d3f37e26fb08b9bc76d36e299b61 at 2026-10-31T19:11:10Z), excluded from every count below.
 
 Span: e3ec7bf061a5733a61c047c31e96877d3fa81698 (2026-08-24T11:39:30+01:00) to 67aa2eb05993c630887b41c3b720ba42a86669a4 (2026-09-26T14:27:23+01:00); 22 active UTC days. 3 merge commits (`git log --merges --oneline | wc -l`).
 

@@ -88,7 +88,7 @@ QUOTE:
     assert not op_compatible("Digital Realty", "Global Technical Realty")
     assert op_compatible("Equinix (UK) Ltd", "EQUINIX")
 ```
-WHY: The fixture (dc_a4.py:465-476) uses the actual globalgrid2050 ids gg2050-dc-133/135/193/231/237 and coordinates around 51.517 N, -0.618 E. Digital Realty LHR26 and LHR27 may join each other, but never Global Technical Realty London GB One (130 m away). Two unknown-operator neighbours, China Mobile Slough and VIRTUS London 11, may not join either, because they have different names. The last two asserts pin both sides of the rule: suffix-insensitive equality holds, and a shared word does not.
+WHY: The fixture (dc_a4.py:465-476) uses the actual globalgrid2050 ids gg2050-dc-133/135/193/231/237 and coordinates around 51.517 N, -0.618 E. Digital Realty LHR26 and LHR27 may join each other, but never Global Technical Realty London GB One (138 m from LHR26, haversine). Two unknown-operator neighbours, China Mobile Slough and VIRTUS London 11, may not join either, because they have different names. The last two asserts pin both sides of the rule: suffix-insensitive equality holds, and a shared word does not.
 PATTERN: regression fixture built from the real false-merge cluster
 
 ### F4 DEFECT: the same guard now splits one site, Wapseys Wood (PINS EN0110030), into a placed and an unplaced record
