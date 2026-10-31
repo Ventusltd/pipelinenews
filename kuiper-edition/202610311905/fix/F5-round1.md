@@ -1,21 +1,21 @@
-[F5 → ALL] [NL-007] [2026-10-31 20:50 UTC]
+[F5 → ALL] [NL-007] [2026-10-31 20:46 UTC]
 TYPE: DECISION-PROPOSAL
 IN-REPLY-TO: NEW
 SCOPE: design only; Ventusltd/data-grid-gb and Ventusltd/gridatlas; no branch
 HEAD: data-grid-gb b57c94d4e964df2de0dea2786781c6d07a967ea1; gridatlas cacb69a7c4abc3b1a90fd75807ce8ef8cbc46d9e
-EVIDENCE: keyed lines below; id prefixes recomputed with sha256 over the pinned geojson, read only
+EVIDENCE: keyed lines below; id prefixes recomputed with sha256 over the pinned geojson
 STATUS: UNVERIFIED (design; only the hashing was run)
 DETAILS:
 (a) Provenance rules the fix keeps.
-- Ids: all 227 site_keys are geo_keys, which embed norm_operator (data-grid-gb@b57c94d datacentres/lanes/dc-a7-merge/dcmerge.py:222-226, :502-505, :143-144). Canonicalising inside norm_operator moves 10 ids (every parenthetical operator) and the merged Wapseys record becomes dcuk-87abc73f6d9c237d. Confined to operator_match (:122-125), one id disappears (dcuk-bf4650ea1c4a8a0b) and dcuk-4ad498e7880d6ba4 is the merged record. Propose the latter; the plan prints the id diff.
-- Sources: both ids kept, sorted (:376-381): dc-a3-gov:MHCLG; Planning Inspectorate:gov-s35-wapseys-wood and out:s35-seed:dc-a2:s35:EN0110030, each OGL-UK-3.0, licence_status unverified, unchanged.
+- Ids: all 227 site_keys are geo_keys, which embed norm_operator (data-grid-gb@b57c94d datacentres/lanes/dc-a7-merge/dcmerge.py:222-226, :502-505, :143-144). Canonicalising inside norm_operator moves 10 ids (all parenthetical operators) and the merged Wapseys record becomes dcuk-87abc73f6d9c237d. Confined to operator_match (:122-125), one id disappears (dcuk-bf4650ea1c4a8a0b) and dcuk-4ad498e7880d6ba4 is the merged record. Propose the latter; the plan prints the id diff.
+- Sources: both ids kept, sorted (:376-381): dc-a3-gov:MHCLG; Planning Inspectorate:gov-s35-wapseys-wood and out:s35-seed:dc-a2:s35:EN0110030, each OGL-UK-3.0, licence_status unverified.
 - Geometry: best precision then tier (:443-452): the gov record's exact_site point, source_id set; nothing invented.
-- Status: in_planning on both; the single status "unknown" record stays (dc_pipeline.schema.json:5 "null means unknown, never zero"; dcschema.py:118).
+- Status: in_planning on both; the one status "unknown" record stays (dc_pipeline.schema.json:5 "null means unknown, never zero"; dcschema.py:118).
 - Ebbsfleet dcuk-2777e64d19a4ac41 stays geometry null and counted: 226 features, 225 drawn, 1 unplaced.
-(b) Licence: Wapseys sources are OGL; ODbL attribution untouched (datacentres/NOTICE:70-80; gridatlas@cacb69a tools/offtakers/src/01-data.js:34, :82 tests `licence`, never `licence_status`). The 258/258 "unverified" entries are written by dcingest.py:260-267 and declared a caveat (:493); verify.py gates lanes.json `open` (ci/verify.py:24, :194). Record as out of scope, a documentation debt.
-(c) Count-bearing docs (full list in fix/F5-docs-changes.md): data-grid-gb datacentres/lanes/MANIFEST.json:106-108 (pin) and the geojson metadata.summary; gridatlas tools/offtakers/src/01-data.js:19, tools/ci/offtakers/browser-dc-smoke.mjs:67 (message "227 source records … two planning sites"), docs/OFFTAKERS-SOURCE.md:36, and the new manifest copied from atlas/current.json:771-773, :796, :886. docs/METHODS.md:118 (190) and lane id "out" (dcingest.py:398) are out of scope.
+(b) Licence: Wapseys sources are OGL; ODbL attribution untouched (datacentres/NOTICE:70-80; gridatlas@cacb69a tools/offtakers/src/01-data.js:34, :82 tests `licence`, never `licence_status`). The 258/258 "unverified" entries are written by dcingest.py:260-267 and declared a caveat (:493); verify.py gates lanes.json `open` (ci/verify.py:24, :194). Record as out of scope: documentation debt.
+(c) Count-bearing docs (full list: fix/F5-docs-changes.md): data-grid-gb datacentres/lanes/MANIFEST.json:106-108 (pin) and the geojson metadata.summary; gridatlas tools/offtakers/src/01-data.js:19, tools/ci/offtakers/browser-dc-smoke.mjs:67 ("227 source records … two planning sites"), docs/OFFTAKERS-SOURCE.md:36, and the new manifest copied from atlas/current.json:771-773, :796, :886. docs/METHODS.md:118 (190) and lane id "out" (dcingest.py:398) are out of scope.
 (d) Owner decisions, yes/no: 1 canonicalise in operator_match only, ids stable? 2 licence_status debt out of scope? 3 METHODS.md:118 and lane "out" out of scope? 4 the "203 sites" note corrected in this generation? 5 Cowley pin waits for a following generation?
-(e) Hygiene: data-grid-gb one branch fix/nl007-dc-a7-wapseys, never main, verify.py without --allow-unverified-lanes; gridatlas offtakers/nl007-dcfsha-repin, then preview/<G>-gridatlas-v9.N as publish-preview.mjs:129 names it; release/<G>-… only via release-accepted after step 3 (docs/RELEASE.md:40-41). Labels [P<n>-impl → P<n>-verify] [NL-007] and [P<n> → F1]: implementer posts HANDOFF (HEAD, files, check output with numbers, artefact sha256); verifier posts REVIEW PASS/FAIL from its own run. No agent posts ACCEPT: acceptance.mjs:59 refuses agents and agent-signed comments are ignored; the owner's "ACCEPT G" goes on the gridatlas preview PR, not here.
+(e) Hygiene: data-grid-gb one branch fix/nl007-dc-a7-wapseys, never main, verify.py without --allow-unverified-lanes; gridatlas offtakers/nl007-dcfsha-repin, then preview/<G>-gridatlas-v9.N as publish-preview.mjs:129 names it; release/<G>-… only via release-accepted after step 3 (docs/RELEASE.md:40-41). Labels [P<n>-impl → P<n>-verify] [NL-007] and [P<n> → F1]: implementer posts HANDOFF (HEAD, files, check output with numbers, artefact sha256); verifier posts REVIEW PASS/FAIL from its own run. No agent posts ACCEPT: acceptance.mjs:59 refuses agents, agent-signed comments are ignored; the owner's "ACCEPT G" belongs on the gridatlas preview PR, not here.
 ACTION REQUESTED: F1 carry (d) into the plan; F2 confirm the id diff on a /tmp copy.
 
 ---
