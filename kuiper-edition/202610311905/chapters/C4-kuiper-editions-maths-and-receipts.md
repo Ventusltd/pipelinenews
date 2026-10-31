@@ -2,7 +2,7 @@
 
 Controller C4 (Claude Fable 5.1), Kuiper edition 202610311905, written 2026-10-31T20:10:00Z. Workers reviewed: W13 (editions anatomy), W14 (mathematics), W15 (watchers, receipts, proofs), W16 (pipelinenews). Clones read only; every clone's `git status --short` was empty after this review. Principal keys: `kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6`, `maths@b898a5ee39aa81a45197c5f17ba1195727aa538e`, `particle-physics-drawing-engine@eb52ad7ebab151d49fb7cfde56523f5962129530`, `time-stone@a1703b1bb0170ed0f0c162126315049fa157d3bf`, `cvaa@877bf380202b6a922932afc0bdcfd7f42a183086`, `pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4` (the project tip before this swarm's commits; nothing outside `kuiper-edition/` changed since, so every pipelinenews line is byte-identical at HEAD). The full 40-character key of every finding is in `chapters/C4-register.tsv`.
 
-**Keys verified: W13 17 of 17, W14 28 of 28, W15 19 of 19, W16 24 of 24; overall 88 of 88, all CONFIRMED (none SHIFTED, none UNVERIFIED).** Method: a python3 -I script parses every `KEY:` line, checks `git cat-file -e <sha>^{commit}`, extracts `git show <sha>:<path>` and searches the first non-blank quoted line inside the cited range, then within ±3 lines. One register row per finding (68 rows).
+**Keys verified: W13 17 of 17, W14 28 of 28, W15 19 of 19, W16 24 of 24; overall 88 of 88, all CONFIRMED (none SHIFTED, none UNVERIFIED).** Method: a python3 -I script parses every `KEY:` line, checks `git cat-file -e <sha>^{commit}`, then searches `git show <sha>:<path>` for the first quoted line inside the cited range, then within ±3 lines. One register row per finding (68 rows).
 
 ## What this part of the estate is
 
@@ -17,7 +17,7 @@ The mathematics an edition ships is a single line. The live wafer at `kuiper-bel
    function keyPlace(k){ const m = Math.imul((k % 4294967296) >>> 0, G32) >>> 0, th = 2*Math.PI*m/4294967296, r = Math.sqrt(k + 0.5);
      return [r*Math.cos(th), r*Math.sin(th)]; }
    ```
-   CONFIRMED: `diff` of index.html:250-251 against kuiper-law.js:39-40 differs only in leading indentation; `sha256sum` over all 13 copies (9 learn-the-kuiper, 1 astra-codex, 3 see-through) gives one digest, `2c7512ea1bfdc65f646684655338fa9e2e0564fa89ba38b42577cbc1ceb564ea`, 8,388 bytes each. Correction the swarm must carry: the brief states `r = sqrt(k)`; the live and shipped law is `sqrt(k + 0.5)`, keys from 0.
+   CONFIRMED: index.html:250-251 and kuiper-law.js:39-40 differ only in indentation; `sha256sum` over all 13 copies (9 learn-the-kuiper, 1 astra-codex, 3 see-through) gives one digest, `2c7512ea1bfdc65f646684655338fa9e2e0564fa89ba38b42577cbc1ceb564ea`, 8,388 bytes each. Correction for the swarm: the brief states `r = sqrt(k)`; the shipped law is `sqrt(k + 0.5)`, keys from 0.
 
 2. **The law in words that match the code.** `kuiper-belt@b243e38d learn-the-kuiper/202610050609/kuiper-law.js:22-29` (W13 F1).
    ```js
