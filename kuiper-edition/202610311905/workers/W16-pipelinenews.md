@@ -1,5 +1,5 @@
 # W16 pipelinenews
-HEADS: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 (keys use the project tip 67aa2eb05993c630887b41c3b720ba42a86669a4. The clone HEAD kept moving during this run because the harness commits worker reports: it was 67aa2eb at start, 941bb8e3f00283ea97cdf0249f64700698db3f55 at write time. Every commit after 67aa2eb touches only kuiper-edition/: 0 = 0, so each keyed line is byte-identical at HEAD; resolve with  or .)
+HEADS: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 (keys use the project tip 67aa2eb05993c630887b41c3b720ba42a86669a4. The clone HEAD kept moving during this run because the harness commits worker reports: it was 67aa2eb at start, 6f90d4d3be50a65b39296c63aa3034bd9fd24c21 at write time. Every commit after 67aa2eb touches only kuiper-edition/: `git diff --name-only 67aa2eb05993c630887b41c3b720ba42a86669a4 HEAD | grep -v "^kuiper-edition/" | wc -l` = 0, so each keyed line is byte-identical at HEAD; resolve with `git show <sha>:<path> | sed -n <line>p` or `sed -n <line>p <path>`.)
 Written 2026-10-31T19:40:00Z by W16 (Opus). Read only; no clone was changed.
 
 READ:
@@ -66,7 +66,7 @@ WHY: Commit 8d6566821d3f79f4a6ca4be5eaa93c805bb5f682 ("Declare Grid Analytics En
 PATTERN: One pure function, three surfaces (table, CSV, link).
 
 ### F3 Fail-closed Pipeline News to GridAtlas transport contract
-KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 releases/202609060232-pipelinenews/assets/202609040044-atlas-pointer-deep-link.mjs:75-83
+KEY: pipelinenews@67aa2eb05993c630887b41c3b720ba42a86669a4 releases/202609060232-pipelinenews/assets/202609040044-atlas-pointer-deep-link.mjs:75-82
 QUOTE:
 ```js
 /** Return a canonical absolute URL, or an empty string for a non-clickable row. */
@@ -590,7 +590,7 @@ H12 67aa2eb05993c630887b41c3b720ba42a86669a4 2026-09-26T14:27:23+01:00 "Restore 
 
 ## Proposed lines for the Kuiper edition (which keyed lines deserve a place, and why)
 1. README.md:47 (F1): the estate's clearest one-paragraph routing law, with its failure story.
-2. 202609040044-atlas-pointer-deep-link.mjs:75-83 (F3): fail-closed emission in nine lines.
+2. 202609040044-atlas-pointer-deep-link.mjs:75-82 (F3): fail-closed emission in eight lines.
 3. 202608311610-grid-proximity.mjs:61-72 (F5): a constant held for agreement, with the measured 0.112% cost of drifting.
 4. index/202608291310-compile-atlas-v9-deep-link.mjs:108-112 with :122 and the manifest hash (F7): an "immutable" compiler that drifted, and the anchor-count law that makes the drift refuse instead of lie. The best teaching pair in the repo.
 5. .github/DEPLOYMENT_POLICY.md:7 (F9): authorisation is a separate record; editing the field is a failure.
