@@ -30,7 +30,7 @@ Correction to the task framing: the engine is not hourly. It is scheduled every 
 ## Findings (keyed)
 
 ### F1 The engine: a fail-closed sandwich on a six-hour timer, no assistant, no paid credit
-KEY: kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 .github/workflows/engine.yml:30-53 (cron at :8)
+KEY: kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 .github/workflows/engine.yml:30-41 (cron at :8, commit at :51)
 QUOTE:
 ```yaml
       - name: Check first, and fail closed
@@ -161,7 +161,7 @@ WHY: Three-way agreement (rows, meta, per-repo totals) plus order and closure of
 PATTERN: cross-sum identity; order invariant.
 
 ### F9 The guard that does not spell what it guards
-KEY: kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 tools/check_proof.py:23-25,47-55
+KEY: kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 tools/check_proof.py:23-25,47-53
 QUOTE:
 ```python
 THE GUARD DOES NOT SPELL WHAT IT GUARDS. An earlier guard listed the private repository names in
@@ -179,7 +179,7 @@ WHY: A privacy filter published in a public repo that reveals nothing: it holds 
 PATTERN: hashed denylist; count-not-name reporting.
 
 ### F10 Permanence tested once on real data: 9,848 kept, 0 moved
-KEY: kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 cosmos/permanence.json:2-14
+KEY: kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 cosmos/permanence.json:2-13
 QUOTE:
 ```json
  "earlier_measurement": "d672e69",
@@ -240,7 +240,7 @@ WHY: data/authored.tsv (66 rows, no header; columns repo, added, deleted, commit
 PATTERN: proof record reconciles with published table.
 
 ### F14 The README's DRIFT block and State section are frozen at the first night
-KEY: kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 README.md:175-187
+KEY: kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 README.md:175-186
 QUOTE:
 ```markdown
 ## State

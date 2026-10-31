@@ -167,7 +167,7 @@ WHY: The append-only law applied to a SQLite database: an anti-join of old again
 PATTERN: append-only by anti-join (old rows must survive with the same hash)
 
 ### F11 Seeded by hash: a star's id is sha1(generation + choice), so a pass is idempotent and any star can be regenerated
-KEY: star-maker@f65c2f381d91eeb1eba75a97ae6765c24e32197d machinery/bench/starmaker.mjs:86-90
+KEY: star-maker@f65c2f381d91eeb1eba75a97ae6765c24e32197d machinery/bench/starmaker.mjs:86-91
 QUOTE:
 ```javascript
 const starId = (gen, choice, query = '') => createHash('sha1').update(gen + JSON.stringify(choice) + query).digest('hex').slice(0, 12);
@@ -191,7 +191,7 @@ WHY: Implemented at `machinery/bench/starmaker.mjs:96-101`: a replay compares ve
 PATTERN: replay-as-append (reproducibility measured, disagreements kept)
 
 ### F13 The frozen substrate: a point's place is a pure function of its permanent number
-KEY: galaxies-wafers@fff6fc6ad4f93a15fe8f6456942a1b44e5547105 wafer.mjs:38-55
+KEY: galaxies-wafers@fff6fc6ad4f93a15fe8f6456942a1b44e5547105 wafer.mjs:38-47
 QUOTE:
 ```javascript
  * TO CHANGE THIS FILE is to invalidate every layer, link and record that has
@@ -330,7 +330,7 @@ PATTERN: hash-pinned inputs (receipts expire when inputs change)
 
 ## Gridatlas and datacentre relevance (how this slice bears on the focus)
 
-- **time-stone is the independent clock on the gridatlas release.** `grep -c -P '\tgridatlas\t' ledger.tsv` = 21 rows; 13 of them are from 2026-10-26 to 2026-10-29. Same-batch pairs record data-grid-gb and gridatlas moving together: ledger.tsv:1033-1034 (`1793308473 data-grid-gb 2026-10-29T20:47:29Z`, `1793308473 gridatlas 2026-10-29T20:48:49Z`) and ledger.tsv:1036,1040 (`data-grid-gb 2026-10-29T22:11:07Z`, `gridatlas 2026-10-29T23:53:54Z`). That bracket matches the data-centre Grid Engine release (generation 202610292044, per BRIEF). data-grid-gb has 4 ledger rows in total; data-centres-gb has 1 (ledger.tsv:16, pushed 2026-08-31T23:25:44Z, unchanged since). The ledger is a third-party, append-only witness that the datacentre producer (data-grid-gb) pushed before the map (gridatlas) on release day.
+- **time-stone is the independent clock on the gridatlas release.** `grep -c -P '\tgridatlas\t' ledger.tsv` = 21 rows; 12 of them are from 2026-10-26 to 2026-10-29. Same-batch pairs record data-grid-gb and gridatlas moving together: ledger.tsv:1033-1034 (`1793308473 data-grid-gb 2026-10-29T20:47:29Z`, `1793308473 gridatlas 2026-10-29T20:48:49Z`) and ledger.tsv:1036,1040 (`data-grid-gb 2026-10-29T22:11:07Z`, `gridatlas 2026-10-29T23:53:54Z`). That bracket matches the data-centre Grid Engine release (generation 202610292044, per BRIEF). data-grid-gb has 4 ledger rows in total; data-centres-gb has 1 (ledger.tsv:16, pushed 2026-08-31T23:25:44Z, unchanged since). The ledger is a third-party, append-only witness that the datacentre producer (data-grid-gb) pushed before the map (gridatlas) on release day.
 - **star-maker drives GridAtlas compositions.** Every star is a GridAtlas generation plus a choice of cartridges (README:30-38: live 1, unplug 15, version ~131, constellation ~4,150). The DC engine (`06b-dc-engine.js`) is not yet a seed: star-maker's sky stopped on 2026-09-14 at source generation 202609080850. A star pass on generation 202610292044 would be the reproducible regression test for the data-centre release.
 - **cvaa's `observed-before-asserted` vaccine** is exactly the rule the gridatlas release needs ("fixed", "live" claims require a runtime receipt tied to the deployed identity). It is the vaccine that is currently unlocked (F6).
 - **galaxies-wafers already has a `pipeline-news` layer** (F14) whose features carry pipelinenews source spans by commit and line. A `dc-engine` layer built the same way would put the data-centre engine's functions on the wafer under the same key law.
