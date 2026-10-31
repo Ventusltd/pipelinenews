@@ -1,0 +1,19 @@
+{
+ "run_id": "202610311905",
+ "asof": "2026-10-31T19:05:00+00:00",
+ "sha256": {
+  "belt/belt.json": "22b6f5bea08f59308903db8bf5d88eb0094cac1a4ff86f98d68f662193c5754e",
+  "belt/bodies.json": "70c212dcabfcc543597f2c08e7205a32c96067521c79b3fd228515ddaa84e00d",
+  "belt/unresolved.json": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "belt/rules.txt": "478853017b41c04bf6569882cf751e2fbe90ec84b75db6b584e4b2ddf861d212"
+ },
+ "counts": {
+  "register_rows": 354,
+  "not_verified_skipped": 0,
+  "unresolved": 0,
+  "bodies": 346,
+  "dim": 0,
+  "focus": 174
+ },
+ "command": "tools/edition_belt.py --register register.tsv --roots /home/user/estate,/home/user --out . --run-id 202610311905 --asof 2026-10-31T19:05:00+00:00"
+}

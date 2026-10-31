@@ -1,0 +1,13 @@
+asof 2026-10-31T19:05:00+00:00
+run-id 202610311905
+a_min 0.16
+a_max 0.92
+theta_law 2*pi*((k*2654435769) mod 2^32)/2^32  (+222.492236 deg per key; the mirror of estate.py's float +137.507764)
+radius_law sqrt((k+0.5)/n) scaled to the annulus
+order sorted key, key = <blob sha>:<line>
+frame centred on zero, as estate.py measured
+stations [x, y, key, copies]
+edges none (unmeasured)
+n 346
+git git version 2.43.0
+command tools/edition_belt.py --register register.tsv --roots /home/user/estate,/home/user --out . --run-id 202610311905 --asof 2026-10-31T19:05:00+00:00

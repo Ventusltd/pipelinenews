@@ -50,9 +50,9 @@ joined with the line number, so a body is a line, and every body opens.
 | distinct blobs | 30,895; 1,842 (6.0 %) in more than one repository | `proof/duplicates.tsv` |
 | commits in the clones | 3,324; 34.8 % by automation | W20, `proof/history-timeline.tsv` |
 | worker findings written | 20 files, 10,233 lines | `workers/` |
-| keys re-resolved by controllers | C1 113 of 113, C2 103 of 103, C3 98 of 98, C4 88 of 88, C5 see chapter | `chapters/` |
-| register rows | see `register.tsv` (all CONFIRMED or SHIFTED) | |
-| bodies on the belt | see `belt/rules.txt` (`n`) and `proof/*-belt.json` | |
+| keys re-resolved by controllers | 495 of 495: C1 113, C2 103, C3 98, C4 88, C5 93; none shifted, none unverified | `chapters/` |
+| register rows | 354, all CONFIRMED | `register.tsv` |
+| bodies on the belt | 346 (eight lines were cited by two chapters and are one body each); 174 on gridatlas, data-grid-gb or data-centres-gb; 0 unresolved, 0 dim | `belt/rules.txt`, `proof/202610311905-belt.json` |
 
 ## The twelve lines
 
