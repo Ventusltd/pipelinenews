@@ -33,7 +33,7 @@ README.md (lines 1-40)
 nightly/202608310015-gridatlas-overnight-next-versions/ (listing; runs/ has 4 entries)
 git log of .github/workflows, tools/ci, tools/overnight
 
-Counts (commands run from /home/user/estate/gridatlas at 2026-10-31T19:10Z..19:20Z):
+Counts (commands run from /home/user/estate/gridatlas between 2026-10-31T19:10Z and 2026-10-31T19:17Z):
 - Active workflows: **9** — `ls .github/workflows | wc -l` = 9, 2,001 lines (`wc -l .github/workflows/*.yml`). Budget: `ACTIVE_WORKFLOWS` in tools/scope/lib.mjs lists exactly 9; loop.mjs asserts set equality and **21** archived one-offs (`ls .github/workflow-archive/202608301321-hostile-amnesia | wc -l` = 21).
 - Action pinning: **38 of 44** `uses:` lines are pinned to a 40-hex SHA (`grep -h "uses:" .github/workflows/*.yml | grep -c -E "@[0-9a-f]{40}"` = 38; total 44). The 6 unpinned: 5 in offshore-coordinate-reconcile.yml (lines 46, 54, 60, 65, 114), 1 in pr-file-size-guard.yml:181.
 - Node test cases in tools/ci: **241** — `grep -cE "^\s*test\(" tools/ci/offtakers/overlay-offtakers.test.mjs tools/ci/lightning/*.test.mjs` = 30 + 203 + 8. Release tooling: 16 more (`tools/release/flow.test.mjs` 7, `loader-swap.test.mjs` 9).
@@ -467,7 +467,7 @@ PATTERN: no time-bombed automation; record without the trigger shape
 - **P5 Proven both ways.** F18 (inflated baseline exit 1, real exit 0), F19 (negative control; 17 of 18 mutants), F7 (one-byte flip ran red, docs/CI.md:205-209).
 - **P6 Budgets as invariants.** F6 (9 workflows, 21 archived), F10/F11 (CSV 400 rows / 256 kB), pr-file-size-guard 5 MB per file (gridatlas@cacb69a7c4abc3b1a90fd75807ce8ef8cbc46d9e .github/workflows/pr-file-size-guard.yml:31).
 - **P7 Measured accessibility.** F12 (>=44 px on the input, all 63), F13 (justified viewport matrix), F14 line 79 (close control must not be clipped).
-- **P8 Label the harness honestly.** F9 (hidden checkbox, "not visual UI"); cartridge-proof.yml:107-109: "Android-sized touch Chromium is an emulation, not a physical-device claim ... a hosted CPU runner must never label its browser test a GPU run."
+- **P8 Label the harness honestly.** F9 (hidden checkbox, "not visual UI"); cartridge-proof.yml:108-110: "Android-sized touch Chromium is an emulation, not a physical-device claim ... a hosted CPU runner must never label its browser test a GPU run."
 
 ## History (keyed by commit SHAs; cadence, authorship, turning points, storms, reverts)
 
@@ -479,13 +479,13 @@ All SHAs resolve in gridatlas@cacb69a7c4abc3b1a90fd75807ce8ef8cbc46d9e (shallow,
 - **2026-09-29.** efb844b9bba70edd42671aa56a9877709d7526c3 (author Vikram Kumar) "Add PR file size guard and a cartridge audit instead of deleting old copies".
 - **2026-10-28, the PR-gate night** (Ventusltd): 2fb7106d8c89e74505e2413b903b61180f2f2c35 (17:33:31Z, Claude) retired a tenth workflow so the scope loop passes; 97929ba7674fc3b9496eb835e2e1329ad99e0049 (20:57:15Z) live bytes after every push (#51); 94c5c7c5e32dde954ae5e0cff7a77f35f79c4619 (21:02:41Z) the PR gate (#52); 39c62b458eec5e75dc7e351b5c46d3640cb3773f (23:09:53Z) lightning suite in the gate, mutants 1/18 → 17/18 (#56). Then ef4f4d4b53513f8e17db1006aed52d178a691dfe (2026-10-29T02:39:55Z) the live-bytes issue (#60).
 - **2026-10-29 21:40-21:55Z, the data-centre browser storm** (Ventusltd, 7 commits to browser-dc-smoke / pr-file-size-guard in 13 minutes, each a fix forced by a real Chromium run): 95ae6d4d7c334e01f000fbd248bbfecd8457e132 add the smoke (21:42:32Z) → 2355c78477a0f26f3f44af2c360f6020bfc98d8d wire it to PR #75 (21:42:50Z) → 9975a7a07e260c810c92372a05612fb2c8c578e2 wait for the composed map (21:46:05Z) → 45cf73ac90e1c1695d54d03444b5a84aef487530 drive the hidden checkbox (21:48:12Z) → 79eb77fa1a00d4efff5857e9643c16f5445d6326 expect 225 mappable, two unlocated kept unknown (21:50:34Z) → 2285a9192466dcaf550e60d48afc111586e8b27c diagnose instead of silent timeout (21:52:58Z) → 6d5fd05204e34243e4ea344accf24ef8f96b6a15 tap three actual sites on mobile and desktop (21:55:40Z). HEAD (v9.187 release) followed at 2026-10-29T23:41:04Z.
-- **Cadence and authorship:** 120 of 311 reachable commits touch .github/workflows, tools/ci or tools/overnight. Authors over all reachable commits: Ventusltd 268, Claude 41, Vikram Kumar 2. No reverts found in the CI paths (`git log --format=%s -- .github/workflows tools/ci tools/overnight | grep -ci revert` was not run; see Candidates).
+- **Cadence and authorship:** 120 of 311 reachable commits touch .github/workflows, tools/ci or tools/overnight. Authors over all reachable commits: Ventusltd 268, Claude 41, Vikram Kumar 2. No reverts in the CI paths: `git log --format=%s -- .github/workflows tools/ci tools/overnight | grep -ci revert` = 0. Storms are fixed forward, never reverted.
 
 ## Gridatlas and datacentre relevance (how this slice bears on the focus)
 
 - The data-centre release v9.187 (generation 202610292044) is the generation the real-browser smoke pins: `DC_SMOKE_GENERATION: '202610292044'` (pr-file-size-guard.yml:177) and `assert.equal(init.lightning,'202610291043')` (browser-dc-smoke.mjs:50), which matches atlas/current.json's lightning module.
 - The 227-site pipeline (225 mappable) from data-grid-gb is asserted twice. In the node suite, DC1 (overlay-offtakers.test.mjs:386-407) says "two unplaced planning records (SDC M40 and Ebbsfleet) remain in the source, never drawn". In the browser, F10 asserts 225.
-- Slough is the reference cluster: DC1 requires ">=16 origins within 3 km" around `SL = [-0.62, 51.523]` (line 375) and forbids cross-operator merges for record pairs 133/237, 193/231, 56/196 and 56/57 (lines 397-402). DC2 checks the Grid Engine 30/30/30 against independent haversine and the original nearestSubstations.
+- Slough is the reference cluster: DC1 requires ">=16 origins within 3 km" around `SL = [-0.62, 51.523]` (line 375) and forbids cross-operator merges for record pairs 133/237, 193/231, 56/196 and 56/57 (lines 396-402). DC2 checks the Grid Engine 30/30/30 against independent haversine and the original nearestSubstations.
 - DC11 (lines 508-519) keeps IT load and grid connection apart: "never derived or added", and an unlabelled MW never sizes the dot. The browser smoke checks the CSV carries the "grid connection" distinction (browser-dc-smoke.mjs:95).
 - Live: once the release lands on main, the live-bytes job (F2/F3) is what proves the public site serves the data-centre cartridge bytes.
 
@@ -493,7 +493,6 @@ All SHAs resolve in gridatlas@cacb69a7c4abc3b1a90fd75807ce8ef8cbc46d9e (shallow,
 
 - CANDIDATE: The dc-browser-smoke job is bound to PR #75 only. After PR #75 merges or closes, no workflow in the active nine runs a real browser on the data-centre overlay, unless cartridge-proof.yml is re-enabled in repository settings. Repository settings are not visible from a clone: UNVERIFIED beyond the two in-repo statements (pr-file-size-guard.yml:3-7, docs/CI.md:185-187).
 - CANDIDATE: The overnight worker described in docs/CI-CD-PLAN.md (`D:\gridatlas-ci\worker.mjs`, five lanes, baseline.json fingerprints) lives on an external drive and is not in this repository. Its fingerprint/diff code is UNVERIFIED (`ls` and grep found no worker.mjs or baseline.json in the clone).
-- CANDIDATE: No revert commits in the CI paths. Not checked with a command; UNVERIFIED.
 - CANDIDATE: The workflow-archive's 21 files first appear at f3ba7a31b5bbac2a0af7171ddb2402cf6f3b624c, which may be the shallow-clone boundary rather than the true archive commit; UNVERIFIED at depth 300.
 - CANDIDATE: The offtakers suite's DC5 checks formula prefixes on column 2 only. A malicious operator or substation name in another text column is covered by cq() in source but not asserted.
 
@@ -511,5 +510,7 @@ All SHAs resolve in gridatlas@cacb69a7c4abc3b1a90fd75807ce8ef8cbc46d9e (shallow,
 ## One next command (exactly one, runnable from a clone)
 
 ```bash
-cd /home/user/estate/gridatlas && git fetch --dry-run 2>/dev/null; node tools/scope/loop.mjs state --stdout | diff -q - STATE.md && echo STATE-PARITY-OK
+cd /home/user/estate/gridatlas && node tools/scope/verify-live-bytes.mjs --timeout-s 120 --interval-s 20 --report /tmp/w06-live-bytes.json
 ```
+
+Why this one: it is read-only (it writes only the report under /tmp) and needs no browser or secrets. It checks whether https://ventusltd.github.io/gridatlas/ serves HEAD cacb69a7 (v9.187, the data-centre release) byte for byte, which this worker could not observe from the clone. Already run here and passed at 2026-10-31T19:16Z: `node tools/scope/loop.mjs state --stdout | diff -q - STATE.md` → `STATE-PARITY-OK` (stderr `scope-ledger=PASS active=none master=done`); `git status --porcelain` empty.
