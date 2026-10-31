@@ -51,12 +51,9 @@ WHY: Every mutation is bracketed by the same independent checker (ci_check.py ru
 PATTERN: check-mutate-check sandwich; zero-cost scheduled measurement.
 
 ### F2 What "lines standing" measures, in code
-KEY: kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 tools/harvest.py:66-80
+KEY: kuiper-belt@b243e38d4964557458fcaf636fd8d49c799f91a6 tools/harvest.py:69-80 (depth-1 clone at :66)
 QUOTE:
 ```python
-    r = subprocess.run(['git', 'clone', '-q', '--depth', '1', repo['clone_url'], d], capture_output=True, text=True, timeout=900)
-    if r.returncode:
-        return None
     g = lambda *a: subprocess.run(['git'] + list(a), cwd=d, capture_output=True, text=True).stdout.strip()
     head, when = g('rev-parse', 'HEAD')[:12], int(g('log', '-1', '--format=%ct') or 0)
     files = lines = 0
@@ -67,8 +64,10 @@ QUOTE:
         body = open(p, 'rb').read()
         if b'\0' in body[:8192]:
             continue                                            # not text: it has no lines
+        files += 1
+        lines += body.count(b'\n') + (1 if body and not body.endswith(b'\n') else 0)
 ```
-(harvest.py:79-80: `        files += 1` / `        lines += body.count(b'\n') + (1 if body and not body.endswith(b'\n') else 0)`.)
+(harvest.py:66: `    r = subprocess.run(['git', 'clone', '-q', '--depth', '1', repo['clone_url'], d], ...)`, abbreviated here.)
 WHY: Defines the metric exactly. "Lines standing" = for every PUBLIC, non-empty (`size > 0`, harvest.py:50) repository of the owner, a depth-1 clone of the default branch HEAD; for every tracked path that is a regular file (symlinks skipped) and has no NUL byte in its first 8,192 bytes, count newline bytes plus one if the last line is unterminated; sum over files and repos. It is a per-path snapshot of text present NOW (duplicate files count per path), not history, not distinct blobs, not authored lines. Totals at HEAD: cosmos/standing.tsv 81 repositories, 69,778 files, 51,446,529 lines, 0 missed (awk over standing.tsv). It is one of five distinct line measures in the repo (see Patterns P4).
 PATTERN: metric defined by code, not prose.
 
