@@ -3,7 +3,7 @@
 
 Law (kuiper-belt/README.md, estate-network.json "law"): one body per key;
 r = a_min + (a_max - a_min) * sqrt((k + 0.5) / n), k the body ordinal among sorted keys;
-theta = k * 2.399963229728653 (the golden angle in radians, turning the way estate.py turns);
+theta = 2*pi*((k*2654435769) mod 2^32)/2^32, the 32-bit odometer of the live wafer (+222.492236 deg per key);
 class is a property and never a position; no edges, because an unmeasured edge would be a claim
 without a key.
 
@@ -19,7 +19,12 @@ by --roots. A finding whose blob cannot be resolved is not placed; it is counted
 """
 import argparse, csv, hashlib, json, math, os, subprocess, sys, datetime
 
-GOLDEN_ANGLE_RAD = 2.399963229728653   # 137.507764 deg; estate.py turns +137.5 per body
+# The shipped law (kuiper-belt index.html:250, learn-the-kuiper/*/kuiper-law.js, maths/10): the angle is
+# the exact 32-bit odometer, theta = 2*pi * ((k * 2654435769) mod 2**32) / 2**32, which turns +222.492236
+# degrees per key (0.6180339887 of a turn). estate.py turns the mirror +137.5 as a float; this edition
+# follows the live wafer, and prints which in rules.txt.
+MULT = 2654435769                       # floor(2**32 / phi), hex 9E3779B9, Knuth TAOCP vol 3 s6.4
+TWO32 = 2 ** 32
 A_MIN, A_MAX = 0.08, 0.48              # the drawable annulus in the unit square, centre (0.5, 0.5)
 
 def sh(cmd, cwd=None):
@@ -80,7 +85,7 @@ def main():
     stations = []
     for k, b in enumerate(uniq):
         r = A_MIN + (A_MAX - A_MIN) * math.sqrt((k + 0.5) / n)
-        th = k * GOLDEN_ANGLE_RAD
+        th = 2 * math.pi * ((k * MULT) % TWO32) / TWO32
         x, y = round(0.5 + r * math.cos(th), 6), round(0.5 + r * math.sin(th), 6)
         b["k"], b["x"], b["y"], b["r"], b["theta"] = k, x, y, round(r, 6), round(th % (2 * math.pi), 6)
         stations.append({"id": b["id"], "x": x, "y": y, "m": 1, "class": b["class"], "open": True})
@@ -88,7 +93,7 @@ def main():
         "name": f"kuiper-edition-{args.run_id}",
         "source": "verified keyed findings of the swarm; key = git blob SHA of the file at the cited commit, joined with the line",
         "attribution": "content identifiers issued by git; quotes are the estate's own lines",
-        "law": "one body per key; r = a_min + (a_max - a_min) * sqrt((k + 0.5) / n) with k the body ordinal among sorted keys; theta = k * 2.399963229728653; class is a property and never a position; no edges, because an unmeasured edge would be a claim without a key",
+        "law": "one body per key; r = a_min + (a_max - a_min) * sqrt((k + 0.5) / n) with k the body ordinal among sorted keys; theta = 2*pi*((k*2654435769) mod 2^32)/2^32, the live wafer's 32-bit odometer, +222.492236 degrees per key; class is a property and never a position; no edges, because an unmeasured edge would be a claim without a key",
         "asof": asof,
         "counts": {"register_rows": len(rows), "not_verified_skipped": skipped, "unresolved": len(unresolved), "bodies": n,
                    "dim": 0, "focus": sum(1 for b in uniq if b["class"] == "focus")},
@@ -105,7 +110,7 @@ def main():
     git = sh(["git", "--version"]).stdout.strip()
     write("belt/rules.txt", "\n".join([
         f"asof {asof}", f"run-id {args.run_id}", f"a_min {A_MIN}", f"a_max {A_MAX}",
-        f"theta_per_body_rad {GOLDEN_ANGLE_RAD}", "radius_law sqrt((k+0.5)/n) scaled to the annulus",
+        f"theta_law 2*pi*((k*{MULT}) mod 2^32)/2^32  (+222.492236 deg per key; the mirror of estate.py's float +137.507764)", "radius_law sqrt((k+0.5)/n) scaled to the annulus",
         "order sorted key, key = <blob sha>:<line>", "edges none (unmeasured)", f"n {n}", f"git {git}",
         "command " + " ".join(sys.argv), ""]))
     proof = {"run_id": args.run_id, "asof": asof, "sha256": outs, "counts": belt["counts"], "command": " ".join(sys.argv)}

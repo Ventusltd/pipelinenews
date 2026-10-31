@@ -702,5 +702,5 @@ acd2f242667dd60868476490209c5b9ce4aeb8f9 2026-09-16T04:31:08+01:00 Ventusltd tes
 ## One next command (exactly one, runnable from a clone)
 
 ```bash
-git -C /home/user/estate/globalgrid2050 log --numstat --format='C %H' | awk '/^C /{next} NF==3 && $1!="-" {ext=$3; sub(/.*\./,"",ext); if (ext ~ /^(js|mjs|py|html|css|yml|ps1|sh)$/) code+=$1; else other+=$1} END {print "authored code lines added:", code, " data/prose lines added:", other}'
+git -C /home/user/estate/globalgrid2050 log acd2f242..HEAD --numstat --format='C %H' | awk '/^C /{next} NF==3 && $1!="-" {ext=$3; sub(/.*\./,"",ext); if (ext ~ /^(js|mjs|py|html|css|yml|ps1|sh)$/) code+=$1; else other+=$1} END {print "authored code lines added:", code, " data/prose lines added:", other}'
 ```
