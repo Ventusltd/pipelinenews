@@ -1,4 +1,6 @@
-# Kuiper edition 202610311905
+# Kuiper Edition 1 (202610311905)
+
+**Version:** Kuiper Edition 1 · cut stamp 202610311905 (2026-10-31T19:05Z) · published to https://ventusltd.github.io/kuiper-belt/editions/ on 2026-11-01 after NL-008 QA (PASS; see `../README.md`).
 
 **The estate's best lines, keyed, placed on the belt by the shipped law, with GridAtlas and the data centres at the centre.**
 
