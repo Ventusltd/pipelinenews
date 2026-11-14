@@ -18,8 +18,19 @@ export function allocateProvisional(records, project) {
     aliases:[],identity_history:[]};
 }
 
-export function reconcileProvisional(records, official, source) {
+// Operator names compare equal across the separator styles REPD itself switches
+// between quarters ("A / B" in Q2 2026 became "A & B" in Q3 2026 on 404 spine refs).
+const normaliseOperator = value => normalise(String(value ?? '').replace(/[\/&+]/g,' and ')).replace(/\band\b/g,' ').replace(/\s+/g,' ').trim();
+
+// options.operatorAliases: Map(repd_ref -> [previous operator names]) from the register
+// delta. The binding rule is unchanged: name/alias, operator (exact, as before), county
+// and capacity must all agree and the match must be unique. A candidate that agrees
+// only through last quarter's operator name or a separator respelling ("A / B" vs
+// "A & B") is NOT bound: it goes to the review queue (NL-019 decision: name/operator
+// matches are reviewed; only exact identity evidence promotes). Near misses likewise.
+export function reconcileProvisional(records, official, source, options = {}) {
   if (!source?.path || !/^[a-f0-9]{64}$/.test(source.sha256 ?? '')) throw Error('Quarterly source identity required');
+  const operatorAliases = options.operatorAliases ?? new Map();
   const numeric=official.filter(row=>/^\d+$/.test(String(row.repd_ref)));
   const occupied=new Set(records.filter(row=>row.official_repd_ref).map(row=>row.official_repd_ref));
   return records.map(input=>{
@@ -28,12 +39,19 @@ export function reconcileProvisional(records, official, source) {
     // A common name or a nearby site is insufficient: require the declared
     // name/alias, developer, county and reported capacity to agree uniquely.
     const names=[row.name,...(row.name_aliases ?? [])].map(normalise);
-    const matches=numeric.filter(candidate=>names.includes(normalise(candidate.name))
-      && normalise(candidate.operator)===normalise(row.operator)
-      && normalise(candidate.county)===normalise(row.county)
-      && Number(candidate.capacity_mw)===Number(row.capacity_mw));
+    const operatorOf=candidate=>[candidate.operator,...(operatorAliases.get(String(candidate.repd_ref)) ?? [])].map(normaliseOperator);
+    const named=numeric.filter(candidate=>names.includes(normalise(candidate.name)));
+    const place=candidate=>normalise(candidate.county)===normalise(row.county)
+      && Number(candidate.capacity_mw)===Number(row.capacity_mw);
+    const matches=named.filter(candidate=>normalise(candidate.operator)===normalise(row.operator) && place(candidate));
+    const aliasOnly=named.filter(candidate=>!matches.includes(candidate) && place(candidate)
+      && operatorOf(candidate).includes(normaliseOperator(row.operator)));
     if(matches.length!==1 || occupied.has(String(matches[0].repd_ref))) {
-      row.reconciliation={status:matches.length?'AMBIGUOUS_REQUIRES_REVIEW':'NO_VERIFIED_MATCH',source,candidate_count:matches.length};
+      row.reconciliation={status:matches.length?'AMBIGUOUS_REQUIRES_REVIEW':aliasOnly.length?'OPERATOR_ALIAS_REQUIRES_REVIEW':'NO_VERIFIED_MATCH',source,candidate_count:matches.length};
+      const review=named.filter(candidate=>!matches.includes(candidate)).slice(0,10).map(candidate=>({repd_ref:String(candidate.repd_ref),
+        operator_matches:operatorOf(candidate).includes(normaliseOperator(row.operator)),county_matches:normalise(candidate.county)===normalise(row.county),
+        capacity_matches:Number(candidate.capacity_mw)===Number(row.capacity_mw)}));
+      if(review.length) row.reconciliation.review_candidates=review;
       return row;
     }
     const previous=row.repd_ref, next=String(matches[0].repd_ref);

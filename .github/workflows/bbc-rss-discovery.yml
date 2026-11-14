@@ -32,6 +32,8 @@ jobs:
       - name: Reconcile provisional IDs against newly imported quarterly projects
         run: |
           node --test cartridges/provisional-identity.test.mjs
+          node --test tools/intelligence/register-quarter.test.mjs discovery/tests/project-binder.test.mjs discovery/tests/datacentre-binder.test.mjs
+          # Reads the newest release's REGISTERED projects asset; holds (exit 0, no write) on an implausible delta.
           node tools/intelligence/reconcile-provisional.mjs
       - name: Commit bounded product and observed health
         run: |

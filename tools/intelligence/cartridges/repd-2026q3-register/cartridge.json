@@ -1,0 +1,164 @@
+{
+  "key": "repd_2026q3_register",
+  "summary": "Quarterly register refresh: the project spine, compact index and search index move from REPD Q2 2026 to DESNZ REPD Q3 2026 (7,775 projects at >=1 MW from 14,967 source records; was 7,680 from 14,657). Every other panel is carried from the parent unchanged and joins by REPD Ref ID.",
+  "modifies_existing_dashboard": true,
+  "modification_note": "Replaces registry totals, source, assets.projects, assets.search and detail_partitions through release_builder's registry_core block; the Q2 files stay in the release as inherited, unreferenced bytes so the parent's digests remain true. Three sentences that named Q2 counts are re-counted for this cut.",
+  "repairs": {
+    "index.html": [
+      {
+        "label": "the cut sentence names DESNZ REPD Q3 2026",
+        "from": "<span>Canonical DESNZ REPD Q2 2026: 7,680 solar, BESS and wind records at ≥1 MW.</span>",
+        "to": "<span>Canonical DESNZ REPD Q3 2026: 7,775 solar, BESS and wind records at ≥1 MW. Grid distance, locality, project-intelligence and wider-fleet panels are carried from the Q2 2026 cut and join by REPD Ref ID.</span>"
+      }
+    ],
+    "app": [
+      {
+        "label": "not-measured sentence recounted for this cut",
+        "from": "\"Not measured. 3,047 of the 7,680 records in this cut carry a grid measurement and 4,633 do not. This project has a register coordinate and is one of the 4,605 unmeasured records that do: no search was run for it, so none failed.\"",
+        "to": "\"Not measured. 3,041 of the 7,775 records in this cut carry a grid measurement (carried from the Q2 2026 cut) and 4,734 do not. This project has a register coordinate and is one of the 4,708 unmeasured records that do: no search was run for it, so none failed.\""
+      },
+      {
+        "label": "not-measurable sentence recounted for this cut",
+        "from": "\"Not measurable. The register publishes no usable coordinate for this project, so there is no point on the ground to measure from. 28 of the 7,680 records are in that state, 26 missing and 2 invalid. The record stays searchable and exportable.\"",
+        "to": "\"Not measurable. The register publishes no usable coordinate for this project, so there is no point on the ground to measure from. 26 of the 7,775 records are in that state, 26 missing and 0 invalid. The record stays searchable and exportable.\""
+      },
+      {
+        "label": "CSV export reads the record count from the registry",
+        "from": "\"14657/14657 canonical REPD Ref IDs\"",
+        "to": "`${registry.source.source_record_count}/${registry.source.source_record_count} canonical REPD Ref IDs`"
+      }
+    ]
+  },
+  "registry_core": {
+    "totals": {
+      "project_count": 7775,
+      "capacity_mw": 365474.49,
+      "largest_mw": 4100.0,
+      "solar_count": 3604,
+      "bess_count": 1644,
+      "wind_onshore_count": 2417,
+      "wind_offshore_count": 110,
+      "geometry_count": 7749,
+      "missing_geometry_count": 26
+    },
+    "source": {
+      "dataset": "DESNZ Renewable Energy Planning Database Q3 2026",
+      "source_record_count": 14967,
+      "projects_sha256": "9beee3c049e4b05ed3545286e0ea2ce9274c07ab46a4358e2b7b9ba65d1f8f50",
+      "identity_sha256": "b4fcf35c80eb0f87487bc8c4ed0d276afea66948e6b0708f80e5cf993a5973a4",
+      "coordinate_fixture_sha256": "82a0676ed3c4f76db4dd308971e788253bd18b5a880ada1e889560d4e9e3215e",
+      "workbook_sha256": "87811e249395a05b223db6855952334f425e66cc9a2106caea0e38fd9e5037ea",
+      "admitted_project_count": 7775,
+      "candidate_delta": {
+        "count": 23,
+        "status": "held-fail-closed",
+        "rule": "admitted at >=1 MW only under the CSV's rounded capacity; the spine uses official XLSX precision"
+      },
+      "source_csv_sha256": "48e76c49f33a1090e78108d1ea9bfe689b35963ea3be1bb4f6516d038a5ff862",
+      "source_xlsx_sha256": "87811e249395a05b223db6855952334f425e66cc9a2106caea0e38fd9e5037ea",
+      "previous_cut": "DESNZ Renewable Energy Planning Database Q2 2026 (7,680 projects, 14,657 source records)"
+    },
+    "assets.projects": {
+      "path": "data/{GEN}-b86eecde9f43-repd-2026q3-fast-projects.json",
+      "schema": "pipelinenews.v8.fast-project-index.v1",
+      "activation": "boot",
+      "generation": "{GEN}",
+      "cache_identity": "b86eecde9f43f219fd72db1c6ea266a67a24b597ecbb2e1518d7067ecff3588b"
+    },
+    "assets.search": {
+      "path": "data/{GEN}-b86eecde9f43-repd-2026q3-fast-search.json",
+      "schema": "pipelinenews.v8.fast-search-index.v1",
+      "activation": "first-nonempty-search",
+      "generation": "{GEN}",
+      "cache_identity": "b86eecde9f43f219fd72db1c6ea266a67a24b597ecbb2e1518d7067ecff3588b"
+    },
+    "detail_partitions": [
+      {
+        "path": "data/{GEN}-repd-2026q3-project-partition-01.json",
+        "activation": "project-detail-or-export"
+      },
+      {
+        "path": "data/{GEN}-repd-2026q3-project-partition-02.json",
+        "activation": "project-detail-or-export"
+      },
+      {
+        "path": "data/{GEN}-repd-2026q3-project-partition-03.json",
+        "activation": "project-detail-or-export"
+      },
+      {
+        "path": "data/{GEN}-repd-2026q3-project-partition-04.json",
+        "activation": "project-detail-or-export"
+      },
+      {
+        "path": "data/{GEN}-repd-2026q3-project-partition-05.json",
+        "activation": "project-detail-or-export"
+      },
+      {
+        "path": "data/{GEN}-repd-2026q3-project-partition-06.json",
+        "activation": "project-detail-or-export"
+      },
+      {
+        "path": "data/{GEN}-repd-2026q3-project-partition-07.json",
+        "activation": "project-detail-or-export"
+      },
+      {
+        "path": "data/{GEN}-repd-2026q3-project-partition-08.json",
+        "activation": "project-detail-or-export"
+      },
+      {
+        "path": "data/{GEN}-repd-2026q3-project-partition-09.json",
+        "activation": "project-detail-or-export"
+      },
+      {
+        "path": "data/{GEN}-repd-2026q3-project-partition-10.json",
+        "activation": "project-detail-or-export"
+      },
+      {
+        "path": "data/{GEN}-repd-2026q3-project-partition-11.json",
+        "activation": "project-detail-or-export"
+      },
+      {
+        "path": "data/{GEN}-repd-2026q3-project-partition-12.json",
+        "activation": "project-detail-or-export"
+      },
+      {
+        "path": "data/{GEN}-repd-2026q3-project-partition-13.json",
+        "activation": "project-detail-or-export"
+      },
+      {
+        "path": "data/{GEN}-repd-2026q3-project-partition-14.json",
+        "activation": "project-detail-or-export"
+      },
+      {
+        "path": "data/{GEN}-repd-2026q3-project-partition-15.json",
+        "activation": "project-detail-or-export"
+      },
+      {
+        "path": "data/{GEN}-repd-2026q3-project-partition-16.json",
+        "activation": "project-detail-or-export"
+      }
+    ]
+  },
+  "provenance": {
+    "label": "2026q3",
+    "parent_release": "202609060232-pipelinenews",
+    "spine_contract_sha256": "1b81a252c41cd91ce64f9d1ad6b6283533083550c5db679e74e4f2332841d4e6",
+    "spine_manifest_sha256": "a62a5d1d2cc02a98b8feb121a8fce7e88f0d0a019e1979bba0542714cad981ea",
+    "identity": {
+      "name": "project_identity_2026q3.v6.json",
+      "sha256": "b4fcf35c80eb0f87487bc8c4ed0d276afea66948e6b0708f80e5cf993a5973a4"
+    },
+    "coordinates": {
+      "name": "repd_2026q3_coordinates.json",
+      "sha256": "82a0676ed3c4f76db4dd308971e788253bd18b5a880ada1e889560d4e9e3215e"
+    },
+    "grid_coverage": {
+      "total": 7775,
+      "measured": 3041,
+      "unmeasured": 4734,
+      "located_unmeasured": 4708,
+      "missing": 26,
+      "invalid": 0
+    }
+  }
+}
