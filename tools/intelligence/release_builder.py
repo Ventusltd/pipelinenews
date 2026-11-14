@@ -490,6 +490,165 @@ def cmd_applicable(parent_id):
     return 0
 
 
+# ------------------------------------------------------------ registry core
+
+# A quarterly REPD refresh replaces the register itself: the project spine
+# (detail partitions), the compact project and search indexes compiled from
+# it, and the totals and source pins that describe them. Those live in the
+# registry's core, outside supplemental_assets, and no cartridge could reach
+# them, so a new register could only arrive by recompiling the 202608291447
+# root -- discarding every cartridge since. This is the narrow door instead.
+#
+# The cartridge DECLARES paths, schemas and the totals it expects. Everything
+# that is a statement about bytes -- sha256, bytes, record_count -- is DERIVED
+# here from the files in the new release, and the totals are recomputed from
+# the partitions and must equal the declaration. Nothing else in the core can
+# be replaced: cache_contract and cache_identity stay, because app.mjs pins
+# them, and news, chart and style keep their entries.
+REGISTRY_CORE_KEYS = ("totals", "source", "assets.projects", "assets.search",
+                      "detail_partitions")
+DETAIL_SCHEMA = "globalgrid2050.v9.project-partition.v9.1"
+
+
+def _canonical_sha(value):
+    raw = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+
+
+def _inside(target, rel):
+    full = os.path.normpath(os.path.join(target, rel))
+    if not full.startswith(os.path.normpath(target) + os.sep):
+        raise SystemExit("registry_core path escapes the release: %s" % rel)
+    if not os.path.isfile(full):
+        raise SystemExit("registry_core path missing from the release: %s" % rel)
+    return full
+
+
+def _spine_totals(projects):
+    counts = Counter(p.get("technology") for p in projects)
+    capacity = sum(float(p["capacity_mw"]) for p in projects)
+    geometry = sum(1 for p in projects if p.get("geometry_status") == "valid")
+    return {
+        "project_count": len(projects),
+        "capacity_mw": round(capacity + sys.float_info.epsilon, 2),
+        "largest_mw": max(float(p["capacity_mw"]) for p in projects) if projects else 0.0,
+        "solar_count": counts["solar"],
+        "bess_count": counts["bess"],
+        "wind_onshore_count": counts["wind_onshore"],
+        "wind_offshore_count": counts["wind_offshore"],
+        "geometry_count": geometry,
+        "missing_geometry_count": len(projects) - geometry,
+    }
+
+
+def apply_registry_core(target, reg, core, sub):
+    core = json.loads(sub(json.dumps(core)))
+    unknown = sorted(set(core) - set(REGISTRY_CORE_KEYS))
+    if unknown:
+        raise SystemExit("registry_core keys not replaceable: %s" % unknown)
+    missing = sorted(set(REGISTRY_CORE_KEYS) - set(core))
+    if missing:
+        # A partial refresh would leave the indexes describing one register and
+        # the detail partitions another. All five move together or none does.
+        raise SystemExit("registry_core must replace all of %s; missing %s"
+                         % (list(REGISTRY_CORE_KEYS), missing))
+    print("    registry core refresh")
+    before = {
+        "totals": reg.get("totals"), "source": reg.get("source"),
+        "assets.projects": (reg.get("assets") or {}).get("projects"),
+        "assets.search": (reg.get("assets") or {}).get("search"),
+        "detail_partitions": reg.get("detail_partitions"),
+    }
+
+    detail, projects, refs = [], [], []
+    for entry in core["detail_partitions"]:
+        path = _inside(target, entry["path"])
+        doc = json.loads(read(path))
+        if doc.get("schema") != reg.get("detail_schema", DETAIL_SCHEMA):
+            raise SystemExit("%s is not a %s partition" % (entry["path"], reg.get("detail_schema")))
+        rows = doc.get("projects") or []
+        if doc.get("record_count") != len(rows):
+            raise SystemExit("%s record_count disagrees with its rows" % entry["path"])
+        if len(rows) > int(reg.get("detail_partition_size", 500)):
+            raise SystemExit("%s exceeds detail_partition_size" % entry["path"])
+        projects.extend(rows)
+        refs.extend(str(r.get("repd_ref")) for r in rows)
+        detail.append({"path": entry["path"], "sha256": sha256_published(path),
+                       "bytes": published_size(path), "record_count": len(rows),
+                       "activation": entry.get("activation", "project-detail-or-export")})
+    # Every partition but the last must be full, or floor(index/500) lands in
+    # the wrong file and app.mjs reports a missing record.
+    size = int(reg.get("detail_partition_size", 500))
+    if any(d["record_count"] != size for d in detail[:-1]):
+        raise SystemExit("detail partitions are not full %d-row pages" % size)
+    if len(set(refs)) != len(refs):
+        raise SystemExit("detail partitions repeat a REPD Ref")
+
+    derived = _spine_totals(projects)
+    declared = core["totals"]
+    if {k: declared.get(k) for k in derived} != derived:
+        raise SystemExit("registry_core totals disagree with the partitions:\n  declared %s\n  derived  %s"
+                         % (declared, derived))
+    if core["source"].get("admitted_project_count", derived["project_count"]) != derived["project_count"]:
+        raise SystemExit("registry_core source.admitted_project_count disagrees with the partitions")
+
+    assets = {}
+    for key in ("assets.projects", "assets.search"):
+        entry = dict(core[key])
+        path = _inside(target, entry["path"])
+        doc = json.loads(read(path))
+        for field in ("schema", "generation", "cache_identity"):
+            if field in entry and doc.get(field) != entry[field]:
+                raise SystemExit("%s %s is %r, registry_core says %r"
+                                 % (entry["path"], field, doc.get(field), entry[field]))
+        if len(doc.get("rows") or []) != derived["project_count"]:
+            raise SystemExit("%s has %d rows, partitions hold %d"
+                             % (entry["path"], len(doc.get("rows") or []), derived["project_count"]))
+        if key == "assets.projects":
+            index_refs = [str(row[0]) for row in doc["rows"]]
+            if index_refs != refs:
+                # floor(global_row_index/500) is the detail locator: the index
+                # and the partitions must hold the same refs in the same order.
+                raise SystemExit("project index row order differs from the detail partitions")
+        entry["sha256"] = sha256_published(path)
+        entry["bytes"] = published_size(path)
+        assets[key.split(".", 1)[1]] = entry
+
+    reg["totals"] = declared
+    reg["source"] = core["source"]
+    reg.setdefault("assets", {}).update(assets)
+    reg["detail_partitions"] = detail
+    after = {"totals": reg["totals"], "source": reg["source"],
+             "assets.projects": assets["projects"], "assets.search": assets["search"],
+             "detail_partitions": detail}
+    replaced = {}
+    for key in REGISTRY_CORE_KEYS:
+        replaced[key] = {"from_sha256": _canonical_sha(before[key]),
+                         "to_sha256": _canonical_sha(after[key])}
+        print("      %-18s %s -> %s" % (key, replaced[key]["from_sha256"][:12],
+                                       replaced[key]["to_sha256"][:12]))
+    print("      %d projects in %d partitions" % (derived["project_count"], len(detail)))
+    return replaced
+
+
+def check_registry_core(target, reg):
+    """Core assets are attested like supplemental ones: path exists, digest holds."""
+    ok = True
+    entries = [("assets.%s" % k, (reg.get("assets") or {}).get(k)) for k in ("projects", "search")]
+    entries += [("detail_partitions[%d]" % i, d) for i, d in enumerate(reg.get("detail_partitions") or [])]
+    bad = []
+    for label, node in entries:
+        if not isinstance(node, dict) or "path" not in node or "sha256" not in node:
+            continue
+        p = os.path.join(target, node["path"])
+        if not os.path.exists(p) or sha256_published(p) != node["sha256"]:
+            bad.append(label)
+    print("  [%s] %-20s %s" % ("PASS" if not bad else "FAIL", "core asset digests",
+                               "%d checked" % len(entries) if not bad else bad[:4]))
+    ok &= not bad
+    return ok
+
+
 # --------------------------------------------------------------------- build
 
 def cmd_build(parent_id, cartridge_name, gen, atlas_target):
@@ -669,6 +828,9 @@ def cmd_build(parent_id, cartridge_name, gen, atlas_target):
         reg.setdefault("supplemental_assets", {})[key] = entry
     else:
         print("    no registry entry: this cartridge only repairs shipped files")
+    core_replaced = None
+    if "registry_core" in man:
+        core_replaced = apply_registry_core(target, reg, man["registry_core"], sub)
     # A registered asset may be retained for provenance while its launcher is
     # withdrawn from a later release. Record that state explicitly; otherwise
     # the verifier cannot distinguish a deliberate withdrawal from a broken
@@ -795,6 +957,8 @@ def cmd_build(parent_id, cartridge_name, gen, atlas_target):
     })
     if atlas_target:
         rel["atlas_target"] = atlas_target
+    if core_replaced:
+        rel["registry_core_replaced"] = core_replaced
     write(os.path.join(target, "release-manifest.json"),
           json.dumps(rel, indent=2, sort_keys=True, ensure_ascii=False) + "\n")
     print("    release-manifest.json")
@@ -859,6 +1023,7 @@ def cmd_check(release_id):
         ok &= not items
 
     reg = json.loads(read(os.path.join(target, REGISTRY)))
+    ok &= check_registry_core(target, reg)
     idx = read(os.path.join(target, "index.html"))
     app = read(os.path.join(target, APP))
     for key, entry in sorted((reg.get("supplemental_assets") or {}).items()):
