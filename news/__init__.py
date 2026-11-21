@@ -1,0 +1,1 @@
+"""PipelineNews news collection algorithms."""

@@ -8,6 +8,16 @@ if (existsSync(out)) throw Error('Immutable candidate already exists');
 const sha = execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
 const blob = path => execFileSync('git',['show',`${sha}:${path}`],{maxBuffer:2*1024*1024});
 const digest = bytes => createHash('sha256').update(bytes).digest('hex');
+const sources = [
+  'ui/templates/bbc-rss-intelligence.html',
+  'discovery/bbc_rss.py',
+  'news/__init__.py',
+  'news/bbc/__init__.py',
+  'news/bbc/sources.py',
+  'news/bbc/articles.py',
+  'news/bbc/collector.py',
+  'discovery/products/bbc-rss.json',
+].map(path => ({ path, sha256: digest(blob(path)) }));
 const template = blob('ui/templates/bbc-rss-intelligence.html');
 const snapshot = blob('discovery/products/bbc-rss.json');
 const html = template.toString('utf8').replaceAll('{{GENERATION}}', generation);
@@ -20,6 +30,6 @@ writeFileSync(`${out}/manifest.json`,JSON.stringify({schema:'ventus.testcode-can
   change:'Automatically discover BBC energy headlines with unmatched identity and explicit feed health',
   paper:'https://globalgrid2050.com/papers/202609060203-electrification/',
   schedule:'17 */2 * * *',
-  sources:['ui/templates/bbc-rss-intelligence.html','discovery/bbc_rss.py','discovery/products/bbc-rss.json'].map(path=>({path,sha256:digest(blob(path))})),
+  sources,
   files:Object.entries(files).map(([path,b])=>({path,bytes:b.length,sha256:digest(b)}))},null,2)+'\n');
 console.log(out);

@@ -3,40 +3,67 @@ on:
   schedule:
     - cron: '17 */2 * * *'
   workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish the receipt and reconcile the provisional register on main
+        type: boolean
+        default: false
+
 permissions:
-  contents: write
+  contents: read
 concurrency:
-  group: bbc-rss-discovery
+  group: bbc-rss-discovery-${{ github.ref }}
   cancel-in-progress: false
+
 jobs:
-  refresh:
+  collect:
     runs-on: ubuntu-24.04
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
-          fetch-depth: 1
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Test RSS boundaries
+        run: python -B -m unittest discover -s news/tests -p 'test_*.py'
+      - name: Collect BBC RSS
+        run: >-
+          python -B -m news.bbc.collector
+          --previous discovery/products/bbc-rss.json
+          --output "$RUNNER_TEMP/bbc-rss.json"
+      - name: Retain collection receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bbc-rss-health
+          path: ${{ runner.temp }}/bbc-rss.json
+          retention-days: 7
+
+  publish:
+    needs: collect
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || inputs.publish)
+    permissions:
+      contents: write
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: bbc-rss-health
+          path: ${{ runner.temp }}/bbc-rss
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Prove RSS boundaries before any collection
-        run: python -B -m unittest discover -s discovery -p test_bbc_rss.py
-      - name: Collect BBC RSS only
-        id: collect
-        continue-on-error: true
-        run: python -B discovery/bbc_rss.py
       - name: Reconcile provisional IDs against newly imported quarterly projects
         run: |
-          node --test cartridges/provisional-identity.test.mjs
-          node --test tools/intelligence/register-quarter.test.mjs discovery/tests/project-binder.test.mjs discovery/tests/datacentre-binder.test.mjs
-          # Reads the newest release's REGISTERED projects asset; holds (exit 0, no write) on an implausible delta.
+          node --test cartridges/provisional-identity.test.mjs tools/intelligence/register-quarter.test.mjs discovery/tests/project-binder.test.mjs discovery/tests/datacentre-binder.test.mjs
           node tools/intelligence/reconcile-provisional.mjs
-      - name: Commit bounded product and observed health
+      - name: Commit collected metadata and source health
         run: |
+          cp "$RUNNER_TEMP/bbc-rss/bbc-rss.json" discovery/products/bbc-rss.json
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -- discovery/products/bbc-rss.json data/provisional/project-register.json
@@ -45,13 +72,3 @@ jobs:
             git pull --rebase origin main
             git push origin HEAD:main
           fi
-      - name: Retain exact collection receipt
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: bbc-rss-health
-          path: discovery/products/bbc-rss.json
-          retention-days: 7
-      - name: Fail when every feed failed
-        if: steps.collect.outcome == 'failure'
-        run: exit 1
