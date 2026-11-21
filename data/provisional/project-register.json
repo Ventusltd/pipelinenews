@@ -22,8 +22,8 @@
       "reconciliation": {
         "status": "NO_VERIFIED_MATCH",
         "source": {
-          "path": "releases/202609060232-pipelinenews/data/202608270055-8ab1807551bc-v8-fast-projects.json",
-          "sha256": "c06aedef176d2d38fd135806306a8ef81b4af9994c7be31e8bd760304149f862"
+          "path": "releases/202611132345-pipelinenews/data/202611132345-b86eecde9f43-repd-2026q3-fast-projects.json",
+          "sha256": "0b89be3554a99111f919a50b1bfe3e7cb7b3a5dc6f40c20df663bcfb1b151ddc"
         },
         "candidate_count": 0
       }
