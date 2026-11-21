@@ -1,6 +1,12 @@
 import datetime as dt
+import json
+import tempfile
 import unittest
-from bbc_rss import canonical_article, parse_feed, merge_items, collect, SECTIONS
+from pathlib import Path
+from unittest.mock import patch
+from news.bbc.articles import canonical_article, merge_items, parse_feed
+from news.bbc.collector import collect, main
+from news.bbc.sources import SECTIONS
 
 NOW = dt.datetime(2026, 9, 6, tzinfo=dt.timezone.utc)
 RSS = b'''<rss><channel><item><title>New solar farm proposed</title><link>https://www.bbc.co.uk/news/articles/c4gmkezn4nlo?at_campaign=rss</link><pubDate>Sat, 05 Sep 2026 10:00:00 GMT</pubDate></item></channel></rss>'''
@@ -45,4 +51,27 @@ class RssTests(unittest.TestCase):
         self.assertTrue(all(url.startswith('https://feeds.bbci.co.uk/') for url in calls))
 
 
-if __name__ == '__main__': unittest.main()
+    def test_probe_writes_failed_receipt_without_overwriting_previous(self):
+        observed = NOW.isoformat()
+        previous = {'items': parse_feed(RSS, 'feed', observed), 'last_success_at': observed}
+
+        def offline_collection(prior, _now):
+            self.assertEqual(prior, previous)
+            return collect(prior, NOW, fetch=lambda url: b'<html/>')
+
+        with tempfile.TemporaryDirectory() as directory:
+            previous_path = Path(directory) / 'previous.json'
+            output = Path(directory) / 'probe.json'
+            previous_path.write_text(json.dumps(previous), encoding='utf-8')
+            args = ['collector', '--previous', str(previous_path), '--output', str(output)]
+            with patch('sys.argv', args), patch('news.bbc.collector.collect', offline_collection), patch('builtins.print'):
+                self.assertEqual(main(), 1)
+            self.assertEqual(json.loads(previous_path.read_text(encoding='utf-8')), previous)
+            receipt = json.loads(output.read_text(encoding='utf-8'))
+            self.assertEqual(receipt['status'], 'failed')
+            self.assertEqual(receipt['last_success_at'], observed)
+            self.assertEqual(receipt['items'], previous['items'])
+
+
+if __name__ == '__main__':
+    unittest.main()

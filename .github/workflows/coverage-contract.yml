@@ -2,7 +2,36 @@ name: Pipeline coverage contract
 on:
   push:
     branches: [main, 'codex/20260906-next30']
-    paths: ['cartridges/**', 'discovery/bbc_rss.py', 'discovery/test_bbc_rss.py', 'tools/publication/*candidate.mjs', 'tools/publication/verify-testcode.mjs', 'ui/templates/bbc-rss-intelligence.html', '.github/workflows/coverage-contract.yml', '.github/workflows/bbc-rss-discovery.yml']
+    paths:
+      - 'cartridges/**'
+      - 'news/**'
+      - 'data/news-discovery/202608270844-*.json'
+      - 'data/projects/202608261927-project-partition-v9-1-*.json'
+      - 'discovery/bbc_rss.py'
+      - 'discovery/fixtures/202608270844-*'
+      - 'discovery/javascript/202608270844-*.mjs'
+      - 'discovery/tests/202608270844-*.mjs'
+      - 'tools/publication/*candidate.mjs'
+      - 'tools/publication/verify-testcode.mjs'
+      - 'ui/templates/bbc-rss-intelligence.html'
+      - '.github/workflows/coverage-contract.yml'
+      - '.github/workflows/bbc-rss-discovery.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'cartridges/**'
+      - 'news/**'
+      - 'data/news-discovery/202608270844-*.json'
+      - 'data/projects/202608261927-project-partition-v9-1-*.json'
+      - 'discovery/bbc_rss.py'
+      - 'discovery/fixtures/202608270844-*'
+      - 'discovery/javascript/202608270844-*.mjs'
+      - 'discovery/tests/202608270844-*.mjs'
+      - 'tools/publication/*candidate.mjs'
+      - 'tools/publication/verify-testcode.mjs'
+      - 'ui/templates/bbc-rss-intelligence.html'
+      - '.github/workflows/coverage-contract.yml'
+      - '.github/workflows/bbc-rss-discovery.yml'
   workflow_dispatch:
 permissions:
   contents: read
@@ -16,8 +45,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - run: node --test cartridges/*.test.mjs
-      - run: python3 -B -m unittest discover -s discovery -p test_bbc_rss.py
+      - run: python -B -m unittest discover -s news/tests -p 'test_*.py'
+      - name: Verify historical search and BBC enrichment against offline fixtures
+        run: |
+          node discovery/tests/202608270844-check-live-news-candidate.mjs
+          node discovery/tests/202608270844-check-bbc-enrichment.mjs
       - name: Verify candidate files against committed source, independent of checkout newlines
         run: |
           node tools/publication/build-coverage-candidate.mjs 200001010001

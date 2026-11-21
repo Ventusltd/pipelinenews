@@ -18,6 +18,10 @@ PipelineNews separates source data, interface modules, immutable compilers, date
 
 Build instructions do not authorise deployment. Every deployment requires explicit owner approval.
 
+## News collection
+
+The [BBC RSS collector](news/README.md) documents the source inventory, article rules, tests, and Actions schedule.
+
 ## V8 build workflows
 
 - [Build V8 foundation](https://github.com/Ventusltd/pipelinenews/actions/workflows/build-v8-foundation.yml)
