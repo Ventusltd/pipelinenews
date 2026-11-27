@@ -1,7 +1,7 @@
 {
   "schema": "pipelinenews.bbc-rss.v1",
-  "checked_at": "2026-11-27T13:52:14.792191+00:00",
-  "last_success_at": "2026-11-27T13:52:14.792191+00:00",
+  "checked_at": "2026-11-27T22:41:46.594444+00:00",
+  "last_success_at": "2026-11-27T22:41:46.594444+00:00",
   "status": "ok",
   "items": [
     {
@@ -71,187 +71,187 @@
       "url": "https://feeds.bbci.co.uk/news/science_and_environment/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "35f3de64b67bacc23e46902acea84addc2dfa0720fd9f4ddb3184d003f129ecc"
+      "sha256": "81b6cac9e49cb28ebdbc861e50455ffdf97320dbb0611cd3cb314589254a3de7"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/business/rss.xml",
       "status": "ok",
       "items": 1,
-      "sha256": "9a9bda37bd17fc3223604c136156f57833b41c87a1af0b19838acbae69e7165d"
+      "sha256": "24a6bbd143da8098cf927bfe0b3af3efdcd8b3b57f00aa96c0100fbcbf4e708d"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "33e46ed86cd0e9c2686bb9636dc93b37be27d8a55ee1d54a52b6e3aa817c8b7c"
+      "sha256": "c2feaf40d959c69c39ccbdf4a01cd3bdb0f8a88ee642cad1d128cb63880db0a0"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/scotland/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "99722b5310a080c8d3b6d42d5fee7a2cf2bd78073e2ba29c0bb988b5fb6678b0"
+      "sha256": "4ee8dd03ade987d75a31b944c20b2b67a0f9f3fdc8db055f82988f9dfca38266"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/wales/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "f926a55d77e6d3d0763388422591819980b26e24c56417e28c1cfac72bb85672"
+      "sha256": "3326412cc987cf97df909780f8e8ec8afbedbdbba6db9cc78d62daafddcf9873"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/northern_ireland/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "2ac1b188581c68bee7b1f235d1f5febef6da7383f72087476d59dc46de2042b4"
+      "sha256": "6dca0b97d9548fb92ceaad4ee7bd275ec11e0162e2cfef596482effe05fba949"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/uk/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "d9b0a0c233d92a6ba4aa43bd7ea847a3dfeaa65c8067d9efdad4e92145e2b18a"
+      "sha256": "85a9c9eeb3cd3768b291489d2013a31d0b9769a37b5da290969c0787f9cdfc87"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/lincolnshire/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "af9b5b5359a85a00b43f9d40a667ea5349fe65afb6e9a4e399c5dbe0393b923e"
+      "sha256": "42b92da6a51d583f4c32fa26b17a554ad760665c9c832fe7c4cb2a400df7dadd"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/cambridgeshire/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "1ec57df37624528e1a8abe5b4c55baa598a356ce1ffb0b31ea64dd1ff0107cff"
+      "sha256": "38a4fe79120e26d264515ad7273c688db3184261eb0a6167b170b38d116e0e6e"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/norfolk/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "eb8acd68aa230cc17b805cb411a1d0987b8a2bd8a9fbc92bd3cf15256180f724"
+      "sha256": "31c8a88404c1fb4c792c85c1ea39095a12472f08be3a97f59ee2b504dddc34f1"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/suffolk/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "eb119600fa45e8ef0d00d0952e85fee5752856354ee2485a6c826a2f92dca515"
+      "sha256": "bbc220c51361e76ed8855eb531b3bf9a31eab70a02e140c52a0c661bf80b2ecb"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/nottingham/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "ea8fa1dfc99c567cfe518951f6b9abd0d7735b66d0e5a8eb5a29e18eb2ae523c"
+      "sha256": "0eaf03b023bbf2a7a4c2e1d54a8b0dfe5ad52abac972462c39c29af12b31eee7"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/essex/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "6ee4e1833e981329ca991d6cdf7411732b2562457176bebc8712fc0b4e0f9f45"
+      "sha256": "7cfce1b31a080f34a7bda27fa857daf6376286df820d9c5fc8cafc53669c9889"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/kent/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "222d4a00531407e7332407753bdc30c290c19d5b267cca9c63d535de6bc76273"
+      "sha256": "192cd63ab9dd197dd996a024dec55f844643ff23a111b8ccceed47d80a5c3817"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/oxford/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "0eb6940ab4d642b14c91a8ffe06aef06fc460121268bdead291e66475ba7ded8"
+      "sha256": "3d081edebb0deb56f7a8d7d6a9c254e4facd57aa554ded3549bea920f6cd7da2"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/wiltshire/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "efaf44752b84e49d57170743e0b55636822c2a626a9cfa24a7f5731e32a596dc"
+      "sha256": "bfea1d45da5d04f69bfb85c996bf72aafdac295c328e53877a707caf096bde1f"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/somerset/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "be4dcb630d87bc988e10a3f4ced9741344d34bb6bb2f0c9d5bc1bcdecfee12d2"
+      "sha256": "5b687590eebe95d91331c9d8bd862744b458f2e4dcb46ac7f259f02c0ba7cfa7"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/devon/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "cc4892a8a11683f349a941e408058693657fd73c2b785f27b8c7e9b2f54baea9"
+      "sha256": "061e4c230e1a3318dd20f99902206437b57ff8ac966a17922240a837f283bded"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/cornwall/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "ec3fc6348a914504923b1fb62daae4716f99904b0f7d120406a5eee26a57e0ec"
+      "sha256": "e703bc335a24058acff088bce730c1759701ef30d3e6f3941ff196e09d11dc4b"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/lancashire/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "5f82448cc0c01142923da634169859d816628df923cc01c0c3c5074109cd6b28"
+      "sha256": "5b42f2927e18f8ef45a06694efd9e0d0c31c15722291c00fe8227a99026c773a"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/cumbria/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "1863f8319abaea0073bdae5203c187fab3e73dcb052ce583b212e3c7e99595ab"
+      "sha256": "a349f38350800f13eda1218cb292ac820ad620f41b4addea94cd1067cce3ee62"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/tees/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "02bd8f93ee06c0a5b251ee15d43d123e6bf56a40c4553e267e2911b0c118f142"
+      "sha256": "a20cca46f4699fa9a2f61c67b6e21dde05eb93d8cd4479ab04e983ae17e3323b"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/north_yorkshire/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "467e4f31216b66d27c1383a02392dbeeaa3e0b54f026877cd20eaf151545287d"
+      "sha256": "c7254ac2157adaa1350d6cc75ad9b2ba41af7c876b2de1ee295c9ac72c24fb86"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/south_yorkshire/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "870d422ab65f6e00f28b28914e439905baf5eea8561562416c4e5f55c5dd0c00"
+      "sha256": "43a0b24789d076e3106347dc01109083ce2c2a2ca5f95308c9032a07e2b978de"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/leicester/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "bfce65c5a4ee3763b2e96ccbcaad5baefd5a1b18c20581fe9575be97b8560a9e"
+      "sha256": "9717d92d36f40662edf6292033004f444d9da78e1832ab66f18d877ab49a06b5"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/derbyshire/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "cf695d038aacaeaa9902295b95491577caf3c6dd348806ac9a55df1c7a42741f"
+      "sha256": "5a1b7ecf7d8d45e380b542067288353f00f28a2f45942de26186595b57fe7ea1"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/northamptonshire/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "9250c7422f7b11b18eae9808944e76fe010af7c5520e585939d2f8a0fa139045"
+      "sha256": "92e4689810b5c3f06925bcf330c076febadfdfb468beb6d7e96f32d9824cf310"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/hampshire/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "fa6b9fe158f6a8186e8b41f6714a6ff93b0298683b076995668e1b2ee77c10b6"
+      "sha256": "b2741792d3e3191f88c3aa76e9da433e77410a85089f2cbd115ded4e4d68d31c"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/shropshire/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "e77a93f3d5d2463d7f12c4cb73114a26bad149202a22cfb3b680888dbb7a8728"
+      "sha256": "5be2aed7c02594b100396c7cf4634b2efbd3dd49dcfa54651215e8d938b31cb9"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/stoke_and_staffordshire/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "e365df5fa4eda29e3645f39f0f1978cd40a6bf00435ee79a36906b3d0db0fd22"
+      "sha256": "b7d335ed02dddfb5dd8d5c8e5a4f6dffde6d7cf14f5c0d378d7eb7f432ce04bc"
     },
     {
       "url": "https://feeds.bbci.co.uk/news/england/hereford_and_worcester/rss.xml",
       "status": "ok",
       "items": 0,
-      "sha256": "297a0daaaaa6a3b2e3862c4e8f72efc2c68888123017d842cedeb57f0965892c"
+      "sha256": "e5928e543dfbc645359b1dd7bf432ca9e4fd85828c8c7cb93e6951680eb5b0e1"
     }
   ],
   "limits": {
